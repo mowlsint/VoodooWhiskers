@@ -1,4 +1,63 @@
 {
   "type": "FeatureCollection",
-  "features": []
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.7,
+          54.2
+        ]
+      },
+      "properties": {
+        "name": "EXAMPLE RUSSIAN MMSI 1",
+        "imo": "9001001",
+        "mmsi": "273123456",
+        "callsign": "UBAA1",
+        "flag": "Russia",
+        "ship_type": "Tanker",
+        "owner": "",
+        "manager": "",
+        "source": "Manual input",
+        "source_url": "",
+        "last_seen": "2026-05-05T00:00:00Z",
+        "last_updated": "2026-05-05T16:35:34Z",
+        "layer_type": "russian_mmsi",
+        "mmsi_prefix": "273",
+        "mid_state": "Russian Federation",
+        "mid_confidence": "high",
+        "identity_note": "MMSI begins with 273, the MID allocated to the Russian Federation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.1,
+          55.4
+        ]
+      },
+      "properties": {
+        "name": "EXAMPLE RUSSIAN MMSI 2",
+        "imo": "9001002",
+        "mmsi": "273654321",
+        "callsign": "UBAA2",
+        "flag": "Russia",
+        "ship_type": "Cargo",
+        "owner": "",
+        "manager": "",
+        "source": "Manual input",
+        "source_url": "",
+        "last_seen": "2026-05-05T00:00:00Z",
+        "last_updated": "2026-05-05T16:35:34Z",
+        "layer_type": "russian_mmsi",
+        "mmsi_prefix": "273",
+        "mid_state": "Russian Federation",
+        "mid_confidence": "high",
+        "identity_note": "MMSI begins with 273, the MID allocated to the Russian Federation."
+      }
+    }
+  ]
 }
