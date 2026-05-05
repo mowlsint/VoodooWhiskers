@@ -1,4 +1,67 @@
 {
   "type": "FeatureCollection",
-  "features": []
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.9,
+          54.7
+        ]
+      },
+      "properties": {
+        "name": "EXAMPLE PORTCALL 1",
+        "imo": "9200001",
+        "mmsi": "273111999",
+        "callsign": "UBP11",
+        "flag": "Barbados",
+        "ship_type": "Tanker",
+        "owner": "",
+        "manager": "",
+        "last_ru_port": "Ust-Luga",
+        "last_ru_port_unlocode": "RU UST",
+        "last_ru_port_date": "2026-05-02T08:00:00Z",
+        "days_since_ru_port": 3,
+        "ru_port_source": "Manual input",
+        "source": "Manual input",
+        "source_url": "",
+        "last_updated": "2026-05-05T16:54:15Z",
+        "layer_type": "ru_portcall_10d",
+        "risk_level": "medium",
+        "reason_text": "Russian port call within the last 10 days."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.0,
+          55.0
+        ]
+      },
+      "properties": {
+        "name": "EXAMPLE PORTCALL 2",
+        "imo": "9200002",
+        "mmsi": "538444555",
+        "callsign": "V7P22",
+        "flag": "Panama",
+        "ship_type": "Cargo",
+        "owner": "",
+        "manager": "",
+        "last_ru_port": "Novorossiysk",
+        "last_ru_port_unlocode": "RU NVS",
+        "last_ru_port_date": "2026-04-29T13:30:00Z",
+        "days_since_ru_port": 6,
+        "ru_port_source": "Manual input",
+        "source": "Manual input",
+        "source_url": "",
+        "last_updated": "2026-05-05T16:54:15Z",
+        "layer_type": "ru_portcall_10d",
+        "risk_level": "medium",
+        "reason_text": "Russian port call within the last 10 days."
+      }
+    }
+  ]
 }
