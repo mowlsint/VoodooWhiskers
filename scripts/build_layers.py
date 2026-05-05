@@ -21,6 +21,10 @@ AISSTREAM_URL = "wss://stream.aisstream.io/v0/stream"
 GFW_API = "https://gateway.api.globalfishingwatch.org/v3"
 
 
+def log(msg):
+    print(f"[build_layers] {msg}")
+
+
 def feature(lon, lat, props):
     return {
         "type": "Feature",
@@ -32,6 +36,7 @@ def feature(lon, lat, props):
 def save_geojson(path, features):
     with open(path, "w", encoding="utf-8") as f:
         json.dump({"type": "FeatureCollection", "features": features}, f, ensure_ascii=False, indent=2)
+    log(f"saved {path} with {len(features)} features")
 
 
 def load_csv(path):
@@ -39,6 +44,7 @@ def load_csv(path):
     with open(path, "r", encoding="utf-8") as f:
         for row in csv.DictReader(f):
             rows.append(row)
+    log(f"loaded {len(rows)} rows from {path}")
     return rows
 
 
@@ -58,17 +64,21 @@ def parse_dt(value):
         return None
 
 
+def load_flag_risk_reference():
+    return load_csv(f"{DATA_DIR}/flag_risk_reference.csv")
+
+
 def load_ru_ports():
     rows = load_csv(f"{DATA_DIR}/ports_ru.csv")
-    return {(r.get("unlocode") or "").strip().upper(): r for r in rows if r.get("unlocode")}
+    ports = {(r.get("unlocode") or "").strip().upper(): r for r in rows if r.get("unlocode")}
+    log(f"indexed {len(ports)} Russian ports")
+    return ports
 
 
 def load_watchlist():
-    return load_csv(f"{DATA_DIR}/watchlist_master.csv")
-
-
-def load_flag_risk_reference():
-    return load_csv(f"{DATA_DIR}/flag_risk_reference.csv")
+    rows = load_csv(f"{DATA_DIR}/watchlist_master.csv")
+    log(f"watchlist rows: {len(rows)}")
+    return rows
 
 
 def gfw_headers():
@@ -76,26 +86,43 @@ def gfw_headers():
 
 
 def gfw_search_vessel(identifier):
-    if not GFW_TOKEN or not identifier:
+    if not GFW_TOKEN:
+        log("GFW token missing")
         return None
+    if not identifier:
+        return None
+
     url = f"{GFW_API}/vessels/search"
     params = {
         "query": identifier,
         "datasets[0]": "public-global-vessel-identity:latest"
     }
-    r = requests.get(url, headers=gfw_headers(), params=params, timeout=60)
-    if r.status_code != 200:
+
+    try:
+        r = requests.get(url, headers=gfw_headers(), params=params, timeout=60)
+        log(f"GFW vessel search [{identifier}] -> HTTP {r.status_code}")
+        if r.status_code != 200:
+            return None
+        data = r.json()
+        entries = data.get("entries") or data.get("data") or []
+        if entries:
+            first = entries[0]
+            log(f"GFW vessel match for [{identifier}] -> {first.get('id') or first.get('vesselId')}")
+            return first
+        log(f"GFW vessel search [{identifier}] -> no match")
         return None
-    data = r.json()
-    entries = data.get("entries") or data.get("data") or []
-    if entries:
-        return entries[0]
-    return None
+    except Exception as e:
+        log(f"GFW vessel search [{identifier}] failed: {e}")
+        return None
 
 
 def gfw_get_port_visits(vessel_id):
-    if not GFW_TOKEN or not vessel_id:
+    if not GFW_TOKEN:
+        log("GFW token missing for port visits")
         return []
+    if not vessel_id:
+        return []
+
     start_date = (NOW_DT - timedelta(days=PORTCALL_WINDOW_DAYS)).strftime("%Y-%m-%d")
     end_date = NOW_DT.strftime("%Y-%m-%d")
     url = f"{GFW_API}/events"
@@ -108,18 +135,34 @@ def gfw_get_port_visits(vessel_id):
         "offset": 0,
         "types[0]": "PORT_VISIT"
     }
-    r = requests.get(url, headers=gfw_headers(), params=params, timeout=60)
-    if r.status_code != 200:
+
+    try:
+        r = requests.get(url, headers=gfw_headers(), params=params, timeout=60)
+        log(f"GFW port visits [{vessel_id}] -> HTTP {r.status_code}")
+        if r.status_code != 200:
+            return []
+        data = r.json()
+        entries = data.get("entries") or data.get("events") or data.get("data") or []
+        log(f"GFW port visits [{vessel_id}] -> {len(entries)} event(s)")
+        return entries
+    except Exception as e:
+        log(f"GFW port visits [{vessel_id}] failed: {e}")
         return []
-    data = r.json()
-    return data.get("entries") or data.get("events") or data.get("data") or []
 
 
 async def aisstream_positions_once(mmsi_filters):
-    if not AISSTREAM_API_KEY or not mmsi_filters:
+    if not AISSTREAM_API_KEY:
+        log("AISStream API key missing")
+        return {}
+
+    if not mmsi_filters:
+        log("AISStream: no MMSI filters provided")
         return {}
 
     results = {}
+    mmsi_filters = [m for m in mmsi_filters if m]
+    log(f"AISStream: requesting positions for {len(mmsi_filters)} MMSI")
+
     subscription = {
         "APIKey": AISSTREAM_API_KEY,
         "BoundingBoxes": [[[-90, -180], [90, 180]]],
@@ -128,18 +171,24 @@ async def aisstream_positions_once(mmsi_filters):
     }
 
     try:
-        async with websockets.connect(AISSTREAM_URL, open_timeout=30, close_timeout=10) as ws:
+        async with websockets.connect(AISSTREAM_URL, open_timeout=20, close_timeout=10) as ws:
             await ws.send(json.dumps(subscription))
+            log("AISStream: subscription sent")
 
-            end_time = NOW_DT + timedelta(seconds=25)
-            while datetime.now(timezone.utc) < end_time:
+            deadline = datetime.now(timezone.utc) + timedelta(seconds=30)
+            received_messages = 0
+
+            while datetime.now(timezone.utc) < deadline:
                 try:
                     raw = await asyncio.wait_for(ws.recv(), timeout=5)
                 except asyncio.TimeoutError:
+                    log("AISStream: waiting for messages...")
                     continue
 
+                received_messages += 1
                 msg = json.loads(raw)
-                if msg.get("MessageType") != "PositionReport":
+                msg_type = msg.get("MessageType")
+                if msg_type != "PositionReport":
                     continue
 
                 payload = msg.get("Message", {}).get("PositionReport", {})
@@ -156,12 +205,17 @@ async def aisstream_positions_once(mmsi_filters):
                     "timestamp": NOW
                 }
 
+                log(f"AISStream hit: MMSI {mmsi} @ {lat}, {lon}")
+
                 if len(results) >= len(mmsi_filters):
                     break
-    except Exception:
-        return {}
 
-    return results
+            log(f"AISStream: received {received_messages} websocket message(s), matched {len(results)} vessel(s)")
+            return results
+
+    except Exception as e:
+        log(f"AISStream failed: {e}")
+        return {}
 
 
 def build_false_flag_watch():
@@ -213,6 +267,7 @@ def build_russian_mmsi(position_map):
 
         pos = position_map.get(mmsi)
         if not pos:
+            log(f"russian_mmsi: no live AIS position for {mmsi}")
             continue
 
         props = {
@@ -233,6 +288,7 @@ def build_russian_mmsi(position_map):
         }
         features.append(feature(float(pos["lon"]), float(pos["lat"]), props))
 
+    log(f"russian_mmsi layer features: {len(features)}")
     return features
 
 
@@ -247,6 +303,7 @@ def build_sanctions_shadowfleet(position_map):
         mmsi = (row.get("mmsi") or "").strip()
         pos = position_map.get(mmsi)
         if not pos:
+            log(f"sanctions_shadowfleet: no live AIS position for {mmsi or row.get('name','')}")
             continue
 
         props = {
@@ -274,6 +331,7 @@ def build_sanctions_shadowfleet(position_map):
         }
         features.append(feature(float(pos["lon"]), float(pos["lat"]), props))
 
+    log(f"sanctions_shadowfleet layer features: {len(features)}")
     return features
 
 
@@ -285,21 +343,26 @@ def build_recent_russian_portcall():
     for row in watchlist:
         imo = (row.get("imo") or "").strip()
         mmsi = (row.get("mmsi") or "").strip()
-        identifier = imo or mmsi or row.get("name", "")
+        name = row.get("name", "")
+        identifier = imo or mmsi or name
+
         vessel = gfw_search_vessel(identifier)
         if not vessel:
+            log(f"ru_portcall: no GFW vessel found for {identifier}")
             continue
 
         vessel_id = vessel.get("id") or vessel.get("vesselId")
         if not vessel_id:
+            log(f"ru_portcall: no vessel_id found for {identifier}")
             continue
 
         port_visits = gfw_get_port_visits(vessel_id)
+        matched = False
+
         for event in port_visits:
             port_code = (
                 event.get("portCode")
                 or event.get("visit", {}).get("portCode")
-                or event.get("anchorage", {}).get("s2id")
                 or ""
             )
             port_name = (
@@ -329,15 +392,16 @@ def build_recent_russian_portcall():
 
             lat = None
             lon = None
-            if "position" in event and isinstance(event["position"], dict):
+            if isinstance(event.get("position"), dict):
                 lat = event["position"].get("lat")
                 lon = event["position"].get("lon")
 
             if lat is None or lon is None:
+                log(f"ru_portcall: event matched but missing position for {identifier}")
                 continue
 
             props = {
-                "name": row.get("name", ""),
+                "name": name,
                 "imo": imo,
                 "mmsi": mmsi,
                 "callsign": row.get("callsign", ""),
@@ -358,17 +422,30 @@ def build_recent_russian_portcall():
                 "reason_text": f"Russian port call within the last {PORTCALL_WINDOW_DAYS} days."
             }
             features.append(feature(float(lon), float(lat), props))
+            matched = True
+            log(f"ru_portcall: matched {identifier} at {port_name} ({port_code_norm})")
             break
 
+        if not matched:
+            log(f"ru_portcall: no recent Russian port call found for {identifier}")
+
+    log(f"recent_russian_portcall layer features: {len(features)}")
     return features
 
 
 def main():
+    log("=== START ===")
+    log(f"GFW token present: {'yes' if GFW_TOKEN else 'no'}")
+    log(f"AISStream key present: {'yes' if AISSTREAM_API_KEY else 'no'}")
+
     load_flag_risk_reference()
 
     watchlist = load_watchlist()
     mmsis = [str(r.get("mmsi", "")).strip() for r in watchlist if str(r.get("mmsi", "")).strip()]
+    log(f"watchlist MMSI count: {len(mmsis)}")
+
     position_map = asyncio.run(aisstream_positions_once(mmsis))
+    log(f"AISStream matched positions: {len(position_map)}")
 
     false_flag_features = build_false_flag_watch()
     russian_mmsi_features = build_russian_mmsi(position_map)
@@ -380,7 +457,7 @@ def main():
     save_geojson(f"{DATA_DIR}/sanctions_shadowfleet.geojson", sanctions_features)
     save_geojson(f"{DATA_DIR}/recent_russian_portcall_10d.geojson", recent_portcall_features)
 
-    print("Layers written.")
+    log("=== DONE ===")
 
 
 if __name__ == "__main__":
