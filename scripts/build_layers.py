@@ -13,7 +13,7 @@ NOW = NOW_DT.strftime("%Y-%m-%dT%H:%M:%SZ")
 DATA_DIR = "data"
 RUSSIAN_MID = "273"
 PORTCALL_WINDOW_DAYS = 10
-AISSTREAM_WINDOW_SECONDS = 90
+AISSTREAM_WINDOW_SECONDS = 1800  # 30 Minuten
 
 BOUNDING_BOXES = [
     [[47.0, -5.5], [60.8, 25.5]]
@@ -179,15 +179,12 @@ def gfw_search_vessel(row):
 
 
 def gfw_get_port_visits(vessel_id):
-    if not GFW_TOKEN:
-        log("GFW token missing for port visits")
-        return []
-
-    if not vessel_id:
+    if not GFW_TOKEN or not vessel_id:
         return []
 
     start_date = (NOW_DT - timedelta(days=PORTCALL_WINDOW_DAYS)).strftime("%Y-%m-%d")
     end_date = NOW_DT.strftime("%Y-%m-%d")
+
     url = f"{GFW_API}/events"
     params = {
         "vessels[0]": vessel_id,
@@ -200,12 +197,13 @@ def gfw_get_port_visits(vessel_id):
     }
 
     try:
-        r = requests.get(url, headers=gfw_headers(), params=params, timeout=60)
+        r = requests.get(url, headers=gfw_headers(), params=params, timeout=90)
         log(f"GFW port visits [{vessel_id}] -> HTTP {r.status_code}")
         if r.status_code != 200:
             return []
+
         data = r.json()
-        entries = data.get("entries") or data.get("events") or data.get("data") or data.get("results") or []
+        entries = data.get("entries") or []
         log(f"GFW port visits [{vessel_id}] -> {len(entries)} event(s)")
         return entries
     except Exception as e:
@@ -213,10 +211,10 @@ def gfw_get_port_visits(vessel_id):
         return []
 
 
-def extract_position_from_ais_message(msg):
-    msg_type = msg.get("MessageType")
+def extract_position_payload(msg):
     metadata = msg.get("MetaData") or msg.get("Metadata") or {}
     body = msg.get("Message") or {}
+    message_type = msg.get("MessageType") or ""
 
     candidate_keys = [
         "PositionReport",
@@ -227,50 +225,92 @@ def extract_position_from_ais_message(msg):
     for key in candidate_keys:
         payload = body.get(key)
         if isinstance(payload, dict):
-            mmsi = str(payload.get("UserID") or metadata.get("MMSI") or "").strip()
             lat = payload.get("Latitude")
             lon = payload.get("Longitude")
-            if mmsi and lat is not None and lon is not None:
-                return {
-                    "mmsi": mmsi,
-                    "lat": lat,
-                    "lon": lon,
-                    "msg_type": key,
-                    "timestamp": metadata.get("time_utc") or NOW
-                }
-
-    mmsi = str(metadata.get("MMSI") or "").strip()
-    lat = metadata.get("latitude") or metadata.get("Latitude")
-    lon = metadata.get("longitude") or metadata.get("Longitude")
-    if mmsi and lat is not None and lon is not None:
-        return {
-            "mmsi": mmsi,
-            "lat": lat,
-            "lon": lon,
-            "msg_type": msg_type or "MetaDataOnly",
-            "timestamp": metadata.get("time_utc") or NOW
-        }
+            mmsi = str(payload.get("UserID") or metadata.get("MMSI") or "").strip()
+            name = metadata.get("ShipName") or payload.get("Name") or ""
+            if lat is None or lon is None or not mmsi:
+                return None
+            return {
+                "message_type": key,
+                "mmsi": mmsi,
+                "lat": lat,
+                "lon": lon,
+                "name": name,
+                "metadata": metadata,
+                "payload": payload,
+            }
 
     return None
 
 
-async def aisstream_positions_once(mmsi_filters):
+def build_watchlist_indexes(rows):
+    by_mmsi = {}
+    by_imo = {}
+    by_callsign = {}
+    by_name = {}
+
+    for row in rows:
+        mmsi = (row.get("mmsi") or "").strip()
+        imo = (row.get("imo") or "").strip()
+        callsign = (row.get("callsign") or "").strip().upper()
+        name = (row.get("name") or "").strip().upper()
+
+        if mmsi:
+            by_mmsi[mmsi] = row
+        if imo:
+            by_imo[imo] = row
+        if callsign:
+            by_callsign[callsign] = row
+        if name:
+            by_name[name] = row
+
+    return {
+        "mmsi": by_mmsi,
+        "imo": by_imo,
+        "callsign": by_callsign,
+        "name": by_name,
+    }
+
+
+def classify_live_contact(pos, watch_indexes):
+    mmsi = pos["mmsi"]
+    name = (pos.get("name") or "").strip().upper()
+    metadata = pos.get("metadata") or {}
+
+    matched_row = None
+    categories = set()
+
+    if mmsi.startswith(RUSSIAN_MID):
+        categories.add("russian_mmsi")
+
+    if mmsi in watch_indexes["mmsi"]:
+        matched_row = watch_indexes["mmsi"][mmsi]
+        categories.add("watchlist")
+
+    meta_shipname = (metadata.get("ShipName") or "").strip().upper()
+    if not matched_row and name and name in watch_indexes["name"]:
+        matched_row = watch_indexes["name"][name]
+        categories.add("watchlist")
+    if not matched_row and meta_shipname and meta_shipname in watch_indexes["name"]:
+        matched_row = watch_indexes["name"][meta_shipname]
+        categories.add("watchlist")
+
+    if matched_row:
+        if to_bool(matched_row.get("sanctioned")) or to_bool(matched_row.get("shadow_fleet")):
+            categories.add("sanctions_shadowfleet")
+
+    return matched_row, categories
+
+
+async def collect_filtered_ais_positions(watch_indexes):
     if not AISSTREAM_API_KEY:
-        log("AISStream API key missing")
+        log("AISSTREAM_API_KEY missing")
         return {}
-
-    mmsi_filters = [m for m in mmsi_filters if m]
-    if not mmsi_filters:
-        log("AISStream: no MMSI filters provided")
-        return {}
-
-    results = {}
-    log(f"AISStream: requesting positions for {len(mmsi_filters)} MMSI")
 
     subscription = {
         "APIKey": AISSTREAM_API_KEY,
         "BoundingBoxes": BOUNDING_BOXES,
-        "FiltersShipMMSI": mmsi_filters[:50],
         "FilterMessageTypes": [
             "PositionReport",
             "StandardClassBPositionReport",
@@ -278,301 +318,262 @@ async def aisstream_positions_once(mmsi_filters):
         ]
     }
 
-    try:
-        async with websockets.connect(AISSTREAM_URL, open_timeout=20, close_timeout=10) as ws:
-            await ws.send(json.dumps(subscription))
-            log("AISStream: subscription sent")
-            log(f"AISStream: using bounding boxes {BOUNDING_BOXES}")
+    deadline = datetime.now(timezone.utc) + timedelta(seconds=AISSTREAM_WINDOW_SECONDS)
+    collected = {}
 
-            deadline = datetime.now(timezone.utc) + timedelta(seconds=AISSTREAM_WINDOW_SECONDS)
-            received_messages = 0
+    total_messages = 0
+    parsed_positions = 0
+    matched_positions = 0
+    last_status = datetime.now(timezone.utc)
 
-            while datetime.now(timezone.utc) < deadline:
-                try:
-                    raw = await asyncio.wait_for(ws.recv(), timeout=8)
-                except asyncio.TimeoutError:
-                    log("AISStream: waiting for messages...")
-                    continue
+    log(f"AISStream: connecting for {AISSTREAM_WINDOW_SECONDS} seconds")
+    log(f"AISStream: using bounding boxes {BOUNDING_BOXES}")
 
-                received_messages += 1
+    async with websockets.connect(AISSTREAM_URL, open_timeout=20, close_timeout=10, max_size=None) as ws:
+        await ws.send(json.dumps(subscription))
+        log("AISStream: subscription sent")
+
+        while datetime.now(timezone.utc) < deadline:
+            try:
+                raw = await asyncio.wait_for(ws.recv(), timeout=20)
+            except asyncio.TimeoutError:
+                log(
+                    f"AISStream: heartbeat total_messages={total_messages} "
+                    f"parsed_positions={parsed_positions} matched_positions={matched_positions}"
+                )
+                continue
+            except Exception as e:
+                log(f"AISStream: websocket receive failed: {e}")
+                break
+
+            total_messages += 1
+
+            try:
                 msg = json.loads(raw)
-
-                if "error" in msg:
-                    log(f"AISStream error: {msg['error']}")
-                    continue
-
-                parsed = extract_position_from_ais_message(msg)
-                if not parsed:
-                    continue
-
-                mmsi = parsed["mmsi"]
-                if mmsi not in mmsi_filters:
-                    continue
-
-                results[mmsi] = {
-                    "lat": parsed["lat"],
-                    "lon": parsed["lon"],
-                    "timestamp": parsed["timestamp"],
-                    "msg_type": parsed["msg_type"]
-                }
-
-                log(f"AISStream hit: MMSI {mmsi} via {parsed['msg_type']} @ {parsed['lat']}, {parsed['lon']}")
-
-                if len(results) >= len(mmsi_filters):
-                    break
-
-            log(f"AISStream: received {received_messages} websocket message(s), matched {len(results)} vessel(s)")
-            return results
-
-    except Exception as e:
-        log(f"AISStream failed: {e}")
-        return {}
-
-
-def build_false_flag_watch():
-    features = []
-    sample_vessels = [
-        {
-            "name": "EXAMPLE TANKER 1",
-            "imo": "9000001",
-            "mmsi": "273123456",
-            "callsign": "UBCD1",
-            "flag": "Sint Maarten",
-            "claimed_flag": "Sint Maarten",
-            "registry_state": "Sint Maarten",
-            "registry_status": "fraud_notice",
-            "ship_type": "Tanker",
-            "owner": "",
-            "manager": "",
-            "risk_level": "B",
-            "reason_code": "FRAUDULENT_REGISTRY_NOTICE",
-            "reason_text": "Flag/genutztes Register gehört zu einer Jurisdiktion mit dokumentierten False-Flag- bzw. Fraud-Registry-Fällen.",
-            "equasis_checked": False,
-            "equasis_note": "",
-            "gisis_checked": False,
-            "historical_issue": True,
-            "evidence_level": "reported",
-            "source": "Manual watchlist",
-            "source_url": "",
-            "last_checked": NOW,
-            "last_updated": NOW,
-            "layer_type": "false_flag"
-        }
-    ]
-    for i, vessel in enumerate(sample_vessels):
-        features.append(feature(10.0 + i * 0.2, 54.0 + i * 0.2, vessel))
-    return features
-
-
-def build_russian_mmsi(position_map):
-    watchlist = load_watchlist()
-    features = []
-
-    for row in watchlist:
-        if not to_bool(row.get("track_russian_mmsi", "")):
-            continue
-
-        mmsi = (row.get("mmsi") or "").strip()
-        if not mmsi.startswith(RUSSIAN_MID):
-            continue
-
-        pos = position_map.get(mmsi)
-        if not pos:
-            log(f"russian_mmsi: no live AIS position for {mmsi}")
-            continue
-
-        props = {
-            "name": row.get("name", ""),
-            "imo": row.get("imo", ""),
-            "mmsi": mmsi,
-            "callsign": row.get("callsign", ""),
-            "flag": "",
-            "source": "AISStream",
-            "source_url": "https://aisstream.io/documentation",
-            "last_seen": pos["timestamp"],
-            "last_updated": NOW,
-            "layer_type": "russian_mmsi",
-            "mmsi_prefix": mmsi[:3],
-            "mid_state": "Russian Federation",
-            "mid_confidence": "high",
-            "identity_note": "MMSI begins with 273, the MID allocated to the Russian Federation.",
-            "ais_msg_type": pos.get("msg_type", "")
-        }
-        features.append(feature(float(pos["lon"]), float(pos["lat"]), props))
-
-    log(f"russian_mmsi layer features: {len(features)}")
-    return features
-
-
-def build_sanctions_shadowfleet(position_map):
-    watchlist = load_watchlist()
-    features = []
-
-    for row in watchlist:
-        if not (to_bool(row.get("track_sanctions", "")) or to_bool(row.get("track_shadowfleet", ""))):
-            continue
-
-        mmsi = (row.get("mmsi") or "").strip()
-        pos = position_map.get(mmsi)
-        if not pos:
-            log(f"sanctions_shadowfleet: no live AIS position for {mmsi or row.get('name','')}")
-            continue
-
-        props = {
-            "name": row.get("name", ""),
-            "imo": row.get("imo", ""),
-            "mmsi": mmsi,
-            "callsign": row.get("callsign", ""),
-            "flag": "",
-            "ship_type": "",
-            "owner": "",
-            "manager": "",
-            "sanctioned": to_bool(row.get("track_sanctions", "")),
-            "sanction_regime": "",
-            "sanction_program": "",
-            "listing_date": "",
-            "shadowfleet_flag": to_bool(row.get("track_shadowfleet", "")),
-            "shadow_reason": "Tracked via watchlist_master.csv",
-            "risk_level": "high" if to_bool(row.get("track_sanctions", "")) else "medium",
-            "notes": "",
-            "source": "AISStream + watchlist",
-            "source_url": "https://aisstream.io/documentation",
-            "last_seen": pos["timestamp"],
-            "last_updated": NOW,
-            "layer_type": "sanctions_shadowfleet",
-            "ais_msg_type": pos.get("msg_type", "")
-        }
-        features.append(feature(float(pos["lon"]), float(pos["lat"]), props))
-
-    log(f"sanctions_shadowfleet layer features: {len(features)}")
-    return features
-
-
-def build_recent_russian_portcall():
-    watchlist = load_watchlist()
-    ru_ports = load_ru_ports()
-    features = []
-
-    for row in watchlist:
-        name = row.get("name", "")
-        result, matched_on = gfw_search_vessel(row)
-
-        if not result:
-            log(f"ru_portcall: no GFW vessel found for {name}")
-            continue
-
-        vessel_id = result.get("_resolved_vessel_id") or extract_gfw_vessel_id(result)
-        if not vessel_id:
-            log(f"ru_portcall: no vessel_id found for {name} (matched on {matched_on})")
-            continue
-
-        port_visits = gfw_get_port_visits(vessel_id)
-        matched = False
-
-        for event in port_visits:
-            port_code = (
-                event.get("portCode")
-                or event.get("visit", {}).get("portCode")
-                or ""
-            )
-            port_name = (
-                event.get("portName")
-                or event.get("visit", {}).get("portName")
-                or ""
-            )
-            end_date = (
-                event.get("end")
-                or event.get("endDate")
-                or event.get("timestamp")
-                or ""
-            )
-
-            dt = parse_dt(end_date)
-            if dt is None:
+            except Exception:
                 continue
 
-            days_since = (NOW_DT - dt).days
-            if days_since < 0 or days_since > PORTCALL_WINDOW_DAYS:
+            if isinstance(msg, dict) and msg.get("error"):
+                log(f"AISStream error: {msg.get('error')}")
                 continue
 
-            port_code_norm = str(port_code).strip().upper()
-            is_ru = port_code_norm.startswith("RU ") or port_code_norm in ru_ports or "RUSSIA" in str(port_name).upper()
-            if not is_ru:
+            pos = extract_position_payload(msg)
+            if not pos:
                 continue
 
-            lat = None
-            lon = None
-            if isinstance(event.get("position"), dict):
-                lat = event["position"].get("lat")
-                lon = event["position"].get("lon")
+            parsed_positions += 1
+            matched_row, categories = classify_live_contact(pos, watch_indexes)
 
-            if lat is None or lon is None:
-                log(f"ru_portcall: matched event but missing position for {name}")
+            if not categories:
                 continue
 
-            props = {
-                "name": name,
-                "imo": row.get("imo", ""),
-                "mmsi": row.get("mmsi", ""),
-                "callsign": row.get("callsign", ""),
-                "flag": "",
-                "ship_type": "",
-                "owner": "",
-                "manager": "",
-                "last_ru_port": port_name,
-                "last_ru_port_unlocode": port_code_norm,
-                "last_ru_port_date": end_date,
-                "days_since_ru_port": days_since,
-                "ru_port_source": "Global Fishing Watch Events API",
-                "source": "Global Fishing Watch",
-                "source_url": "https://globalfishingwatch.org/our-apis/documentation",
-                "last_updated": NOW,
-                "layer_type": "ru_portcall_10d",
-                "risk_level": "medium",
-                "reason_text": f"Russian port call within the last {PORTCALL_WINDOW_DAYS} days.",
-                "matched_on": matched_on,
-                "gfw_vessel_id": vessel_id
+            matched_positions += 1
+            mmsi = pos["mmsi"]
+
+            record = {
+                "mmsi": mmsi,
+                "name": pos.get("name") or "",
+                "lat": pos["lat"],
+                "lon": pos["lon"],
+                "message_type": pos["message_type"],
+                "last_seen_utc": NOW,
+                "categories": sorted(categories),
+                "matched_watchlist": bool(matched_row),
+                "watch_name": (matched_row.get("name") if matched_row else ""),
+                "watch_imo": (matched_row.get("imo") if matched_row else ""),
+                "watch_callsign": (matched_row.get("callsign") if matched_row else ""),
+                "sanctioned": to_bool(matched_row.get("sanctioned")) if matched_row else False,
+                "shadow_fleet": to_bool(matched_row.get("shadow_fleet")) if matched_row else False,
+                "notes": (matched_row.get("notes") if matched_row else ""),
             }
-            features.append(feature(float(lon), float(lat), props))
-            matched = True
-            log(f"ru_portcall: matched {name} using {matched_on} at {port_name} ({port_code_norm})")
+
+            collected[mmsi] = record
+
+            now_dt = datetime.now(timezone.utc)
+            if (now_dt - last_status).total_seconds() >= 60:
+                log(
+                    f"AISStream: status total_messages={total_messages} "
+                    f"parsed_positions={parsed_positions} matched_positions={matched_positions} "
+                    f"unique_matched_mmsi={len(collected)}"
+                )
+                last_status = now_dt
+
+    log(
+        f"AISStream: done total_messages={total_messages} "
+        f"parsed_positions={parsed_positions} matched_positions={matched_positions} "
+        f"unique_matched_mmsi={len(collected)}"
+    )
+    return collected
+
+
+def build_false_flag_watch(flag_rows):
+    features = []
+    for row in flag_rows:
+        name = (row.get("flag") or "").strip()
+        risk = (row.get("risk_level") or "").strip()
+        if not name:
+            continue
+        if risk.lower() in {"high", "very high"}:
+            features.append(
+                feature(
+                    0.0,
+                    0.0,
+                    {
+                        "flag": name,
+                        "risk_level": risk,
+                        "source": "flag_risk_reference",
+                        "generated_at": NOW,
+                    },
+                )
+            )
             break
 
+    if not features:
+        features.append(
+            feature(
+                0.0,
+                0.0,
+                {
+                    "flag": "example",
+                    "risk_level": "reference",
+                    "source": "flag_risk_reference",
+                    "generated_at": NOW,
+                },
+            )
+        )
+
+    return features
+
+
+def build_live_category_layers(collected):
+    russian_features = []
+    watchlist_features = []
+    sanctions_features = []
+
+    for mmsi, rec in sorted(collected.items()):
+        props = {
+            "mmsi": rec["mmsi"],
+            "name": rec["name"],
+            "message_type": rec["message_type"],
+            "last_seen_utc": rec["last_seen_utc"],
+            "matched_watchlist": rec["matched_watchlist"],
+            "watch_name": rec["watch_name"],
+            "watch_imo": rec["watch_imo"],
+            "watch_callsign": rec["watch_callsign"],
+            "sanctioned": rec["sanctioned"],
+            "shadow_fleet": rec["shadow_fleet"],
+            "notes": rec["notes"],
+            "categories": rec["categories"],
+            "source": "AISStream",
+        }
+
+        feat = feature(rec["lon"], rec["lat"], props)
+
+        if "russian_mmsi" in rec["categories"]:
+            russian_features.append(feat)
+        if "watchlist" in rec["categories"]:
+            watchlist_features.append(feat)
+        if "sanctions_shadowfleet" in rec["categories"]:
+            sanctions_features.append(feat)
+
+    log(f"russian_mmsi layer features: {len(russian_features)}")
+    log(f"watchlist_live layer features: {len(watchlist_features)}")
+    log(f"sanctions_shadowfleet layer features: {len(sanctions_features)}")
+
+    return russian_features, watchlist_features, sanctions_features
+
+
+def build_recent_russian_portcall(rows, ru_ports):
+    features = []
+
+    for row in rows:
+        matched, matched_on = gfw_search_vessel(row)
         if not matched:
-            log(f"ru_portcall: no recent Russian port call found for {name}")
+            log(f"ru_portcall: no GFW match for {(row.get('name') or '').strip()}")
+            continue
+
+        vessel_id = matched.get("_resolved_vessel_id")
+        if not vessel_id:
+            log(
+                f"ru_portcall: no vessel_id found for {(row.get('name') or '').strip()} "
+                f"(matched on {matched_on})"
+            )
+            continue
+
+        events = gfw_get_port_visits(vessel_id)
+        if not events:
+            continue
+
+        for ev in events:
+            port_code = (
+                (ev.get("port") or {}).get("unlocode")
+                or (ev.get("portVisit") or {}).get("unlocode")
+                or (ev.get("port_visit") or {}).get("unlocode")
+                or ""
+            ).strip().upper()
+
+            if not port_code or port_code not in ru_ports:
+                continue
+
+            pos = ev.get("position") or {}
+            lat = pos.get("lat")
+            lon = pos.get("lon")
+            if lat is None or lon is None:
+                continue
+
+            features.append(
+                feature(
+                    lon,
+                    lat,
+                    {
+                        "name": row.get("name"),
+                        "mmsi": row.get("mmsi"),
+                        "imo": row.get("imo"),
+                        "callsign": row.get("callsign"),
+                        "matched_on": matched_on,
+                        "gfw_vessel_id": vessel_id,
+                        "event_id": ev.get("id"),
+                        "event_type": ev.get("type"),
+                        "event_start": ev.get("start"),
+                        "event_end": ev.get("end"),
+                        "ru_port_unlocode": port_code,
+                        "ru_port_name": ru_ports[port_code].get("port_name"),
+                        "generated_at": NOW,
+                        "source": "Global Fishing Watch Events API",
+                    },
+                )
+            )
 
     log(f"recent_russian_portcall layer features: {len(features)}")
     return features
 
 
-def main():
+async def async_main():
     log("=== START ===")
-    log(f"GFW token present: {'yes' if GFW_TOKEN else 'no'}")
-    log(f"AISStream key present: {'yes' if AISSTREAM_API_KEY else 'no'}")
+    log(f"GFW token present: {'yes' if bool(GFW_TOKEN) else 'no'}")
+    log(f"AISStream key present: {'yes' if bool(AISSTREAM_API_KEY) else 'no'}")
     log(f"AISStream window seconds: {AISSTREAM_WINDOW_SECONDS}")
     log(f"AISStream bounding boxes: {BOUNDING_BOXES}")
 
-    load_flag_risk_reference()
+    flag_rows = load_flag_risk_reference()
+    watch_rows = load_watchlist()
+    ru_ports = load_ru_ports()
 
-    watchlist = load_watchlist()
-    mmsis = [str(r.get("mmsi", "")).strip() for r in watchlist if str(r.get("mmsi", "")).strip()]
-    log(f"watchlist MMSI count: {len(mmsis)}")
+    false_flag_features = build_false_flag_watch(flag_rows)
+    watch_indexes = build_watchlist_indexes(watch_rows)
 
-    position_map = asyncio.run(aisstream_positions_once(mmsis))
-    log(f"AISStream matched positions: {len(position_map)}")
-
-    false_flag_features = build_false_flag_watch()
-    russian_mmsi_features = build_russian_mmsi(position_map)
-    sanctions_features = build_sanctions_shadowfleet(position_map)
-    recent_portcall_features = build_recent_russian_portcall()
+    collected = await collect_filtered_ais_positions(watch_indexes)
+    russian_features, watchlist_live_features, sanctions_features = build_live_category_layers(collected)
+    recent_ru_portcalls = build_recent_russian_portcall(watch_rows, ru_ports)
 
     save_geojson(f"{DATA_DIR}/false_flag_watch.geojson", false_flag_features)
-    save_geojson(f"{DATA_DIR}/russian_mmsi.geojson", russian_mmsi_features)
+    save_geojson(f"{DATA_DIR}/russian_mmsi.geojson", russian_features)
+    save_geojson(f"{DATA_DIR}/watchlist_live.geojson", watchlist_live_features)
     save_geojson(f"{DATA_DIR}/sanctions_shadowfleet.geojson", sanctions_features)
-    save_geojson(f"{DATA_DIR}/recent_russian_portcall_10d.geojson", recent_portcall_features)
+    save_geojson(f"{DATA_DIR}/recent_russian_portcall_10d.geojson", recent_ru_portcalls)
 
     log("=== DONE ===")
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(async_main())
