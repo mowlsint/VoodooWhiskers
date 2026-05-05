@@ -15,9 +15,6 @@ RUSSIAN_MID = "273"
 PORTCALL_WINDOW_DAYS = 10
 AISSTREAM_WINDOW_SECONDS = 90
 
-# Nordsee bis Brest + südliche/mittlere Ostsee bis etwa Åland
-# AISStream erwartet BoundingBoxes im Format:
-# [[[lat1, lon1], [lat2, lon2]], ...]
 BOUNDING_BOXES = [
     [[47.0, -5.5], [60.8, 25.5]]
 ]
@@ -97,18 +94,27 @@ def extract_gfw_vessel_id(entry):
     if not isinstance(entry, dict):
         return None
 
-    direct_keys = ["id", "vesselId", "vessel_id"]
-    for key in direct_keys:
+    for key in ["id", "vesselId", "vessel_id"]:
         value = entry.get(key)
         if value:
             return value
 
-    nested_keys = ["identity", "vessel", "profile"]
-    for nk in nested_keys:
-        obj = entry.get(nk)
-        if isinstance(obj, dict):
-            for key in direct_keys:
-                value = obj.get(key)
+    for group_key in ["selfReportedInfo", "combinedSourcesInfo", "registryInfo"]:
+        group = entry.get(group_key)
+        if isinstance(group, list):
+            for item in group:
+                if not isinstance(item, dict):
+                    continue
+                for key in ["id", "vesselId", "vessel_id"]:
+                    value = item.get(key)
+                    if value:
+                        return value
+
+    for nested_key in ["identity", "vessel", "profile"]:
+        nested = entry.get(nested_key)
+        if isinstance(nested, dict):
+            for key in ["id", "vesselId", "vessel_id"]:
+                value = nested.get(key)
                 if value:
                     return value
 
