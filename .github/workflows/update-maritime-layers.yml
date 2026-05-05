@@ -3,10 +3,10 @@ name: Update maritime layers
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * *"
-    - cron: "0 5 * * *"
-    - cron: "0 11 * * *"
-    - cron: "0 20 * * *"
+    - cron: "30 23 * * *"
+    - cron: "30 5 * * *"
+    - cron: "30 11 * * *"
+    - cron: "30 17 * * *"
 
 permissions:
   contents: write
@@ -37,7 +37,7 @@ jobs:
         run: |
           python scripts/build_layers.py
 
-      - name: Commit updated layers
+      - name: Commit updated outputs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -47,7 +47,9 @@ jobs:
             data/russian_mmsi.geojson \
             data/watchlist_live.geojson \
             data/sanctions_shadowfleet.geojson \
-            data/recent_russian_portcall_10d.geojson
+            data/voi_snapshot_latest.json \
+            data/voi_history.jsonl \
+            data/voi_stats_by_slot.json
 
           git diff --cached --quiet || git commit -m "Update maritime layers"
           git push
