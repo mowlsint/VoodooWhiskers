@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 NOW = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 DATA_DIR = "data"
+RUSSIAN_MID = "273"
 
 
 def feature(lon, lat, props):
@@ -27,13 +28,21 @@ def save_geojson(path, features):
         json.dump(fc, f, ensure_ascii=False, indent=2)
 
 
-def load_flag_risk_reference(path):
+def load_csv(path):
     rows = []
     with open(path, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
             rows.append(row)
     return rows
+
+
+def load_flag_risk_reference(path):
+    return load_csv(path)
+
+
+def to_bool(value):
+    return str(value).strip().lower() in {"1", "true", "yes", "y"}
 
 
 def build_false_flag_watch():
@@ -76,7 +85,47 @@ def build_false_flag_watch():
     return features
 
 
-def build_empty_layer(layer_type):
+def build_russian_mmsi():
+    rows = load_csv(f"{DATA_DIR}/russian_mmsi_input.csv")
+    features = []
+
+    for row in rows:
+        mmsi = (row.get("mmsi") or "").strip()
+        if not mmsi.startswith(RUSSIAN_MID):
+            continue
+
+        try:
+            lon = float(row["lon"])
+            lat = float(row["lat"])
+        except Exception:
+            continue
+
+        props = {
+            "name": row.get("name", ""),
+            "imo": row.get("imo", ""),
+            "mmsi": mmsi,
+            "callsign": row.get("callsign", ""),
+            "flag": row.get("flag", ""),
+            "ship_type": row.get("ship_type", ""),
+            "owner": row.get("owner", ""),
+            "manager": row.get("manager", ""),
+            "source": row.get("source", "Manual input"),
+            "source_url": row.get("source_url", ""),
+            "last_seen": row.get("last_seen", ""),
+            "last_updated": NOW,
+            "layer_type": "russian_mmsi",
+            "mmsi_prefix": mmsi[:3],
+            "mid_state": "Russian Federation",
+            "mid_confidence": "high",
+            "identity_note": "MMSI begins with 273, the MID allocated to the Russian Federation."
+        }
+
+        features.append(feature(lon, lat, props))
+
+    return features
+
+
+def build_empty_layer():
     return []
 
 
@@ -84,11 +133,12 @@ def main():
     load_flag_risk_reference(f"{DATA_DIR}/flag_risk_reference.csv")
 
     false_flag_features = build_false_flag_watch()
-    save_geojson(f"{DATA_DIR}/false_flag_watch.geojson", false_flag_features)
+    russian_mmsi_features = build_russian_mmsi()
 
-    save_geojson(f"{DATA_DIR}/sanctions_shadowfleet.geojson", build_empty_layer("sanctions"))
-    save_geojson(f"{DATA_DIR}/russian_mmsi.geojson", build_empty_layer("russian_mmsi"))
-    save_geojson(f"{DATA_DIR}/recent_russian_portcall_10d.geojson", build_empty_layer("ru_portcall_10d"))
+    save_geojson(f"{DATA_DIR}/false_flag_watch.geojson", false_flag_features)
+    save_geojson(f"{DATA_DIR}/russian_mmsi.geojson", russian_mmsi_features)
+    save_geojson(f"{DATA_DIR}/sanctions_shadowfleet.geojson", build_empty_layer())
+    save_geojson(f"{DATA_DIR}/recent_russian_portcall_10d.geojson", build_empty_layer())
 
     print("Layers written.")
 
