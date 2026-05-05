@@ -1,6 +1,11 @@
 import csv
 import json
-from datetime import datetime, timezone
+import os
+import asyncio
+from datetime import datetime, timezone, timedelta
+
+import requests
+import websockets
 
 NOW_DT = datetime.now(timezone.utc)
 NOW = NOW_DT.strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -9,32 +14,30 @@ DATA_DIR = "data"
 RUSSIAN_MID = "273"
 PORTCALL_WINDOW_DAYS = 10
 
+GFW_TOKEN = os.getenv("GFW_TOKEN", "").strip()
+AISSTREAM_API_KEY = os.getenv("AISSTREAM_API_KEY", "").strip()
+
+AISSTREAM_URL = "wss://stream.aisstream.io/v0/stream"
+GFW_API = "https://gateway.api.globalfishingwatch.org/v3"
+
 
 def feature(lon, lat, props):
     return {
         "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [lon, lat]
-        },
-        "properties": props
+        "geometry": {"type": "Point", "coordinates": [lon, lat]},
+        "properties": props,
     }
 
 
 def save_geojson(path, features):
-    fc = {
-        "type": "FeatureCollection",
-        "features": features
-    }
     with open(path, "w", encoding="utf-8") as f:
-        json.dump(fc, f, ensure_ascii=False, indent=2)
+        json.dump({"type": "FeatureCollection", "features": features}, f, ensure_ascii=False, indent=2)
 
 
 def load_csv(path):
     rows = []
     with open(path, "r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
+        for row in csv.DictReader(f):
             rows.append(row)
     return rows
 
@@ -55,23 +58,114 @@ def parse_dt(value):
         return None
 
 
-def load_flag_risk_reference(path):
-    return load_csv(path)
+def load_ru_ports():
+    rows = load_csv(f"{DATA_DIR}/ports_ru.csv")
+    return {(r.get("unlocode") or "").strip().upper(): r for r in rows if r.get("unlocode")}
 
 
-def load_ru_ports(path):
-    rows = load_csv(path)
-    ports = {}
-    for row in rows:
-        code = (row.get("unlocode") or "").strip().upper()
-        if code:
-            ports[code] = row
-    return ports
+def load_watchlist():
+    return load_csv(f"{DATA_DIR}/watchlist_master.csv")
+
+
+def load_flag_risk_reference():
+    return load_csv(f"{DATA_DIR}/flag_risk_reference.csv")
+
+
+def gfw_headers():
+    return {"Authorization": f"Bearer {GFW_TOKEN}"} if GFW_TOKEN else {}
+
+
+def gfw_search_vessel(identifier):
+    if not GFW_TOKEN or not identifier:
+        return None
+    url = f"{GFW_API}/vessels/search"
+    params = {
+        "query": identifier,
+        "datasets[0]": "public-global-vessel-identity:latest"
+    }
+    r = requests.get(url, headers=gfw_headers(), params=params, timeout=60)
+    if r.status_code != 200:
+        return None
+    data = r.json()
+    entries = data.get("entries") or data.get("data") or []
+    if entries:
+        return entries[0]
+    return None
+
+
+def gfw_get_port_visits(vessel_id):
+    if not GFW_TOKEN or not vessel_id:
+        return []
+    start_date = (NOW_DT - timedelta(days=PORTCALL_WINDOW_DAYS)).strftime("%Y-%m-%d")
+    end_date = NOW_DT.strftime("%Y-%m-%d")
+    url = f"{GFW_API}/events"
+    params = {
+        "vessels[0]": vessel_id,
+        "datasets[0]": "public-global-fishing-events:latest",
+        "start-date": start_date,
+        "end-date": end_date,
+        "limit": 100,
+        "offset": 0,
+        "types[0]": "PORT_VISIT"
+    }
+    r = requests.get(url, headers=gfw_headers(), params=params, timeout=60)
+    if r.status_code != 200:
+        return []
+    data = r.json()
+    return data.get("entries") or data.get("events") or data.get("data") or []
+
+
+async def aisstream_positions_once(mmsi_filters):
+    if not AISSTREAM_API_KEY or not mmsi_filters:
+        return {}
+
+    results = {}
+    subscription = {
+        "APIKey": AISSTREAM_API_KEY,
+        "BoundingBoxes": [[[-90, -180], [90, 180]]],
+        "FiltersShipMMSI": mmsi_filters,
+        "FilterMessageTypes": ["PositionReport"]
+    }
+
+    try:
+        async with websockets.connect(AISSTREAM_URL, open_timeout=30, close_timeout=10) as ws:
+            await ws.send(json.dumps(subscription))
+
+            end_time = NOW_DT + timedelta(seconds=25)
+            while datetime.now(timezone.utc) < end_time:
+                try:
+                    raw = await asyncio.wait_for(ws.recv(), timeout=5)
+                except asyncio.TimeoutError:
+                    continue
+
+                msg = json.loads(raw)
+                if msg.get("MessageType") != "PositionReport":
+                    continue
+
+                payload = msg.get("Message", {}).get("PositionReport", {})
+                mmsi = str(payload.get("UserID", "")).strip()
+                lat = payload.get("Latitude")
+                lon = payload.get("Longitude")
+
+                if not mmsi or lat is None or lon is None:
+                    continue
+
+                results[mmsi] = {
+                    "lat": lat,
+                    "lon": lon,
+                    "timestamp": NOW
+                }
+
+                if len(results) >= len(mmsi_filters):
+                    break
+    except Exception:
+        return {}
+
+    return results
 
 
 def build_false_flag_watch():
     features = []
-
     sample_vessels = [
         {
             "name": "EXAMPLE TANKER 1",
@@ -100,28 +194,25 @@ def build_false_flag_watch():
             "layer_type": "false_flag"
         }
     ]
-
     for i, vessel in enumerate(sample_vessels):
-        lon = 10.0 + (i * 0.2)
-        lat = 54.0 + (i * 0.2)
-        features.append(feature(lon, lat, vessel))
-
+        features.append(feature(10.0 + i * 0.2, 54.0 + i * 0.2, vessel))
     return features
 
 
-def build_russian_mmsi():
-    rows = load_csv(f"{DATA_DIR}/russian_mmsi_input.csv")
+def build_russian_mmsi(position_map):
+    watchlist = load_watchlist()
     features = []
 
-    for row in rows:
+    for row in watchlist:
+        if not to_bool(row.get("track_russian_mmsi", "")):
+            continue
+
         mmsi = (row.get("mmsi") or "").strip()
         if not mmsi.startswith(RUSSIAN_MID):
             continue
 
-        try:
-            lon = float(row["lon"])
-            lat = float(row["lat"])
-        except Exception:
+        pos = position_map.get(mmsi)
+        if not pos:
             continue
 
         props = {
@@ -129,13 +220,10 @@ def build_russian_mmsi():
             "imo": row.get("imo", ""),
             "mmsi": mmsi,
             "callsign": row.get("callsign", ""),
-            "flag": row.get("flag", ""),
-            "ship_type": row.get("ship_type", ""),
-            "owner": row.get("owner", ""),
-            "manager": row.get("manager", ""),
-            "source": row.get("source", "Manual input"),
-            "source_url": row.get("source_url", ""),
-            "last_seen": row.get("last_seen", ""),
+            "flag": "",
+            "source": "AISStream",
+            "source_url": "https://aisstream.io/documentation",
+            "last_seen": pos["timestamp"],
             "last_updated": NOW,
             "layer_type": "russian_mmsi",
             "mmsi_prefix": mmsi[:3],
@@ -143,109 +231,148 @@ def build_russian_mmsi():
             "mid_confidence": "high",
             "identity_note": "MMSI begins with 273, the MID allocated to the Russian Federation."
         }
-
-        features.append(feature(lon, lat, props))
+        features.append(feature(float(pos["lon"]), float(pos["lat"]), props))
 
     return features
 
 
-def build_sanctions_shadowfleet():
-    rows = load_csv(f"{DATA_DIR}/sanctions_shadowfleet_input.csv")
+def build_sanctions_shadowfleet(position_map):
+    watchlist = load_watchlist()
     features = []
 
-    for row in rows:
-        try:
-            lon = float(row["lon"])
-            lat = float(row["lat"])
-        except Exception:
+    for row in watchlist:
+        if not (to_bool(row.get("track_sanctions", "")) or to_bool(row.get("track_shadowfleet", ""))):
+            continue
+
+        mmsi = (row.get("mmsi") or "").strip()
+        pos = position_map.get(mmsi)
+        if not pos:
             continue
 
         props = {
             "name": row.get("name", ""),
             "imo": row.get("imo", ""),
-            "mmsi": row.get("mmsi", ""),
+            "mmsi": mmsi,
             "callsign": row.get("callsign", ""),
-            "flag": row.get("flag", ""),
-            "ship_type": row.get("ship_type", ""),
-            "owner": row.get("owner", ""),
-            "manager": row.get("manager", ""),
-            "sanctioned": to_bool(row.get("sanctioned", "")),
-            "sanction_regime": row.get("sanction_regime", ""),
-            "sanction_program": row.get("sanction_program", ""),
-            "listing_date": row.get("listing_date", ""),
-            "shadowfleet_flag": to_bool(row.get("shadowfleet_flag", "")),
-            "shadow_reason": row.get("shadow_reason", ""),
-            "risk_level": row.get("risk_level", ""),
-            "notes": row.get("notes", ""),
-            "source": row.get("source", "Manual input"),
-            "source_url": row.get("source_url", ""),
-            "last_seen": row.get("last_seen", ""),
+            "flag": "",
+            "ship_type": "",
+            "owner": "",
+            "manager": "",
+            "sanctioned": to_bool(row.get("track_sanctions", "")),
+            "sanction_regime": "",
+            "sanction_program": "",
+            "listing_date": "",
+            "shadowfleet_flag": to_bool(row.get("track_shadowfleet", "")),
+            "shadow_reason": "Tracked via watchlist_master.csv",
+            "risk_level": "high" if to_bool(row.get("track_sanctions", "")) else "medium",
+            "notes": "",
+            "source": "AISStream + watchlist",
+            "source_url": "https://aisstream.io/documentation",
+            "last_seen": pos["timestamp"],
             "last_updated": NOW,
             "layer_type": "sanctions_shadowfleet"
         }
-
-        features.append(feature(lon, lat, props))
+        features.append(feature(float(pos["lon"]), float(pos["lat"]), props))
 
     return features
 
 
 def build_recent_russian_portcall():
-    ru_ports = load_ru_ports(f"{DATA_DIR}/ports_ru.csv")
-    rows = load_csv(f"{DATA_DIR}/recent_russian_portcall_input.csv")
+    watchlist = load_watchlist()
+    ru_ports = load_ru_ports()
     features = []
 
-    for row in rows:
-        port_date = parse_dt(row.get("last_ru_port_date", ""))
-        if port_date is None:
+    for row in watchlist:
+        imo = (row.get("imo") or "").strip()
+        mmsi = (row.get("mmsi") or "").strip()
+        identifier = imo or mmsi or row.get("name", "")
+        vessel = gfw_search_vessel(identifier)
+        if not vessel:
             continue
 
-        days_since = (NOW_DT - port_date).days
-        if days_since < 0 or days_since > PORTCALL_WINDOW_DAYS:
+        vessel_id = vessel.get("id") or vessel.get("vesselId")
+        if not vessel_id:
             continue
 
-        unlocode = (row.get("last_ru_port_unlocode") or "").strip().upper()
-        if unlocode not in ru_ports and not unlocode.startswith("RU "):
-            continue
+        port_visits = gfw_get_port_visits(vessel_id)
+        for event in port_visits:
+            port_code = (
+                event.get("portCode")
+                or event.get("visit", {}).get("portCode")
+                or event.get("anchorage", {}).get("s2id")
+                or ""
+            )
+            port_name = (
+                event.get("portName")
+                or event.get("visit", {}).get("portName")
+                or ""
+            )
+            end_date = (
+                event.get("end")
+                or event.get("endDate")
+                or event.get("timestamp")
+                or ""
+            )
 
-        try:
-            lon = float(row["lon"])
-            lat = float(row["lat"])
-        except Exception:
-            continue
+            dt = parse_dt(end_date)
+            if dt is None:
+                continue
 
-        props = {
-            "name": row.get("name", ""),
-            "imo": row.get("imo", ""),
-            "mmsi": row.get("mmsi", ""),
-            "callsign": row.get("callsign", ""),
-            "flag": row.get("flag", ""),
-            "ship_type": row.get("ship_type", ""),
-            "owner": row.get("owner", ""),
-            "manager": row.get("manager", ""),
-            "last_ru_port": row.get("last_ru_port", ""),
-            "last_ru_port_unlocode": unlocode,
-            "last_ru_port_date": row.get("last_ru_port_date", ""),
-            "days_since_ru_port": days_since,
-            "ru_port_source": row.get("source", "Manual input"),
-            "source": row.get("source", "Manual input"),
-            "source_url": row.get("source_url", ""),
-            "last_updated": NOW,
-            "layer_type": "ru_portcall_10d",
-            "risk_level": "medium",
-            "reason_text": f"Russian port call within the last {PORTCALL_WINDOW_DAYS} days."
-        }
+            days_since = (NOW_DT - dt).days
+            if days_since < 0 or days_since > PORTCALL_WINDOW_DAYS:
+                continue
 
-        features.append(feature(lon, lat, props))
+            port_code_norm = str(port_code).strip().upper()
+            is_ru = port_code_norm.startswith("RU ") or port_code_norm in ru_ports or "RUSSIA" in str(port_name).upper()
+            if not is_ru:
+                continue
+
+            lat = None
+            lon = None
+            if "position" in event and isinstance(event["position"], dict):
+                lat = event["position"].get("lat")
+                lon = event["position"].get("lon")
+
+            if lat is None or lon is None:
+                continue
+
+            props = {
+                "name": row.get("name", ""),
+                "imo": imo,
+                "mmsi": mmsi,
+                "callsign": row.get("callsign", ""),
+                "flag": "",
+                "ship_type": "",
+                "owner": "",
+                "manager": "",
+                "last_ru_port": port_name,
+                "last_ru_port_unlocode": port_code_norm,
+                "last_ru_port_date": end_date,
+                "days_since_ru_port": days_since,
+                "ru_port_source": "Global Fishing Watch Events API",
+                "source": "Global Fishing Watch",
+                "source_url": "https://globalfishingwatch.org/our-apis/documentation",
+                "last_updated": NOW,
+                "layer_type": "ru_portcall_10d",
+                "risk_level": "medium",
+                "reason_text": f"Russian port call within the last {PORTCALL_WINDOW_DAYS} days."
+            }
+            features.append(feature(float(lon), float(lat), props))
+            break
 
     return features
 
 
 def main():
-    load_flag_risk_reference(f"{DATA_DIR}/flag_risk_reference.csv")
+    load_flag_risk_reference()
+
+    watchlist = load_watchlist()
+    mmsis = [str(r.get("mmsi", "")).strip() for r in watchlist if str(r.get("mmsi", "")).strip()]
+    position_map = asyncio.run(aisstream_positions_once(mmsis))
 
     false_flag_features = build_false_flag_watch()
-    russian_mmsi_features = build_russian_mmsi()
-    sanctions_features = build_sanctions_shadowfleet()
+    russian_mmsi_features = build_russian_mmsi(position_map)
+    sanctions_features = build_sanctions_shadowfleet(position_map)
     recent_portcall_features = build_recent_russian_portcall()
 
     save_geojson(f"{DATA_DIR}/false_flag_watch.geojson", false_flag_features)
