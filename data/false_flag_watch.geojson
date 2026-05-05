@@ -1,4 +1,41 @@
 {
   "type": "FeatureCollection",
-  "features": []
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.0,
+          54.0
+        ]
+      },
+      "properties": {
+        "name": "EXAMPLE TANKER 1",
+        "imo": "9000001",
+        "mmsi": "273123456",
+        "callsign": "UBCD1",
+        "flag": "Sint Maarten",
+        "claimed_flag": "Sint Maarten",
+        "registry_state": "Sint Maarten",
+        "registry_status": "fraud_notice",
+        "ship_type": "Tanker",
+        "owner": "",
+        "manager": "",
+        "risk_level": "B",
+        "reason_code": "FRAUDULENT_REGISTRY_NOTICE",
+        "reason_text": "Flag/genutztes Register gehört zu einer Jurisdiktion mit dokumentierten False-Flag- bzw. Fraud-Registry-Fällen.",
+        "equasis_checked": false,
+        "equasis_note": "",
+        "gisis_checked": false,
+        "historical_issue": true,
+        "evidence_level": "reported",
+        "source": "Manual watchlist",
+        "source_url": "",
+        "last_checked": "2026-05-05T16:15:23Z",
+        "last_updated": "2026-05-05T16:15:23Z",
+        "layer_type": "false_flag"
+      }
+    }
+  ]
 }
