@@ -1,5 +1,14 @@
-name,imo,mmsi,callsign,track_sanctions,track_shadowfleet,track_falseflag,track_russian_mmsi
-EXAMPLE SANCTIONED TANKER 1,9100001,273111111,UBS11,true,true,false,true
-EXAMPLE SANCTIONED TANKER 2,9100002,538222222,V7A22,true,true,false,false
-EXAMPLE PORTCALL 1,9200001,273111999,UBP11,false,false,false,true
-EXAMPLE TANKER 1,9000001,273123456,UBCD1,false,false,true,true
+name,imo,mmsi,callsign,source_list,source_url,track_sanctions,track_shadowfleet,track_falseflag,track_russian_mmsi,watch_priority,notes
+ANGARA,9179842,,,EU_Annex_XLII,https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations,true,false,false,false,high,EU designated vessel
+KALININGRAD,9341067,,,EU_Annex_XLII,https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations,true,false,false,false,high,EU designated vessel
+EVENTIN,9308065,,,EU_Annex_XLII,https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations,true,false,false,false,high,EU designated vessel
+EAGLE S,9329760,,,EU_Annex_XLII,https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations,true,false,false,false,critical,EU designated vessel
+SPARTA,9268710,,,EU_Annex_XLII,https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations,true,false,false,false,critical,EU designated vessel
+MIKHAIL ULYANOV,9333670,,,EU_Annex_XLII,https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations,true,false,false,false,critical,EU designated vessel
+MIKHAIL LAZAREV,9837547,,,EU_Annex_XLII,https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations,true,false,false,false,critical,EU designated vessel
+MURMANSK,9167930,,,EU_Annex_XLII,https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations,true,false,false,false,high,EU designated vessel
+SIG,9735335,,,EU_Annex_XLII,https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations,true,false,false,false,high,EU designated vessel
+KIWALA,9332810,,,EU_Annex_XLII,https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations,true,false,false,false,high,EU designated vessel
+SHTURMAN ALBANOV,9752084,,,EU_Annex_XLII,https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations,true,false,false,false,high,EU designated vessel
+VLADIMIR MONOMAKH,9842176,,,EU_Annex_XLII,https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations,true,false,false,false,high,EU designated vessel
+ZEVS,9168946,613833000,TJMC822,OpenSanctions,https://www.opensanctions.org/entities/NK-9wRSqKASCprTwAKDLUBxnt/,true,true,false,false,critical,Sanctioned and explicitly described as shadow fleet
