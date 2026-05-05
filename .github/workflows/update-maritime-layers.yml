@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "15 4 * * *"
+    - cron: "15 16 * * *"
 
 permissions:
   contents: write
@@ -24,9 +25,12 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests
+          pip install requests websockets
 
       - name: Build layers
+        env:
+          GFW_TOKEN: ${{ secrets.GFW_TOKEN }}
+          AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
         run: |
           python scripts/build_layers.py
 
