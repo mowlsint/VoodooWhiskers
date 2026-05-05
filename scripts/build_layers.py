@@ -37,12 +37,12 @@ def load_csv(path):
     return rows
 
 
-def load_flag_risk_reference(path):
-    return load_csv(path)
-
-
 def to_bool(value):
     return str(value).strip().lower() in {"1", "true", "yes", "y"}
+
+
+def load_flag_risk_reference(path):
+    return load_csv(path)
 
 
 def build_false_flag_watch():
@@ -125,6 +125,46 @@ def build_russian_mmsi():
     return features
 
 
+def build_sanctions_shadowfleet():
+    rows = load_csv(f"{DATA_DIR}/sanctions_shadowfleet_input.csv")
+    features = []
+
+    for row in rows:
+        try:
+            lon = float(row["lon"])
+            lat = float(row["lat"])
+        except Exception:
+            continue
+
+        props = {
+            "name": row.get("name", ""),
+            "imo": row.get("imo", ""),
+            "mmsi": row.get("mmsi", ""),
+            "callsign": row.get("callsign", ""),
+            "flag": row.get("flag", ""),
+            "ship_type": row.get("ship_type", ""),
+            "owner": row.get("owner", ""),
+            "manager": row.get("manager", ""),
+            "sanctioned": to_bool(row.get("sanctioned", "")),
+            "sanction_regime": row.get("sanction_regime", ""),
+            "sanction_program": row.get("sanction_program", ""),
+            "listing_date": row.get("listing_date", ""),
+            "shadowfleet_flag": to_bool(row.get("shadowfleet_flag", "")),
+            "shadow_reason": row.get("shadow_reason", ""),
+            "risk_level": row.get("risk_level", ""),
+            "notes": row.get("notes", ""),
+            "source": row.get("source", "Manual input"),
+            "source_url": row.get("source_url", ""),
+            "last_seen": row.get("last_seen", ""),
+            "last_updated": NOW,
+            "layer_type": "sanctions_shadowfleet"
+        }
+
+        features.append(feature(lon, lat, props))
+
+    return features
+
+
 def build_empty_layer():
     return []
 
@@ -134,10 +174,11 @@ def main():
 
     false_flag_features = build_false_flag_watch()
     russian_mmsi_features = build_russian_mmsi()
+    sanctions_features = build_sanctions_shadowfleet()
 
     save_geojson(f"{DATA_DIR}/false_flag_watch.geojson", false_flag_features)
     save_geojson(f"{DATA_DIR}/russian_mmsi.geojson", russian_mmsi_features)
-    save_geojson(f"{DATA_DIR}/sanctions_shadowfleet.geojson", build_empty_layer())
+    save_geojson(f"{DATA_DIR}/sanctions_shadowfleet.geojson", sanctions_features)
     save_geojson(f"{DATA_DIR}/recent_russian_portcall_10d.geojson", build_empty_layer())
 
     print("Layers written.")
