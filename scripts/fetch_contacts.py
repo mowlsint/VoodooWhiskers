@@ -1,5 +1,4 @@
 import asyncio
-import csv
 import json
 import os
 import re
@@ -10,7 +9,6 @@ from pathlib import Path
 import websockets
 
 DATA_DIR = Path("data")
-WATCHLIST_PATH = DATA_DIR / "watchlist_master.csv"
 OUTPUT_PATH = DATA_DIR / "ais_contacts_latest.json"
 
 AISSTREAM_URL = "wss://stream.aisstream.io/v0/stream"
@@ -23,7 +21,7 @@ MESSAGE_TYPES = [
     "StaticDataReport",
 ]
 
-FALLBACK_BOUNDING_BOXES = [
+BOUNDING_BOXES = [
     [[53.0, 3.0], [60.8, 30.5]],   # North Sea + Baltic + Danish Straits
     [[41.0, 26.0], [47.5, 42.5]],  # Black Sea
 ]
@@ -39,18 +37,6 @@ def norm_text(v):
 def digits(v):
     return re.sub(r"\D", "", clean_str(v))
 
-def load_watchlist_mmsi():
-    if not WATCHLIST_PATH.exists():
-        return []
-    with open(WATCHLIST_PATH, "r", encoding="utf-8", newline="") as f:
-        rows = list(csv.DictReader(f))
-    vals = []
-    for row in rows:
-        m = digits(row.get("mmsi"))
-        if m:
-            vals.append(m)
-    return sorted(set(vals))
-
 def merge_contact(dst, src):
     for k, v in src.items():
         if v in ("", None, [], {}):
@@ -64,6 +50,9 @@ def contact_key(d):
         or norm_text(d.get("callsign"))
         or norm_text(d.get("name"))
     )
+
+def is_russian_mmsi_prefix(d):
+    return digits(d.get("mmsi")).startswith("273")
 
 def extract_contact(msg):
     md = msg.get("MetaData") or msg.get("Metadata") or {}
@@ -186,43 +175,19 @@ async def main():
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-    watch_mmsi = load_watchlist_mmsi()
-    all_contacts = {}
+    subscription = {
+        "APIKey": api_key,
+        "BoundingBoxes": BOUNDING_BOXES,
+        "FilterMessageTypes": MESSAGE_TYPES,
+    }
 
-    if watch_mmsi:
-        for i in range(0, len(watch_mmsi), 50):
-            chunk = watch_mmsi[i:i+50]
-            subscription = {
-                "APIKey": api_key,
-                "BoundingBoxes": [[[-90, -180], [90, 180]]],
-                "FiltersShipMMSI": chunk,
-                "FilterMessageTypes": MESSAGE_TYPES,
-            }
-            chunk_contacts = await collect_once(subscription, 25)
-            for c in chunk_contacts:
-                key = contact_key(c)
-                if key not in all_contacts:
-                    all_contacts[key] = {}
-                merge_contact(all_contacts[key], c)
-
-    if not all_contacts:
-        subscription = {
-            "APIKey": api_key,
-            "BoundingBoxes": FALLBACK_BOUNDING_BOXES,
-            "FilterMessageTypes": MESSAGE_TYPES,
-        }
-        fallback_contacts = await collect_once(subscription, 90)
-        for c in fallback_contacts:
-            key = contact_key(c)
-            if key not in all_contacts:
-                all_contacts[key] = {}
-            merge_contact(all_contacts[key], c)
-
-    contacts_out = list(all_contacts.values())
+    contacts_raw = await collect_once(subscription, 90)
+    contacts_out = [c for c in contacts_raw if is_russian_mmsi_prefix(c)]
 
     payload = {
         "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "source": "AISStream",
+        "filter_mode": "BoundingBoxes + local MMSI prefix 273",
         "count": len(contacts_out),
         "contacts": contacts_out,
     }
