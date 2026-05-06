@@ -30,19 +30,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests websockets
 
+      - name: Ensure data directory exists
+        run: mkdir -p data
+
       - name: Fetch contacts
         env:
           AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
         run: |
-          mkdir -p data
           python scripts/fetch_contacts.py
 
       - name: Debug input files
         run: |
-          echo "--- data ---"
+          echo "--- data directory ---"
           ls -la data || true
-          echo "--- contacts file ---"
-          test -f data/ais_contacts_latest.json && cat data/ais_contacts_latest.json | head -n 40 || true
+          echo "--- contacts file exists? ---"
+          test -f data/ais_contacts_latest.json && echo "YES" || (echo "NO: data/ais_contacts_latest.json missing" && exit 1)
+          echo "--- first lines of contacts file ---"
+          head -n 40 data/ais_contacts_latest.json || true
 
       - name: Build layers
         env:
@@ -50,6 +54,15 @@ jobs:
           AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
         run: |
           python scripts/build_layers.py
+
+      - name: Debug generated outputs
+        run: |
+          echo "--- generated files ---"
+          ls -la data || true
+          echo "--- geojson files ---"
+          find data -maxdepth 1 -name "*.geojson" -exec ls -lh {} \;
+          echo "--- snapshot ---"
+          test -f data/voi_snapshot_latest.json && head -n 40 data/voi_snapshot_latest.json || true
 
       - name: Commit updated outputs
         run: |
