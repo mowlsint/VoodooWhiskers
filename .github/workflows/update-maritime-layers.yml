@@ -30,6 +30,20 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests websockets
 
+      - name: Fetch contacts
+        env:
+          AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
+        run: |
+          mkdir -p data
+          python scripts/fetch_contacts.py
+
+      - name: Debug input files
+        run: |
+          echo "--- data ---"
+          ls -la data || true
+          echo "--- contacts file ---"
+          test -f data/ais_contacts_latest.json && cat data/ais_contacts_latest.json | head -n 40 || true
+
       - name: Build layers
         env:
           GFW_TOKEN: ${{ secrets.GFW_TOKEN }}
@@ -43,10 +57,12 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add \
-            data/false_flag_watch.geojson \
+            data/ais_contacts_latest.json \
             data/russian_mmsi.geojson \
             data/watchlist_live.geojson \
             data/sanctions_shadowfleet.geojson \
+            data/falseflag_interest.geojson \
+            data/behavioral_voi.geojson \
             data/voi_snapshot_latest.json \
             data/voi_history.jsonl \
             data/voi_stats_by_slot.json
