@@ -231,7 +231,7 @@ async def main():
         "FilterMessageTypes": MESSAGE_TYPES,
     }
 
-    contacts_raw = await collect_once(subscription, 90)
+    contacts_raw = await collect_once(subscription, 1800)
     contacts_out = [c for c in contacts_raw if keep_contact(c, watch_idx)]
 
     payload = {
