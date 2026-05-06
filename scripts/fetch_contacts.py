@@ -1,4 +1,5 @@
 import asyncio
+import csv
 import json
 import os
 import re
@@ -9,6 +10,7 @@ from pathlib import Path
 import websockets
 
 DATA_DIR = Path("data")
+WATCHLIST_PATH = DATA_DIR / "watchlist_master.csv"
 OUTPUT_PATH = DATA_DIR / "ais_contacts_latest.json"
 
 AISSTREAM_URL = "wss://stream.aisstream.io/v0/stream"
@@ -53,6 +55,51 @@ def contact_key(d):
 
 def is_russian_mmsi_prefix(d):
     return digits(d.get("mmsi")).startswith("273")
+
+def load_watchlist_index():
+    idx = {
+        "mmsi": set(),
+        "imo": set(),
+        "callsign": set(),
+        "name": set(),
+    }
+
+    if not WATCHLIST_PATH.exists():
+        return idx
+
+    with open(WATCHLIST_PATH, "r", encoding="utf-8", newline="") as f:
+        for row in csv.DictReader(f):
+            mmsi = digits(row.get("mmsi"))
+            imo = digits(row.get("imo"))
+            callsign = norm_text(row.get("callsign"))
+            name = norm_text(row.get("name"))
+
+            if mmsi:
+                idx["mmsi"].add(mmsi)
+            if imo:
+                idx["imo"].add(imo)
+            if callsign:
+                idx["callsign"].add(callsign)
+            if name:
+                idx["name"].add(name)
+
+    return idx
+
+def is_watchlist_match(d, idx):
+    mmsi = digits(d.get("mmsi"))
+    imo = digits(d.get("imo"))
+    callsign = norm_text(d.get("callsign"))
+    name = norm_text(d.get("name"))
+
+    return (
+        (mmsi and mmsi in idx["mmsi"]) or
+        (imo and imo in idx["imo"]) or
+        (callsign and callsign in idx["callsign"]) or
+        (name and name in idx["name"])
+    )
+
+def keep_contact(d, idx):
+    return is_russian_mmsi_prefix(d) or is_watchlist_match(d, idx)
 
 def extract_contact(msg):
     md = msg.get("MetaData") or msg.get("Metadata") or {}
@@ -135,6 +182,7 @@ def extract_contact(msg):
 
 async def collect_once(subscription, duration_seconds):
     contacts = {}
+
     async with websockets.connect(
         AISSTREAM_URL,
         ping_interval=20,
@@ -175,6 +223,8 @@ async def main():
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
 
+    watch_idx = load_watchlist_index()
+
     subscription = {
         "APIKey": api_key,
         "BoundingBoxes": BOUNDING_BOXES,
@@ -182,12 +232,12 @@ async def main():
     }
 
     contacts_raw = await collect_once(subscription, 90)
-    contacts_out = [c for c in contacts_raw if is_russian_mmsi_prefix(c)]
+    contacts_out = [c for c in contacts_raw if keep_contact(c, watch_idx)]
 
     payload = {
         "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "source": "AISStream",
-        "filter_mode": "BoundingBoxes + local MMSI prefix 273",
+        "filter_mode": "BoundingBoxes + local MMSI prefix 273 or watchlist match",
         "count": len(contacts_out),
         "contacts": contacts_out,
     }
