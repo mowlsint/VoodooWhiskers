@@ -4,6 +4,7 @@ import re
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import quote_plus
 
 DATA_DIR = Path("data")
 WATCHLIST_PATH = DATA_DIR / "watchlist_master.csv"
@@ -23,19 +24,28 @@ SNAPSHOT_PATH = DATA_DIR / "voi_snapshot_latest.json"
 HISTORY_PATH = DATA_DIR / "voi_history.jsonl"
 STATS_PATH = DATA_DIR / "voi_stats_by_slot.json"
 
+
 def to_bool(v):
     return str(v).strip().lower() in {"1", "true", "yes", "y"}
 
+
 def clean_str(v):
     return "" if v is None else str(v).strip()
+
+
+def clean_text(v):
+    return clean_str(v)
+
 
 def norm_text(v):
     s = clean_str(v).upper()
     s = re.sub(r"\s+", " ", s)
     return s
 
+
 def norm_digits(v):
     return re.sub(r"\D", "", clean_str(v))
+
 
 def parse_float(v):
     try:
@@ -43,8 +53,10 @@ def parse_float(v):
     except Exception:
         return None
 
+
 def now_iso():
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+
 
 def current_slot():
     dt = datetime.now(timezone.utc)
@@ -53,11 +65,13 @@ def current_slot():
     slot = max([s for s in slots if s <= hour], default=0)
     return f"{dt.strftime('%Y-%m-%d')}T{slot:02d}:00:00Z"
 
+
 def load_csv_rows(path):
     if not path.exists():
         return []
     with open(path, "r", encoding="utf-8", newline="") as f:
         return list(csv.DictReader(f))
+
 
 def load_watchlist(path=WATCHLIST_PATH):
     rows = load_csv_rows(path)
@@ -80,11 +94,13 @@ def load_watchlist(path=WATCHLIST_PATH):
 
     return rows, index
 
+
 def get_any(d, *keys):
     for k in keys:
         if k in d and clean_str(d.get(k)):
             return d.get(k)
     return ""
+
 
 def match_watchlist(contact, index):
     imo = norm_digits(get_any(contact, "imo", "IMO", "ImoNumber"))
@@ -101,6 +117,7 @@ def match_watchlist(contact, index):
     if name and name in index["name"]:
         return index["name"][name], "name"
     return None, None
+
 
 def extract_port_codes(contact):
     raw_values = [
@@ -126,6 +143,7 @@ def extract_port_codes(contact):
 
     return codes
 
+
 def confirm_russian_port(contact):
     codes = extract_port_codes(contact)
 
@@ -135,21 +153,59 @@ def confirm_russian_port(contact):
         return True, sorted(codes)
     return False, sorted(codes)
 
+
+def build_vesselfinder_url(name="", imo="", mmsi=""):
+    imo = norm_digits(imo)
+    mmsi = norm_digits(mmsi)
+    name = clean_text(name)
+
+    if imo:
+        return f"https://www.vesselfinder.com/vessels?name={quote_plus(imo)}"
+    if mmsi:
+        return f"https://www.vesselfinder.com/vessels?name={quote_plus(mmsi)}"
+    if name:
+        return f"https://www.vesselfinder.com/vessels?name={quote_plus(name)}"
+    return ""
+
+
+def add_popup_fields(properties):
+    props = dict(properties or {})
+
+    name = clean_text(
+        props.get("name")
+        or props.get("watch_name")
+        or props.get("vessel_name")
+        or props.get("ship_name")
+    )
+    imo = norm_digits(props.get("imo") or props.get("watch_imo"))
+    mmsi = norm_digits(props.get("mmsi") or props.get("watch_mmsi"))
+    vf_url = build_vesselfinder_url(name=name, imo=imo, mmsi=mmsi)
+
+    props["name"] = name or "Unknown vessel"
+    props["imo"] = imo or "—"
+    props["mmsi"] = mmsi or "—"
+    props["vesselfinder_url"] = vf_url
+
+    return props
+
+
 def as_feature(contact):
     lon = parse_float(get_any(contact, "longitude", "lon", "Longitude"))
     lat = parse_float(get_any(contact, "latitude", "lat", "Latitude"))
     if lon is None or lat is None:
         return None
 
-    props = dict(contact)
+    props = add_popup_fields(dict(contact))
     return {
         "type": "Feature",
         "geometry": {"type": "Point", "coordinates": [lon, lat]},
-        "properties": props
+        "properties": props,
     }
+
 
 def empty_fc():
     return {"type": "FeatureCollection", "features": []}
+
 
 def load_existing_features(path):
     if not path.exists():
@@ -161,10 +217,17 @@ def load_existing_features(path):
     except Exception:
         return []
 
+
 def write_geojson(path, features):
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
-        json.dump({"type": "FeatureCollection", "features": features}, f, ensure_ascii=False)
+        json.dump(
+            {"type": "FeatureCollection", "features": features},
+            f,
+            ensure_ascii=False,
+            indent=2,
+        )
+
 
 def load_contacts():
     candidates = [
@@ -187,6 +250,7 @@ def load_contacts():
                 if isinstance(data.get("data"), list):
                     return data["data"]
     return []
+
 
 def classify_contact(contact, watch_index):
     merged = dict(contact)
@@ -250,11 +314,13 @@ def classify_contact(contact, watch_index):
     merged["categories"] = sorted(categories)
     return merged
 
+
 def dedupe_key(contact, slot):
     mmsi = norm_digits(get_any(contact, "mmsi", "MMSI", "UserID"))
     imo = norm_digits(get_any(contact, "imo", "IMO", "ImoNumber"))
     cats = ",".join(sorted(contact.get("categories", [])))
     return f"{slot}|{mmsi}|{imo}|{cats}"
+
 
 def update_history(snapshot_items, slot):
     existing_keys = set()
@@ -284,6 +350,7 @@ def update_history(snapshot_items, slot):
             for row in new_rows:
                 f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
+
 def update_stats(snapshot_items, slot):
     stats = {
         "generated_at": now_iso(),
@@ -295,6 +362,7 @@ def update_stats(snapshot_items, slot):
     }
     with open(STATS_PATH, "w", encoding="utf-8") as f:
         json.dump(stats, f, ensure_ascii=False, indent=2)
+
 
 def main():
     DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -316,7 +384,7 @@ def main():
             },
             f,
             ensure_ascii=False,
-            indent=2
+            indent=2,
         )
 
     layer_buckets = defaultdict(list)
@@ -334,6 +402,7 @@ def main():
     slot = current_slot()
     update_history(snapshot_items, slot)
     update_stats(snapshot_items, slot)
+
 
 if __name__ == "__main__":
     main()
