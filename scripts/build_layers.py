@@ -106,16 +106,16 @@ def match_watchlist(contact, index):
     imo = norm_digits(get_any(contact, "imo", "IMO", "ImoNumber"))
     mmsi = norm_digits(get_any(contact, "mmsi", "MMSI", "UserID"))
     callsign = norm_text(get_any(contact, "callsign", "CallSign"))
-    name = norm_text(get_any(contact, "name", "ship_name", "ShipName"))
 
     if imo and imo in index["imo"]:
         return index["imo"][imo], "imo"
+
     if mmsi and mmsi in index["mmsi"]:
         return index["mmsi"][mmsi], "mmsi"
+
     if callsign and callsign in index["callsign"]:
         return index["callsign"][callsign], "callsign"
-    if name and name in index["name"]:
-        return index["name"][name], "name"
+
     return None, None
 
 
