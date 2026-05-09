@@ -6,26 +6,73 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          25.83813,
-          59.82883
+          26.116155,
+          59.89895
+        ]
+      },
+      "properties": {
+        "mmsi": "461000233",
+        "imo": "9299692",
+        "callsign": "A4DQ6",
+        "name": "CELT",
+        "latitude": 59.89895,
+        "longitude": 26.116155,
+        "destination": "RUULU",
+        "ship_type": 89,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-05-09 01:38:50.274410069 +0000 UTC",
+        "navigational_status": 1,
+        "sog": 0.1,
+        "cog": 127.5,
+        "true_heading": 71,
+        "from_russia_confirmed": true,
+        "port_codes_seen": "RUULU",
+        "watch_matched_on": "imo",
+        "watch_name": "CALLISTO",
+        "watch_imo": "9299692",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "EU_Annex_XLII",
+        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "watch_priority": "high",
+        "notes": "EU designated vessel",
+        "sanctioned": true,
+        "shadow_fleet": true,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "sanctions_shadowfleet",
+          "watchlist"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9299692"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.83596,
+          59.830058333333334
         ]
       },
       "properties": {
         "mmsi": "667001235",
-        "name": "THORIN",
-        "latitude": 59.82883,
-        "longitude": 25.83813,
-        "navigational_status": 1,
-        "sog": 0,
-        "cog": 261.6,
-        "true_heading": 38,
-        "source": "AISStream",
-        "message_type_last": "ShipStaticData",
-        "last_seen_utc": "2026-05-08 19:22:20.630324025 +0000 UTC",
         "imo": "9330472",
         "callsign": "9LU2038",
+        "name": "THORIN",
+        "latitude": 59.830058333333334,
+        "longitude": 25.83596,
         "destination": "GOF FOR ORDERS",
         "ship_type": 80,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-05-09 01:41:31.933299416 +0000 UTC",
+        "navigational_status": 1,
+        "sog": 0.1,
+        "cog": 261.6,
+        "true_heading": 73,
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "imo",
@@ -53,22 +100,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          25.890975,
-          59.848128333333335
+          25.88762,
+          59.85031
         ]
       },
       "properties": {
         "mmsi": "667002338",
         "name": "SILVERA",
-        "latitude": 59.848128333333335,
-        "longitude": 25.890975,
+        "latitude": 59.85031,
+        "longitude": 25.88762,
         "navigational_status": 1,
         "sog": 0,
         "cog": 360,
-        "true_heading": 12,
+        "true_heading": 85,
         "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-05-08 19:16:47.528565655 +0000 UTC",
+        "message_type_last": "ShipStaticData",
+        "last_seen_utc": "2026-05-09 01:42:53.384484646 +0000 UTC",
         "imo": "9248849",
         "callsign": "9LS2041",
         "destination": "GULF OF FINLAND",
@@ -100,31 +147,31 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          11.841735,
-          54.41235666666667
+          26.01889,
+          59.85447
         ]
       },
       "properties": {
-        "mmsi": "273278840",
-        "name": "PROGRESS",
-        "latitude": 54.41235666666667,
-        "longitude": 11.841735,
-        "navigational_status": 0,
-        "sog": 12.1,
-        "cog": 91.6,
-        "true_heading": 90,
-        "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-05-08 19:19:26.36209957 +0000 UTC",
-        "imo": "9306627",
-        "callsign": "UAZD3",
-        "destination": "FOR ORDERS",
+        "mmsi": "667001255",
+        "imo": "9380673",
+        "callsign": "9LU2058",
+        "name": "CENTURION",
+        "latitude": 59.85447,
+        "longitude": 26.01889,
+        "destination": "GULF OF FINLAND",
         "ship_type": 80,
+        "source": "AISStream",
+        "message_type_last": "ShipStaticData",
+        "last_seen_utc": "2026-05-09 01:41:43.55821986 +0000 UTC",
+        "navigational_status": 1,
+        "sog": 0.2,
+        "cog": 360,
+        "true_heading": 88,
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "imo",
-        "watch_name": "HUANG HE",
-        "watch_imo": "9306627",
+        "watch_name": "CENTURION",
+        "watch_imo": "9380673",
         "watch_mmsi": "",
         "watch_callsign": "",
         "source_list": "EU_Annex_XLII",
@@ -136,11 +183,10 @@
         "false_flag": false,
         "behavioral_voi": false,
         "categories": [
-          "russian_mmsi",
           "sanctions_shadowfleet",
           "watchlist"
         ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9306627"
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9380673"
       }
     },
     {
@@ -148,22 +194,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          11.809658333333335,
-          56.880869999999994
+          10.746951666666666,
+          55.65347166666666
         ]
       },
       "properties": {
         "mmsi": "273277180",
         "name": "SOGLASIYE",
-        "latitude": 56.880869999999994,
-        "longitude": 11.809658333333335,
+        "latitude": 55.65347166666666,
+        "longitude": 10.746951666666666,
         "navigational_status": 0,
-        "sog": 14.3,
-        "cog": 161.3,
+        "sog": 11.7,
+        "cog": 174.9,
         "true_heading": 511,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-05-08 19:20:49.042017635 +0000 UTC",
+        "last_seen_utc": "2026-05-09 01:43:44.773982961 +0000 UTC",
         "imo": "9386536",
         "callsign": "UAJF4",
         "destination": "RUPRI FOR ORDER",
@@ -196,78 +242,31 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.0228,
-          59.85253
+          11.567235,
+          57.23492
         ]
       },
       "properties": {
-        "mmsi": "667001255",
-        "name": "CENTURION",
-        "latitude": 59.85253,
-        "longitude": 26.0228,
-        "navigational_status": 1,
-        "sog": 0,
-        "cog": 360,
-        "true_heading": 11,
-        "source": "AISStream",
-        "message_type_last": "ShipStaticData",
-        "last_seen_utc": "2026-05-08 19:17:23.336444869 +0000 UTC",
-        "imo": "9380673",
-        "callsign": "9LU2058",
-        "destination": "GULF OF FINLAND",
-        "ship_type": 80,
-        "from_russia_confirmed": false,
-        "port_codes_seen": "",
-        "watch_matched_on": "imo",
-        "watch_name": "CENTURION",
-        "watch_imo": "9380673",
-        "watch_mmsi": "",
-        "watch_callsign": "",
-        "source_list": "EU_Annex_XLII",
-        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
-        "watch_priority": "high",
-        "notes": "EU designated vessel",
-        "sanctioned": true,
-        "shadow_fleet": true,
-        "false_flag": false,
-        "behavioral_voi": false,
-        "categories": [
-          "sanctions_shadowfleet",
-          "watchlist"
-        ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9380673"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          19.700533333333333,
-          57.315844999999996
-        ]
-      },
-      "properties": {
-        "mmsi": "461000237",
-        "name": "OASIS",
-        "latitude": 57.315844999999996,
-        "longitude": 19.700533333333333,
+        "mmsi": "461000254",
+        "name": "NOMAD",
+        "latitude": 57.23492,
+        "longitude": 11.567235,
         "navigational_status": 0,
-        "sog": 11.9,
-        "cog": 203.5,
-        "true_heading": 206,
+        "sog": 7.3,
+        "cog": 159.8,
+        "true_heading": 161,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-05-08 19:22:03.617716122 +0000 UTC",
-        "imo": "9511387",
-        "callsign": "A4DR2",
-        "destination": "RULED>EGSUZ",
-        "ship_type": 80,
+        "last_seen_utc": "2026-05-09 01:44:57.448542474 +0000 UTC",
+        "imo": "9610781",
+        "callsign": "A4DV5",
+        "destination": "FOR ORDERS",
+        "ship_type": 89,
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "imo",
-        "watch_name": "OLYMPUS",
-        "watch_imo": "9511387",
+        "watch_name": "ZENITH",
+        "watch_imo": "9610781",
         "watch_mmsi": "",
         "watch_callsign": "",
         "source_list": "EU_Annex_XLII",
@@ -282,7 +281,7 @@
           "sanctions_shadowfleet",
           "watchlist"
         ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9511387"
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9610781"
       }
     },
     {
@@ -290,37 +289,33 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.12077,
-          59.89744
+          15.90686,
+          55.09822
         ]
       },
       "properties": {
-        "mmsi": "461000233",
-        "name": "CELT",
-        "latitude": 59.89744,
-        "longitude": 26.12077,
-        "navigational_status": 1,
-        "sog": 0,
-        "cog": 143.6,
-        "true_heading": 349,
+        "mmsi": "613961020",
+        "imo": "9332781",
+        "callsign": "TJM41",
+        "name": "AQUA TITAN",
+        "latitude": 55.09822,
+        "longitude": 15.90686,
+        "destination": "PORT SAID",
+        "ship_type": 80,
         "source": "AISStream",
         "message_type_last": "ShipStaticData",
-        "last_seen_utc": "2026-05-08 19:18:17.12909503 +0000 UTC",
-        "imo": "9299692",
-        "callsign": "A4DQ6",
-        "destination": "RUULU",
-        "ship_type": 89,
-        "from_russia_confirmed": true,
-        "port_codes_seen": "RUULU",
+        "last_seen_utc": "2026-05-09 01:34:19.618043726 +0000 UTC",
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
         "watch_matched_on": "imo",
-        "watch_name": "CALLISTO",
-        "watch_imo": "9299692",
+        "watch_name": "AQUA TITAN",
+        "watch_imo": "9332781",
         "watch_mmsi": "",
         "watch_callsign": "",
         "source_list": "EU_Annex_XLII",
         "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
         "watch_priority": "high",
-        "notes": "EU designated vessel",
+        "notes": "formerly Lang Ya",
         "sanctioned": true,
         "shadow_fleet": true,
         "false_flag": false,
@@ -329,7 +324,7 @@
           "sanctions_shadowfleet",
           "watchlist"
         ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9299692"
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9332781"
       }
     }
   ]
