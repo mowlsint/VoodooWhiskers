@@ -6,31 +6,31 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          25.83529,
-          59.83074333333333
+          23.4143,
+          59.5546
         ]
       },
       "properties": {
-        "mmsi": "667001235",
-        "imo": "9330472",
-        "callsign": "9LU2038",
-        "name": "THORIN",
-        "latitude": 59.83074333333333,
-        "longitude": 25.83529,
-        "destination": "GOF FOR ORDERS",
-        "ship_type": 80,
+        "mmsi": "613007100",
+        "name": "ENIGMA",
+        "latitude": 59.5546,
+        "longitude": 23.4143,
+        "navigational_status": 0,
+        "sog": 11.7,
+        "cog": 69,
+        "true_heading": 69,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-05-13 08:40:46.143157278 +0000 UTC",
-        "navigational_status": 1,
-        "sog": 0,
-        "cog": 135.6,
-        "true_heading": 95,
+        "last_seen_utc": "2026-05-13 14:04:12.848419448 +0000 UTC",
+        "imo": "9333412",
+        "callsign": "TJMY10",
+        "destination": "TRMER>>RUPRI",
+        "ship_type": 89,
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "imo",
-        "watch_name": "THORIN",
-        "watch_imo": "9330472",
+        "watch_name": "ENIGMA",
+        "watch_imo": "9333412",
         "watch_mmsi": "",
         "watch_callsign": "",
         "source_list": "EU_Annex_XLII",
@@ -45,7 +45,7 @@
           "sanctions_shadowfleet",
           "watchlist"
         ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9330472"
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9333412"
       }
     },
     {
@@ -53,22 +53,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.017316666666666,
-          59.85505
+          26.01647,
+          59.8551
         ]
       },
       "properties": {
         "mmsi": "667001255",
         "name": "CENTURION",
-        "latitude": 59.85505,
-        "longitude": 26.017316666666666,
+        "latitude": 59.8551,
+        "longitude": 26.01647,
         "navigational_status": 1,
-        "sog": 0.1,
-        "cog": 282,
-        "true_heading": 94,
+        "sog": 0.2,
+        "cog": 336,
+        "true_heading": 113,
         "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-05-13 08:40:22.51822953 +0000 UTC",
+        "message_type_last": "ShipStaticData",
+        "last_seen_utc": "2026-05-13 14:05:43.554583677 +0000 UTC",
         "imo": "9380673",
         "callsign": "9LU2058",
         "destination": "GULF OF FINLAND",
@@ -100,22 +100,70 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          12.255016666666668,
-          56.25386666666667
+          11.631773333333333,
+          57.127518333333335
+        ]
+      },
+      "properties": {
+        "mmsi": "273266690",
+        "name": "PROSPERITY",
+        "latitude": 57.127518333333335,
+        "longitude": 11.631773333333333,
+        "navigational_status": 0,
+        "sog": 13.8,
+        "cog": 160.1,
+        "true_heading": 159,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-05-13 14:06:31.392479345 +0000 UTC",
+        "imo": "9322956",
+        "callsign": "UAZC3",
+        "destination": "EGPSD=>RUULU",
+        "ship_type": 89,
+        "from_russia_confirmed": true,
+        "port_codes_seen": "RUULU",
+        "watch_matched_on": "imo",
+        "watch_name": "PROSPERITY",
+        "watch_imo": "9322956",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "EU_Annex_XLII",
+        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "watch_priority": "high",
+        "notes": "formerly NS Pride",
+        "sanctioned": true,
+        "shadow_fleet": true,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "russian_mmsi",
+          "sanctions_shadowfleet",
+          "watchlist"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9322956"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.6841,
+          55.679116666666665
         ]
       },
       "properties": {
         "mmsi": "613667000",
         "name": "MIRADOR",
-        "latitude": 56.25386666666667,
-        "longitude": 12.255016666666668,
+        "latitude": 55.679116666666665,
+        "longitude": 12.6841,
         "navigational_status": 0,
         "sog": 7.2,
-        "cog": 140,
-        "true_heading": 139,
+        "cog": 180,
+        "true_heading": 180,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-05-13 08:44:06.263201543 +0000 UTC",
+        "last_seen_utc": "2026-05-13 14:06:17.066456421 +0000 UTC",
         "imo": "9288693",
         "callsign": "TJM2101",
         "destination": "GULF OF FINLAN.ORD",
@@ -147,31 +195,31 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          25.88688,
-          59.85142666666666
+          7.538633333333333,
+          57.77106666666667
         ]
       },
       "properties": {
-        "mmsi": "667002338",
-        "name": "SILVERA",
-        "latitude": 59.85142666666666,
-        "longitude": 25.88688,
-        "navigational_status": 1,
-        "sog": 0,
-        "cog": 360,
-        "true_heading": 108,
+        "mmsi": "667001223",
+        "name": "INDRAS",
+        "latitude": 57.77106666666667,
+        "longitude": 7.538633333333333,
+        "navigational_status": 0,
+        "sog": 12.2,
+        "cog": 275,
+        "true_heading": 276,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-05-13 08:35:28.968416495 +0000 UTC",
-        "imo": "9248849",
-        "callsign": "9LS2041",
-        "destination": "GULF OF FINLAND",
+        "last_seen_utc": "2026-05-13 14:06:09.018334829 +0000 UTC",
+        "imo": "9314894",
+        "callsign": "9LU2026",
+        "destination": "FOR ORDERS",
         "ship_type": 80,
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "imo",
-        "watch_name": "SILVERA",
-        "watch_imo": "9248849",
+        "watch_name": "INDRAS",
+        "watch_imo": "9314894",
         "watch_mmsi": "",
         "watch_callsign": "",
         "source_list": "EU_Annex_XLII",
@@ -186,7 +234,7 @@
           "sanctions_shadowfleet",
           "watchlist"
         ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9248849"
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9314894"
       }
     },
     {
@@ -194,31 +242,31 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.46942,
-          57.55665
+          8.095116666666666,
+          57.30506666666667
         ]
       },
       "properties": {
-        "mmsi": "667002327",
-        "name": "FULGER",
-        "latitude": 57.55665,
-        "longitude": 8.46942,
+        "mmsi": "667002337",
+        "name": "ODUNE",
+        "latitude": 57.30506666666667,
+        "longitude": 8.095116666666666,
         "navigational_status": 0,
-        "sog": 10.3,
-        "cog": 69.3,
-        "true_heading": 66,
+        "sog": 12.4,
+        "cog": 233,
+        "true_heading": 232,
         "source": "AISStream",
-        "message_type_last": "ShipStaticData",
-        "last_seen_utc": "2026-05-13 08:43:47.458858941 +0000 UTC",
-        "imo": "9326718",
-        "callsign": "9LS2030",
-        "destination": "GOF",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-05-13 14:02:06.676986643 +0000 UTC",
+        "imo": "9229374",
+        "callsign": "9LS2040",
+        "destination": "MATNG",
         "ship_type": 80,
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "imo",
-        "watch_name": "FULGER",
-        "watch_imo": "9326718",
+        "watch_name": "ODUNE",
+        "watch_imo": "9229374",
         "watch_mmsi": "",
         "watch_callsign": "",
         "source_list": "EU_Annex_XLII",
@@ -233,7 +281,7 @@
           "sanctions_shadowfleet",
           "watchlist"
         ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9326718"
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9229374"
       }
     }
   ]
