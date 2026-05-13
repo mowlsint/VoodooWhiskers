@@ -6,22 +6,68 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          23.489700000000003,
-          59.556581666666666
+          24.202103333333334,
+          59.68072333333334
+        ]
+      },
+      "properties": {
+        "mmsi": "273411440",
+        "name": "SVYATAYA VARVARA",
+        "latitude": 59.68072333333334,
+        "longitude": 24.202103333333334,
+        "navigational_status": 0,
+        "sog": 9.3,
+        "cog": 70.7,
+        "true_heading": 69,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-05-13 01:51:13.320159021 +0000 UTC",
+        "imo": "9143609",
+        "callsign": "UBEQ4",
+        "destination": "VYBORG",
+        "ship_type": 90,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "",
+        "watch_name": "",
+        "watch_imo": "",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "",
+        "source_url": "",
+        "watch_priority": "",
+        "notes": "",
+        "sanctioned": false,
+        "shadow_fleet": false,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "russian_mmsi"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9143609"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.510283333333334,
+          59.83505
         ]
       },
       "properties": {
         "mmsi": "273350220",
         "name": "FLANDRIA",
-        "latitude": 59.556581666666666,
-        "longitude": 23.489700000000003,
+        "latitude": 59.83505,
+        "longitude": 25.510283333333334,
         "navigational_status": 0,
-        "sog": 9.9,
-        "cog": 70.6,
-        "true_heading": 72,
+        "sog": 10.6,
+        "cog": 77.5,
+        "true_heading": 77,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-05-12 19:36:51.568407406 +0000 UTC",
+        "last_seen_utc": "2026-05-13 01:52:43.79978209 +0000 UTC",
         "imo": "8414477",
         "callsign": "UBBH2",
         "destination": "RULED",
@@ -45,6 +91,54 @@
           "russian_mmsi"
         ],
         "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=8414477"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.267826666666668,
+          59.53599
+        ]
+      },
+      "properties": {
+        "mmsi": "273275060",
+        "imo": "9292060",
+        "callsign": "UAJE9",
+        "name": "TALISMAN",
+        "latitude": 59.53599,
+        "longitude": 23.267826666666668,
+        "destination": "EG PSD>RU ULU",
+        "ship_type": 89,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-05-13 01:49:49.327055398 +0000 UTC",
+        "navigational_status": 0,
+        "sog": 13.5,
+        "cog": 71,
+        "true_heading": 68,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "imo",
+        "watch_name": "TALISMAN",
+        "watch_imo": "9292060",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "EU_Annex_XLII",
+        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "watch_priority": "high",
+        "notes": "EU designated vessel",
+        "sanctioned": true,
+        "shadow_fleet": true,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "russian_mmsi",
+          "sanctions_shadowfleet",
+          "watchlist"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9292060"
       }
     }
   ]
