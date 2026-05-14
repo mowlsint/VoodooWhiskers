@@ -6,22 +6,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          10.943723333333333,
-          54.9611
+          10.814153333333334,
+          55.80302833333334
         ]
       },
       "properties": {
         "mmsi": "667001798",
         "name": "KARTHA",
-        "latitude": 54.9611,
-        "longitude": 10.943723333333333,
+        "latitude": 55.80302833333334,
+        "longitude": 10.814153333333334,
         "navigational_status": 4,
-        "sog": 10.9,
-        "cog": 55.4,
-        "true_heading": 53,
+        "sog": 11.5,
+        "cog": 3.8,
+        "true_heading": 4,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-05-14 08:35:51.526937639 +0000 UTC",
+        "last_seen_utc": "2026-05-14 13:44:51.581163156 +0000 UTC",
         "imo": "9317949",
         "callsign": "9LU2601",
         "destination": "SINGAPORE",
@@ -53,8 +53,55 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          25.89378,
-          59.8533
+          11.210605,
+          54.57365
+        ]
+      },
+      "properties": {
+        "mmsi": "667002327",
+        "name": "FULGER",
+        "latitude": 54.57365,
+        "longitude": 11.210605,
+        "navigational_status": 0,
+        "sog": 11.6,
+        "cog": 114.3,
+        "true_heading": 112,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-05-14 13:45:28.133663111 +0000 UTC",
+        "imo": "9326718",
+        "callsign": "9LS2030",
+        "destination": "GOF",
+        "ship_type": 80,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "imo",
+        "watch_name": "FULGER",
+        "watch_imo": "9326718",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "EU_Annex_XLII",
+        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "watch_priority": "high",
+        "notes": "EU designated vessel",
+        "sanctioned": true,
+        "shadow_fleet": true,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "sanctions_shadowfleet",
+          "watchlist"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9326718"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.88922,
+          59.85217
         ]
       },
       "properties": {
@@ -62,13 +109,17 @@
         "imo": "9333412",
         "callsign": "TJMY10",
         "name": "ENIGMA",
-        "latitude": 59.8533,
-        "longitude": 25.89378,
+        "latitude": 59.85217,
+        "longitude": 25.88922,
         "destination": "TRMER>>RUPRI",
         "ship_type": 89,
         "source": "AISStream",
         "message_type_last": "ShipStaticData",
-        "last_seen_utc": "2026-05-14 08:11:43.949551008 +0000 UTC",
+        "last_seen_utc": "2026-05-14 13:38:49.963753219 +0000 UTC",
+        "navigational_status": 1,
+        "sog": 0,
+        "cog": 359,
+        "true_heading": 105,
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "imo",
@@ -96,26 +147,26 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.021516666666667,
-          59.857166666666664
+          26.020300000000002,
+          59.85645
         ]
       },
       "properties": {
         "mmsi": "667001255",
-        "imo": "9380673",
-        "callsign": "9LU2058",
         "name": "CENTURION",
-        "latitude": 59.857166666666664,
-        "longitude": 26.021516666666667,
-        "destination": "GULF OF FINLAND",
-        "ship_type": 80,
-        "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-05-14 08:31:22.514541929 +0000 UTC",
+        "latitude": 59.85645,
+        "longitude": 26.020300000000002,
         "navigational_status": 1,
         "sog": 0,
-        "cog": 237,
-        "true_heading": 124,
+        "cog": 212,
+        "true_heading": 97,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-05-14 13:40:22.549013143 +0000 UTC",
+        "imo": "9380673",
+        "callsign": "9LU2058",
+        "destination": "GULF OF FINLAND",
+        "ship_type": 80,
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "imo",
