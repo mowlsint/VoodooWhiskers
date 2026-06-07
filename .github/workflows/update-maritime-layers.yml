@@ -77,13 +77,52 @@ jobs:
           test -f data/voi_snapshot_latest.json && head -n 40 data/voi_snapshot_latest.json || true
 
       - name: Commit updated outputs
+        env:
+          NTFY_ENABLED: ${{ secrets.NTFY_ENABLED }}
+          NTFY_URL: ${{ secrets.NTFY_URL }}
+          NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
         run: |
           set -euo pipefail
+
+          send_push_failure_ntfy() {
+            if [ "${NTFY_ENABLED:-false}" != "true" ] || [ -z "${NTFY_URL:-}" ]; then
+              echo "ntfy disabled or URL missing; not sending push-failure notification."
+              return 0
+            fi
+
+            BODY="$(printf 'VOODOO WHISKERS // maritime layers push failed\n\nWorkflow: %s\nRun: %s\nBranch: %s\n\nLayer build completed, but push failed after 3 attempts. The next scheduled run will rebuild and try again. Magic Paws VOI data may remain stale until the next successful Voodoo layer update.\n' "${GITHUB_WORKFLOW:-Update maritime layers}" "${GITHUB_RUN_ID:-unknown}" "${GITHUB_REF_NAME:-main}")"
+
+            if [ -n "${NTFY_TOKEN:-}" ]; then
+              curl -fsSL \
+                -H "Authorization: Bearer ${NTFY_TOKEN}" \
+                -H "Title: VOODOO WHISKERS Push Failed" \
+                -H "Priority: high" \
+                -H "Tags: warning,ship" \
+                --data-binary "$BODY" \
+                "$NTFY_URL" || true
+            else
+              curl -fsSL \
+                -H "Title: VOODOO WHISKERS Push Failed" \
+                -H "Priority: high" \
+                -H "Tags: warning,ship" \
+                --data-binary "$BODY" \
+                "$NTFY_URL" || true
+            fi
+          }
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add             data/ais_contacts_latest.json             data/russian_mmsi.geojson             data/watchlist_live.geojson             data/sanctions_shadowfleet.geojson             data/falseflag_interest.geojson             data/behavioral_voi.geojson             data/voi_snapshot_latest.json             data/voi_history.jsonl             data/voi_stats_by_slot.json
+          git add \
+            data/ais_contacts_latest.json \
+            data/russian_mmsi.geojson \
+            data/watchlist_live.geojson \
+            data/sanctions_shadowfleet.geojson \
+            data/falseflag_interest.geojson \
+            data/behavioral_voi.geojson \
+            data/voi_snapshot_latest.json \
+            data/voi_history.jsonl \
+            data/voi_stats_by_slot.json
 
           if git diff --cached --quiet; then
             echo "No maritime layer changes to commit."
@@ -110,4 +149,5 @@ jobs:
           done
 
           echo "ERROR: Push failed after 3 attempts."
+          send_push_failure_ntfy
           exit 1
