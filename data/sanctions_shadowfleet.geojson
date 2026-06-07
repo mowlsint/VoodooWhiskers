@@ -6,37 +6,37 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          10.86925,
-          54.91526
+          26.054148333333334,
+          59.86850666666667
         ]
       },
       "properties": {
-        "mmsi": "352005354",
-        "name": "TANGO 2",
-        "latitude": 54.91526,
-        "longitude": 10.86925,
-        "navigational_status": 0,
-        "sog": 10.3,
-        "cog": 24.9,
-        "true_heading": 25,
-        "source": "AISStream",
-        "message_type_last": "ShipStaticData",
-        "last_seen_utc": "2026-06-07 16:10:44.588985321 +0000 UTC",
-        "imo": "9389071",
-        "callsign": "3E8640",
-        "destination": "SINGAPORE",
+        "mmsi": "667002336",
+        "imo": "9266877",
+        "callsign": "9LS2039",
+        "name": "PIERRE",
+        "latitude": 59.86850666666667,
+        "longitude": 26.054148333333334,
+        "destination": "GULF OF FINLAND",
         "ship_type": 80,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-06-07 20:14:42.012289047 +0000 UTC",
+        "navigational_status": 1,
+        "sog": 0,
+        "cog": 267.4,
+        "true_heading": 283,
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "imo",
-        "watch_name": "TANGO 2",
-        "watch_imo": "9389071",
+        "watch_name": "PIERRE",
+        "watch_imo": "9266877",
         "watch_mmsi": "",
         "watch_callsign": "",
         "source_list": "EU_Annex_XLII",
         "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
         "watch_priority": "high",
-        "notes": "EU designated vessel; EU application date 24-10-2025",
+        "notes": "EU designated vessel; EU application date 20-07-2025",
         "sanctioned": true,
         "shadow_fleet": true,
         "false_flag": false,
@@ -45,7 +45,7 @@
           "sanctions_shadowfleet",
           "watchlist"
         ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9389071"
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9266877"
       }
     },
     {
@@ -53,22 +53,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.009058333333332,
-          59.880644999999994
+          26.01192,
+          59.87846
         ]
       },
       "properties": {
         "mmsi": "667002293",
         "name": "ALTIS",
-        "latitude": 59.880644999999994,
-        "longitude": 26.009058333333332,
+        "latitude": 59.87846,
+        "longitude": 26.01192,
         "navigational_status": 1,
         "sog": 0,
         "cog": 216.9,
-        "true_heading": 205,
+        "true_heading": 281,
         "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:05:50.91423422 +0000 UTC",
+        "message_type_last": "ShipStaticData",
+        "last_seen_utc": "2026-06-07 20:11:57.387449177 +0000 UTC",
         "imo": "9265756",
         "callsign": "9LS1996",
         "destination": "GULF OF FINLAND",
@@ -100,22 +100,257 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.082251666666664,
-          59.88293833333333
+          25.83090333333333,
+          59.84578333333333
+        ]
+      },
+      "properties": {
+        "mmsi": "667002359",
+        "name": "NACHOS",
+        "latitude": 59.84578333333333,
+        "longitude": 25.83090333333333,
+        "navigational_status": 1,
+        "sog": 0,
+        "cog": 213.3,
+        "true_heading": 283,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-06-07 20:08:56.016300615 +0000 UTC",
+        "imo": "9330604",
+        "callsign": "9LS2062",
+        "destination": "GOF FOR ORDER",
+        "ship_type": 80,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "imo",
+        "watch_name": "NACHOS",
+        "watch_imo": "9330604",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "UK_RUS2607",
+        "source_url": "https://content.govdelivery.com/accounts/UKORGESO/bulletins/3dfa799",
+        "watch_priority": "high",
+        "notes": "UK designated vessel",
+        "sanctioned": true,
+        "shadow_fleet": true,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "sanctions_shadowfleet",
+          "watchlist"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9330604"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.883686666666668,
+          57.76748166666666
+        ]
+      },
+      "properties": {
+        "mmsi": "352002809",
+        "imo": "9346720",
+        "callsign": "3E5096",
+        "name": "KIRA K",
+        "latitude": 57.76748166666666,
+        "longitude": 10.883686666666668,
+        "destination": "BALTIC FOR ORDER",
+        "ship_type": 80,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-06-07 20:13:14.284266732 +0000 UTC",
+        "navigational_status": 0,
+        "sog": 10.3,
+        "cog": 117.9,
+        "true_heading": 126,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "imo",
+        "watch_name": "KIRA K",
+        "watch_imo": "9346720",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "EU_Annex_XLII",
+        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "watch_priority": "high",
+        "notes": "EU designated vessel; EU application date 20-07-2025",
+        "sanctioned": true,
+        "shadow_fleet": true,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "sanctions_shadowfleet",
+          "watchlist"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9346720"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.05997,
+          59.85073
+        ]
+      },
+      "properties": {
+        "mmsi": "667002369",
+        "callsign": "9LS2072",
+        "latitude": 59.85073,
+        "longitude": 26.05997,
+        "ship_type": 80,
+        "source": "AISStream",
+        "message_type_last": "ShipStaticData",
+        "last_seen_utc": "2026-06-07 20:07:12.992862187 +0000 UTC",
+        "imo": "9301524",
+        "name": "DENEB",
+        "destination": "GULF OF FINLAND",
+        "navigational_status": 1,
+        "sog": 0,
+        "cog": 98.7,
+        "true_heading": 278,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "imo",
+        "watch_name": "DENEB",
+        "watch_imo": "9301524",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "UK_RUS2545;EU_Annex_XLII",
+        "source_url": "https://content.govdelivery.com/accounts/UKORGESO/bulletins/3dfa799;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "watch_priority": "high",
+        "notes": "UK designated vessel; EU designated vessel; EU application date 20-07-2025",
+        "sanctioned": true,
+        "shadow_fleet": true,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "sanctions_shadowfleet",
+          "watchlist"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9301524"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.30093,
+          59.98732666666667
+        ]
+      },
+      "properties": {
+        "mmsi": "613411302",
+        "name": "SMYRTOS",
+        "latitude": 59.98732666666667,
+        "longitude": 26.30093,
+        "navigational_status": 0,
+        "sog": 10.6,
+        "cog": 254.9,
+        "true_heading": 254,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-06-07 20:12:13.853408729 +0000 UTC",
+        "imo": "9389100",
+        "callsign": "TJMRO4",
+        "destination": "EGPSD",
+        "ship_type": 89,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "imo",
+        "watch_name": "SMYRTOS",
+        "watch_imo": "9389100",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "EU_Annex_XLII",
+        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "watch_priority": "high",
+        "notes": "EU designated vessel; EU application date 20-07-2025",
+        "sanctioned": true,
+        "shadow_fleet": true,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "sanctions_shadowfleet",
+          "watchlist"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9389100"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.9792,
+          59.83771
+        ]
+      },
+      "properties": {
+        "mmsi": "667002314",
+        "name": "ARLAN",
+        "latitude": 59.83771,
+        "longitude": 25.9792,
+        "navigational_status": 1,
+        "sog": 0.1,
+        "cog": 114.5,
+        "true_heading": 257,
+        "source": "AISStream",
+        "message_type_last": "ShipStaticData",
+        "last_seen_utc": "2026-06-07 20:07:18.914489328 +0000 UTC",
+        "imo": "9227443",
+        "callsign": "9LS2017",
+        "destination": "GULF OF FINLAND",
+        "ship_type": 80,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "imo",
+        "watch_name": "ARLAN",
+        "watch_imo": "9227443",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "EU_Annex_XLII",
+        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "watch_priority": "high",
+        "notes": "EU designated vessel",
+        "sanctioned": true,
+        "shadow_fleet": true,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "sanctions_shadowfleet",
+          "watchlist"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9227443"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.085758333333334,
+          59.881155
         ]
       },
       "properties": {
         "mmsi": "667001321",
         "name": "ARABESCA",
-        "latitude": 59.88293833333333,
-        "longitude": 26.082251666666664,
+        "latitude": 59.881155,
+        "longitude": 26.085758333333334,
         "navigational_status": 1,
         "sog": 0,
         "cog": 154.6,
-        "true_heading": 200,
+        "true_heading": 272,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:06:33.583396704 +0000 UTC",
+        "last_seen_utc": "2026-06-07 20:06:33.705300267 +0000 UTC",
         "imo": "9288734",
         "callsign": "9LU2124",
         "destination": "GULF OF FINLAND",
@@ -147,78 +382,31 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          28.711206666666666,
-          41.46286166666666
+          26.017905,
+          59.85664333333333
         ]
       },
       "properties": {
-        "mmsi": "667001275",
-        "name": "ALTURA",
-        "latitude": 41.46286166666666,
-        "longitude": 28.711206666666666,
-        "navigational_status": 3,
+        "mmsi": "667002335",
+        "name": "REUS",
+        "latitude": 59.85664333333333,
+        "longitude": 26.017905,
+        "navigational_status": 1,
         "sog": 0,
-        "cog": 19.3,
-        "true_heading": 62,
+        "cog": 141.8,
+        "true_heading": 269,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:11:39.933102924 +0000 UTC",
-        "imo": "9292199",
-        "callsign": "9LU2078",
-        "destination": "TRIST",
+        "last_seen_utc": "2026-06-07 20:03:46.194828134 +0000 UTC",
+        "imo": "9253076",
+        "callsign": "9LS2038",
+        "destination": "GULF OF FINLAND",
         "ship_type": 80,
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "imo",
-        "watch_name": "KAYSERI",
-        "watch_imo": "9292199",
-        "watch_mmsi": "",
-        "watch_callsign": "",
-        "source_list": "EU_Annex_XLII",
-        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
-        "watch_priority": "high",
-        "notes": "EU designated vessel; EU application date 24-10-2025",
-        "sanctioned": true,
-        "shadow_fleet": true,
-        "false_flag": false,
-        "behavioral_voi": false,
-        "categories": [
-          "sanctions_shadowfleet",
-          "watchlist"
-        ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9292199"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          8.41085,
-          57.359249999999996
-        ]
-      },
-      "properties": {
-        "mmsi": "461000239",
-        "name": "DISCOVERY",
-        "latitude": 57.359249999999996,
-        "longitude": 8.41085,
-        "navigational_status": 0,
-        "sog": 10.8,
-        "cog": 64,
-        "true_heading": 62,
-        "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:11:27.906962613 +0000 UTC",
-        "imo": "9316127",
-        "callsign": "A4DR6",
-        "destination": "FOR ORDERS",
-        "ship_type": 80,
-        "from_russia_confirmed": false,
-        "port_codes_seen": "",
-        "watch_matched_on": "imo",
-        "watch_name": "VEGA",
-        "watch_imo": "9316127",
+        "watch_name": "REUS",
+        "watch_imo": "9253076",
         "watch_mmsi": "",
         "watch_callsign": "",
         "source_list": "EU_Annex_XLII",
@@ -233,7 +421,7 @@
           "sanctions_shadowfleet",
           "watchlist"
         ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9316127"
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9253076"
       }
     },
     {
@@ -241,37 +429,37 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          21.056303333333336,
-          58.679673333333334
+          14.51674,
+          55.3896
         ]
       },
       "properties": {
-        "mmsi": "574005510",
-        "imo": "9374868",
-        "callsign": "XVJF7",
-        "name": "NERO",
-        "latitude": 58.679673333333334,
-        "longitude": 21.056303333333336,
-        "destination": "KLININGRAD",
-        "ship_type": 80,
-        "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:09:37.866415216 +0000 UTC",
+        "mmsi": "613471908",
+        "name": "DELIVER",
+        "latitude": 55.3896,
+        "longitude": 14.51674,
         "navigational_status": 0,
-        "sog": 11.2,
-        "cog": 212,
-        "true_heading": 208,
+        "sog": 10.7,
+        "cog": 215.4,
+        "true_heading": 218,
+        "source": "AISStream",
+        "message_type_last": "ShipStaticData",
+        "last_seen_utc": "2026-06-07 20:13:47.524176355 +0000 UTC",
+        "imo": "9194983",
+        "callsign": "TJMO69",
+        "destination": "SGP",
+        "ship_type": 80,
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "imo",
-        "watch_name": "ELEPHANT",
-        "watch_imo": "9374868",
+        "watch_name": "DELIVER",
+        "watch_imo": "9194983",
         "watch_mmsi": "",
         "watch_callsign": "",
-        "source_list": "UK_RUS2518;EU_Annex_XLII",
-        "source_url": "https://content.govdelivery.com/accounts/UKORGESO/bulletins/3dfa799;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "source_list": "EU_Annex_XLII",
+        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
         "watch_priority": "high",
-        "notes": "UK designated vessel; EU designated vessel; EU application date 20-07-2025",
+        "notes": "EU designated vessel",
         "sanctioned": true,
         "shadow_fleet": true,
         "false_flag": false,
@@ -280,7 +468,7 @@
           "sanctions_shadowfleet",
           "watchlist"
         ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9374868"
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9194983"
       }
     },
     {
@@ -288,22 +476,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          13.044839999999999,
-          55.34195833333333
+          13.04565,
+          55.34103
         ]
       },
       "properties": {
         "mmsi": "468121000",
         "name": "JIN HUI",
-        "latitude": 55.34195833333333,
-        "longitude": 13.044839999999999,
+        "latitude": 55.34103,
+        "longitude": 13.04565,
         "navigational_status": 1,
         "sog": 0.1,
-        "cog": 296.4,
-        "true_heading": 230,
+        "cog": 349.1,
+        "true_heading": 263,
         "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:10:16.459804918 +0000 UTC",
+        "message_type_last": "ShipStaticData",
+        "last_seen_utc": "2026-06-07 20:14:52.749507379 +0000 UTC",
         "imo": "9430272",
         "callsign": "A8SR3",
         "destination": "BALTIC SEA",
@@ -335,116 +523,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          11.0895,
-          57.7144
-        ]
-      },
-      "properties": {
-        "mmsi": "667001243",
-        "name": "PRISMA",
-        "latitude": 57.7144,
-        "longitude": 11.0895,
-        "navigational_status": 0,
-        "sog": 9,
-        "cog": 319,
-        "true_heading": 318,
-        "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:10:53.362486545 +0000 UTC",
-        "imo": "9299678",
-        "callsign": "9LU2046",
-        "destination": "FOR ORDERS",
-        "ship_type": 80,
-        "from_russia_confirmed": false,
-        "port_codes_seen": "",
-        "watch_matched_on": "imo",
-        "watch_name": "PRISMA",
-        "watch_imo": "9299678",
-        "watch_mmsi": "",
-        "watch_callsign": "",
-        "source_list": "EU_Annex_XLII",
-        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
-        "watch_priority": "high",
-        "notes": "EU designated vessel; EU application date 20-07-2025",
-        "sanctioned": true,
-        "shadow_fleet": true,
-        "false_flag": false,
-        "behavioral_voi": false,
-        "categories": [
-          "sanctions_shadowfleet",
-          "watchlist"
-        ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9299678"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          13.055733333333334,
-          55.28236666666667
-        ]
-      },
-      "properties": {
-        "mmsi": "613442740",
-        "imo": "9321172",
-        "callsign": "TJM23G",
-        "name": "SEA OWL I",
-        "latitude": 55.28236666666667,
-        "longitude": 13.055733333333334,
-        "destination": "EE TLL FOR ORDERS",
-        "ship_type": 80,
-        "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:04:34.64864227 +0000 UTC",
-        "navigational_status": 1,
-        "sog": 0,
-        "cog": 342,
-        "true_heading": 222,
-        "from_russia_confirmed": false,
-        "port_codes_seen": "",
-        "watch_matched_on": "imo",
-        "watch_name": "SEA OWL I",
-        "watch_imo": "9321172",
-        "watch_mmsi": "",
-        "watch_callsign": "",
-        "source_list": "EU_Annex_XLII",
-        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
-        "watch_priority": "high",
-        "notes": "EU designated vessel; EU application date 24-10-2025",
-        "sanctioned": true,
-        "shadow_fleet": true,
-        "false_flag": false,
-        "behavioral_voi": false,
-        "categories": [
-          "sanctions_shadowfleet",
-          "watchlist"
-        ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9321172"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          25.790333333333333,
-          59.83409666666667
+          25.793646666666667,
+          59.831678333333336
         ]
       },
       "properties": {
         "mmsi": "273272770",
         "name": "PROVIDER",
-        "latitude": 59.83409666666667,
-        "longitude": 25.790333333333333,
+        "latitude": 59.831678333333336,
+        "longitude": 25.793646666666667,
         "navigational_status": 1,
         "sog": 0,
         "cog": 128.1,
         "true_heading": 511,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:10:48.044507722 +0000 UTC",
+        "last_seen_utc": "2026-06-07 20:10:52.376739438 +0000 UTC",
         "imo": "9312872",
         "callsign": "UAGF2",
         "destination": "RUULU",
@@ -477,22 +571,69 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          23.472065,
-          59.64873333333333
+          29.044249999999998,
+          41.47839
+        ]
+      },
+      "properties": {
+        "mmsi": "613271309",
+        "name": "MOCHA",
+        "latitude": 41.47839,
+        "longitude": 29.044249999999998,
+        "navigational_status": 8,
+        "sog": 0.3,
+        "cog": 15.2,
+        "true_heading": 19,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-06-07 20:12:50.999744783 +0000 UTC",
+        "imo": "9271951",
+        "callsign": "TJMOW7",
+        "destination": "CEYHAN",
+        "ship_type": 80,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "imo",
+        "watch_name": "FACCA",
+        "watch_imo": "9271951",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "EU_Annex_XLII",
+        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "watch_priority": "high",
+        "notes": "EU designated vessel",
+        "sanctioned": true,
+        "shadow_fleet": true,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "sanctions_shadowfleet",
+          "watchlist"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9271951"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.088356666666666,
+          59.33571166666666
         ]
       },
       "properties": {
         "mmsi": "273277650",
         "name": "STRATEG",
-        "latitude": 59.64873333333333,
-        "longitude": 23.472065,
+        "latitude": 59.33571166666666,
+        "longitude": 22.088356666666666,
         "navigational_status": 0,
-        "sog": 11.5,
-        "cog": 258.7,
-        "true_heading": 258,
+        "sog": 11.6,
+        "cog": 232,
+        "true_heading": 231,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:11:21.382410125 +0000 UTC",
+        "last_seen_utc": "2026-06-07 20:14:53.439593468 +0000 UTC",
         "imo": "9589750",
         "callsign": "UAEE2",
         "destination": "NORTH OFF CHINA",
@@ -525,210 +666,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.050773333333332,
-          59.870866666666664
-        ]
-      },
-      "properties": {
-        "mmsi": "667002336",
-        "name": "PIERRE",
-        "latitude": 59.870866666666664,
-        "longitude": 26.050773333333332,
-        "navigational_status": 1,
-        "sog": 0,
-        "cog": 267.4,
-        "true_heading": 192,
-        "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:05:34.944246947 +0000 UTC",
-        "imo": "9266877",
-        "callsign": "9LS2039",
-        "destination": "GULF OF FINLAND",
-        "ship_type": 80,
-        "from_russia_confirmed": false,
-        "port_codes_seen": "",
-        "watch_matched_on": "imo",
-        "watch_name": "PIERRE",
-        "watch_imo": "9266877",
-        "watch_mmsi": "",
-        "watch_callsign": "",
-        "source_list": "EU_Annex_XLII",
-        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
-        "watch_priority": "high",
-        "notes": "EU designated vessel; EU application date 20-07-2025",
-        "sanctioned": true,
-        "shadow_fleet": true,
-        "false_flag": false,
-        "behavioral_voi": false,
-        "categories": [
-          "sanctions_shadowfleet",
-          "watchlist"
-        ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9266877"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          25.827005,
-          59.84854666666667
-        ]
-      },
-      "properties": {
-        "mmsi": "667002359",
-        "name": "NACHOS",
-        "latitude": 59.84854666666667,
-        "longitude": 25.827005,
-        "navigational_status": 1,
-        "sog": 0,
-        "cog": 213.3,
-        "true_heading": 176,
-        "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:09:00.013116348 +0000 UTC",
-        "imo": "9330604",
-        "callsign": "9LS2062",
-        "destination": "GOF FOR ORDER",
-        "ship_type": 80,
-        "from_russia_confirmed": false,
-        "port_codes_seen": "",
-        "watch_matched_on": "imo",
-        "watch_name": "NACHOS",
-        "watch_imo": "9330604",
-        "watch_mmsi": "",
-        "watch_callsign": "",
-        "source_list": "UK_RUS2607",
-        "source_url": "https://content.govdelivery.com/accounts/UKORGESO/bulletins/3dfa799",
-        "watch_priority": "high",
-        "notes": "UK designated vessel",
-        "sanctioned": true,
-        "shadow_fleet": true,
-        "false_flag": false,
-        "behavioral_voi": false,
-        "categories": [
-          "sanctions_shadowfleet",
-          "watchlist"
-        ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9330604"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          29.076491666666666,
-          41.476623333333336
-        ]
-      },
-      "properties": {
-        "mmsi": "613271309",
-        "name": "MOCHA",
-        "latitude": 41.476623333333336,
-        "longitude": 29.076491666666666,
-        "navigational_status": 0,
-        "sog": 6.1,
-        "cog": 276.1,
-        "true_heading": 272,
-        "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:11:31.641540337 +0000 UTC",
-        "imo": "9271951",
-        "callsign": "TJMOW7",
-        "destination": "CEYHAN",
-        "ship_type": 80,
-        "from_russia_confirmed": false,
-        "port_codes_seen": "",
-        "watch_matched_on": "imo",
-        "watch_name": "FACCA",
-        "watch_imo": "9271951",
-        "watch_mmsi": "",
-        "watch_callsign": "",
-        "source_list": "EU_Annex_XLII",
-        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
-        "watch_priority": "high",
-        "notes": "EU designated vessel",
-        "sanctioned": true,
-        "shadow_fleet": true,
-        "false_flag": false,
-        "behavioral_voi": false,
-        "categories": [
-          "sanctions_shadowfleet",
-          "watchlist"
-        ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9271951"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          25.684093333333333,
-          59.834585
-        ]
-      },
-      "properties": {
-        "mmsi": "613510201",
-        "name": "INVICTA",
-        "latitude": 59.834585,
-        "longitude": 25.684093333333333,
-        "navigational_status": 1,
-        "sog": 0.1,
-        "cog": 71.4,
-        "true_heading": 170,
-        "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:10:49.006356977 +0000 UTC",
-        "imo": "9250543",
-        "callsign": "TJMC202",
-        "destination": "PRIMORSK FOR ORDERS",
-        "ship_type": 80,
-        "from_russia_confirmed": false,
-        "port_codes_seen": "",
-        "watch_matched_on": "imo",
-        "watch_name": "INVICTA",
-        "watch_imo": "9250543",
-        "watch_mmsi": "",
-        "watch_callsign": "",
-        "source_list": "EU_Annex_XLII",
-        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
-        "watch_priority": "high",
-        "notes": "EU designated vessel",
-        "sanctioned": true,
-        "shadow_fleet": true,
-        "false_flag": false,
-        "behavioral_voi": false,
-        "categories": [
-          "sanctions_shadowfleet",
-          "watchlist"
-        ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9250543"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          26.107545000000002,
-          59.89577166666666
+          26.109943333333334,
+          59.893945
         ]
       },
       "properties": {
         "mmsi": "613220056",
         "name": "SKIRON",
-        "latitude": 59.89577166666666,
-        "longitude": 26.107545000000002,
+        "latitude": 59.893945,
+        "longitude": 26.109943333333334,
         "navigational_status": 1,
         "sog": 0,
-        "cog": 139,
-        "true_heading": 208,
+        "cog": 184,
+        "true_heading": 267,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:11:25.594023293 +0000 UTC",
+        "last_seen_utc": "2026-06-07 20:11:21.686516684 +0000 UTC",
         "imo": "9247443",
         "callsign": "TJM0007",
         "destination": "GULF OF FINLAND",
@@ -760,22 +713,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          25.76191833333333,
-          59.838573333333336
+          25.76767,
+          59.83712
         ]
       },
       "properties": {
         "mmsi": "667001287",
         "name": "TIBURON",
-        "latitude": 59.838573333333336,
-        "longitude": 25.76191833333333,
+        "latitude": 59.83712,
+        "longitude": 25.76767,
         "navigational_status": 1,
         "sog": 0,
         "cog": 360,
-        "true_heading": 173,
+        "true_heading": 266,
         "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:07:45.259375955 +0000 UTC",
+        "message_type_last": "ShipStaticData",
+        "last_seen_utc": "2026-06-07 20:11:12.145015971 +0000 UTC",
         "imo": "9283291",
         "callsign": "9LU2090",
         "destination": "GOF",
@@ -807,26 +760,73 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          25.78,
-          59.84727
+          25.68785,
+          59.83412
+        ]
+      },
+      "properties": {
+        "mmsi": "613510201",
+        "imo": "9250543",
+        "callsign": "TJMC202",
+        "name": "INVICTA",
+        "latitude": 59.83412,
+        "longitude": 25.68785,
+        "destination": "PRIMORSK FOR ORDERS",
+        "ship_type": 80,
+        "source": "AISStream",
+        "message_type_last": "ShipStaticData",
+        "last_seen_utc": "2026-06-07 20:13:22.825346221 +0000 UTC",
+        "navigational_status": 1,
+        "sog": 0,
+        "cog": 100.8,
+        "true_heading": 226,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "imo",
+        "watch_name": "INVICTA",
+        "watch_imo": "9250543",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "EU_Annex_XLII",
+        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "watch_priority": "high",
+        "notes": "EU designated vessel",
+        "sanctioned": true,
+        "shadow_fleet": true,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "sanctions_shadowfleet",
+          "watchlist"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9250543"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.78567333333333,
+          59.845235
         ]
       },
       "properties": {
         "mmsi": "667002240",
-        "imo": "9389679",
-        "callsign": "9LS1943",
         "name": "BULLAR",
-        "latitude": 59.84727,
-        "longitude": 25.78,
-        "destination": "GULF OF FINLAND",
-        "ship_type": 80,
-        "source": "AISStream",
-        "message_type_last": "ShipStaticData",
-        "last_seen_utc": "2026-06-07 16:01:02.79730005 +0000 UTC",
+        "latitude": 59.845235,
+        "longitude": 25.78567333333333,
         "navigational_status": 1,
         "sog": 0,
         "cog": 82.2,
-        "true_heading": 165,
+        "true_heading": 275,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-06-07 20:07:31.237819184 +0000 UTC",
+        "imo": "9389679",
+        "callsign": "9LS1943",
+        "destination": "GULF OF FINLAND",
+        "ship_type": 80,
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "imo",
@@ -854,33 +854,37 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          26.05749,
-          59.85306
+          13.05683,
+          55.28158
         ]
       },
       "properties": {
-        "mmsi": "667002369",
-        "imo": "9301524",
-        "callsign": "9LS2072",
-        "name": "DENEB",
-        "latitude": 59.85306,
-        "longitude": 26.05749,
-        "destination": "GULF OF FINLAND",
-        "ship_type": 80,
+        "mmsi": "613442740",
+        "name": "SEA OWL I",
+        "latitude": 55.28158,
+        "longitude": 13.05683,
+        "navigational_status": 1,
+        "sog": 0,
+        "cog": 257,
+        "true_heading": 257,
         "source": "AISStream",
         "message_type_last": "ShipStaticData",
-        "last_seen_utc": "2026-06-07 16:11:42.548534294 +0000 UTC",
+        "last_seen_utc": "2026-06-07 20:13:36.07015214 +0000 UTC",
+        "imo": "9321172",
+        "callsign": "TJM23G",
+        "destination": "EE TLL FOR ORDERS",
+        "ship_type": 80,
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "imo",
-        "watch_name": "DENEB",
-        "watch_imo": "9301524",
+        "watch_name": "SEA OWL I",
+        "watch_imo": "9321172",
         "watch_mmsi": "",
         "watch_callsign": "",
-        "source_list": "UK_RUS2545;EU_Annex_XLII",
-        "source_url": "https://content.govdelivery.com/accounts/UKORGESO/bulletins/3dfa799;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "source_list": "EU_Annex_XLII",
+        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
         "watch_priority": "high",
-        "notes": "UK designated vessel; EU designated vessel; EU application date 20-07-2025",
+        "notes": "EU designated vessel; EU application date 24-10-2025",
         "sanctioned": true,
         "shadow_fleet": true,
         "false_flag": false,
@@ -889,7 +893,7 @@
           "sanctions_shadowfleet",
           "watchlist"
         ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9301524"
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9321172"
       }
     },
     {
@@ -897,26 +901,167 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          25.95035,
-          59.8495
+          25.91587,
+          59.82836
+        ]
+      },
+      "properties": {
+        "mmsi": "667002284",
+        "imo": "9321689",
+        "callsign": "9LS1987",
+        "name": "GLACIA",
+        "latitude": 59.82836,
+        "longitude": 25.91587,
+        "destination": "GOF FOR ORDERS",
+        "ship_type": 89,
+        "source": "AISStream",
+        "message_type_last": "ShipStaticData",
+        "last_seen_utc": "2026-06-07 20:14:17.662126364 +0000 UTC",
+        "navigational_status": 1,
+        "sog": 0,
+        "cog": 205.8,
+        "true_heading": 277,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "imo",
+        "watch_name": "OCEAN FAYE",
+        "watch_imo": "9321689",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "EU_Annex_XLII",
+        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "watch_priority": "high",
+        "notes": "EU designated vessel",
+        "sanctioned": true,
+        "shadow_fleet": true,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "sanctions_shadowfleet",
+          "watchlist"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9321689"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.953770000000002,
+          59.85912
+        ]
+      },
+      "properties": {
+        "mmsi": "613661400",
+        "name": "MONTE 1",
+        "latitude": 59.85912,
+        "longitude": 25.953770000000002,
+        "navigational_status": 1,
+        "sog": 0,
+        "cog": 125.6,
+        "true_heading": 258,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-06-07 20:12:03.226851998 +0000 UTC",
+        "imo": "9297553",
+        "callsign": "TJMD23",
+        "destination": "BALTIC FOR ORDERS",
+        "ship_type": 80,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "imo",
+        "watch_name": "MONTE I",
+        "watch_imo": "9297553",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "EU_Annex_XLII",
+        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "watch_priority": "high",
+        "notes": "EU designated vessel; EU application date 20-07-2025",
+        "sanctioned": true,
+        "shadow_fleet": true,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "sanctions_shadowfleet",
+          "watchlist"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9297553"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.861491666666666,
+          59.845686666666666
+        ]
+      },
+      "properties": {
+        "mmsi": "667002021",
+        "name": "VOKKI",
+        "latitude": 59.845686666666666,
+        "longitude": 25.861491666666666,
+        "navigational_status": 1,
+        "sog": 0,
+        "cog": 217.9,
+        "true_heading": 286,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-06-07 20:13:24.757293415 +0000 UTC",
+        "imo": "9434890",
+        "callsign": "9LU2824",
+        "destination": "GULF OF FINLAND",
+        "ship_type": 89,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "imo",
+        "watch_name": "NAUTILUS",
+        "watch_imo": "9434890",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "EU_Annex_XLII",
+        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "watch_priority": "high",
+        "notes": "EU designated vessel; EU application date 20-07-2025",
+        "sanctioned": true,
+        "shadow_fleet": true,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "sanctions_shadowfleet",
+          "watchlist"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9434890"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.955148333333334,
+          59.8477
         ]
       },
       "properties": {
         "mmsi": "667001248",
-        "name": "FURIA",
-        "latitude": 59.8495,
-        "longitude": 25.95035,
-        "navigational_status": 1,
-        "sog": 0,
-        "cog": 177.1,
-        "true_heading": 178,
-        "source": "AISStream",
-        "message_type_last": "ShipStaticData",
-        "last_seen_utc": "2026-06-07 16:10:42.767702318 +0000 UTC",
         "imo": "9257802",
         "callsign": "9LU2051",
+        "name": "FURIA",
+        "latitude": 59.8477,
+        "longitude": 25.955148333333334,
         "destination": "GULF OF FINLAND FO",
         "ship_type": 80,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-06-07 20:13:15.130454908 +0000 UTC",
+        "navigational_status": 1,
+        "sog": 0,
+        "cog": 267.2,
+        "true_heading": 262,
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "imo",
@@ -944,31 +1089,31 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          25.911881666666666,
-          59.830675
+          9.573583333333334,
+          57.75535
         ]
       },
       "properties": {
-        "mmsi": "667002284",
-        "imo": "9321689",
-        "callsign": "9LS1987",
-        "name": "GLACIA",
-        "latitude": 59.830675,
-        "longitude": 25.911881666666666,
-        "destination": "GOF FOR ORDERS",
-        "ship_type": 89,
+        "mmsi": "461000239",
+        "imo": "9316127",
+        "callsign": "A4DR6",
+        "name": "DISCOVERY",
+        "latitude": 57.75535,
+        "longitude": 9.573583333333334,
+        "destination": "FOR ORDERS",
+        "ship_type": 80,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-07 16:05:12.754144154 +0000 UTC",
-        "navigational_status": 1,
-        "sog": 0,
-        "cog": 205.8,
-        "true_heading": 187,
+        "last_seen_utc": "2026-06-07 20:14:49.001563577 +0000 UTC",
+        "navigational_status": 0,
+        "sog": 11.1,
+        "cog": 58,
+        "true_heading": 59,
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "imo",
-        "watch_name": "OCEAN FAYE",
-        "watch_imo": "9321689",
+        "watch_name": "VEGA",
+        "watch_imo": "9316127",
         "watch_mmsi": "",
         "watch_callsign": "",
         "source_list": "EU_Annex_XLII",
@@ -983,7 +1128,7 @@
           "sanctions_shadowfleet",
           "watchlist"
         ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9321689"
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9316127"
       }
     }
   ]
