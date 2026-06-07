@@ -4,11 +4,15 @@ on:
   workflow_dispatch:
   schedule:
     # Builds VOI/maritime layers before each Magic Paws watch-cycle mirror refresh.
-    # Magic Paws fetch_voi_snapshot is expected at 00:22, 04:22, 08:22, 12:22, 16:22, 20:22 UTC.
+    # Magic Paws fetch_voi_snapshot is expected at 03:05, 07:05, 11:05, 15:05, 19:05, 23:05 UTC.
     - cron: "10 2,6,10,14,18,22 * * *"
-    
+
 permissions:
   contents: write
+
+concurrency:
+  group: voodoo-maritime-layers-main
+  cancel-in-progress: false
 
 jobs:
   build-layers:
@@ -18,6 +22,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -26,20 +32,25 @@ jobs:
 
       - name: Install dependencies
         run: |
+          set -euo pipefail
           python -m pip install --upgrade pip
           pip install requests websockets
 
       - name: Ensure data directory exists
-        run: mkdir -p data
+        run: |
+          set -euo pipefail
+          mkdir -p data
 
       - name: Fetch contacts
         env:
           AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
         run: |
+          set -euo pipefail
           python scripts/fetch_contacts.py
 
       - name: Debug input files
         run: |
+          set -euo pipefail
           echo "--- data directory ---"
           ls -la data || true
           echo "--- contacts file exists? ---"
@@ -52,10 +63,12 @@ jobs:
           GFW_TOKEN: ${{ secrets.GFW_TOKEN }}
           AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
         run: |
+          set -euo pipefail
           python scripts/build_layers.py
 
       - name: Debug generated outputs
         run: |
+          set -euo pipefail
           echo "--- generated files ---"
           ls -la data || true
           echo "--- geojson files ---"
@@ -65,19 +78,36 @@ jobs:
 
       - name: Commit updated outputs
         run: |
+          set -euo pipefail
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add \
-            data/ais_contacts_latest.json \
-            data/russian_mmsi.geojson \
-            data/watchlist_live.geojson \
-            data/sanctions_shadowfleet.geojson \
-            data/falseflag_interest.geojson \
-            data/behavioral_voi.geojson \
-            data/voi_snapshot_latest.json \
-            data/voi_history.jsonl \
-            data/voi_stats_by_slot.json
+          git add             data/ais_contacts_latest.json             data/russian_mmsi.geojson             data/watchlist_live.geojson             data/sanctions_shadowfleet.geojson             data/falseflag_interest.geojson             data/behavioral_voi.geojson             data/voi_snapshot_latest.json             data/voi_history.jsonl             data/voi_stats_by_slot.json
 
-          git diff --cached --quiet || git commit -m "Update maritime layers"
-          git push
+          if git diff --cached --quiet; then
+            echo "No maritime layer changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Update maritime layers"
+
+          for i in 1 2 3; do
+            echo "Push attempt ${i}/3..."
+
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+              echo "Push succeeded."
+              exit 0
+            fi
+
+            echo "Push attempt ${i}/3 failed."
+            git rebase --abort || true
+
+            if [ "$i" -lt 3 ]; then
+              echo "Waiting before retry..."
+              sleep 12
+            fi
+          done
+
+          echo "ERROR: Push failed after 3 attempts."
+          exit 1
