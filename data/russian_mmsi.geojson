@@ -6,37 +6,83 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          25.968736666666665,
-          59.89082
+          11.66672,
+          54.46852
         ]
       },
       "properties": {
-        "mmsi": "273271850",
-        "name": "PLUTON",
-        "latitude": 59.89082,
-        "longitude": 25.968736666666665,
+        "mmsi": "273397450",
+        "name": "ESTER",
+        "latitude": 54.46852,
+        "longitude": 11.66672,
         "navigational_status": 0,
-        "sog": 10.9,
-        "cog": 72.6,
-        "true_heading": 73,
+        "sog": 11.6,
+        "cog": 293.5,
+        "true_heading": 294,
+        "source": "AISStream",
+        "message_type_last": "ShipStaticData",
+        "last_seen_utc": "2026-06-11 07:30:43.487810531 +0000 UTC",
+        "imo": "8908117",
+        "callsign": "UBHP",
+        "destination": "FISHING AREA",
+        "ship_type": 30,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "",
+        "watch_name": "",
+        "watch_imo": "",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "",
+        "source_url": "",
+        "watch_priority": "",
+        "notes": "",
+        "sanctioned": false,
+        "shadow_fleet": false,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "russian_mmsi"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=8908117"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.948575,
+          58.87580333333334
+        ]
+      },
+      "properties": {
+        "mmsi": "273210220",
+        "name": "PRIMORYE",
+        "latitude": 58.87580333333334,
+        "longitude": 20.948575,
+        "navigational_status": 0,
+        "sog": 1,
+        "cog": 57.6,
+        "true_heading": 115,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-11 00:16:29.500156313 +0000 UTC",
-        "imo": "9288746",
-        "callsign": "UAFE4",
-        "destination": "RU ULU",
-        "ship_type": 80,
+        "last_seen_utc": "2026-06-11 07:29:03.664155503 +0000 UTC",
+        "imo": "9236743",
+        "callsign": "UBET5",
+        "destination": "FOR ORDER",
+        "ship_type": 89,
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "imo",
-        "watch_name": "UDAYA",
-        "watch_imo": "9288746",
+        "watch_name": "PRIMORYE",
+        "watch_imo": "9236743",
         "watch_mmsi": "",
         "watch_callsign": "",
         "source_list": "EU_Annex_XLII",
         "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
         "watch_priority": "high",
-        "notes": "EU designated vessel",
+        "notes": "EU designated vessel; EU application date 24-10-2025",
         "sanctioned": true,
         "shadow_fleet": true,
         "false_flag": false,
@@ -46,7 +92,7 @@
           "sanctions_shadowfleet",
           "watchlist"
         ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9288746"
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9236743"
       }
     },
     {
@@ -54,22 +100,114 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          11.664250000000001,
-          54.475500000000004
+          22.863175000000002,
+          59.54889
+        ]
+      },
+      "properties": {
+        "mmsi": "273214860",
+        "name": "MARSHAL ROKOSSOVSKY",
+        "latitude": 59.54889,
+        "longitude": 22.863175000000002,
+        "navigational_status": 0,
+        "sog": 14.8,
+        "cog": 247.5,
+        "true_heading": 247,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-06-11 07:31:44.327423357 +0000 UTC",
+        "imo": "9872341",
+        "callsign": "UGVB",
+        "destination": "BEARTH 84",
+        "ship_type": 79,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "",
+        "watch_name": "",
+        "watch_imo": "",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "",
+        "source_url": "",
+        "watch_priority": "",
+        "notes": "",
+        "sanctioned": false,
+        "shadow_fleet": false,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "russian_mmsi"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9872341"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.40472,
+          59.553059999999995
+        ]
+      },
+      "properties": {
+        "mmsi": "273329660",
+        "name": "FESCO NOVIK",
+        "latitude": 59.553059999999995,
+        "longitude": 23.40472,
+        "navigational_status": 0,
+        "sog": 11.3,
+        "cog": 70.7,
+        "true_heading": 71,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-06-11 07:29:57.95676216 +0000 UTC",
+        "imo": "9296987",
+        "callsign": "UCCJ",
+        "destination": "RU KGD  -  RU LED",
+        "ship_type": 70,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "",
+        "watch_name": "",
+        "watch_imo": "",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "",
+        "source_url": "",
+        "watch_priority": "",
+        "notes": "",
+        "sanctioned": false,
+        "shadow_fleet": false,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "russian_mmsi"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9296987"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.796983333333333,
+          55.629933333333334
         ]
       },
       "properties": {
         "mmsi": "273534110",
         "name": "LIRA",
-        "latitude": 54.475500000000004,
-        "longitude": 11.664250000000001,
+        "latitude": 55.629933333333334,
+        "longitude": 10.796983333333333,
         "navigational_status": 0,
-        "sog": 12.2,
-        "cog": 298.5,
-        "true_heading": 299,
+        "sog": 12.7,
+        "cog": 338.9,
+        "true_heading": 338,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-11 00:15:42.977504587 +0000 UTC",
+        "last_seen_utc": "2026-06-11 07:32:11.895456998 +0000 UTC",
         "imo": "8607294",
         "callsign": "UHFP",
         "destination": "FISHING GRAUND",
@@ -100,249 +238,25 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          29.678783333333335,
-          41.2954
+          25.174513333333334,
+          59.86119333333333
         ]
       },
       "properties": {
-        "mmsi": "273378000",
-        "name": "A.BRYUKHOVETSKIY",
-        "latitude": 41.2954,
-        "longitude": 29.678783333333335,
+        "mmsi": "273413510",
+        "latitude": 59.86119333333333,
+        "longitude": 25.174513333333334,
         "navigational_status": 0,
-        "sog": 7.3,
-        "cog": 90.2,
-        "true_heading": 92,
+        "sog": 11.9,
+        "cog": 261.2,
+        "true_heading": 263,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-11 00:15:04.434258703 +0000 UTC",
-        "from_russia_confirmed": false,
-        "port_codes_seen": "",
-        "watch_matched_on": "",
-        "watch_name": "",
-        "watch_imo": "",
-        "watch_mmsi": "",
-        "watch_callsign": "",
-        "source_list": "",
-        "source_url": "",
-        "watch_priority": "",
-        "notes": "",
-        "sanctioned": false,
-        "shadow_fleet": false,
-        "false_flag": false,
-        "behavioral_voi": false,
-        "categories": [
-          "russian_mmsi"
-        ],
-        "imo": "—",
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=273378000"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          29.368181666666665,
-          41.49029666666667
-        ]
-      },
-      "properties": {
-        "mmsi": "273276070",
-        "name": "ANEMON",
-        "latitude": 41.49029666666667,
-        "longitude": 29.368181666666665,
-        "navigational_status": 0,
-        "sog": 0.3,
-        "cog": 109.3,
-        "true_heading": 1,
-        "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-11 00:13:01.398933111 +0000 UTC",
-        "imo": "9323338",
-        "callsign": "UACF5",
-        "destination": "OPL PORT SAID",
-        "ship_type": 80,
-        "from_russia_confirmed": false,
-        "port_codes_seen": "",
-        "watch_matched_on": "",
-        "watch_name": "",
-        "watch_imo": "",
-        "watch_mmsi": "",
-        "watch_callsign": "",
-        "source_list": "",
-        "source_url": "",
-        "watch_priority": "",
-        "notes": "",
-        "sanctioned": false,
-        "shadow_fleet": false,
-        "false_flag": false,
-        "behavioral_voi": false,
-        "categories": [
-          "russian_mmsi"
-        ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9323338"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          19.6756,
-          54.70256333333334
-        ]
-      },
-      "properties": {
-        "mmsi": "273312210",
-        "name": "STK-1028",
-        "latitude": 54.70256333333334,
-        "longitude": 19.6756,
-        "navigational_status": 0,
-        "sog": 7.9,
-        "cog": 269.7,
-        "true_heading": 339,
-        "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-11 00:16:08.506225306 +0000 UTC",
-        "from_russia_confirmed": false,
-        "port_codes_seen": "",
-        "watch_matched_on": "",
-        "watch_name": "",
-        "watch_imo": "",
-        "watch_mmsi": "",
-        "watch_callsign": "",
-        "source_list": "",
-        "source_url": "",
-        "watch_priority": "",
-        "notes": "",
-        "sanctioned": false,
-        "shadow_fleet": false,
-        "false_flag": false,
-        "behavioral_voi": false,
-        "categories": [
-          "russian_mmsi"
-        ],
-        "imo": "—",
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=273312210"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          7.717423333333333,
-          57.746608333333334
-        ]
-      },
-      "properties": {
-        "mmsi": "273529800",
-        "name": "BORIS SYROMYATNIKOV",
-        "latitude": 57.746608333333334,
-        "longitude": 7.717423333333333,
-        "navigational_status": 0,
-        "sog": 12.6,
-        "cog": 271.7,
-        "true_heading": 272,
-        "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-11 00:10:20.900777606 +0000 UTC",
-        "from_russia_confirmed": false,
-        "port_codes_seen": "",
-        "watch_matched_on": "",
-        "watch_name": "",
-        "watch_imo": "",
-        "watch_mmsi": "",
-        "watch_callsign": "",
-        "source_list": "",
-        "source_url": "",
-        "watch_priority": "",
-        "notes": "",
-        "sanctioned": false,
-        "shadow_fleet": false,
-        "false_flag": false,
-        "behavioral_voi": false,
-        "categories": [
-          "russian_mmsi"
-        ],
-        "imo": "—",
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=273529800"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          26.28958833333333,
-          60.00270666666667
-        ]
-      },
-      "properties": {
-        "mmsi": "273214860",
-        "name": "MARSHAL ROKOSSOVSKY",
-        "latitude": 60.00270666666667,
-        "longitude": 26.28958833333333,
-        "navigational_status": 0,
-        "sog": 14.6,
-        "cog": 255.9,
-        "true_heading": 254,
-        "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-11 00:17:20.429241064 +0000 UTC",
-        "imo": "9872341",
-        "callsign": "UGVB",
-        "destination": "RU KGD",
-        "ship_type": 79,
-        "from_russia_confirmed": false,
-        "port_codes_seen": "",
-        "watch_matched_on": "",
-        "watch_name": "",
-        "watch_imo": "",
-        "watch_mmsi": "",
-        "watch_callsign": "",
-        "source_list": "",
-        "source_url": "",
-        "watch_priority": "",
-        "notes": "",
-        "sanctioned": false,
-        "shadow_fleet": false,
-        "false_flag": false,
-        "behavioral_voi": false,
-        "categories": [
-          "russian_mmsi"
-        ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9872341"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          23.128776666666667,
-          59.59169166666666
-        ]
-      },
-      "properties": {
-        "mmsi": "273217120",
-        "name": "CRYSTAL VLADIVOSTOK",
-        "latitude": 59.59169166666666,
-        "longitude": 23.128776666666667,
-        "navigational_status": 0,
-        "sog": 12.7,
-        "cog": 257.5,
-        "true_heading": 256,
-        "source": "AISStream",
-        "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-11 00:15:41.268656838 +0000 UTC",
-        "imo": "9251509",
-        "callsign": "UBET2",
-        "destination": "RUKGD",
+        "last_seen_utc": "2026-06-11 07:28:15.6554318 +0000 UTC",
+        "imo": "8814354",
         "ship_type": 70,
-        "from_russia_confirmed": true,
-        "port_codes_seen": "RUKGD",
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
         "watch_matched_on": "",
         "watch_name": "",
         "watch_imo": "",
@@ -359,7 +273,8 @@
         "categories": [
           "russian_mmsi"
         ],
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9251509"
+        "name": "Unknown vessel",
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=8814354"
       }
     },
     {
@@ -367,22 +282,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          4.429126666666666,
-          58.812221666666666
+          6.14317,
+          57.89808333333334
         ]
       },
       "properties": {
         "mmsi": "273351680",
         "name": "RYBAK",
-        "latitude": 58.812221666666666,
-        "longitude": 4.429126666666666,
+        "latitude": 57.89808333333334,
+        "longitude": 6.14317,
         "navigational_status": 0,
-        "sog": 10.3,
-        "cog": 140.6,
-        "true_heading": 139,
+        "sog": 10.8,
+        "cog": 129,
+        "true_heading": 129,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-11 00:13:54.418983954 +0000 UTC",
+        "last_seen_utc": "2026-06-11 07:29:14.276961053 +0000 UTC",
         "imo": "8901494",
         "callsign": "UDAD",
         "destination": "KALININGRAD",
@@ -413,22 +328,68 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          21.206388333333333,
-          58.69902666666667
+          29.39788,
+          41.5154
         ]
       },
       "properties": {
-        "mmsi": "273210220",
-        "name": "PRIMORYE",
-        "latitude": 58.69902666666667,
-        "longitude": 21.206388333333333,
+        "mmsi": "273276070",
+        "name": "ANEMON",
+        "latitude": 41.5154,
+        "longitude": 29.39788,
         "navigational_status": 0,
-        "sog": 12.7,
-        "cog": 41.7,
-        "true_heading": 43,
+        "sog": 0.5,
+        "cog": 124.9,
+        "true_heading": 32,
+        "source": "AISStream",
+        "message_type_last": "ShipStaticData",
+        "last_seen_utc": "2026-06-11 07:30:51.824752585 +0000 UTC",
+        "imo": "9323338",
+        "callsign": "UACF5",
+        "destination": "OPL PORT SAID",
+        "ship_type": 80,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "",
+        "watch_name": "",
+        "watch_imo": "",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "",
+        "source_url": "",
+        "watch_priority": "",
+        "notes": "",
+        "sanctioned": false,
+        "shadow_fleet": false,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "russian_mmsi"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9323338"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.7711449999999997,
+          58.76173333333334
+        ]
+      },
+      "properties": {
+        "mmsi": "273267690",
+        "name": "ARIA",
+        "latitude": 58.76173333333334,
+        "longitude": 3.7711449999999997,
+        "navigational_status": 0,
+        "sog": 10.7,
+        "cog": 354,
+        "true_heading": 352,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-11 00:15:13.962021503 +0000 UTC",
+        "last_seen_utc": "2026-06-11 07:29:19.456050467 +0000 UTC",
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "",
@@ -448,7 +409,7 @@
           "russian_mmsi"
         ],
         "imo": "—",
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=273210220"
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=273267690"
       }
     },
     {
@@ -456,22 +417,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          4.814283333333334,
-          53.580171666666665
+          26.892635,
+          60.00168
         ]
       },
       "properties": {
-        "mmsi": "273219650",
-        "name": "ASCALON",
-        "latitude": 53.580171666666665,
-        "longitude": 4.814283333333334,
+        "mmsi": "273611990",
+        "name": "MIA",
+        "latitude": 60.00168,
+        "longitude": 26.892635,
         "navigational_status": 0,
         "sog": 10,
-        "cog": 14,
-        "true_heading": 9,
+        "cog": 278.2,
+        "true_heading": 279,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-11 00:11:51.297587332 +0000 UTC",
+        "last_seen_utc": "2026-06-11 07:29:54.313516047 +0000 UTC",
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "",
@@ -491,7 +452,7 @@
           "russian_mmsi"
         ],
         "imo": "—",
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=273219650"
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=273611990"
       }
     },
     {
@@ -499,22 +460,68 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          21.298440000000003,
-          58.713155
+          5.470676666666666,
+          58.299346666666665
         ]
       },
       "properties": {
-        "mmsi": "273329660",
-        "name": "FESCO NOVIK",
-        "latitude": 58.713155,
-        "longitude": 21.298440000000003,
+        "mmsi": "273529800",
+        "name": "BORIS SYROMYATNIKOV",
+        "latitude": 58.299346666666665,
+        "longitude": 5.470676666666666,
         "navigational_status": 0,
-        "sog": 11.4,
-        "cog": 23.9,
-        "true_heading": 25,
+        "sog": 7,
+        "cog": 311.9,
+        "true_heading": 311,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-11 00:13:31.479535488 +0000 UTC",
+        "last_seen_utc": "2026-06-11 07:31:22.027451107 +0000 UTC",
+        "imo": "8607414",
+        "callsign": "UCUF",
+        "destination": "FISHING_AREA",
+        "ship_type": 30,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "watch_matched_on": "",
+        "watch_name": "",
+        "watch_imo": "",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "",
+        "source_url": "",
+        "watch_priority": "",
+        "notes": "",
+        "sanctioned": false,
+        "shadow_fleet": false,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "categories": [
+          "russian_mmsi"
+        ],
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=8607414"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.866065,
+          57.785455
+        ]
+      },
+      "properties": {
+        "mmsi": "273343170",
+        "name": "FESCO NAVARIN",
+        "latitude": 57.785455,
+        "longitude": 20.866065,
+        "navigational_status": 0,
+        "sog": 11.7,
+        "cog": 17.1,
+        "true_heading": 17,
+        "source": "AISStream",
+        "message_type_last": "PositionReport",
+        "last_seen_utc": "2026-06-11 07:31:51.093452042 +0000 UTC",
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "",
@@ -534,7 +541,7 @@
           "russian_mmsi"
         ],
         "imo": "—",
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=273329660"
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=273343170"
       }
     },
     {
@@ -542,22 +549,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          21.612216666666665,
-          59.099635
+          20.768083333333333,
+          58.01771166666666
         ]
       },
       "properties": {
         "mmsi": "273317640",
         "name": "BALTIYSK",
-        "latitude": 59.099635,
-        "longitude": 21.612216666666665,
+        "latitude": 58.01771166666666,
+        "longitude": 20.768083333333333,
         "navigational_status": 0,
-        "sog": 9.9,
-        "cog": 217.3,
-        "true_heading": 217,
+        "sog": 9.4,
+        "cog": 203.8,
+        "true_heading": 206,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-06-11 00:13:33.655783466 +0000 UTC",
+        "last_seen_utc": "2026-06-11 07:31:33.554978911 +0000 UTC",
         "from_russia_confirmed": false,
         "port_codes_seen": "",
         "watch_matched_on": "",
