@@ -1,6 +1,7 @@
 import csv
 import json
 import re
+from html import escape as html_escape
 from collections import Counter, defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -68,6 +69,99 @@ FALLBACK_MID_TO_FLAG = {
 }
 
 HARD_REGISTRY_STATUSES = {"no_intl_registry", "fraudulent_registry", "fraud_notice", "false_flag_confirmed"}
+
+
+# Layer-specific map styling. Keep this in the generator so exported GeoJSON files do
+# not look identical in uMap / Leaflet viewers. Coordinates stay untouched; only
+# feature properties and popup text are enriched per output layer.
+LAYER_STYLE = {
+    "sanctions_shadowfleet": {
+        "label": "Sanctions / shadow fleet",
+        "short_label": "Shadow fleet",
+        "marker_color": "#7a1f1f",
+        "stroke_color": "#3b0b0b",
+        "marker_symbol": "danger",
+        "marker_size": "medium",
+        "category_rank": 100,
+    },
+    "russian_mmsi": {
+        "label": "Russian MMSI",
+        "short_label": "Russian MMSI",
+        "marker_color": "#d73027",
+        "stroke_color": "#7f0000",
+        "marker_symbol": "ship",
+        "marker_size": "medium",
+        "category_rank": 80,
+    },
+    "recent_russian_portcall_10d": {
+        "label": "Recent Russian portcall / destination",
+        "short_label": "Recent RU portcall",
+        "marker_color": "#fdae61",
+        "stroke_color": "#a65400",
+        "marker_symbol": "harbor",
+        "marker_size": "medium",
+        "category_rank": 70,
+    },
+    "watchlist": {
+        "label": "Watchlist live",
+        "short_label": "Watchlist",
+        "marker_color": "#2b6cb0",
+        "stroke_color": "#123b70",
+        "marker_symbol": "star",
+        "marker_size": "medium",
+        "category_rank": 60,
+    },
+    "false_flag_watch": {
+        "label": "False-flag watch (hard)",
+        "short_label": "False flag hard",
+        "marker_color": "#6f42c1",
+        "stroke_color": "#3b1d78",
+        "marker_symbol": "flag",
+        "marker_size": "medium",
+        "category_rank": 90,
+    },
+    "falseflag_interest": {
+        "label": "False-flag interest",
+        "short_label": "False flag",
+        "marker_color": "#9b59b6",
+        "stroke_color": "#5b2c6f",
+        "marker_symbol": "flag",
+        "marker_size": "medium",
+        "category_rank": 65,
+    },
+    "behavioral_voi": {
+        "label": "Behavioral VOI",
+        "short_label": "Behavioral",
+        "marker_color": "#f59f00",
+        "stroke_color": "#8a5700",
+        "marker_symbol": "warning",
+        "marker_size": "medium",
+        "category_rank": 75,
+    },
+}
+
+DEFAULT_LAYER_STYLE = {
+    "label": "VOI",
+    "short_label": "VOI",
+    "marker_color": "#586069",
+    "stroke_color": "#2f363d",
+    "marker_symbol": "circle",
+    "marker_size": "medium",
+    "category_rank": 10,
+}
+
+
+def layer_style(layer_name=""):
+    return dict(DEFAULT_LAYER_STYLE, **LAYER_STYLE.get(clean_str(layer_name), {}))
+
+
+def primary_category_for_item(item, preferred_layer=""):
+    if preferred_layer:
+        return preferred_layer
+    categories = item.get("categories") or []
+    ranked = sorted(categories, key=lambda c: layer_style(c).get("category_rank", 0), reverse=True)
+    return ranked[0] if ranked else "watchlist"
+
 
 
 def to_bool(v):
@@ -343,6 +437,10 @@ def assess_flag_risk(contact, flag_ref):
 
 
 def build_vesselfinder_url(name="", imo="", mmsi=""):
+    """
+    Robust VesselFinder handoff link. The search endpoint is preferred because it
+    works for IMO, MMSI and name without needing VesselFinder's internal slug.
+    """
     imo = norm_digits(imo)
     mmsi = norm_digits(mmsi)
     name = clean_text(name)
@@ -355,25 +453,117 @@ def build_vesselfinder_url(name="", imo="", mmsi=""):
     return ""
 
 
-def add_popup_fields(properties):
+def display_value(v, fallback="—"):
+    s = clean_text(v)
+    return s if s else fallback
+
+
+def html_row(label, value):
+    value = display_value(value)
+    return f"<tr><th>{html_escape(clean_text(label))}</th><td>{html_escape(value)}</td></tr>"
+
+
+def link_html(label, url):
+    url = clean_text(url)
+    if not url:
+        return ""
+    safe_url = html_escape(url, quote=True)
+    safe_label = html_escape(clean_text(label))
+    return f'<a href="{safe_url}" target="_blank" rel="noopener noreferrer">{safe_label}</a>'
+
+
+def build_popup_html(props, layer_name=""):
+    style = layer_style(layer_name or props.get("primary_category"))
+    name = display_value(props.get("name") or props.get("watch_name") or props.get("vessel_name") or props.get("ship_name"), "Unknown vessel")
+    imo = display_value(props.get("imo") if props.get("imo") != "—" else props.get("watch_imo"))
+    mmsi = display_value(props.get("mmsi") if props.get("mmsi") != "—" else props.get("watch_mmsi"))
+    vf = clean_text(props.get("vesselfinder_url"))
+    source_url = clean_text(props.get("source_url"))
+    categories = props.get("categories") or []
+    if isinstance(categories, str):
+        categories = [categories]
+    chips = " ".join(
+        f'<span style="display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;">{html_escape(clean_text(c))}</span>'
+        for c in categories
+    )
+    links = [link_html("VesselFinder", vf), link_html("Source", source_url)]
+    links = " · ".join([x for x in links if x])
+    rows = [
+        html_row("Layer", style.get("label")),
+        html_row("IMO", imo),
+        html_row("MMSI", mmsi),
+        html_row("Callsign", props.get("callsign") or props.get("watch_callsign")),
+        html_row("Destination", props.get("destination")),
+        html_row("SOG / COG", f"{display_value(props.get('sog'))} kn / {display_value(props.get('cog'))}°"),
+        html_row("Last seen", props.get("last_seen_utc")),
+        html_row("Watchlist", props.get("source_list")),
+        html_row("Notes", props.get("notes")),
+    ]
+    return f"""
+<div class="mp-voi-popup" style="font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;">
+  <div style="font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;">{html_escape(name)}</div>
+  <div style="display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:{html_escape(style.get('marker_color'))};color:#fff;font-size:11px;">{html_escape(style.get('short_label') or style.get('label'))}</div>
+  <table style="border-collapse:collapse;width:100%;margin:2px 0 6px 0;">
+    {''.join(rows)}
+  </table>
+  <div style="margin:5px 0;">{chips}</div>
+  <div style="margin-top:6px;">{links}</div>
+</div>
+""".strip()
+
+
+def add_popup_fields(properties, layer_name=""):
     props = dict(properties or {})
     name = clean_text(props.get("name") or props.get("watch_name") or props.get("vessel_name") or props.get("ship_name"))
     imo = norm_digits(props.get("imo") or props.get("watch_imo"))
     mmsi = norm_digits(props.get("mmsi") or props.get("watch_mmsi"))
+    primary = primary_category_for_item(props, layer_name)
+    style = layer_style(primary)
     vf_url = build_vesselfinder_url(name=name, imo=imo, mmsi=mmsi)
+
     props["name"] = name or "Unknown vessel"
     props["imo"] = imo or "—"
     props["mmsi"] = mmsi or "—"
+    props["primary_category"] = primary
+    props["layer_name"] = primary
+    props["layer_label"] = style.get("label")
+    props["display_category"] = style.get("short_label") or style.get("label")
     props["vesselfinder_url"] = vf_url
+    props["vesselfinder_label"] = "VesselFinder"
+
+    # SimpleStyle + pragmatic uMap/Leaflet hints. Viewers may ignore some keys,
+    # but keeping several common names makes the exported layers portable.
+    props["marker-color"] = style.get("marker_color")
+    props["marker-symbol"] = style.get("marker_symbol")
+    props["marker-size"] = style.get("marker_size")
+    props["stroke"] = style.get("stroke_color")
+    props["stroke-width"] = 2
+    props["stroke-opacity"] = 0.95
+    props["fill"] = style.get("marker_color")
+    props["fillColor"] = style.get("marker_color")
+    props["fill-opacity"] = 0.82
+    props["color"] = style.get("marker_color")
+    props["_umap_options"] = {
+        "color": style.get("marker_color"),
+        "fillColor": style.get("marker_color"),
+        "weight": 2,
+        "opacity": 0.95,
+        "fillOpacity": 0.82,
+    }
+
+    popup = build_popup_html(props, primary)
+    props["popup_html"] = popup
+    props["popupContent"] = popup
+    props["description"] = popup
     return props
 
 
-def as_feature(contact):
+def as_feature(contact, layer_name=""):
     lon = parse_float(get_any(contact, "longitude", "lon", "Longitude"))
     lat = parse_float(get_any(contact, "latitude", "lat", "Latitude"))
     if lon is None or lat is None:
         return None
-    props = add_popup_fields(dict(contact))
+    props = add_popup_fields(dict(contact), layer_name=layer_name)
     return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [lon, lat]}, "properties": props}
 
 
@@ -638,12 +828,11 @@ def main():
 
     layer_buckets = defaultdict(list)
     for item in snapshot_items:
-        feat = as_feature(item)
-        if not feat:
-            continue
         for cat in item.get("categories", []):
             if cat in LAYER_FILES:
-                layer_buckets[cat].append(feat)
+                feat = as_feature(item, layer_name=cat)
+                if feat:
+                    layer_buckets[cat].append(feat)
 
     for layer_name, path in LAYER_FILES.items():
         write_geojson(path, layer_buckets.get(layer_name, []))
