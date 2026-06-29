@@ -10,6 +10,7 @@ from urllib.parse import quote_plus
 DATA_DIR = Path("data")
 WATCHLIST_PATH = DATA_DIR / "watchlist_master.csv"
 PORTS_RU_PATH = DATA_DIR / "ports_ru.csv"
+PORTS_RU_ALIASES_PATH = DATA_DIR / "ports_ru_enhanced_aliases.csv"
 FLAG_RISK_PATH = DATA_DIR / "flag_risk_reference.csv"
 RECENT_RU_INPUT_PATH = DATA_DIR / "recent_russian_portcall_input.csv"
 
@@ -287,22 +288,32 @@ def match_watchlist(contact, index):
 
 def load_russian_ports(path=PORTS_RU_PATH):
     ports = {"codes": set(RUSSIAN_PORT_ALLOWLIST), "names": set()}
-    for row in load_csv_rows(path):
-        code = norm_port_code(row.get("unlocode"))
-        name = norm_key(row.get("port_name"))
-        if code:
-            ports["codes"].add(code)
-        if name:
-            ports["names"].add(name)
-        # Optional enhanced CSV support: aliases can contain AIS destination
-        # variants such as RUULU;USTLUGA;UST-LUGA. Older 3-column CSVs still work.
-        for alias in split_tokens(row.get("aliases")):
-            alias_code = norm_port_code(alias)
-            alias_name = norm_key(alias)
-            if len(alias_code) == 5 and alias_code.startswith("RU"):
-                ports["codes"].add(alias_code)
-            if alias_name:
-                ports["names"].add(alias_name)
+
+    # Main drop-in file plus optional enhanced alias file. This keeps the
+    # legacy 3-column data/ports_ru.csv working, while automatically using
+    # data/ports_ru_enhanced_aliases.csv when it is present.
+    csv_paths = []
+    for candidate in [path, PORTS_RU_ALIASES_PATH]:
+        if candidate and candidate not in csv_paths:
+            csv_paths.append(candidate)
+
+    for csv_path in csv_paths:
+        for row in load_csv_rows(csv_path):
+            code = norm_port_code(row.get("unlocode"))
+            name = norm_key(row.get("port_name"))
+            if code:
+                ports["codes"].add(code)
+            if name:
+                ports["names"].add(name)
+            # Optional enhanced CSV support: aliases can contain AIS destination
+            # variants such as RUULU, USTLUGA, RULED, RUKGD, etc.
+            for alias in split_tokens(row.get("aliases")):
+                alias_code = norm_port_code(alias)
+                alias_name = norm_key(alias)
+                if len(alias_code) == 5 and alias_code.startswith("RU"):
+                    ports["codes"].add(alias_code)
+                if alias_name:
+                    ports["names"].add(alias_name)
     # Practical aliases seen in AIS destination strings.
     aliases = [
         "UST LUGA", "UST-LUGA", "USTLUGA", "ST PETERSBURG", "SAINT PETERSBURG",
@@ -314,7 +325,6 @@ def load_russian_ports(path=PORTS_RU_PATH):
     ]
     ports["names"].update(norm_key(a) for a in aliases)
     return ports
-
 
 def extract_port_hits(contact, russian_ports):
     raw_values = [
