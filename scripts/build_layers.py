@@ -121,10 +121,12 @@ LAYER_STYLE = {
         "category_rank": 90,
     },
     "falseflag_interest": {
-        "label": "False-flag interest",
-        "short_label": "False flag",
-        "marker_color": "#9b59b6",
-        "stroke_color": "#5b2c6f",
+        "label": "False-flag candidate / interest",
+        "short_label": "False flag candidate",
+        # High-contrast magenta: deliberately distinct from sanctions red,
+        # recent-RU-portcall orange and watchlist blue.
+        "marker_color": "#ff00c8",
+        "stroke_color": "#7a005f",
         "marker_symbol": "flag",
         "marker_size": "medium",
         "category_rank": 65,
@@ -292,6 +294,15 @@ def load_russian_ports(path=PORTS_RU_PATH):
             ports["codes"].add(code)
         if name:
             ports["names"].add(name)
+        # Optional enhanced CSV support: aliases can contain AIS destination
+        # variants such as RUULU;USTLUGA;UST-LUGA. Older 3-column CSVs still work.
+        for alias in split_tokens(row.get("aliases")):
+            alias_code = norm_port_code(alias)
+            alias_name = norm_key(alias)
+            if len(alias_code) == 5 and alias_code.startswith("RU"):
+                ports["codes"].add(alias_code)
+            if alias_name:
+                ports["names"].add(alias_name)
     # Practical aliases seen in AIS destination strings.
     aliases = [
         "UST LUGA", "UST-LUGA", "USTLUGA", "ST PETERSBURG", "SAINT PETERSBURG",
@@ -419,7 +430,14 @@ def assess_flag_risk(contact, flag_ref):
     risk_category = clean_str(row.get("risk_category")).upper()
     registry_status = clean_str(row.get("registry_status"))
     is_hard = risk_category == "A" or registry_status in HARD_REGISTRY_STATUSES
-    band = "hard" if is_hard else "soft"
+    if is_hard:
+        band = "hard"
+    elif risk_category == "C" or registry_status in {"open_registry_psc_grey", "open_registry_watch", "psc_context"}:
+        # Category C is context-only. It should enrich popups/statistics,
+        # but must not create a false-flag candidate layer by itself.
+        band = "context"
+    else:
+        band = "soft"
     score = {"A": 90, "B": 70, "C": 45}.get(risk_category, 50)
     return {
         "flag_detected": clean_str(row.get("state_name")) or flag,
@@ -607,12 +625,16 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref):
     flag_risk = assess_flag_risk(contact, flag_ref)
     if flag_risk:
         merged.update(flag_risk)
-        merged["false_flag_candidate"] = True
-        categories.add("falseflag_interest")
+        is_context_only = flag_risk.get("flag_risk_band") == "context"
+        merged["flag_watch_context"] = is_context_only
+        merged["false_flag_candidate"] = not is_context_only
+        if not is_context_only:
+            categories.add("falseflag_interest")
         if flag_risk.get("flag_risk_band") == "hard":
             categories.add("false_flag_watch")
     else:
         merged.setdefault("false_flag_candidate", False)
+        merged.setdefault("flag_watch_context", False)
         for key in ["flag_detected", "flag_detected_source", "flag_iso_code", "flag_risk_category", "flag_registry_status", "flag_risk_band", "flag_risk_score", "flag_risk_reason", "flag_risk_source", "flag_risk_url", "flag_risk_last_verified"]:
             merged.setdefault(key, "")
 
@@ -636,7 +658,7 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref):
 
         merged["sanctioned"] = track_sanctions
         merged["shadow_fleet"] = track_shadowfleet
-        merged["false_flag"] = track_falseflag or bool(flag_risk)
+        merged["false_flag"] = track_falseflag or bool(flag_risk and flag_risk.get("flag_risk_band") != "context")
         merged["behavioral_voi"] = track_behavior
 
         if track_sanctions or track_shadowfleet:
@@ -660,7 +682,7 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref):
         merged.setdefault("notes", "")
         merged.setdefault("sanctioned", False)
         merged.setdefault("shadow_fleet", False)
-        merged["false_flag"] = bool(flag_risk)
+        merged["false_flag"] = bool(flag_risk and flag_risk.get("flag_risk_band") != "context")
         merged.setdefault("behavioral_voi", False)
 
     merged["categories"] = sorted(categories)
@@ -732,9 +754,12 @@ def build_recent_ru_input_items(russian_ports, flag_ref):
         flag_risk = assess_flag_risk(item, flag_ref)
         if flag_risk:
             item.update(flag_risk)
-            item["false_flag_candidate"] = True
-            item["false_flag"] = True
-            item["categories"].append("falseflag_interest")
+            is_context_only = flag_risk.get("flag_risk_band") == "context"
+            item["flag_watch_context"] = is_context_only
+            item["false_flag_candidate"] = not is_context_only
+            item["false_flag"] = not is_context_only
+            if not is_context_only:
+                item["categories"].append("falseflag_interest")
             if flag_risk.get("flag_risk_band") == "hard":
                 item["categories"].append("false_flag_watch")
         item["categories"] = sorted(set(item["categories"]))
