@@ -66,6 +66,11 @@ jobs:
           set -euo pipefail
           python scripts/build_layers.py
 
+      - name: Audit sanctions/watchlist inputs
+        run: |
+          set -euo pipefail
+          python scripts/sync_sanctions_watchlists.py
+
       - name: Debug generated outputs
         run: |
           set -euo pipefail
@@ -124,7 +129,9 @@ jobs:
             data/recent_russian_portcall_10d.geojson \
             data/voi_snapshot_latest.json \
             data/voi_history.jsonl \
-            data/voi_stats_by_slot.json
+            data/voi_stats_by_slot.json \
+            data/watchlist_audit.json \
+            data/watchlist_changes_latest.md
 
           if git diff --cached --quiet; then
             echo "No maritime layer changes to commit."
