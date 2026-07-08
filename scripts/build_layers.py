@@ -234,11 +234,22 @@ def parse_dt(v):
         return None
 
 
+def is_inactive_or_test_row(row):
+    if not isinstance(row, dict):
+        return False
+    active = clean_str(row.get("active", "true")).lower()
+    if active in {"0", "false", "no", "n"}:
+        return True
+    test = " ".join(clean_str(row.get(k)) for k in ["test_only", "example", "notes", "name", "source_list"]).lower()
+    return "test_only" in test or "example" in test or "dummy" in test or "sample" in test
+
+
 def load_csv_rows(path):
     if not path.exists():
         return []
     with open(path, "r", encoding="utf-8", newline="") as f:
-        return list(csv.DictReader(f))
+        rows = list(csv.DictReader(f))
+    return [r for r in rows if not is_inactive_or_test_row(r)]
 
 
 def load_watchlist(path=WATCHLIST_PATH):
@@ -463,6 +474,40 @@ def assess_flag_risk(contact, flag_ref):
         "flag_risk_last_verified": clean_str(row.get("last_verified")),
     }
 
+def is_gateway_or_core_area(contact):
+    lat = parse_float(get_any(contact, "latitude", "lat"))
+    lon = parse_float(get_any(contact, "longitude", "lon"))
+    if lat is None or lon is None:
+        return False
+    # North Sea / Channel / Baltic / Danish Straits / Gulf of Finland / Black Sea / Med gateways.
+    return ((48.0 <= lat <= 61.8 and -13.5 <= lon <= 10.8) or
+            (53.0 <= lat <= 66.5 and 8.0 <= lon <= 31.8) or
+            (35.0 <= lat <= 38.8 and -6.5 <= lon <= 16.5) or
+            (41.0 <= lat <= 47.5 and 26.0 <= lon <= 42.5))
+
+
+def has_hard_falseflag_corrob(merged, matched_row=None, from_russia_confirmed=False):
+    reasons = []
+    flag_band = clean_str(merged.get("flag_risk_band"))
+    registry_status = clean_str(merged.get("flag_registry_status"))
+    if flag_band == "hard" or registry_status in HARD_REGISTRY_STATUSES:
+        reasons.append("hard_flag_registry_status")
+    if matched_row:
+        if to_bool(matched_row.get("track_sanctions")) or to_bool(matched_row.get("track_shadowfleet")):
+            reasons.append("official_or_manual_sanctions_watchlist_match")
+        if to_bool(matched_row.get("track_falseflag")):
+            reasons.append("manual_falseflag_watchlist_match")
+    if from_russia_confirmed:
+        reasons.append("recent_or_current_russian_port_context")
+    if is_gateway_or_core_area(merged):
+        reasons.append("core_or_gateway_area")
+    if clean_str(merged.get("imo")) in {"", "—", "-"} and norm_digits(merged.get("mmsi")):
+        reasons.append("missing_imo_current_ais")
+    # Hard false-flag now needs the hard registry signal plus at least one corroborating factor,
+    # or a manual false-flag watchlist match.
+    hard = ("manual_falseflag_watchlist_match" in reasons) or ("hard_flag_registry_status" in reasons and len(reasons) >= 2)
+    return hard, reasons
+
 
 def build_vesselfinder_url(name="", imo="", mmsi=""):
     """
@@ -640,7 +685,12 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref):
         merged["false_flag_candidate"] = not is_context_only
         if not is_context_only:
             categories.add("falseflag_interest")
-        if flag_risk.get("flag_risk_band") == "hard":
+        # Hardened v6.2: hard false-flag watch requires corroboration beyond a risky MID/flag alone.
+        # This prevents every Cameroon/Gabon/Comoros/etc. MMSI from becoming a hard watch.
+        hard_ff, hard_ff_reasons = has_hard_falseflag_corrob(merged, matched_row=None, from_russia_confirmed=from_russia_confirmed)
+        merged["false_flag_hard_watch"] = hard_ff
+        merged["false_flag_hard_reasons"] = ";".join(hard_ff_reasons)
+        if hard_ff:
             categories.add("false_flag_watch")
     else:
         merged.setdefault("false_flag_candidate", False)
@@ -659,6 +709,9 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref):
         merged["source_url"] = clean_str(matched_row.get("source_url"))
         merged["watch_priority"] = clean_str(matched_row.get("watch_priority"))
         merged["notes"] = clean_str(matched_row.get("notes"))
+        merged["source_status"] = clean_str(matched_row.get("source_status")) or "confirmed_current"
+        merged["source_last_checked"] = clean_str(matched_row.get("source_last_checked")) or clean_str(matched_row.get("last_checked"))
+        merged["sanctions_source_count"] = len([x for x in split_tokens(matched_row.get("source_list")) if x]) or (1 if clean_str(matched_row.get("source_list")) else 0)
 
         track_sanctions = to_bool(matched_row.get("track_sanctions"))
         track_shadowfleet = to_bool(matched_row.get("track_shadowfleet"))
@@ -676,6 +729,11 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref):
         if track_falseflag:
             categories.add("falseflag_interest")
             # Manual watchlist flagging is intentionally broad; hard/soft remains in flag_risk_band if known.
+        hard_ff, hard_ff_reasons = has_hard_falseflag_corrob(merged, matched_row=matched_row, from_russia_confirmed=from_russia_confirmed)
+        merged["false_flag_hard_watch"] = hard_ff
+        merged["false_flag_hard_reasons"] = ";".join(hard_ff_reasons)
+        if hard_ff:
+            categories.add("false_flag_watch")
         if track_behavior:
             categories.add("behavioral_voi")
         if track_russian_mmsi and mmsi.startswith("273"):
@@ -690,6 +748,9 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref):
         merged.setdefault("source_url", "")
         merged.setdefault("watch_priority", "")
         merged.setdefault("notes", "")
+        merged.setdefault("source_status", "unmatched_live_context")
+        merged.setdefault("source_last_checked", "")
+        merged.setdefault("sanctions_source_count", 0)
         merged.setdefault("sanctioned", False)
         merged.setdefault("shadow_fleet", False)
         merged["false_flag"] = bool(flag_risk and flag_risk.get("flag_risk_band") != "context")
@@ -770,7 +831,10 @@ def build_recent_ru_input_items(russian_ports, flag_ref):
             item["false_flag"] = not is_context_only
             if not is_context_only:
                 item["categories"].append("falseflag_interest")
-            if flag_risk.get("flag_risk_band") == "hard":
+            hard_ff, hard_ff_reasons = has_hard_falseflag_corrob(item, matched_row=None, from_russia_confirmed=True)
+            item["false_flag_hard_watch"] = hard_ff
+            item["false_flag_hard_reasons"] = ";".join(hard_ff_reasons)
+            if hard_ff:
                 item["categories"].append("false_flag_watch")
         item["categories"] = sorted(set(item["categories"]))
         items.append(item)

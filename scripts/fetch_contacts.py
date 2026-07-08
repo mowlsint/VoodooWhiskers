@@ -26,8 +26,10 @@ MESSAGE_TYPES = [
 ]
 
 BOUNDING_BOXES = [
-    [[53.0, 3.0], [60.8, 30.5]],   # North Sea + Baltic + Danish Straits
-    [[41.0, 26.0], [47.5, 42.5]],  # Black Sea
+    [[53.0, 3.0], [60.8, 30.5]],    # North Sea + Baltic + Danish Straits
+    [[49.5, -6.5], [53.5, 3.5]],    # English Channel / Dover / Western approaches gateway
+    [[35.0, -6.5], [38.8, 16.5]],   # Gibraltar / western Mediterranean shadow-fleet gateway
+    [[41.0, 26.0], [47.5, 42.5]],   # Black Sea
 ]
 
 FALLBACK_FLAG_RISK_MIDS = {
