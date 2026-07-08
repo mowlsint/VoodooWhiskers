@@ -1,5 +1,6 @@
 import csv
 import json
+import os
 import re
 from html import escape as html_escape
 from collections import Counter, defaultdict
@@ -15,6 +16,24 @@ FLAG_RISK_PATH = DATA_DIR / "flag_risk_reference.csv"
 RECENT_RU_INPUT_PATH = DATA_DIR / "recent_russian_portcall_input.csv"
 
 RECENT_RUSSIAN_PORTCALL_DAYS = 10
+TANKER_CLUSTER_STATS_PATH = DATA_DIR / "tanker_cluster_stats.json"
+NEUTRAL_TANKER_CONTEXT_MAX_TOTAL = int(os.environ.get("NEUTRAL_TANKER_CONTEXT_MAX_TOTAL", "260"))
+NEUTRAL_TANKER_CONTEXT_MAX_PER_ZONE = int(os.environ.get("NEUTRAL_TANKER_CONTEXT_MAX_PER_ZONE", "80"))
+
+# Context-only tanker zones. They are deliberately broad and low-alarm:
+# they help show normal/uncategorised tanker concentrations near sensitive gateways
+# without implying sanctions, Russian control or false-flag status.
+TANKER_CONTEXT_ZONES = [
+    {"id": "kaliningrad_baltiysk_approaches", "label": "Kaliningrad / Baltiysk approaches", "min_lat": 54.15, "max_lat": 56.20, "min_lon": 18.20, "max_lon": 22.90},
+    {"id": "gulf_of_gdansk", "label": "Gulf of Gdansk", "min_lat": 53.95, "max_lat": 55.85, "min_lon": 17.35, "max_lon": 20.80},
+    {"id": "gulf_of_finland_ru_approaches", "label": "Gulf of Finland / Ust-Luga-Primorsk approaches", "min_lat": 58.40, "max_lat": 60.85, "min_lon": 23.40, "max_lon": 30.70},
+    {"id": "danish_straits_kattegat", "label": "Danish Straits / Kattegat", "min_lat": 54.30, "max_lat": 58.50, "min_lon": 8.00, "max_lon": 13.10},
+    {"id": "skagen_waiting_area", "label": "Skagen / northern Kattegat", "min_lat": 56.80, "max_lat": 58.50, "min_lon": 8.10, "max_lon": 12.30},
+    {"id": "german_bight", "label": "German Bight", "min_lat": 53.00, "max_lat": 56.25, "min_lon": 4.70, "max_lon": 9.40},
+    {"id": "dover_channel_gateway", "label": "Dover Strait / Channel gateway", "min_lat": 50.70, "max_lat": 51.75, "min_lon": -0.60, "max_lon": 2.30},
+    {"id": "gibraltar_west_med_gateway", "label": "Gibraltar / W. Mediterranean gateway", "min_lat": 35.10, "max_lat": 37.30, "min_lon": -6.20, "max_lon": -2.50},
+]
+
 
 # Compatibility fallbacks for older CSVs / legacy spellings.
 RUSSIAN_PORT_ALLOWLIST = {"RUKGD", "RUBLT", "RUULU", "RUUST"}
@@ -29,6 +48,7 @@ LAYER_FILES = {
     "false_flag_watch": DATA_DIR / "false_flag_watch.geojson",
     "behavioral_voi": DATA_DIR / "behavioral_voi.geojson",
     "recent_russian_portcall_10d": DATA_DIR / "recent_russian_portcall_10d.geojson",
+    "neutral_tanker_context": DATA_DIR / "neutral_tanker_context.geojson",
 }
 
 SNAPSHOT_PATH = DATA_DIR / "voi_snapshot_latest.json"
@@ -102,6 +122,16 @@ LAYER_STYLE = {
         "marker_symbol": "harbor",
         "marker_size": "medium",
         "category_rank": 70,
+    },
+
+    "neutral_tanker_context": {
+        "label": "Neutral tanker context",
+        "short_label": "Neutral tanker / no VOI match",
+        "marker_color": "#b8b8b8",
+        "stroke_color": "#7d7d7d",
+        "marker_symbol": "circle",
+        "marker_size": "small",
+        "category_rank": 15,
     },
     "watchlist": {
         "label": "Watchlist live",
@@ -661,10 +691,68 @@ def load_contacts():
     return []
 
 
+
+def parse_lat_lon(contact):
+    lat = parse_float(get_any(contact, "latitude", "lat", "Latitude"))
+    lon = parse_float(get_any(contact, "longitude", "lon", "Longitude"))
+    if lat is None or lon is None:
+        return None, None
+    if not (-90 <= lat <= 90 and -180 <= lon <= 180):
+        return None, None
+    return lat, lon
+
+
+def is_tanker_contact(contact):
+    """Strict tanker classifier for context display. Unknown ship_type is not enough."""
+    raw_type = clean_str(get_any(contact, "ship_type", "ShipType", "type", "Type"))
+    try:
+        # AIS ship type 80-89 = tanker classes. Some providers expose floats/strings.
+        ship_type = int(float(raw_type))
+        if 80 <= ship_type <= 89:
+            return True
+    except Exception:
+        pass
+    # Do not use broad name matching. Only explicit type/destination text can rescue missing numeric type.
+    txt = norm_text(" ".join(clean_str(get_any(contact, k)) for k in ["ship_type_text", "vessel_type", "destination", "Destination"] if clean_str(get_any(contact, k))))
+    return bool(re.search(r"\b(TANKER|OIL\s*TANKER|PRODUCT\s*TANKER|CHEMICAL\s*TANKER|CRUDE\s*TANKER|LNG\s*CARRIER|LPG\s*CARRIER|VLCC|SUEZMAX|AFRAMAX)\b", txt))
+
+
+def tanker_context_zone_hits(contact):
+    if not is_tanker_contact(contact):
+        return []
+    lat, lon = parse_lat_lon(contact)
+    if lat is None or lon is None:
+        return []
+    hits = []
+    for z in TANKER_CONTEXT_ZONES:
+        if z["min_lat"] <= lat <= z["max_lat"] and z["min_lon"] <= lon <= z["max_lon"]:
+            hits.append(z)
+    return hits
+
+
+def tanker_zone_ids(contact):
+    return [z["id"] for z in tanker_context_zone_hits(contact)]
+
+
+def tanker_zone_labels(contact):
+    return [z["label"] for z in tanker_context_zone_hits(contact)]
+
+
 def classify_contact(contact, watch_index, russian_ports, flag_ref):
     merged = dict(contact)
     matched_row, matched_on = match_watchlist(contact, watch_index)
     categories = set()
+    neutral_tanker_zones = tanker_context_zone_hits(contact)
+    if neutral_tanker_zones:
+        merged["is_tanker_context_candidate"] = True
+        merged["tanker_context_zone_ids"] = ";".join(z["id"] for z in neutral_tanker_zones)
+        merged["tanker_context_zone_labels"] = ";".join(z["label"] for z in neutral_tanker_zones)
+        merged["tanker_context_note"] = "context-only tanker in sensitive maritime zone; no VOI match implied"
+    else:
+        merged.setdefault("is_tanker_context_candidate", False)
+        merged.setdefault("tanker_context_zone_ids", "")
+        merged.setdefault("tanker_context_zone_labels", "")
+        merged.setdefault("tanker_context_note", "")
 
     mmsi = norm_digits(get_any(contact, "mmsi", "MMSI", "UserID"))
     if mmsi.startswith("273"):
@@ -755,6 +843,17 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref):
         merged.setdefault("shadow_fleet", False)
         merged["false_flag"] = bool(flag_risk and flag_risk.get("flag_risk_band") != "context")
         merged.setdefault("behavioral_voi", False)
+
+    if neutral_tanker_zones and not categories:
+        categories.add("neutral_tanker_context")
+        merged["neutral_tanker_context"] = True
+        merged["display_category"] = "Neutral tanker / no current VOI match"
+        merged["index_impact"] = "none_or_soft_context_only"
+        merged["voi_role"] = "neutral_context_no_current_voi_match"
+    else:
+        merged.setdefault("neutral_tanker_context", False)
+        merged.setdefault("index_impact", "voi_context" if categories else "none")
+        merged.setdefault("voi_role", "voi_or_watchlist_context" if categories else "unclassified")
 
     merged["categories"] = sorted(categories)
     return merged
@@ -888,7 +987,102 @@ def merge_unique_items(*groups):
     return out
 
 
-def update_stats(snapshot_items, slot):
+
+def cap_neutral_tanker_context_items(items):
+    neutral = [x for x in items if "neutral_tanker_context" in x.get("categories", [])]
+    if len(neutral) <= NEUTRAL_TANKER_CONTEXT_MAX_TOTAL:
+        return items
+    per_zone = Counter()
+    keep_neutral = []
+    # Prefer slower/waiting contacts and the newest timestamps if many neutral tankers are present.
+    def rank(it):
+        try:
+            sog = float(clean_str(it.get("sog")) or 999)
+        except Exception:
+            sog = 999
+        last = clean_str(it.get("last_seen_utc"))
+        return (sog > 3.0, last)
+    for it in sorted(neutral, key=rank):
+        zones = [z for z in clean_str(it.get("tanker_context_zone_ids")).split(";") if z] or ["unknown"]
+        if len(keep_neutral) >= NEUTRAL_TANKER_CONTEXT_MAX_TOTAL:
+            break
+        if all(per_zone[z] >= NEUTRAL_TANKER_CONTEXT_MAX_PER_ZONE for z in zones):
+            continue
+        keep_neutral.append(it)
+        for z in zones:
+            per_zone[z] += 1
+    keep_ids = {id(x) for x in keep_neutral}
+    return [x for x in items if "neutral_tanker_context" not in x.get("categories", []) or id(x) in keep_ids]
+
+
+def build_tanker_cluster_stats(snapshot_items, total_contacts_seen=0):
+    by_zone = defaultdict(lambda: {"total_tankers": 0, "neutral_tankers": 0, "voi_tankers": 0, "slow_or_waiting": 0, "for_order": 0, "examples": []})
+    all_tanker_keys = set()
+    neutral_keys = set()
+    voi_tanker_keys = set()
+    for item in snapshot_items:
+        if not is_tanker_contact(item):
+            continue
+        zones = [z for z in clean_str(item.get("tanker_context_zone_ids")).split(";") if z]
+        if not zones:
+            continue
+        cats = set(item.get("categories", []))
+        neutral = "neutral_tanker_context" in cats
+        key = dedupe_identity(item) or f"{clean_str(get_any(item, 'latitude', 'lat'))}|{clean_str(get_any(item, 'longitude', 'lon'))}|{clean_str(get_any(item, 'name'))}"
+        all_tanker_keys.add(key)
+        if neutral:
+            neutral_keys.add(key)
+        else:
+            voi_tanker_keys.add(key)
+        try:
+            sog = float(clean_str(item.get("sog")) or 999)
+        except Exception:
+            sog = 999
+        dest = norm_text(item.get("destination"))
+        for zone in zones:
+            row = by_zone[zone]
+            row["total_tankers"] += 1
+            row["neutral_tankers"] += 1 if neutral else 0
+            row["voi_tankers"] += 0 if neutral else 1
+            if sog <= 3.0:
+                row["slow_or_waiting"] += 1
+            if re.search(r"\b(FOR\s*ORDER|TO\s*BE\s*ORDERED|BALTIC\s+FOR\s+ORDER|BALTIC\s+SEA\s+FOR\s+ORDER)\b", dest):
+                row["for_order"] += 1
+            if len(row["examples"]) < 8:
+                row["examples"].append({
+                    "name": clean_str(get_any(item, "name")) or "—",
+                    "imo": norm_digits(get_any(item, "imo")),
+                    "mmsi": norm_digits(get_any(item, "mmsi")),
+                    "destination": clean_str(get_any(item, "destination")),
+                    "sog": clean_str(get_any(item, "sog")),
+                    "categories": sorted(cats),
+                })
+    zones_out = []
+    label_lookup = {z["id"]: z["label"] for z in TANKER_CONTEXT_ZONES}
+    for zone_id, row in sorted(by_zone.items(), key=lambda kv: (kv[1]["neutral_tankers"], kv[1]["total_tankers"]), reverse=True):
+        level = "context"
+        if row["neutral_tankers"] >= 10 or row["total_tankers"] >= 14:
+            level = "watch"
+        if row["neutral_tankers"] >= 10 and row["voi_tankers"] >= 1:
+            level = "heightened_context"
+        row = dict(row)
+        row["zone_id"] = zone_id
+        row["zone_label"] = label_lookup.get(zone_id, zone_id)
+        row["level"] = level
+        zones_out.append(row)
+    return {
+        "generated_at": now_iso(),
+        "total_contacts_seen": total_contacts_seen,
+        "total_unique_tankers_in_context_zones": len(all_tanker_keys),
+        "total_tanker_context_zones": len(zones_out),
+        "neutral_tanker_context_total": len(neutral_keys),
+        "voi_tankers_in_context_zones": len(voi_tanker_keys),
+        "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
+        "zones": zones_out,
+    }
+
+
+def update_stats(snapshot_items, slot, tanker_cluster_stats=None):
     stats = {
         "generated_at": now_iso(),
         "slot": slot,
@@ -899,6 +1093,8 @@ def update_stats(snapshot_items, slot):
         "falseflag_interest": sum(1 for item in snapshot_items if "falseflag_interest" in item.get("categories", [])),
         "false_flag_watch_hard": sum(1 for item in snapshot_items if "false_flag_watch" in item.get("categories", [])),
         "recent_russian_portcall_10d": sum(1 for item in snapshot_items if "recent_russian_portcall_10d" in item.get("categories", [])),
+        "neutral_tanker_context": sum(1 for item in snapshot_items if "neutral_tanker_context" in item.get("categories", [])),
+        "tanker_cluster_zones": (tanker_cluster_stats or {}).get("total_tanker_context_zones", 0),
     }
     with open(STATS_PATH, "w", encoding="utf-8") as f:
         json.dump(stats, f, ensure_ascii=False, indent=2)
@@ -921,9 +1117,14 @@ def main():
 
     # Include recent Russian-portcall items in snapshot if they were not already live VOIs.
     snapshot_items = merge_unique_items(snapshot_items, recent_ru_items)
+    snapshot_items = cap_neutral_tanker_context_items(snapshot_items)
+    tanker_cluster_stats = build_tanker_cluster_stats(snapshot_items, total_contacts_seen=len(contacts))
+
+    with open(TANKER_CLUSTER_STATS_PATH, "w", encoding="utf-8") as f:
+        json.dump(tanker_cluster_stats, f, ensure_ascii=False, indent=2)
 
     with open(SNAPSHOT_PATH, "w", encoding="utf-8") as f:
-        json.dump({"generated_at": now_iso(), "slot": current_slot(), "total_contacts_seen": len(contacts), "total_voi": len(snapshot_items), "items": snapshot_items}, f, ensure_ascii=False, indent=2)
+        json.dump({"generated_at": now_iso(), "slot": current_slot(), "total_contacts_seen": len(contacts), "total_voi": len(snapshot_items), "total_priority_voi": len([x for x in snapshot_items if "neutral_tanker_context" not in x.get("categories", [])]), "neutral_tanker_context_total": tanker_cluster_stats.get("neutral_tanker_context_total", 0), "tanker_context": tanker_cluster_stats, "items": snapshot_items}, f, ensure_ascii=False, indent=2)
 
     layer_buckets = defaultdict(list)
     for item in snapshot_items:
@@ -938,7 +1139,7 @@ def main():
 
     slot = current_slot()
     update_history(snapshot_items, slot)
-    update_stats(snapshot_items, slot)
+    update_stats(snapshot_items, slot, tanker_cluster_stats=tanker_cluster_stats)
 
 
 if __name__ == "__main__":

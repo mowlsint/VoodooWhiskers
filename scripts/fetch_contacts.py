@@ -15,6 +15,19 @@ FLAG_RISK_PATH = DATA_DIR / "flag_risk_reference.csv"
 PORTS_RU_PATH = DATA_DIR / "ports_ru.csv"
 OUTPUT_PATH = DATA_DIR / "ais_contacts_latest.json"
 
+# Context-only tanker retention zones. These mirror build_layers.py and allow
+# neutral tankers to be visible as a grey, non-VOI context layer.
+TANKER_CONTEXT_ZONES = [
+    {"id": "kaliningrad_baltiysk_approaches", "min_lat": 54.15, "max_lat": 56.20, "min_lon": 18.20, "max_lon": 22.90},
+    {"id": "gulf_of_gdansk", "min_lat": 53.95, "max_lat": 55.85, "min_lon": 17.35, "max_lon": 20.80},
+    {"id": "gulf_of_finland_ru_approaches", "min_lat": 58.40, "max_lat": 60.85, "min_lon": 23.40, "max_lon": 30.70},
+    {"id": "danish_straits_kattegat", "min_lat": 54.30, "max_lat": 58.50, "min_lon": 8.00, "max_lon": 13.10},
+    {"id": "skagen_waiting_area", "min_lat": 56.80, "max_lat": 58.50, "min_lon": 8.10, "max_lon": 12.30},
+    {"id": "german_bight", "min_lat": 53.00, "max_lat": 56.25, "min_lon": 4.70, "max_lon": 9.40},
+    {"id": "dover_channel_gateway", "min_lat": 50.70, "max_lat": 51.75, "min_lon": -0.60, "max_lon": 2.30},
+    {"id": "gibraltar_west_med_gateway", "min_lat": 35.10, "max_lat": 37.30, "min_lon": -6.20, "max_lon": -2.50},
+]
+
 AISSTREAM_URL = "wss://stream.aisstream.io/v0/stream"
 
 MESSAGE_TYPES = [
@@ -122,13 +135,53 @@ def has_russian_destination_or_port(d, ru_codes, ru_names):
         return True
     return any(len(name) >= 4 and name in compact for name in ru_names)
 
+
+def parse_float(v):
+    try:
+        return float(v)
+    except Exception:
+        return None
+
+
+def is_tanker_contact(d):
+    raw_type = clean_str(d.get("ship_type") or d.get("ShipType") or d.get("type") or d.get("Type"))
+    try:
+        ship_type = int(float(raw_type))
+        if 80 <= ship_type <= 89:
+            return True
+    except Exception:
+        pass
+    txt = norm_text(" ".join(clean_str(d.get(k)) for k in ["ship_type_text", "vessel_type", "destination", "Destination"] if clean_str(d.get(k))))
+    return bool(re.search(r"\b(TANKER|OIL\s*TANKER|PRODUCT\s*TANKER|CHEMICAL\s*TANKER|CRUDE\s*TANKER|LNG\s*CARRIER|LPG\s*CARRIER|VLCC|SUEZMAX|AFRAMAX)\b", txt))
+
+
+def tanker_context_zone_ids(d):
+    if not is_tanker_contact(d):
+        return []
+    lat = parse_float(d.get("latitude") or d.get("Latitude"))
+    lon = parse_float(d.get("longitude") or d.get("Longitude"))
+    if lat is None or lon is None:
+        return []
+    return [z["id"] for z in TANKER_CONTEXT_ZONES if z["min_lat"] <= lat <= z["max_lat"] and z["min_lon"] <= lon <= z["max_lon"]]
+
+
+def is_neutral_tanker_context_candidate(d):
+    return bool(tanker_context_zone_ids(d))
+
+
 def is_watchlist_match(d, idx):
     mmsi = digits(d.get("mmsi")); imo = digits(d.get("imo")); callsign = norm_text(d.get("callsign"))
     # Deliberately no pure-name match: common AIS names create false positives.
     return ((mmsi and mmsi in idx["mmsi"]) or (imo and imo in idx["imo"]) or (callsign and callsign in idx["callsign"]))
 
 def keep_contact(d, idx, risk_mids, ru_codes, ru_names):
-    return is_russian_mmsi_prefix(d) or is_watchlist_match(d, idx) or is_flag_risk_mid(d, risk_mids) or has_russian_destination_or_port(d, ru_codes, ru_names)
+    return (
+        is_russian_mmsi_prefix(d)
+        or is_watchlist_match(d, idx)
+        or is_flag_risk_mid(d, risk_mids)
+        or has_russian_destination_or_port(d, ru_codes, ru_names)
+        or is_neutral_tanker_context_candidate(d)
+    )
 
 def extract_contact(msg):
     md = msg.get("MetaData") or msg.get("Metadata") or {}
@@ -197,7 +250,7 @@ async def main():
     subscription = {"APIKey": api_key, "BoundingBoxes": BOUNDING_BOXES, "FilterMessageTypes": MESSAGE_TYPES}
     contacts_raw = await collect_once(subscription, 1800)
     contacts_out = [c for c in contacts_raw if keep_contact(c, watch_idx, risk_mids, ru_codes, ru_names)]
-    payload = {"generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(), "source": "AISStream", "filter_mode": "BoundingBoxes + Russian MMSI + watchlist + flag-risk MMSI prefixes + Russian destination/port terms", "count": len(contacts_out), "contacts": contacts_out}
+    payload = {"generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(), "source": "AISStream", "filter_mode": "BoundingBoxes + Russian MMSI + watchlist + flag-risk MMSI prefixes + Russian destination/port terms + neutral tanker context zones", "count": len(contacts_out), "contacts": contacts_out}
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
 
