@@ -1,23 +1,83 @@
 {
-  "generated_at": "2026-07-11T15:42:26+00:00",
-  "total_contacts_seen": 777,
-  "total_unique_tankers_in_context_zones": 151,
+  "generated_at": "2026-07-11T19:52:55+00:00",
+  "total_contacts_seen": 796,
+  "total_unique_tankers_in_context_zones": 159,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 141,
-  "voi_tankers_in_context_zones": 10,
+  "neutral_tanker_context_total": 145,
+  "voi_tankers_in_context_zones": 14,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 72,
-      "neutral_tankers": 71,
-      "voi_tankers": 1,
+      "total_tankers": 71,
+      "neutral_tankers": 66,
+      "voi_tankers": 5,
       "slow_or_waiting": 42,
-      "for_order": 1,
+      "for_order": 5,
       "examples": [
         {
-          "name": "MARAN AMUNDSEN",
-          "imo": "9438858",
-          "mmsi": "311027700",
+          "name": "ASTANA",
+          "imo": "9904053",
+          "mmsi": "265072000",
+          "destination": "SE NRK PEC10-00796",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "AMARANTH",
+          "imo": "9458028",
+          "mmsi": "209507000",
+          "destination": "PL GDY",
+          "sog": "10.9",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SAANA",
+          "imo": "9739836",
+          "mmsi": "230706000",
+          "destination": "SEGOT>NLAMS",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "PACIFIC PRIDE",
+          "imo": "9396775",
+          "mmsi": "352004478",
+          "destination": "SEGOT",
+          "sog": "11.8",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SAGAFJORD",
+          "imo": "9310317",
+          "mmsi": "266472000",
+          "destination": "SEGOT",
+          "sog": "9",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "CGAS PANTHER",
+          "imo": "9578000",
+          "mmsi": "249362000",
+          "destination": "NO KAR",
+          "sog": "11.5",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "PACIFIC",
+          "imo": "9308900",
+          "mmsi": "219018272",
           "destination": "BROFJORDEN",
           "sog": "0",
           "categories": [
@@ -25,71 +85,11 @@
           ]
         },
         {
-          "name": "TERNSUND",
-          "imo": "9722390",
-          "mmsi": "219775000",
-          "destination": "FI OUL",
-          "sog": "13",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TERN ISLAND",
-          "imo": "9909649",
-          "mmsi": "219029722",
-          "destination": "SEGOT",
-          "sog": "12",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "KEY MARMARA",
-          "imo": "9268239",
-          "mmsi": "248891000",
-          "destination": "LIEPAJA",
-          "sog": "13.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "MERCURIUS",
-          "imo": "9816531",
-          "mmsi": "266465000",
-          "destination": "SE GOT",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "ALPES",
-          "imo": "9817470",
-          "mmsi": "636023942",
-          "destination": "NOSTU",
-          "sog": "12.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "MIHZEM",
-          "imo": "9986635",
-          "mmsi": "563274300",
-          "destination": "US NSS",
-          "sog": "6.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "CGAS MAUD",
-          "imo": "9363522",
-          "mmsi": "248102000",
-          "destination": "GOTHENBURG",
-          "sog": "0",
+          "name": "BIT POWER",
+          "imo": "9256432",
+          "mmsi": "244944000",
+          "destination": "NO DRM>SE GOT",
+          "sog": "11.5",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -101,66 +101,76 @@
     },
     {
       "total_tankers": 43,
-      "neutral_tankers": 43,
-      "voi_tankers": 0,
-      "slow_or_waiting": 29,
-      "for_order": 0,
+      "neutral_tankers": 41,
+      "voi_tankers": 2,
+      "slow_or_waiting": 25,
+      "for_order": 2,
       "examples": [
         {
-          "name": "MARAN AMUNDSEN",
-          "imo": "9438858",
-          "mmsi": "311027700",
-          "destination": "BROFJORDEN",
+          "name": "ASTANA",
+          "imo": "9904053",
+          "mmsi": "265072000",
+          "destination": "SE NRK PEC10-00796",
           "sog": "0",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "TERN ISLAND",
-          "imo": "9909649",
-          "mmsi": "219029722",
+          "name": "AMARANTH",
+          "imo": "9458028",
+          "mmsi": "209507000",
+          "destination": "PL GDY",
+          "sog": "10.9",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SAANA",
+          "imo": "9739836",
+          "mmsi": "230706000",
+          "destination": "SEGOT>NLAMS",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SAGAFJORD",
+          "imo": "9310317",
+          "mmsi": "266472000",
           "destination": "SEGOT",
-          "sog": "12",
+          "sog": "9",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "KEY MARMARA",
-          "imo": "9268239",
-          "mmsi": "248891000",
-          "destination": "LIEPAJA",
-          "sog": "13.1",
+          "name": "BIT POWER",
+          "imo": "9256432",
+          "mmsi": "244944000",
+          "destination": "NO DRM>SE GOT",
+          "sog": "11.5",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "MERCURIUS",
-          "imo": "9816531",
-          "mmsi": "266465000",
-          "destination": "SE GOT",
+          "name": "TANKSKAR",
+          "imo": "8327105",
+          "mmsi": "265550210",
+          "destination": "GOTHENBURG",
           "sog": "0",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "MIHZEM",
-          "imo": "9986635",
-          "mmsi": "563274300",
-          "destination": "US NSS",
-          "sog": "6.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "CGAS MAUD",
-          "imo": "9363522",
-          "mmsi": "248102000",
-          "destination": "GOTHENBURG",
+          "name": "SONGA ORION",
+          "imo": "9831024",
+          "mmsi": "255915649",
+          "destination": "SEGOT",
           "sog": "0",
           "categories": [
             "neutral_tanker_context"
@@ -171,17 +181,7 @@
           "imo": "9362152",
           "mmsi": "231875000",
           "destination": "SE BRO",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "GAIA NORDIC",
-          "imo": "9614593",
-          "mmsi": "219019067",
-          "destination": "SKAW ROADS",
-          "sog": "0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -189,81 +189,41 @@
       ],
       "zone_id": "skagen_waiting_area",
       "zone_label": "Skagen / northern Kattegat",
-      "level": "watch"
+      "level": "heightened_context"
     },
     {
-      "total_tankers": 29,
-      "neutral_tankers": 29,
-      "voi_tankers": 0,
-      "slow_or_waiting": 17,
-      "for_order": 0,
+      "total_tankers": 40,
+      "neutral_tankers": 39,
+      "voi_tankers": 1,
+      "slow_or_waiting": 24,
+      "for_order": 3,
       "examples": [
         {
-          "name": "ENERGOS IGLOO",
-          "imo": "9633991",
-          "mmsi": "538004977",
-          "destination": "EEMSHAVEN",
+          "name": "CHEM ORCHARD",
+          "imo": "9937983",
+          "mmsi": "636023096",
+          "destination": "NOSLG>>DESTA",
           "sog": "0",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "HILLIE",
-          "imo": "0",
-          "mmsi": "244730209",
-          "destination": "",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "DOROTHEA SCHULTE",
-          "imo": "9618862",
-          "mmsi": "538012341",
-          "destination": "NLTZN",
-          "sog": "10.6",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "STAR BONAIRE",
-          "imo": "9148453",
-          "mmsi": "246359000",
-          "destination": "HARLINGEN",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "PROMITHEAS",
-          "imo": "9305611",
-          "mmsi": "240547000",
-          "destination": "USHOU>DEWVN",
-          "sog": "",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "SEDAT BASAK",
-          "imo": "9981257",
-          "mmsi": "249276000",
+          "name": "HULIN",
+          "imo": "9447043",
+          "mmsi": "249437000",
           "destination": "NLRTM",
-          "sog": "10.4",
+          "sog": "11.3",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "M/T NARCEA",
-          "imo": "9344320",
-          "mmsi": "255803560",
-          "destination": "ELBE",
-          "sog": "11.7",
+          "name": "CGAS MONARCH",
+          "imo": "9356919",
+          "mmsi": "255802950",
+          "destination": "PLGDY>NLHAR",
+          "sog": "0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -273,7 +233,47 @@
           "imo": "9431264",
           "mmsi": "636026391",
           "destination": "GBBEL>DEHAM",
-          "sog": "12.6",
+          "sog": "11.8",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "CORAL STICHO",
+          "imo": "9685504",
+          "mmsi": "244790523",
+          "destination": "DE STA",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SEDAT BASAK",
+          "imo": "9981257",
+          "mmsi": "249276000",
+          "destination": "NLRTM",
+          "sog": "11.5",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "ZETAGAS",
+          "imo": "9623984",
+          "mmsi": "305794000",
+          "destination": "ELBE OUTER ANCHORAGE",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "M/T NARCEA",
+          "imo": "9344320",
+          "mmsi": "255803560",
+          "destination": "ELBE",
+          "sog": "11",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -281,31 +281,41 @@
       ],
       "zone_id": "german_bight",
       "zone_label": "German Bight",
-      "level": "watch"
+      "level": "heightened_context"
     },
     {
-      "total_tankers": 14,
-      "neutral_tankers": 14,
+      "total_tankers": 16,
+      "neutral_tankers": 16,
       "voi_tankers": 0,
-      "slow_or_waiting": 9,
-      "for_order": 1,
+      "slow_or_waiting": 15,
+      "for_order": 0,
       "examples": [
         {
-          "name": "MED TUNCER",
-          "imo": "9830599",
-          "mmsi": "215033000",
-          "destination": "LTKLJ",
+          "name": "ZOSIA",
+          "imo": "0",
+          "mmsi": "261182515",
+          "destination": "GDAPL>>>",
           "sog": "0",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "AEGEAN NOBILITY",
-          "imo": "9345441",
-          "mmsi": "240657000",
-          "destination": "BALTIC FOR ORDERS",
-          "sog": "",
+          "name": "NORDIC SAGA",
+          "imo": "9346512",
+          "mmsi": "257942000",
+          "destination": "PL GDN",
+          "sog": "0.9",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "ARETEA",
+          "imo": "9711456",
+          "mmsi": "241348000",
+          "destination": "LYLMQ=>PLGDN",
+          "sog": "0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -321,11 +331,31 @@
           ]
         },
         {
-          "name": "NORDIC SAGA",
-          "imo": "9346512",
-          "mmsi": "257942000",
-          "destination": "PL GDN",
-          "sog": "0.4",
+          "name": "AEGEAN NOBILITY",
+          "imo": "9345441",
+          "mmsi": "240657000",
+          "destination": "BALTIC FOR ORDERS",
+          "sog": "1.8",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SEA WHALE",
+          "imo": "1025588",
+          "mmsi": "241962000",
+          "destination": "PLGDN",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "GAS PACIFIC",
+          "imo": "9102203",
+          "mmsi": "352005172",
+          "destination": "GDN PL",
+          "sog": "0.2",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -336,36 +366,6 @@
           "mmsi": "253834000",
           "destination": "GDANSK",
           "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "STI WEMBLEY",
-          "imo": "9691735",
-          "mmsi": "538005404",
-          "destination": "GDYNIA",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "AMONITH",
-          "imo": "1047330",
-          "mmsi": "210904000",
-          "destination": "FORORDER",
-          "sog": "0.4",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "SCOTT SPIRIT",
-          "imo": "9466142",
-          "mmsi": "311027400",
-          "destination": "GDANSK",
-          "sog": "4.8",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -376,110 +376,38 @@
       "level": "watch"
     },
     {
-      "total_tankers": 13,
-      "neutral_tankers": 13,
+      "total_tankers": 15,
+      "neutral_tankers": 15,
       "voi_tankers": 0,
-      "slow_or_waiting": 3,
+      "slow_or_waiting": 14,
       "for_order": 0,
       "examples": [
         {
-          "name": "SPEEDWAY",
-          "imo": "9749506",
-          "mmsi": "241497000",
-          "destination": "GIGIB",
-          "sog": "0.5",
+          "name": "ZOSIA",
+          "imo": "0",
+          "mmsi": "261182515",
+          "destination": "GDAPL>>>",
+          "sog": "0",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "ATLANTIC  MATE",
-          "imo": "9350745",
-          "mmsi": "236683000",
-          "destination": "FOR ORDERS",
-          "sog": "10",
+          "name": "NORDIC SAGA",
+          "imo": "9346512",
+          "mmsi": "257942000",
+          "destination": "PL GDN",
+          "sog": "0.9",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "CATHY THERESA",
-          "imo": "9478315",
-          "mmsi": "219374000",
-          "destination": "EH EUN>ES ALG",
-          "sog": "8.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "BWEK BREEZE",
-          "imo": "9892808",
-          "mmsi": "215858000",
-          "destination": "ESALG",
-          "sog": "10.5",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "NAVIGATOR CAPRICORN",
-          "imo": "9403774",
-          "mmsi": "636015939",
-          "destination": "FR LAV > PT SIE",
-          "sog": "13.5",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "HISTRIA  AMBRA",
-          "imo": "9607631",
-          "mmsi": "636016017",
-          "destination": "NLRTM",
-          "sog": "10.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "CARIBE MARIA",
-          "imo": "9337286",
-          "mmsi": "636017331",
-          "destination": "FRSET>GIGIB",
-          "sog": "2.5",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "AVENIR ASPIRATION",
-          "imo": "9868962",
-          "mmsi": "215902000",
-          "destination": "FOR ORDERS",
-          "sog": "8.2",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        }
-      ],
-      "zone_id": "gibraltar_west_med_gateway",
-      "zone_label": "Gibraltar / W. Mediterranean gateway",
-      "level": "watch"
-    },
-    {
-      "total_tankers": 13,
-      "neutral_tankers": 13,
-      "voi_tankers": 0,
-      "slow_or_waiting": 8,
-      "for_order": 1,
-      "examples": [
-        {
-          "name": "AEGEAN NOBILITY",
-          "imo": "9345441",
-          "mmsi": "240657000",
-          "destination": "BALTIC FOR ORDERS",
-          "sog": "",
+          "name": "ARETEA",
+          "imo": "9711456",
+          "mmsi": "241348000",
+          "destination": "LYLMQ=>PLGDN",
+          "sog": "0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -495,11 +423,31 @@
           ]
         },
         {
-          "name": "NORDIC SAGA",
-          "imo": "9346512",
-          "mmsi": "257942000",
-          "destination": "PL GDN",
-          "sog": "0.4",
+          "name": "AEGEAN NOBILITY",
+          "imo": "9345441",
+          "mmsi": "240657000",
+          "destination": "BALTIC FOR ORDERS",
+          "sog": "1.8",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SEA WHALE",
+          "imo": "1025588",
+          "mmsi": "241962000",
+          "destination": "PLGDN",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "GAS PACIFIC",
+          "imo": "9102203",
+          "mmsi": "352005172",
+          "destination": "GDN PL",
+          "sog": "0.2",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -513,46 +461,6 @@
           "categories": [
             "neutral_tanker_context"
           ]
-        },
-        {
-          "name": "STI WEMBLEY",
-          "imo": "9691735",
-          "mmsi": "538005404",
-          "destination": "GDYNIA",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "AMONITH",
-          "imo": "1047330",
-          "mmsi": "210904000",
-          "destination": "FORORDER",
-          "sog": "0.4",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "SCOTT SPIRIT",
-          "imo": "9466142",
-          "mmsi": "311027400",
-          "destination": "GDANSK",
-          "sog": "4.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "HAPPY PEREGRINE",
-          "imo": "9553660",
-          "mmsi": "219558000",
-          "destination": "PLGDN",
-          "sog": "",
-          "categories": [
-            "neutral_tanker_context"
-          ]
         }
       ],
       "zone_id": "gulf_of_gdansk",
@@ -560,110 +468,38 @@
       "level": "watch"
     },
     {
-      "total_tankers": 10,
-      "neutral_tankers": 10,
-      "voi_tankers": 0,
-      "slow_or_waiting": 3,
-      "for_order": 1,
-      "examples": [
-        {
-          "name": "MYGAS",
-          "imo": "9694397",
-          "mmsi": "305377000",
-          "destination": "BE ZEE > FR DKK",
-          "sog": "0.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "CGAS TIGER",
-          "imo": "9577991",
-          "mmsi": "249224000",
-          "destination": "FR PJE",
-          "sog": "14.5",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "ZEA AUGUSTA",
-          "imo": "9310355",
-          "mmsi": "255917333",
-          "destination": "GBLON",
-          "sog": "0.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "SEVILLA KNUTSEN",
-          "imo": "9414632",
-          "mmsi": "224072000",
-          "destination": "FOR ORDERS",
-          "sog": "17",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "KAREELA SPIRIT",
-          "imo": "9683013",
-          "mmsi": "538012815",
-          "destination": "DK SKA>DZ AZW",
-          "sog": "17.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "WILHELMINE ESSBERGER",
-          "imo": "9295440",
-          "mmsi": "255916284",
-          "destination": "ESALG",
-          "sog": "14.4",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "FURE VICTORIA",
-          "imo": "9983968",
-          "mmsi": "265061000",
-          "destination": "IE DUB",
-          "sog": "14.5",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TWIST",
-          "imo": "9422639",
-          "mmsi": "636021552",
-          "destination": "GIBRALTAR FOR ORDER",
-          "sog": "13.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        }
-      ],
-      "zone_id": "dover_channel_gateway",
-      "zone_label": "Dover Strait / Channel gateway",
-      "level": "watch"
-    },
-    {
-      "total_tankers": 16,
-      "neutral_tankers": 7,
-      "voi_tankers": 9,
+      "total_tankers": 21,
+      "neutral_tankers": 13,
+      "voi_tankers": 8,
       "slow_or_waiting": 9,
       "for_order": 0,
       "examples": [
         {
-          "name": "JOHN T. ESSBERGER",
-          "imo": "9939797",
-          "mmsi": "255891000",
-          "destination": "FIHMN>FIPRV",
-          "sog": "0",
+          "name": "GOOD LUCK",
+          "imo": "9297890",
+          "mmsi": "314203000",
+          "destination": "ALIAGA",
+          "sog": "13.8",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "BIT FORCE",
+          "imo": "9256420",
+          "mmsi": "244813000",
+          "destination": "FI KTK > NL RTM",
+          "sog": "13.3",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "GOLFSTRAUM",
+          "imo": "9390991",
+          "mmsi": "258849000",
+          "destination": "BE ANR",
+          "sog": "",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -673,71 +509,47 @@
           "imo": "9625140",
           "mmsi": "246272000",
           "destination": "FIPRV",
-          "sog": "13.7",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "VULKAN",
-          "imo": "9297371",
-          "mmsi": "273279660",
-          "destination": "RUPRI",
-          "sog": "0",
-          "categories": [
-            "recent_russian_portcall_10d",
-            "russian_mmsi",
-            "sanctions_shadowfleet",
-            "watchlist"
-          ]
-        },
-        {
-          "name": "HALA LIGHT",
-          "imo": "9612052",
-          "mmsi": "248124000",
-          "destination": "FOR ORDERS",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "KATTEGAT",
-          "imo": "9432866",
-          "mmsi": "219222000",
-          "destination": "FI PRV",
           "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "PIONEER",
-          "imo": "9255282",
-          "mmsi": "273254770",
-          "destination": "RU MMK",
-          "sog": "11.8",
+          "name": "LXH",
+          "imo": "9274525",
+          "mmsi": "311002021",
+          "destination": "UST LUGA",
+          "sog": "11.9",
           "categories": [
-            "recent_russian_portcall_10d",
-            "russian_mmsi"
+            "recent_russian_portcall_10d"
           ]
         },
         {
-          "name": "TERN LAND",
-          "imo": "9988994",
-          "mmsi": "219034373",
-          "destination": "SE STO",
-          "sog": "13",
+          "name": "VERIGE",
+          "imo": "9401128",
+          "mmsi": "238265000",
+          "destination": "BALTIC FOR ORDERS",
+          "sog": "0.3",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "GOLFSTRAUM",
-          "imo": "9390991",
-          "mmsi": "258849000",
-          "destination": "FI PRV",
-          "sog": "0.2",
+          "name": "OSCAR",
+          "imo": "9365386",
+          "mmsi": "636022074",
+          "destination": "BALTIC FOR ORDERS",
+          "sog": "0.3",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "EXEMPLAR",
+          "imo": "9444649",
+          "mmsi": "205553000",
+          "destination": "FIINK",
+          "sog": "",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -745,7 +557,171 @@
       ],
       "zone_id": "gulf_of_finland_ru_approaches",
       "zone_label": "Gulf of Finland / Ust-Luga-Primorsk approaches",
-      "level": "watch"
+      "level": "heightened_context"
+    },
+    {
+      "total_tankers": 8,
+      "neutral_tankers": 8,
+      "voi_tankers": 0,
+      "slow_or_waiting": 2,
+      "for_order": 0,
+      "examples": [
+        {
+          "name": "ZEA AUGUSTA",
+          "imo": "9310355",
+          "mmsi": "255917333",
+          "destination": "GBLON",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "GULHOLMEN",
+          "imo": "9435703",
+          "mmsi": "538005551",
+          "destination": "NLRTM>GBSOW",
+          "sog": "11",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "ORIENTAL SAKURA",
+          "imo": "9743746",
+          "mmsi": "351533000",
+          "destination": "MUPLU>>BEGNE",
+          "sog": "11.4",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SEA ALTUS",
+          "imo": "9724570",
+          "mmsi": "538010133",
+          "destination": "BE ANR",
+          "sog": "12.3",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "NAVIGATOR",
+          "imo": "9370719",
+          "mmsi": "538012063",
+          "destination": "ANTWERP",
+          "sog": "",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SARACENA",
+          "imo": "9334325",
+          "mmsi": "249907000",
+          "destination": "NLRTM",
+          "sog": "12.7",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SONGA COSMOS",
+          "imo": "9457024",
+          "mmsi": "248745000",
+          "destination": "GBDAG",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "FLOYEN",
+          "imo": "9749790",
+          "mmsi": "258121000",
+          "destination": "BEGNE",
+          "sog": "12.7",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        }
+      ],
+      "zone_id": "dover_channel_gateway",
+      "zone_label": "Dover Strait / Channel gateway",
+      "level": "context"
+    },
+    {
+      "total_tankers": 6,
+      "neutral_tankers": 6,
+      "voi_tankers": 0,
+      "slow_or_waiting": 3,
+      "for_order": 0,
+      "examples": [
+        {
+          "name": "MINERVA ANNA",
+          "imo": "9298507",
+          "mmsi": "636022180",
+          "destination": "FOR ORDERS",
+          "sog": "3",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "CARIBE MARIA",
+          "imo": "9337286",
+          "mmsi": "636017331",
+          "destination": "FRSET>GIGIB",
+          "sog": "2.6",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "FRONT ALTAIR",
+          "imo": "9745902",
+          "mmsi": "538007007",
+          "destination": "LYZAW",
+          "sog": "12.7",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "BWEK BREEZE",
+          "imo": "9892808",
+          "mmsi": "215858000",
+          "destination": "ESALG",
+          "sog": "7.7",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "AMBELOS",
+          "imo": "9801524",
+          "mmsi": "311000695",
+          "destination": "GIGIB",
+          "sog": "2.4",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "CATHY THERESA",
+          "imo": "9478315",
+          "mmsi": "219374000",
+          "destination": "EH EUN>ES ALG",
+          "sog": "7",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        }
+      ],
+      "zone_id": "gibraltar_west_med_gateway",
+      "zone_label": "Gibraltar / W. Mediterranean gateway",
+      "level": "context"
     }
   ]
 }
