@@ -13,7 +13,7 @@ DATA_DIR = Path("data")
 WATCHLIST_PATH = DATA_DIR / "watchlist_master.csv"
 FLAG_RISK_PATH = DATA_DIR / "flag_risk_reference.csv"
 PORTS_RU_PATH = DATA_DIR / "ports_ru.csv"
-OUTPUT_PATH = DATA_DIR / "ais_contacts_latest.json"
+OUTPUT_PATH = DATA_DIR / "ais_contacts_aisstream_latest.json"
 
 # Context-only tanker retention zones. These mirror build_layers.py and allow
 # neutral tankers to be visible as a grey, non-VOI context layer.
@@ -250,7 +250,7 @@ async def main():
     subscription = {"APIKey": api_key, "BoundingBoxes": BOUNDING_BOXES, "FilterMessageTypes": MESSAGE_TYPES}
     contacts_raw = await collect_once(subscription, 1800)
     contacts_out = [c for c in contacts_raw if keep_contact(c, watch_idx, risk_mids, ru_codes, ru_names)]
-    payload = {"generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(), "source": "AISStream", "filter_mode": "BoundingBoxes + Russian MMSI + watchlist + flag-risk MMSI prefixes + Russian destination/port terms + neutral tanker context zones", "count": len(contacts_out), "contacts": contacts_out}
+    payload = {"schema_version": "1.0.0", "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(), "source": "AISStream", "provider": "aisstream", "license": "AISstream terms", "filter_mode": "BoundingBoxes + Russian MMSI + watchlist + flag-risk MMSI prefixes + Russian destination/port terms + neutral tanker context zones", "count": len(contacts_out), "contacts": contacts_out}
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
 
