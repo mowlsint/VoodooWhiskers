@@ -190,7 +190,13 @@ def main() -> int:
         "generated_at": utc_now_iso(),
         "source": "Voodoo Whiskers AIS provider broker",
         "filter_mode": "Merged provider snapshots; provider-level LKG bounded by TTL",
-        "coverage_mode": "mixed_regional_and_primary" if len(included_provider_ids) > 1 else "single_provider",
+        "coverage_mode": (
+            "mixed_regional_and_primary"
+            if "aisstream" in included_provider_ids and any(p != "aisstream" for p in included_provider_ids)
+            else "primary_only"
+            if included_provider_ids == ["aisstream"]
+            else "regional_only"
+        ),
         "stale": bool(stale),
         "providers_included": included_provider_ids,
         "provider_status": provider_status,
