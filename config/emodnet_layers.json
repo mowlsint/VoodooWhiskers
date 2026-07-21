@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "service_url": "https://ows.emodnet-humanactivities.eu/wfs",
+  "bbox": [
+    -6.2,
+    50.0,
+    32.5,
+    61.8
+  ],
+  "layers": [
+    {
+      "id": "telecom_cables",
+      "title_patterns": [
+        "telecommunication cable",
+        "submarine cable",
+        "cables"
+      ],
+      "name_patterns": [
+        "cable"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "power_cables",
+      "title_patterns": [
+        "power cable",
+        "electricity cable"
+      ],
+      "name_patterns": [
+        "power.*cable",
+        "electric.*cable"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "cable_landings",
+      "title_patterns": [
+        "cable landing",
+        "landing station"
+      ],
+      "name_patterns": [
+        "landing"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "pipelines",
+      "title_patterns": [
+        "pipeline"
+      ],
+      "name_patterns": [
+        "pipeline"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "offshore_energy",
+      "title_patterns": [
+        "wind farm",
+        "ocean energy",
+        "hydrocarbon platform",
+        "offshore installation"
+      ],
+      "name_patterns": [
+        "wind",
+        "ocean.*energy",
+        "platform"
+      ],
+      "enabled": true
+    }
+  ]
+}
