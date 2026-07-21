@@ -681,28 +681,44 @@ async def probe_certificate() -> int:
         raise RuntimeError(f"Invalid AISSTREAM_URL: {AISSTREAM_URL}")
     port = parsed.port or 443
 
-    loop = asyncio.get_running_loop()
-    addrinfo = await loop.getaddrinfo(hostname, port, type=socket.SOCK_STREAM)
-    addresses: list[tuple[int, str]] = []
-    seen: set[tuple[int, str]] = set()
-    for family, _socktype, _proto, _canonname, sockaddr in addrinfo:
-        address = sockaddr[0]
-        key = (family, address)
-        if key not in seen:
-            seen.add(key)
-            addresses.append(key)
+    max_attempts = max(1, int(os.getenv("AISSTREAM_PROBE_ATTEMPTS", "3")))
+    base_backoff = max(1.0, float(os.getenv("AISSTREAM_PROBE_BACKOFF_SECONDS", "10")))
+    all_attempts: list[dict[str, Any]] = []
+    successful: list[dict[str, Any]] = []
 
-    results = [await probe_one_address(hostname, address, family, port) for family, address in addresses]
-    print(json.dumps({"hostname": hostname, "port": port, "results": results}, indent=2))
+    for attempt in range(1, max_attempts + 1):
+        loop = asyncio.get_running_loop()
+        addrinfo = await loop.getaddrinfo(hostname, port, type=socket.SOCK_STREAM)
+        addresses: list[tuple[int, str]] = []
+        seen: set[tuple[int, str]] = set()
+        for family, _socktype, _proto, _canonname, sockaddr in addrinfo:
+            address = sockaddr[0]
+            key = (family, address)
+            if key not in seen:
+                seen.add(key)
+                addresses.append(key)
 
-    successful = [result for result in results if result.get("ok")]
+        results = [await probe_one_address(hostname, address, family, port) for family, address in addresses]
+        all_attempts.append({"attempt": attempt, "results": results})
+        successful.extend(result for result in results if result.get("ok"))
+        if successful:
+            break
+        if attempt < max_attempts:
+            await asyncio.sleep(base_backoff * attempt)
+
+    print(json.dumps({
+        "hostname": hostname,
+        "port": port,
+        "attempts": all_attempts,
+    }, indent=2))
+
     fingerprints = sorted({result["fingerprint_sha256"] for result in successful})
     for fingerprint in fingerprints:
         display = ":".join(fingerprint[i:i + 2] for i in range(0, 64, 2)).upper()
         print(f"::notice title=AISstream SHA-256 certificate pin::{display}")
 
     if not successful:
-        print("ERROR: no AISstream endpoint returned a TLS certificate")
+        print("ERROR: no AISstream endpoint returned a TLS certificate after all probe attempts")
         return 1
     if len(fingerprints) > 1:
         print("ERROR: AISstream backends presented different leaf certificates; do not enable pinned emergency mode yet")
