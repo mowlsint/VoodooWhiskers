@@ -1,6 +1,6 @@
 # Voodoo Whiskers – Current VOI List
 
-Generated: 2026-07-21T14:08:12+00:00
+Generated: 2026-07-21T14:25:10+00:00
 Entries: 377
 
 | Vessel | IMO | MMSI | Categories | Last position | Source |
