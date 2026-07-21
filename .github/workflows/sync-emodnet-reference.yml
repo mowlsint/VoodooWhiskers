@@ -16,7 +16,7 @@ concurrency:
 jobs:
   sync-reference:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 45
 
     steps:
       - name: Checkout repository
@@ -38,14 +38,40 @@ jobs:
         run: |
           set -euo pipefail
           python -m pip install --upgrade pip
-          pip install "requests>=2.32,<3"
+          pip install "requests>=2.32,<3" "shapely>=2.0,<3"
 
       - name: Synchronise EMODnet Human Activities layers
         env:
-          EMODNET_USER_AGENT: "MOwlSINT Voodoo Whiskers/1.0"
+          EMODNET_USER_AGENT: "MOwlSINT Voodoo Whiskers/1.1.1"
         run: |
           set -euo pipefail
           python scripts/sync_emodnet_reference.py
+
+      - name: Validate bounded EMODnet outputs
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('public/data/reference/emodnet')
+          per_file_limit = 40 * 1024 * 1024
+          total_limit = 60 * 1024 * 1024
+          files = sorted(root.glob('*.geojson'))
+          total = 0
+          for path in files:
+              size = path.stat().st_size
+              total += size
+              if size > per_file_limit:
+                  raise SystemExit(f'EMODnet file exceeds pre-commit limit: {path} = {size} bytes')
+              payload = json.loads(path.read_text(encoding='utf-8'))
+              if payload.get('type') != 'FeatureCollection' or not isinstance(payload.get('features'), list):
+                  raise SystemExit(f'invalid GeoJSON FeatureCollection: {path}')
+              print({'file': str(path), 'bytes': size, 'features': len(payload['features'])})
+          if total > total_limit:
+              raise SystemExit(f'combined EMODnet reference exceeds pre-commit limit: {total} bytes')
+          print({'total_reference_bytes': total, 'files': len(files)})
+          PY
 
       - name: Rebuild public products and analysis
         run: |
