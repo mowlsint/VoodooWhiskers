@@ -30,7 +30,7 @@
           "reference_id": "pipelines.3424",
           "name": "NORD STREAM 2",
           "source": "EMODnet Human Activities",
-          "source_typename": null
+          "source_typename": "emodnet:pipelines"
         },
         "signals": [
           "critical_infrastructure_proximity",
@@ -93,7 +93,7 @@
           "reference_id": "pipelines.3424",
           "name": "NORD STREAM 2",
           "source": "EMODnet Human Activities",
-          "source_typename": null
+          "source_typename": "emodnet:pipelines"
         },
         "signals": [
           "critical_infrastructure_proximity",
@@ -155,7 +155,7 @@
           "reference_id": "pipelines.3424",
           "name": "NORD STREAM 2",
           "source": "EMODnet Human Activities",
-          "source_typename": null
+          "source_typename": "emodnet:pipelines"
         },
         "signals": [
           "critical_infrastructure_proximity",
@@ -218,7 +218,7 @@
           "reference_id": "pipelines.3423",
           "name": "NORD STREAM 1",
           "source": "EMODnet Human Activities",
-          "source_typename": null
+          "source_typename": "emodnet:pipelines"
         },
         "signals": [
           "critical_infrastructure_proximity",
@@ -238,8 +238,8 @@
             "longitude": 4.199683,
             "observed_at": "2026-07-21T05:29:28+00:00"
           },
-          "minimum_distance_nm": 0.121,
-          "latest_distance_nm": 429.169,
+          "minimum_distance_nm": 0.123,
+          "latest_distance_nm": 429.174,
           "track_points_considered": 10,
           "points_within_close_band": 2,
           "low_speed_points_within_close_band": 0,
@@ -279,7 +279,7 @@
           "reference_id": "pipelines.3424",
           "name": "NORD STREAM 2",
           "source": "EMODnet Human Activities",
-          "source_typename": null
+          "source_typename": "emodnet:pipelines"
         },
         "signals": [
           "critical_infrastructure_proximity",
@@ -340,7 +340,7 @@
           "reference_id": "pipelines.3424",
           "name": "NORD STREAM 2",
           "source": "EMODnet Human Activities",
-          "source_typename": null
+          "source_typename": "emodnet:pipelines"
         },
         "signals": [
           "critical_infrastructure_proximity",
@@ -402,7 +402,7 @@
           "reference_id": "pipelines.3424",
           "name": "NORD STREAM 2",
           "source": "EMODnet Human Activities",
-          "source_typename": null
+          "source_typename": "emodnet:pipelines"
         },
         "signals": [
           "critical_infrastructure_proximity",
@@ -465,7 +465,7 @@
           "reference_id": "pipelines.3424",
           "name": "NORD STREAM 2",
           "source": "EMODnet Human Activities",
-          "source_typename": null
+          "source_typename": "emodnet:pipelines"
         },
         "signals": [
           "critical_infrastructure_proximity",
@@ -527,7 +527,7 @@
           "reference_id": "pipelines.3424",
           "name": "NORD STREAM 2",
           "source": "EMODnet Human Activities",
-          "source_typename": null
+          "source_typename": "emodnet:pipelines"
         },
         "signals": [
           "critical_infrastructure_proximity",
@@ -588,7 +588,7 @@
           "reference_id": "pipelines.3424",
           "name": "NORD STREAM 2",
           "source": "EMODnet Human Activities",
-          "source_typename": null
+          "source_typename": "emodnet:pipelines"
         },
         "signals": [
           "critical_infrastructure_proximity",
@@ -625,6 +625,67 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          30.076027,
+          69.729375
+        ]
+      },
+      "properties": {
+        "event_id": "VWI-273439910-pcablesnve.734",
+        "event_type": "critical_infrastructure_proximity",
+        "level": "review",
+        "confidence": "low_medium",
+        "vessel": {
+          "mmsi": "273439910",
+          "imo": "8413370",
+          "name": "KEM",
+          "callsign": "UBGR3",
+          "categories": [
+            "russian_mmsi"
+          ],
+          "source": "BarentsWatch / Norwegian Coastal Administration"
+        },
+        "infrastructure": {
+          "type": "power_cable",
+          "reference_id": "pcablesnve.734",
+          "name": "pcablesnve.734",
+          "source": "EMODnet Human Activities",
+          "source_typename": "emodnet:pcablesnve"
+        },
+        "signals": [
+          "critical_infrastructure_proximity",
+          "low_speed_near_infrastructure",
+          "voi_or_watchlist_context"
+        ],
+        "assessment": "Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.",
+        "score_integration": false,
+        "observation": {
+          "event_position": {
+            "latitude": 69.729375,
+            "longitude": 30.076027,
+            "observed_at": "2026-07-20T16:42:41+00:00"
+          },
+          "latest_position": {
+            "latitude": 69.729397,
+            "longitude": 30.076047,
+            "observed_at": "2026-07-21T05:27:40+00:00"
+          },
+          "minimum_distance_nm": 0.524,
+          "latest_distance_nm": 0.525,
+          "track_points_considered": 2,
+          "points_within_close_band": 2,
+          "low_speed_points_within_close_band": 2,
+          "estimated_dwell_minutes": 0.0,
+          "close_band_entries": 1,
+          "source_timestamp_points": 2,
+          "fallback_timestamp_points": 0
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           26.055883333333334,
           59.881025
         ]
@@ -652,7 +713,7 @@
           "reference_id": "pipelines.3424",
           "name": "NORD STREAM 2",
           "source": "EMODnet Human Activities",
-          "source_typename": null
+          "source_typename": "emodnet:pipelines"
         },
         "signals": [
           "critical_infrastructure_proximity",
@@ -687,21 +748,21 @@
   ],
   "metadata": {
     "schema_version": "1.0.0",
-    "generated_at": "2026-07-21T16:49:12+00:00",
+    "generated_at": "2026-07-21T17:36:10+00:00",
     "source": "Voodoo Whiskers",
     "reference_source": "EMODnet Human Activities",
     "score_integration": false,
     "analysis_window_hours": 120,
     "reference_ready": true,
     "reference_feature_counts": {
-      "telecommunication_cable": 89,
-      "power_cable": 89,
+      "telecommunication_cable": 28,
+      "power_cable": 1044,
       "cable_landing": 0,
-      "pipeline": 3861,
-      "wind_farm": 0,
+      "pipeline": 3924,
+      "wind_farm": 826,
       "offshore_energy": 222
     },
-    "event_count": 11,
+    "event_count": 12,
     "assessment_limit": "Proximity and movement patterns are analyst leads and do not establish hostile intent, attribution or unlawful activity."
   }
 }

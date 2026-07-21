@@ -1,8 +1,8 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-07-21T16:49:12+00:00
-- Review events: 11
-- Reference features: 4261
+- Generated: 2026-07-21T17:36:10+00:00
+- Review events: 12
+- Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
 
 > Proximity and movement patterns are analyst leads. They do not establish sabotage, espionage, hostile intent, attribution or unlawful activity.
@@ -47,7 +47,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 273355780 / 9039767
 - Infrastructure: pipeline — NORD STREAM 1
-- Minimum distance: 0.121 nm
+- Minimum distance: 0.123 nm
 - Close-band points: 2
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, repeated_entries_into_close_band, voi_or_watchlist_context
@@ -124,6 +124,18 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
+## KEM — REVIEW
+
+- MMSI / IMO: 273439910 / 8413370
+- Infrastructure: power_cable — pcablesnve.734
+- Minimum distance: 0.524 nm
+- Close-band points: 2
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
+- Confidence: low_medium
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 

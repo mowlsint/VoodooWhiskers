@@ -1,0 +1,230 @@
+{
+  "schema_version": "1.1.0",
+  "generated_at": "2026-07-21T17:35:51+00:00",
+  "service_url": "https://ows.emodnet-humanactivities.eu/wfs",
+  "feature_type_count": 159,
+  "configured_layer_count": 6,
+  "successful_layer_count": 4,
+  "total_reference_bytes": 3174627,
+  "largest_reference_file_bytes": 1872222,
+  "layers": [
+    {
+      "id": "telecom_cables_actual",
+      "filename": "telecom_cables.geojson",
+      "selected_feature_types": [
+        {
+          "name": "emodnet:bshcontiscables",
+          "title": "Telecommunication Cables - DE BSH-CONTIS",
+          "abstract": "The dataset on subsea telecommunication cables in the European waters was created in 2014 by Cogea for the European Marine Observation and Data Network (EMODnet). It is the result of the aggregation of datasets provided by several EU and non-EU sources. It is updated every year, and is available for viewing and download on the EMODnet web portal (Human Activities, https://emodnet.ec.europa.eu/en/human-activities). The dataset contain lines representing actual cable routes locations. Compared with the previous version, this version includes an update of the German cables."
+        },
+        {
+          "name": "emodnet:cicacables",
+          "title": "Telecommunication Cables - ES CICA",
+          "abstract": "The dataset on subsea telecommunication cables in the European waters was created in 2014 by Cogea for the European Marine Observation and Data Network (EMODnet). It is the result of the aggregation of datasets provided by several EU and non-EU sources. It is updated every year, and is available for viewing and download on the EMODnet web portal (Human Activities, https://emodnet.ec.europa.eu/en/human-activities). The dataset contain lines representing actual cable routes locations. Compared with the previous version, this version includes an update of the German cables."
+        },
+        {
+          "name": "emodnet:maltacables",
+          "title": "Telecommunication Cables - MT IOI-MOC",
+          "abstract": "The dataset on subsea telecommunication cables in the European waters was created in 2014 by Cogea for the European Marine Observation and Data Network (EMODnet). It is the result of the aggregation of datasets provided by several EU and non-EU sources. It is updated every year, and is available for viewing and download on the EMODnet web portal (Human Activities, https://emodnet.ec.europa.eu/en/human-activities). The dataset contain lines representing actual cable routes locations. Compared with the previous version, this version includes an update of the German cables."
+        }
+      ],
+      "ok": true,
+      "preserved_last_known_good": false,
+      "generated_at": "2026-07-21T17:35:52+00:00",
+      "raw_feature_count": 28,
+      "feature_count": 28,
+      "output_bytes": 20939,
+      "simplify_tolerance_degrees": 0.0005,
+      "fetch": [
+        {
+          "type_name": "emodnet:bshcontiscables",
+          "title": "Telecommunication Cables - DE BSH-CONTIS",
+          "feature_count": 28,
+          "request_mode": "wfs2",
+          "pages": 1
+        },
+        {
+          "type_name": "emodnet:cicacables",
+          "title": "Telecommunication Cables - ES CICA",
+          "feature_count": 0,
+          "request_mode": "wfs2",
+          "pages": 1
+        },
+        {
+          "type_name": "emodnet:maltacables",
+          "title": "Telecommunication Cables - MT IOI-MOC",
+          "feature_count": 0,
+          "request_mode": "wfs2",
+          "pages": 1
+        }
+      ],
+      "warnings": [],
+      "size_attempts": [
+        {
+          "simplify_tolerance_degrees": 0.0005,
+          "feature_count": 28,
+          "output_bytes": 20768
+        }
+      ]
+    },
+    {
+      "id": "power_cables",
+      "filename": "power_cables.geojson",
+      "selected_feature_types": [
+        {
+          "name": "emodnet:pcablesbshcontis",
+          "title": "Power Cables - DE BSH-CONTIS",
+          "abstract": "The dataset on subsea power cables in the European waters was created in 2014 by Cogea for the European Marine Observation and Data Network (EMODnet). It is the result of the aggregation of datasets provided by several EU and non-EU sources. It is updated every year, and is available for viewing and download on the EMODnet web portal (Human Activities, https://emodnet.ec.europa.eu/en/human-activities). The dataset contain lines representing actual cable routes locations. Compared with the previous version, this version now includes the German high voltage cables."
+        },
+        {
+          "name": "emodnet:pcablesnve",
+          "title": "Power Cables - NO NVE",
+          "abstract": "The dataset on subsea power cables in the European waters was created in 2014 by Cogea for the European Marine Observation and Data Network (EMODnet). It is the result of the aggregation of datasets provided by several EU and non-EU sources. It is updated every year, and is available for viewing and download on the EMODnet web portal (Human Activities, https://emodnet.ec.europa.eu/en/human-activities). The dataset contain lines representing actual cable routes locations. Compared with the previous version, this version now includes the German high voltage cables."
+        },
+        {
+          "name": "emodnet:pcablesrijks",
+          "title": "Power Cables - NL Rijkswaterstaat",
+          "abstract": "The dataset on subsea power cables in the European waters was created in 2014 by Cogea for the European Marine Observation and Data Network (EMODnet). It is the result of the aggregation of datasets provided by several EU and non-EU sources. It is updated every year, and is available for viewing and download on the EMODnet web portal (Human Activities, https://emodnet.ec.europa.eu/en/human-activities). The dataset contain lines representing actual cable routes locations. Compared with the previous version, this version now includes the German high voltage cables."
+        }
+      ],
+      "ok": true,
+      "preserved_last_known_good": false,
+      "generated_at": "2026-07-21T17:35:58+00:00",
+      "raw_feature_count": 1044,
+      "feature_count": 1044,
+      "output_bytes": 664774,
+      "simplify_tolerance_degrees": 0.0005,
+      "fetch": [
+        {
+          "type_name": "emodnet:pcablesbshcontis",
+          "title": "Power Cables - DE BSH-CONTIS",
+          "feature_count": 89,
+          "request_mode": "wfs2",
+          "pages": 1
+        },
+        {
+          "type_name": "emodnet:pcablesnve",
+          "title": "Power Cables - NO NVE",
+          "feature_count": 918,
+          "request_mode": "wfs2",
+          "pages": 1
+        },
+        {
+          "type_name": "emodnet:pcablesrijks",
+          "title": "Power Cables - NL Rijkswaterstaat",
+          "feature_count": 37,
+          "request_mode": "wfs2",
+          "pages": 1
+        }
+      ],
+      "warnings": [],
+      "size_attempts": [
+        {
+          "simplify_tolerance_degrees": 0.0005,
+          "feature_count": 1044,
+          "output_bytes": 664599
+        }
+      ]
+    },
+    {
+      "id": "cable_landings",
+      "filename": "cable_landings.geojson",
+      "selected_feature_types": [],
+      "ok": false,
+      "preserved_last_known_good": false,
+      "error": "No matching WFS feature type discovered",
+      "existing_feature_count": 0
+    },
+    {
+      "id": "pipelines",
+      "filename": "pipelines.geojson",
+      "selected_feature_types": [
+        {
+          "name": "emodnet:pipelines",
+          "title": "Pipelines",
+          "abstract": "The dataset on offshore pipelines in the European waters was created in 2017 by Cogea for the European Marine Observation and Data Network (EMODnet). It is the result of the aggregation and harmonization of datasets provided by several several EU and non-EU sources. It is updated every year, and is available for viewing and download on the EMODnet web portal (Human Activities, https://emodnet.ec.europa.eu/en/human-activities). The dataset contains lines representing the actual routes of offshore pipelines (where available) in the following countries: Croatia, Denmark, Estonia, Finland, Germany, Ireland, Netherlands, Norway, Poland, Russia, Spain (Andalucía), Sweden and United Kingdom. Each line has the following harmonized attributes (where available): code, name, status (abandoned, active, application submitted, not in use, planned, pre-commissioning, proposed, under construction), medium (air, chemical glycol, chemical methanol, chemical n/a, condensate, control, cooling water, gas, geothermal heating, hydraulic, mixed hydrocarbons, oil, other fluid, sewage, water), operator, size (inches), length (metres), year, from and to locality or facility, country code, country name and notes. Compared with the previous version, this new version includes updated data from German BSH-CONTIS source."
+        }
+      ],
+      "ok": true,
+      "preserved_last_known_good": false,
+      "generated_at": "2026-07-21T17:36:06+00:00",
+      "raw_feature_count": 3924,
+      "feature_count": 3924,
+      "output_bytes": 1872222,
+      "simplify_tolerance_degrees": 0.0005,
+      "fetch": [
+        {
+          "type_name": "emodnet:pipelines",
+          "title": "Pipelines",
+          "feature_count": 3924,
+          "request_mode": "wfs2",
+          "pages": 1
+        }
+      ],
+      "warnings": [],
+      "size_attempts": [
+        {
+          "simplify_tolerance_degrees": 0.0005,
+          "feature_count": 3924,
+          "output_bytes": 1872045
+        }
+      ]
+    },
+    {
+      "id": "wind_farms",
+      "filename": "wind_farms.geojson",
+      "selected_feature_types": [
+        {
+          "name": "emodnet:windfarms",
+          "title": "Wind Farms (Points)",
+          "abstract": "The dataset on offshore wind farms in the European seas was created in 2014 by CETMAR for the European Marine Observation and Data Network (EMODnet). It is the result of the aggregation and harmonization of datasets provided by several sources. It is updated every year and it is available for viewing and download on EMODnet web portal (Human Activities, https://emodnet.ec.europa.eu/en/human-activities). The dataset contains points and/or (where available) polygons representing offshore wind farms in the following countries: Belgium, Denmark, Estonia, Finland, France, Germany, Greece, Ireland, Italy, Latvia, Lithuania, Netherlands, Norway, Poland, Portugal, Spain, Sweden and United Kingdom. Each point and polygon has the following attributes (where available): Name, Nº of turbines, Status (Approved, Planned, Dismantled, Construction, Production, Test site), Type of installation, Country, Update year, Start year, Power (MW), Distance to coast (metres) and Area (square kilometres). The distance to coast (EEA coastline shapefile) has been calculated using the UTM WGS84 Zone projected coordinate system where data fall in."
+        },
+        {
+          "name": "emodnet:windfarmspoly",
+          "title": "Wind Farms (Polygons)",
+          "abstract": "The dataset on offshore wind farms in the European seas was created in 2014 by CETMAR for the European Marine Observation and Data Network (EMODnet). It is the result of the aggregation and harmonization of datasets provided by several sources. It is updated every year and it is available for viewing and download on EMODnet web portal (Human Activities, https://emodnet.ec.europa.eu/en/human-activities). The dataset contains points and/or (where available) polygons representing offshore wind farms in the following countries: Belgium, Denmark, Estonia, Finland, France, Germany, Greece, Ireland, Italy, Latvia, Lithuania, Netherlands, Norway, Poland, Portugal, Spain, Sweden and United Kingdom. Each point and polygon has the following attributes (where available): Name, Nº of turbines, Status (Approved, Planned, Dismantled, Construction, Production, Test site), Type of installation, Country, Update year, Start year, Power (MW), Distance to coast (metres) and Area (square kilometres). The distance to coast (EEA coastline shapefile) has been calculated using the UTM WGS84 Zone projected coordinate system where data fall in."
+        }
+      ],
+      "ok": true,
+      "preserved_last_known_good": false,
+      "generated_at": "2026-07-21T17:36:09+00:00",
+      "raw_feature_count": 826,
+      "feature_count": 826,
+      "output_bytes": 385602,
+      "simplify_tolerance_degrees": 0.001,
+      "fetch": [
+        {
+          "type_name": "emodnet:windfarms",
+          "title": "Wind Farms (Points)",
+          "feature_count": 298,
+          "request_mode": "wfs2",
+          "pages": 1
+        },
+        {
+          "type_name": "emodnet:windfarmspoly",
+          "title": "Wind Farms (Polygons)",
+          "feature_count": 528,
+          "request_mode": "wfs2",
+          "pages": 1
+        }
+      ],
+      "warnings": [],
+      "size_attempts": [
+        {
+          "simplify_tolerance_degrees": 0.001,
+          "feature_count": 826,
+          "output_bytes": 385430
+        }
+      ]
+    },
+    {
+      "id": "offshore_energy",
+      "filename": "offshore_energy.geojson",
+      "selected_feature_types": [],
+      "ok": false,
+      "preserved_last_known_good": true,
+      "error": "No matching WFS feature type discovered",
+      "existing_feature_count": 222
+    }
+  ]
+}
