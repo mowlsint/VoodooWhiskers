@@ -16,7 +16,7 @@ import json
 import os
 import sys
 import tempfile
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -86,25 +86,69 @@ def first_value(mapping: dict[str, Any], *keys: str) -> Any:
     return ""
 
 
-def timestamp_to_iso(value: Any) -> str:
-    if value in (None, ""):
-        return utc_now_iso()
-    if isinstance(value, (int, float)) or (isinstance(value, str) and value.strip().isdigit()):
-        number = float(value)
-        if number > 10_000_000_000:  # milliseconds
-            number /= 1000.0
-        try:
-            return datetime.fromtimestamp(number, tz=timezone.utc).replace(microsecond=0).isoformat()
-        except (OverflowError, OSError, ValueError):
-            return utc_now_iso()
-    text = str(value).strip()
+def normalize_timestamp(value: Any, fallback: str | None = None) -> tuple[str, bool, str]:
+    """Return a timestamp plus explicit quality metadata.
+
+    Invalid epoch-like values (notably 1970 dates from Fintraffic payload variants)
+    use retrieval time as a bounded fallback. The fallback is marked as imprecise so
+    downstream dwell and track analysis can reduce confidence.
+    """
+    fallback = fallback or utc_now_iso()
+    parsed: datetime | None = None
+    if value not in (None, ""):
+        text = str(value).strip()
+        numeric = isinstance(value, (int, float)) or text.replace(".", "", 1).isdigit()
+        if numeric:
+            number = float(value)
+            if number > 10_000_000_000:
+                number /= 1000.0
+            try:
+                parsed = datetime.fromtimestamp(number, tz=timezone.utc).replace(microsecond=0)
+            except (OverflowError, OSError, ValueError):
+                parsed = None
+        else:
+            try:
+                parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+                if parsed.tzinfo is None:
+                    parsed = parsed.replace(tzinfo=timezone.utc)
+                parsed = parsed.astimezone(timezone.utc).replace(microsecond=0)
+            except ValueError:
+                parsed = None
+    now = datetime.now(timezone.utc).replace(microsecond=0)
+    if parsed and datetime(2000, 1, 1, tzinfo=timezone.utc) <= parsed <= now + timedelta(days=1):
+        return parsed.isoformat(), True, "source_timestamp"
+    return fallback, False, "retrieval_time_fallback"
+
+
+def normalize_sog(value: Any) -> float | None:
     try:
-        parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
-        if parsed.tzinfo is None:
-            parsed = parsed.replace(tzinfo=timezone.utc)
-        return parsed.astimezone(timezone.utc).replace(microsecond=0).isoformat()
-    except ValueError:
-        return utc_now_iso()
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    # AIS raw sentinel 1023 is commonly exposed as 102.3 knots.
+    if number < 0 or number >= 102.2:
+        return None
+    return round(number, 2)
+
+
+def normalize_cog(value: Any) -> float | None:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    if number < 0 or number >= 360:
+        return None
+    return round(number, 2)
+
+
+def normalize_heading(value: Any) -> int | None:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    if number < 0 or number >= 511:
+        return None
+    return int(round(number))
 
 
 def iter_records(payload: Any) -> Iterable[dict[str, Any]]:
@@ -147,7 +191,7 @@ def fintraffic_metadata_index(payload: Any) -> dict[str, dict[str, Any]]:
     return index
 
 
-def normalize_fintraffic(location_record: dict[str, Any], metadata: dict[str, Any]) -> dict[str, Any] | None:
+def normalize_fintraffic(location_record: dict[str, Any], metadata: dict[str, Any], fetched_at: str) -> dict[str, Any] | None:
     props, geometry = unpack_feature(location_record)
     mmsi = digits(first_value(props, "mmsi", "MMSI"))
     if not mmsi:
@@ -157,6 +201,9 @@ def normalize_fintraffic(location_record: dict[str, Any], metadata: dict[str, An
     lon = coordinates[0] if len(coordinates) >= 2 else first_value(props, "lon", "longitude", "Longitude")
     lat = coordinates[1] if len(coordinates) >= 2 else first_value(props, "lat", "latitude", "Latitude")
 
+    observed_at, timestamp_valid, timestamp_basis = normalize_timestamp(
+        first_value(props, "timestamp", "time", "timestampExternal", "msgtime"), fetched_at
+    )
     return {
         "mmsi": mmsi,
         "imo": clean_str(first_value(metadata, "imo", "imoNumber", "IMO")),
@@ -167,17 +214,19 @@ def normalize_fintraffic(location_record: dict[str, Any], metadata: dict[str, An
         "destination": clean_str(first_value(metadata, "destination", "Destination")),
         "ship_type": first_value(metadata, "type", "shipType", "ShipType"),
         "navigational_status": first_value(props, "navStat", "navigationalStatus", "NavigationalStatus"),
-        "sog": first_value(props, "sog", "speedOverGround", "Sog"),
-        "cog": first_value(props, "cog", "courseOverGround", "Cog"),
-        "true_heading": first_value(props, "heading", "trueHeading", "TrueHeading"),
+        "sog": normalize_sog(first_value(props, "sog", "speedOverGround", "Sog")),
+        "cog": normalize_cog(first_value(props, "cog", "courseOverGround", "Cog")),
+        "true_heading": normalize_heading(first_value(props, "heading", "trueHeading", "TrueHeading")),
         "source": "Fintraffic Digitraffic",
         "source_provider": "fintraffic",
         "message_type_last": "RegionalSnapshot",
-        "last_seen_utc": timestamp_to_iso(first_value(props, "timestamp", "time", "timestampExternal", "msgtime")),
+        "last_seen_utc": observed_at,
+        "position_timestamp_valid": timestamp_valid,
+        "position_timestamp_basis": timestamp_basis,
     }
 
 
-def normalize_barentswatch(record: dict[str, Any]) -> dict[str, Any] | None:
+def normalize_barentswatch(record: dict[str, Any], fetched_at: str) -> dict[str, Any] | None:
     props, geometry = unpack_feature(record)
     mmsi = digits(first_value(props, "mmsi", "MMSI"))
     if not mmsi:
@@ -187,6 +236,9 @@ def normalize_barentswatch(record: dict[str, Any]) -> dict[str, Any] | None:
     lon = coordinates[0] if len(coordinates) >= 2 else first_value(props, "longitude", "lon", "Longitude")
     lat = coordinates[1] if len(coordinates) >= 2 else first_value(props, "latitude", "lat", "Latitude")
 
+    observed_at, timestamp_valid, timestamp_basis = normalize_timestamp(
+        first_value(props, "msgtime", "timestamp", "time"), fetched_at
+    )
     contact = {
         "mmsi": mmsi,
         "imo": clean_str(first_value(props, "imoNumber", "imo", "IMO")),
@@ -197,13 +249,15 @@ def normalize_barentswatch(record: dict[str, Any]) -> dict[str, Any] | None:
         "destination": clean_str(first_value(props, "destination", "Destination")),
         "ship_type": first_value(props, "shipType", "type", "ShipType"),
         "navigational_status": first_value(props, "navigationalStatus", "navStat", "NavigationalStatus"),
-        "sog": first_value(props, "speedOverGround", "sog", "Sog"),
-        "cog": first_value(props, "courseOverGround", "cog", "Cog"),
-        "true_heading": first_value(props, "trueHeading", "heading", "TrueHeading"),
+        "sog": normalize_sog(first_value(props, "speedOverGround", "sog", "Sog")),
+        "cog": normalize_cog(first_value(props, "courseOverGround", "cog", "Cog")),
+        "true_heading": normalize_heading(first_value(props, "trueHeading", "heading", "TrueHeading")),
         "source": "BarentsWatch / Norwegian Coastal Administration",
         "source_provider": "barentswatch",
         "message_type_last": "RegionalSnapshot",
-        "last_seen_utc": timestamp_to_iso(first_value(props, "msgtime", "timestamp", "time")),
+        "last_seen_utc": observed_at,
+        "position_timestamp_valid": timestamp_valid,
+        "position_timestamp_basis": timestamp_basis,
     }
     stream = first_value(props, "stream", "sourceStream")
     if stream not in (None, ""):
@@ -226,6 +280,7 @@ def fetch_fintraffic(session: requests.Session) -> tuple[dict[str, Any], dict[st
     vessels_response = session.get(FINTRAFFIC_VESSELS_URL, timeout=(15, 120))
     vessels_response.raise_for_status()
 
+    fetched_at = utc_now_iso()
     locations_payload = locations_response.json()
     metadata = fintraffic_metadata_index(vessels_response.json())
     raw_records = list(iter_records(locations_payload))
@@ -233,13 +288,13 @@ def fetch_fintraffic(session: requests.Session) -> tuple[dict[str, Any], dict[st
     for record in raw_records:
         props, _ = unpack_feature(record)
         mmsi = digits(first_value(props, "mmsi", "MMSI"))
-        contact = normalize_fintraffic(record, metadata.get(mmsi, {}))
+        contact = normalize_fintraffic(record, metadata.get(mmsi, {}), fetched_at)
         if contact:
             normalized.append(contact)
     kept = filter_contacts(normalized)
     payload = {
         "schema_version": "1.0.0",
-        "generated_at": utc_now_iso(),
+        "generated_at": fetched_at,
         "source": "Fintraffic Digitraffic",
         "provider": "fintraffic",
         "license": "CC BY 4.0",
@@ -278,12 +333,13 @@ def fetch_barentswatch(session: requests.Session, client_id: str, client_secret:
         timeout=(15, 180),
     )
     response.raise_for_status()
+    fetched_at = utc_now_iso()
     records = list(iter_records(response.json()))
-    normalized = [contact for record in records if (contact := normalize_barentswatch(record))]
+    normalized = [contact for record in records if (contact := normalize_barentswatch(record, fetched_at))]
     kept = filter_contacts(normalized)
     payload = {
         "schema_version": "1.0.0",
-        "generated_at": utc_now_iso(),
+        "generated_at": fetched_at,
         "source": "BarentsWatch / Norwegian Coastal Administration",
         "provider": "barentswatch",
         "license": "NLOD/open-data terms; attribution required",
