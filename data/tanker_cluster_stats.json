@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-07-20T16:45:13+00:00",
-  "total_contacts_seen": 415,
-  "total_unique_tankers_in_context_zones": 122,
+  "generated_at": "2026-07-21T05:29:36+00:00",
+  "total_contacts_seen": 400,
+  "total_unique_tankers_in_context_zones": 113,
   "total_tanker_context_zones": 5,
-  "neutral_tanker_context_total": 34,
-  "voi_tankers_in_context_zones": 88,
+  "neutral_tanker_context_total": 30,
+  "voi_tankers_in_context_zones": 83,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 107,
+      "total_tankers": 102,
       "neutral_tankers": 23,
-      "voi_tankers": 84,
-      "slow_or_waiting": 80,
+      "voi_tankers": 79,
+      "slow_or_waiting": 78,
       "for_order": 8,
       "examples": [
         {
@@ -39,7 +39,7 @@
           "imo": "9010929",
           "mmsi": "210056000",
           "destination": "TALLINN",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -49,27 +49,7 @@
           "imo": "9843209",
           "mmsi": "215515000",
           "destination": "RULED",
-          "sog": "10.5",
-          "categories": [
-            "recent_russian_portcall_10d"
-          ]
-        },
-        {
-          "name": "TERN LAND",
-          "imo": "9988994",
-          "mmsi": "219034373",
-          "destination": "LV RIX",
-          "sog": "12.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "MINERVA LIBRA",
-          "imo": "9317951",
-          "mmsi": "248716000",
-          "destination": "RUULU",
-          "sog": "10.2",
+          "sog": "1.1",
           "categories": [
             "recent_russian_portcall_10d"
           ]
@@ -79,7 +59,7 @@
           "imo": "9309435",
           "mmsi": "248993000",
           "destination": "FOR ORDERS",
-          "sog": "0.0",
+          "sog": "0.4",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -93,6 +73,26 @@
           "categories": [
             "recent_russian_portcall_10d"
           ]
+        },
+        {
+          "name": "MATILDA",
+          "imo": "9407457",
+          "mmsi": "249747000",
+          "destination": "FIPRV",
+          "sog": "10.4",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "NORDSTRAUM",
+          "imo": "9523548",
+          "mmsi": "258152000",
+          "destination": "FIKTK > FIRAU",
+          "sog": "13.3",
+          "categories": [
+            "neutral_tanker_context"
+          ]
         }
       ],
       "zone_id": "gulf_of_finland_ru_approaches",
@@ -100,38 +100,28 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 12,
-      "neutral_tankers": 11,
+      "total_tankers": 8,
+      "neutral_tankers": 7,
       "voi_tankers": 1,
       "slow_or_waiting": 0,
       "for_order": 1,
       "examples": [
         {
-          "name": "AMALTHEA",
-          "imo": "9298650",
-          "mmsi": "240447000",
-          "destination": "DK SKA",
-          "sog": "13",
+          "name": "CLEAN COPANO",
+          "imo": "9886744",
+          "mmsi": "229416000",
+          "destination": "OPEN SEA FOR ORDERS",
+          "sog": "18.1",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "CORAL PATULA",
-          "imo": "9425241",
-          "mmsi": "244870429",
-          "destination": "BE ZWL",
-          "sog": "14.4",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "BITONIA",
-          "imo": "9503902",
-          "mmsi": "246354000",
-          "destination": "GBDUN>SEGOT",
-          "sog": "11.5",
+          "name": "JAARLI",
+          "imo": "9892432",
+          "mmsi": "230687000",
+          "destination": "FISKV-GBSUL",
+          "sog": "12.9",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -147,31 +137,11 @@
           ]
         },
         {
-          "name": "MISSISSIPPI STAR",
-          "imo": "9527623",
-          "mmsi": "248621000",
-          "destination": "NOOSL",
-          "sog": "11.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "SONGA AURORA",
-          "imo": "9373632",
-          "mmsi": "255806341",
-          "destination": "NOMON",
-          "sog": "12",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "SATURNUS",
-          "imo": "9816529",
-          "mmsi": "266464000",
-          "destination": "DKKAL",
-          "sog": "8.6",
+          "name": "BODIL KNUTSEN",
+          "imo": "9472529",
+          "mmsi": "257998000",
+          "destination": "DK KAL",
+          "sog": "12.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -184,46 +154,56 @@
           "sog": "10.6",
           "categories": [
             "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SM KESTREL",
+          "imo": "9917579",
+          "mmsi": "352002925",
+          "destination": "PLSWI",
+          "sog": "14.3",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "BOCHEM BUCEPHALAS",
+          "imo": "9760550",
+          "mmsi": "477142400",
+          "destination": "FIPOR",
+          "sog": "13",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "CUMBRIAN",
+          "imo": "9298404",
+          "mmsi": "314001027",
+          "destination": "RU KGD",
+          "sog": "11.1",
+          "categories": [
+            "recent_russian_portcall_10d"
           ]
         }
       ],
       "zone_id": "danish_straits_kattegat",
       "zone_label": "Danish Straits / Kattegat",
-      "level": "heightened_context"
+      "level": "context"
     },
     {
-      "total_tankers": 11,
-      "neutral_tankers": 11,
+      "total_tankers": 6,
+      "neutral_tankers": 6,
       "voi_tankers": 0,
       "slow_or_waiting": 0,
       "for_order": 1,
       "examples": [
         {
-          "name": "AMALTHEA",
-          "imo": "9298650",
-          "mmsi": "240447000",
-          "destination": "DK SKA",
-          "sog": "13",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "CORAL PATULA",
-          "imo": "9425241",
-          "mmsi": "244870429",
-          "destination": "BE ZWL",
-          "sog": "14.4",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "BITONIA",
-          "imo": "9503902",
-          "mmsi": "246354000",
-          "destination": "GBDUN>SEGOT",
-          "sog": "11.5",
+          "name": "JAARLI",
+          "imo": "9892432",
+          "mmsi": "230687000",
+          "destination": "FISKV-GBSUL",
+          "sog": "12.9",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -239,31 +219,11 @@
           ]
         },
         {
-          "name": "MISSISSIPPI STAR",
-          "imo": "9527623",
-          "mmsi": "248621000",
-          "destination": "NOOSL",
-          "sog": "11.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "SONGA AURORA",
-          "imo": "9373632",
-          "mmsi": "255806341",
-          "destination": "NOMON",
-          "sog": "12",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "SATURNUS",
-          "imo": "9816529",
-          "mmsi": "266464000",
-          "destination": "DKKAL",
-          "sog": "8.6",
+          "name": "BODIL KNUTSEN",
+          "imo": "9472529",
+          "mmsi": "257998000",
+          "destination": "DK KAL",
+          "sog": "12.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -274,6 +234,26 @@
           "mmsi": "311000820",
           "destination": "N0STU>SEGOT",
           "sog": "10.6",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SM KESTREL",
+          "imo": "9917579",
+          "mmsi": "352002925",
+          "destination": "PLSWI",
+          "sog": "14.3",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "BOCHEM BUCEPHALAS",
+          "imo": "9760550",
+          "mmsi": "477142400",
+          "destination": "FIPOR",
+          "sog": "13",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -281,7 +261,7 @@
       ],
       "zone_id": "skagen_waiting_area",
       "zone_label": "Skagen / northern Kattegat",
-      "level": "watch"
+      "level": "context"
     },
     {
       "total_tankers": 3,
