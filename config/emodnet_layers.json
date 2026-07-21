@@ -1,9 +1,14 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "service_url": "https://ows.emodnet-humanactivities.eu/wfs",
   "service_version": "2.0.0",
   "bbox_crs": "urn:ogc:def:crs:OGC::CRS84",
-  "bbox": [-6.0, 50.0, 32.0, 72.5],
+  "bbox": [
+    -6.0,
+    50.0,
+    32.0,
+    72.5
+  ],
   "page_size": 5000,
   "attribution": "EMODnet Human Activities and original data providers",
   "license_note": "Check the metadata of each source dataset; EMODnet products are commonly published under open terms with attribution.",
@@ -11,53 +16,156 @@
     {
       "id": "telecom_cables_actual",
       "filename": "telecom_cables.geojson",
-      "title_include_all": ["cable"],
-      "title_include_any": ["actual route", "actual cable", "telecommunication"],
-      "title_exclude": ["schematic", "landing", "power"],
+      "title_include_all": [
+        "cable"
+      ],
+      "title_include_any": [
+        "actual route",
+        "actual cable",
+        "telecommunication"
+      ],
+      "title_exclude": [
+        "schematic",
+        "landing",
+        "power"
+      ],
       "geometry": "line",
-      "style": {"color": "#42d4f4", "weight": 2}
+      "style": {
+        "color": "#42d4f4",
+        "weight": 2
+      },
+      "max_properties": 18,
+      "max_property_chars": 240,
+      "simplify_tolerance_degrees": 0.0005,
+      "max_simplify_tolerance_degrees": 0.003,
+      "target_max_bytes": 12582912
     },
     {
       "id": "power_cables",
       "filename": "power_cables.geojson",
-      "title_include_all": ["cable"],
-      "title_include_any": ["power", "electric", "electricity", "interconnector"],
-      "title_exclude": ["telecommunication", "landing"],
+      "title_include_all": [
+        "cable"
+      ],
+      "title_include_any": [
+        "power",
+        "electric",
+        "electricity",
+        "interconnector"
+      ],
+      "title_exclude": [
+        "telecommunication",
+        "landing"
+      ],
       "geometry": "line",
-      "style": {"color": "#f4d03f", "weight": 2}
+      "style": {
+        "color": "#f4d03f",
+        "weight": 2
+      },
+      "max_properties": 18,
+      "max_property_chars": 240,
+      "simplify_tolerance_degrees": 0.0005,
+      "max_simplify_tolerance_degrees": 0.003,
+      "target_max_bytes": 12582912
     },
     {
       "id": "cable_landings",
       "filename": "cable_landings.geojson",
-      "title_include_any": ["landing station", "cable landing"],
+      "title_include_any": [
+        "landing station",
+        "cable landing"
+      ],
       "title_exclude": [],
       "geometry": "point",
-      "style": {"color": "#ffffff", "radius": 4}
+      "style": {
+        "color": "#ffffff",
+        "radius": 4
+      },
+      "max_properties": 18,
+      "max_property_chars": 240,
+      "simplify_tolerance_degrees": 0.0,
+      "max_simplify_tolerance_degrees": 0.0,
+      "target_max_bytes": 5242880
     },
     {
       "id": "pipelines",
       "filename": "pipelines.geojson",
-      "title_include_any": ["pipeline", "pipelines"],
-      "title_exclude": ["licence", "license"],
+      "title_include_any": [
+        "pipeline",
+        "pipelines"
+      ],
+      "title_exclude": [
+        "licence",
+        "license"
+      ],
       "geometry": "line",
-      "style": {"color": "#ff8c42", "weight": 2}
+      "style": {
+        "color": "#ff8c42",
+        "weight": 2
+      },
+      "max_properties": 18,
+      "max_property_chars": 240,
+      "simplify_tolerance_degrees": 0.0005,
+      "max_simplify_tolerance_degrees": 0.003,
+      "target_max_bytes": 12582912
     },
     {
       "id": "wind_farms",
       "filename": "wind_farms.geojson",
-      "title_include_all": ["wind"],
-      "title_include_any": ["farm", "farms", "energy"],
-      "title_exclude": ["density"],
+      "title_include_all": [
+        "wind"
+      ],
+      "title_include_any": [
+        "farm",
+        "farms",
+        "energy"
+      ],
+      "title_exclude": [
+        "density"
+      ],
       "geometry": "mixed",
-      "style": {"color": "#7bed9f", "weight": 1, "fillOpacity": 0.12}
+      "style": {
+        "color": "#7bed9f",
+        "weight": 1,
+        "fillOpacity": 0.12
+      },
+      "max_properties": 18,
+      "max_property_chars": 240,
+      "simplify_tolerance_degrees": 0.001,
+      "max_simplify_tolerance_degrees": 0.005,
+      "target_max_bytes": 8388608
     },
     {
       "id": "offshore_energy",
       "filename": "offshore_energy.geojson",
-      "title_include_any": ["offshore platform", "oil and gas installation", "oil and gas platform", "ocean energy"],
-      "title_exclude": ["licence", "license", "wind"],
+      "title_include_any": [
+        "offshore platform",
+        "oil and gas installation",
+        "oil and gas platform",
+        "ocean energy"
+      ],
+      "title_exclude": [
+        "licence",
+        "license",
+        "wind"
+      ],
       "geometry": "mixed",
-      "style": {"color": "#c084fc", "weight": 1, "radius": 4}
+      "style": {
+        "color": "#c084fc",
+        "weight": 1,
+        "radius": 4
+      },
+      "max_properties": 18,
+      "max_property_chars": 240,
+      "simplify_tolerance_degrees": 0.0,
+      "max_simplify_tolerance_degrees": 0.0,
+      "target_max_bytes": 5242880
     }
-  ]
+  ],
+  "coordinate_precision": 5,
+  "simplify_tolerance_degrees": 0.0005,
+  "max_simplify_tolerance_degrees": 0.003,
+  "simplify_growth_factor": 1.8,
+  "target_max_layer_bytes": 12582912,
+  "hard_max_layer_bytes": 41943040,
+  "hard_max_total_reference_bytes": 62914560
 }
