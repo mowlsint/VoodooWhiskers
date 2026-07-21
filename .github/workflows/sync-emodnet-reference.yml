@@ -1,0 +1,29 @@
+name: Sync EMODnet reference layers
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "25 4 * * 1"
+permissions:
+  contents: write
+concurrency:
+  group: voodoo-emodnet-reference-main
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11'}
+      - run: pip install "requests>=2.32,<3"
+      - run: python scripts/sync_emodnet_reference.py
+      - run: python scripts/build_public_outputs.py
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/reference public/data/analysis public/downloads public/data/manifest.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Sync EMODnet reference layers"
+          git pull --rebase --autostash origin main
+          git push origin HEAD:main
