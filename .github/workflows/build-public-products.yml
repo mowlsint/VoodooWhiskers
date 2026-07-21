@@ -1,29 +1,106 @@
-name: Build public Voodoo Whiskers products
+name: Build public Voodoo products (lightweight)
+
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ["Update maritime layers", "Update regional AIS layers"]
+    workflows:
+      - Update maritime layers
+      - Update regional AIS layers
     types: [completed]
+
 permissions:
   contents: write
+
 concurrency:
   group: voodoo-public-products-main
   cancel-in-progress: false
+
 jobs:
-  build:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+  build-public-products:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 25
+
     steps:
-      - uses: actions/checkout@v5
-        with: {fetch-depth: 0}
-      - uses: actions/setup-python@v6
-        with: {python-version: '3.11'}
-      - run: python scripts/build_public_outputs.py
-      - run: |
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Build public vessel products (history unchanged)
+        run: |
+          set -euo pipefail
+          python scripts/build_public_outputs.py
+
+      - name: Build infrastructure analysis
+        run: |
+          set -euo pipefail
+          python scripts/analyze_infrastructure_proximity.py
+
+      - name: Build public manifests
+        run: |
+          set -euo pipefail
+          python scripts/build_public_manifest.py
+
+      - name: Validate public products
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            scripts/build_public_outputs.py \
+            scripts/analyze_infrastructure_proximity.py \
+            scripts/build_public_manifest.py
+          node --check public/assets/infrastructure-watch.js
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          required = [
+              'public/data/manifest.json',
+              'public/data/vessels/voi_snapshot_latest.json',
+              'public/data/vessels/ais_contacts_latest.json',
+              'public/data/vessels/ais_contacts_latest.geojson',
+              'public/data/vessels/vessel_positions_latest.geojson',
+              'public/data/analysis/infrastructure_events_latest.json',
+              'public/downloads/manifest.json',
+              'public/downloads/voi_list_latest.json',
+              'public/index.html',
+              'public/infrastructure-watch.html',
+          ]
+          for name in required:
+              path = Path(name)
+              if not path.exists() or path.stat().st_size == 0:
+                  raise SystemExit(f'missing or empty: {name}')
+              if path.suffix in {'.json', '.geojson'}:
+                  json.loads(path.read_text(encoding='utf-8'))
+          print('public product validation: ok')
+          PY
+
+      - name: Commit public products
+        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public
-          git diff --cached --quiet && exit 0
+          if git diff --cached --quiet; then
+            echo "No public product changes to commit."
+            exit 0
+          fi
           git commit -m "Build public Voodoo Whiskers products"
-          git pull --rebase --autostash origin main
-          git push origin HEAD:main
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            git rebase --abort || true
+            [ "$attempt" -lt 3 ] && sleep 10
+          done
+          echo "::error::Failed to push public products after 3 attempts."
+          exit 1

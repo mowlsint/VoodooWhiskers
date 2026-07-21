@@ -1,29 +1,77 @@
-name: Sync EMODnet reference layers
+name: Sync EMODnet infrastructure reference
+
 on:
   workflow_dispatch:
   schedule:
-    - cron: "25 4 * * 1"
+    # Reference geometry is slow-changing; weekly refresh is sufficient.
+    - cron: "25 0 * * 1"
+
 permissions:
   contents: write
+
 concurrency:
   group: voodoo-emodnet-reference-main
   cancel-in-progress: false
+
 jobs:
-  sync:
+  sync-reference:
     runs-on: ubuntu-latest
+    timeout-minutes: 35
+
     steps:
-      - uses: actions/checkout@v5
-        with: {fetch-depth: 0}
-      - uses: actions/setup-python@v6
-        with: {python-version: '3.11'}
-      - run: pip install "requests>=2.32,<3"
-      - run: python scripts/sync_emodnet_reference.py
-      - run: python scripts/build_public_outputs.py
-      - run: |
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install "requests>=2.32,<3"
+
+      - name: Synchronise EMODnet Human Activities layers
+        env:
+          EMODNET_USER_AGENT: "MOwlSINT Voodoo Whiskers/1.0"
+        run: |
+          set -euo pipefail
+          python scripts/sync_emodnet_reference.py
+
+      - name: Rebuild public products and analysis
+        run: |
+          set -euo pipefail
+          python scripts/build_public_outputs.py
+          python scripts/analyze_infrastructure_proximity.py
+          python scripts/build_public_manifest.py
+          node --check public/assets/infrastructure-watch.js
+
+      - name: Commit reference and derived products
+        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/data/reference public/data/analysis public/downloads public/data/manifest.json
-          git diff --cached --quiet && exit 0
-          git commit -m "Sync EMODnet reference layers"
-          git pull --rebase --autostash origin main
-          git push origin HEAD:main
+          git add public/data/reference/emodnet public/data/analysis public/downloads public/data/manifest.json
+          if git diff --cached --quiet; then
+            echo "No EMODnet/reference changes to commit."
+            exit 0
+          fi
+          git commit -m "Sync EMODnet infrastructure reference"
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            git rebase --abort || true
+            [ "$attempt" -lt 3 ] && sleep 10
+          done
+          echo "::error::Failed to push EMODnet reference update after 3 attempts."
+          exit 1
