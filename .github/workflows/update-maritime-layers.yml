@@ -26,6 +26,8 @@ env:
   AISSTREAM_PIN_MAX_EXPIRED_DAYS: "60"
   AISSTREAM_MAX_CONNECTION_ATTEMPTS: "3"
   AISSTREAM_OPEN_TIMEOUT_SECONDS: "25"
+  AISSTREAM_PROBE_ATTEMPTS: "3"
+  AISSTREAM_PROBE_BACKOFF_SECONDS: "10"
   AISSTREAM_SAMPLE_SECONDS: "1800"
   AISSTREAM_MIN_MESSAGES: "1"
   AISSTREAM_MIN_KEPT_CONTACTS: "1"
@@ -56,6 +58,7 @@ jobs:
             "cryptography>=45,<46"
 
       - name: Probe AISstream certificate without API key
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.certificate_probe_only == true }}
         run: |
           set -euo pipefail
           python scripts/fetch_contacts.py --probe-certificate
@@ -67,6 +70,8 @@ jobs:
           mkdir -p data
 
       - name: Fetch contacts with strict TLS or pinned emergency fallback
+        id: aisstream_fetch
+        continue-on-error: true
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
         env:
           AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
@@ -74,6 +79,11 @@ jobs:
         run: |
           set -euo pipefail
           python scripts/fetch_contacts.py
+
+      - name: Report unavailable AISstream test
+        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false) && steps.aisstream_fetch.outcome == 'failure' }}
+        run: |
+          echo "::warning title=AISstream unavailable::The daily AISstream test failed. The previous AISstream snapshot is retained; Fintraffic and BarentsWatch remain available to the provider merge."
 
       - name: Merge available AIS providers
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
@@ -88,15 +98,19 @@ jobs:
           echo "--- data directory ---"
           ls -la data || true
           echo "--- AISstream provider file exists? ---"
-          test -f data/ais_contacts_aisstream_latest.json && echo "YES" || (echo "NO: data/ais_contacts_aisstream_latest.json missing" && exit 1)
-          echo "--- transport security ---"
-          python - <<'PY'
+          if test -f data/ais_contacts_aisstream_latest.json; then
+            echo "YES"
+            echo "--- transport security ---"
+            python - <<'PY'
           import json
           from pathlib import Path
           payload = json.loads(Path("data/ais_contacts_aisstream_latest.json").read_text(encoding="utf-8"))
           print(json.dumps(payload.get("transport_security", {}), indent=2))
           print(json.dumps(payload.get("fetch_stats", {}), indent=2))
           PY
+          else
+            echo "NO: no AISstream provider snapshot exists yet; continuing with regional providers."
+          fi
           echo "--- merged contacts file exists? ---"
           test -f data/ais_contacts_latest.json && echo "YES" || (echo "NO: data/ais_contacts_latest.json missing" && exit 1)
           echo "--- first lines of merged contacts file ---"
