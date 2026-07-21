@@ -1,1 +1,93 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Voodoo Whiskers – Maritime Infrastructure Watch</title><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><link rel="stylesheet" href="./assets/infrastructure-watch.css"></head><body><div id="app"><header><div><h1>Voodoo Whiskers – Maritime Infrastructure Watch</h1><div class="muted">VOI, vessel positions and EMODnet infrastructure context. Proximity alone does not indicate hostile intent.</div></div><div id="meta" class="muted">Loading…</div><div><a href="./downloads/voi_list_latest.csv">VOI CSV</a> · <a href="./downloads/infrastructure_watch_latest.json">Analysis JSON</a></div></header><div id="map"></div></div><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="./assets/infrastructure-watch.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Voodoo Whiskers maritime infrastructure and vessel context map">
+  <title>Voodoo Whiskers — Maritime Infrastructure Watch</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="./assets/infrastructure-watch.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">MOwlSINT / Voodoo Whiskers</div>
+      <h1>Maritime Infrastructure Watch</h1>
+      <p>AIS vessel context, VOI layers and public maritime infrastructure reference data.</p>
+    </div>
+    <div class="statusCluster">
+      <span class="statusPill" id="dataStatus">Loading data</span>
+      <span class="statusPill neutral">Score integration: shadow only</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <section class="card introCard">
+        <h2>Analyst view</h2>
+        <p>Proximity and movement patterns are review leads. They do not establish hostile intent, attribution or unlawful activity.</p>
+        <div class="metrics" id="summaryMetrics">
+          <div><span>VOI</span><strong>–</strong></div>
+          <div><span>Review events</span><strong>–</strong></div>
+          <div><span>Reference features</span><strong>–</strong></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="sectionHead"><h2>Vessel layers</h2><button type="button" class="smallButton" id="fitVessels">Fit</button></div>
+        <label class="control"><input type="checkbox" data-layer="ais_contacts"> Current monitored AIS contacts</label>
+        <label class="control"><input type="checkbox" data-layer="vessel_positions" checked> Current priority VOI positions</label>
+        <label class="control"><input type="checkbox" data-layer="neutral_tanker_context"> Neutral tanker context</label>
+        <label class="control"><input type="checkbox" data-layer="sanctions_shadowfleet"> Sanctions / shadow fleet</label>
+        <label class="control"><input type="checkbox" data-layer="falseflag_interest"> False-flag interest</label>
+        <label class="control"><input type="checkbox" data-layer="russian_mmsi"> Russian MMSI</label>
+        <label class="control"><input type="checkbox" data-layer="recent_russian_portcall_10d"> Recent Russian port context</label>
+      </section>
+
+      <section class="card">
+        <div class="sectionHead"><h2>Infrastructure</h2><button type="button" class="smallButton" id="fitInfrastructure">Fit</button></div>
+        <label class="control"><input type="checkbox" data-layer="telecom_cables" checked> Telecommunication cables</label>
+        <label class="control"><input type="checkbox" data-layer="power_cables"> Power cables</label>
+        <label class="control"><input type="checkbox" data-layer="cable_landings"> Cable landing stations</label>
+        <label class="control"><input type="checkbox" data-layer="pipelines" checked> Pipelines</label>
+        <label class="control"><input type="checkbox" data-layer="wind_farms"> Offshore wind farms</label>
+        <label class="control"><input type="checkbox" data-layer="offshore_energy"> Offshore energy installations</label>
+      </section>
+
+      <section class="card">
+        <h2>Analysis</h2>
+        <label class="control"><input type="checkbox" data-layer="infrastructure_events" checked> Infrastructure review events</label>
+        <div id="analysisList" class="analysisList"><div class="empty">No analysis loaded yet.</div></div>
+      </section>
+
+      <section class="card">
+        <h2>Downloads</h2>
+        <div id="downloadLinks" class="downloadLinks"><span class="empty">Loading manifest…</span></div>
+      </section>
+
+      <section class="card sourceCard">
+        <h2>Sources and limits</h2>
+        <p>Vessel data: Voodoo Whiskers brokered AIS snapshots. Infrastructure: EMODnet Human Activities and original providers.</p>
+        <p>Coverage is mixed and not continuous. Older or repaired timestamps are visibly marked in vessel popups.</p>
+        <div class="generated" id="generatedAt">Generated: –</div>
+      </section>
+    </aside>
+
+    <section class="mapShell">
+      <div id="map" role="application" aria-label="Voodoo Whiskers maritime infrastructure map"></div>
+      <div class="mapLegend">
+        <div><span class="dot falseFlag"></span>False flag</div>
+        <div><span class="dot sanctions"></span>Sanctions / shadow fleet</div>
+        <div><span class="dot russian"></span>Russian MMSI</div>
+        <div><span class="dot portcall"></span>Recent Russian port context</div>
+        <div><span class="dot neutralTanker"></span>Neutral tanker context</div>
+        <div><span class="dot reviewEvent"></span>Infrastructure review</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="./assets/infrastructure-watch.js"></script>
+</body>
+</html>
