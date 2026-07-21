@@ -1,9 +1,246 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-21T12:06:39+00:00",
+  "generated_at": "2026-07-21T14:08:12+00:00",
   "source": "Voodoo Whiskers",
   "mode": "analyst_review",
-  "event_count": 0,
-  "events": [],
+  "event_count": 13,
+  "events": [
+    {
+      "event_id": "VWI-205553000-pipelines",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "review",
+      "confidence": "low_medium",
+      "mmsi": "205553000",
+      "imo": "9444649",
+      "vessel_name": "EXEMPLAR",
+      "latitude": 60.014593,
+      "longitude": 23.918967,
+      "infrastructure_type": "pipelines",
+      "minimum_distance_nm": 1.282,
+      "signals": [
+        "contextual_proximity",
+        "low_speed"
+      ],
+      "statement": "Behaviour warrants analyst review. Proximity alone does not indicate hostile intent."
+    },
+    {
+      "event_id": "VWI-273299870-pipelines",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "review",
+      "confidence": "low_medium",
+      "mmsi": "273299870",
+      "imo": "9841055",
+      "vessel_name": "BOGATYR",
+      "latitude": 60.524705,
+      "longitude": 28.154445,
+      "infrastructure_type": "pipelines",
+      "minimum_distance_nm": 0.36,
+      "signals": [
+        "close_proximity",
+        "low_speed"
+      ],
+      "statement": "Behaviour warrants analyst review. Proximity alone does not indicate hostile intent."
+    },
+    {
+      "event_id": "VWI-273389870-pipelines",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "review",
+      "confidence": "low_medium",
+      "mmsi": "273389870",
+      "imo": "9268710",
+      "vessel_name": "SPARTA",
+      "latitude": 60.015408,
+      "longitude": 26.469543,
+      "infrastructure_type": "pipelines",
+      "minimum_distance_nm": 0.739,
+      "signals": [
+        "close_proximity",
+        "watchlist_context"
+      ],
+      "statement": "Behaviour warrants analyst review. Proximity alone does not indicate hostile intent."
+    },
+    {
+      "event_id": "VWI-273618550-pipelines",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "review",
+      "confidence": "low_medium",
+      "mmsi": "273618550",
+      "imo": "9879557",
+      "vessel_name": "VITYAZ",
+      "latitude": 60.524678,
+      "longitude": 28.154592,
+      "infrastructure_type": "pipelines",
+      "minimum_distance_nm": 0.364,
+      "signals": [
+        "close_proximity",
+        "low_speed"
+      ],
+      "statement": "Behaviour warrants analyst review. Proximity alone does not indicate hostile intent."
+    },
+    {
+      "event_id": "VWI-314001077-pipelines",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "review",
+      "confidence": "low_medium",
+      "mmsi": "314001077",
+      "imo": "9289532",
+      "vessel_name": "URSUS",
+      "latitude": 59.849707,
+      "longitude": 25.94943,
+      "infrastructure_type": "pipelines",
+      "minimum_distance_nm": 1.786,
+      "signals": [
+        "contextual_proximity",
+        "low_speed"
+      ],
+      "statement": "Behaviour warrants analyst review. Proximity alone does not indicate hostile intent."
+    },
+    {
+      "event_id": "VWI-461000253-pipelines",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "review",
+      "confidence": "low_medium",
+      "mmsi": "461000253",
+      "imo": "9341079",
+      "vessel_name": "CAMEL",
+      "latitude": 60.389153,
+      "longitude": 1.981078,
+      "infrastructure_type": "pipelines",
+      "minimum_distance_nm": 1.464,
+      "signals": [
+        "contextual_proximity",
+        "watchlist_context"
+      ],
+      "statement": "Behaviour warrants analyst review. Proximity alone does not indicate hostile intent."
+    },
+    {
+      "event_id": "VWI-631010120-pipelines",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "review",
+      "confidence": "low_medium",
+      "mmsi": "631010120",
+      "imo": "9299874",
+      "vessel_name": "VIREL",
+      "latitude": 59.828548,
+      "longitude": 25.909383,
+      "infrastructure_type": "pipelines",
+      "minimum_distance_nm": 1.388,
+      "signals": [
+        "contextual_proximity",
+        "low_speed",
+        "watchlist_context"
+      ],
+      "statement": "Behaviour warrants analyst review. Proximity alone does not indicate hostile intent."
+    },
+    {
+      "event_id": "VWI-636021568-pipelines",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "review",
+      "confidence": "low_medium",
+      "mmsi": "636021568",
+      "imo": "9914620",
+      "vessel_name": "KAUPANG",
+      "latitude": 60.298015,
+      "longitude": 25.547148,
+      "infrastructure_type": "pipelines",
+      "minimum_distance_nm": 0.012,
+      "signals": [
+        "close_proximity",
+        "low_speed"
+      ],
+      "statement": "Behaviour warrants analyst review. Proximity alone does not indicate hostile intent."
+    },
+    {
+      "event_id": "VWI-667002004-pipelines",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "review",
+      "confidence": "low_medium",
+      "mmsi": "667002004",
+      "imo": "9323986",
+      "vessel_name": "GARASAN",
+      "latitude": 59.87892,
+      "longitude": 25.932603,
+      "infrastructure_type": "pipelines",
+      "minimum_distance_nm": 1.049,
+      "signals": [
+        "contextual_proximity",
+        "watchlist_context"
+      ],
+      "statement": "Behaviour warrants analyst review. Proximity alone does not indicate hostile intent."
+    },
+    {
+      "event_id": "VWI-667002310-pipelines",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "review",
+      "confidence": "low_medium",
+      "mmsi": "667002310",
+      "imo": "9308132",
+      "vessel_name": "TEMPEST DREAM",
+      "latitude": 59.852263,
+      "longitude": 25.893942,
+      "infrastructure_type": "pipelines",
+      "minimum_distance_nm": 0.198,
+      "signals": [
+        "close_proximity",
+        "low_speed",
+        "watchlist_context"
+      ],
+      "statement": "Behaviour warrants analyst review. Proximity alone does not indicate hostile intent."
+    },
+    {
+      "event_id": "VWI-538010985-pipelines",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "review",
+      "confidence": "low_medium",
+      "mmsi": "538010985",
+      "imo": "9414761",
+      "vessel_name": "DIMITRA",
+      "latitude": 59.82991,
+      "longitude": 25.85852,
+      "infrastructure_type": "pipelines",
+      "minimum_distance_nm": 1.518,
+      "signals": [
+        "contextual_proximity",
+        "low_speed"
+      ],
+      "statement": "Behaviour warrants analyst review. Proximity alone does not indicate hostile intent."
+    },
+    {
+      "event_id": "VWI-667002293-pipelines",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "review",
+      "confidence": "low_medium",
+      "mmsi": "667002293",
+      "imo": "9265756",
+      "vessel_name": "ALTIS",
+      "latitude": 59.9615,
+      "longitude": 26.082013333333336,
+      "infrastructure_type": "pipelines",
+      "minimum_distance_nm": 0.684,
+      "signals": [
+        "close_proximity",
+        "watchlist_context"
+      ],
+      "statement": "Behaviour warrants analyst review. Proximity alone does not indicate hostile intent."
+    },
+    {
+      "event_id": "VWI-273268690-pipelines",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "review",
+      "confidence": "low_medium",
+      "mmsi": "273268690",
+      "imo": "9397547",
+      "vessel_name": "ARIADNE",
+      "latitude": 59.847195000000006,
+      "longitude": 24.96489,
+      "infrastructure_type": "pipelines",
+      "minimum_distance_nm": 0.899,
+      "signals": [
+        "contextual_proximity",
+        "watchlist_context"
+      ],
+      "statement": "Behaviour warrants analyst review. Proximity alone does not indicate hostile intent."
+    }
+  ],
   "score_integration": false
 }

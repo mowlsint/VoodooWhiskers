@@ -1,7 +1,7 @@
 # Voodoo Whiskers – Current VOI List
 
-Generated: 2026-07-21T12:06:39+00:00
-Entries: 383
+Generated: 2026-07-21T14:08:12+00:00
+Entries: 377
 
 | Vessel | IMO | MMSI | Categories | Last position | Source |
 |---|---:|---:|---|---|---|
@@ -266,34 +266,21 @@ Entries: 383
 | SC 609 | 1085643 | 677049600 | falseflag_interest | 2026-07-20T18:48:11+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | S C 612 |  | 677078500 | falseflag_interest | 2026-07-21T04:11:26+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | GREAT WALL 21 |  | 677086900 | falseflag_interest | 2026-07-21T03:22:20+00:00 | BarentsWatch / Norwegian Coastal Administration |
-| MIA | 8918435 | 273611990 | recent_russian_portcall_10d;russian_mmsi | 2026-07-11T05:46:12.527321+00:00 | AISStream |
-| KIRKE | 9413456 | 305597000 | recent_russian_portcall_10d | 2026-07-11T05:45:05.746323+00:00 | AISStream |
-| RUSICH | 9332652 | 273435680 | recent_russian_portcall_10d;russian_mmsi | 2026-07-11T05:50:08.293526+00:00 | AISStream |
-| NEW AMBITION | 9584592 | 371963000 | recent_russian_portcall_10d | 2026-07-11T05:47:42.130306+00:00 | AISStream |
-| VULKAN | 9297371 | 273279660 | recent_russian_portcall_10d;russian_mmsi;sanctions_shadowfleet;watchlist | 2026-07-11T05:49:46.326946+00:00 | AISStream |
-| AMBER LIGHT | 9158109 | 304778000 | recent_russian_portcall_10d | 2026-07-11T05:49:35.454622+00:00 | AISStream |
-| ECO SORCERER | 9933468 | 538009926 | recent_russian_portcall_10d | 2026-07-11T05:50:15.330415+00:00 | AISStream |
-| NAVI SKY | 9722455 | 374275000 | recent_russian_portcall_10d | 2026-07-11T05:49:39.749943+00:00 | AISStream |
-| BALTIC WHALE | 9354454 | 352006699 | recent_russian_portcall_10d | 2026-07-11T05:49:37.423292+00:00 | AISStream |
-| FUXI | 9246463 | 304218000 | recent_russian_portcall_10d | 2026-07-11T05:35:55.280473+00:00 | AISStream |
-| OREA II | 1067615 | 636025891 | recent_russian_portcall_10d | 2026-07-11T05:50:35.655672+00:00 | AISStream |
-| ARIELLA | 9229001 | 352003644 | recent_russian_portcall_10d | 2026-07-11T05:50:21.229838+00:00 | AISStream |
-| UM MINATO | 9982809 | 352004714 | recent_russian_portcall_10d | 2026-07-11T05:50:31.052498+00:00 | AISStream |
-| HANNAH | 9464558 | 636016692 | recent_russian_portcall_10d | 2026-07-11T05:50:52.330606+00:00 | AISStream |
-| REK BRAVE | 9607590 | 305032300 | recent_russian_portcall_10d | 2026-07-11T05:47:30.261463+00:00 | AISStream |
-| TB QUANZHOU | 9237096 | 636023600 | recent_russian_portcall_10d | 2026-07-11T05:48:16.376318+00:00 | AISStream |
-| STELLAR LADY | 9574004 | 538009176 | recent_russian_portcall_10d | 2026-07-11T05:44:24.976311+00:00 | AISStream |
-| SINO PROSPERITY | 9328132 | 352003390 | recent_russian_portcall_10d | 2026-07-11T05:50:49.867534+00:00 | AISStream |
-| MSC NEDERLAND III | 8918954 | 355254000 | recent_russian_portcall_10d | 2026-07-11T05:42:36.655082+00:00 | AISStream |
-| SUN PLENTY | 9423554 | 352004276 | recent_russian_portcall_10d | 2026-07-11T05:46:01.195205+00:00 | AISStream |
-| RICHLY | 9213363 | 311002106 | recent_russian_portcall_10d | 2026-07-11T08:36:49.651381+00:00 | AISStream |
 | XING SHENG | 9384904 | 314169000 | recent_russian_portcall_10d | 2026-07-11T11:46:20.667540+00:00 | AISStream |
 | ARACHTHOS I | 9935143 | 636021090 | recent_russian_portcall_10d | 2026-07-11T11:45:26.332828+00:00 | AISStream |
+| ECO SORCERER | 9933468 | 538009926 | recent_russian_portcall_10d | 2026-07-11T11:41:03.344309+00:00 | AISStream |
 | TRAVERSE ANTWERP | 9330317 | 371623000 | recent_russian_portcall_10d | 2026-07-11T11:40:43.141361+00:00 | AISStream |
 | EQUINOX GALINI | 9503990 | 319995000 | recent_russian_portcall_10d | 2026-07-11T11:47:25.976787+00:00 | AISStream |
+| VULKAN | 9297371 | 273279660 | recent_russian_portcall_10d;russian_mmsi;sanctions_shadowfleet;watchlist | 2026-07-11T11:45:23.822841+00:00 | AISStream |
+| MIA | 8918435 | 273611990 | recent_russian_portcall_10d;russian_mmsi | 2026-07-11T11:47:25.474557+00:00 | AISStream |
+| MSC NEDERLAND III | 8918954 | 355254000 | recent_russian_portcall_10d | 2026-07-11T11:47:11.556647+00:00 | AISStream |
+| BALTIC WHALE | 9354454 | 352006699 | recent_russian_portcall_10d | 2026-07-11T11:44:18.257876+00:00 | AISStream |
 | KENDRA | 9454814 | 304364000 | recent_russian_portcall_10d | 2026-07-11T11:45:30.376560+00:00 | AISStream |
+| RICHLY | 9213363 | 311002106 | recent_russian_portcall_10d | 2026-07-11T11:45:42.829153+00:00 | AISStream |
 | KERTU | 9344368 | 256956000 | recent_russian_portcall_10d | 2026-07-11T11:46:52.865019+00:00 | AISStream |
+| NEW AMBITION | 9584592 | 371963000 | recent_russian_portcall_10d | 2026-07-11T11:47:44.237722+00:00 | AISStream |
 | MELITO CARRIER | 8920581 | 273257120 | recent_russian_portcall_10d;russian_mmsi;sanctions_shadowfleet;watchlist | 2026-07-11T11:47:20.138789+00:00 | AISStream |
+| REK BRAVE | 9607590 | 305032300 | recent_russian_portcall_10d | 2026-07-11T11:42:09.078532+00:00 | AISStream |
 | ARGO B | 9459371 | 538003906 | recent_russian_portcall_10d | 2026-07-11T11:45:55.550275+00:00 | AISStream |
 | GHIBLI | 9208186 | 352004747 | recent_russian_portcall_10d | 2026-07-11T11:38:31.417940+00:00 | AISStream |
 | MSC BELLE | 9203904 | 371743000 | recent_russian_portcall_10d | 2026-07-11T15:33:32.151288+00:00 | AISStream |
@@ -304,7 +291,10 @@ Entries: 383
 | ZERMATT | 9634830 | 538009665 | recent_russian_portcall_10d | 2026-07-11T23:33:59.168373+00:00 | AISStream |
 | SPARTAN | 9421972 | 461000232 | recent_russian_portcall_10d;sanctions_shadowfleet;watchlist | 2026-07-11T23:33:06.718041+00:00 | AISStream |
 | GARNET | 9577094 | 461000264 | recent_russian_portcall_10d;sanctions_shadowfleet;watchlist | 2026-07-11T23:35:54.549270+00:00 | AISStream |
+| SINO PROSPERITY | 9328132 | 352003390 | recent_russian_portcall_10d | 2026-07-11T23:32:03.131590+00:00 | AISStream |
 | KIMBERLY | 9378242 | 305238000 | recent_russian_portcall_10d | 2026-07-11T23:31:13.441610+00:00 | AISStream |
+| FUXI | 9246463 | 304218000 | recent_russian_portcall_10d | 2026-07-11T23:36:39.384887+00:00 | AISStream |
+| NAVI SKY | 9722455 | 374275000 | recent_russian_portcall_10d | 2026-07-11T23:34:43.603484+00:00 | AISStream |
 | ENISEY | 9079169 | 273212240 | recent_russian_portcall_10d;russian_mmsi;sanctions_shadowfleet;watchlist | 2026-07-11T23:31:45.163028+00:00 | AISStream |
 | SVYATAYA VARVARA | 9143609 | 273411440 | recent_russian_portcall_10d;russian_mmsi | 2026-07-12T06:06:16.611165+00:00 | AISStream |
 | SHTURMAN ALBANOV | 9752084 | 273397870 | recent_russian_portcall_10d;russian_mmsi;sanctions_shadowfleet;watchlist | 2026-07-12T05:59:12.081467+00:00 | AISStream |
@@ -319,13 +309,17 @@ Entries: 383
 | CPT DIMITRIOS S | 9221592 | 636019579 | recent_russian_portcall_10d | 2026-07-12T15:41:25.234321+00:00 | AISStream |
 | WHITE FIN | 9607291 | 256608000 | recent_russian_portcall_10d | 2026-07-12T19:42:59.226169+00:00 | AISStream |
 | SAINT VASSILIOS | 9486403 | 538004639 | recent_russian_portcall_10d | 2026-07-12T19:49:29.192813+00:00 | AISStream |
+| SUN PLENTY | 9423554 | 352004276 | recent_russian_portcall_10d | 2026-07-12T23:31:31.143459+00:00 | AISStream |
 | STAR PISCES | 9715854 | 636024670 | recent_russian_portcall_10d | 2026-07-12T23:34:56.077620+00:00 | AISStream |
 | KLARIKA | 9342164 | 304958000 | recent_russian_portcall_10d | 2026-07-12T23:35:58.183746+00:00 | AISStream |
 | DIMITRA | 9414761 | 538010985 | recent_russian_portcall_10d | 2026-07-12T23:34:33.513820+00:00 | AISStream |
 | YANTARNY | 9194062 | 273349470 | recent_russian_portcall_10d;russian_mmsi | 2026-07-12T23:36:01.198089+00:00 | AISStream |
 | INFINITY AQUILA | 9258600 | 636022304 | recent_russian_portcall_10d | 2026-07-12T23:36:08.865167+00:00 | AISStream |
+| ARIELLA | 9229001 | 352003644 | recent_russian_portcall_10d | 2026-07-13T06:17:21.027541+00:00 | AISStream |
 | VOLGO BALT 203 | 8841620 | 273339200 | recent_russian_portcall_10d;russian_mmsi | 2026-07-13T06:17:30.348396+00:00 | AISStream |
 | LARUS | 1065289 | 273263300 | recent_russian_portcall_10d;russian_mmsi | 2026-07-13T06:14:48.028598+00:00 | AISStream |
+| STELLAR LADY | 9574004 | 538009176 | recent_russian_portcall_10d | 2026-07-13T13:07:07.517077+00:00 | AISStream |
+| KIRKE | 9413456 | 305597000 | recent_russian_portcall_10d | 2026-07-13T13:08:35.948440+00:00 | AISStream |
 | BALTIC STAR | 9327396 | 636023657 | recent_russian_portcall_10d | 2026-07-13T13:10:26.378445+00:00 | AISStream |
 | LEGENDA | 9673202 | 273273660 | recent_russian_portcall_10d;russian_mmsi | 2026-07-13T17:07:47.056864+00:00 | AISStream |
 | ZA RODINU | 9377743 | 273399010 | recent_russian_portcall_10d;russian_mmsi | 2026-07-13T17:10:26.742836+00:00 | AISStream |

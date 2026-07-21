@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "source": "EMODnet Human Activities WFS",
+  "service_url": "https://ows.emodnet-humanactivities.eu/wfs",
+  "bbox": [
+    -6.2,
+    50.0,
+    32.5,
+    61.8
+  ],
+  "layers": [
+    {
+      "id": "telecom_cables",
+      "matched": true,
+      "feature_type": "emodnet:pcablesbshcontis",
+      "title": "Power Cables - DE BSH-CONTIS",
+      "feature_count": 89
+    },
+    {
+      "id": "power_cables",
+      "matched": true,
+      "feature_type": "emodnet:pcablesbshcontis",
+      "title": "Power Cables - DE BSH-CONTIS",
+      "feature_count": 89
+    },
+    {
+      "id": "cable_landings",
+      "matched": false,
+      "feature_type": null,
+      "title": null
+    },
+    {
+      "id": "pipelines",
+      "matched": true,
+      "feature_type": "emodnet:pipelines",
+      "title": "Pipelines",
+      "feature_count": 3861
+    },
+    {
+      "id": "offshore_energy",
+      "matched": true,
+      "feature_type": "emodnet:oenergy",
+      "title": "Ocean Energy - Project Locations",
+      "feature_count": 222
+    }
+  ]
+}
