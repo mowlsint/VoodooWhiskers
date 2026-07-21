@@ -100,8 +100,17 @@ def main():
     (PUB/'data/analysis/infrastructure_events_latest.geojson').write_text(json.dumps(eg,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
     (dl/'infrastructure_watch_latest.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     with (dl/'infrastructure_watch_latest.csv').open('w',newline='',encoding='utf-8') as f:
-        fs=['event_id','level','confidence','vessel_name','imo','mmsi','infrastructure_type','minimum_distance_nm','signals','statement']; w=csv.DictWriter(f,fieldnames=fs); w.writeheader();
-        for e in events: w.writerow({**e,'signals':';'.join(e['signals'])})
+        fs=[
+            'event_id','event_type','level','confidence','vessel_name','imo','mmsi',
+            'latitude','longitude','infrastructure_type','minimum_distance_nm',
+            'signals','statement'
+        ]
+        w=csv.DictWriter(f,fieldnames=fs)
+        w.writeheader()
+        for e in events:
+            row={key:e.get(key,'') for key in fs}
+            row['signals']=';'.join(e.get('signals') or [])
+            w.writerow(row)
     (dl/'infrastructure_watch_latest.md').write_text('# Voodoo Whiskers – Critical Infrastructure Watch\n\nGenerated: '+generated+f'\n\nReview events: {len(events)}\n\nProximity alone does not indicate hostile intent.\n',encoding='utf-8')
     manifest={'schema_version':'1.0.0','generated_at':generated,'map':'./infrastructure-watch.html','products':{
       'voi_json':'./downloads/voi_list_latest.json','voi_csv':'./downloads/voi_list_latest.csv','voi_markdown':'./downloads/voi_list_latest.md',
