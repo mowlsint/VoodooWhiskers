@@ -180,23 +180,41 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add \
-            data/ais_contacts_aisstream_latest.json \
-            data/ais_contacts_latest.json \
-            data/russian_mmsi.geojson \
-            data/watchlist_live.geojson \
-            data/sanctions_shadowfleet.geojson \
-            data/falseflag_interest.geojson \
-            data/false_flag_watch.geojson \
-            data/behavioral_voi.geojson \
-            data/recent_russian_portcall_10d.geojson \
-            data/neutral_tanker_context.geojson \
-            data/tanker_cluster_stats.json \
-            data/voi_snapshot_latest.json \
-            data/voi_history.jsonl \
-            data/voi_stats_by_slot.json \
-            data/watchlist_audit.json \
+          # Required outputs must exist. The AISstream provider snapshot is optional:
+          # on a failed first-ever AISstream test there is no file yet, while the
+          # regional provider merge and generated layers are still valid.
+          required_outputs=(
+            data/ais_contacts_latest.json
+            data/russian_mmsi.geojson
+            data/watchlist_live.geojson
+            data/sanctions_shadowfleet.geojson
+            data/falseflag_interest.geojson
+            data/false_flag_watch.geojson
+            data/behavioral_voi.geojson
+            data/recent_russian_portcall_10d.geojson
+            data/neutral_tanker_context.geojson
+            data/tanker_cluster_stats.json
+            data/voi_snapshot_latest.json
+            data/voi_history.jsonl
+            data/voi_stats_by_slot.json
+            data/watchlist_audit.json
             data/watchlist_changes_latest.md
+          )
+
+          for path in "${required_outputs[@]}"; do
+            if [ ! -f "$path" ]; then
+              echo "ERROR: required output missing: $path"
+              exit 1
+            fi
+          done
+
+          git add -- "${required_outputs[@]}"
+
+          if [ -f data/ais_contacts_aisstream_latest.json ]; then
+            git add -- data/ais_contacts_aisstream_latest.json
+          else
+            echo "AISstream provider snapshot absent; preserving regional-only state."
+          fi
 
           if git diff --cached --quiet; then
             echo "No maritime layer changes to commit."
