@@ -2,9 +2,15 @@ name: Update maritime layers
 
 on:
   workflow_dispatch:
+    inputs:
+      certificate_probe_only:
+        description: "Only inspect the current AISstream certificate; do not send the API key or build layers"
+        required: false
+        type: boolean
+        default: false
   schedule:
-    # Daily AISstream health/test run. The 30-minute sample starts early enough for the
-    # secondary regional workflow at 02:10 UTC and the 03:05 UTC Magic Paws mirror fetch.
+    # One daily AISstream attempt. Emergency certificate pinning is automatically
+    # bypassed as soon as normal TLS validation succeeds again.
     - cron: "10 1 * * *"
 
 permissions:
@@ -13,6 +19,16 @@ permissions:
 concurrency:
   group: voodoo-maritime-layers-main
   cancel-in-progress: false
+
+env:
+  AISSTREAM_TLS_MODE: auto_pinned_emergency
+  AISSTREAM_EMERGENCY_PIN_UNTIL: "2026-09-01T00:00:00Z"
+  AISSTREAM_PIN_MAX_EXPIRED_DAYS: "60"
+  AISSTREAM_MAX_CONNECTION_ATTEMPTS: "3"
+  AISSTREAM_OPEN_TIMEOUT_SECONDS: "25"
+  AISSTREAM_SAMPLE_SECONDS: "1800"
+  AISSTREAM_MIN_MESSAGES: "1"
+  AISSTREAM_MIN_KEPT_CONTACTS: "1"
 
 jobs:
   build-layers:
@@ -34,38 +50,60 @@ jobs:
         run: |
           set -euo pipefail
           python -m pip install --upgrade pip
-          pip install "requests>=2.32,<3" "websockets>=15,<16"
+          pip install \
+            "requests>=2.32,<3" \
+            "websockets>=15,<16" \
+            "cryptography>=45,<46"
+
+      - name: Probe AISstream certificate without API key
+        run: |
+          set -euo pipefail
+          python scripts/fetch_contacts.py --probe-certificate
 
       - name: Ensure data directory exists
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
         run: |
           set -euo pipefail
           mkdir -p data
 
-      - name: Fetch contacts
+      - name: Fetch contacts with strict TLS or pinned emergency fallback
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
         env:
           AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
+          AISSTREAM_PINNED_CERT_SHA256: ${{ secrets.AISSTREAM_PINNED_CERT_SHA256 }}
         run: |
           set -euo pipefail
           python scripts/fetch_contacts.py
 
       - name: Merge available AIS providers
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
         run: |
           set -euo pipefail
           python scripts/merge_ais_contacts.py
 
       - name: Debug input files
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
         run: |
           set -euo pipefail
           echo "--- data directory ---"
           ls -la data || true
           echo "--- AISstream provider file exists? ---"
           test -f data/ais_contacts_aisstream_latest.json && echo "YES" || (echo "NO: data/ais_contacts_aisstream_latest.json missing" && exit 1)
+          echo "--- transport security ---"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          payload = json.loads(Path("data/ais_contacts_aisstream_latest.json").read_text(encoding="utf-8"))
+          print(json.dumps(payload.get("transport_security", {}), indent=2))
+          print(json.dumps(payload.get("fetch_stats", {}), indent=2))
+          PY
           echo "--- merged contacts file exists? ---"
           test -f data/ais_contacts_latest.json && echo "YES" || (echo "NO: data/ais_contacts_latest.json missing" && exit 1)
-          echo "--- first lines of contacts file ---"
+          echo "--- first lines of merged contacts file ---"
           head -n 40 data/ais_contacts_latest.json || true
 
       - name: Build layers
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
         env:
           GFW_TOKEN: ${{ secrets.GFW_TOKEN }}
           AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
@@ -74,11 +112,13 @@ jobs:
           python scripts/build_layers.py
 
       - name: Audit sanctions/watchlist inputs
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
         run: |
           set -euo pipefail
           python scripts/sync_sanctions_watchlists.py
 
       - name: Debug generated outputs
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
         run: |
           set -euo pipefail
           echo "--- generated files ---"
@@ -89,6 +129,7 @@ jobs:
           test -f data/voi_snapshot_latest.json && head -n 40 data/voi_snapshot_latest.json || true
 
       - name: Commit updated outputs
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
         env:
           NTFY_ENABLED: ${{ secrets.NTFY_ENABLED }}
           NTFY_URL: ${{ secrets.NTFY_URL }}
