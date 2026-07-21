@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-21T16:49:54+00:00",
+  "source": "Voodoo Whiskers",
+  "repository_public": true,
+  "hosting_target": "Cloudflare Pages later",
+  "assessment_limit": "VOI and proximity products support analyst review and do not establish hostile intent, attribution or unlawful activity.",
+  "groups": [
+    {
+      "id": "ais",
+      "label": "Monitored AIS positions"
+    },
+    {
+      "id": "voi",
+      "label": "VOI lists"
+    },
+    {
+      "id": "infrastructure",
+      "label": "Critical Infrastructure Watch"
+    }
+  ],
+  "products": [
+    {
+      "id": "ais_contacts_latest",
+      "label": "Current monitored AIS contacts — JSON",
+      "group": "ais",
+      "description": "Provider-neutral filtered AIS contacts currently monitored by Voodoo Whiskers.",
+      "href": "./ais_contacts_latest.json",
+      "filename": "ais_contacts_latest.json",
+      "size_bytes": 411833,
+      "media_type": "application/json"
+    },
+    {
+      "id": "ais_contacts_latest",
+      "label": "Current monitored AIS positions — GeoJSON",
+      "group": "ais",
+      "description": "Map-ready filtered AIS positions currently monitored by Voodoo Whiskers.",
+      "href": "./ais_contacts_latest.geojson",
+      "filename": "ais_contacts_latest.geojson",
+      "size_bytes": 484745,
+      "media_type": "application/geo+json"
+    },
+    {
+      "id": "voi_list_latest",
+      "label": "VOI list — JSON",
+      "group": "voi",
+      "description": "Machine-readable current priority VOI list.",
+      "href": "./voi_list_latest.json",
+      "filename": "voi_list_latest.json",
+      "size_bytes": 930919,
+      "media_type": "application/json"
+    },
+    {
+      "id": "voi_list_latest",
+      "label": "VOI list — CSV",
+      "group": "voi",
+      "description": "Tabular current priority VOI list.",
+      "href": "./voi_list_latest.csv",
+      "filename": "voi_list_latest.csv",
+      "size_bytes": 97353,
+      "media_type": "text/csv"
+    },
+    {
+      "id": "voi_list_latest",
+      "label": "VOI list — Markdown",
+      "group": "voi",
+      "description": "Readable current priority VOI list.",
+      "href": "./voi_list_latest.md",
+      "filename": "voi_list_latest.md",
+      "size_bytes": 56754,
+      "media_type": "text/markdown"
+    },
+    {
+      "id": "infrastructure_watch_latest",
+      "label": "Infrastructure Watch — JSON",
+      "group": "infrastructure",
+      "description": "Machine-readable review events and assessment metadata.",
+      "href": "./infrastructure_watch_latest.json",
+      "filename": "infrastructure_watch_latest.json",
+      "size_bytes": 19856,
+      "media_type": "application/json"
+    },
+    {
+      "id": "infrastructure_watch_latest",
+      "label": "Infrastructure Watch — CSV",
+      "group": "infrastructure",
+      "description": "Tabular infrastructure proximity review events.",
+      "href": "./infrastructure_watch_latest.csv",
+      "filename": "infrastructure_watch_latest.csv",
+      "size_bytes": 4564,
+      "media_type": "text/csv"
+    },
+    {
+      "id": "infrastructure_watch_latest",
+      "label": "Infrastructure Watch — Markdown",
+      "group": "infrastructure",
+      "description": "Readable infrastructure proximity assessment.",
+      "href": "./infrastructure_watch_latest.md",
+      "filename": "infrastructure_watch_latest.md",
+      "size_bytes": 5491,
+      "media_type": "text/markdown"
+    },
+    {
+      "id": "infrastructure_watch_latest",
+      "label": "Infrastructure Watch — GeoJSON",
+      "group": "infrastructure",
+      "description": "Map-ready event points for GIS and Leaflet.",
+      "href": "./infrastructure_watch_latest.geojson",
+      "filename": "infrastructure_watch_latest.geojson",
+      "size_bytes": 23170,
+      "media_type": "application/geo+json"
+    }
+  ]
+}

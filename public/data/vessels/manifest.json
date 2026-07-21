@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-21T08:59:46+00:00",
+  "snapshot": {
+    "href": "./voi_snapshot_latest.json",
+    "item_count": 407
+  },
+  "positions": {
+    "href": "./vessel_positions_latest.geojson",
+    "feature_count": 407
+  },
+  "ais_contacts": {
+    "json_href": "./ais_contacts_latest.json",
+    "geojson_href": "./ais_contacts_latest.geojson",
+    "contact_count": 400,
+    "feature_count": 400,
+    "provider_label": "AIS",
+    "display_label": "Current monitored AIS contacts"
+  },
+  "history": {
+    "href": "./voi_history_14d.jsonl",
+    "source_rows": 33558,
+    "malformed": 0,
+    "outside_window": 19110,
+    "missing_time": 0,
+    "invalid_position": 0,
+    "timestamp_repaired": 498,
+    "available": true,
+    "published_rows": 12232,
+    "published_bytes": 23068494,
+    "dropped_size": 2216,
+    "max_age_days": 14,
+    "max_bytes": 23068672,
+    "build_mode": "daily_or_manual",
+    "rebuilt_in_this_run": true
+  },
+  "category_layers": [
+    {
+      "id": "russian_mmsi",
+      "href": "./layers/russian_mmsi.geojson",
+      "feature_count": 183
+    },
+    {
+      "id": "watchlist_live",
+      "href": "./layers/watchlist_live.geojson",
+      "feature_count": 72
+    },
+    {
+      "id": "sanctions_shadowfleet",
+      "href": "./layers/sanctions_shadowfleet.geojson",
+      "feature_count": 72
+    },
+    {
+      "id": "falseflag_interest",
+      "href": "./layers/falseflag_interest.geojson",
+      "feature_count": 16
+    },
+    {
+      "id": "false_flag_watch",
+      "href": "./layers/false_flag_watch.geojson",
+      "feature_count": 0
+    },
+    {
+      "id": "behavioral_voi",
+      "href": "./layers/behavioral_voi.geojson",
+      "feature_count": 0
+    },
+    {
+      "id": "recent_russian_portcall_10d",
+      "href": "./layers/recent_russian_portcall_10d.geojson",
+      "feature_count": 282
+    },
+    {
+      "id": "neutral_tanker_context",
+      "href": "./layers/neutral_tanker_context.geojson",
+      "feature_count": 30
+    }
+  ]
+}
