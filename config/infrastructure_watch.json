@@ -1,11 +1,35 @@
 {
   "schema_version": "1.0.0",
-  "max_distance_nm": 2.0,
-  "close_distance_nm": 0.75,
-  "immediate_distance_nm": 0.25,
+  "analysis_window_hours": 120,
+  "history_max_age_days": 14,
+  "history_max_bytes": 23068672,
+  "map_bounds": {
+    "west": -6.0,
+    "south": 50.0,
+    "east": 32.0,
+    "north": 72.5
+  },
+  "distance_bands_nm": {
+    "immediate": 0.25,
+    "close": 0.75,
+    "contextual": 2.0
+  },
   "low_speed_knots": 3.0,
-  "minimum_signals_for_review": 2,
-  "max_public_history_days": 7,
-  "max_public_history_rows": 5000,
-  "note": "Proximity alone never indicates hostile intent. Events require multiple independent signals."
+  "minimum_dwell_minutes": 30,
+  "minimum_near_points": 2,
+  "repeated_entries": 2,
+  "maximum_track_gap_minutes": 180,
+  "score_shadow": {
+    "enabled": true,
+    "active_score_integration": false,
+    "maximum_delta": 5
+  },
+  "publication": {
+    "public_root": "public",
+    "repository_public": true,
+    "hosting_target": "Cloudflare Pages later",
+    "relative_paths_only": true
+  },
+  "max_events_per_vessel": 3,
+  "history_build_policy": "daily_or_manual_only"
 }
