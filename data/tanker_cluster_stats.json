@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-07-21T08:59:46+00:00",
+  "generated_at": "2026-07-22T04:29:11+00:00",
   "total_contacts_seen": 400,
-  "total_unique_tankers_in_context_zones": 115,
-  "total_tanker_context_zones": 5,
+  "total_unique_tankers_in_context_zones": 116,
+  "total_tanker_context_zones": 6,
   "neutral_tanker_context_total": 30,
-  "voi_tankers_in_context_zones": 85,
+  "voi_tankers_in_context_zones": 86,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 104,
+      "total_tankers": 101,
       "neutral_tankers": 23,
-      "voi_tankers": 81,
+      "voi_tankers": 78,
       "slow_or_waiting": 77,
       "for_order": 8,
       "examples": [
@@ -100,9 +100,9 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 8,
+      "total_tankers": 10,
       "neutral_tankers": 7,
-      "voi_tankers": 1,
+      "voi_tankers": 3,
       "slow_or_waiting": 0,
       "for_order": 1,
       "examples": [
@@ -177,13 +177,16 @@
           ]
         },
         {
-          "name": "CUMBRIAN",
-          "imo": "9298404",
-          "mmsi": "314001027",
-          "destination": "RU KGD",
+          "name": "MELITO CARRIER",
+          "imo": "8920581",
+          "mmsi": "273257120",
+          "destination": "RULED",
           "sog": "11.1",
           "categories": [
-            "recent_russian_portcall_10d"
+            "recent_russian_portcall_10d",
+            "russian_mmsi",
+            "sanctions_shadowfleet",
+            "watchlist"
           ]
         }
       ],
@@ -192,9 +195,9 @@
       "level": "context"
     },
     {
-      "total_tankers": 6,
+      "total_tankers": 7,
       "neutral_tankers": 6,
-      "voi_tankers": 0,
+      "voi_tankers": 1,
       "slow_or_waiting": 0,
       "for_order": 1,
       "examples": [
@@ -256,6 +259,19 @@
           "sog": "13",
           "categories": [
             "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "MELITO CARRIER",
+          "imo": "8920581",
+          "mmsi": "273257120",
+          "destination": "RULED",
+          "sog": "11.1",
+          "categories": [
+            "recent_russian_portcall_10d",
+            "russian_mmsi",
+            "sanctions_shadowfleet",
+            "watchlist"
           ]
         }
       ],
@@ -361,6 +377,40 @@
       ],
       "zone_id": "gulf_of_gdansk",
       "zone_label": "Gulf of Gdansk",
+      "level": "context"
+    },
+    {
+      "total_tankers": 2,
+      "neutral_tankers": 0,
+      "voi_tankers": 2,
+      "slow_or_waiting": 0,
+      "for_order": 0,
+      "examples": [
+        {
+          "name": "AFRAMAX RIVIERA",
+          "imo": "9282912",
+          "mmsi": "373638000",
+          "destination": "RUULU",
+          "sog": "10.8",
+          "categories": [
+            "recent_russian_portcall_10d"
+          ]
+        },
+        {
+          "name": "GARNET",
+          "imo": "9577094",
+          "mmsi": "461000264",
+          "destination": "RUVIT",
+          "sog": "10.6",
+          "categories": [
+            "recent_russian_portcall_10d",
+            "sanctions_shadowfleet",
+            "watchlist"
+          ]
+        }
+      ],
+      "zone_id": "gibraltar_west_med_gateway",
+      "zone_label": "Gibraltar / W. Mediterranean gateway",
       "level": "context"
     }
   ]
