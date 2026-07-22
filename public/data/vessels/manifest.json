@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-22T04:29:11+00:00",
+  "generated_at": "2026-07-22T10:51:22+00:00",
   "snapshot": {
     "href": "./voi_snapshot_latest.json",
-    "item_count": 399
+    "item_count": 393
   },
   "positions": {
     "href": "./vessel_positions_latest.geojson",
-    "feature_count": 399
+    "feature_count": 393
   },
   "ais_contacts": {
     "json_href": "./ais_contacts_latest.json",
@@ -19,20 +19,13 @@
   },
   "history": {
     "href": "./voi_history_14d.jsonl",
-    "source_rows": 33957,
-    "malformed": 0,
-    "outside_window": 19322,
-    "missing_time": 0,
-    "invalid_position": 0,
-    "timestamp_repaired": 739,
     "available": true,
     "published_rows": 12226,
     "published_bytes": 23067496,
-    "dropped_size": 2409,
     "max_age_days": 14,
     "max_bytes": 23068672,
     "build_mode": "daily_or_manual",
-    "rebuilt_in_this_run": true
+    "rebuilt_in_this_run": false
   },
   "category_layers": [
     {
@@ -68,7 +61,7 @@
     {
       "id": "recent_russian_portcall_10d",
       "href": "./layers/recent_russian_portcall_10d.geojson",
-      "feature_count": 274
+      "feature_count": 268
     },
     {
       "id": "neutral_tanker_context",
