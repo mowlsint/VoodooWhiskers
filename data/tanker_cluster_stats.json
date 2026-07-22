@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-22T15:03:04+00:00",
-  "total_contacts_seen": 352,
-  "total_unique_tankers_in_context_zones": 113,
+  "generated_at": "2026-07-22T15:51:14+00:00",
+  "total_contacts_seen": 351,
+  "total_unique_tankers_in_context_zones": 111,
   "total_tanker_context_zones": 6,
-  "neutral_tanker_context_total": 36,
+  "neutral_tanker_context_total": 34,
   "voi_tankers_in_context_zones": 77,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
@@ -11,7 +11,7 @@
       "total_tankers": 95,
       "neutral_tankers": 26,
       "voi_tankers": 69,
-      "slow_or_waiting": 74,
+      "slow_or_waiting": 73,
       "for_order": 11,
       "examples": [
         {
@@ -59,7 +59,7 @@
           "imo": "9992153",
           "mmsi": "219034372",
           "destination": "STOCKHOLM",
-          "sog": "1.2",
+          "sog": "14.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -69,7 +69,7 @@
           "imo": "9693082",
           "mmsi": "249279000",
           "destination": "EGYPT FOR ORDERS",
-          "sog": "0.2",
+          "sog": "0.4",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -79,7 +79,7 @@
           "imo": "9407457",
           "mmsi": "249747000",
           "destination": "FOR ORDERS",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -89,7 +89,7 @@
           "imo": "9939814",
           "mmsi": "255893000",
           "destination": "PORVOO",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,8 +100,8 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 15,
-      "neutral_tankers": 10,
+      "total_tankers": 13,
+      "neutral_tankers": 8,
       "voi_tankers": 5,
       "slow_or_waiting": 0,
       "for_order": 0,
@@ -137,21 +137,11 @@
           ]
         },
         {
-          "name": "BERGEN ENERGY",
-          "imo": "8827052",
-          "mmsi": "258018390",
-          "destination": "NO MSS",
-          "sog": "7.3",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "ALFA FINLANDIA",
           "imo": "9823041",
           "mmsi": "311000820",
           "destination": "SEGOT>NOMON",
-          "sog": "10.4",
+          "sog": "10.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -177,11 +167,21 @@
           ]
         },
         {
-          "name": "KUFRA",
-          "imo": "9935155",
-          "mmsi": "538011942",
-          "destination": "CAWHH",
-          "sog": "12.9",
+          "name": "GAS MYTH",
+          "imo": "9507726",
+          "mmsi": "636015105",
+          "destination": "GBTEE",
+          "sog": "11.5",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "WHITE MOON",
+          "imo": "9588158",
+          "mmsi": "636016128",
+          "destination": "FORORDERS",
+          "sog": "12.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -189,11 +189,11 @@
       ],
       "zone_id": "danish_straits_kattegat",
       "zone_label": "Danish Straits / Kattegat",
-      "level": "heightened_context"
+      "level": "context"
     },
     {
-      "total_tankers": 11,
-      "neutral_tankers": 10,
+      "total_tankers": 9,
+      "neutral_tankers": 8,
       "voi_tankers": 1,
       "slow_or_waiting": 0,
       "for_order": 0,
@@ -229,21 +229,11 @@
           ]
         },
         {
-          "name": "BERGEN ENERGY",
-          "imo": "8827052",
-          "mmsi": "258018390",
-          "destination": "NO MSS",
-          "sog": "7.3",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "ALFA FINLANDIA",
           "imo": "9823041",
           "mmsi": "311000820",
           "destination": "SEGOT>NOMON",
-          "sog": "10.4",
+          "sog": "10.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -269,11 +259,21 @@
           ]
         },
         {
-          "name": "KUFRA",
-          "imo": "9935155",
-          "mmsi": "538011942",
-          "destination": "CAWHH",
-          "sog": "12.9",
+          "name": "GAS MYTH",
+          "imo": "9507726",
+          "mmsi": "636015105",
+          "destination": "GBTEE",
+          "sog": "11.5",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "WHITE MOON",
+          "imo": "9588158",
+          "mmsi": "636016128",
+          "destination": "FORORDERS",
+          "sog": "12.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -281,7 +281,7 @@
       ],
       "zone_id": "skagen_waiting_area",
       "zone_label": "Skagen / northern Kattegat",
-      "level": "heightened_context"
+      "level": "context"
     },
     {
       "total_tankers": 2,
