@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-07-23T05:33:58+00:00",
-  "total_contacts_seen": 749,
-  "total_unique_tankers_in_context_zones": 172,
+  "generated_at": "2026-07-23T16:02:22+00:00",
+  "total_contacts_seen": 777,
+  "total_unique_tankers_in_context_zones": 184,
   "total_tanker_context_zones": 7,
-  "neutral_tanker_context_total": 95,
-  "voi_tankers_in_context_zones": 77,
+  "neutral_tanker_context_total": 100,
+  "voi_tankers_in_context_zones": 84,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 54,
-      "neutral_tankers": 47,
-      "voi_tankers": 7,
+      "total_tankers": 55,
+      "neutral_tankers": 49,
+      "voi_tankers": 6,
       "slow_or_waiting": 17,
-      "for_order": 1,
+      "for_order": 0,
       "examples": [
         {
           "name": "ECO CORSAIR",
@@ -100,11 +100,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 33,
-      "neutral_tankers": 31,
-      "voi_tankers": 2,
+      "total_tankers": 34,
+      "neutral_tankers": 33,
+      "voi_tankers": 1,
       "slow_or_waiting": 13,
-      "for_order": 1,
+      "for_order": 0,
       "examples": [
         {
           "name": "ECO CORSAIR",
@@ -192,11 +192,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 94,
-      "neutral_tankers": 27,
-      "voi_tankers": 67,
-      "slow_or_waiting": 67,
-      "for_order": 13,
+      "total_tankers": 104,
+      "neutral_tankers": 30,
+      "voi_tankers": 74,
+      "slow_or_waiting": 79,
+      "for_order": 12,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -229,11 +229,31 @@
           ]
         },
         {
+          "name": "SEAFAITH",
+          "imo": "9843209",
+          "mmsi": "215515000",
+          "destination": "FOR ORDERS",
+          "sog": "4.7",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "TERN LAND",
+          "imo": "9988994",
+          "mmsi": "219034373",
+          "destination": "FI SKV",
+          "sog": "9.5",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
           "name": "AMALTHEA",
           "imo": "9298650",
           "mmsi": "240447000",
           "destination": "BALTIC SEA FOR ORDER",
-          "sog": "5.8",
+          "sog": "11.3",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -253,31 +273,9 @@
           "imo": "9407457",
           "mmsi": "249747000",
           "destination": "FOR ORDERS",
-          "sog": "0.1",
+          "sog": "0.2",
           "categories": [
             "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "HEINRICH ESSBERGER",
-          "imo": "9939814",
-          "mmsi": "255893000",
-          "destination": "PORVOO",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "PRIMORYE",
-          "imo": "9236743",
-          "mmsi": "273210220",
-          "destination": "FOR ORDER",
-          "sog": "0.0",
-          "categories": [
-            "russian_mmsi",
-            "sanctions_shadowfleet",
-            "watchlist"
           ]
         }
       ],
@@ -286,9 +284,9 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 12,
+      "total_tankers": 13,
       "neutral_tankers": 11,
-      "voi_tankers": 1,
+      "voi_tankers": 2,
       "slow_or_waiting": 6,
       "for_order": 0,
       "examples": [
