@@ -222,27 +222,29 @@
       },
       "properties": {
         "mmsi": "273259730",
-        "imo": "9610793",
-        "callsign": "UACA3",
         "name": "GEORGY MASLOV",
         "latitude": 58.442422,
         "longitude": 5.006602,
-        "destination": "BALTIC SEA FOR ORDER",
-        "ship_type": 89,
         "navigational_status": 0,
         "sog": 12.0,
         "cog": 139.9,
         "true_heading": 133,
         "source": "BarentsWatch / Norwegian Coastal Administration",
-        "source_provider": "barentswatch",
         "message_type_last": "RegionalSnapshot",
         "last_seen_utc": "2026-07-22T15:51:05+00:00",
+        "transport_security_mode": "strict_ca_and_hostname_verification",
+        "sources": [
+          "AISStream",
+          "BarentsWatch / Norwegian Coastal Administration"
+        ],
+        "imo": "9610793",
+        "callsign": "UACA3",
+        "destination": "BALTIC SEA FOR ORDER",
+        "ship_type": 89,
+        "source_provider": "barentswatch",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "source_stream": "terra",
-        "sources": [
-          "BarentsWatch / Norwegian Coastal Administration"
-        ],
         "is_tanker_context_candidate": false,
         "tanker_context_zone_ids": "",
         "tanker_context_zone_labels": "",
@@ -2546,19 +2548,21 @@
         "longitude": 24.01832,
         "destination": "BALTIC FOR ORDER",
         "ship_type": 80,
+        "source": "Fintraffic Digitraffic",
+        "message_type_last": "RegionalSnapshot",
+        "last_seen_utc": "2026-07-22T15:51:11+00:00",
         "navigational_status": 0,
         "sog": 13.4,
         "cog": 76.1,
         "true_heading": 70,
-        "source": "Fintraffic Digitraffic",
-        "source_provider": "fintraffic",
-        "message_type_last": "RegionalSnapshot",
-        "last_seen_utc": "2026-07-22T15:51:11+00:00",
-        "position_timestamp_valid": false,
-        "position_timestamp_basis": "retrieval_time_fallback",
+        "transport_security_mode": "strict_ca_and_hostname_verification",
         "sources": [
+          "AISStream",
           "Fintraffic Digitraffic"
         ],
+        "source_provider": "fintraffic",
+        "position_timestamp_valid": false,
+        "position_timestamp_basis": "retrieval_time_fallback",
         "is_tanker_context_candidate": true,
         "tanker_context_zone_ids": "gulf_of_finland_ru_approaches",
         "tanker_context_zone_labels": "Gulf of Finland / Ust-Luga-Primorsk approaches",
@@ -2629,6 +2633,103 @@
         "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">ELYTE</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>9345623</td></tr><tr><th>MMSI</th><td>461000370</td></tr><tr><th>Callsign</th><td>A4HF5</td></tr><tr><th>Destination</th><td>BALTIC FOR ORDER</td></tr><tr><th>SOG / COG</th><td>13.4 kn / 76.1°</td></tr><tr><th>Last seen</th><td>2026-07-22T15:51:11+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 20-07-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9345623\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
         "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">ELYTE</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>9345623</td></tr><tr><th>MMSI</th><td>461000370</td></tr><tr><th>Callsign</th><td>A4HF5</td></tr><tr><th>Destination</th><td>BALTIC FOR ORDER</td></tr><tr><th>SOG / COG</th><td>13.4 kn / 76.1°</td></tr><tr><th>Last seen</th><td>2026-07-22T15:51:11+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 20-07-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9345623\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
         "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">ELYTE</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>9345623</td></tr><tr><th>MMSI</th><td>461000370</td></tr><tr><th>Callsign</th><td>A4HF5</td></tr><tr><th>Destination</th><td>BALTIC FOR ORDER</td></tr><tr><th>SOG / COG</th><td>13.4 kn / 76.1°</td></tr><tr><th>Last seen</th><td>2026-07-22T15:51:11+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 20-07-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9345623\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.05024,
+          55.3384
+        ]
+      },
+      "properties": {
+        "mmsi": "468121000",
+        "imo": "9430272",
+        "callsign": "A8SR3",
+        "name": "JIN HUI",
+        "latitude": 55.3384,
+        "longitude": 13.05024,
+        "destination": "BALTIC SEA",
+        "ship_type": 80,
+        "source": "AISStream",
+        "message_type_last": "ShipStaticData",
+        "last_seen_utc": "2026-07-23 04:22:26.759525259 +0000 UTC",
+        "transport_security_mode": "strict_ca_and_hostname_verification",
+        "sources": [
+          "AISStream"
+        ],
+        "is_tanker_context_candidate": true,
+        "tanker_context_zone_ids": "danish_straits_kattegat",
+        "tanker_context_zone_labels": "Danish Straits / Kattegat",
+        "tanker_context_note": "context-only tanker in sensitive maritime zone; no VOI match implied",
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "false_flag_candidate": false,
+        "flag_watch_context": false,
+        "flag_detected": "",
+        "flag_detected_source": "",
+        "flag_iso_code": "",
+        "flag_risk_category": "",
+        "flag_registry_status": "",
+        "flag_risk_band": "",
+        "flag_risk_score": "",
+        "flag_risk_reason": "",
+        "flag_risk_source": "",
+        "flag_risk_url": "",
+        "flag_risk_last_verified": "",
+        "watch_matched_on": "imo",
+        "watch_name": "JIN HUI",
+        "watch_imo": "9430272",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "EU_Annex_XLII",
+        "source_url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "watch_priority": "high",
+        "notes": "EU designated vessel; EU application date 19-12-2025",
+        "source_status": "confirmed_current",
+        "source_last_checked": "",
+        "sanctions_source_count": 1,
+        "sanctioned": true,
+        "shadow_fleet": true,
+        "false_flag": false,
+        "behavioral_voi": false,
+        "false_flag_hard_watch": false,
+        "false_flag_hard_reasons": "official_or_manual_sanctions_watchlist_match;core_or_gateway_area",
+        "neutral_tanker_context": false,
+        "index_impact": "voi_context",
+        "voi_role": "voi_or_watchlist_context",
+        "categories": [
+          "sanctions_shadowfleet",
+          "watchlist"
+        ],
+        "primary_category": "watchlist",
+        "layer_name": "watchlist",
+        "layer_label": "Watchlist live",
+        "display_category": "Watchlist",
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9430272",
+        "vesselfinder_label": "VesselFinder",
+        "marker-color": "#2b6cb0",
+        "marker-symbol": "star",
+        "marker-size": "medium",
+        "stroke": "#123b70",
+        "stroke-width": 2,
+        "stroke-opacity": 0.95,
+        "fill": "#2b6cb0",
+        "fillColor": "#2b6cb0",
+        "fill-opacity": 0.82,
+        "color": "#2b6cb0",
+        "_umap_options": {
+          "color": "#2b6cb0",
+          "fillColor": "#2b6cb0",
+          "weight": 2,
+          "opacity": 0.95,
+          "fillOpacity": 0.82
+        },
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">JIN HUI</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>9430272</td></tr><tr><th>MMSI</th><td>468121000</td></tr><tr><th>Callsign</th><td>A8SR3</td></tr><tr><th>Destination</th><td>BALTIC SEA</td></tr><tr><th>SOG / COG</th><td>— kn / —°</td></tr><tr><th>Last seen</th><td>2026-07-23 04:22:26.759525259 +0000 UTC</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 19-12-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9430272\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">JIN HUI</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>9430272</td></tr><tr><th>MMSI</th><td>468121000</td></tr><tr><th>Callsign</th><td>A8SR3</td></tr><tr><th>Destination</th><td>BALTIC SEA</td></tr><tr><th>SOG / COG</th><td>— kn / —°</td></tr><tr><th>Last seen</th><td>2026-07-23 04:22:26.759525259 +0000 UTC</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 19-12-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9430272\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">JIN HUI</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>9430272</td></tr><tr><th>MMSI</th><td>468121000</td></tr><tr><th>Callsign</th><td>A8SR3</td></tr><tr><th>Destination</th><td>BALTIC SEA</td></tr><tr><th>SOG / COG</th><td>— kn / —°</td></tr><tr><th>Last seen</th><td>2026-07-23 04:22:26.759525259 +0000 UTC</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 19-12-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9430272\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
       }
     },
     {
@@ -5677,27 +5778,29 @@
       },
       "properties": {
         "mmsi": "667002335",
-        "imo": "9253076",
-        "callsign": "9LS2038",
         "name": "REUS",
         "latitude": 57.453418,
         "longitude": 6.923683,
-        "destination": "EGPSD",
-        "ship_type": 80,
         "navigational_status": 0,
         "sog": 8.7,
         "cog": 248.9,
         "true_heading": 257,
         "source": "BarentsWatch / Norwegian Coastal Administration",
-        "source_provider": "barentswatch",
         "message_type_last": "RegionalSnapshot",
         "last_seen_utc": "2026-07-22T15:51:10+00:00",
+        "transport_security_mode": "strict_ca_and_hostname_verification",
+        "sources": [
+          "AISStream",
+          "BarentsWatch / Norwegian Coastal Administration"
+        ],
+        "imo": "9253076",
+        "callsign": "9LS2038",
+        "destination": "EGPSD",
+        "ship_type": 80,
+        "source_provider": "barentswatch",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "source_stream": "terra",
-        "sources": [
-          "BarentsWatch / Norwegian Coastal Administration"
-        ],
         "is_tanker_context_candidate": false,
         "tanker_context_zone_ids": "",
         "tanker_context_zone_labels": "",
@@ -6402,22 +6505,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.624281666666667,
-          57.73238166666667
+          10.823643333333333,
+          57.79197333333333
         ]
       },
       "properties": {
         "mmsi": "273397870",
         "name": "SHTURMAN ALBANOV",
-        "latitude": 57.73238166666667,
-        "longitude": 8.624281666666667,
+        "latitude": 57.79197333333333,
+        "longitude": 10.823643333333333,
         "navigational_status": 0,
-        "sog": 10.5,
-        "cog": 83,
-        "true_heading": 84,
+        "sog": 13,
+        "cog": 127.3,
+        "true_heading": 129,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-07-12 23:35:38.351085308 +0000 UTC",
+        "last_seen_utc": "2026-07-13 06:15:37.611283395 +0000 UTC",
         "imo": "9752084",
         "callsign": "UBXO2",
         "destination": "RU MMK >> RU LED",
@@ -6469,7 +6572,7 @@
           "sanctions_shadowfleet",
           "watchlist"
         ],
-        "_history_key": "2026-07-12T20:00:00Z|273397870|9752084|recent_russian_portcall_10d,russian_mmsi,sanctions_shadowfleet,watchlist",
+        "_history_key": "2026-07-13T05:00:00Z|273397870|9752084|recent_russian_portcall_10d,russian_mmsi,sanctions_shadowfleet,watchlist",
         "primary_category": "watchlist",
         "layer_name": "watchlist",
         "layer_label": "Watchlist live",
@@ -6493,9 +6596,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SHTURMAN ALBANOV</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>9752084</td></tr><tr><th>MMSI</th><td>273397870</td></tr><tr><th>Callsign</th><td>UBXO2</td></tr><tr><th>Destination</th><td>RU MMK &gt;&gt; RU LED</td></tr><tr><th>SOG / COG</th><td>10.5 kn / 83°</td></tr><tr><th>Last seen</th><td>2026-07-12 23:35:38.351085308 +0000 UTC</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">recent_russian_portcall_10d</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">russian_mmsi</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9752084\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SHTURMAN ALBANOV</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>9752084</td></tr><tr><th>MMSI</th><td>273397870</td></tr><tr><th>Callsign</th><td>UBXO2</td></tr><tr><th>Destination</th><td>RU MMK &gt;&gt; RU LED</td></tr><tr><th>SOG / COG</th><td>10.5 kn / 83°</td></tr><tr><th>Last seen</th><td>2026-07-12 23:35:38.351085308 +0000 UTC</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">recent_russian_portcall_10d</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">russian_mmsi</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9752084\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SHTURMAN ALBANOV</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>9752084</td></tr><tr><th>MMSI</th><td>273397870</td></tr><tr><th>Callsign</th><td>UBXO2</td></tr><tr><th>Destination</th><td>RU MMK &gt;&gt; RU LED</td></tr><tr><th>SOG / COG</th><td>10.5 kn / 83°</td></tr><tr><th>Last seen</th><td>2026-07-12 23:35:38.351085308 +0000 UTC</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">recent_russian_portcall_10d</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">russian_mmsi</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9752084\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SHTURMAN ALBANOV</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>9752084</td></tr><tr><th>MMSI</th><td>273397870</td></tr><tr><th>Callsign</th><td>UBXO2</td></tr><tr><th>Destination</th><td>RU MMK &gt;&gt; RU LED</td></tr><tr><th>SOG / COG</th><td>13 kn / 127.3°</td></tr><tr><th>Last seen</th><td>2026-07-13 06:15:37.611283395 +0000 UTC</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">recent_russian_portcall_10d</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">russian_mmsi</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9752084\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SHTURMAN ALBANOV</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>9752084</td></tr><tr><th>MMSI</th><td>273397870</td></tr><tr><th>Callsign</th><td>UBXO2</td></tr><tr><th>Destination</th><td>RU MMK &gt;&gt; RU LED</td></tr><tr><th>SOG / COG</th><td>13 kn / 127.3°</td></tr><tr><th>Last seen</th><td>2026-07-13 06:15:37.611283395 +0000 UTC</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">recent_russian_portcall_10d</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">russian_mmsi</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9752084\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SHTURMAN ALBANOV</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>9752084</td></tr><tr><th>MMSI</th><td>273397870</td></tr><tr><th>Callsign</th><td>UBXO2</td></tr><tr><th>Destination</th><td>RU MMK &gt;&gt; RU LED</td></tr><tr><th>SOG / COG</th><td>13 kn / 127.3°</td></tr><tr><th>Last seen</th><td>2026-07-13 06:15:37.611283395 +0000 UTC</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">recent_russian_portcall_10d</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">russian_mmsi</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9752084\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
       }
     },
     {
@@ -6503,22 +6606,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          11.085136666666667,
-          55.196655
+          11.841656666666667,
+          54.40931
         ]
       },
       "properties": {
         "mmsi": "273257120",
         "name": "MELITO CARRIER",
-        "latitude": 55.196655,
-        "longitude": 11.085136666666667,
+        "latitude": 54.40931,
+        "longitude": 11.841656666666667,
         "navigational_status": 0,
         "sog": 11,
-        "cog": 216.7,
-        "true_heading": 217,
+        "cog": 91.6,
+        "true_heading": 94,
         "source": "AISStream",
         "message_type_last": "PositionReport",
-        "last_seen_utc": "2026-07-12 23:34:39.144970729 +0000 UTC",
+        "last_seen_utc": "2026-07-13 06:17:38.227245971 +0000 UTC",
         "imo": "8920581",
         "callsign": "UBUZ4",
         "destination": "RULED",
@@ -6570,7 +6673,7 @@
           "sanctions_shadowfleet",
           "watchlist"
         ],
-        "_history_key": "2026-07-12T20:00:00Z|273257120|8920581|recent_russian_portcall_10d,russian_mmsi,sanctions_shadowfleet,watchlist",
+        "_history_key": "2026-07-13T05:00:00Z|273257120|8920581|recent_russian_portcall_10d,russian_mmsi,sanctions_shadowfleet,watchlist",
         "primary_category": "watchlist",
         "layer_name": "watchlist",
         "layer_label": "Watchlist live",
@@ -6594,9 +6697,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">MELITO CARRIER</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>8920581</td></tr><tr><th>MMSI</th><td>273257120</td></tr><tr><th>Callsign</th><td>UBUZ4</td></tr><tr><th>Destination</th><td>RULED</td></tr><tr><th>SOG / COG</th><td>11 kn / 216.7°</td></tr><tr><th>Last seen</th><td>2026-07-12 23:34:39.144970729 +0000 UTC</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 24-10-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">recent_russian_portcall_10d</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">russian_mmsi</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8920581\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">MELITO CARRIER</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>8920581</td></tr><tr><th>MMSI</th><td>273257120</td></tr><tr><th>Callsign</th><td>UBUZ4</td></tr><tr><th>Destination</th><td>RULED</td></tr><tr><th>SOG / COG</th><td>11 kn / 216.7°</td></tr><tr><th>Last seen</th><td>2026-07-12 23:34:39.144970729 +0000 UTC</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 24-10-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">recent_russian_portcall_10d</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">russian_mmsi</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8920581\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">MELITO CARRIER</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>8920581</td></tr><tr><th>MMSI</th><td>273257120</td></tr><tr><th>Callsign</th><td>UBUZ4</td></tr><tr><th>Destination</th><td>RULED</td></tr><tr><th>SOG / COG</th><td>11 kn / 216.7°</td></tr><tr><th>Last seen</th><td>2026-07-12 23:34:39.144970729 +0000 UTC</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 24-10-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">recent_russian_portcall_10d</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">russian_mmsi</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8920581\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">MELITO CARRIER</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>8920581</td></tr><tr><th>MMSI</th><td>273257120</td></tr><tr><th>Callsign</th><td>UBUZ4</td></tr><tr><th>Destination</th><td>RULED</td></tr><tr><th>SOG / COG</th><td>11 kn / 91.6°</td></tr><tr><th>Last seen</th><td>2026-07-13 06:17:38.227245971 +0000 UTC</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 24-10-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">recent_russian_portcall_10d</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">russian_mmsi</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8920581\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">MELITO CARRIER</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>8920581</td></tr><tr><th>MMSI</th><td>273257120</td></tr><tr><th>Callsign</th><td>UBUZ4</td></tr><tr><th>Destination</th><td>RULED</td></tr><tr><th>SOG / COG</th><td>11 kn / 91.6°</td></tr><tr><th>Last seen</th><td>2026-07-13 06:17:38.227245971 +0000 UTC</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 24-10-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">recent_russian_portcall_10d</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">russian_mmsi</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8920581\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">MELITO CARRIER</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#2b6cb0;color:#fff;font-size:11px;\">Watchlist</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>Watchlist live</td></tr><tr><th>IMO</th><td>8920581</td></tr><tr><th>MMSI</th><td>273257120</td></tr><tr><th>Callsign</th><td>UBUZ4</td></tr><tr><th>Destination</th><td>RULED</td></tr><tr><th>SOG / COG</th><td>11 kn / 91.6°</td></tr><tr><th>Last seen</th><td>2026-07-13 06:17:38.227245971 +0000 UTC</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 24-10-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">recent_russian_portcall_10d</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">russian_mmsi</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8920581\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
       }
     },
     {
