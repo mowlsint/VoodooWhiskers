@@ -44,14 +44,14 @@
           <button type="button" class="timeButton" data-time-mode="14d">14 d</button>
           <button type="button" class="timeButton wide" data-time-mode="dk24">24 h + latest Danish historical</button>
         </div>
-        <p class="timeHelp">Historical views load the bounded VOI history only when selected. The Danish view combines current Finnish/Norwegian monitored contacts with at most two delayed Danish observations per vessel.</p>
+        <p class="timeHelp">Historical views load the bounded VOI history only when selected. The Danish view combines current Finnish/Norwegian monitored contacts with at most two delayed Danish observations per vessel matched to a known Voodoo watchlist/VOI category.</p>
       </section>
 
       <section class="card">
         <div class="sectionHead"><h2>Vessel layers</h2><button type="button" class="smallButton" id="fitVessels">Fit</button></div>
         <label class="control"><input type="checkbox" data-layer="ais_contacts"> Current monitored AIS contacts</label>
         <label class="control"><input type="checkbox" data-layer="vessel_positions" checked> Priority VOI positions / selected history</label>
-        <label class="control"><input type="checkbox" data-layer="danish_history" disabled> Danish historical two-position tracks</label>
+        <label class="control"><input type="checkbox" data-layer="danish_history" disabled> Danish historical matched-VOI tracks</label>
         <label class="control"><input type="checkbox" data-layer="neutral_tanker_context"> Neutral tanker context</label>
         <label class="control"><input type="checkbox" data-layer="sanctions_shadowfleet"> Sanctions / shadow fleet</label>
         <label class="control"><input type="checkbox" data-layer="watchlist"> Watchlist</label>
@@ -85,7 +85,7 @@
 
       <section class="card sourceCard">
         <h2>Sources and limits</h2>
-        <p>Current vessel data: Voodoo Whiskers brokered AIS snapshots. Historical supplement: Danish land-based AIS, delayed and limited to two observations per monitored vessel. Infrastructure: EMODnet Human Activities and original providers.</p>
+        <p>Current vessel data: Voodoo Whiskers brokered AIS snapshots. Historical supplement: Danish land-based AIS, delayed and limited to two observations per vessel in a known Voodoo category. Infrastructure: EMODnet Human Activities and original providers.</p>
         <p>Coverage is mixed and not continuous. Older, repaired or delayed timestamps are visibly marked in vessel popups.</p>
         <div class="generated" id="generatedAt">Generated: –</div>
       </section>
