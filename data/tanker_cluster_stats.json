@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-07-24T04:54:53+00:00",
-  "total_contacts_seen": 965,
-  "total_unique_tankers_in_context_zones": 254,
+  "generated_at": "2026-07-24T05:29:27+00:00",
+  "total_contacts_seen": 964,
+  "total_unique_tankers_in_context_zones": 244,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 168,
-  "voi_tankers_in_context_zones": 86,
+  "neutral_tanker_context_total": 164,
+  "voi_tankers_in_context_zones": 80,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 72,
-      "neutral_tankers": 66,
+      "total_tankers": 68,
+      "neutral_tankers": 62,
       "voi_tankers": 6,
-      "slow_or_waiting": 31,
+      "slow_or_waiting": 32,
       "for_order": 2,
       "examples": [
         {
@@ -19,7 +19,7 @@
           "imo": "9778002",
           "mmsi": "209066000",
           "destination": "NO KRS",
-          "sog": "8.6",
+          "sog": "9.2",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,10 +100,10 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 46,
-      "neutral_tankers": 44,
-      "voi_tankers": 2,
-      "slow_or_waiting": 22,
+      "total_tankers": 42,
+      "neutral_tankers": 41,
+      "voi_tankers": 1,
+      "slow_or_waiting": 23,
       "for_order": 0,
       "examples": [
         {
@@ -111,7 +111,7 @@
           "imo": "9778002",
           "mmsi": "209066000",
           "destination": "NO KRS",
-          "sog": "8.6",
+          "sog": "9.2",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -157,16 +157,6 @@
           ]
         },
         {
-          "name": "CIELO DI GAETA",
-          "imo": "9669653",
-          "mmsi": "229632000",
-          "destination": "SE BRO",
-          "sog": "13.9",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "JATULI",
           "imo": "9892444",
           "mmsi": "230688000",
@@ -185,6 +175,16 @@
           "categories": [
             "neutral_tanker_context"
           ]
+        },
+        {
+          "name": "ZITA SCHULTE",
+          "imo": "9694385",
+          "mmsi": "235116958",
+          "destination": "SEGOT",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
         }
       ],
       "zone_id": "skagen_waiting_area",
@@ -192,11 +192,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 107,
+      "total_tankers": 102,
       "neutral_tankers": 31,
-      "voi_tankers": 76,
+      "voi_tankers": 71,
       "slow_or_waiting": 80,
-      "for_order": 12,
+      "for_order": 13,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -233,7 +233,7 @@
           "imo": "9843209",
           "mmsi": "215515000",
           "destination": "FOR ORDERS",
-          "sog": "4.7",
+          "sog": "",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -242,8 +242,8 @@
           "name": "TERN LAND",
           "imo": "9988994",
           "mmsi": "219034373",
-          "destination": "FI SKV",
-          "sog": "9.5",
+          "destination": "LT KLJ",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -253,7 +253,7 @@
           "imo": "9298650",
           "mmsi": "240447000",
           "destination": "BALTIC SEA FOR ORDER",
-          "sog": "11.3",
+          "sog": "11.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -263,7 +263,7 @@
           "imo": "9546162",
           "mmsi": "248180000",
           "destination": "CASABLANKA",
-          "sog": "10",
+          "sog": "9.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -273,7 +273,7 @@
           "imo": "9693082",
           "mmsi": "249279000",
           "destination": "EGYPT FOR ORDERS",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -284,9 +284,9 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 33,
+      "total_tankers": 32,
       "neutral_tankers": 31,
-      "voi_tankers": 2,
+      "voi_tankers": 1,
       "slow_or_waiting": 17,
       "for_order": 1,
       "examples": [
