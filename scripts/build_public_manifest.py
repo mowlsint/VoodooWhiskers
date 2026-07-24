@@ -48,6 +48,9 @@ def main() -> int:
     specs = [
         ("ais_contacts_latest.json", "Current monitored AIS contacts — JSON", "ais", "Provider-neutral filtered AIS contacts currently monitored by Voodoo Whiskers."),
         ("ais_contacts_latest.geojson", "Current monitored AIS positions — GeoJSON", "ais", "Map-ready filtered AIS positions currently monitored by Voodoo Whiskers."),
+        ("ais_dk_last_two_positions.json", "Danish historical AIS — latest two observations — JSON", "ais_history", "Latest two temporally distinct historical Danish AIS observations per monitored vessel. Delayed data; not current vessel positions."),
+        ("ais_dk_last_two_positions.geojson", "Danish historical AIS — latest two observations — GeoJSON", "ais_history", "Map-ready latest two historical Danish AIS observations and short connectors per monitored vessel. Delayed data; not current vessel positions."),
+        ("ais_dk_import_status.json", "Danish historical AIS — import status", "ais_history", "Source date, lag, row-quality counters and import health for the delayed Danish AIS supplement."),
         ("voi_list_latest.json", "VOI list — JSON", "voi", "Machine-readable current priority VOI list."),
         ("voi_list_latest.csv", "VOI list — CSV", "voi", "Tabular current priority VOI list."),
         ("voi_list_latest.md", "VOI list — Markdown", "voi", "Readable current priority VOI list."),
@@ -70,6 +73,7 @@ def main() -> int:
         "assessment_limit": "VOI and proximity products support analyst review and do not establish hostile intent, attribution or unlawful activity.",
         "groups": [
             {"id": "ais", "label": "Monitored AIS positions"},
+            {"id": "ais_history", "label": "Historical AIS supplements"},
             {"id": "voi", "label": "VOI lists"},
             {"id": "infrastructure", "label": "Critical Infrastructure Watch"},
         ],
@@ -84,6 +88,8 @@ def main() -> int:
         "provider_label": "AIS",
         "web_app": "./index.html",
         "vessels": "./data/vessels/manifest.json",
+        "danish_historical_ais": "./data/vessels/ais_dk_last_two_positions.geojson",
+        "danish_historical_status": "./data/vessels/ais_dk_import_status.json",
         "emodnet": "./data/reference/emodnet/manifest.json",
         "infrastructure_events": "./data/analysis/infrastructure_events_latest.json",
         "infrastructure_events_geojson": "./data/analysis/infrastructure_events_latest.geojson",

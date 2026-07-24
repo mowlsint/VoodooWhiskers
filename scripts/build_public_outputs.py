@@ -25,6 +25,8 @@ CONFIG = json.loads((ROOT / "config" / "infrastructure_watch.json").read_text(en
 SNAPSHOT_PATH = DATA / "voi_snapshot_latest.json"
 HISTORY_PATH = DATA / "voi_history.jsonl"
 AIS_CONTACTS_PATH = DATA / "ais_contacts_latest.json"
+AIS_DK_PATH = DATA / "ais_contacts_aisdk_historical_latest.json"
+AIS_DK_STATUS_PATH = DATA / "ais_dk_import_status_latest.json"
 
 CATEGORY_LAYERS = [
     "russian_mmsi.geojson",
@@ -291,6 +293,135 @@ def existing_history_stats() -> dict[str, Any]:
     }
 
 
+
+def haversine_nm(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    radius_nm = 3440.065
+    phi1, phi2 = math.radians(lat1), math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dlambda = math.radians(lon2 - lon1)
+    a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
+    return round(radius_nm * 2 * math.atan2(math.sqrt(a), math.sqrt(max(0.0, 1 - a))), 3)
+
+
+def build_danish_public_products() -> dict[str, Any]:
+    """Publish only the compact two-position Danish historical product.
+
+    Raw Danish ZIP/CSV files are never read by this builder and must never exist in the
+    repository. The importer writes only AIS_DK_PATH and a small status/state record.
+    """
+    if not AIS_DK_PATH.exists():
+        return {"available": False, "vessel_count": 0, "position_features": 0, "line_features": 0}
+    payload = json.loads(AIS_DK_PATH.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"{AIS_DK_PATH} must contain a JSON object")
+    contacts = payload.get("contacts") if isinstance(payload.get("contacts"), list) else []
+    features: list[dict[str, Any]] = []
+    position_features = 0
+    line_features = 0
+    for contact in contacts:
+        if not isinstance(contact, dict):
+            continue
+        positions = contact.get("positions") if isinstance(contact.get("positions"), list) else []
+        clean_positions = []
+        common = {
+            key: value for key, value in contact.items()
+            if key not in {"positions", "latest_position", "previous_position", "latitude", "longitude", "_observed_dt"}
+        }
+        for position in positions[:2]:
+            if not isinstance(position, dict):
+                continue
+            lat = float_or_none(position.get("latitude"))
+            lon = float_or_none(position.get("longitude"))
+            if lat is None or lon is None or not (-90 <= lat <= 90 and -180 <= lon <= 180):
+                continue
+            rank = int(position.get("rank") or len(clean_positions) + 1)
+            props = dict(common)
+            props.update({
+                "feature_role": "latest_historical_position" if rank == 1 else "previous_historical_position",
+                "position_rank": rank,
+                "observed_at": position.get("observed_at"),
+                "sog": position.get("sog"),
+                "cog": position.get("cog"),
+                "true_heading": position.get("true_heading"),
+                "navigational_status": position.get("navigational_status"),
+                "historical": True,
+                "not_current_position": True,
+            })
+            features.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [lon, lat]}, "properties": props})
+            clean_positions.append((rank, lat, lon, position.get("observed_at")))
+            position_features += 1
+        clean_positions.sort(key=lambda row: row[0])
+        if len(clean_positions) == 2:
+            latest, previous = clean_positions[0], clean_positions[1]
+            if (latest[1], latest[2]) != (previous[1], previous[2]):
+                props = dict(common)
+                props.update({
+                    "feature_role": "historical_two_position_connector",
+                    "historical": True,
+                    "not_current_position": True,
+                    "latest_observed_at": latest[3],
+                    "previous_observed_at": previous[3],
+                    "distance_nm": haversine_nm(previous[1], previous[2], latest[1], latest[2]),
+                })
+                features.append({
+                    "type": "Feature",
+                    "geometry": {"type": "LineString", "coordinates": [[previous[2], previous[1]], [latest[2], latest[1]]]},
+                    "properties": props,
+                })
+                line_features += 1
+
+    generated_at = str(payload.get("generated_at") or iso())
+    public_payload = dict(payload)
+    public_payload.update({
+        "public_product": True,
+        "provider_label": "Danish historical AIS",
+        "assessment_limit": "Delayed historical observations. They are not current vessel positions.",
+        "max_positions_per_vessel": 2,
+        "contacts": contacts,
+    })
+    geojson = {
+        "type": "FeatureCollection",
+        "features": features,
+        "metadata": {
+            "schema_version": "1.0.0",
+            "generated_at": generated_at,
+            "source": "Danish historical AIS",
+            "provider": "ais_dk_historical",
+            "coverage_mode": "historical_delayed",
+            "not_current_position": True,
+            "max_positions_per_vessel": 2,
+            "vessel_count": len(contacts),
+            "position_feature_count": position_features,
+            "connector_feature_count": line_features,
+            "data_max_timestamp_utc": payload.get("data_max_timestamp_utc"),
+            "lag_hours_at_build": payload.get("lag_hours_at_build"),
+            "coverage_limit": "Danish land-based historical AIS. Delayed, filtered and not a complete current traffic picture.",
+        },
+    }
+    status = {}
+    if AIS_DK_STATUS_PATH.exists():
+        candidate = json.loads(AIS_DK_STATUS_PATH.read_text(encoding="utf-8"))
+        status = candidate if isinstance(candidate, dict) else {}
+    atomic_json(VESSEL_DIR / "ais_dk_last_two_positions.json", public_payload)
+    atomic_json(VESSEL_DIR / "ais_dk_last_two_positions.geojson", geojson)
+    atomic_json(VESSEL_DIR / "ais_dk_import_status.json", status)
+    atomic_json(DOWNLOAD_DIR / "ais_dk_last_two_positions.json", public_payload)
+    atomic_json(DOWNLOAD_DIR / "ais_dk_last_two_positions.geojson", geojson)
+    atomic_json(DOWNLOAD_DIR / "ais_dk_import_status.json", status)
+    return {
+        "available": True,
+        "json_href": "./ais_dk_last_two_positions.json",
+        "geojson_href": "./ais_dk_last_two_positions.geojson",
+        "status_href": "./ais_dk_import_status.json",
+        "vessel_count": len(contacts),
+        "position_features": position_features,
+        "line_features": line_features,
+        "data_max_timestamp_utc": payload.get("data_max_timestamp_utc"),
+        "lag_hours_at_build": payload.get("lag_hours_at_build"),
+        "max_positions_per_vessel": 2,
+        "coverage_mode": "historical_delayed",
+    }
+
 def build_markdown(rows: list[dict[str, Any]], generated_at: str) -> str:
     lines = [
         "# Voodoo Whiskers — Current VOI List",
@@ -416,6 +547,7 @@ def main() -> int:
     atomic_json(DOWNLOAD_DIR / "ais_contacts_latest.json", public_ais_pack)
     atomic_json(DOWNLOAD_DIR / "ais_contacts_latest.geojson", ais_geojson)
 
+    danish_history = build_danish_public_products()
     category_layers = copy_category_layers()
     history_stats = build_bounded_history(snapshot_dt) if args.include_history else existing_history_stats()
     history_stats["rebuilt_in_this_run"] = bool(args.include_history)
@@ -455,6 +587,7 @@ def main() -> int:
             "display_label": "Current monitored AIS contacts",
         },
         "history": {"href": "./voi_history_14d.jsonl" if history_stats.get("available") else None, **history_stats},
+        "danish_historical": danish_history,
         "category_layers": category_layers,
     }
     atomic_json(VESSEL_DIR / "manifest.json", vessel_manifest)
@@ -466,6 +599,7 @@ def main() -> int:
         "ais_contacts": len(ais_contacts),
         "ais_contact_features": len(ais_features),
         "history": history_stats,
+        "danish_historical": danish_history,
         "category_layers": len(category_layers),
     }, indent=2))
     return 0
