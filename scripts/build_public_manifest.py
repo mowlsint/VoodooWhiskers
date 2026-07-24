@@ -48,8 +48,8 @@ def main() -> int:
     specs = [
         ("ais_contacts_latest.json", "Current monitored AIS contacts — JSON", "ais", "Provider-neutral filtered AIS contacts currently monitored by Voodoo Whiskers."),
         ("ais_contacts_latest.geojson", "Current monitored AIS positions — GeoJSON", "ais", "Map-ready filtered AIS positions currently monitored by Voodoo Whiskers."),
-        ("ais_dk_last_two_positions.json", "Danish historical AIS — latest two observations — JSON", "ais_history", "Latest two temporally distinct historical Danish AIS observations per monitored vessel. Delayed data; not current vessel positions."),
-        ("ais_dk_last_two_positions.geojson", "Danish historical AIS — latest two observations — GeoJSON", "ais_history", "Map-ready latest two historical Danish AIS observations and short connectors per monitored vessel. Delayed data; not current vessel positions."),
+        ("ais_dk_last_two_positions.json", "Danish historical AIS — latest two observations — JSON", "ais_history", "Latest two temporally distinct historical Danish AIS observations per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions."),
+        ("ais_dk_last_two_positions.geojson", "Danish historical AIS — latest two observations — GeoJSON", "ais_history", "Map-ready latest two historical Danish AIS observations and short connectors per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions."),
         ("ais_dk_import_status.json", "Danish historical AIS — import status", "ais_history", "Source date, lag, row-quality counters and import health for the delayed Danish AIS supplement."),
         ("voi_list_latest.json", "VOI list — JSON", "voi", "Machine-readable current priority VOI list."),
         ("voi_list_latest.csv", "VOI list — CSV", "voi", "Tabular current priority VOI list."),

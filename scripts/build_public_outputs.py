@@ -27,6 +27,15 @@ HISTORY_PATH = DATA / "voi_history.jsonl"
 AIS_CONTACTS_PATH = DATA / "ais_contacts_latest.json"
 AIS_DK_PATH = DATA / "ais_contacts_aisdk_historical_latest.json"
 AIS_DK_STATUS_PATH = DATA / "ais_dk_import_status_latest.json"
+ALLOWED_DANISH_PUBLIC_CATEGORIES = {
+    "watchlist",
+    "sanctions_shadowfleet",
+    "russian_mmsi",
+    "falseflag_interest",
+    "false_flag_watch",
+    "behavioral_voi",
+    "recent_russian_portcall_10d",
+}
 
 CATEGORY_LAYERS = [
     "russian_mmsi.geojson",
@@ -314,7 +323,22 @@ def build_danish_public_products() -> dict[str, Any]:
     payload = json.loads(AIS_DK_PATH.read_text(encoding="utf-8"))
     if not isinstance(payload, dict):
         raise ValueError(f"{AIS_DK_PATH} must contain a JSON object")
-    contacts = payload.get("contacts") if isinstance(payload.get("contacts"), list) else []
+    raw_contacts = payload.get("contacts") if isinstance(payload.get("contacts"), list) else []
+    contacts: list[dict[str, Any]] = []
+    rejected_non_watchlist = 0
+    for candidate in raw_contacts:
+        if not isinstance(candidate, dict) or candidate.get("known_voi_match") is not True:
+            rejected_non_watchlist += 1
+            continue
+        categories = candidate.get("categories") if isinstance(candidate.get("categories"), list) else []
+        allowed = sorted({str(category) for category in categories if str(category) in ALLOWED_DANISH_PUBLIC_CATEGORIES})
+        if not allowed:
+            rejected_non_watchlist += 1
+            continue
+        clean_candidate = dict(candidate)
+        clean_candidate["categories"] = allowed
+        clean_candidate["neutral_tanker_context"] = False
+        contacts.append(clean_candidate)
     features: list[dict[str, Any]] = []
     position_features = 0
     line_features = 0
@@ -375,7 +399,9 @@ def build_danish_public_products() -> dict[str, Any]:
     public_payload.update({
         "public_product": True,
         "provider_label": "Danish historical AIS",
-        "assessment_limit": "Delayed historical observations. They are not current vessel positions.",
+        "assessment_limit": "Delayed historical observations for known Voodoo watchlist/VOI categories only. They are not current vessel positions.",
+        "filter_scope": "known_voi_categories_only",
+        "rejected_non_watchlist_contacts": rejected_non_watchlist,
         "max_positions_per_vessel": 2,
         "contacts": contacts,
     })
@@ -395,7 +421,9 @@ def build_danish_public_products() -> dict[str, Any]:
             "connector_feature_count": line_features,
             "data_max_timestamp_utc": payload.get("data_max_timestamp_utc"),
             "lag_hours_at_build": payload.get("lag_hours_at_build"),
-            "coverage_limit": "Danish land-based historical AIS. Delayed, filtered and not a complete current traffic picture.",
+            "coverage_limit": "Danish land-based historical AIS. Delayed, limited to known Voodoo watchlist/VOI categories and not a complete current traffic picture.",
+            "filter_scope": "known_voi_categories_only",
+            "rejected_non_watchlist_contacts": rejected_non_watchlist,
         },
     }
     status = {}
@@ -420,6 +448,8 @@ def build_danish_public_products() -> dict[str, Any]:
         "lag_hours_at_build": payload.get("lag_hours_at_build"),
         "max_positions_per_vessel": 2,
         "coverage_mode": "historical_delayed",
+        "filter_scope": "known_voi_categories_only",
+        "rejected_non_watchlist_contacts": rejected_non_watchlist,
     }
 
 def build_markdown(rows: list[dict[str, Any]], generated_at: str) -> str:

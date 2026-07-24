@@ -18,6 +18,7 @@ import re
 import sys
 import tempfile
 import zipfile
+from collections import Counter, defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -39,7 +40,7 @@ STATE_PATH = DATA_DIR / "ais_dk_import_state.json"
 BASE_URL = os.getenv("AIS_DK_BASE_URL", "https://aisdata.ais.dk/").strip() or "https://aisdata.ais.dk/"
 DIRECT_URL = os.getenv("AIS_DK_SOURCE_URL", "").strip()
 LOOKBACK_DAYS = int(os.getenv("AIS_DK_LOOKBACK_DAYS", "21"))
-FILTER_MODE = os.getenv("AIS_DK_FILTER_MODE", "monitored").strip().lower()
+FILTER_MODE = os.getenv("AIS_DK_FILTER_MODE", "known_categories").strip().lower()
 TIMESTAMP_TIMEZONE = os.getenv("AIS_DK_TIMESTAMP_TIMEZONE", "UTC").strip() or "UTC"
 TEMP_ROOT = Path(os.getenv("AIS_DK_TEMP_DIR", tempfile.gettempdir()))
 MAX_DOWNLOAD_BYTES = int(os.getenv("AIS_DK_MAX_DOWNLOAD_BYTES", str(2 * 1024 * 1024 * 1024)))
@@ -79,32 +80,47 @@ ALLOWED_MOBILE_TYPES = {"class a", "class b"}
 
 
 WATCHLIST_PATH = DATA_DIR / "watchlist_master.csv"
-FLAG_RISK_PATH = DATA_DIR / "flag_risk_reference.csv"
-PORTS_RU_PATH = DATA_DIR / "ports_ru.csv"
+VOI_SNAPSHOT_PATH = DATA_DIR / "voi_snapshot_latest.json"
 
-FALLBACK_FLAG_RISK_MIDS = {
-    "306", "307", "312", "314", "341", "351", "352", "353", "354", "355", "356", "357",
-    "370", "371", "372", "373", "511", "518", "538", "570", "607", "613", "616", "621",
-    "626", "632", "636", "647", "650", "660", "667", "668", "669", "671", "676", "677", "679", "750",
+FILTER_SCHEMA_VERSION = "known-voi-categories-v1"
+ALLOWED_DANISH_CATEGORIES = {
+    "watchlist",
+    "sanctions_shadowfleet",
+    "russian_mmsi",
+    "falseflag_interest",
+    "false_flag_watch",
+    "behavioral_voi",
+    "recent_russian_portcall_10d",
 }
-RUSSIAN_PORT_ALLOWLIST = {"RUKGD", "RUBLT", "RUULU", "RUUST"}
-RUSSIAN_PORT_NAME_ALIASES = {
-    "USTLUGA", "STPETERSBURG", "SAINTPETERSBURG", "KALININGRAD", "BALTIYSK", "BALTISK",
-    "PRIMORSK", "VYSOTSK", "VYBORG", "MURMANSK", "ARKHANGELSK", "NOVOROSSIYSK",
-    "NOVOROSSIISK", "TUAPSE", "TAMAN", "KAVKAZ", "ROSTOV", "ROSTOVONDON", "AZOV",
-    "TAGANROG", "MAKHACHKALA", "VLADIVOSTOK", "NAKHODKA", "KOZMINO", "VANINO",
-    "DEKASTRI", "KORSAKOV", "SEVASTOPOL", "KERCH", "FEODOSIA",
+
+CATEGORY_LAYER_FILES = {
+    "watchlist": DATA_DIR / "watchlist_live.geojson",
+    "sanctions_shadowfleet": DATA_DIR / "sanctions_shadowfleet.geojson",
+    "russian_mmsi": DATA_DIR / "russian_mmsi.geojson",
+    "falseflag_interest": DATA_DIR / "falseflag_interest.geojson",
+    "false_flag_watch": DATA_DIR / "false_flag_watch.geojson",
+    "behavioral_voi": DATA_DIR / "behavioral_voi.geojson",
+    "recent_russian_portcall_10d": DATA_DIR / "recent_russian_portcall_10d.geojson",
 }
-TANKER_CONTEXT_ZONES = [
-    {"id":"kaliningrad_baltiysk_approaches","min_lat":54.15,"max_lat":56.20,"min_lon":18.20,"max_lon":22.90},
-    {"id":"gulf_of_gdansk","min_lat":53.95,"max_lat":55.85,"min_lon":17.35,"max_lon":20.80},
-    {"id":"gulf_of_finland_ru_approaches","min_lat":58.40,"max_lat":60.85,"min_lon":23.40,"max_lon":30.70},
-    {"id":"danish_straits_kattegat","min_lat":54.30,"max_lat":58.50,"min_lon":8.00,"max_lon":13.10},
-    {"id":"skagen_waiting_area","min_lat":56.80,"max_lat":58.50,"min_lon":8.10,"max_lon":12.30},
-    {"id":"german_bight","min_lat":53.00,"max_lat":56.25,"min_lon":4.70,"max_lon":9.40},
-    {"id":"dover_channel_gateway","min_lat":50.70,"max_lat":51.75,"min_lon":-0.60,"max_lon":2.30},
-    {"id":"gibraltar_west_med_gateway","min_lat":35.10,"max_lat":37.30,"min_lon":-6.20,"max_lon":-2.50},
-]
+
+CATEGORY_INPUT_FILES = {
+    "sanctions_shadowfleet": DATA_DIR / "sanctions_shadowfleet_input.csv",
+    "russian_mmsi": DATA_DIR / "russian_mmsi_input.csv",
+    "falseflag_interest": DATA_DIR / "falseflag_interest_input.csv",
+    "false_flag_watch": DATA_DIR / "false_flag_watch_input.csv",
+    "behavioral_voi": DATA_DIR / "behavioral_voi_input.csv",
+    "recent_russian_portcall_10d": DATA_DIR / "recent_russian_portcall_input.csv",
+}
+
+IDENTITY_METADATA_FIELDS = (
+    "watch_name",
+    "watch_priority",
+    "source_list",
+    "source_url",
+    "notes",
+    "source_status",
+    "source_last_checked",
+)
 
 
 def clean_str(value: Any) -> str:
@@ -123,6 +139,18 @@ def norm_key(value: Any) -> str:
     return re.sub(r"[^A-Z0-9]", "", norm_text(value))
 
 
+def split_categories(value: Any) -> set[str]:
+    if isinstance(value, list):
+        raw = value
+    else:
+        raw = re.split(r"[;,|]", clean_str(value))
+    return {clean_str(item) for item in raw if clean_str(item) in ALLOWED_DANISH_CATEGORIES}
+
+
+def truthy(value: Any) -> bool:
+    return clean_str(value).lower() in {"1", "true", "yes", "y", "on"}
+
+
 def load_csv_rows(path: Path) -> list[dict[str, str]]:
     if not path.exists():
         return []
@@ -130,100 +158,209 @@ def load_csv_rows(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
-def load_watchlist_index() -> dict[str, set[str]]:
-    index = {"mmsi": set(), "imo": set(), "callsign": set()}
-    for row in load_csv_rows(WATCHLIST_PATH):
-        mmsi = digits(row.get("mmsi"))
-        imo = digits(row.get("imo"))
-        callsign = norm_text(row.get("callsign"))
-        if mmsi:
-            index["mmsi"].add(mmsi)
-        if imo:
-            index["imo"].add(imo)
-        if callsign:
-            index["callsign"].add(callsign)
-    return index
-
-
-def load_flag_risk_mids() -> set[str]:
-    mids = set(FALLBACK_FLAG_RISK_MIDS)
-    for row in load_csv_rows(FLAG_RISK_PATH):
-        if clean_str(row.get("active", "true")).lower() not in {"1", "true", "yes", "y"}:
-            continue
-        for token in re.split(r"[;,|]", clean_str(row.get("mmsi_mid_prefixes"))):
-            mid = digits(token)[:3]
-            if mid:
-                mids.add(mid)
-    return mids
-
-
-def load_russian_port_terms() -> tuple[set[str], set[str]]:
-    codes = set(RUSSIAN_PORT_ALLOWLIST)
-    names = set(RUSSIAN_PORT_NAME_ALIASES)
-    for row in load_csv_rows(PORTS_RU_PATH):
-        code = norm_key(row.get("unlocode"))
-        name = norm_key(row.get("port_name"))
-        if code:
-            codes.add(code)
-        if name:
-            names.add(name)
-    return codes, names
-
-
-def is_tanker_contact(contact: dict[str, Any]) -> bool:
-    raw_type = clean_str(contact.get("ship_type") or contact.get("ship_type_label"))
+def load_json_object(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {}
     try:
-        code = int(float(raw_type))
-        if 80 <= code <= 89:
-            return True
-    except (TypeError, ValueError):
-        pass
-    text = norm_text(" ".join(filter(None, [raw_type, clean_str(contact.get("destination"))])))
-    return bool(re.search(r"\b(TANKER|OIL\s*TANKER|PRODUCT\s*TANKER|CHEMICAL\s*TANKER|CRUDE\s*TANKER|LNG\s*CARRIER|LPG\s*CARRIER|VLCC|SUEZMAX|AFRAMAX)\b", text))
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        return payload if isinstance(payload, dict) else {}
+    except (OSError, json.JSONDecodeError):
+        return {}
 
 
-def is_neutral_tanker_context_candidate(contact: dict[str, Any]) -> bool:
-    if not is_tanker_contact(contact):
-        return False
-    lat = parse_float(contact.get("latitude"))
-    lon = parse_float(contact.get("longitude"))
-    return bool(lat is not None and lon is not None and any(
-        zone["min_lat"] <= lat <= zone["max_lat"] and zone["min_lon"] <= lon <= zone["max_lon"]
-        for zone in TANKER_CONTEXT_ZONES
-    ))
+def identity_values(properties: dict[str, Any]) -> dict[str, str]:
+    return {
+        "mmsi": digits(properties.get("mmsi") or properties.get("MMSI") or properties.get("watch_mmsi")),
+        "imo": digits(properties.get("imo") or properties.get("IMO") or properties.get("watch_imo")),
+        "callsign": norm_text(properties.get("callsign") or properties.get("Callsign") or properties.get("watch_callsign")),
+        "name": norm_key(properties.get("name") or properties.get("Name") or properties.get("watch_name") or properties.get("vessel_name")),
+    }
 
 
-def keep_contact(
-    contact: dict[str, Any],
-    watch_index: dict[str, set[str]],
-    risk_mids: set[str],
-    ru_codes: set[str],
-    ru_names: set[str],
-) -> bool:
-    mmsi = digits(contact.get("mmsi"))
-    imo = digits(contact.get("imo"))
-    callsign = norm_text(contact.get("callsign"))
-    watch_match = bool(
-        (mmsi and mmsi in watch_index["mmsi"])
-        or (imo and imo in watch_index["imo"])
-        or (callsign and callsign in watch_index["callsign"])
-    )
-    flag_risk = len(mmsi) >= 3 and mmsi[:3] in risk_mids
-    destination = norm_key(contact.get("destination"))
-    russian_destination = bool(
-        destination
-        and (
-            any(code in destination for code in ru_codes)
-            or any(len(name) >= 4 and name in destination for name in ru_names)
-        )
-    )
-    return bool(
-        mmsi.startswith("273")
-        or watch_match
-        or flag_risk
-        or russian_destination
-        or is_neutral_tanker_context_candidate(contact)
-    )
+def watchlist_categories(row: dict[str, Any]) -> set[str]:
+    categories = {"watchlist"}
+    if truthy(row.get("track_sanctions")) or truthy(row.get("track_shadowfleet")):
+        categories.add("sanctions_shadowfleet")
+    if truthy(row.get("track_falseflag")):
+        categories.add("falseflag_interest")
+        if clean_str(row.get("flag_risk_band")).lower() == "hard" or truthy(row.get("track_falseflag_hard")):
+            categories.add("false_flag_watch")
+    if truthy(row.get("track_behavior")):
+        categories.add("behavioral_voi")
+    mmsi = digits(row.get("mmsi"))
+    if mmsi.startswith("273") or truthy(row.get("track_russian_mmsi")):
+        categories.add("russian_mmsi")
+    if truthy(row.get("track_recent_russian_portcall")):
+        categories.add("recent_russian_portcall_10d")
+    return categories & ALLOWED_DANISH_CATEGORIES
+
+
+def empty_index_entry() -> dict[str, Any]:
+    return {"categories": set(), "sources": set(), "metadata": {}}
+
+
+def merge_index_entry(target: dict[str, Any], categories: set[str], source: str, properties: dict[str, Any]) -> None:
+    target["categories"].update(categories & ALLOWED_DANISH_CATEGORIES)
+    if source:
+        target["sources"].add(source)
+    for field in IDENTITY_METADATA_FIELDS:
+        value = clean_str(properties.get(field))
+        if value and not target["metadata"].get(field):
+            target["metadata"][field] = value
+
+
+def build_known_category_index() -> tuple[dict[str, Any], dict[str, Any]]:
+    exact: dict[str, dict[str, dict[str, Any]]] = {
+        "mmsi": {}, "imo": {}, "callsign": {},
+    }
+    name_candidates: dict[str, dict[str, dict[str, Any]]] = defaultdict(dict)
+    source_files_loaded: list[str] = []
+    records_added = 0
+
+    def add_record(properties: dict[str, Any], categories: set[str], source: str) -> None:
+        nonlocal records_added
+        categories = categories & ALLOWED_DANISH_CATEGORIES
+        if not categories:
+            return
+        identities = identity_values(properties)
+        signature = identities["imo"] or identities["mmsi"] or identities["callsign"] or identities["name"]
+        if not signature:
+            return
+        for identity_type in ("mmsi", "imo", "callsign"):
+            value = identities[identity_type]
+            if not value:
+                continue
+            entry = exact[identity_type].setdefault(value, empty_index_entry())
+            merge_index_entry(entry, categories, source, properties)
+        if identities["name"]:
+            by_signature = name_candidates[identities["name"]]
+            entry = by_signature.setdefault(signature, empty_index_entry())
+            merge_index_entry(entry, categories, source, properties)
+        records_added += 1
+
+    for row in load_csv_rows(WATCHLIST_PATH):
+        add_record(row, watchlist_categories(row), "watchlist_master.csv")
+    if WATCHLIST_PATH.exists():
+        source_files_loaded.append(str(WATCHLIST_PATH))
+
+    snapshot = load_json_object(VOI_SNAPSHOT_PATH)
+    snapshot_items = snapshot.get("items") if isinstance(snapshot.get("items"), list) else []
+    for item in snapshot_items:
+        if isinstance(item, dict):
+            add_record(item, split_categories(item.get("categories")), "voi_snapshot_latest.json")
+    if VOI_SNAPSHOT_PATH.exists():
+        source_files_loaded.append(str(VOI_SNAPSHOT_PATH))
+
+    for default_category, path in CATEGORY_LAYER_FILES.items():
+        payload = load_json_object(path)
+        features = payload.get("features") if isinstance(payload.get("features"), list) else []
+        for feature in features:
+            if not isinstance(feature, dict):
+                continue
+            properties = feature.get("properties") if isinstance(feature.get("properties"), dict) else {}
+            categories = split_categories(properties.get("categories")) or {default_category}
+            add_record(properties, categories, path.name)
+        if path.exists():
+            source_files_loaded.append(str(path))
+
+    for category, path in CATEGORY_INPUT_FILES.items():
+        for row in load_csv_rows(path):
+            add_record(row, {category}, path.name)
+        if path.exists():
+            source_files_loaded.append(str(path))
+
+    # Names are deliberately accepted only when every occurrence resolves to one canonical identity.
+    unique_names: dict[str, dict[str, Any]] = {}
+    ambiguous_names = 0
+    for name, signatures in name_candidates.items():
+        if len(signatures) != 1:
+            ambiguous_names += 1
+            continue
+        unique_names[name] = next(iter(signatures.values()))
+
+    if not source_files_loaded:
+        raise RuntimeError("No Voodoo watchlist/category source files are available for Danish AIS filtering")
+
+    fingerprint_rows: list[tuple[str, str, tuple[str, ...]]] = []
+    for identity_type, mapping in exact.items():
+        for value, entry in mapping.items():
+            fingerprint_rows.append((identity_type, value, tuple(sorted(entry["categories"]))))
+    for value, entry in unique_names.items():
+        fingerprint_rows.append(("name", value, tuple(sorted(entry["categories"]))))
+    fingerprint = hashlib.sha256(
+        json.dumps(sorted(fingerprint_rows), ensure_ascii=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+
+    return {
+        "exact": exact,
+        "names": unique_names,
+        "fingerprint": fingerprint,
+    }, {
+        "filter_schema_version": FILTER_SCHEMA_VERSION,
+        "fingerprint": fingerprint,
+        "source_files_loaded": sorted(set(source_files_loaded)),
+        "records_added": records_added,
+        "exact_identity_counts": {key: len(value) for key, value in exact.items()},
+        "unique_name_count": len(unique_names),
+        "ambiguous_name_count": ambiguous_names,
+    }
+
+
+def match_known_categories(contact: dict[str, Any], index: dict[str, Any]) -> dict[str, Any] | None:
+    identities = identity_values(contact)
+    result = empty_index_entry()
+    matched_on: list[str] = []
+    for identity_type in ("imo", "mmsi", "callsign"):
+        value = identities[identity_type]
+        entry = index["exact"][identity_type].get(value) if value else None
+        if entry:
+            merge_index_entry(result, set(entry["categories"]), "", entry.get("metadata") or {})
+            result["sources"].update(entry["sources"])
+            matched_on.append(identity_type)
+    if not result["categories"] and identities["name"]:
+        entry = index["names"].get(identities["name"])
+        if entry:
+            merge_index_entry(result, set(entry["categories"]), "", entry.get("metadata") or {})
+            result["sources"].update(entry["sources"])
+            matched_on.append("unique_name")
+
+    # Russian MMSI is an identity-based Voodoo rubric and does not require a separate layer hit.
+    if identities["mmsi"].startswith("273"):
+        result["categories"].add("russian_mmsi")
+        result["sources"].add("mmsi_mid_273")
+        matched_on.append("russian_mmsi_mid")
+
+    categories = result["categories"] & ALLOWED_DANISH_CATEGORIES
+    if not categories:
+        return None
+    return {
+        "categories": sorted(categories),
+        "matched_on": sorted(set(matched_on)),
+        "match_sources": sorted(result["sources"]),
+        "metadata": result["metadata"],
+    }
+
+
+def enrich_known_category_match(contact: dict[str, Any], match: dict[str, Any]) -> dict[str, Any]:
+    enriched = dict(contact)
+    categories = list(match["categories"])
+    enriched.update(match.get("metadata") or {})
+    enriched.update({
+        "known_voi_match": True,
+        "known_voi_match_basis": match.get("matched_on") or [],
+        "known_voi_match_sources": match.get("match_sources") or [],
+        "categories": categories,
+        "is_priority_voi": True,
+        "neutral_tanker_context": False,
+        "sanctioned": "sanctions_shadowfleet" in categories,
+        "shadow_fleet": "sanctions_shadowfleet" in categories,
+        "false_flag": bool({"falseflag_interest", "false_flag_watch"} & set(categories)),
+        "behavioral_voi": "behavioral_voi" in categories,
+        "from_russia_confirmed": "recent_russian_portcall_10d" in categories,
+        "voi_role": "known_voi_or_watchlist_historical_match",
+        "index_impact": "voi_context",
+    })
+    return enriched
 
 
 @dataclass(frozen=True)
@@ -354,7 +491,11 @@ def source_fingerprint(source: SourceInfo) -> dict[str, Any]:
     }
 
 
-def source_unchanged(source: SourceInfo, state: dict[str, Any]) -> bool:
+def source_unchanged(source: SourceInfo, state: dict[str, Any], category_fingerprint: str) -> bool:
+    if state.get("filter_schema_version") != FILTER_SCHEMA_VERSION:
+        return False
+    if state.get("category_index_fingerprint") != category_fingerprint:
+        return False
     old = state.get("source") if isinstance(state.get("source"), dict) else {}
     if old.get("source_url") != source.url:
         return False
@@ -606,18 +747,18 @@ def build_contact(records: list[dict[str, Any]]) -> dict[str, Any]:
     return merged
 
 
-def apply_monitoring_filter(contacts: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    if FILTER_MODE in {"all", "all_class_ab", "unfiltered"}:
-        return contacts
-    if FILTER_MODE != "monitored":
+def apply_monitoring_filter(contacts: list[dict[str, Any]], category_index: dict[str, Any]) -> list[dict[str, Any]]:
+    if FILTER_MODE not in {"known_categories", "known_voi_categories", "watchlist_categories"}:
         raise RuntimeError(f"Unsupported AIS_DK_FILTER_MODE: {FILTER_MODE}")
-    watch_idx = load_watchlist_index()
-    risk_mids = load_flag_risk_mids()
-    ru_codes, ru_names = load_russian_port_terms()
-    return [contact for contact in contacts if keep_contact(contact, watch_idx, risk_mids, ru_codes, ru_names)]
+    matched: list[dict[str, Any]] = []
+    for contact in contacts:
+        match = match_known_categories(contact, category_index)
+        if match:
+            matched.append(enrich_known_category_match(contact, match))
+    return matched
 
 
-def process_archive(archive_path: Path, source: SourceInfo, sha256: str, download_bytes: int) -> tuple[dict[str, Any], dict[str, Any]]:
+def process_archive(archive_path: Path, source: SourceInfo, sha256: str, download_bytes: int, category_index: dict[str, Any], category_stats: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
     started = utc_now()
     store: dict[str, list[dict[str, Any]]] = {}
     counters: dict[str, int] = {
@@ -650,7 +791,7 @@ def process_archive(archive_path: Path, source: SourceInfo, sha256: str, downloa
         insert_two_latest(store, record, counters)
 
     contacts_all = [build_contact(records) for _mmsi, records in sorted(store.items())]
-    contacts = apply_monitoring_filter(contacts_all)
+    contacts = apply_monitoring_filter(contacts_all, category_index)
     contacts.sort(key=lambda item: (digits(item.get("mmsi")), clean_str(item.get("name"))))
     generated = utc_now()
     lag_hours = round((generated - latest).total_seconds() / 3600.0, 2) if latest else None
@@ -668,6 +809,9 @@ def process_archive(archive_path: Path, source: SourceInfo, sha256: str, downloa
         "coverage_mode": "historical_delayed",
         "historical": True,
         "filter_mode": FILTER_MODE,
+        "filter_schema_version": FILTER_SCHEMA_VERSION,
+        "category_index_fingerprint": category_stats.get("fingerprint"),
+        "category_index_summary": category_stats,
         "timestamp_timezone_assumption": TIMESTAMP_TIMEZONE,
         "data_min_timestamp_utc": earliest.isoformat() if earliest else None,
         "data_max_timestamp_utc": latest.isoformat() if latest else None,
@@ -692,6 +836,10 @@ def process_archive(archive_path: Path, source: SourceInfo, sha256: str, downloa
         "source_download_bytes": download_bytes,
         "raw_files_persisted": False,
         "filter_mode": FILTER_MODE,
+        "filter_schema_version": FILTER_SCHEMA_VERSION,
+        "category_index_fingerprint": category_stats.get("fingerprint"),
+        "category_index_summary": category_stats,
+        "matched_by_category": dict(Counter(cat for contact in contacts for cat in contact.get("categories", []))),
         "max_positions_per_vessel": 2,
         "data_min_timestamp_utc": payload["data_min_timestamp_utc"],
         "data_max_timestamp_utc": payload["data_max_timestamp_utc"],
@@ -727,8 +875,9 @@ def main() -> int:
         print(f"ERROR: {status['error']}", file=sys.stderr)
         return 0 if OUTPUT_PATH.exists() else 1
 
+    category_index, category_stats = build_known_category_index()
     state = read_json(STATE_PATH)
-    if source_unchanged(source, state) and OUTPUT_PATH.exists():
+    if source_unchanged(source, state, category_stats["fingerprint"]) and OUTPUT_PATH.exists():
         existing = read_json(OUTPUT_PATH)
         status = {
             "schema_version": "1.0.0",
@@ -737,7 +886,11 @@ def main() -> int:
             "changed": False,
             "provider": "ais_dk_historical",
             "source": source_fingerprint(source),
-            "reason": "source_unchanged",
+            "reason": "source_and_category_index_unchanged",
+            "filter_mode": FILTER_MODE,
+            "filter_schema_version": FILTER_SCHEMA_VERSION,
+            "category_index_fingerprint": category_stats.get("fingerprint"),
+            "category_index_summary": category_stats,
             "last_known_good_available": True,
             "data_max_timestamp_utc": existing.get("data_max_timestamp_utc"),
             "published_vessels": existing.get("count", 0),
@@ -750,7 +903,7 @@ def main() -> int:
     archive_path: Path | None = None
     try:
         archive_path, sha256, download_bytes = download_archive(session, source, TEMP_ROOT)
-        payload, status = process_archive(archive_path, source, sha256, download_bytes)
+        payload, status = process_archive(archive_path, source, sha256, download_bytes, category_index, category_stats)
         atomic_json(OUTPUT_PATH, payload)
         atomic_json(STATUS_PATH, status)
         atomic_json(STATE_PATH, {
@@ -758,6 +911,8 @@ def main() -> int:
             "updated_at": status["generated_at"],
             "source": source_fingerprint(source),
             "source_sha256": sha256,
+            "filter_schema_version": FILTER_SCHEMA_VERSION,
+            "category_index_fingerprint": category_stats.get("fingerprint"),
             "data_max_timestamp_utc": payload.get("data_max_timestamp_utc"),
         })
         print(
