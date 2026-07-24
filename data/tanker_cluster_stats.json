@@ -1,25 +1,25 @@
 {
-  "generated_at": "2026-07-24T05:29:27+00:00",
-  "total_contacts_seen": 964,
-  "total_unique_tankers_in_context_zones": 244,
+  "generated_at": "2026-07-24T15:42:55+00:00",
+  "total_contacts_seen": 990,
+  "total_unique_tankers_in_context_zones": 250,
   "total_tanker_context_zones": 8,
   "neutral_tanker_context_total": 164,
-  "voi_tankers_in_context_zones": 80,
+  "voi_tankers_in_context_zones": 86,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 68,
-      "neutral_tankers": 62,
-      "voi_tankers": 6,
-      "slow_or_waiting": 32,
-      "for_order": 2,
+      "total_tankers": 69,
+      "neutral_tankers": 65,
+      "voi_tankers": 4,
+      "slow_or_waiting": 33,
+      "for_order": 3,
       "examples": [
         {
           "name": "AMULETH",
           "imo": "9778002",
           "mmsi": "209066000",
           "destination": "NO KRS",
-          "sog": "9.2",
+          "sog": "8.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -35,11 +35,31 @@
           ]
         },
         {
+          "name": "COASTALWATER",
+          "imo": "9489584",
+          "mmsi": "210727000",
+          "destination": "BRUNSBUTTEL",
+          "sog": "10.6",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
           "name": "PECHORA STAR",
           "imo": "9488322",
           "mmsi": "215760000",
           "destination": "DKKAL",
           "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "KANARIS 21",
+          "imo": "9889942",
+          "mmsi": "215845000",
+          "destination": "PL GDN",
+          "sog": "12.5",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -73,26 +93,6 @@
           "categories": [
             "neutral_tanker_context"
           ]
-        },
-        {
-          "name": "COPENHAGEN",
-          "imo": "9327487",
-          "mmsi": "220614000",
-          "destination": "DKSKA PEC 6",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "M/T ZUGA",
-          "imo": "9405784",
-          "mmsi": "229171000",
-          "destination": "SEGOT",
-          "sog": "10.3",
-          "categories": [
-            "neutral_tanker_context"
-          ]
         }
       ],
       "zone_id": "danish_straits_kattegat",
@@ -101,17 +101,17 @@
     },
     {
       "total_tankers": 42,
-      "neutral_tankers": 41,
-      "voi_tankers": 1,
-      "slow_or_waiting": 23,
-      "for_order": 0,
+      "neutral_tankers": 42,
+      "voi_tankers": 0,
+      "slow_or_waiting": 24,
+      "for_order": 1,
       "examples": [
         {
           "name": "AMULETH",
           "imo": "9778002",
           "mmsi": "209066000",
           "destination": "NO KRS",
-          "sog": "9.2",
+          "sog": "8.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -122,6 +122,26 @@
           "mmsi": "210155000",
           "destination": "SESTE",
           "sog": "0.2",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "COASTALWATER",
+          "imo": "9489584",
+          "mmsi": "210727000",
+          "destination": "BRUNSBUTTEL",
+          "sog": "10.6",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "KANARIS 21",
+          "imo": "9889942",
+          "mmsi": "215845000",
+          "destination": "PL GDN",
+          "sog": "12.5",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -157,16 +177,6 @@
           ]
         },
         {
-          "name": "JATULI",
-          "imo": "9892444",
-          "mmsi": "230688000",
-          "destination": "NOMON>FISKV",
-          "sog": "12.5",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "INGRID KNUTSEN",
           "imo": "9649225",
           "mmsi": "235103057",
@@ -175,113 +185,11 @@
           "categories": [
             "neutral_tanker_context"
           ]
-        },
-        {
-          "name": "ZITA SCHULTE",
-          "imo": "9694385",
-          "mmsi": "235116958",
-          "destination": "SEGOT",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
         }
       ],
       "zone_id": "skagen_waiting_area",
       "zone_label": "Skagen / northern Kattegat",
-      "level": "heightened_context"
-    },
-    {
-      "total_tankers": 102,
-      "neutral_tankers": 31,
-      "voi_tankers": 71,
-      "slow_or_waiting": 80,
-      "for_order": 13,
-      "examples": [
-        {
-          "name": "EXEMPLAR",
-          "imo": "9444649",
-          "mmsi": "205553000",
-          "destination": "FIINK",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "RINA",
-          "imo": "9152820",
-          "mmsi": "210051000",
-          "destination": "EE PAS",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "ZIRCONE",
-          "imo": "9010929",
-          "mmsi": "210056000",
-          "destination": "TALLINN",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "SEAFAITH",
-          "imo": "9843209",
-          "mmsi": "215515000",
-          "destination": "FOR ORDERS",
-          "sog": "",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TERN LAND",
-          "imo": "9988994",
-          "mmsi": "219034373",
-          "destination": "LT KLJ",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "AMALTHEA",
-          "imo": "9298650",
-          "mmsi": "240447000",
-          "destination": "BALTIC SEA FOR ORDER",
-          "sog": "11.6",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "BLACK SUNRISE",
-          "imo": "9546162",
-          "mmsi": "248180000",
-          "destination": "CASABLANKA",
-          "sog": "9.6",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "YPAPANTI",
-          "imo": "9693082",
-          "mmsi": "249279000",
-          "destination": "EGYPT FOR ORDERS",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        }
-      ],
-      "zone_id": "gulf_of_finland_ru_approaches",
-      "zone_label": "Gulf of Finland / Ust-Luga-Primorsk approaches",
-      "level": "heightened_context"
+      "level": "watch"
     },
     {
       "total_tankers": 32,
@@ -373,6 +281,98 @@
       ],
       "zone_id": "gibraltar_west_med_gateway",
       "zone_label": "Gibraltar / W. Mediterranean gateway",
+      "level": "heightened_context"
+    },
+    {
+      "total_tankers": 105,
+      "neutral_tankers": 26,
+      "voi_tankers": 79,
+      "slow_or_waiting": 79,
+      "for_order": 11,
+      "examples": [
+        {
+          "name": "EXEMPLAR",
+          "imo": "9444649",
+          "mmsi": "205553000",
+          "destination": "FIINK",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "RINA",
+          "imo": "9152820",
+          "mmsi": "210051000",
+          "destination": "EE PAS",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "ZIRCONE",
+          "imo": "9010929",
+          "mmsi": "210056000",
+          "destination": "TALLINN",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SEAFAITH",
+          "imo": "9843209",
+          "mmsi": "215515000",
+          "destination": "FOR ORDERS",
+          "sog": "",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "TERN LAND",
+          "imo": "9988994",
+          "mmsi": "219034373",
+          "destination": "LT KLJ",
+          "sog": "9.4",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "AMALTHEA",
+          "imo": "9298650",
+          "mmsi": "240447000",
+          "destination": "BALTIC SEA FOR ORDER",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "BLACK SUNRISE",
+          "imo": "9546162",
+          "mmsi": "248180000",
+          "destination": "CASABLANKA",
+          "sog": "10",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "YPAPANTI",
+          "imo": "9693082",
+          "mmsi": "249279000",
+          "destination": "EGYPT FOR ORDERS",
+          "sog": "0.1",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        }
+      ],
+      "zone_id": "gulf_of_finland_ru_approaches",
+      "zone_label": "Gulf of Finland / Ust-Luga-Primorsk approaches",
       "level": "heightened_context"
     },
     {
@@ -560,10 +560,10 @@
       "level": "watch"
     },
     {
-      "total_tankers": 10,
-      "neutral_tankers": 8,
+      "total_tankers": 12,
+      "neutral_tankers": 10,
       "voi_tankers": 2,
-      "slow_or_waiting": 8,
+      "slow_or_waiting": 9,
       "for_order": 0,
       "examples": [
         {
@@ -649,7 +649,7 @@
       ],
       "zone_id": "kaliningrad_baltiysk_approaches",
       "zone_label": "Kaliningrad / Baltiysk approaches",
-      "level": "context"
+      "level": "heightened_context"
     },
     {
       "total_tankers": 10,
