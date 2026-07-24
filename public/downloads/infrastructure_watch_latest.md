@@ -1,6 +1,6 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-07-24T04:55:23+00:00
+- Generated: 2026-07-24T05:30:02+00:00
 - Review events: 11
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
@@ -12,7 +12,7 @@
 - MMSI / IMO: 538011815 / 9743215
 - Infrastructure: pipeline — NORD STREAM 2
 - Minimum distance: 0.007 nm
-- Close-band points: 4
+- Close-band points: 3
 - Estimated dwell: 48.2 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, extended_presence_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
