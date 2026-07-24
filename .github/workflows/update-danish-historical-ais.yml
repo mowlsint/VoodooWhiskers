@@ -1,0 +1,159 @@
+name: Update Danish historical AIS
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Heavy daily archive processing is isolated from the current Fintraffic/BarentsWatch refresh.
+    # The run should finish before the 03:05 UTC Magic Paws mirror fetch.
+    - cron: "35 0 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  # Shared with all maritime data writers; wait rather than commit concurrently.
+  group: voodoo-maritime-layers-main
+  cancel-in-progress: false
+
+jobs:
+  update-danish-historical-ais:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install "requests>=2.32,<3"
+
+      - name: Prepare temporary raw-data directory
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/aisdk" data
+
+      - name: Download and reduce newest Danish AIS archive
+        env:
+          AIS_DK_BASE_URL: "https://aisdata.ais.dk/"
+          # Optional repository variable. Use it only if the provider changes the normal daily URL convention.
+          AIS_DK_SOURCE_URL: ${{ vars.AIS_DK_SOURCE_URL }}
+          AIS_DK_TEMP_DIR: ${{ runner.temp }}/aisdk
+          AIS_DK_LOOKBACK_DAYS: "21"
+          AIS_DK_FILTER_MODE: "monitored"
+          AIS_DK_TIMESTAMP_TIMEZONE: "UTC"
+          AIS_DK_MAX_DOWNLOAD_BYTES: "2147483648"
+          AIS_DK_MAX_OUTPUT_BYTES: "26214400"
+          AIS_APP_NAME: "MOwlSINT Voodoo Whiskers/1.0"
+        run: |
+          set -euo pipefail
+          python scripts/fetch_aisdk_historical.py
+
+      - name: Validate reduced products and reject raw files
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/fetch_aisdk_historical.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          output = Path('data/ais_contacts_aisdk_historical_latest.json')
+          status_path = Path('data/ais_dk_import_status_latest.json')
+          state_path = Path('data/ais_dk_import_state.json')
+          if not status_path.exists() or status_path.stat().st_size == 0:
+              raise SystemExit('missing Danish AIS status file')
+          status = json.loads(status_path.read_text(encoding='utf-8'))
+          if output.exists():
+              payload = json.loads(output.read_text(encoding='utf-8'))
+              contacts = payload.get('contacts') if isinstance(payload.get('contacts'), list) else []
+              for contact in contacts:
+                  positions = contact.get('positions') if isinstance(contact, dict) else None
+                  if not isinstance(positions, list) or len(positions) > 2:
+                      raise SystemExit(f'invalid positions array for MMSI {contact.get("mmsi") if isinstance(contact, dict) else "?"}')
+                  timestamps = [p.get('observed_at') for p in positions if isinstance(p, dict)]
+                  if len(timestamps) != len(set(timestamps)):
+                      raise SystemExit(f'duplicate timestamps for MMSI {contact.get("mmsi")}')
+              if output.stat().st_size > 25 * 1024 * 1024:
+                  raise SystemExit(f'Danish reduced product too large: {output.stat().st_size} bytes')
+          elif not status.get('last_known_good_available'):
+              raise SystemExit('Danish AIS import has no reduced output and no last-known-good product')
+          if state_path.exists():
+              json.loads(state_path.read_text(encoding='utf-8'))
+          print({
+              'status_ok': status.get('ok'),
+              'changed': status.get('changed'),
+              'output_bytes': output.stat().st_size if output.exists() else 0,
+              'published_vessels': status.get('published_vessels'),
+              'raw_files_persisted': status.get('raw_files_persisted'),
+          })
+          PY
+
+          forbidden="$(find . -path './.git' -prune -o -type f \( \
+            -iname 'aisdk-*.zip' -o \
+            -iname 'aisdk-*.csv' -o \
+            -path './data/raw/*' -o \
+            -path './tmp/aisdk/*' \
+          \) -print)"
+          if [ -n "$forbidden" ]; then
+            echo "::error::Raw Danish AIS files found inside repository workspace:"
+            printf '%s\n' "$forbidden"
+            exit 1
+          fi
+
+      - name: Commit small derived files only
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          allowed=(
+            data/ais_contacts_aisdk_historical_latest.json
+            data/ais_dk_import_status_latest.json
+            data/ais_dk_import_state.json
+          )
+          for file in "${allowed[@]}"; do
+            [ -f "$file" ] && git add "$file"
+          done
+
+          staged="$(git diff --cached --name-only)"
+          while IFS= read -r file; do
+            [ -z "$file" ] && continue
+            permitted=false
+            for allowed_file in "${allowed[@]}"; do
+              [ "$file" = "$allowed_file" ] && permitted=true
+            done
+            if [ "$permitted" != true ]; then
+              echo "::error::Unexpected staged file: $file"
+              exit 1
+            fi
+          done <<< "$staged"
+
+          if git diff --cached --quiet; then
+            echo "No Danish AIS changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Update Danish historical AIS two-position product"
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            git rebase --abort || true
+            [ "$attempt" -lt 3 ] && sleep 12
+          done
+          echo "::error::Failed to push Danish historical AIS update after 3 attempts."
+          exit 1
+
+      - name: Remove all temporary Danish AIS raw files
+        if: always()
+        run: |
+          rm -rf "${RUNNER_TEMP}/aisdk"

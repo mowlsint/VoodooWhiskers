@@ -6,6 +6,7 @@ on:
     workflows:
       - Update maritime layers
       - Update regional AIS layers
+      - Update Danish historical AIS
     types: [completed]
 
 permissions:
@@ -58,7 +59,8 @@ jobs:
           python -m py_compile \
             scripts/build_public_outputs.py \
             scripts/analyze_infrastructure_proximity.py \
-            scripts/build_public_manifest.py
+            scripts/build_public_manifest.py \
+            scripts/fetch_aisdk_historical.py
           node --check public/assets/infrastructure-watch.js
           python - <<'PY'
           import json
@@ -73,7 +75,6 @@ jobs:
               'public/downloads/manifest.json',
               'public/downloads/voi_list_latest.json',
               'public/index.html',
-              'public/infrastructure-watch.html',
           ]
           for name in required:
               path = Path(name)
@@ -81,8 +82,68 @@ jobs:
                   raise SystemExit(f'missing or empty: {name}')
               if path.suffix in {'.json', '.geojson'}:
                   json.loads(path.read_text(encoding='utf-8'))
-          print('public product validation: ok')
+
+          # Danish historical products are optional until the first successful import,
+          # then all three public/download products must exist and remain small.
+          dk_source = Path('data/ais_contacts_aisdk_historical_latest.json')
+          if dk_source.exists():
+              dk_required = [
+                  Path('public/data/vessels/ais_dk_last_two_positions.json'),
+                  Path('public/data/vessels/ais_dk_last_two_positions.geojson'),
+                  Path('public/data/vessels/ais_dk_import_status.json'),
+                  Path('public/downloads/ais_dk_last_two_positions.json'),
+                  Path('public/downloads/ais_dk_last_two_positions.geojson'),
+                  Path('public/downloads/ais_dk_import_status.json'),
+              ]
+              for path in dk_required:
+                  if not path.exists() or path.stat().st_size == 0:
+                      raise SystemExit(f'missing or empty Danish product: {path}')
+                  if path.stat().st_size > 25 * 1024 * 1024:
+                      raise SystemExit(f'Danish public product too large: {path} ({path.stat().st_size} bytes)')
+                  json.loads(path.read_text(encoding='utf-8'))
+
+          # Resolve every download href relative to the manifest itself, exactly as the
+          # web viewer does. This catches broken links and incorrect filename case.
+          download_manifest_path = Path('public/downloads/manifest.json')
+          download_manifest = json.loads(download_manifest_path.read_text(encoding='utf-8'))
+          for product in download_manifest.get('products', []):
+              href = str(product.get('href') or '').strip()
+              if not href or '://' in href or href.startswith('/'):
+                  raise SystemExit(f'invalid download href: {href!r}')
+              target = (download_manifest_path.parent / href).resolve()
+              root = download_manifest_path.parent.resolve()
+              if target.parent != root:
+                  raise SystemExit(f'download href escapes directory: {href}')
+              if not target.exists() or target.stat().st_size == 0:
+                  raise SystemExit(f'broken download href: {href} -> {target}')
+              declared_size = product.get('size_bytes')
+              if declared_size is not None and int(declared_size) != target.stat().st_size:
+                  raise SystemExit(f'download size mismatch: {href}')
+              if target.suffix in {'.json', '.geojson'}:
+                  json.loads(target.read_text(encoding='utf-8'))
+
+          # Never publish or commit raw Danish archives.
+          forbidden = []
+          for path in Path('.').rglob('*'):
+              if not path.is_file() or '.git' in path.parts:
+                  continue
+              lower = path.name.lower()
+              if (lower.startswith('aisdk-') and lower.endswith(('.zip', '.csv'))) or 'data/raw' in path.as_posix() or 'tmp/aisdk' in path.as_posix():
+                  forbidden.append(str(path))
+          if forbidden:
+              raise SystemExit('raw Danish AIS files found in repository: ' + ', '.join(forbidden))
+          print('public product and download validation: ok')
           PY
+
+      - name: Reject oversized public files
+        run: |
+          set -euo pipefail
+          oversized="$(find public -type f -size +95M -print)"
+          if [ -n "$oversized" ]; then
+            echo "::error::Public files exceed the GitHub-safe size guard:"
+            printf '%s\n' "$oversized"
+            exit 1
+          fi
 
       - name: Commit public products
         run: |
