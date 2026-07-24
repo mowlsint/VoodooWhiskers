@@ -28,14 +28,8 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-from fetch_contacts import (
-    clean_str,
-    digits,
-    keep_contact,
-    load_flag_risk_mids,
-    load_russian_port_terms,
-    load_watchlist_index,
-)
+# Deliberately self-contained: importing fetch_contacts.py would also import the
+# optional AISStream websocket client, which is not needed for historical CSV work.
 
 DATA_DIR = Path("data")
 OUTPUT_PATH = DATA_DIR / "ais_contacts_aisdk_historical_latest.json"
@@ -82,6 +76,154 @@ COLUMNS = [
 ]
 
 ALLOWED_MOBILE_TYPES = {"class a", "class b"}
+
+
+WATCHLIST_PATH = DATA_DIR / "watchlist_master.csv"
+FLAG_RISK_PATH = DATA_DIR / "flag_risk_reference.csv"
+PORTS_RU_PATH = DATA_DIR / "ports_ru.csv"
+
+FALLBACK_FLAG_RISK_MIDS = {
+    "306", "307", "312", "314", "341", "351", "352", "353", "354", "355", "356", "357",
+    "370", "371", "372", "373", "511", "518", "538", "570", "607", "613", "616", "621",
+    "626", "632", "636", "647", "650", "660", "667", "668", "669", "671", "676", "677", "679", "750",
+}
+RUSSIAN_PORT_ALLOWLIST = {"RUKGD", "RUBLT", "RUULU", "RUUST"}
+RUSSIAN_PORT_NAME_ALIASES = {
+    "USTLUGA", "STPETERSBURG", "SAINTPETERSBURG", "KALININGRAD", "BALTIYSK", "BALTISK",
+    "PRIMORSK", "VYSOTSK", "VYBORG", "MURMANSK", "ARKHANGELSK", "NOVOROSSIYSK",
+    "NOVOROSSIISK", "TUAPSE", "TAMAN", "KAVKAZ", "ROSTOV", "ROSTOVONDON", "AZOV",
+    "TAGANROG", "MAKHACHKALA", "VLADIVOSTOK", "NAKHODKA", "KOZMINO", "VANINO",
+    "DEKASTRI", "KORSAKOV", "SEVASTOPOL", "KERCH", "FEODOSIA",
+}
+TANKER_CONTEXT_ZONES = [
+    {"id":"kaliningrad_baltiysk_approaches","min_lat":54.15,"max_lat":56.20,"min_lon":18.20,"max_lon":22.90},
+    {"id":"gulf_of_gdansk","min_lat":53.95,"max_lat":55.85,"min_lon":17.35,"max_lon":20.80},
+    {"id":"gulf_of_finland_ru_approaches","min_lat":58.40,"max_lat":60.85,"min_lon":23.40,"max_lon":30.70},
+    {"id":"danish_straits_kattegat","min_lat":54.30,"max_lat":58.50,"min_lon":8.00,"max_lon":13.10},
+    {"id":"skagen_waiting_area","min_lat":56.80,"max_lat":58.50,"min_lon":8.10,"max_lon":12.30},
+    {"id":"german_bight","min_lat":53.00,"max_lat":56.25,"min_lon":4.70,"max_lon":9.40},
+    {"id":"dover_channel_gateway","min_lat":50.70,"max_lat":51.75,"min_lon":-0.60,"max_lon":2.30},
+    {"id":"gibraltar_west_med_gateway","min_lat":35.10,"max_lat":37.30,"min_lon":-6.20,"max_lon":-2.50},
+]
+
+
+def clean_str(value: Any) -> str:
+    return "" if value is None else str(value).strip()
+
+
+def digits(value: Any) -> str:
+    return re.sub(r"\D", "", clean_str(value))
+
+
+def norm_text(value: Any) -> str:
+    return re.sub(r"\s+", " ", clean_str(value).upper())
+
+
+def norm_key(value: Any) -> str:
+    return re.sub(r"[^A-Z0-9]", "", norm_text(value))
+
+
+def load_csv_rows(path: Path) -> list[dict[str, str]]:
+    if not path.exists():
+        return []
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
+        return list(csv.DictReader(handle))
+
+
+def load_watchlist_index() -> dict[str, set[str]]:
+    index = {"mmsi": set(), "imo": set(), "callsign": set()}
+    for row in load_csv_rows(WATCHLIST_PATH):
+        mmsi = digits(row.get("mmsi"))
+        imo = digits(row.get("imo"))
+        callsign = norm_text(row.get("callsign"))
+        if mmsi:
+            index["mmsi"].add(mmsi)
+        if imo:
+            index["imo"].add(imo)
+        if callsign:
+            index["callsign"].add(callsign)
+    return index
+
+
+def load_flag_risk_mids() -> set[str]:
+    mids = set(FALLBACK_FLAG_RISK_MIDS)
+    for row in load_csv_rows(FLAG_RISK_PATH):
+        if clean_str(row.get("active", "true")).lower() not in {"1", "true", "yes", "y"}:
+            continue
+        for token in re.split(r"[;,|]", clean_str(row.get("mmsi_mid_prefixes"))):
+            mid = digits(token)[:3]
+            if mid:
+                mids.add(mid)
+    return mids
+
+
+def load_russian_port_terms() -> tuple[set[str], set[str]]:
+    codes = set(RUSSIAN_PORT_ALLOWLIST)
+    names = set(RUSSIAN_PORT_NAME_ALIASES)
+    for row in load_csv_rows(PORTS_RU_PATH):
+        code = norm_key(row.get("unlocode"))
+        name = norm_key(row.get("port_name"))
+        if code:
+            codes.add(code)
+        if name:
+            names.add(name)
+    return codes, names
+
+
+def is_tanker_contact(contact: dict[str, Any]) -> bool:
+    raw_type = clean_str(contact.get("ship_type") or contact.get("ship_type_label"))
+    try:
+        code = int(float(raw_type))
+        if 80 <= code <= 89:
+            return True
+    except (TypeError, ValueError):
+        pass
+    text = norm_text(" ".join(filter(None, [raw_type, clean_str(contact.get("destination"))])))
+    return bool(re.search(r"\b(TANKER|OIL\s*TANKER|PRODUCT\s*TANKER|CHEMICAL\s*TANKER|CRUDE\s*TANKER|LNG\s*CARRIER|LPG\s*CARRIER|VLCC|SUEZMAX|AFRAMAX)\b", text))
+
+
+def is_neutral_tanker_context_candidate(contact: dict[str, Any]) -> bool:
+    if not is_tanker_contact(contact):
+        return False
+    lat = parse_float(contact.get("latitude"))
+    lon = parse_float(contact.get("longitude"))
+    return bool(lat is not None and lon is not None and any(
+        zone["min_lat"] <= lat <= zone["max_lat"] and zone["min_lon"] <= lon <= zone["max_lon"]
+        for zone in TANKER_CONTEXT_ZONES
+    ))
+
+
+def keep_contact(
+    contact: dict[str, Any],
+    watch_index: dict[str, set[str]],
+    risk_mids: set[str],
+    ru_codes: set[str],
+    ru_names: set[str],
+) -> bool:
+    mmsi = digits(contact.get("mmsi"))
+    imo = digits(contact.get("imo"))
+    callsign = norm_text(contact.get("callsign"))
+    watch_match = bool(
+        (mmsi and mmsi in watch_index["mmsi"])
+        or (imo and imo in watch_index["imo"])
+        or (callsign and callsign in watch_index["callsign"])
+    )
+    flag_risk = len(mmsi) >= 3 and mmsi[:3] in risk_mids
+    destination = norm_key(contact.get("destination"))
+    russian_destination = bool(
+        destination
+        and (
+            any(code in destination for code in ru_codes)
+            or any(len(name) >= 4 and name in destination for name in ru_names)
+        )
+    )
+    return bool(
+        mmsi.startswith("273")
+        or watch_match
+        or flag_risk
+        or russian_destination
+        or is_neutral_tanker_context_candidate(contact)
+    )
 
 
 @dataclass(frozen=True)
