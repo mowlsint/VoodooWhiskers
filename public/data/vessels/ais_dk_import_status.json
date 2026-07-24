@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-24T11:36:54+00:00",
+  "ok": true,
+  "changed": true,
+  "provider": "ais_dk_historical",
+  "source": {
+    "source_url": "http://aisdata.ais.dk/aisdk-2026-07-21.zip",
+    "source_filename": "aisdk-2026-07-21.zip",
+    "source_date_hint": "2026-07-21",
+    "etag": "\"1497fcd48ab55d57c99c2ce2a06fc3a6-101\"",
+    "last_modified": "Fri, 24 Jul 2026 00:24:06 GMT",
+    "content_length": 841731021
+  },
+  "source_sha256": "26df44575e06f6b943c127b7abe19ca00d373e110eed8b54c14f0c1d064f665c",
+  "source_download_bytes": 841731021,
+  "raw_files_persisted": false,
+  "filter_mode": "monitored",
+  "max_positions_per_vessel": 2,
+  "data_min_timestamp_utc": "2026-07-21T00:00:00+00:00",
+  "data_max_timestamp_utc": "2026-07-21T23:59:58+00:00",
+  "lag_hours_at_build": 59.62,
+  "raw_unique_class_ab_vessels": 12148,
+  "published_vessels": 363,
+  "published_positions": 718,
+  "processing_seconds": 975.14,
+  "counters": {
+    "rows_read": 28351244,
+    "headers_skipped": 0,
+    "wrong_column_count": 0,
+    "non_vessel_mobile_type": 2186772,
+    "invalid_mmsi": 80862,
+    "invalid_timestamp": 0,
+    "invalid_position": 37146,
+    "duplicate_same_time_position": 11929626,
+    "conflicting_positions_same_timestamp": 74773,
+    "older_positions_discarded": 14018095
+  }
+}

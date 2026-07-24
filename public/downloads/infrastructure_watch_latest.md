@@ -1,6 +1,6 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-07-24T05:37:40+00:00
+- Generated: 2026-07-24T11:37:24+00:00
 - Review events: 12
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
@@ -24,8 +24,8 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 667002310 / 9308132
 - Infrastructure: pipeline — NORD STREAM 2
 - Minimum distance: 0.012 nm
-- Close-band points: 12
-- Estimated dwell: 177.1 min
+- Close-band points: 11
+- Estimated dwell: 48.2 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, extended_presence_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
 
@@ -36,7 +36,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 636024043 / 9400394
 - Infrastructure: pipeline — NORD STREAM 2
 - Minimum distance: 0.066 nm
-- Close-band points: 12
+- Close-band points: 11
 - Estimated dwell: 48.2 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, extended_presence_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
@@ -120,7 +120,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 636025948 / 9336983
 - Infrastructure: pipeline — NORD STREAM 2
 - Minimum distance: 0.452 nm
-- Close-band points: 9
+- Close-band points: 8
 - Estimated dwell: 48.2 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, extended_presence_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
@@ -132,7 +132,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 518100214 / 8605765
 - Infrastructure: offshore_energy — Flan Sea
 - Minimum distance: 0.494 nm
-- Close-band points: 7
+- Close-band points: 6
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium

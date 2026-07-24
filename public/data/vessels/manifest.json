@@ -19,20 +19,26 @@
   },
   "history": {
     "href": "./voi_history_14d.jsonl",
-    "source_rows": 37136,
-    "malformed": 0,
-    "outside_window": 22090,
-    "missing_time": 0,
-    "invalid_position": 0,
-    "timestamp_repaired": 2182,
     "available": true,
     "published_rows": 12086,
     "published_bytes": 23068625,
-    "dropped_size": 2960,
     "max_age_days": 14,
     "max_bytes": 23068672,
     "build_mode": "daily_or_manual",
-    "rebuilt_in_this_run": true
+    "rebuilt_in_this_run": false
+  },
+  "danish_historical": {
+    "available": true,
+    "json_href": "./ais_dk_last_two_positions.json",
+    "geojson_href": "./ais_dk_last_two_positions.geojson",
+    "status_href": "./ais_dk_import_status.json",
+    "vessel_count": 363,
+    "position_features": 718,
+    "line_features": 322,
+    "data_max_timestamp_utc": "2026-07-21T23:59:58+00:00",
+    "lag_hours_at_build": 59.62,
+    "max_positions_per_vessel": 2,
+    "coverage_mode": "historical_delayed"
   },
   "category_layers": [
     {
