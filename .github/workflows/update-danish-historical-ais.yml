@@ -37,6 +37,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install "requests>=2.32,<3"
 
+      - name: Verify self-contained Danish importer
+        run: |
+          set -euo pipefail
+          PYTHONPATH=scripts python -c "import fetch_aisdk_historical; print(\"Danish importer dependency check: OK\")"
+
       - name: Prepare temporary raw-data directory
         run: |
           set -euo pipefail
