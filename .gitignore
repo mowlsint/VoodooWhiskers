@@ -1,3 +1,10 @@
 __pycache__/
 *.py[cod]
 .DS_Store
+# Danish AIS raw and temporary data — append to the existing .gitignore
+/data/raw/
+/tmp/aisdk/
+aisdk-*.zip
+aisdk-*.csv
+*.aisdk.zip
+*.aisdk.csv
