@@ -54,7 +54,7 @@ jobs:
           AIS_DK_SOURCE_URL: ${{ vars.AIS_DK_SOURCE_URL }}
           AIS_DK_TEMP_DIR: ${{ runner.temp }}/aisdk
           AIS_DK_LOOKBACK_DAYS: "21"
-          AIS_DK_FILTER_MODE: "monitored"
+          AIS_DK_FILTER_MODE: "known_categories"
           AIS_DK_TIMESTAMP_TIMEZONE: "UTC"
           AIS_DK_MAX_DOWNLOAD_BYTES: "2147483648"
           AIS_DK_MAX_OUTPUT_BYTES: "26214400"
@@ -80,7 +80,21 @@ jobs:
           if output.exists():
               payload = json.loads(output.read_text(encoding='utf-8'))
               contacts = payload.get('contacts') if isinstance(payload.get('contacts'), list) else []
+              allowed_categories = {
+                  'watchlist', 'sanctions_shadowfleet', 'russian_mmsi',
+                  'falseflag_interest', 'false_flag_watch', 'behavioral_voi',
+                  'recent_russian_portcall_10d',
+              }
+              if payload.get('filter_schema_version') != 'known-voi-categories-v1':
+                  raise SystemExit('Danish AIS product does not use the required known-category filter schema')
               for contact in contacts:
+                  if contact.get('known_voi_match') is not True:
+                      raise SystemExit(f'non-watchlist Danish contact published: {contact.get("mmsi")}')
+                  categories = set(contact.get('categories') or [])
+                  if not categories or not categories <= allowed_categories:
+                      raise SystemExit(f'invalid Danish categories for MMSI {contact.get("mmsi")}: {sorted(categories)}')
+                  if 'neutral_tanker_context' in categories:
+                      raise SystemExit(f'neutral tanker leaked into Danish product: {contact.get("mmsi")}')
                   positions = contact.get('positions') if isinstance(contact, dict) else None
                   if not isinstance(positions, list) or len(positions) > 2:
                       raise SystemExit(f'invalid positions array for MMSI {contact.get("mmsi") if isinstance(contact, dict) else "?"}')
@@ -147,7 +161,7 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Update Danish historical AIS two-position product"
+          git commit -m "Update category-filtered Danish historical AIS"
           for attempt in 1 2 3; do
             if git pull --rebase --autostash origin main && git push origin HEAD:main; then
               exit 0
