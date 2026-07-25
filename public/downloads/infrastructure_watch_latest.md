@@ -1,7 +1,7 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-07-25T04:50:49+00:00
-- Review events: 15
+- Generated: 2026-07-25T05:24:12+00:00
+- Review events: 16
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
 
@@ -13,6 +13,18 @@
 - Infrastructure: pipeline — NORD STREAM 2
 - Minimum distance: 0.007 nm
 - Close-band points: 5
+- Estimated dwell: 48.2 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, extended_presence_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
+## TG CRAB — ELEVATED
+
+- MMSI / IMO: 636024043 / 9400394
+- Infrastructure: pipeline — NORD STREAM 2
+- Minimum distance: 0.009 nm
+- Close-band points: 11
 - Estimated dwell: 48.2 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, extended_presence_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
@@ -39,18 +51,6 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - Close-band points: 2
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
-- Confidence: low_medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
-## TG CRAB — ELEVATED
-
-- MMSI / IMO: 636024043 / 9400394
-- Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.038 nm
-- Close-band points: 11
-- Estimated dwell: 48.2 min
-- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, extended_presence_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
@@ -151,6 +151,18 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
+## URSUS — ELEVATED
+
+- MMSI / IMO: 314001077 / 9289532
+- Infrastructure: pipeline — NORD STREAM 2
+- Minimum distance: 0.721 nm
+- Close-band points: 2
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, repeated_entries_into_close_band, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
 ## BLUE THISTLE — REVIEW
 
 - MMSI / IMO: 518100214 / 8605765
@@ -179,7 +191,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 525121061 / 9306639
 - Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.626 nm
+- Minimum distance: 0.582 nm
 - Close-band points: 2
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
