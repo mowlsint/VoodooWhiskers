@@ -7,11 +7,18 @@
 }
 #sarStatus[data-tone="ok"] { color: #78d6a3; }
 #sarStatus[data-tone="warn"] { color: #f1b86a; }
-.sarHelp {
+.sarHelp,
+.sarClickExplainer {
   margin: .55rem 0 0;
   font-size: .78rem;
-  line-height: 1.38;
+  line-height: 1.42;
   color: var(--muted, #9aabba);
+}
+.sarClickExplainer {
+  padding: .55rem .6rem;
+  border-left: 3px solid #15b9d5;
+  background: rgba(21, 185, 213, .09);
+  color: var(--text, #e9f0f5);
 }
 .sarSubcontrols {
   margin: .35rem 0 0 1.15rem;
@@ -26,11 +33,31 @@
   border-left: 3px solid #c069ff;
   background: rgba(125, 60, 181, .11);
 }
-.sarWatchAlert {
+.sarWatchAlert,
+.sarCorrelationOk,
+.sarCorrelationWarn {
   margin: .5rem 0;
   padding: .45rem .55rem;
+}
+.sarWatchAlert {
   border: 1px solid #ff4d5f;
   background: rgba(255, 77, 95, .12);
+}
+.sarCorrelationOk {
+  border-left: 3px solid #15b9d5;
+  background: rgba(21, 185, 213, .11);
+}
+.sarCorrelationWarn {
+  border-left: 3px solid #f1b86a;
+  background: rgba(241, 184, 106, .10);
+}
+.sarTemporarilyDisabled { opacity: .45; }
+.vfPopupLinkRow { margin-top: .55rem; }
+.vfPopupLink {
+  display: inline-block;
+  margin: .35rem .65rem .25rem 0;
+  font-size: .82rem;
+  font-weight: 700;
 }
 .mapLegend .dot.sarUnmatched {
   background: #7d3cb5;
@@ -40,7 +67,14 @@
   background: #3287a8;
   border: 2px solid #6bd6ff;
 }
+.mapLegend .dot.sarAisContext {
+  background: #15b9d5;
+  border: 2px solid #d9fbff;
+}
 .mapLegend .dot.sarWatch {
   background: #7d3cb5;
   border: 3px solid #ff4d5f;
+}
+.mapLegend .legendLine.sarConnector {
+  border-top: 2px dashed #9ddbe7;
 }
