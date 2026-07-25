@@ -3,37 +3,36 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Voodoo Whiskers maritime infrastructure, vessel context and historical AIS map">
+  <meta name="description" content="Voodoo Whiskers maritime infrastructure, vessel context, historical AIS and delayed SAR detection map">
   <title>Voodoo Whiskers — Maritime Infrastructure Watch</title>
   <link rel="preconnect" href="https://unpkg.com">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="./assets/infrastructure-watch.css">
+  <link rel="stylesheet" href="./assets/sar-layer.css">
 </head>
 <body>
   <header class="topbar">
     <div>
       <div class="eyebrow">MOwlSINT / Voodoo Whiskers</div>
       <h1>Maritime Infrastructure Watch</h1>
-      <p>AIS vessel context, VOI time layers and public maritime infrastructure reference data.</p>
+      <p>AIS vessel context, VOI time layers, delayed SAR detection cells and public maritime infrastructure reference data.</p>
     </div>
     <div class="statusCluster">
       <span class="statusPill" id="dataStatus">Loading data</span>
       <span class="statusPill neutral">Score integration: shadow only</span>
     </div>
   </header>
-
   <main class="layout">
     <aside class="sidebar">
       <section class="card introCard">
         <h2>Analyst view</h2>
-        <p>Proximity and movement patterns are review leads. They do not establish hostile intent, attribution or unlawful activity.</p>
+        <p>Proximity, movement and satellite-detection patterns are review leads. They do not establish hostile intent, attribution or unlawful activity.</p>
         <div class="metrics" id="summaryMetrics">
           <div><span>VOI</span><strong>–</strong></div>
           <div><span>Review events</span><strong>–</strong></div>
           <div><span>Reference features</span><strong>–</strong></div>
         </div>
       </section>
-
       <section class="card timeCard">
         <div class="sectionHead"><h2>Time view</h2><span class="timeBadge" id="timeStatus">Latest</span></div>
         <div class="timeButtons" role="group" aria-label="Vessel and event time window">
@@ -46,7 +45,6 @@
         </div>
         <p class="timeHelp">Historical views load the bounded VOI history only when selected. The Danish view combines current Finnish/Norwegian monitored contacts with at most two delayed Danish observations per vessel matched to a known Voodoo watchlist/VOI category.</p>
       </section>
-
       <section class="card">
         <div class="sectionHead"><h2>Vessel layers</h2><button type="button" class="smallButton" id="fitVessels">Fit</button></div>
         <label class="control"><input type="checkbox" data-layer="ais_contacts"> Current monitored AIS contacts</label>
@@ -61,7 +59,17 @@
         <label class="control"><input type="checkbox" data-layer="recent_russian_portcall_10d"> Recent Russian port context</label>
         <label class="control"><input type="checkbox" data-layer="behavioral_voi"> Behavioural VOI</label>
       </section>
-
+      <section class="card sarCard">
+        <div class="sectionHead"><h2>SAR satellite context</h2><button type="button" class="smallButton" id="fitSar">Fit</button></div>
+        <label class="control"><input type="checkbox" id="sarDetectionsToggle" disabled> Delayed SAR detection cells</label>
+        <div class="sarSubcontrols">
+          <label class="control"><input type="checkbox" id="sarUnmatchedToggle" checked> AIS-unmatched cells</label>
+          <label class="control"><input type="checkbox" id="sarMatchedToggle" checked> AIS-matched cells</label>
+          <label class="control"><input type="checkbox" id="sarWatchlistOnlyToggle"> Voodoo watchlist matches only</label>
+        </div>
+        <span id="sarStatus" data-tone="neutral">Waiting for SAR product…</span>
+        <p class="sarHelp">Global Fishing Watch Sentinel-1 detection reports are delayed. Markers are 0.01° grid-cell centres, not exact/current vessel positions. “AIS-unmatched” is a review lead, not proof of a dark vessel.</p>
+      </section>
       <section class="card">
         <div class="sectionHead"><h2>Infrastructure</h2><button type="button" class="smallButton" id="fitInfrastructure">Fit</button></div>
         <label class="control"><input type="checkbox" data-layer="telecom_cables" checked> Telecommunication cables</label>
@@ -71,7 +79,6 @@
         <label class="control"><input type="checkbox" data-layer="wind_farms" checked> Offshore wind farms</label>
         <label class="control"><input type="checkbox" data-layer="offshore_energy" checked> Offshore energy installations</label>
       </section>
-
       <section class="card">
         <h2>Analysis</h2>
         <label class="control"><input type="checkbox" data-layer="infrastructure_events" checked> Infrastructure review events</label>
@@ -82,15 +89,14 @@
         <h2>Downloads</h2>
         <div id="downloadLinks" class="downloadLinks"><span class="empty">Loading manifest…</span></div>
       </section>
-
       <section class="card sourceCard">
         <h2>Sources and limits</h2>
-        <p>Current vessel data: Voodoo Whiskers brokered AIS snapshots. Historical supplement: Danish land-based AIS, delayed and limited to two observations per vessel in a known Voodoo category. Infrastructure: EMODnet Human Activities and original providers.</p>
-        <p>Coverage is mixed and not continuous. Older, repaired or delayed timestamps are visibly marked in vessel popups.</p>
+        <p>Current vessel data: Voodoo Whiskers brokered AIS snapshots. Historical supplement: Danish land-based AIS, delayed and limited to two observations per vessel in a known Voodoo category. Satellite supplement: delayed Global Fishing Watch Sentinel-1 SAR vessel-detection report cells. Infrastructure: EMODnet Human Activities and original providers.</p>
+        <p>Coverage is mixed and not continuous. Older, repaired or delayed timestamps are visibly marked. SAR report coordinates are cell centres rather than exact detections.</p>
+        <p><a href="https://globalfishingwatch.org" target="_blank" rel="noopener noreferrer">Powered by Global Fishing Watch.</a></p>
         <div class="generated" id="generatedAt">Generated: –</div>
       </section>
     </aside>
-
     <section class="mapShell">
       <div id="map" role="application" aria-label="Voodoo Whiskers maritime infrastructure map"></div>
       <div class="mapLegend">
@@ -103,11 +109,15 @@
         <div><span class="dot dkLatest"></span>Danish latest historical</div>
         <div><span class="dot dkPrevious"></span>Danish previous historical</div>
         <div><span class="legendLine dkTrack"></span>Danish two-point connector</div>
+        <div><span class="dot sarUnmatched"></span>SAR AIS-unmatched cell</div>
+        <div><span class="dot sarMatched"></span>SAR AIS-matched cell</div>
+        <div><span class="dot sarWatch"></span>SAR watchlist match</div>
       </div>
     </section>
   </main>
-
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="./assets/sar-map-hook.js"></script>
   <script src="./assets/infrastructure-watch.js"></script>
+  <script src="./assets/sar-layer.js"></script>
 </body>
 </html>
