@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-07-25T05:23:36+00:00",
-  "total_contacts_seen": 948,
-  "total_unique_tankers_in_context_zones": 219,
+  "generated_at": "2026-07-25T15:18:13+00:00",
+  "total_contacts_seen": 963,
+  "total_unique_tankers_in_context_zones": 222,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 128,
+  "neutral_tanker_context_total": 131,
   "voi_tankers_in_context_zones": 91,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 48,
-      "neutral_tankers": 44,
-      "voi_tankers": 4,
-      "slow_or_waiting": 27,
+      "total_tankers": 52,
+      "neutral_tankers": 47,
+      "voi_tankers": 5,
+      "slow_or_waiting": 26,
       "for_order": 3,
       "examples": [
         {
@@ -49,7 +49,7 @@
           "imo": "9889942",
           "mmsi": "215845000",
           "destination": "PL GDN",
-          "sog": "12.5",
+          "sog": "12.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,10 +100,10 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 29,
-      "neutral_tankers": 28,
+      "total_tankers": 31,
+      "neutral_tankers": 30,
       "voi_tankers": 1,
-      "slow_or_waiting": 18,
+      "slow_or_waiting": 17,
       "for_order": 1,
       "examples": [
         {
@@ -112,16 +112,6 @@
           "mmsi": "210727000",
           "destination": "BRUNSBUTTEL",
           "sog": "10.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "KANARIS 21",
-          "imo": "9889942",
-          "mmsi": "215845000",
-          "destination": "PL GDN",
-          "sog": "12.5",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -147,6 +137,16 @@
           ]
         },
         {
+          "name": "CIELO DI GAETA",
+          "imo": "9669653",
+          "mmsi": "229632000",
+          "destination": "BE ANR",
+          "sog": "11.6",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
           "name": "INGRID KNUTSEN",
           "imo": "9649225",
           "mmsi": "235103057",
@@ -167,21 +167,21 @@
           ]
         },
         {
-          "name": "CORAL MEDUSA",
-          "imo": "9346926",
-          "mmsi": "244870427",
-          "destination": "GOTHENBURG ANCHORAGE",
-          "sog": "0.2",
+          "name": "SEA CORAL",
+          "imo": "9920708",
+          "mmsi": "241779000",
+          "destination": "GYGEO > SEBRO",
+          "sog": "12.9",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "BITONIA",
-          "imo": "9503902",
-          "mmsi": "246354000",
-          "destination": "SEGOT>EEMUG",
-          "sog": "10.3",
+          "name": "CORAL MEDUSA",
+          "imo": "9346926",
+          "mmsi": "244870427",
+          "destination": "GOTHENBURG ANCHORAGE",
+          "sog": "0.2",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -192,10 +192,10 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 105,
+      "total_tankers": 103,
       "neutral_tankers": 23,
-      "voi_tankers": 82,
-      "slow_or_waiting": 85,
+      "voi_tankers": 80,
+      "slow_or_waiting": 81,
       "for_order": 8,
       "examples": [
         {
@@ -223,7 +223,7 @@
           "imo": "9010929",
           "mmsi": "210056000",
           "destination": "TALLINN",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -233,7 +233,7 @@
           "imo": "9843209",
           "mmsi": "215515000",
           "destination": "FOR ORDERS",
-          "sog": "0.0",
+          "sog": "",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -243,7 +243,7 @@
           "imo": "9693082",
           "mmsi": "249279000",
           "destination": "EGYPT FOR ORDERS",
-          "sog": "0.0",
+          "sog": "12.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -253,7 +253,17 @@
           "imo": "9407457",
           "mmsi": "249747000",
           "destination": "FOR ORDERS",
-          "sog": "0.1",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "BOTHNIA",
+          "imo": "9485356",
+          "mmsi": "255806224",
+          "destination": "FIKTK",
+          "sog": "13.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -263,17 +273,7 @@
           "imo": "9939814",
           "mmsi": "255893000",
           "destination": "PORVOO",
-          "sog": "0.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "STEN BERGEN",
-          "imo": "9407988",
-          "mmsi": "255915979",
-          "destination": "FISKV",
-          "sog": "0.2",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -377,9 +377,9 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 19,
+      "total_tankers": 20,
       "neutral_tankers": 19,
-      "voi_tankers": 0,
+      "voi_tankers": 1,
       "slow_or_waiting": 11,
       "for_order": 0,
       "examples": [
@@ -466,7 +466,7 @@
       ],
       "zone_id": "german_bight",
       "zone_label": "German Bight",
-      "level": "watch"
+      "level": "heightened_context"
     },
     {
       "total_tankers": 12,
