@@ -15,7 +15,7 @@
     <div>
       <div class="eyebrow">MOwlSINT / Voodoo Whiskers</div>
       <h1>Maritime Infrastructure Watch</h1>
-      <p>AIS vessel context, VOI time layers, delayed SAR detection cells and public maritime infrastructure reference data.</p>
+      <p>AIS vessel context, VOI time layers, time-aligned historical SAR–AIS comparison and public maritime infrastructure reference data.</p>
     </div>
     <div class="statusCluster">
       <span class="statusPill" id="dataStatus">Loading data</span>
@@ -60,15 +60,18 @@
         <label class="control"><input type="checkbox" data-layer="behavioral_voi"> Behavioural VOI</label>
       </section>
       <section class="card sarCard">
-        <div class="sectionHead"><h2>SAR satellite context</h2><button type="button" class="smallButton" id="fitSar">Fit</button></div>
-        <label class="control"><input type="checkbox" id="sarDetectionsToggle" disabled> Delayed SAR detection cells</label>
+        <div class="sectionHead"><h2>Historical SAR–AIS comparison</h2><button type="button" class="smallButton" id="fitSar">Fit</button></div>
+        <label class="control"><input type="checkbox" id="sarDetectionsToggle" disabled> Show synchronized historical SAR + AIS context</label>
+        <p class="sarClickExplainer"><strong>What this click shows:</strong> delayed Sentinel-1 SAR detection cells together with the nearest GFW hourly AIS-presence cells for the same vessel identity, within the configured time tolerance. Current AIS, VOI and Danish vessel layers are automatically hidden. Historical AIS comparison is bounded, always prioritises Voodoo watchlist matches, and then uses the newest additional matched identities. Dashed lines connect the same GFW vessel identity; they are not tracks.</p>
         <div class="sarSubcontrols">
-          <label class="control"><input type="checkbox" id="sarUnmatchedToggle" checked> AIS-unmatched cells</label>
-          <label class="control"><input type="checkbox" id="sarMatchedToggle" checked> AIS-matched cells</label>
+          <label class="control"><input type="checkbox" id="sarUnmatchedToggle" checked> AIS-unmatched SAR cells</label>
+          <label class="control"><input type="checkbox" id="sarMatchedToggle" checked> AIS-matched SAR cells</label>
+          <label class="control"><input type="checkbox" id="sarAisContextToggle" checked> Time-aligned historical AIS points</label>
+          <label class="control"><input type="checkbox" id="sarConnectorsToggle" checked> Same-identity comparison connectors</label>
           <label class="control"><input type="checkbox" id="sarWatchlistOnlyToggle"> Voodoo watchlist matches only</label>
         </div>
-        <span id="sarStatus" data-tone="neutral">Waiting for SAR product…</span>
-        <p class="sarHelp">Global Fishing Watch Sentinel-1 detection reports are delayed. Markers are 0.01° grid-cell centres, not exact/current vessel positions. “AIS-unmatched” is a review lead, not proof of a dark vessel.</p>
+        <span id="sarStatus" data-tone="neutral">Waiting for historical SAR–AIS product…</span>
+        <p class="sarHelp">Both SAR and AIS markers are 0.01° report-cell centres, not exact or current vessel positions. The status and pop-ups show the permitted time difference and the actual difference for each comparison. “AIS-unmatched” means that GFW did not establish a match; it is not proof of deliberate AIS disablement.</p>
       </section>
       <section class="card">
         <div class="sectionHead"><h2>Infrastructure</h2><button type="button" class="smallButton" id="fitInfrastructure">Fit</button></div>
@@ -91,8 +94,8 @@
       </section>
       <section class="card sourceCard">
         <h2>Sources and limits</h2>
-        <p>Current vessel data: Voodoo Whiskers brokered AIS snapshots. Historical supplement: Danish land-based AIS, delayed and limited to two observations per vessel in a known Voodoo category. Satellite supplement: delayed Global Fishing Watch Sentinel-1 SAR vessel-detection report cells. Infrastructure: EMODnet Human Activities and original providers.</p>
-        <p>Coverage is mixed and not continuous. Older, repaired or delayed timestamps are visibly marked. SAR report coordinates are cell centres rather than exact detections.</p>
+        <p>Current vessel data: Voodoo Whiskers brokered AIS snapshots. Historical supplement: Danish land-based AIS, delayed and limited to two observations per vessel in a known Voodoo category. Satellite supplement: delayed Global Fishing Watch Sentinel-1 SAR vessel-detection report cells plus bounded GFW AIS Vessel Presence cells from the corresponding historical hours. Infrastructure: EMODnet Human Activities and original providers.</p>
+        <p>Coverage is mixed and not continuous. Older, repaired or delayed timestamps are visibly marked. SAR and historical GFW AIS coordinates are report-cell centres. The historical SAR–AIS mode automatically hides current vessel layers to prevent false time overlays.</p>
         <p><a href="https://globalfishingwatch.org" target="_blank" rel="noopener noreferrer">Powered by Global Fishing Watch.</a></p>
         <div class="generated" id="generatedAt">Generated: –</div>
       </section>
@@ -111,6 +114,8 @@
         <div><span class="legendLine dkTrack"></span>Danish two-point connector</div>
         <div><span class="dot sarUnmatched"></span>SAR AIS-unmatched cell</div>
         <div><span class="dot sarMatched"></span>SAR AIS-matched cell</div>
+        <div><span class="dot sarAisContext"></span>Time-aligned historical AIS cell</div>
+        <div><span class="legendLine sarConnector"></span>SAR–AIS same-identity connector</div>
         <div><span class="dot sarWatch"></span>SAR watchlist match</div>
       </div>
     </section>
@@ -119,5 +124,6 @@
   <script src="./assets/sar-map-hook.js"></script>
   <script src="./assets/infrastructure-watch.js"></script>
   <script src="./assets/sar-layer.js"></script>
+  <script src="./assets/vesselfinder-links.js"></script>
 </body>
 </html>
