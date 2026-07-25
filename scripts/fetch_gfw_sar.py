@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Fetch delayed Global Fishing Watch SAR vessel-detection report cells.
+"""Fetch delayed GFW SAR detections and time-aligned historical AIS context.
 
-The output is deliberately kept separate from AIS products. Coordinates returned by
-4Wings reports are centres of 0.01-degree grid cells at HIGH spatial resolution;
-they are not represented as exact vessel positions. An AIS-unmatched detection is a
-review lead, not proof of an intentionally dark vessel.
+The public comparison product intentionally keeps current AIS layers separate. SAR
+markers and AIS-presence markers are 0.01-degree report-cell centres, not exact
+positions. Only GFW AIS-presence rows from the same historical time window are
+used for connectors. AIS-unmatched SAR detections remain unconnected review leads.
 """
 
 from __future__ import annotations
@@ -12,6 +12,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import math
 import os
 import sys
 import tempfile
@@ -19,20 +20,22 @@ import time
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Iterable, Iterator
 
 import requests
 
 ROOT = Path(__file__).resolve().parents[1]
 API_REPORT = "https://gateway.api.globalfishingwatch.org/v3/4wings/report"
 API_LAST_REPORT = "https://gateway.api.globalfishingwatch.org/v3/4wings/last-report"
-DATASET = "public-global-sar-presence:latest"
+SAR_DATASET = "public-global-sar-presence:latest"
+AIS_PRESENCE_DATASET = "public-global-presence:latest"
 ATTRIBUTION = "Powered by Global Fishing Watch."
 ATTRIBUTION_URL = "https://globalfishingwatch.org"
 ASSESSMENT_LIMIT = (
-    "Delayed SAR detection cells support analyst review. Grid-cell centres are not exact "
-    "vessel positions. An AIS-unmatched detection does not by itself establish intentional "
-    "AIS disablement, identity, unlawful activity, attribution or hostile intent."
+    "Delayed SAR and historical AIS-presence cells support analyst review. Grid-cell "
+    "centres are not exact vessel positions. An AIS-unmatched SAR detection does not by "
+    "itself establish intentional AIS disablement, identity, unlawful activity, attribution "
+    "or hostile intent."
 )
 
 
@@ -58,33 +61,37 @@ def clean_text(value: Any) -> str:
 
 def parse_float(value: Any) -> float | None:
     try:
-        result = float(value)
+        return float(value)
     except (TypeError, ValueError):
         return None
-    return result
 
 
-def parse_observed_at(row: dict[str, Any]) -> str | None:
-    for key in ("entryTimestamp", "exitTimestamp"):
-        raw = clean_text(row.get(key))
-        if raw:
-            try:
-                parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
-                if parsed.tzinfo is None:
-                    parsed = parsed.replace(tzinfo=timezone.utc)
-                return iso_z(parsed)
-            except ValueError:
-                pass
-    raw_date = clean_text(row.get("date"))
-    if not raw_date:
+def parse_datetime(value: Any) -> datetime | None:
+    raw = clean_text(value)
+    if not raw:
         return None
+    try:
+        parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(timezone.utc)
+    except ValueError:
+        pass
     for fmt in ("%Y-%m-%d %H:%M", "%Y-%m-%d"):
         try:
-            parsed = datetime.strptime(raw_date, fmt).replace(tzinfo=timezone.utc)
-            return iso_z(parsed)
+            return datetime.strptime(raw, fmt).replace(tzinfo=timezone.utc)
         except ValueError:
             continue
     return None
+
+
+def parse_observed_at(row: dict[str, Any]) -> str | None:
+    for key in ("entryTimestamp", "exitTimestamp", "observed_at", "timestamp"):
+        parsed = parse_datetime(row.get(key))
+        if parsed:
+            return iso_z(parsed)
+    parsed = parse_datetime(row.get("date"))
+    return iso_z(parsed) if parsed else None
 
 
 def atomic_json(path: Path, payload: Any, *, compact: bool = False) -> None:
@@ -151,13 +158,11 @@ def watchlist_categories(row: dict[str, str] | None) -> list[str]:
         "track_russian_mmsi": "russian_mmsi",
     }
     categories = [category for column, category in mapping.items() if truthy(row.get(column))]
-    if row:
-        categories.append("watchlist")
+    categories.append("watchlist")
     return sorted(set(categories))
 
 
 def flatten_report(payload: dict[str, Any]) -> tuple[str | None, list[dict[str, Any]]]:
-    """Return resolved dataset version and flat report rows."""
     dataset_version: str | None = None
     rows: list[dict[str, Any]] = []
     entries = payload.get("entries")
@@ -169,7 +174,7 @@ def flatten_report(payload: dict[str, Any]) -> tuple[str | None, list[dict[str, 
         for key, value in entry.items():
             if not isinstance(value, list):
                 continue
-            if str(key).startswith("public-global-sar-presence:"):
+            if str(key).startswith(("public-global-sar-presence:", "public-global-presence:")):
                 dataset_version = str(key)
             for row in value:
                 if isinstance(row, dict):
@@ -181,6 +186,15 @@ def flatten_report(payload: dict[str, Any]) -> tuple[str | None, list[dict[str, 
 
 def report_is_finished(payload: Any) -> bool:
     return isinstance(payload, dict) and isinstance(payload.get("entries"), list)
+
+
+def batches(values: list[str], size: int) -> Iterator[list[str]]:
+    for start in range(0, len(values), size):
+        yield values[start : start + size]
+
+
+def quote_filter(value: str) -> str:
+    return "'" + value.replace("'", "''") + "'"
 
 
 @dataclass
@@ -196,7 +210,7 @@ class GFWClient:
             {
                 "Authorization": f"Bearer {self.token}",
                 "Content-Type": "application/json",
-                "User-Agent": "VoodooWhiskers-GFW-SAR/0.1",
+                "User-Agent": "VoodooWhiskers-GFW-SAR-AIS/0.2",
             }
         )
 
@@ -214,7 +228,7 @@ class GFWClient:
                 return payload
             if isinstance(payload, dict):
                 last_status = str(payload.get("status") or payload.get("message") or "running")
-                if payload.get("status") not in {None, "running"} and not report_is_finished(payload):
+                if payload.get("status") not in {None, "running"}:
                     raise RuntimeError(f"GFW last report failed: {payload}")
             time.sleep(self.poll_interval)
         raise TimeoutError(f"GFW report did not finish within {self.poll_timeout}s; last status={last_status}")
@@ -225,18 +239,22 @@ class GFWClient:
         start_date: date,
         end_date: date,
         *,
-        matched: bool,
+        dataset: str,
+        filters: list[str] | None = None,
+        group_by: str | None = None,
     ) -> dict[str, Any]:
         params: list[tuple[str, str]] = [
             ("spatial-resolution", "HIGH"),
             ("temporal-resolution", "HOURLY"),
-            ("datasets[0]", DATASET),
+            ("spatial-aggregation", "false"),
+            ("datasets[0]", dataset),
             ("date-range", f"{start_date.isoformat()},{end_date.isoformat()}"),
             ("format", "JSON"),
-            ("filters[0]", f"matched='{str(matched).lower()}'"),
         ]
-        if matched:
-            params.append(("group-by", "VESSEL_ID"))
+        if group_by:
+            params.append(("group-by", group_by))
+        for item in filters or []:
+            params.append(("filters[0]", item))
         body = {"geojson": geometry}
 
         for attempt in range(2):
@@ -248,7 +266,6 @@ class GFWClient:
                 return self._poll_last_report()
             if response.status_code == 429:
                 if attempt == 0:
-                    # A token supports one concurrent report. Let it finish, then retry our own query.
                     try:
                         self._poll_last_report()
                     except Exception:
@@ -266,7 +283,7 @@ class GFWClient:
         raise RuntimeError("GFW report retry exhausted")
 
 
-def build_records(
+def build_sar_records(
     rows: Iterable[dict[str, Any]],
     *,
     region: dict[str, Any],
@@ -290,16 +307,7 @@ def build_records(
         imo = digits(row.get("imo"))
         mmsi = digits(row.get("mmsi"))
         vessel_id = clean_text(row.get("vesselId") or row.get("vessel_id"))
-        dedupe_key = (
-            region["id"],
-            ais_matched,
-            observed_at,
-            round(lat, 5),
-            round(lon, 5),
-            vessel_id,
-            imo,
-            mmsi,
-        )
+        dedupe_key = (region["id"], ais_matched, observed_at, round(lat, 5), round(lon, 5), vessel_id, imo, mmsi)
         if dedupe_key in seen:
             stats["duplicates"] += 1
             continue
@@ -314,69 +322,291 @@ def build_records(
                 watch_row = watch_mmsi[mmsi]
             match_basis.append("mmsi")
         watch_match = bool(watch_row)
-        source_dataset = clean_text(row.get("_source_dataset")) or DATASET
+        source_dataset = clean_text(row.get("_source_dataset")) or SAR_DATASET
         identity = "|".join(str(part) for part in dedupe_key)
         record_id = "sar_" + hashlib.sha1(identity.encode("utf-8")).hexdigest()[:18]
 
-        record = {
-            "id": record_id,
-            "provider": "global_fishing_watch",
-            "source_dataset": source_dataset,
-            "coverage_mode": "satellite_sar_delayed",
-            "historical": True,
-            "not_current_position": True,
-            "position_is_exact": False,
-            "location_representation": "0.01_degree_grid_cell_center",
-            "region_id": region["id"],
-            "region_name": region["name"],
-            "observed_at": observed_at,
-            "report_date": clean_text(row.get("date")),
-            "latitude": lat,
-            "longitude": lon,
-            "detections": detections,
-            "ais_matched": ais_matched,
-            "match_status": "ais_matched" if ais_matched else "ais_unmatched",
-            "gfw_vessel_id": vessel_id or None,
-            "imo": imo if len(imo) == 7 else None,
-            "mmsi": mmsi if len(mmsi) == 9 else None,
-            "callsign": clean_text(row.get("callsign")) or None,
-            "name": clean_text(row.get("shipName") or row.get("ship_name")) or None,
-            "flag": clean_text(row.get("flag")) or None,
-            "vessel_type": clean_text(row.get("vesselType") or row.get("vessel_type")) or None,
-            "watchlist_match": watch_match,
-            "watchlist_match_basis": sorted(set(match_basis)),
-            "watch_priority": clean_text((watch_row or {}).get("watch_priority")) or None,
-            "watchlist_name": clean_text((watch_row or {}).get("name")) or None,
-            "categories": watchlist_categories(watch_row),
-            "assessment_limit": ASSESSMENT_LIMIT,
-        }
-        records.append(record)
+        records.append(
+            {
+                "id": record_id,
+                "feature_role": "sar_detection",
+                "provider": "global_fishing_watch",
+                "source_dataset": source_dataset,
+                "coverage_mode": "satellite_sar_delayed",
+                "historical": True,
+                "not_current_position": True,
+                "position_is_exact": False,
+                "location_representation": "0.01_degree_grid_cell_center",
+                "region_id": region["id"],
+                "region_name": region["name"],
+                "observed_at": observed_at,
+                "report_date": clean_text(row.get("date")),
+                "latitude": lat,
+                "longitude": lon,
+                "detections": detections,
+                "ais_matched": ais_matched,
+                "match_status": "ais_matched" if ais_matched else "ais_unmatched",
+                "gfw_vessel_id": vessel_id or None,
+                "imo": imo if len(imo) == 7 else None,
+                "mmsi": mmsi if len(mmsi) == 9 else None,
+                "callsign": clean_text(row.get("callsign")) or None,
+                "name": clean_text(row.get("shipName") or row.get("ship_name")) or None,
+                "flag": clean_text(row.get("flag")) or None,
+                "vessel_type": clean_text(row.get("vesselType") or row.get("vessel_type")) or None,
+                "watchlist_match": watch_match,
+                "watchlist_match_basis": sorted(set(match_basis)),
+                "watch_priority": clean_text((watch_row or {}).get("watch_priority")) or None,
+                "watchlist_name": clean_text((watch_row or {}).get("name")) or None,
+                "categories": watchlist_categories(watch_row),
+                "assessment_limit": ASSESSMENT_LIMIT,
+            }
+        )
     return records, stats
 
 
-def record_sort_key(record: dict[str, Any]) -> tuple[int, int, str]:
-    return (
-        1 if record.get("watchlist_match") else 0,
-        1 if not record.get("ais_matched") else 0,
-        str(record.get("observed_at") or ""),
-    )
+# Backwards-compatible alias used by the v0.1 tests and downstream code.
+build_records = build_sar_records
 
 
-def as_geojson(records: list[dict[str, Any]], generated_at: str, summary: dict[str, Any]) -> dict[str, Any]:
-    features = []
-    for record in records:
-        props = {key: value for key, value in record.items() if key not in {"latitude", "longitude"}}
-        features.append(
+def build_ais_presence_records(rows: Iterable[dict[str, Any]], *, region: dict[str, Any]) -> tuple[list[dict[str, Any]], dict[str, int]]:
+    records: list[dict[str, Any]] = []
+    stats = {"rows_seen": 0, "rows_invalid": 0, "duplicates": 0}
+    seen: set[tuple[Any, ...]] = set()
+    for row in rows:
+        stats["rows_seen"] += 1
+        lat = parse_float(row.get("lat"))
+        lon = parse_float(row.get("lon"))
+        observed_at = parse_observed_at(row)
+        vessel_id = clean_text(row.get("vesselId") or row.get("vessel_id"))
+        if not vessel_id or lat is None or lon is None or not observed_at or not (-90 <= lat <= 90) or not (-180 <= lon <= 180):
+            stats["rows_invalid"] += 1
+            continue
+        key = (region["id"], vessel_id, observed_at, round(lat, 5), round(lon, 5))
+        if key in seen:
+            stats["duplicates"] += 1
+            continue
+        seen.add(key)
+        imo = digits(row.get("imo"))
+        mmsi = digits(row.get("mmsi"))
+        identity = "|".join(str(part) for part in key)
+        records.append(
             {
-                "type": "Feature",
-                "id": record["id"],
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [record["longitude"], record["latitude"]],
-                },
-                "properties": props,
+                "id": "aisctx_" + hashlib.sha1(identity.encode("utf-8")).hexdigest()[:18],
+                "feature_role": "historical_ais_context",
+                "provider": "global_fishing_watch",
+                "source_dataset": clean_text(row.get("_source_dataset")) or AIS_PRESENCE_DATASET,
+                "coverage_mode": "historical_ais_presence",
+                "historical": True,
+                "not_current_position": True,
+                "position_is_exact": False,
+                "location_representation": "0.01_degree_grid_cell_center",
+                "region_id": region["id"],
+                "region_name": region["name"],
+                "observed_at": observed_at,
+                "report_date": clean_text(row.get("date")),
+                "latitude": lat,
+                "longitude": lon,
+                "presence_hours": parse_float(row.get("hours")),
+                "gfw_vessel_id": vessel_id,
+                "imo": imo if len(imo) == 7 else None,
+                "mmsi": mmsi if len(mmsi) == 9 else None,
+                "callsign": clean_text(row.get("callsign")) or None,
+                "name": clean_text(row.get("shipName") or row.get("ship_name")) or None,
+                "flag": clean_text(row.get("flag")) or None,
+                "vessel_type": clean_text(row.get("vesselType") or row.get("vessel_type")) or None,
+                "assessment_limit": ASSESSMENT_LIMIT,
             }
         )
+    return records, stats
+
+
+def haversine_nm(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    radius_nm = 3440.065
+    phi1, phi2 = math.radians(lat1), math.radians(lat2)
+    d_phi = math.radians(lat2 - lat1)
+    d_lambda = math.radians(lon2 - lon1)
+    a = math.sin(d_phi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(d_lambda / 2) ** 2
+    return radius_nm * 2 * math.atan2(math.sqrt(a), math.sqrt(max(0.0, 1 - a)))
+
+
+def sar_sort_key(record: dict[str, Any]) -> tuple[int, int, str]:
+    return (1 if record.get("watchlist_match") else 0, 1 if not record.get("ais_matched") else 0, str(record.get("observed_at") or ""))
+
+
+def select_context_vessel_ids(sar_records: list[dict[str, Any]], limit: int) -> tuple[list[str], int]:
+    candidates = [r for r in sar_records if r.get("ais_matched") and r.get("gfw_vessel_id")]
+    candidates.sort(key=lambda r: str(r.get("observed_at") or ""), reverse=True)
+    watch_ids: list[str] = []
+    other_ids: list[str] = []
+    seen: set[str] = set()
+    for record in candidates:
+        vessel_id = str(record["gfw_vessel_id"])
+        if vessel_id in seen:
+            continue
+        seen.add(vessel_id)
+        (watch_ids if record.get("watchlist_match") else other_ids).append(vessel_id)
+    # Voodoo watchlist identities are never dropped by the general context cap.
+    remaining = max(0, limit - len(watch_ids))
+    selected = watch_ids + other_ids[:remaining]
+    return selected, len(watch_ids) + len(other_ids)
+
+
+def correlate_records(
+    sar_records: list[dict[str, Any]],
+    ais_records: list[dict[str, Any]],
+    selected_vessel_ids: set[str],
+    max_delta_minutes: int,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, int]]:
+    by_region_vessel: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    by_vessel: dict[str, list[dict[str, Any]]] = {}
+    for ais in ais_records:
+        vessel_id = str(ais.get("gfw_vessel_id") or "")
+        if not vessel_id:
+            continue
+        by_region_vessel.setdefault((str(ais.get("region_id") or ""), vessel_id), []).append(ais)
+        by_vessel.setdefault(vessel_id, []).append(ais)
+
+    context_features: list[dict[str, Any]] = []
+    canonical_correlations: list[dict[str, Any]] = []
+    stats = {
+        "sar_records": len(sar_records),
+        "ais_unmatched_sar": 0,
+        "matched_identity_not_selected": 0,
+        "matched_identity_selected": 0,
+        "time_aligned_correlations": 0,
+        "selected_without_time_aligned_context": 0,
+    }
+
+    for sar in sar_records:
+        sar_props = dict(sar)
+        sar_lat = float(sar["latitude"])
+        sar_lon = float(sar["longitude"])
+        sar_time = parse_datetime(sar.get("observed_at"))
+        vessel_id = str(sar.get("gfw_vessel_id") or "")
+        correlation: dict[str, Any] | None = None
+
+        if not sar.get("ais_matched"):
+            stats["ais_unmatched_sar"] += 1
+            sar_props["correlation_status"] = "not_applicable_ais_unmatched"
+            sar_props["historical_ais_context_requested"] = False
+        elif not vessel_id or vessel_id not in selected_vessel_ids:
+            stats["matched_identity_not_selected"] += 1
+            sar_props["correlation_status"] = "not_requested_identity_cap"
+            sar_props["historical_ais_context_requested"] = False
+        else:
+            stats["matched_identity_selected"] += 1
+            sar_props["historical_ais_context_requested"] = True
+            candidates = by_region_vessel.get((str(sar.get("region_id") or ""), vessel_id)) or by_vessel.get(vessel_id, [])
+            ranked: list[tuple[float, float, dict[str, Any]]] = []
+            for ais in candidates:
+                ais_time = parse_datetime(ais.get("observed_at"))
+                if not sar_time or not ais_time:
+                    continue
+                delta = abs((ais_time - sar_time).total_seconds()) / 60.0
+                distance = haversine_nm(sar_lat, sar_lon, float(ais["latitude"]), float(ais["longitude"]))
+                ranked.append((delta, distance, ais))
+            ranked.sort(key=lambda item: (item[0], item[1]))
+            if ranked and ranked[0][0] <= max_delta_minutes:
+                delta, distance, ais = ranked[0]
+                correlation_id = "sarcorr_" + hashlib.sha1(f"{sar['id']}|{ais['id']}".encode("utf-8")).hexdigest()[:18]
+                correlation = {
+                    "id": correlation_id,
+                    "sar_id": sar["id"],
+                    "ais_context_id": ais["id"],
+                    "gfw_vessel_id": vessel_id,
+                    "sar_observed_at": sar["observed_at"],
+                    "ais_observed_at": ais["observed_at"],
+                    "time_delta_minutes": round(delta, 1),
+                    "distance_nm": round(distance, 2),
+                    "correlation_status": "time_aligned_same_identity",
+                    "time_alignment_limit_minutes": max_delta_minutes,
+                    "region_id": sar.get("region_id"),
+                    "watchlist_match": bool(sar.get("watchlist_match")),
+                }
+                canonical_correlations.append(correlation)
+                stats["time_aligned_correlations"] += 1
+                sar_props.update(
+                    {
+                        "correlation_status": correlation["correlation_status"],
+                        "ais_context_id": ais["id"],
+                        "ais_context_observed_at": ais["observed_at"],
+                        "time_delta_minutes": correlation["time_delta_minutes"],
+                        "distance_nm": correlation["distance_nm"],
+                    }
+                )
+                ais_props = dict(ais)
+                ais_props.update(
+                    {
+                        "sar_id": sar["id"],
+                        "correlation_id": correlation_id,
+                        "correlation_status": correlation["correlation_status"],
+                        "sar_observed_at": sar["observed_at"],
+                        "time_delta_minutes": correlation["time_delta_minutes"],
+                        "distance_nm": correlation["distance_nm"],
+                        "watchlist_match": bool(sar.get("watchlist_match")),
+                        "categories": sar.get("categories") or [],
+                    }
+                )
+                map_ais_id = "aismap_" + hashlib.sha1(f"{sar['id']}|{ais['id']}".encode("utf-8")).hexdigest()[:18]
+                ais_props["source_ais_context_id"] = ais["id"]
+                context_features.append(
+                    {
+                        "type": "Feature",
+                        "id": map_ais_id,
+                        "geometry": {"type": "Point", "coordinates": [ais["longitude"], ais["latitude"]]},
+                        "properties": {k: v for k, v in ais_props.items() if k not in {"latitude", "longitude"}},
+                    }
+                )
+                line_props = {
+                    "id": correlation_id,
+                    "feature_role": "sar_ais_connector",
+                    **correlation,
+                    "imo": sar.get("imo") or ais.get("imo"),
+                    "mmsi": sar.get("mmsi") or ais.get("mmsi"),
+                    "name": sar.get("name") or ais.get("name"),
+                    "watchlist_match": bool(sar.get("watchlist_match")),
+                    "categories": sar.get("categories") or [],
+                    "historical": True,
+                    "not_current_position": True,
+                    "assessment_limit": ASSESSMENT_LIMIT,
+                }
+                context_features.append(
+                    {
+                        "type": "Feature",
+                        "id": correlation_id,
+                        "geometry": {
+                            "type": "LineString",
+                            "coordinates": [[sar_lon, sar_lat], [ais["longitude"], ais["latitude"]]],
+                        },
+                        "properties": line_props,
+                    }
+                )
+            else:
+                stats["selected_without_time_aligned_context"] += 1
+                sar_props["correlation_status"] = "requested_but_no_time_aligned_context"
+                sar_props["time_alignment_limit_minutes"] = max_delta_minutes
+
+        context_features.append(
+            {
+                "type": "Feature",
+                "id": sar["id"],
+                "geometry": {"type": "Point", "coordinates": [sar_lon, sar_lat]},
+                "properties": {k: v for k, v in sar_props.items() if k not in {"latitude", "longitude"}},
+            }
+        )
+    return context_features, canonical_correlations, stats
+
+
+def as_sar_geojson(records: list[dict[str, Any]], generated_at: str, summary: dict[str, Any]) -> dict[str, Any]:
+    features = [
+        {
+            "type": "Feature",
+            "id": record["id"],
+            "geometry": {"type": "Point", "coordinates": [record["longitude"], record["latitude"]]},
+            "properties": {key: value for key, value in record.items() if key not in {"latitude", "longitude"}},
+        }
+        for record in records
+    ]
     return {
         "type": "FeatureCollection",
         "name": "Voodoo Whiskers delayed GFW SAR vessel-detection cells",
@@ -390,6 +620,10 @@ def as_geojson(records: list[dict[str, Any]], generated_at: str, summary: dict[s
     }
 
 
+# Backwards-compatible alias.
+as_geojson = as_sar_geojson
+
+
 def main() -> int:
     token = clean_text(os.environ.get("GFW_TOKEN"))
     if not token:
@@ -400,6 +634,9 @@ def main() -> int:
     lookback_days = max(1, min(60, int(os.environ.get("SAR_GFW_LOOKBACK_DAYS", "14"))))
     lag_days = max(5, int(os.environ.get("SAR_GFW_DATA_LAG_DAYS", "5")))
     max_features = max(100, int(os.environ.get("SAR_GFW_MAX_FEATURES", "12000")))
+    max_context_vessels = max(1, int(os.environ.get("SAR_GFW_AIS_CONTEXT_MAX_VESSELS", "150")))
+    context_batch_size = max(1, min(60, int(os.environ.get("SAR_GFW_AIS_CONTEXT_BATCH_SIZE", "50"))))
+    max_delta_minutes = max(1, int(os.environ.get("SAR_GFW_AIS_CONTEXT_MAX_DELTA_MINUTES", "60")))
     request_timeout = max(30, int(os.environ.get("SAR_GFW_REQUEST_TIMEOUT_SECONDS", "120")))
     poll_timeout = max(120, int(os.environ.get("SAR_GFW_POLL_TIMEOUT_SECONDS", "900")))
 
@@ -407,88 +644,169 @@ def main() -> int:
     end_date = generated_dt.date() - timedelta(days=lag_days)
     start_date = end_date - timedelta(days=lookback_days - 1)
     regions = load_regions(region_path)
+    region_by_id = {region["id"]: region for region in regions}
     watch_imo, watch_mmsi = load_watchlist(watchlist_path)
     client = GFWClient(token=token, request_timeout=request_timeout, poll_timeout=poll_timeout)
 
-    all_records: list[dict[str, Any]] = []
+    all_sar: list[dict[str, Any]] = []
     errors: list[dict[str, str]] = []
     query_results: list[dict[str, Any]] = []
     aggregate_stats = {"rows_seen": 0, "rows_invalid": 0, "duplicates": 0}
-    resolved_datasets: set[str] = set()
+    resolved_sar_datasets: set[str] = set()
 
     for region in regions:
         for matched in (False, True):
-            query_label = f"{region['id']}:{'matched' if matched else 'unmatched'}"
+            query_label = f"sar:{region['id']}:{'matched' if matched else 'unmatched'}"
             try:
-                payload = client.report(region["geometry"], start_date, end_date, matched=matched)
+                payload = client.report(
+                    region["geometry"],
+                    start_date,
+                    end_date,
+                    dataset=SAR_DATASET,
+                    filters=[f"matched='{str(matched).lower()}'"],
+                    group_by="VESSEL_ID" if matched else None,
+                )
                 resolved_dataset, rows = flatten_report(payload)
                 if resolved_dataset:
-                    resolved_datasets.add(resolved_dataset)
-                records, stats = build_records(
+                    resolved_sar_datasets.add(resolved_dataset)
+                records, stats = build_sar_records(
                     rows,
                     region=region,
                     ais_matched=matched,
                     watch_imo=watch_imo,
                     watch_mmsi=watch_mmsi,
                 )
-                all_records.extend(records)
+                all_sar.extend(records)
                 for key in aggregate_stats:
                     aggregate_stats[key] += stats[key]
                 query_results.append(
-                    {
-                        "query": query_label,
-                        "status": "ok",
-                        "source_dataset": resolved_dataset,
-                        "report_rows": len(rows),
-                        "valid_records": len(records),
-                    }
+                    {"query": query_label, "status": "ok", "source_dataset": resolved_dataset, "report_rows": len(rows), "valid_records": len(records)}
                 )
-            except Exception as exc:  # keep successful region/match products available
+            except Exception as exc:
                 errors.append({"query": query_label, "error": f"{type(exc).__name__}: {exc}"})
                 query_results.append({"query": query_label, "status": "error", "error": str(exc)})
 
-    successful = sum(1 for item in query_results if item.get("status") == "ok")
-    if successful == 0:
+    sar_successful = sum(1 for item in query_results if item.get("query", "").startswith("sar:") and item.get("status") == "ok")
+    if sar_successful == 0:
         for item in errors:
             print(f"ERROR {item['query']}: {item['error']}", file=sys.stderr)
         raise SystemExit("all GFW SAR report queries failed; previous products left untouched")
 
-    # Deduplicate across query responses without erasing separate regional attribution.
-    unique: dict[str, dict[str, Any]] = {}
-    for record in all_records:
-        unique.setdefault(record["id"], record)
-    records = sorted(unique.values(), key=record_sort_key, reverse=True)
-    before_cap = len(records)
-    records = records[:max_features]
-    cap_applied = before_cap > len(records)
+    unique_sar: dict[str, dict[str, Any]] = {}
+    for record in all_sar:
+        unique_sar.setdefault(record["id"], record)
+    sar_records = sorted(unique_sar.values(), key=sar_sort_key, reverse=True)
+    before_cap = len(sar_records)
+    sar_records = sar_records[:max_features]
+    feature_cap_applied = before_cap > len(sar_records)
+
+    selected_ids_list, matched_identity_total = select_context_vessel_ids(sar_records, max_context_vessels)
+    selected_ids = set(selected_ids_list)
+    selected_by_region: dict[str, list[str]] = {}
+    for region_id in region_by_id:
+        ids = {
+            str(record.get("gfw_vessel_id"))
+            for record in sar_records
+            if record.get("region_id") == region_id and record.get("gfw_vessel_id") in selected_ids
+        }
+        selected_by_region[region_id] = sorted(ids)
+
+    ais_records: list[dict[str, Any]] = []
+    resolved_ais_datasets: set[str] = set()
+    ais_stats = {"rows_seen": 0, "rows_invalid": 0, "duplicates": 0}
+    ais_query_count = 0
+    ais_query_success = 0
+    for region_id, ids in selected_by_region.items():
+        region = region_by_id[region_id]
+        for batch_index, vessel_batch in enumerate(batches(ids, context_batch_size), start=1):
+            ais_query_count += 1
+            query_label = f"ais_context:{region_id}:batch_{batch_index}"
+            filter_value = "vessel_id in (" + ",".join(quote_filter(value) for value in vessel_batch) + ")"
+            try:
+                payload = client.report(
+                    region["geometry"],
+                    start_date,
+                    end_date,
+                    dataset=AIS_PRESENCE_DATASET,
+                    filters=[filter_value],
+                    group_by="VESSEL_ID",
+                )
+                resolved_dataset, rows = flatten_report(payload)
+                if resolved_dataset:
+                    resolved_ais_datasets.add(resolved_dataset)
+                records, stats = build_ais_presence_records(rows, region=region)
+                ais_records.extend(records)
+                for key in ais_stats:
+                    ais_stats[key] += stats[key]
+                ais_query_success += 1
+                query_results.append(
+                    {"query": query_label, "status": "ok", "source_dataset": resolved_dataset, "requested_vessel_ids": len(vessel_batch), "report_rows": len(rows), "valid_records": len(records)}
+                )
+            except Exception as exc:
+                errors.append({"query": query_label, "error": f"{type(exc).__name__}: {exc}"})
+                query_results.append({"query": query_label, "status": "error", "requested_vessel_ids": len(vessel_batch), "error": str(exc)})
+
+    unique_ais: dict[str, dict[str, Any]] = {}
+    for record in ais_records:
+        unique_ais.setdefault(record["id"], record)
+    ais_records = list(unique_ais.values())
+
+    context_features, correlations, correlation_stats = correlate_records(
+        sar_records,
+        ais_records,
+        selected_ids,
+        max_delta_minutes,
+    )
 
     summary = {
         "queries_total": len(query_results),
-        "queries_successful": successful,
-        "queries_failed": len(query_results) - successful,
-        "records_total": len(records),
+        "sar_queries_successful": sar_successful,
+        "sar_queries_failed": (len(regions) * 2) - sar_successful,
+        "ais_context_queries_total": ais_query_count,
+        "ais_context_queries_successful": ais_query_success,
+        "ais_context_queries_failed": ais_query_count - ais_query_success,
+        "records_total": len(sar_records),
         "records_before_cap": before_cap,
         "feature_cap": max_features,
-        "feature_cap_applied": cap_applied,
-        "ais_unmatched": sum(1 for record in records if not record["ais_matched"]),
-        "ais_matched": sum(1 for record in records if record["ais_matched"]),
-        "watchlist_matches": sum(1 for record in records if record["watchlist_match"]),
+        "feature_cap_applied": feature_cap_applied,
+        "ais_unmatched": sum(1 for record in sar_records if not record["ais_matched"]),
+        "ais_matched": sum(1 for record in sar_records if record["ais_matched"]),
+        "watchlist_matches": sum(1 for record in sar_records if record["watchlist_match"]),
+        "matched_vessel_identities_total": matched_identity_total,
+        "matched_vessel_identities_selected_for_context": len(selected_ids),
+        "matched_vessel_identity_cap": max_context_vessels,
+        "matched_vessel_identity_cap_applied": matched_identity_total > len(selected_ids),
+        "historical_ais_presence_records": len(ais_records),
+        "time_aligned_correlations": len(correlations),
         **aggregate_stats,
+        "ais_presence_rows_seen": ais_stats["rows_seen"],
+        "ais_presence_rows_invalid": ais_stats["rows_invalid"],
+        "ais_presence_duplicates": ais_stats["duplicates"],
+        **correlation_stats,
     }
     generated_at = iso_z(generated_dt)
-    health = "ok" if successful == len(query_results) and not cap_applied else "degraded"
+    degraded = (
+        sar_successful < 4
+        or feature_cap_applied
+        or (ais_query_count > 0 and ais_query_success < ais_query_count)
+        or (matched_identity_total > len(selected_ids))
+        or (matched_identity_total > 0 and len(correlations) == 0)
+    )
+    health = "degraded" if degraded else "ok"
     status = {
-        "schema_version": "1.0.0",
+        "schema_version": "2.0.0",
         "generated_at": generated_at,
         "status": health,
         "provider": "global_fishing_watch",
-        "dataset_requested": DATASET,
-        "datasets_resolved": sorted(resolved_datasets),
+        "datasets_requested": {"sar": SAR_DATASET, "historical_ais_presence": AIS_PRESENCE_DATASET},
+        "datasets_resolved": {"sar": sorted(resolved_sar_datasets), "historical_ais_presence": sorted(resolved_ais_datasets)},
         "date_range": {"start": start_date.isoformat(), "end": end_date.isoformat()},
         "configured_lag_days": lag_days,
-        "coverage_mode": "satellite_sar_delayed",
+        "coverage_mode": "time_aligned_historical_sar_ais_context",
         "spatial_resolution": "HIGH / 0.01-degree report grid",
         "temporal_resolution": "HOURLY",
+        "time_alignment_limit_minutes": max_delta_minutes,
+        "current_ais_must_not_be_overlaid": True,
         "regions": [{key: region[key] for key in ("id", "name", "note")} for region in regions],
         "summary": summary,
         "queries": query_results,
@@ -498,44 +816,65 @@ def main() -> int:
         "assessment_limit": ASSESSMENT_LIMIT,
     }
     canonical = {
-        "schema_version": "1.0.0",
+        "schema_version": "2.0.0",
         "generated_at": generated_at,
         "source": "Global Fishing Watch 4Wings API",
-        "dataset_requested": DATASET,
+        "datasets_requested": status["datasets_requested"],
         "date_range": status["date_range"],
-        "coverage_mode": "satellite_sar_delayed",
+        "coverage_mode": status["coverage_mode"],
         "historical": True,
         "attribution": ATTRIBUTION,
         "attribution_url": ATTRIBUTION_URL,
         "assessment_limit": ASSESSMENT_LIMIT,
         "summary": summary,
-        "records": records,
+        "sar_records": sar_records,
+        "historical_ais_presence_records": ais_records,
+        "correlations": correlations,
     }
-    geojson = as_geojson(records, generated_at, summary)
+    sar_geojson = as_sar_geojson(sar_records, generated_at, summary)
+    context_geojson = {
+        "type": "FeatureCollection",
+        "name": "Voodoo Whiskers time-aligned historical SAR and AIS context",
+        "generated_at": generated_at,
+        "source": "Global Fishing Watch 4Wings API / SAR vessel detections and AIS vessel presence",
+        "coverage_mode": "time_aligned_historical_sar_ais_context",
+        "current_ais_must_not_be_overlaid": True,
+        "time_alignment_limit_minutes": max_delta_minutes,
+        "date_range": status["date_range"],
+        "attribution": ATTRIBUTION,
+        "attribution_url": ATTRIBUTION_URL,
+        "assessment_limit": ASSESSMENT_LIMIT,
+        "summary": summary,
+        "features": context_features,
+    }
 
     outputs = {
         ROOT / "data/sar_gfw_latest.json": canonical,
         ROOT / "data/sar_gfw_status_latest.json": status,
-        ROOT / "public/data/vessels/sar_detections_latest.geojson": geojson,
+        ROOT / "data/sar_gfw_ais_context_latest.json": context_geojson,
+        ROOT / "public/data/vessels/sar_detections_latest.geojson": sar_geojson,
+        ROOT / "public/data/vessels/sar_ais_context_latest.geojson": context_geojson,
         ROOT / "public/data/vessels/sar_import_status.json": status,
-        ROOT / "public/downloads/sar_detections_latest.geojson": geojson,
+        ROOT / "public/downloads/sar_detections_latest.geojson": sar_geojson,
+        ROOT / "public/downloads/sar_ais_context_latest.geojson": context_geojson,
         ROOT / "public/downloads/sar_import_status.json": status,
     }
     for path, payload in outputs.items():
         atomic_json(path, payload, compact=path.name.endswith("latest.geojson"))
         if path.stat().st_size > 25 * 1024 * 1024:
-            raise SystemExit(f"SAR output exceeds 25 MiB guard: {path}")
+            raise SystemExit(f"SAR/AIS output exceeds 25 MiB guard: {path}")
 
     print(
         json.dumps(
             {
                 "status": health,
                 "date_range": status["date_range"],
-                "records": len(records),
-                "unmatched": summary["ais_unmatched"],
-                "matched": summary["ais_matched"],
-                "watchlist_matches": summary["watchlist_matches"],
-                "queries_successful": successful,
+                "sar_records": len(sar_records),
+                "historical_ais_records": len(ais_records),
+                "correlations": len(correlations),
+                "selected_matched_vessels": len(selected_ids),
+                "matched_vessels_total": matched_identity_total,
+                "queries_successful": sum(1 for item in query_results if item.get("status") == "ok"),
             },
             ensure_ascii=False,
         )
