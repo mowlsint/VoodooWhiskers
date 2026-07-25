@@ -51,6 +51,8 @@ def main() -> int:
         ("ais_dk_last_two_positions.json", "Danish historical AIS — latest two observations — JSON", "ais_history", "Latest two temporally distinct historical Danish AIS observations per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions."),
         ("ais_dk_last_two_positions.geojson", "Danish historical AIS — latest two observations — GeoJSON", "ais_history", "Map-ready latest two historical Danish AIS observations and short connectors per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions."),
         ("ais_dk_import_status.json", "Danish historical AIS — import status", "ais_history", "Source date, lag, row-quality counters and import health for the delayed Danish AIS supplement."),
+        ("sar_detections_latest.geojson", "SAR vessel-detection cells — GeoJSON", "sar", "Delayed Global Fishing Watch Sentinel-1 SAR report cells for broad North Sea and Baltic query regions. Coordinates are 0.01-degree grid-cell centres, not exact or current vessel positions."),
+        ("sar_import_status.json", "SAR vessel-detection import status", "sar", "Query dates, coverage regions, matched/unmatched counters, errors and data limitations for the delayed Global Fishing Watch SAR layer."),
         ("voi_list_latest.json", "VOI list — JSON", "voi", "Machine-readable current priority VOI list."),
         ("voi_list_latest.csv", "VOI list — CSV", "voi", "Tabular current priority VOI list."),
         ("voi_list_latest.md", "VOI list — Markdown", "voi", "Readable current priority VOI list."),
@@ -63,33 +65,34 @@ def main() -> int:
         entry = file_entry(PUBLIC / "downloads" / filename, f"./{filename}", label, group, description)
         if entry:
             products.append(entry)
-
     manifest = {
         "schema_version": "1.0.0",
         "generated_at": generated_at,
         "source": "Voodoo Whiskers",
         "repository_public": True,
         "hosting_target": "Cloudflare Pages later",
-        "assessment_limit": "VOI and proximity products support analyst review and do not establish hostile intent, attribution or unlawful activity.",
+        "assessment_limit": "VOI, SAR and proximity products support analyst review and do not establish hostile intent, attribution or unlawful activity.",
         "groups": [
             {"id": "ais", "label": "Monitored AIS positions"},
             {"id": "ais_history", "label": "Historical AIS supplements"},
+            {"id": "sar", "label": "SAR satellite detection cells"},
             {"id": "voi", "label": "VOI lists"},
             {"id": "infrastructure", "label": "Critical Infrastructure Watch"},
         ],
         "products": products,
     }
     atomic_json(PUBLIC / "downloads" / "manifest.json", manifest)
-
     data_manifest = {
         "schema_version": "1.0.0",
         "generated_at": generated_at,
         "source": "Voodoo Whiskers",
-        "provider_label": "AIS",
+        "provider_label": "AIS + delayed SAR context",
         "web_app": "./index.html",
         "vessels": "./data/vessels/manifest.json",
         "danish_historical_ais": "./data/vessels/ais_dk_last_two_positions.geojson",
         "danish_historical_status": "./data/vessels/ais_dk_import_status.json",
+        "sar_detections": "./data/vessels/sar_detections_latest.geojson",
+        "sar_status": "./data/vessels/sar_import_status.json",
         "emodnet": "./data/reference/emodnet/manifest.json",
         "infrastructure_events": "./data/analysis/infrastructure_events_latest.json",
         "infrastructure_events_geojson": "./data/analysis/infrastructure_events_latest.geojson",
@@ -99,7 +102,7 @@ def main() -> int:
         "active_score_integration": False,
     }
     atomic_json(PUBLIC / "data" / "manifest.json", data_manifest)
-    print(json.dumps({"download_products": len(products), "generated_at": generated_at}, indent=2))
+    print(json.dumps({"generated_at": generated_at, "download_products": len(products)}, ensure_ascii=False))
     return 0
 
 
