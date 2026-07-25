@@ -7,6 +7,7 @@ on:
       - Update maritime layers
       - Update regional AIS layers
       - Update Danish historical AIS
+      - Update GFW SAR detections
     types: [completed]
 
 permissions:
@@ -34,7 +35,7 @@ jobs:
           python-version: "3.11"
 
       - name: Set up Node.js 24
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "24"
 
@@ -60,11 +61,15 @@ jobs:
             scripts/build_public_outputs.py \
             scripts/analyze_infrastructure_proximity.py \
             scripts/build_public_manifest.py \
-            scripts/fetch_aisdk_historical.py
+            scripts/fetch_aisdk_historical.py \
+            scripts/fetch_gfw_sar.py
           node --check public/assets/infrastructure-watch.js
+          node --check public/assets/sar-map-hook.js
+          node --check public/assets/sar-layer.js
           python - <<'PY'
           import json
           from pathlib import Path
+
           required = [
               'public/data/manifest.json',
               'public/data/vessels/voi_snapshot_latest.json',
@@ -75,6 +80,9 @@ jobs:
               'public/downloads/manifest.json',
               'public/downloads/voi_list_latest.json',
               'public/index.html',
+              'public/assets/sar-map-hook.js',
+              'public/assets/sar-layer.js',
+              'public/assets/sar-layer.css',
           ]
           for name in required:
               path = Path(name)
@@ -83,8 +91,6 @@ jobs:
               if path.suffix in {'.json', '.geojson'}:
                   json.loads(path.read_text(encoding='utf-8'))
 
-          # Danish historical products are optional until the first successful import,
-          # then all three public/download products must exist and remain small.
           dk_source = Path('data/ais_contacts_aisdk_historical_latest.json')
           if dk_source.exists():
               dk_required = [
@@ -102,8 +108,21 @@ jobs:
                       raise SystemExit(f'Danish public product too large: {path} ({path.stat().st_size} bytes)')
                   json.loads(path.read_text(encoding='utf-8'))
 
-          # Resolve every download href relative to the manifest itself, exactly as the
-          # web viewer does. This catches broken links and incorrect filename case.
+          sar_source = Path('data/sar_gfw_latest.json')
+          if sar_source.exists():
+              sar_required = [
+                  Path('public/data/vessels/sar_detections_latest.geojson'),
+                  Path('public/data/vessels/sar_import_status.json'),
+                  Path('public/downloads/sar_detections_latest.geojson'),
+                  Path('public/downloads/sar_import_status.json'),
+              ]
+              for path in sar_required:
+                  if not path.exists() or path.stat().st_size == 0:
+                      raise SystemExit(f'missing or empty SAR product: {path}')
+                  if path.stat().st_size > 25 * 1024 * 1024:
+                      raise SystemExit(f'SAR public product too large: {path} ({path.stat().st_size} bytes)')
+                  json.loads(path.read_text(encoding='utf-8'))
+
           download_manifest_path = Path('public/downloads/manifest.json')
           download_manifest = json.loads(download_manifest_path.read_text(encoding='utf-8'))
           for product in download_manifest.get('products', []):
@@ -122,7 +141,6 @@ jobs:
               if target.suffix in {'.json', '.geojson'}:
                   json.loads(target.read_text(encoding='utf-8'))
 
-          # Never publish or commit raw Danish archives.
           forbidden = []
           for path in Path('.').rglob('*'):
               if not path.is_file() or '.git' in path.parts:

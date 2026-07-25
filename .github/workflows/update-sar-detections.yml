@@ -1,0 +1,131 @@
+name: Update GFW SAR detections
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "35 5 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: voodoo-gfw-sar-main
+  cancel-in-progress: false
+
+jobs:
+  update-sar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GFW_TOKEN: ${{ secrets.GFW_TOKEN }}
+      SAR_GFW_LOOKBACK_DAYS: "14"
+      SAR_GFW_DATA_LAG_DAYS: "5"
+      SAR_GFW_MAX_FEATURES: "12000"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install dependency
+        run: python -m pip install "requests>=2.32,<3"
+
+      - name: Require Global Fishing Watch token
+        run: |
+          set -euo pipefail
+          if [ -z "${GFW_TOKEN:-}" ]; then
+            echo "::error::Repository secret GFW_TOKEN is missing."
+            exit 1
+          fi
+
+      - name: Fetch delayed North Sea and Baltic SAR detections
+        run: |
+          set -euo pipefail
+          python scripts/fetch_gfw_sar.py
+
+      - name: Rebuild public manifests
+        run: |
+          set -euo pipefail
+          python scripts/build_public_manifest.py
+
+      - name: Validate bounded SAR products
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/fetch_gfw_sar.py scripts/build_public_manifest.py
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          required = [
+              Path('data/sar_gfw_latest.json'),
+              Path('data/sar_gfw_status_latest.json'),
+              Path('public/data/vessels/sar_detections_latest.geojson'),
+              Path('public/data/vessels/sar_import_status.json'),
+              Path('public/downloads/sar_detections_latest.geojson'),
+              Path('public/downloads/sar_import_status.json'),
+              Path('public/downloads/manifest.json'),
+              Path('public/data/manifest.json'),
+          ]
+          token = os.environ.get('GFW_TOKEN', '')
+          for path in required:
+              if not path.exists() or path.stat().st_size == 0:
+                  raise SystemExit(f'missing or empty SAR product: {path}')
+              if path.stat().st_size > 25 * 1024 * 1024:
+                  raise SystemExit(f'SAR product exceeds 25 MiB: {path}')
+              text = path.read_text(encoding='utf-8')
+              if token and token in text:
+                  raise SystemExit(f'GFW token leaked into {path}')
+              payload = json.loads(text)
+              if path.suffix == '.geojson' and payload.get('type') != 'FeatureCollection':
+                  raise SystemExit(f'not a GeoJSON FeatureCollection: {path}')
+          geo = json.loads(Path('public/data/vessels/sar_detections_latest.geojson').read_text(encoding='utf-8'))
+          for feature in geo.get('features', []):
+              props = feature.get('properties') or {}
+              if props.get('position_is_exact') is not False:
+                  raise SystemExit('SAR feature must explicitly state position_is_exact=false')
+              if props.get('match_status') not in {'ais_matched', 'ais_unmatched'}:
+                  raise SystemExit('invalid SAR match_status')
+          print('SAR validation: ok')
+          PY
+
+      - name: Commit only derived SAR and manifest products
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- \
+            data/sar_gfw_latest.json \
+            data/sar_gfw_status_latest.json \
+            public/data/vessels/sar_detections_latest.geojson \
+            public/data/vessels/sar_import_status.json \
+            public/downloads/sar_detections_latest.geojson \
+            public/downloads/sar_import_status.json \
+            public/downloads/manifest.json \
+            public/data/manifest.json
+          unexpected="$(git diff --cached --name-only | grep -Ev '^(data/sar_gfw_(latest|status_latest)\.json|public/data/vessels/sar_(detections_latest\.geojson|import_status\.json)|public/downloads/(sar_detections_latest\.geojson|sar_import_status\.json|manifest\.json)|public/data/manifest\.json)$' || true)"
+          if [ -n "$unexpected" ]; then
+            echo "::error::Unexpected staged SAR files:"
+            printf '%s\n' "$unexpected"
+            exit 1
+          fi
+          if git diff --cached --quiet; then
+            echo "No SAR product changes to commit."
+            exit 0
+          fi
+          git commit -m "Update delayed GFW SAR detection cells"
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            git rebase --abort || true
+            [ "$attempt" -lt 3 ] && sleep 10
+          done
+          echo "::error::Failed to push SAR products after 3 attempts."
+          exit 1
