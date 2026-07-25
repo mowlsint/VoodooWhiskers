@@ -1,6 +1,6 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-07-25T04:11:04+00:00
+- Generated: 2026-07-25T04:50:49+00:00
 - Review events: 15
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
@@ -156,7 +156,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 518100214 / 8605765
 - Infrastructure: offshore_energy — Flan Sea
 - Minimum distance: 0.494 nm
-- Close-band points: 5
+- Close-band points: 6
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
