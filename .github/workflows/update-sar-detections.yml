@@ -1,4 +1,4 @@
-name: Update GFW SAR detections
+name: Update GFW SAR and historical AIS context
 
 on:
   workflow_dispatch:
@@ -15,12 +15,15 @@ concurrency:
 jobs:
   update-sar:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 90
     env:
       GFW_TOKEN: ${{ secrets.GFW_TOKEN }}
       SAR_GFW_LOOKBACK_DAYS: "14"
       SAR_GFW_DATA_LAG_DAYS: "5"
       SAR_GFW_MAX_FEATURES: "12000"
+      SAR_GFW_AIS_CONTEXT_MAX_VESSELS: "150"
+      SAR_GFW_AIS_CONTEXT_BATCH_SIZE: "50"
+      SAR_GFW_AIS_CONTEXT_MAX_DELTA_MINUTES: "60"
 
     steps:
       - name: Checkout repository
@@ -44,7 +47,7 @@ jobs:
             exit 1
           fi
 
-      - name: Fetch delayed North Sea and Baltic SAR detections
+      - name: Fetch delayed SAR detections and corresponding historical AIS presence
         run: |
           set -euo pipefail
           python scripts/fetch_gfw_sar.py
@@ -66,9 +69,12 @@ jobs:
           required = [
               Path('data/sar_gfw_latest.json'),
               Path('data/sar_gfw_status_latest.json'),
+              Path('data/sar_gfw_ais_context_latest.json'),
               Path('public/data/vessels/sar_detections_latest.geojson'),
+              Path('public/data/vessels/sar_ais_context_latest.geojson'),
               Path('public/data/vessels/sar_import_status.json'),
               Path('public/downloads/sar_detections_latest.geojson'),
+              Path('public/downloads/sar_ais_context_latest.geojson'),
               Path('public/downloads/sar_import_status.json'),
               Path('public/downloads/manifest.json'),
               Path('public/data/manifest.json'),
@@ -86,6 +92,16 @@ jobs:
               if path.suffix == '.geojson' and payload.get('type') != 'FeatureCollection':
                   raise SystemExit(f'not a GeoJSON FeatureCollection: {path}')
           geo = json.loads(Path('public/data/vessels/sar_detections_latest.geojson').read_text(encoding='utf-8'))
+          context = json.loads(Path('public/data/vessels/sar_ais_context_latest.geojson').read_text(encoding='utf-8'))
+          if context.get('current_ais_must_not_be_overlaid') is not True:
+              raise SystemExit('SAR-AIS context must explicitly prohibit current AIS overlay')
+          context_features = context.get('features', [])
+          roles = {str((f.get('properties') or {}).get('feature_role') or '') for f in context_features}
+          if not roles.issubset({'sar_detection', 'historical_ais_context', 'sar_ais_connector'}):
+              raise SystemExit(f'unexpected SAR-AIS feature roles: {roles}')
+          feature_ids = [str(f.get('id') or '') for f in context_features]
+          if any(not value for value in feature_ids) or len(feature_ids) != len(set(feature_ids)):
+              raise SystemExit('SAR-AIS context contains missing or duplicate feature ids')
           for feature in geo.get('features', []):
               props = feature.get('properties') or {}
               if props.get('position_is_exact') is not False:
@@ -103,13 +119,16 @@ jobs:
           git add -- \
             data/sar_gfw_latest.json \
             data/sar_gfw_status_latest.json \
+            data/sar_gfw_ais_context_latest.json \
             public/data/vessels/sar_detections_latest.geojson \
+            public/data/vessels/sar_ais_context_latest.geojson \
             public/data/vessels/sar_import_status.json \
             public/downloads/sar_detections_latest.geojson \
+            public/downloads/sar_ais_context_latest.geojson \
             public/downloads/sar_import_status.json \
             public/downloads/manifest.json \
             public/data/manifest.json
-          unexpected="$(git diff --cached --name-only | grep -Ev '^(data/sar_gfw_(latest|status_latest)\.json|public/data/vessels/sar_(detections_latest\.geojson|import_status\.json)|public/downloads/(sar_detections_latest\.geojson|sar_import_status\.json|manifest\.json)|public/data/manifest\.json)$' || true)"
+          unexpected="$(git diff --cached --name-only | grep -Ev '^(data/sar_gfw_(latest|status_latest|ais_context_latest)\.json|public/data/vessels/sar_(detections_latest\.geojson|ais_context_latest\.geojson|import_status\.json)|public/downloads/(sar_detections_latest\.geojson|sar_ais_context_latest\.geojson|sar_import_status\.json|manifest\.json)|public/data/manifest\.json)$' || true)"
           if [ -n "$unexpected" ]; then
             echo "::error::Unexpected staged SAR files:"
             printf '%s\n' "$unexpected"
@@ -119,7 +138,7 @@ jobs:
             echo "No SAR product changes to commit."
             exit 0
           fi
-          git commit -m "Update delayed GFW SAR detection cells"
+          git commit -m "Update time-aligned GFW SAR and historical AIS context"
           for attempt in 1 2 3; do
             if git pull --rebase --autostash origin main && git push origin HEAD:main; then
               exit 0

@@ -7,7 +7,7 @@ on:
       - Update maritime layers
       - Update regional AIS layers
       - Update Danish historical AIS
-      - Update GFW SAR detections
+      - Update GFW SAR and historical AIS context
     types: [completed]
 
 permissions:
@@ -66,6 +66,7 @@ jobs:
           node --check public/assets/infrastructure-watch.js
           node --check public/assets/sar-map-hook.js
           node --check public/assets/sar-layer.js
+          node --check public/assets/vesselfinder-links.js
           python - <<'PY'
           import json
           from pathlib import Path
@@ -83,6 +84,7 @@ jobs:
               'public/assets/sar-map-hook.js',
               'public/assets/sar-layer.js',
               'public/assets/sar-layer.css',
+              'public/assets/vesselfinder-links.js',
           ]
           for name in required:
               path = Path(name)
@@ -112,8 +114,10 @@ jobs:
           if sar_source.exists():
               sar_required = [
                   Path('public/data/vessels/sar_detections_latest.geojson'),
+                  Path('public/data/vessels/sar_ais_context_latest.geojson'),
                   Path('public/data/vessels/sar_import_status.json'),
                   Path('public/downloads/sar_detections_latest.geojson'),
+                  Path('public/downloads/sar_ais_context_latest.geojson'),
                   Path('public/downloads/sar_import_status.json'),
               ]
               for path in sar_required:
@@ -121,7 +125,13 @@ jobs:
                       raise SystemExit(f'missing or empty SAR product: {path}')
                   if path.stat().st_size > 25 * 1024 * 1024:
                       raise SystemExit(f'SAR public product too large: {path} ({path.stat().st_size} bytes)')
-                  json.loads(path.read_text(encoding='utf-8'))
+                  payload = json.loads(path.read_text(encoding='utf-8'))
+                  if path.name == 'sar_ais_context_latest.geojson':
+                      if payload.get('current_ais_must_not_be_overlaid') is not True:
+                          raise SystemExit('historical SAR-AIS product does not prohibit current AIS overlay')
+                      feature_ids = [str(feature.get('id') or '') for feature in payload.get('features', [])]
+                      if any(not value for value in feature_ids) or len(feature_ids) != len(set(feature_ids)):
+                          raise SystemExit('historical SAR-AIS product contains missing or duplicate feature ids')
 
           download_manifest_path = Path('public/downloads/manifest.json')
           download_manifest = json.loads(download_manifest_path.read_text(encoding='utf-8'))
