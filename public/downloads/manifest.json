@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-24T15:43:33+00:00",
+  "generated_at": "2026-07-25T04:11:07+00:00",
   "source": "Voodoo Whiskers",
   "repository_public": true,
   "hosting_target": "Cloudflare Pages later",
@@ -51,7 +51,7 @@
       "description": "Latest two temporally distinct historical Danish AIS observations per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions.",
       "href": "./ais_dk_last_two_positions.json",
       "filename": "ais_dk_last_two_positions.json",
-      "size_bytes": 1268,
+      "size_bytes": 475234,
       "media_type": "application/json"
     },
     {
@@ -61,7 +61,7 @@
       "description": "Map-ready latest two historical Danish AIS observations and short connectors per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions.",
       "href": "./ais_dk_last_two_positions.geojson",
       "filename": "ais_dk_last_two_positions.geojson",
-      "size_bytes": 776,
+      "size_bytes": 992901,
       "media_type": "application/geo+json"
     },
     {
@@ -71,7 +71,7 @@
       "description": "Source date, lag, row-quality counters and import health for the delayed Danish AIS supplement.",
       "href": "./ais_dk_import_status.json",
       "filename": "ais_dk_import_status.json",
-      "size_bytes": 1319,
+      "size_bytes": 2592,
       "media_type": "application/json"
     },
     {
@@ -111,7 +111,7 @@
       "description": "Machine-readable review events and assessment metadata.",
       "href": "./infrastructure_watch_latest.json",
       "filename": "infrastructure_watch_latest.json",
-      "size_bytes": 27404,
+      "size_bytes": 27403,
       "media_type": "application/json"
     },
     {
@@ -141,7 +141,7 @@
       "description": "Map-ready event points for GIS and Leaflet.",
       "href": "./infrastructure_watch_latest.geojson",
       "filename": "infrastructure_watch_latest.geojson",
-      "size_bytes": 31780,
+      "size_bytes": 31779,
       "media_type": "application/geo+json"
     }
   ]
