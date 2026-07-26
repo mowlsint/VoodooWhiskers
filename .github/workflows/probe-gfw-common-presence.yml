@@ -64,7 +64,14 @@ jobs:
               if not path.exists():
                   raise SystemExit(f"missing {path}")
               json.loads(path.read_text(encoding="utf-8"))
+          gfw_status = json.loads(Path("data/gfw_historical_ais_status_latest.json").read_text(encoding="utf-8"))
+          if int(gfw_status.get("count") or 0) <= 0:
+              raise SystemExit("GFW common-presence query returned zero contacts")
+          if not gfw_status.get("data_max_timestamp_utc"):
+              raise SystemExit("GFW common-presence query returned no data watermark")
           status = json.loads(Path("data/maritime_common_snapshot_status_latest.json").read_text(encoding="utf-8"))
+          if not status.get("snapshot_at"):
+              raise SystemExit("common snapshot has no snapshot_at watermark")
           print(json.dumps({k: status.get(k) for k in ("status","ais_status_color","snapshot_at","count")}, indent=2))
           PY
 
