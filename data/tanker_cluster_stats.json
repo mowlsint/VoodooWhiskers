@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-07-26T05:40:49+00:00",
-  "total_contacts_seen": 861,
-  "total_unique_tankers_in_context_zones": 209,
+  "generated_at": "2026-07-26T15:18:45+00:00",
+  "total_contacts_seen": 844,
+  "total_unique_tankers_in_context_zones": 206,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 113,
-  "voi_tankers_in_context_zones": 96,
+  "neutral_tanker_context_total": 114,
+  "voi_tankers_in_context_zones": 92,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 58,
-      "neutral_tankers": 52,
+      "total_tankers": 56,
+      "neutral_tankers": 50,
       "voi_tankers": 6,
       "slow_or_waiting": 25,
       "for_order": 4,
@@ -100,11 +100,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 37,
-      "neutral_tankers": 35,
-      "voi_tankers": 2,
+      "total_tankers": 32,
+      "neutral_tankers": 32,
+      "voi_tankers": 0,
       "slow_or_waiting": 13,
-      "for_order": 1,
+      "for_order": 0,
       "examples": [
         {
           "name": "ECO CORSAIR",
@@ -157,16 +157,6 @@
           ]
         },
         {
-          "name": "CIELO DI GAETA",
-          "imo": "9669653",
-          "mmsi": "229632000",
-          "destination": "BE ANR",
-          "sog": "11.6",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "LUNNI",
           "imo": "9797802",
           "mmsi": "230690000",
@@ -185,18 +175,28 @@
           "categories": [
             "neutral_tanker_context"
           ]
+        },
+        {
+          "name": "KMARIN RIGOUR",
+          "imo": "9683049",
+          "mmsi": "235108529",
+          "destination": "PLGDN",
+          "sog": "12.4",
+          "categories": [
+            "neutral_tanker_context"
+          ]
         }
       ],
       "zone_id": "skagen_waiting_area",
       "zone_label": "Skagen / northern Kattegat",
-      "level": "heightened_context"
+      "level": "watch"
     },
     {
       "total_tankers": 113,
-      "neutral_tankers": 24,
-      "voi_tankers": 89,
-      "slow_or_waiting": 88,
-      "for_order": 8,
+      "neutral_tankers": 27,
+      "voi_tankers": 86,
+      "slow_or_waiting": 86,
+      "for_order": 7,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -223,7 +223,7 @@
           "imo": "9010929",
           "mmsi": "210056000",
           "destination": "TALLINN",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -233,7 +233,7 @@
           "imo": "9843209",
           "mmsi": "215515000",
           "destination": "FOR ORDERS",
-          "sog": "4.3",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -242,8 +242,8 @@
           "name": "TERN DAL",
           "imo": "9992153",
           "mmsi": "219034372",
-          "destination": "PORVOO",
-          "sog": "9.2",
+          "destination": "PITEA",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -253,7 +253,7 @@
           "imo": "9892444",
           "mmsi": "230688000",
           "destination": "NOMON>FISKV",
-          "sog": "12.4",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -263,7 +263,7 @@
           "imo": "9298650",
           "mmsi": "240447000",
           "destination": "BALTIC SEA FOR ORDER",
-          "sog": "0.0",
+          "sog": "7.2",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -273,7 +273,7 @@
           "imo": "9407457",
           "mmsi": "249747000",
           "destination": "FOR ORDERS",
-          "sog": "0.2",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -468,9 +468,9 @@
       "level": "watch"
     },
     {
-      "total_tankers": 11,
+      "total_tankers": 10,
       "neutral_tankers": 10,
-      "voi_tankers": 1,
+      "voi_tankers": 0,
       "slow_or_waiting": 7,
       "for_order": 0,
       "examples": [
@@ -557,12 +557,12 @@
       ],
       "zone_id": "kaliningrad_baltiysk_approaches",
       "zone_label": "Kaliningrad / Baltiysk approaches",
-      "level": "heightened_context"
+      "level": "watch"
     },
     {
-      "total_tankers": 10,
+      "total_tankers": 9,
       "neutral_tankers": 9,
-      "voi_tankers": 1,
+      "voi_tankers": 0,
       "slow_or_waiting": 6,
       "for_order": 0,
       "examples": [
