@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="./assets/infrastructure-watch.css">
   <link rel="stylesheet" href="./assets/sar-layer.css">
+  <link rel="stylesheet" href="./assets/common-snapshot-status.css">
 </head>
 <body>
   <header class="topbar">
@@ -34,21 +35,24 @@
         </div>
       </section>
       <section class="card timeCard">
-        <div class="sectionHead"><h2>Time view</h2><span class="timeBadge" id="timeStatus">Latest</span></div>
+        <div class="sectionHead"><h2>Time view</h2><span class="timeBadge" id="timeStatus">Common snapshot</span></div>
+        <div class="commonSnapshotBanner" id="commonSnapshotBanner" data-tone="neutral">
+          <strong>Harmonized vessel data</strong><span>Loading snapshot status…</span>
+        </div>
         <div class="timeButtons" role="group" aria-label="Vessel and event time window">
-          <button type="button" class="timeButton active" data-time-mode="latest">Latest</button>
+          <button type="button" class="timeButton active" data-time-mode="latest">Common snapshot</button>
           <button type="button" class="timeButton" data-time-mode="24h">24 h</button>
           <button type="button" class="timeButton" data-time-mode="48h">48 h</button>
           <button type="button" class="timeButton" data-time-mode="120h">120 h</button>
           <button type="button" class="timeButton" data-time-mode="14d">14 d</button>
           <button type="button" class="timeButton wide" data-time-mode="dk24">24 h + latest Danish historical</button>
         </div>
-        <p class="timeHelp">Historical views load the bounded VOI history only when selected. The Danish view combines current Finnish/Norwegian monitored contacts with at most two delayed Danish observations per vessel matched to a known Voodoo watchlist/VOI category.</p>
+        <p class="timeHelp">The default view uses the newest successfully harmonized source watermark. Its visible observation time may be several days old. Other time views remain analytical or provider-diagnostic views and are labelled separately.</p>
       </section>
       <section class="card">
         <div class="sectionHead"><h2>Vessel layers</h2><button type="button" class="smallButton" id="fitVessels">Fit</button></div>
-        <label class="control"><input type="checkbox" data-layer="ais_contacts"> Current monitored AIS contacts</label>
-        <label class="control"><input type="checkbox" data-layer="vessel_positions" checked> Priority VOI positions / selected history</label>
+        <label class="control"><input type="checkbox" data-layer="ais_contacts"> Harmonized common AIS snapshot</label>
+        <label class="control"><input type="checkbox" data-layer="vessel_positions" checked> Priority VOI at common snapshot / selected history</label>
         <label class="control"><input type="checkbox" data-layer="danish_history" disabled> Danish historical matched-VOI tracks</label>
         <label class="control"><input type="checkbox" data-layer="neutral_tanker_context"> Neutral tanker context</label>
         <label class="control"><input type="checkbox" data-layer="sanctions_shadowfleet"> Sanctions / shadow fleet</label>
@@ -125,5 +129,6 @@
   <script src="./assets/infrastructure-watch.js"></script>
   <script src="./assets/sar-layer.js"></script>
   <script src="./assets/vesselfinder-links.js"></script>
+  <script src="./assets/common-snapshot-status.js"></script>
 </body>
 </html>
