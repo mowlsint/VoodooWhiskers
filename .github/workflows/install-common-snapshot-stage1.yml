@@ -30,11 +30,13 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Install test dependency
+      - name: Install validation dependencies
         run: |
           set -euo pipefail
           python -m pip install --upgrade pip
-          pip install "pytest>=8,<9"
+          pip install \
+            "pytest>=8,<9" \
+            "requests>=2.32,<3"
 
       - name: Validate Stage 1 direct replacements
         run: |
