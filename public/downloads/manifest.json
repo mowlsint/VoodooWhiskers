@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-26T05:48:28+00:00",
+  "generated_at": "2026-07-26T06:15:05+00:00",
   "source": "Voodoo Whiskers",
   "repository_public": true,
   "hosting_target": "Cloudflare Pages later",
@@ -85,7 +85,17 @@
       "description": "Delayed Global Fishing Watch Sentinel-1 SAR report cells for broad North Sea and Baltic query regions. Coordinates are 0.01-degree grid-cell centres, not exact or current vessel positions.",
       "href": "./sar_detections_latest.geojson",
       "filename": "sar_detections_latest.geojson",
-      "size_bytes": 854,
+      "size_bytes": 1440,
+      "media_type": "application/geo+json"
+    },
+    {
+      "id": "sar_ais_context_latest",
+      "label": "Time-aligned historical SAR–AIS comparison — GeoJSON",
+      "group": "sar",
+      "description": "Delayed SAR cells, bounded GFW AIS Vessel Presence cells from corresponding historical hours, and same-identity connectors. Current AIS must not be overlaid; cell centres are not exact positions and connectors are not tracks.",
+      "href": "./sar_ais_context_latest.geojson",
+      "filename": "sar_ais_context_latest.geojson",
+      "size_bytes": 1645,
       "media_type": "application/geo+json"
     },
     {
@@ -95,7 +105,7 @@
       "description": "Query dates, identity-scope limits, time-aligned correlation counters, errors and data limitations for the delayed Global Fishing Watch SAR–AIS comparison.",
       "href": "./sar_import_status.json",
       "filename": "sar_import_status.json",
-      "size_bytes": 2239,
+      "size_bytes": 3177,
       "media_type": "application/json"
     },
     {

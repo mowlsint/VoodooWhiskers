@@ -1,17 +1,15 @@
 {
-  "schema_version": "2.0.0",
+  "type": "FeatureCollection",
+  "name": "Voodoo Whiskers time-aligned historical SAR and AIS context",
   "generated_at": "2026-07-26T06:14:21Z",
-  "source": "Global Fishing Watch 4Wings API",
-  "datasets_requested": {
-    "sar": "public-global-sar-presence:latest",
-    "historical_ais_presence": "public-global-presence:latest"
-  },
+  "source": "Global Fishing Watch 4Wings API / SAR vessel detections and AIS vessel presence",
+  "coverage_mode": "time_aligned_historical_sar_ais_context",
+  "current_ais_must_not_be_overlaid": true,
+  "time_alignment_limit_minutes": 60,
   "date_range": {
     "start": "2026-07-08",
     "end": "2026-07-21"
   },
-  "coverage_mode": "time_aligned_historical_sar_ais_context",
-  "historical": true,
   "attribution": "Powered by Global Fishing Watch.",
   "attribution_url": "https://globalfishingwatch.org",
   "assessment_limit": "Delayed SAR and historical AIS-presence cells support analyst review. Grid-cell centres are not exact vessel positions. An AIS-unmatched SAR detection does not by itself establish intentional AIS disablement, identity, unlawful activity, attribution or hostile intent.",
@@ -47,7 +45,5 @@
     "matched_identity_selected": 0,
     "selected_without_time_aligned_context": 0
   },
-  "sar_records": [],
-  "historical_ais_presence_records": [],
-  "correlations": []
+  "features": []
 }
