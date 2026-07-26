@@ -51,10 +51,10 @@
       </section>
       <section class="card">
         <div class="sectionHead"><h2>Vessel layers</h2><button type="button" class="smallButton" id="fitVessels">Fit</button></div>
-        <label class="control"><input type="checkbox" data-layer="ais_contacts"> Harmonized common AIS snapshot</label>
-        <label class="control"><input type="checkbox" data-layer="vessel_positions" checked> Priority VOI at common snapshot / selected history</label>
+        <p class="timeHelp">Default vessel scope: all priority VOIs plus neutral tanker context. General traffic and small craft remain in the downloadable harmonized dataset but are not drawn on the map.</p>
+        <label class="control"><input type="checkbox" data-layer="vessel_positions" checked> All priority VOIs at common snapshot / selected history</label>
         <label class="control"><input type="checkbox" data-layer="danish_history" disabled> Danish historical matched-VOI tracks</label>
-        <label class="control"><input type="checkbox" data-layer="neutral_tanker_context"> Neutral tanker context</label>
+        <label class="control"><input type="checkbox" data-layer="neutral_tanker_context" checked> Neutral tanker context</label>
         <label class="control"><input type="checkbox" data-layer="sanctions_shadowfleet"> Sanctions / shadow fleet</label>
         <label class="control"><input type="checkbox" data-layer="watchlist"> Watchlist</label>
         <label class="control"><input type="checkbox" data-layer="falseflag_interest"> False-flag interest</label>
@@ -98,7 +98,7 @@
       </section>
       <section class="card sourceCard">
         <h2>Sources and limits</h2>
-        <p>Current vessel data: Voodoo Whiskers brokered AIS snapshots. Historical supplement: Danish land-based AIS, delayed and limited to two observations per vessel in a known Voodoo category. Satellite supplement: delayed Global Fishing Watch Sentinel-1 SAR vessel-detection report cells plus bounded GFW AIS Vessel Presence cells from the corresponding historical hours. Infrastructure: EMODnet Human Activities and original providers.</p>
+        <p>Displayed vessel scope: harmonized priority VOIs plus neutral tanker context. The full harmonized traffic product remains available for download but is not drawn by default. Historical supplement: Danish land-based AIS, delayed and limited to two observations per vessel in a known Voodoo category. Satellite supplement: delayed Global Fishing Watch Sentinel-1 SAR vessel-detection report cells plus bounded GFW AIS Vessel Presence cells from the corresponding historical hours. Infrastructure: EMODnet Human Activities and original providers.</p>
         <p>Coverage is mixed and not continuous. Older, repaired or delayed timestamps are visibly marked. SAR and historical GFW AIS coordinates are report-cell centres. The historical SAR–AIS mode automatically hides current vessel layers to prevent false time overlays.</p>
         <p><a href="https://globalfishingwatch.org" target="_blank" rel="noopener noreferrer">Powered by Global Fishing Watch.</a></p>
         <div class="generated" id="generatedAt">Generated: –</div>
