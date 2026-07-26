@@ -54,6 +54,11 @@ jobs:
           set -euo pipefail
           python scripts/fetch_regional_contacts.py
 
+      - name: Archive regional and Danish AIS snapshots
+        run: |
+          set -euo pipefail
+          python scripts/archive_maritime_snapshots.py
+
       - name: Merge available AIS providers
         run: |
           set -euo pipefail
@@ -91,6 +96,12 @@ jobs:
           set -euo pipefail
           python scripts/sync_sanctions_watchlists.py
 
+      - name: Build harmonized common maritime snapshot
+        run: |
+          set -euo pipefail
+          python scripts/build_common_maritime_snapshot.py
+          python scripts/build_public_manifest.py
+
       - name: Commit updated outputs
         env:
           NTFY_ENABLED: ${{ secrets.NTFY_ENABLED }}
@@ -120,6 +131,19 @@ jobs:
             data/ais_contacts_aisstream_latest.json
             data/ais_contacts_latest.json
             data/ais_regional_fetch_status_latest.json
+            data/history/maritime_source_history_21d.jsonl
+            data/history/maritime_source_coverage_21d.jsonl
+            data/history/maritime_source_history_status_latest.json
+            data/maritime_common_snapshot_latest.json
+            data/maritime_common_snapshot_status_latest.json
+            public/data/vessels/maritime_common_snapshot_latest.json
+            public/data/vessels/maritime_common_snapshot_latest.geojson
+            public/data/vessels/maritime_common_snapshot_status.json
+            public/downloads/maritime_common_snapshot_latest.json
+            public/downloads/maritime_common_snapshot_latest.geojson
+            public/downloads/maritime_common_snapshot_status.json
+            public/data/manifest.json
+            public/downloads/manifest.json
             data/russian_mmsi.geojson
             data/watchlist_live.geojson
             data/sanctions_shadowfleet.geojson

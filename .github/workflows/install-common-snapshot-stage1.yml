@@ -1,0 +1,112 @@
+name: Install common maritime snapshot Stage 1
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: voodoo-maritime-layers-main
+  cancel-in-progress: false
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+
+      - name: Install test dependency
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install "pytest>=8,<9"
+
+      - name: Validate Stage 1 direct replacements
+        run: |
+          set -euo pipefail
+          python tools/install_common_snapshot_stage1.py
+
+      - name: Validate code and configuration
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            scripts/archive_maritime_snapshots.py \
+            scripts/fetch_gfw_common_presence.py \
+            scripts/build_common_maritime_snapshot.py \
+            tools/install_common_snapshot_stage1.py \
+            scripts/build_public_manifest.py
+          node --check public/assets/common-snapshot-status.js
+          node --check public/assets/infrastructure-watch.js
+          python -m pytest -q tests/test_common_snapshot.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for path in (
+              Path("config/common_snapshot.json"),
+              Path("data/common_snapshot_regions.geojson"),
+          ):
+              json.loads(path.read_text(encoding="utf-8"))
+          PY
+
+      - name: Build first bounded archive and common status
+        run: |
+          set -euo pipefail
+          python scripts/archive_maritime_snapshots.py
+          python scripts/build_common_maritime_snapshot.py
+          python scripts/build_public_manifest.py
+
+      - name: Commit installation and first products
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          files=(
+            .github/workflows/update-regional-ais.yml
+            scripts/build_public_manifest.py
+            public/index.html
+            public/assets/infrastructure-watch.js
+            data/history/maritime_source_history_21d.jsonl
+            data/history/maritime_source_coverage_21d.jsonl
+            data/history/maritime_source_history_status_latest.json
+            data/maritime_common_snapshot_latest.json
+            data/maritime_common_snapshot_status_latest.json
+            public/data/vessels/maritime_common_snapshot_latest.json
+            public/data/vessels/maritime_common_snapshot_latest.geojson
+            public/data/vessels/maritime_common_snapshot_status.json
+            public/downloads/maritime_common_snapshot_latest.json
+            public/downloads/maritime_common_snapshot_latest.geojson
+            public/downloads/maritime_common_snapshot_status.json
+            public/data/manifest.json
+            public/downloads/manifest.json
+          )
+          for file in "${files[@]}"; do
+            [ -e "$file" ] && git add "$file"
+          done
+          if git diff --cached --quiet; then
+            echo "Stage 1 is already installed and products are unchanged."
+            exit 0
+          fi
+          git commit -m "Install harmonized maritime common snapshot Stage 1"
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            git rebase --abort || true
+            [ "$attempt" -lt 3 ] && sleep 12
+          done
+          exit 1
