@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "snapshot_id": null,
-  "generated_at": "2026-07-26T11:16:21Z",
+  "generated_at": "2026-07-26T11:18:45Z",
   "snapshot_at": null,
   "snapshot_age_hours": null,
   "snapshot_complete": false,
@@ -13,12 +13,14 @@
   "coverage_mode": "harmonized_common_watermark",
   "voi_list_updated_at": "2026-07-26T05:40:50Z",
   "gfw_source": {
-    "source_path": "data/sar_gfw_latest.json",
-    "coverage_scope": "sar_matched_context_only",
-    "coverage_complete": false,
-    "generated_at": "2026-07-26T07:56:08Z",
+    "source_path": "data/gfw_historical_ais_latest.json",
+    "coverage_scope": "common_operational_regions",
+    "coverage_complete": true,
+    "generated_at": "2026-07-26T11:18:01Z",
     "data_max_timestamp_utc": null,
-    "status": "limited_scope"
+    "status": "ok",
+    "cap_applied": false,
+    "queries_failed": 0
   },
   "source_coverage": {
     "global_fishing_watch": {
