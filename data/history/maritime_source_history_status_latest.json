@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-26T11:16:21Z",
+  "retention_days": 21,
+  "max_bytes": 23068672,
+  "position_history_path": "data/history/maritime_source_history_21d.jsonl",
+  "coverage_history_path": "data/history/maritime_source_coverage_21d.jsonl",
+  "position_records": 804,
+  "coverage_records": 3,
+  "records_added_from_current_snapshots": 804,
+  "dropped_old_or_invalid": 0,
+  "dropped_for_size": 0,
+  "provider_counts": {
+    "ais_dk_historical": 373,
+    "barentswatch": 130,
+    "fintraffic": 301
+  },
+  "provider_position_ranges": {
+    "ais_dk_historical": {
+      "min": "2026-07-23T01:34:03Z",
+      "max": "2026-07-23T23:59:58Z"
+    },
+    "barentswatch": {
+      "min": "2026-07-25T06:05:38Z",
+      "max": "2026-07-26T05:40:45Z"
+    },
+    "fintraffic": {
+      "min": "2026-07-26T05:40:46Z",
+      "max": "2026-07-26T05:40:46Z"
+    }
+  },
+  "provider_coverage_ranges": {
+    "ais_dk_historical": {
+      "min": "2026-07-23T23:59:58Z",
+      "max": "2026-07-23T23:59:58Z"
+    },
+    "fintraffic": {
+      "min": "2026-07-26T05:40:46Z",
+      "max": "2026-07-26T05:40:46Z"
+    },
+    "barentswatch": {
+      "min": "2026-07-26T05:40:48Z",
+      "max": "2026-07-26T05:40:48Z"
+    }
+  },
+  "sources": {
+    "fintraffic": {
+      "ok": true,
+      "path": "data/ais_contacts_fintraffic_latest.json",
+      "source_generated_at": "2026-07-26T05:40:46+00:00",
+      "coverage_at": "2026-07-26T05:40:46Z",
+      "coverage_basis": "generated_at",
+      "records_seen": 301
+    },
+    "barentswatch": {
+      "ok": true,
+      "path": "data/ais_contacts_barentswatch_latest.json",
+      "source_generated_at": "2026-07-26T05:40:48+00:00",
+      "coverage_at": "2026-07-26T05:40:48Z",
+      "coverage_basis": "generated_at",
+      "records_seen": 130
+    },
+    "ais_dk_historical": {
+      "ok": true,
+      "path": "data/ais_contacts_aisdk_historical_latest.json",
+      "source_generated_at": "2026-07-26T04:32:34+00:00",
+      "coverage_at": "2026-07-23T23:59:58Z",
+      "coverage_basis": "data_max_timestamp_utc",
+      "records_seen": 373
+    }
+  },
+  "raw_provider_files_persisted": false
+}

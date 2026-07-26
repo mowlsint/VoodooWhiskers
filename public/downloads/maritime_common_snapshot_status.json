@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "snapshot_id": null,
+  "generated_at": "2026-07-26T11:16:21Z",
+  "snapshot_at": null,
+  "snapshot_age_hours": null,
+  "snapshot_complete": false,
+  "snapshot_current": false,
+  "expected_refresh_hours": 30.0,
+  "hard_stale_hours": 72.0,
+  "status": "unavailable",
+  "ais_status_color": "red",
+  "coverage_mode": "harmonized_common_watermark",
+  "voi_list_updated_at": "2026-07-26T05:40:50Z",
+  "gfw_source": {
+    "source_path": "data/sar_gfw_latest.json",
+    "coverage_scope": "sar_matched_context_only",
+    "coverage_complete": false,
+    "generated_at": "2026-07-26T07:56:08Z",
+    "data_max_timestamp_utc": null,
+    "status": "limited_scope"
+  },
+  "source_coverage": {
+    "global_fishing_watch": {
+      "state": "missing",
+      "reason": "full_GFW_common_presence_product_missing",
+      "coverage_at": null,
+      "position_history_min": null,
+      "position_history_max": null,
+      "selected_contacts": 0,
+      "max_age_at_snapshot_hours": 24
+    },
+    "ais_dk_historical": {
+      "state": "missing",
+      "reason": "no_GFW_watermark",
+      "coverage_at": null,
+      "position_history_min": "2026-07-23T01:34:03Z",
+      "position_history_max": "2026-07-23T23:59:58Z",
+      "selected_contacts": 0,
+      "max_age_at_snapshot_hours": 24
+    },
+    "fintraffic": {
+      "state": "missing",
+      "reason": "no_GFW_watermark",
+      "coverage_at": null,
+      "position_history_min": "2026-07-26T05:40:46Z",
+      "position_history_max": "2026-07-26T05:40:46Z",
+      "selected_contacts": 0,
+      "max_age_at_snapshot_hours": 16
+    },
+    "barentswatch": {
+      "state": "missing",
+      "reason": "no_GFW_watermark",
+      "coverage_at": null,
+      "position_history_min": "2026-07-25T06:05:38Z",
+      "position_history_max": "2026-07-26T05:40:45Z",
+      "selected_contacts": 0,
+      "max_age_at_snapshot_hours": 16
+    }
+  },
+  "assessment_limit": "The common snapshot is a harmonized delayed observation product, not a live traffic picture.",
+  "count": 0,
+  "mandatory_sources": [
+    "global_fishing_watch",
+    "ais_dk_historical",
+    "fintraffic",
+    "barentswatch"
+  ],
+  "green_rule": "Green means the newest expected common snapshot was successfully built from every mandatory source. It does not mean live AIS."
+}
