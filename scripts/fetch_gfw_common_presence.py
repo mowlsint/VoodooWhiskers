@@ -103,11 +103,11 @@ def main():
  if not token:raise SystemExit('GFW_TOKEN is required')
  lag=max(4,int(os.environ.get('COMMON_GFW_LAG_DAYS',gc.get('lag_days',5))));cap=max(100,int(os.environ.get('COMMON_GFW_MAX_KEPT_CONTACTS',gc.get('max_kept_contacts',12000))))
  client=Client(token,max(30,int(gc.get('request_timeout_seconds',120))),max(120,int(gc.get('poll_timeout_seconds',900))),max(5,int(gc.get('poll_interval_seconds',15))))
- generated=utc_now();day=generated.date()-timedelta(days=lag);all_rows=[];queries=[];resolved=set()
+ generated=utc_now();day=generated.date()-timedelta(days=lag);day_end=day+timedelta(days=1);all_rows=[];queries=[];resolved=set()
  regs=regions()
  for region in regs:
   try:
-   payload=client.report(region['geometry'],day,day);dataset,rows=flatten(payload)
+   payload=client.report(region['geometry'],day,day_end);dataset,rows=flatten(payload)
    if dataset:resolved.add(dataset)
    valid=[r for row in rows if (r:=normalize(row,region))];all_rows.extend(valid)
    queries.append({'region_id':region['id'],'status':'ok','report_rows':len(rows),'valid_identified_rows':len(valid),'resolved_dataset':dataset})
@@ -122,16 +122,16 @@ def main():
   rows.sort(key=lambda x:x['observed_at']);sel=rows[-2:];latest=dict(sel[-1]);latest['positions']=[{'rank':len(sel)-i,'observed_at':p['observed_at'],'latitude':p['latitude'],'longitude':p['longitude'],'presence_hours':p.get('presence_hours')} for i,p in enumerate(sel)];latest['position_count']=len(sel);contacts.append(latest)
  contacts.sort(key=lambda x:x['observed_at'],reverse=True);before=len(contacts);contacts=contacts[:cap];capped=before>len(contacts)
  times=[parse_dt(c.get('observed_at')) for c in contacts];times=[t for t in times if t]
- query_errors=sum(1 for q in queries if q.get('status')!='ok');complete=(query_errors==0 and not capped)
+ query_errors=sum(1 for q in queries if q.get('status')!='ok');no_data=(before==0 or not resolved);complete=(query_errors==0 and not capped and not no_data)
  output={'schema_version':'1.0.0','generated_at':iso_z(generated),'provider':'global_fishing_watch','source':'Global Fishing Watch 4Wings AIS Vessel Presence',
   'dataset_requested':DATASET,'datasets_resolved':sorted(resolved),'coverage_scope':'common_operational_regions','coverage_complete':complete,
-  'identity_mode':'all_identified_vessel_rows','date_range':{'start':day.isoformat(),'end':day.isoformat()},'configured_lag_days':lag,
+  'identity_mode':'all_identified_vessel_rows','date_range':{'start':day.isoformat(),'end_exclusive':day_end.isoformat()},'configured_lag_days':lag,
   'temporal_resolution':'HOURLY','spatial_resolution':'HIGH / 0.01-degree report grid','historical':True,'not_current_positions':True,'position_is_exact':False,
   'attribution':ATTRIBUTION,'count':len(contacts),'records_before_cap':before,'cap_applied':capped,
   'data_min_timestamp_utc':iso_z(min(times)) if times else None,'data_max_timestamp_utc':iso_z(max(times)) if times else None,'contacts':contacts}
- status={'schema_version':'1.0.0','generated_at':output['generated_at'],'status':'ok' if complete else 'degraded','coverage_scope':output['coverage_scope'],
+ status={'schema_version':'1.0.0','generated_at':output['generated_at'],'status':'ok' if complete else ('no_data' if no_data else 'degraded'),'coverage_scope':output['coverage_scope'],
   'coverage_complete':complete,'identity_mode':output['identity_mode'],'date_range':output['date_range'],'count':len(contacts),'records_before_cap':before,
-  'max_kept_contacts':cap,'cap_applied':capped,'queries_expected':len(regs),'queries_successful':len(regs)-query_errors,'queries_failed':query_errors,
+  'max_kept_contacts':cap,'cap_applied':capped,'queries_expected':len(regs),'queries_successful':len(regs)-query_errors,'queries_failed':query_errors,'no_data':no_data,
   'queries':queries,'data_min_timestamp_utc':output['data_min_timestamp_utc'],'data_max_timestamp_utc':output['data_max_timestamp_utc'],'attribution':ATTRIBUTION}
  atomic_json(OUTPUT_PATH,output);atomic_json(STATUS_PATH,status);print(json.dumps(status,ensure_ascii=False));return 0
 if __name__=='__main__':raise SystemExit(main())
