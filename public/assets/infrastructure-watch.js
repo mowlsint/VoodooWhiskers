@@ -105,6 +105,34 @@
     return properties?.is_priority_voi ? "watchlist" : "neutral_tanker_context";
   }
 
+  const DISPLAY_VOI_CATEGORIES = new Set([
+    "watchlist","sanctions_shadowfleet","shadowfleet","russian_mmsi",
+    "falseflag_interest","false_flag_watch","behavioral_voi","recent_russian_portcall_10d"
+  ]);
+
+  function isPriorityVoi(properties){
+    const p = properties || {};
+    if (p.is_priority_voi || p.known_voi_match || p.sanctioned || p.shadow_fleet || p.false_flag || p.behavioral_voi || p.from_russia_confirmed) return true;
+    return categoriesOf(p).some(category => DISPLAY_VOI_CATEGORIES.has(category));
+  }
+
+  function vesselFinderUrl(properties){
+    const p = properties || {};
+    const onlyDigits = value => String(value || "").replace(/\D/g, "");
+    const imo = onlyDigits(p.imo || p.IMO || p.watch_imo);
+    const mmsi = onlyDigits(p.mmsi || p.MMSI || p.watch_mmsi);
+    const name = String(p.name || p.vessel_name || p.ship_name || p.watch_name || "").trim();
+    if (imo.length === 7) return `https://www.vesselfinder.com/vessels/details/${encodeURIComponent(imo)}`;
+    if (mmsi.length === 9) return `https://www.vesselfinder.com/vessels?name=${encodeURIComponent(mmsi)}`;
+    if (name) return `https://www.vesselfinder.com/vessels?name=${encodeURIComponent(name)}`;
+    return "";
+  }
+
+  function vesselFinderLink(properties){
+    const url = vesselFinderUrl(properties);
+    return url ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">Open in VesselFinder</a>` : "";
+  }
+
   function isRegionalContact(feature){
     const p = feature?.properties || {};
     const provider = String(p.source_provider || "").toLowerCase();
@@ -133,7 +161,7 @@
       </div>
       ${historical ? `<div class="historyWarn">Historical point inside the selected time window. It is not necessarily the vessel's current position.</div>` : ""}
       ${positionQuality ? `<div class="qualityWarn">Timestamp was repaired from the snapshot/history slot. Do not use it for precise dwell or gap calculations.</div>` : ""}
-      ${sourceUrls.length ? `<div style="margin-top:7px">${sourceUrls.slice(0,3).map((url,i)=>`<a href="${esc(url)}" target="_blank" rel="noopener">Source ${i+1}</a>`).join(" · ")}</div>` : ""}
+      ${(vesselFinderLink(p) || sourceUrls.length) ? `<div style="margin-top:7px">${[vesselFinderLink(p), ...sourceUrls.slice(0,3).map((url,i)=>`<a href="${esc(url)}" target="_blank" rel="noopener">Source ${i+1}</a>`)].filter(Boolean).join(" · ")}</div>` : ""}
       <div class="assessmentLimit">VOI/watchlist context is an analyst lead, not proof of hostile intent or unlawful activity.</div>`;
   }
 
@@ -150,6 +178,7 @@
         <b>Destination</b><span>${esc(p.destination || "–")}</span>
         <b>Source</b><span>Danish historical AIS</span>
       </div>
+      ${vesselFinderLink(p) ? `<div style="margin-top:7px">${vesselFinderLink(p)}</div>` : ""}
       <div class="historyWarn">Delayed historical data. Do not use this point as a current vessel position.</div>`;
   }
 
@@ -430,8 +459,8 @@
     const source=state.data.common_snapshot || EMPTY_FC();
     const features=(source.features || []).filter(feature=>{
       const p=feature?.properties || {};const cats=categoriesOf(p);
-      if(layerId==="vessel_positions") return Boolean(p.is_priority_voi || p.known_voi_match || cats.length);
-      if(layerId==="neutral_tanker_context") return Boolean(p.neutral_tanker_context || cats.includes("neutral_tanker_context"));
+      if(layerId==="vessel_positions") return isPriorityVoi(p);
+      if(layerId==="neutral_tanker_context") return Boolean((p.neutral_tanker_context || cats.includes("neutral_tanker_context")) && !isPriorityVoi(p));
       if(layerId==="sanctions_shadowfleet") return Boolean(p.sanctioned || p.shadow_fleet || cats.includes("sanctions_shadowfleet") || cats.includes("shadowfleet"));
       if(layerId==="watchlist") return Boolean(p.known_voi_match || cats.includes("watchlist"));
       if(layerId==="falseflag_interest") return Boolean(p.false_flag || cats.includes("falseflag_interest"));
@@ -444,7 +473,11 @@
     return {...source,features,metadata:{...(source.metadata || {}),display_layer:layerId}};
   }
   function applyCommonCategoryLayers(){
-    COMMON_CATEGORY_LAYERS.forEach(id=>{const data=commonSubset(id);replaceLayer(id,data);setControl(id,{enabled:Boolean(data.features?.length)});});
+    COMMON_CATEGORY_LAYERS.forEach(id=>{
+      const data=commonSubset(id);
+      replaceLayer(id,data);
+      setControl(id,{enabled:Boolean(data.features?.length),checked:id==="neutral_tanker_context" && Boolean(data.features?.length)});
+    });
   }
   function restoreProviderCategoryLayers(){
     COMMON_CATEGORY_LAYERS.forEach(id=>{const data=state.data[id] || EMPTY_FC();replaceLayer(id,data);setControl(id,{enabled:Boolean(data.features?.length)});});
@@ -471,9 +504,9 @@
       const priority=commonSubset("vessel_positions");
       setControl("danish_history",{enabled:false,checked:false});
       replaceLayer("danish_history",EMPTY_FC());
-      setControl("ais_contacts",{enabled:commonAvailable,checked:commonAvailable});
+      setControl("ais_contacts",{enabled:false,checked:false});
       setControl("vessel_positions",{enabled:commonAvailable && Boolean(priority.features?.length),checked:commonAvailable && Boolean(priority.features?.length)});
-      replaceLayer("ais_contacts",commonAvailable ? common : EMPTY_FC());
+      replaceLayer("ais_contacts",EMPTY_FC());
       replaceLayer("vessel_positions",commonAvailable ? priority : EMPTY_FC());
       applyCommonCategoryLayers();
       const events=filterEvents(null);
