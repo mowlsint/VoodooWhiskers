@@ -24,6 +24,8 @@
     voiHistory:"./data/vessels/voi_history_14d.jsonl",
     danishHistory:"./data/vessels/ais_dk_last_two_positions.geojson",
     danishStatus:"./data/vessels/ais_dk_import_status.json",
+    commonSnapshot:"./data/vessels/maritime_common_snapshot_latest.geojson",
+    commonStatus:"./data/vessels/maritime_common_snapshot_status.json",
     neutral_tanker_context:"./data/vessels/layers/neutral_tanker_context.geojson",
     sanctions_shadowfleet:"./data/vessels/layers/sanctions_shadowfleet.geojson",
     watchlist:"./data/vessels/layers/watchlist_live.geojson",
@@ -125,6 +127,7 @@
         <b>Destination</b><span>${esc(p.destination || "–")}</span>
         <b>SOG / COG</b><span>${esc(p.sog ?? "–")} kn / ${esc(p.cog ?? "–")}°</span>
         <b>Observed</b><span>${esc(p.observed_at || p.last_seen_utc || "–")}</span>
+        <b>Common snapshot</b><span>${esc(p.snapshot_at || "–")}</span>
         <b>AIS source</b><span>${esc(p.source || "AIS")}</span>
         <b>Watch source</b><span>${esc(p.source_list || "–")}</span>
       </div>
@@ -422,6 +425,31 @@
     return {type:"FeatureCollection",features,metadata:{window_hours:hours,source:"Voodoo bounded VOI history",max_track_points_per_vessel:30}};
   }
 
+  const COMMON_CATEGORY_LAYERS=["neutral_tanker_context","sanctions_shadowfleet","watchlist","falseflag_interest","false_flag_watch","russian_mmsi","recent_russian_portcall_10d","behavioral_voi"];
+  function commonSubset(layerId){
+    const source=state.data.common_snapshot || EMPTY_FC();
+    const features=(source.features || []).filter(feature=>{
+      const p=feature?.properties || {};const cats=categoriesOf(p);
+      if(layerId==="vessel_positions") return Boolean(p.is_priority_voi || p.known_voi_match || cats.length);
+      if(layerId==="neutral_tanker_context") return Boolean(p.neutral_tanker_context || cats.includes("neutral_tanker_context"));
+      if(layerId==="sanctions_shadowfleet") return Boolean(p.sanctioned || p.shadow_fleet || cats.includes("sanctions_shadowfleet") || cats.includes("shadowfleet"));
+      if(layerId==="watchlist") return Boolean(p.known_voi_match || cats.includes("watchlist"));
+      if(layerId==="falseflag_interest") return Boolean(p.false_flag || cats.includes("falseflag_interest"));
+      if(layerId==="false_flag_watch") return cats.includes("false_flag_watch");
+      if(layerId==="russian_mmsi") return cats.includes("russian_mmsi") || String(p.mmsi || "").startsWith("273");
+      if(layerId==="recent_russian_portcall_10d") return Boolean(p.from_russia_confirmed || cats.includes("recent_russian_portcall_10d"));
+      if(layerId==="behavioral_voi") return Boolean(p.behavioral_voi || cats.includes("behavioral_voi"));
+      return false;
+    });
+    return {...source,features,metadata:{...(source.metadata || {}),display_layer:layerId}};
+  }
+  function applyCommonCategoryLayers(){
+    COMMON_CATEGORY_LAYERS.forEach(id=>{const data=commonSubset(id);replaceLayer(id,data);setControl(id,{enabled:Boolean(data.features?.length)});});
+  }
+  function restoreProviderCategoryLayers(){
+    COMMON_CATEGORY_LAYERS.forEach(id=>{const data=state.data[id] || EMPTY_FC();replaceLayer(id,data);setControl(id,{enabled:Boolean(data.features?.length)});});
+  }
+
   function regionalCurrentGeoJson(){
     const source=state.data.ais_contacts || EMPTY_FC();
     return {...source,features:(source.features || []).filter(isRegionalContact),metadata:{...(source.metadata || {}),display_mode:"fintraffic_barentswatch_current"}};
@@ -438,20 +466,26 @@
     const hours=TIME_HOURS[mode] || null;
 
     if (mode === "latest"){
-      setControl("ais_contacts",{enabled:true});
-      setControl("vessel_positions",{enabled:true});
+      const common=state.data.common_snapshot || EMPTY_FC();
+      const commonAvailable=Boolean(state.data.common_status?.snapshot_id && state.data.common_status?.snapshot_at && Array.isArray(common.features));
+      const priority=commonSubset("vessel_positions");
       setControl("danish_history",{enabled:false,checked:false});
-      replaceLayer("ais_contacts",state.data.ais_contacts || EMPTY_FC());
-      replaceLayer("vessel_positions",state.data.vessel_positions || EMPTY_FC());
       replaceLayer("danish_history",EMPTY_FC());
+      setControl("ais_contacts",{enabled:commonAvailable,checked:commonAvailable});
+      setControl("vessel_positions",{enabled:commonAvailable && Boolean(priority.features?.length),checked:commonAvailable && Boolean(priority.features?.length)});
+      replaceLayer("ais_contacts",commonAvailable ? common : EMPTY_FC());
+      replaceLayer("vessel_positions",commonAvailable ? priority : EMPTY_FC());
+      applyCommonCategoryLayers();
       const events=filterEvents(null);
       replaceLayer("infrastructure_events",events);
       renderAnalysisList(events);
-      $("timeStatus").textContent="Latest";
+      const commonDate=state.data.common_status?.snapshot_at ? String(state.data.common_status.snapshot_at).slice(0,16).replace("T"," ") : null;
+      $("timeStatus").textContent=commonAvailable ? `Common ${commonDate} UTC` : "Common snapshot unavailable";
       return;
     }
 
     if (mode === "dk24"){
+      restoreProviderCategoryLayers();
       setControl("ais_contacts",{enabled:true,checked:true});
       setControl("vessel_positions",{enabled:false,checked:false});
       const dkAvailable=Boolean(state.data.danish_history?.features?.length);
@@ -468,6 +502,7 @@
       return;
     }
 
+    restoreProviderCategoryLayers();
     setControl("ais_contacts",{enabled:false,checked:false});
     setControl("vessel_positions",{enabled:true,checked:true});
     setControl("danish_history",{enabled:false,checked:false});
@@ -512,18 +547,22 @@
   }
 
   async function loadDynamicData(){
-    const [ais,vessels,events,danish,danishStatus]=await Promise.all([
+    const [ais,vessels,events,danish,danishStatus,commonSnapshot,commonStatus]=await Promise.all([
       fetchJson(paths.aisContacts).catch(error=>{console.warn("Current AIS unavailable",error);return EMPTY_FC();}),
       fetchJson(paths.vesselPositions).catch(error=>{console.warn("Current VOI positions unavailable",error);return EMPTY_FC();}),
       fetchJson(paths.infrastructure_events).catch(error=>{console.warn("Infrastructure events unavailable",error);return EMPTY_FC();}),
       fetchJson(paths.danishHistory).catch(error=>{console.warn("Danish historical AIS unavailable",error);return EMPTY_FC();}),
-      fetchJson(paths.danishStatus).catch(()=>null)
+      fetchJson(paths.danishStatus).catch(()=>null),
+      fetchJson(paths.commonSnapshot).catch(error=>{console.warn("Common maritime snapshot unavailable",error);return EMPTY_FC();}),
+      fetchJson(paths.commonStatus).catch(()=>null)
     ]);
     state.data.ais_contacts=ais;
     state.data.vessel_positions=vessels;
     state.data.infrastructure_events=events;
     state.data.danish_history=danish;
     state.data.danish_status=danishStatus;
+    state.data.common_snapshot=commonSnapshot;
+    state.data.common_status=commonStatus;
     state.dynamicReady=true;
   }
 
