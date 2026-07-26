@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "history_retention_days": 21,
+  "history_max_bytes": 23068672,
+  "snapshot_expected_refresh_hours": 30,
+  "mandatory_sources": [
+    "global_fishing_watch",
+    "ais_dk_historical",
+    "fintraffic",
+    "barentswatch"
+  ],
+  "source_max_age_at_snapshot_hours": {
+    "global_fishing_watch": 24,
+    "ais_dk_historical": 24,
+    "fintraffic": 16,
+    "barentswatch": 16
+  },
+  "provider_quality_rank": {
+    "barentswatch": 1,
+    "fintraffic": 2,
+    "ais_dk_historical": 3,
+    "global_fishing_watch": 4
+  },
+  "gfw": {
+    "dataset": "public-global-presence:latest",
+    "lag_days": 5,
+    "query_day_count": 1,
+    "max_kept_contacts": 12000,
+    "request_timeout_seconds": 120,
+    "poll_timeout_seconds": 900,
+    "poll_interval_seconds": 15,
+    "automatic_fetch_enabled": false
+  },
+  "coverage_future_tolerance_hours": {
+    "global_fishing_watch": 0,
+    "ais_dk_historical": 24,
+    "fintraffic": 0,
+    "barentswatch": 0
+  },
+  "snapshot_hard_stale_hours": 72
+}
