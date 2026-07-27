@@ -1,7 +1,7 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-07-27T05:18:16+00:00
-- Review events: 15
+- Generated: 2026-07-27T06:00:20+00:00
+- Review events: 14
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
 
@@ -83,7 +83,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 636021733 / 9395331
 - Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.185 nm
+- Minimum distance: 0.184 nm
 - Close-band points: 3
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
@@ -119,7 +119,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 636025948 / 9336983
 - Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.402 nm
+- Minimum distance: 0.452 nm
 - Close-band points: 4
 - Estimated dwell: 48.2 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, extended_presence_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
@@ -136,18 +136,6 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, repeated_entries_into_close_band, voi_or_watchlist_context
 - Confidence: medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
-## AURORA — REVIEW
-
-- MMSI / IMO: 668116291 / 9258351
-- Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.516 nm
-- Close-band points: 2
-- Estimated dwell: 0.0 min
-- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
-- Confidence: low_medium
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
