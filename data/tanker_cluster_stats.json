@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-07-27T05:17:43+00:00",
-  "total_contacts_seen": 830,
-  "total_unique_tankers_in_context_zones": 194,
+  "generated_at": "2026-07-27T05:59:38+00:00",
+  "total_contacts_seen": 796,
+  "total_unique_tankers_in_context_zones": 190,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 103,
-  "voi_tankers_in_context_zones": 91,
+  "neutral_tanker_context_total": 101,
+  "voi_tankers_in_context_zones": 89,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
       "total_tankers": 51,
-      "neutral_tankers": 45,
-      "voi_tankers": 6,
+      "neutral_tankers": 44,
+      "voi_tankers": 7,
       "slow_or_waiting": 23,
-      "for_order": 1,
+      "for_order": 0,
       "examples": [
         {
           "name": "ECO CORSAIR",
@@ -20,16 +20,6 @@
           "mmsi": "210155000",
           "destination": "SESTE",
           "sog": "0.3",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "CGAS MARINER",
-          "imo": "9344198",
-          "mmsi": "215064000",
-          "destination": "PL SZZ",
-          "sog": "11.8",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -89,7 +79,17 @@
           "imo": "9341328",
           "mmsi": "236112059",
           "destination": "SE GOT",
-          "sog": "1.1",
+          "sog": "10.4",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "THUN EQUALITY",
+          "imo": "9817171",
+          "mmsi": "244859000",
+          "destination": "NO TRD",
+          "sog": "14.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,9 +100,9 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 33,
-      "neutral_tankers": 32,
-      "voi_tankers": 1,
+      "total_tankers": 34,
+      "neutral_tankers": 31,
+      "voi_tankers": 3,
       "slow_or_waiting": 17,
       "for_order": 0,
       "examples": [
@@ -112,16 +112,6 @@
           "mmsi": "210155000",
           "destination": "SESTE",
           "sog": "0.3",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "CGAS MARINER",
-          "imo": "9344198",
-          "mmsi": "215064000",
-          "destination": "PL SZZ",
-          "sog": "11.8",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -161,17 +151,7 @@
           "imo": "9341328",
           "mmsi": "236112059",
           "destination": "SE GOT",
-          "sog": "1.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "THUN EOS",
-          "imo": "9817157",
-          "mmsi": "244013009",
-          "destination": "NO SKV",
-          "sog": "12.3",
+          "sog": "10.4",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -181,7 +161,27 @@
           "imo": "9817171",
           "mmsi": "244859000",
           "destination": "NO TRD",
-          "sog": "13.5",
+          "sog": "14.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "CORAL MEDUSA",
+          "imo": "9346926",
+          "mmsi": "244870427",
+          "destination": "GOTHENBURG ANCHORAGE",
+          "sog": "0.2",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "BIT POWER",
+          "imo": "9256432",
+          "mmsi": "244944000",
+          "destination": "SE NYN>SE GOT",
+          "sog": "11.7",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -192,11 +192,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 112,
-      "neutral_tankers": 27,
-      "voi_tankers": 85,
-      "slow_or_waiting": 84,
-      "for_order": 7,
+      "total_tankers": 108,
+      "neutral_tankers": 26,
+      "voi_tankers": 82,
+      "slow_or_waiting": 81,
+      "for_order": 8,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -233,7 +233,7 @@
           "imo": "9843209",
           "mmsi": "215515000",
           "destination": "FOR ORDERS",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -243,7 +243,7 @@
           "imo": "9909651",
           "mmsi": "219029880",
           "destination": "FIHMN",
-          "sog": "10.8",
+          "sog": "9.4",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -253,7 +253,7 @@
           "imo": "9992153",
           "mmsi": "219034372",
           "destination": "PITEA",
-          "sog": "0.0",
+          "sog": "12.2",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -262,7 +262,7 @@
           "name": "JATULI",
           "imo": "9892444",
           "mmsi": "230688000",
-          "destination": "NOMON>FISKV",
+          "destination": "FISKV",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
@@ -273,7 +273,7 @@
           "imo": "9298650",
           "mmsi": "240447000",
           "destination": "BALTIC SEA FOR ORDER",
-          "sog": "7.2",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
