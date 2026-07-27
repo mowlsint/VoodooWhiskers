@@ -1,7 +1,7 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-07-27T06:00:20+00:00
-- Review events: 14
+- Generated: 2026-07-27T06:13:39+00:00
+- Review events: 16
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
 
@@ -36,7 +36,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 667002310 / 9308132
 - Infrastructure: pipeline — NORD STREAM 2
 - Minimum distance: 0.012 nm
-- Close-band points: 12
+- Close-band points: 14
 - Estimated dwell: 48.2 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, extended_presence_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
@@ -72,7 +72,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 373638000 / 9282912
 - Infrastructure: pipeline — NORD STREAM 2
 - Minimum distance: 0.156 nm
-- Close-band points: 9
+- Close-band points: 11
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
@@ -84,7 +84,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 636021733 / 9395331
 - Infrastructure: pipeline — NORD STREAM 2
 - Minimum distance: 0.184 nm
-- Close-band points: 3
+- Close-band points: 5
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
@@ -96,7 +96,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 273618550 / 9879557
 - Infrastructure: pipeline — NORD STREAM 2
 - Minimum distance: 0.365 nm
-- Close-band points: 12
+- Close-band points: 14
 - Estimated dwell: 48.2 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, extended_presence_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
@@ -108,7 +108,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 273299870 / 9841055
 - Infrastructure: pipeline — NORD STREAM 2
 - Minimum distance: 0.367 nm
-- Close-band points: 11
+- Close-band points: 13
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, repeated_entries_into_close_band, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
@@ -139,12 +139,36 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
+## AGATE — REVIEW
+
+- MMSI / IMO: 631010112 / 9310707
+- Infrastructure: pipeline — NORD STREAM 2
+- Minimum distance: 0.355 nm
+- Close-band points: 3
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
+## AURORA — REVIEW
+
+- MMSI / IMO: 668116291 / 9258351
+- Infrastructure: pipeline — NORD STREAM 2
+- Minimum distance: 0.516 nm
+- Close-band points: 3
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
 ## SAVIR LION — REVIEW
 
 - MMSI / IMO: 525121061 / 9306639
 - Infrastructure: pipeline — NORD STREAM 2
 - Minimum distance: 0.582 nm
-- Close-band points: 7
+- Close-band points: 9
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
