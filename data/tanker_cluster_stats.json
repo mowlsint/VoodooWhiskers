@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-07-27T05:59:38+00:00",
-  "total_contacts_seen": 796,
-  "total_unique_tankers_in_context_zones": 190,
+  "generated_at": "2026-07-27T16:33:43+00:00",
+  "total_contacts_seen": 793,
+  "total_unique_tankers_in_context_zones": 192,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 101,
-  "voi_tankers_in_context_zones": 89,
+  "neutral_tanker_context_total": 102,
+  "voi_tankers_in_context_zones": 90,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 51,
-      "neutral_tankers": 44,
-      "voi_tankers": 7,
-      "slow_or_waiting": 23,
+      "total_tankers": 47,
+      "neutral_tankers": 43,
+      "voi_tankers": 4,
+      "slow_or_waiting": 22,
       "for_order": 0,
       "examples": [
         {
@@ -65,16 +65,6 @@
           ]
         },
         {
-          "name": "KMARIN RIGOUR",
-          "imo": "9683049",
-          "mmsi": "235108529",
-          "destination": "PLGDN",
-          "sog": "12.4",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "ATLANTIC TWIN",
           "imo": "9341328",
           "mmsi": "236112059",
@@ -89,7 +79,17 @@
           "imo": "9817171",
           "mmsi": "244859000",
           "destination": "NO TRD",
-          "sog": "14.0",
+          "sog": "13.5",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "CORAL MEDUSA",
+          "imo": "9346926",
+          "mmsi": "244870427",
+          "destination": "GOTHENBURG ANCHORAGE",
+          "sog": "0.2",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,10 +100,10 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 34,
-      "neutral_tankers": 31,
-      "voi_tankers": 3,
-      "slow_or_waiting": 17,
+      "total_tankers": 31,
+      "neutral_tankers": 29,
+      "voi_tankers": 2,
+      "slow_or_waiting": 16,
       "for_order": 0,
       "examples": [
         {
@@ -137,16 +137,6 @@
           ]
         },
         {
-          "name": "KMARIN RIGOUR",
-          "imo": "9683049",
-          "mmsi": "235108529",
-          "destination": "PLGDN",
-          "sog": "12.4",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "ATLANTIC TWIN",
           "imo": "9341328",
           "mmsi": "236112059",
@@ -161,7 +151,7 @@
           "imo": "9817171",
           "mmsi": "244859000",
           "destination": "NO TRD",
-          "sog": "14.0",
+          "sog": "13.5",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -185,6 +175,16 @@
           "categories": [
             "neutral_tanker_context"
           ]
+        },
+        {
+          "name": "TYPHOON",
+          "imo": "9507582",
+          "mmsi": "245889000",
+          "destination": "ROTTERDAM",
+          "sog": "8.8",
+          "categories": [
+            "neutral_tanker_context"
+          ]
         }
       ],
       "zone_id": "skagen_waiting_area",
@@ -192,11 +192,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 108,
-      "neutral_tankers": 26,
-      "voi_tankers": 82,
-      "slow_or_waiting": 81,
-      "for_order": 8,
+      "total_tankers": 113,
+      "neutral_tankers": 28,
+      "voi_tankers": 85,
+      "slow_or_waiting": 88,
+      "for_order": 7,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -223,7 +223,7 @@
           "imo": "9010929",
           "mmsi": "210056000",
           "destination": "TALLINN",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -233,7 +233,7 @@
           "imo": "9843209",
           "mmsi": "215515000",
           "destination": "FOR ORDERS",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -242,8 +242,8 @@
           "name": "TERN FORS",
           "imo": "9909651",
           "mmsi": "219029880",
-          "destination": "FIHMN",
-          "sog": "9.4",
+          "destination": "SEGOT",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -253,7 +253,7 @@
           "imo": "9992153",
           "mmsi": "219034372",
           "destination": "PITEA",
-          "sog": "12.2",
+          "sog": "12.3",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -263,7 +263,7 @@
           "imo": "9892444",
           "mmsi": "230688000",
           "destination": "FISKV",
-          "sog": "0.0",
+          "sog": "0.2",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -273,7 +273,7 @@
           "imo": "9298650",
           "mmsi": "240447000",
           "destination": "BALTIC SEA FOR ORDER",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -468,9 +468,9 @@
       "level": "watch"
     },
     {
-      "total_tankers": 7,
+      "total_tankers": 8,
       "neutral_tankers": 7,
-      "voi_tankers": 0,
+      "voi_tankers": 1,
       "slow_or_waiting": 6,
       "for_order": 0,
       "examples": [
@@ -542,6 +542,18 @@
           "sog": "0",
           "categories": [
             "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SUNNY",
+          "imo": "9265756",
+          "mmsi": "667002293",
+          "destination": "KALININGRAD",
+          "sog": "",
+          "categories": [
+            "recent_russian_portcall_10d",
+            "sanctions_shadowfleet",
+            "watchlist"
           ]
         }
       ],
@@ -550,9 +562,9 @@
       "level": "context"
     },
     {
-      "total_tankers": 7,
+      "total_tankers": 8,
       "neutral_tankers": 7,
-      "voi_tankers": 0,
+      "voi_tankers": 1,
       "slow_or_waiting": 6,
       "for_order": 0,
       "examples": [
@@ -624,6 +636,18 @@
           "sog": "0",
           "categories": [
             "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SUNNY",
+          "imo": "9265756",
+          "mmsi": "667002293",
+          "destination": "KALININGRAD",
+          "sog": "",
+          "categories": [
+            "recent_russian_portcall_10d",
+            "sanctions_shadowfleet",
+            "watchlist"
           ]
         }
       ],
