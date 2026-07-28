@@ -1,42 +1,18 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-07-28T04:50:23+00:00
-- Review events: 13
+- Generated: 2026-07-28T05:25:13+00:00
+- Review events: 12
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
 
 > Proximity and movement patterns are analyst leads. They do not establish sabotage, espionage, hostile intent, attribution or unlawful activity.
 
-## TG CRAB — ELEVATED
-
-- MMSI / IMO: 636024043 / 9400394
-- Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.009 nm
-- Close-band points: 9
-- Estimated dwell: 0.0 min
-- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
-- Confidence: low_medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
 ## TEMPEST DREAM — ELEVATED
 
 - MMSI / IMO: 667002310 / 9308132
 - Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.025 nm
+- Minimum distance: 0.018 nm
 - Close-band points: 12
-- Estimated dwell: 0.0 min
-- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
-- Confidence: low_medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
-## SINFA — ELEVATED
-
-- MMSI / IMO: 352005425 / 9346859
-- Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.066 nm
-- Close-band points: 4
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
@@ -111,6 +87,18 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - Close-band points: 12
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
+## MIDVOLGA-1 — REVIEW
+
+- MMSI / IMO: 273355380 / 9648221
+- Infrastructure: pipeline — NORD STREAM 1
+- Minimum distance: 0.44 nm
+- Close-band points: 2
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, repeated_entries_into_close_band, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
