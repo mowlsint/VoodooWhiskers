@@ -10,6 +10,16 @@
   <link rel="stylesheet" href="./assets/infrastructure-watch.css">
   <link rel="stylesheet" href="./assets/sar-layer.css">
   <link rel="stylesheet" href="./assets/common-snapshot-status.css">
+  <style>
+    .mapShell{position:relative}
+    .aisDataAgeBanner{
+      position:absolute;z-index:800;top:12px;left:50%;transform:translateX(-50%);
+      max-width:calc(100% - 150px);padding:7px 12px;border:1px solid rgba(255,184,77,.82);
+      border-radius:999px;background:rgba(7,16,23,.92);color:#fff4cf;font:700 13px/1.2 system-ui,sans-serif;
+      letter-spacing:.01em;box-shadow:0 4px 18px rgba(0,0,0,.34);pointer-events:none;text-align:center
+    }
+    @media(max-width:760px){.aisDataAgeBanner{top:8px;max-width:calc(100% - 24px);font-size:11px;border-radius:10px}}
+  </style>
 </head>
 <body>
   <header class="topbar">
@@ -60,7 +70,7 @@
         <label class="control"><input type="checkbox" data-layer="falseflag_interest"> False-flag interest</label>
         <label class="control"><input type="checkbox" data-layer="false_flag_watch"> False-flag watch</label>
         <label class="control"><input type="checkbox" data-layer="russian_mmsi"> Russian MMSI</label>
-        <label class="control"><input type="checkbox" data-layer="recent_russian_portcall_10d"> Recent Russian port context</label>
+        <label class="control"><input type="checkbox" data-layer="recent_russian_portcall_10d"> Recent Russian portcall (confirmed / unconfirmed)</label>
         <label class="control"><input type="checkbox" data-layer="behavioral_voi"> Behavioural VOI</label>
       </section>
       <section class="card sarCard">
@@ -105,12 +115,13 @@
       </section>
     </aside>
     <section class="mapShell">
+      <div class="aisDataAgeBanner" id="aisDataAgeBanner" role="status">AIS not live, Data age unknown</div>
       <div id="map" role="application" aria-label="Voodoo Whiskers maritime infrastructure map"></div>
       <div class="mapLegend">
         <div><span class="dot falseFlag"></span>False flag</div>
         <div><span class="dot sanctions"></span>Sanctions / shadow fleet</div>
         <div><span class="dot russian"></span>Russian MMSI</div>
-        <div><span class="dot portcall"></span>Recent Russian port context</div>
+        <div><span class="dot portcall"></span>Recent RU portcall (confirmed / unconfirmed)</div>
         <div><span class="dot neutralTanker"></span>Neutral tanker context</div>
         <div><span class="dot reviewEvent"></span>Infrastructure review</div>
         <div><span class="dot dkLatest"></span>Danish latest historical</div>
