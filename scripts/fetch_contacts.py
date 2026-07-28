@@ -41,7 +41,12 @@ DATA_DIR = Path("data")
 WATCHLIST_PATH = DATA_DIR / "watchlist_master.csv"
 FLAG_RISK_PATH = DATA_DIR / "flag_risk_reference.csv"
 PORTS_RU_PATH = DATA_DIR / "ports_ru.csv"
+PORTS_RU_ALIASES_PATH = DATA_DIR / "ports_ru_enhanced_aliases.csv"
 OUTPUT_PATH = DATA_DIR / "ais_contacts_aisstream_latest.json"
+RUSSIAN_ROUTE_STATE_PATH = DATA_DIR / "russian_route_state.json"
+RUSSIAN_PORTCALL_HISTORY_PATH = DATA_DIR / "russian_portcall_history.jsonl"
+RECENT_RUSSIAN_PORTCALL_DAYS = 10
+RUSSIAN_ROUTE_STATE_RETENTION_DAYS = 120
 
 # Context-only tanker retention zones. These mirror build_layers.py and allow
 # neutral tankers to be visible as a grey, non-VOI context layer.
@@ -161,13 +166,21 @@ def load_flag_risk_mids() -> set[str]:
 def load_russian_port_terms() -> tuple[set[str], set[str]]:
     codes = set(RUSSIAN_PORT_ALLOWLIST)
     names = set(RUSSIAN_PORT_NAME_ALIASES)
-    for row in load_csv_rows(PORTS_RU_PATH):
-        code = norm_key(row.get("unlocode"))
-        name = norm_key(row.get("port_name"))
-        if code:
-            codes.add(code)
-        if name:
-            names.add(name)
+    for path in (PORTS_RU_PATH, PORTS_RU_ALIASES_PATH):
+        for row in load_csv_rows(path):
+            code = norm_key(row.get("unlocode"))
+            name = norm_key(row.get("port_name"))
+            if code:
+                codes.add(code)
+            if name:
+                names.add(name)
+            for alias in re.split(r"[;,|]", clean_str(row.get("aliases"))):
+                normalized = norm_key(alias)
+                if not normalized:
+                    continue
+                if len(normalized) == 5 and normalized.startswith("RU"):
+                    codes.add(normalized)
+                names.add(normalized)
     return codes, names
 
 
@@ -176,18 +189,315 @@ def is_flag_risk_mid(d: dict[str, Any], risk_mids: set[str]) -> bool:
     return len(mmsi) >= 3 and mmsi[:3] in risk_mids
 
 
-def has_russian_destination_or_port(d: dict[str, Any], ru_codes: set[str], ru_names: set[str]) -> bool:
-    raw = " ".join(
-        clean_str(d.get(k))
-        for k in ["destination", "Destination", "last_port_name", "last_port_unlocode", "port_unlocode", "next_port"]
-        if clean_str(d.get(k))
+def russian_port_hits(values: list[Any], ru_codes: set[str], ru_names: set[str]) -> list[str]:
+    hits: set[str] = set()
+    for value in values:
+        compact = norm_key(value)
+        if not compact:
+            continue
+        hits.update(code for code in ru_codes if code and code in compact)
+        hits.update(name for name in ru_names if len(name) >= 4 and name in compact)
+    return sorted(hits)
+
+
+def destination_value(d: dict[str, Any]) -> str:
+    for key in ("destination", "Destination", "destination_unlocode", "next_port"):
+        value = clean_str(d.get(key))
+        if value:
+            return value
+    return ""
+
+
+def destination_russian_port_hits(d: dict[str, Any], ru_codes: set[str], ru_names: set[str]) -> list[str]:
+    return russian_port_hits(
+        [d.get(k) for k in ("destination", "Destination", "destination_unlocode", "next_port")],
+        ru_codes,
+        ru_names,
     )
+
+
+def observed_russian_port_hits(d: dict[str, Any], ru_codes: set[str], ru_names: set[str]) -> list[str]:
+    """Use only port-observation fields, never an intended AIS destination."""
+    return russian_port_hits(
+        [
+            d.get(k)
+            for k in (
+                "last_port_name",
+                "last_port_unlocode",
+                "port_name",
+                "port_unlocode",
+                "port_code",
+                "last_ru_port",
+                "last_ru_port_unlocode",
+            )
+        ],
+        ru_codes,
+        ru_names,
+    )
+
+
+def has_russian_destination_or_port(d: dict[str, Any], ru_codes: set[str], ru_names: set[str]) -> bool:
+    return bool(
+        destination_russian_port_hits(d, ru_codes, ru_names)
+        or observed_russian_port_hits(d, ru_codes, ru_names)
+        or d.get("to_russia_declared") is True
+        or d.get("recent_russian_portcall_unconfirmed_10d") is True
+        or d.get("recent_russian_portcall_confirmed_10d") is True
+    )
+
+
+def parse_optional_datetime(value: Any) -> datetime | None:
+    raw = clean_str(value)
     if not raw:
-        return False
-    compact = norm_key(raw)
-    if any(code in compact for code in ru_codes):
-        return True
-    return any(len(name) >= 4 and name in compact for name in ru_names)
+        return None
+    try:
+        parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc)
+
+
+def route_identity_candidates(contact: dict[str, Any]) -> list[str]:
+    candidates: list[str] = []
+    imo = digits(contact.get("imo"))
+    mmsi = digits(contact.get("mmsi"))
+    callsign = norm_text(contact.get("callsign"))
+    name = norm_text(contact.get("name"))
+    if len(imo) == 7:
+        candidates.append(f"imo:{imo}")
+    if len(mmsi) == 9:
+        candidates.append(f"mmsi:{mmsi}")
+    if callsign:
+        candidates.append(f"callsign:{callsign}")
+    if name:
+        candidates.append(f"name:{name}")
+    return candidates
+
+
+def load_russian_route_state() -> dict[str, Any]:
+    if not RUSSIAN_ROUTE_STATE_PATH.exists():
+        return {"schema_version": "1.0.0", "vessels": {}}
+    try:
+        payload = json.loads(RUSSIAN_ROUTE_STATE_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {"schema_version": "1.0.0", "vessels": {}}
+    if not isinstance(payload, dict) or not isinstance(payload.get("vessels"), dict):
+        return {"schema_version": "1.0.0", "vessels": {}}
+    return payload
+
+
+def append_russian_route_events(events: list[dict[str, Any]]) -> None:
+    if not events:
+        return
+    existing_ids: set[str] = set()
+    if RUSSIAN_PORTCALL_HISTORY_PATH.exists():
+        for line in RUSSIAN_PORTCALL_HISTORY_PATH.read_text(encoding="utf-8").splitlines():
+            try:
+                event = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            event_id = clean_str(event.get("event_id")) if isinstance(event, dict) else ""
+            if event_id:
+                existing_ids.add(event_id)
+    RUSSIAN_PORTCALL_HISTORY_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(RUSSIAN_PORTCALL_HISTORY_PATH, "a", encoding="utf-8") as handle:
+        for event in events:
+            if event["event_id"] in existing_ids:
+                continue
+            handle.write(json.dumps(event, ensure_ascii=False) + "\n")
+            existing_ids.add(event["event_id"])
+
+
+def apply_russian_route_state(
+    contacts: list[dict[str, Any]],
+    ru_codes: set[str],
+    ru_names: set[str],
+    provider: str,
+    observed_at: datetime | None = None,
+) -> list[dict[str, Any]]:
+    """Annotate destination declarations and bounded post-declaration portcall leads.
+
+    A Russian AIS destination is an intention only and never confirms a portcall.
+    A non-empty later destination change starts a 10-day unconfirmed portcall lead.
+    Explicit port fields create the separate confirmed state.
+    """
+    now = (observed_at or datetime.now(timezone.utc)).astimezone(timezone.utc).replace(microsecond=0)
+    now_iso = now.isoformat()
+    state = load_russian_route_state()
+    vessels = state.setdefault("vessels", {})
+    aliases: dict[str, str] = {}
+    for key, entry in vessels.items():
+        aliases[key] = key
+        for alias in entry.get("identity_aliases") or []:
+            aliases[clean_str(alias)] = key
+
+    events: list[dict[str, Any]] = []
+    annotated: list[dict[str, Any]] = []
+    for raw_contact in contacts:
+        contact = dict(raw_contact)
+        candidates = route_identity_candidates(contact)
+        if not candidates:
+            annotated.append(contact)
+            continue
+        state_key = next((aliases[candidate] for candidate in candidates if candidate in aliases), candidates[0])
+        entry = dict(vessels.get(state_key) or {})
+        identity_aliases = sorted(set(entry.get("identity_aliases") or []) | set(candidates))
+        entry.update({
+            "identity_key": state_key,
+            "identity_aliases": identity_aliases,
+            "imo": digits(contact.get("imo")) or entry.get("imo") or "",
+            "mmsi": digits(contact.get("mmsi")) or entry.get("mmsi") or "",
+            "callsign": clean_str(contact.get("callsign")) or entry.get("callsign") or "",
+            "name": clean_str(contact.get("name")) or entry.get("name") or "",
+            "last_seen_at": clean_str(contact.get("last_seen_utc")) or now_iso,
+            "last_provider": provider,
+        })
+        destination = destination_value(contact)
+        destination_hits = destination_russian_port_hits(contact, ru_codes, ru_names)
+        port_hits = observed_russian_port_hits(contact, ru_codes, ru_names)
+
+        def add_event(event_type: str, confidence: str, basis: str, hits: list[str]) -> None:
+            event_time = clean_str(contact.get("last_seen_utc")) or now_iso
+            event_id = hashlib.sha256(
+                f"{state_key}|{event_type}|{event_time}|{destination}|{','.join(hits)}".encode("utf-8")
+            ).hexdigest()[:24]
+            events.append({
+                "event_id": event_id,
+                "event_type": event_type,
+                "event_at": event_time,
+                "identity_key": state_key,
+                "identity_aliases": identity_aliases,
+                "imo": entry.get("imo"),
+                "mmsi": entry.get("mmsi"),
+                "callsign": entry.get("callsign"),
+                "name": entry.get("name"),
+                "destination": destination,
+                "russian_port_hits": hits,
+                "confidence": confidence,
+                "basis": basis,
+                "provider": provider,
+                "latitude": contact.get("latitude"),
+                "longitude": contact.get("longitude"),
+            })
+
+        previous_declared = bool(entry.get("to_russia_declared"))
+        previous_destination = clean_str(entry.get("declared_destination"))
+        if destination_hits:
+            entry["to_russia_declared"] = True
+            entry["declared_destination"] = destination
+            entry["declared_port_hits"] = destination_hits
+            entry.setdefault("declaration_first_seen_at", now_iso)
+            entry["declaration_last_seen_at"] = now_iso
+            entry.pop("recent_unconfirmed_until", None)
+            entry.pop("recent_unconfirmed_started_at", None)
+            contact.update({
+                "to_russia_declared": True,
+                "to_russia_declared_basis": "current_ais_destination",
+                "to_russia_declared_port_hits": destination_hits,
+                "from_russia_confirmed": False,
+            })
+            if not previous_declared or norm_key(previous_destination) != norm_key(destination):
+                add_event("to_russia_declared", "declared", "current_ais_destination", destination_hits)
+        elif destination and previous_declared:
+            until = now + timedelta(days=RECENT_RUSSIAN_PORTCALL_DAYS)
+            entry["to_russia_declared"] = False
+            entry["recent_unconfirmed_started_at"] = now_iso
+            entry["recent_unconfirmed_until"] = until.isoformat()
+            entry["destination_after_declaration"] = destination
+            contact.update({
+                "to_russia_declared": False,
+                "recent_russian_portcall_unconfirmed_10d": True,
+                "recent_ru_portcall_confidence": "unconfirmed",
+                "recent_ru_portcall_basis": "destination_changed_after_russian_destination",
+                "recent_ru_portcall_started_at": now_iso,
+                "recent_ru_portcall_until": until.isoformat(),
+                "from_russia_confirmed": False,
+            })
+            add_event(
+                "recent_russian_portcall_unconfirmed",
+                "unconfirmed",
+                "destination_changed_after_russian_destination",
+                list(entry.get("declared_port_hits") or []),
+            )
+        elif previous_declared:
+            # A short AIS sample often contains a position report without fresh
+            # static voyage data. Missing destination data must not fabricate a
+            # route change or drop an active declaration.
+            contact.update({
+                "to_russia_declared": True,
+                "to_russia_declared_basis": "last_observed_russian_destination",
+                "to_russia_declared_port_hits": list(entry.get("declared_port_hits") or []),
+                "from_russia_confirmed": False,
+            })
+        else:
+            recent_until = parse_optional_datetime(entry.get("recent_unconfirmed_until"))
+            if recent_until and recent_until >= now:
+                contact.update({
+                    "to_russia_declared": False,
+                    "recent_russian_portcall_unconfirmed_10d": True,
+                    "recent_ru_portcall_confidence": "unconfirmed",
+                    "recent_ru_portcall_basis": "destination_changed_after_russian_destination",
+                    "recent_ru_portcall_started_at": entry.get("recent_unconfirmed_started_at"),
+                    "recent_ru_portcall_until": entry.get("recent_unconfirmed_until"),
+                    "from_russia_confirmed": False,
+                })
+
+        if port_hits:
+            confirmed_until = now + timedelta(days=RECENT_RUSSIAN_PORTCALL_DAYS)
+            was_confirmed = (parse_optional_datetime(entry.get("recent_confirmed_until")) or datetime.min.replace(tzinfo=timezone.utc)) >= now
+            entry["recent_confirmed_started_at"] = entry.get("recent_confirmed_started_at") or now_iso
+            entry["recent_confirmed_until"] = confirmed_until.isoformat()
+            entry["confirmed_port_hits"] = port_hits
+            contact.update({
+                "recent_russian_portcall_confirmed_10d": True,
+                "recent_ru_portcall_confidence": "confirmed",
+                "recent_ru_portcall_basis": "observed_port_field",
+                "recent_ru_portcall_started_at": entry.get("recent_confirmed_started_at"),
+                "recent_ru_portcall_until": entry.get("recent_confirmed_until"),
+                "from_russia_confirmed": True,
+            })
+            if not was_confirmed:
+                add_event("recent_russian_portcall_confirmed", "confirmed", "observed_port_field", port_hits)
+        else:
+            confirmed_until = parse_optional_datetime(entry.get("recent_confirmed_until"))
+            if confirmed_until and confirmed_until >= now:
+                contact.update({
+                    "recent_russian_portcall_confirmed_10d": True,
+                    "recent_russian_portcall_unconfirmed_10d": False,
+                    "recent_ru_portcall_confidence": "confirmed",
+                    "recent_ru_portcall_basis": "persisted_observed_port_field",
+                    "recent_ru_portcall_started_at": entry.get("recent_confirmed_started_at"),
+                    "recent_ru_portcall_until": entry.get("recent_confirmed_until"),
+                    "from_russia_confirmed": True,
+                })
+
+        entry["last_destination_observed"] = destination or entry.get("last_destination_observed") or ""
+        entry["updated_at"] = now_iso
+        vessels[state_key] = entry
+        for alias in identity_aliases:
+            aliases[alias] = state_key
+        annotated.append(contact)
+
+    retention_cutoff = now - timedelta(days=RUSSIAN_ROUTE_STATE_RETENTION_DAYS)
+    state["vessels"] = {
+        key: entry
+        for key, entry in vessels.items()
+        if (parse_optional_datetime(entry.get("updated_at")) or now) >= retention_cutoff
+    }
+    state.update({
+        "schema_version": "1.0.0",
+        "updated_at": now_iso,
+        "policy": {
+            "to_russia_declared": "Current AIS destination declaration only; excluded from map unless another VOI category applies.",
+            "recent_russian_portcall_unconfirmed_10d": "Destination changed after a Russian declaration; 10-day lead without portcall confirmation.",
+            "recent_russian_portcall_confirmed_10d": "Explicit observed port field or later manual evidence; 10-day confirmed context.",
+        },
+    })
+    atomic_json_write(RUSSIAN_ROUTE_STATE_PATH, state)
+    append_russian_route_events(events)
+    return annotated
 
 
 def parse_float(v: Any) -> float | None:
@@ -257,6 +567,8 @@ def keep_contact(
         or is_watchlist_match(d, idx)
         or is_flag_risk_mid(d, risk_mids)
         or has_russian_destination_or_port(d, ru_codes, ru_names)
+        or d.get("recent_russian_portcall_unconfirmed_10d") is True
+        or d.get("recent_russian_portcall_confirmed_10d") is True
         or is_neutral_tanker_context_candidate(d)
     )
 
@@ -743,6 +1055,12 @@ async def main() -> int:
 
     duration_seconds = max(30, int(os.getenv("AISSTREAM_SAMPLE_SECONDS", "1800")))
     contacts_raw, fetch_stats = await collect_stream(subscription, duration_seconds)
+    contacts_raw = apply_russian_route_state(
+        contacts_raw,
+        ru_codes,
+        ru_names,
+        provider="aisstream",
+    )
     contacts_out = [
         contact
         for contact in contacts_raw

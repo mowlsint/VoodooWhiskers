@@ -101,7 +101,7 @@ def classification_index():
   if not key:return
   cur=idx.setdefault(key,{'categories':set()});cats=props.get('categories') if isinstance(props.get('categories'),list) else []
   cur['categories'].update(str(c) for c in cats if str(c).strip())
-  for k in ('is_priority_voi','known_voi_match','sanctioned','shadow_fleet','false_flag','behavioral_voi','from_russia_confirmed','neutral_tanker_context'):
+  for k in ('is_priority_voi','known_voi_match','sanctioned','shadow_fleet','false_flag','behavioral_voi','from_russia_confirmed','recent_russian_portcall_confirmed_10d','recent_russian_portcall_unconfirmed_10d','to_russia_declared','neutral_tanker_context'):
    cur[k]=bool(cur.get(k) or props.get(k) is True or truthy(props.get(k)))
  watch=DATA/'watchlist_master.csv'
  if watch.exists():
@@ -130,7 +130,6 @@ def classification_index():
    if implied=='sanctions_shadowfleet':props['sanctioned']=True;props['shadow_fleet']=True
    if implied in {'falseflag_interest','false_flag_watch'}:props['false_flag']=True
    if implied=='behavioral_voi':props['behavioral_voi']=True
-   if implied=='recent_russian_portcall_10d':props['from_russia_confirmed']=True
    if implied=='watchlist':props['known_voi_match']=True;props['is_priority_voi']=True
    keys=[];imo=digits(props.get('imo'));mmsi=digits(props.get('mmsi'))
    if len(imo)==7:keys.append(f'imo:{imo}')
@@ -142,7 +141,7 @@ def enrich(rows,snapshot):
  idx=classification_index();out=[]
  for r in rows:
   c=dict(r);cl=idx.get(ident(c),{});cats=sorted(set((c.get('categories') or [])+(cl.get('categories') or [])))
-  c.update({k:cl.get(k,c.get(k,False)) for k in ('is_priority_voi','known_voi_match','sanctioned','shadow_fleet','false_flag','behavioral_voi','from_russia_confirmed','neutral_tanker_context')});c['categories']=cats;c['snapshot_at']=iso(snapshot);out.append(c)
+  c.update({k:cl.get(k,c.get(k,False)) for k in ('is_priority_voi','known_voi_match','sanctioned','shadow_fleet','false_flag','behavioral_voi','from_russia_confirmed','recent_russian_portcall_confirmed_10d','recent_russian_portcall_unconfirmed_10d','to_russia_declared','neutral_tanker_context')});c['categories']=cats;c['snapshot_at']=iso(snapshot);out.append(c)
  return out
 def coverage_ready(provider,snapshot,coverages,cfg):
  max_age=float((cfg.get('source_max_age_at_snapshot_hours') or {}).get(provider,12));future=float((cfg.get('coverage_future_tolerance_hours') or {}).get(provider,0))

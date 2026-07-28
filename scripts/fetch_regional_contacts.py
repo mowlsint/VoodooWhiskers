@@ -26,6 +26,7 @@ from urllib3.util.retry import Retry
 
 # Reuse the exact filtering logic already used by the AISstream collector.
 from fetch_contacts import (
+    apply_russian_route_state,
     clean_str,
     digits,
     keep_contact,
@@ -265,11 +266,17 @@ def normalize_barentswatch(record: dict[str, Any], fetched_at: str) -> dict[str,
     return contact
 
 
-def filter_contacts(contacts: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+def filter_contacts(contacts: Iterable[dict[str, Any]], provider: str) -> list[dict[str, Any]]:
     watch_idx = load_watchlist_index()
     risk_mids = load_flag_risk_mids()
     ru_codes, ru_names = load_russian_port_terms()
-    kept = [c for c in contacts if keep_contact(c, watch_idx, risk_mids, ru_codes, ru_names)]
+    annotated = apply_russian_route_state(
+        list(contacts),
+        ru_codes,
+        ru_names,
+        provider=provider,
+    )
+    kept = [c for c in annotated if keep_contact(c, watch_idx, risk_mids, ru_codes, ru_names)]
     kept.sort(key=lambda c: (digits(c.get("mmsi")), clean_str(c.get("name"))))
     return kept
 
@@ -291,7 +298,7 @@ def fetch_fintraffic(session: requests.Session) -> tuple[dict[str, Any], dict[st
         contact = normalize_fintraffic(record, metadata.get(mmsi, {}), fetched_at)
         if contact:
             normalized.append(contact)
-    kept = filter_contacts(normalized)
+    kept = filter_contacts(normalized, "fintraffic")
     payload = {
         "schema_version": "1.0.0",
         "generated_at": fetched_at,
@@ -336,7 +343,7 @@ def fetch_barentswatch(session: requests.Session, client_id: str, client_secret:
     fetched_at = utc_now_iso()
     records = list(iter_records(response.json()))
     normalized = [contact for record in records if (contact := normalize_barentswatch(record, fetched_at))]
-    kept = filter_contacts(normalized)
+    kept = filter_contacts(normalized, "barentswatch")
     payload = {
         "schema_version": "1.0.0",
         "generated_at": fetched_at,

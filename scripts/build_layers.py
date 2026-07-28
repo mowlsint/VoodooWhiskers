@@ -115,7 +115,7 @@ LAYER_STYLE = {
         "category_rank": 80,
     },
     "recent_russian_portcall_10d": {
-        "label": "Recent Russian portcall / destination",
+        "label": "Recent Russian portcall context",
         "short_label": "Recent RU portcall",
         "marker_color": "#fdae61",
         "stroke_color": "#a65400",
@@ -367,19 +367,7 @@ def load_russian_ports(path=PORTS_RU_PATH):
     ports["names"].update(norm_key(a) for a in aliases)
     return ports
 
-def extract_port_hits(contact, russian_ports):
-    raw_values = [
-        get_any(contact, "last_port_unlocode"),
-        get_any(contact, "destination_unlocode"),
-        get_any(contact, "port_unlocode"),
-        get_any(contact, "port_code"),
-        get_any(contact, "destination", "Destination"),
-        get_any(contact, "last_port_name"),
-        get_any(contact, "last_ru_port"),
-        get_any(contact, "last_ru_port_unlocode"),
-        get_any(contact, "next_port"),
-    ]
-
+def extract_port_hits_from_values(raw_values, russian_ports):
     hits = set()
     deny_hits = set()
 
@@ -410,8 +398,34 @@ def extract_port_hits(contact, russian_ports):
     return bool(hits), sorted(hits | deny_hits)
 
 
+def extract_destination_port_hits(contact, russian_ports):
+    return extract_port_hits_from_values(
+        [
+            get_any(contact, "destination_unlocode"),
+            get_any(contact, "destination", "Destination"),
+            get_any(contact, "next_port"),
+        ],
+        russian_ports,
+    )
+
+
+def extract_observed_port_hits(contact, russian_ports):
+    """Port-observation evidence only; AIS destination is intentionally excluded."""
+    return extract_port_hits_from_values(
+        [
+            get_any(contact, "last_port_unlocode"),
+            get_any(contact, "port_unlocode"),
+            get_any(contact, "port_code"),
+            get_any(contact, "last_port_name"),
+            get_any(contact, "last_ru_port"),
+            get_any(contact, "last_ru_port_unlocode"),
+        ],
+        russian_ports,
+    )
+
+
 def confirm_russian_port(contact, russian_ports):
-    return extract_port_hits(contact, russian_ports)
+    return extract_observed_port_hits(contact, russian_ports)
 
 
 def split_tokens(v):
@@ -597,6 +611,8 @@ def build_popup_html(props, layer_name=""):
         html_row("MMSI", mmsi),
         html_row("Callsign", props.get("callsign") or props.get("watch_callsign")),
         html_row("Destination", props.get("destination")),
+        html_row("RU route state", props.get("recent_ru_portcall_confidence") or ("declared destination" if props.get("to_russia_declared") else "")),
+        html_row("RU evidence", props.get("recent_ru_portcall_basis") or props.get("to_russia_declared_basis")),
         html_row("SOG / COG", f"{display_value(props.get('sog'))} kn / {display_value(props.get('cog'))}°"),
         html_row("Last seen", props.get("last_seen_utc")),
         html_row("Watchlist", props.get("source_list")),
@@ -758,12 +774,40 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref):
     if mmsi.startswith("273"):
         categories.add("russian_mmsi")
 
-    from_russia_confirmed, port_hits = confirm_russian_port(contact, russian_ports)
+    destination_declared_by_text, destination_hits = extract_destination_port_hits(contact, russian_ports)
+    observed_port_confirmed, observed_port_hits = confirm_russian_port(contact, russian_ports)
+    to_russia_declared = bool(contact.get("to_russia_declared") or destination_declared_by_text)
+    recent_unconfirmed = bool(contact.get("recent_russian_portcall_unconfirmed_10d"))
+    from_russia_confirmed = bool(
+        contact.get("recent_russian_portcall_confirmed_10d")
+        or (contact.get("from_russia_confirmed") and observed_port_confirmed)
+        or observed_port_confirmed
+    )
+    merged["to_russia_declared"] = to_russia_declared
+    merged["to_russia_declared_basis"] = (
+        clean_str(contact.get("to_russia_declared_basis"))
+        or ("current_ais_destination" if destination_declared_by_text else "")
+    )
+    declared_hits_raw = contact.get("to_russia_declared_port_hits") or []
+    declared_hits = declared_hits_raw if isinstance(declared_hits_raw, list) else split_tokens(declared_hits_raw)
+    merged["to_russia_declared_port_hits"] = sorted(set(declared_hits + destination_hits))
+    merged["recent_russian_portcall_unconfirmed_10d"] = recent_unconfirmed
+    merged["recent_russian_portcall_confirmed_10d"] = from_russia_confirmed
     merged["from_russia_confirmed"] = from_russia_confirmed
-    merged["port_codes_seen"] = ";".join(port_hits)
+    merged["port_codes_seen"] = ";".join(observed_port_hits)
     if from_russia_confirmed:
         categories.add("recent_russian_portcall_10d")
-        merged["recent_ru_portcall_basis"] = "current_ais_destination_or_port_field"
+        merged["recent_ru_portcall_confidence"] = "confirmed"
+        merged["recent_ru_portcall_basis"] = clean_str(contact.get("recent_ru_portcall_basis")) or "observed_port_field"
+    elif recent_unconfirmed:
+        categories.add("recent_russian_portcall_10d")
+        merged["recent_ru_portcall_confidence"] = "unconfirmed"
+        merged["recent_ru_portcall_basis"] = clean_str(contact.get("recent_ru_portcall_basis")) or "destination_changed_after_russian_destination"
+    elif to_russia_declared:
+        # Intention-only state: retained in the route database but deliberately
+        # not promoted to a map category by itself.
+        merged["recent_ru_portcall_confidence"] = "declared_destination_only"
+        merged["to_russia_declared_index_impact"] = "none"
 
     flag_risk = assess_flag_risk(contact, flag_ref)
     if flag_risk:
@@ -844,7 +888,7 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref):
         merged["false_flag"] = bool(flag_risk and flag_risk.get("flag_risk_band") != "context")
         merged.setdefault("behavioral_voi", False)
 
-    if neutral_tanker_zones and not categories:
+    if neutral_tanker_zones and not categories and not to_russia_declared:
         categories.add("neutral_tanker_context")
         merged["neutral_tanker_context"] = True
         merged["display_category"] = "Neutral tanker / no current VOI match"
@@ -918,7 +962,11 @@ def build_recent_ru_input_items(russian_ports, flag_ref):
         item["latitude"] = row.get("lat") or row.get("latitude")
         item["longitude"] = row.get("lon") or row.get("longitude")
         item["from_russia_confirmed"] = True
+        item["recent_russian_portcall_confirmed_10d"] = True
+        item["recent_russian_portcall_unconfirmed_10d"] = False
+        item["to_russia_declared"] = False
         item["port_codes_seen"] = norm_port_code(row.get("last_ru_port_unlocode")) or norm_key(row.get("last_ru_port"))
+        item["recent_ru_portcall_confidence"] = "confirmed"
         item["recent_ru_portcall_basis"] = "manual_recent_russian_portcall_input"
         item["categories"] = ["recent_russian_portcall_10d"]
         flag_risk = assess_flag_risk(item, flag_ref)
@@ -944,7 +992,16 @@ def build_recent_ru_history_items(current_items):
     cutoff = datetime.now(timezone.utc) - timedelta(days=RECENT_RUSSIAN_PORTCALL_DAYS)
     items = []
     for row in read_history_rows():
-        if not row.get("from_russia_confirmed"):
+        basis = clean_str(row.get("recent_ru_portcall_basis"))
+        confirmed = bool(
+            row.get("recent_russian_portcall_confirmed_10d")
+            or (row.get("from_russia_confirmed") and basis in {
+                "manual_recent_russian_portcall_input",
+                "observed_port_field",
+            })
+        )
+        unconfirmed = bool(row.get("recent_russian_portcall_unconfirmed_10d"))
+        if not confirmed and not unconfirmed:
             continue
         dt = None
         for key in ("last_seen_utc", "last_ru_port_date", "generated_at", "slot"):
@@ -957,16 +1014,26 @@ def build_recent_ru_history_items(current_items):
         cats = set(item.get("categories") or [])
         cats.add("recent_russian_portcall_10d")
         item["categories"] = sorted(cats)
-        item.setdefault("recent_ru_portcall_basis", "voi_history_from_russia_confirmed")
+        item["from_russia_confirmed"] = confirmed
+        item["recent_russian_portcall_confirmed_10d"] = confirmed
+        item["recent_russian_portcall_unconfirmed_10d"] = unconfirmed and not confirmed
+        item["recent_ru_portcall_confidence"] = "confirmed" if confirmed else "unconfirmed"
+        item.setdefault(
+            "recent_ru_portcall_basis",
+            "voi_history_confirmed_portcall" if confirmed else "voi_history_unconfirmed_post_destination_change",
+        )
         items.append(item)
 
     for row in current_items:
-        if row.get("from_russia_confirmed"):
+        if row.get("recent_russian_portcall_confirmed_10d") or row.get("recent_russian_portcall_unconfirmed_10d"):
             item = dict(row)
             cats = set(item.get("categories") or [])
             cats.add("recent_russian_portcall_10d")
             item["categories"] = sorted(cats)
-            item.setdefault("recent_ru_portcall_basis", "current_ais_destination_or_port_field")
+            item.setdefault(
+                "recent_ru_portcall_basis",
+                "observed_port_field" if item.get("recent_russian_portcall_confirmed_10d") else "destination_changed_after_russian_destination",
+            )
             items.append(item)
     return items
 
@@ -1090,6 +1157,9 @@ def update_stats(snapshot_items, slot, tanker_cluster_stats=None):
         "by_category": dict(Counter(cat for item in snapshot_items for cat in item.get("categories", []))),
         "by_priority": dict(Counter(item.get("watch_priority", "") for item in snapshot_items if item.get("watch_priority"))),
         "from_russia_confirmed": sum(1 for item in snapshot_items if item.get("from_russia_confirmed")),
+        "to_russia_declared_database_only": sum(1 for item in snapshot_items if item.get("to_russia_declared")),
+        "recent_russian_portcall_confirmed_10d": sum(1 for item in snapshot_items if item.get("recent_russian_portcall_confirmed_10d")),
+        "recent_russian_portcall_unconfirmed_10d": sum(1 for item in snapshot_items if item.get("recent_russian_portcall_unconfirmed_10d")),
         "falseflag_interest": sum(1 for item in snapshot_items if "falseflag_interest" in item.get("categories", [])),
         "false_flag_watch_hard": sum(1 for item in snapshot_items if "false_flag_watch" in item.get("categories", [])),
         "recent_russian_portcall_10d": sum(1 for item in snapshot_items if "recent_russian_portcall_10d" in item.get("categories", [])),

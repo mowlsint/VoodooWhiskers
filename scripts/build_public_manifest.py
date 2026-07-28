@@ -46,8 +46,8 @@ def main() -> int:
     generated_at = now_iso()
     products = []
     specs = [
-        ("ais_contacts_latest.json", "Current monitored AIS contacts — JSON", "ais", "Provider-neutral filtered AIS contacts currently monitored by Voodoo Whiskers."),
-        ("ais_contacts_latest.geojson", "Current monitored AIS positions — GeoJSON", "ais", "Map-ready filtered AIS positions currently monitored by Voodoo Whiskers."),
+        ("ais_contacts_latest.json", "AISStream or historical fallback contacts — JSON", "ais", "Filtered AISStream contacts when live; otherwise explicitly labelled historical fallback data from regional providers."),
+        ("ais_contacts_latest.geojson", "AISStream or historical fallback positions — GeoJSON", "ais", "Map-ready AISStream positions when live; otherwise explicitly labelled historical fallback data from regional providers."),
         ("ais_dk_last_two_positions.json", "Danish historical AIS — latest two observations — JSON", "ais_history", "Latest two temporally distinct historical Danish AIS observations per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions."),
         ("ais_dk_last_two_positions.geojson", "Danish historical AIS — latest two observations — GeoJSON", "ais_history", "Map-ready latest two historical Danish AIS observations and short connectors per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions."),
         ("ais_dk_import_status.json", "Danish historical AIS — import status", "ais_history", "Source date, lag, row-quality counters and import health for the delayed Danish AIS supplement."),
@@ -77,7 +77,7 @@ def main() -> int:
         "hosting_target": "Cloudflare Pages later",
         "assessment_limit": "VOI, SAR and proximity products support analyst review and do not establish hostile intent, attribution or unlawful activity.",
         "groups": [
-            {"id": "ais", "label": "Monitored AIS positions"},
+            {"id": "ais", "label": "AISStream / historical fallback data"},
             {"id": "ais_history", "label": "Historical AIS supplements"},
             {"id": "sar", "label": "SAR satellite detection cells"},
             {"id": "voi", "label": "VOI lists"},

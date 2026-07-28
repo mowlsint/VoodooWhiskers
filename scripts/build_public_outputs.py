@@ -512,6 +512,24 @@ def main() -> int:
     ais_generated_dt = parse_dt(ais_generated_at) or snapshot_dt
     raw_contacts = ais_pack.get("contacts") if isinstance(ais_pack.get("contacts"), list) else []
     ais_contacts = [normalize_item(item, ais_generated_dt) for item in raw_contacts if isinstance(item, dict)]
+    provider_status = ais_pack.get("provider_status") if isinstance(ais_pack.get("provider_status"), dict) else {}
+    aisstream_status = provider_status.get("aisstream") if isinstance(provider_status.get("aisstream"), dict) else {}
+    aisstream_age_hours = float_or_none(aisstream_status.get("age_hours"))
+    aisstream_live = bool(
+        aisstream_status.get("included")
+        and aisstream_age_hours is not None
+        and aisstream_age_hours <= 2.0
+    )
+    historical_source_codes = [
+        code
+        for provider, code in (
+            ("barentswatch", "N"),
+            ("fintraffic", "FIN"),
+            ("ais_dk_historical", "DK"),
+            ("global_fishing_watch", "glob."),
+        )
+        if provider in set(ais_pack.get("providers_included") or [])
+    ]
 
     VESSEL_DIR.mkdir(parents=True, exist_ok=True)
     DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
@@ -551,6 +569,8 @@ def main() -> int:
         "generated_at": ais_generated_at,
         "source": "Voodoo Whiskers AIS provider broker",
         "provider_label": "AIS",
+        "aisstream_live": aisstream_live,
+        "historical_source_codes": historical_source_codes,
         "public_product": True,
         "count": len(ais_contacts),
         "normalization": {
@@ -569,6 +589,10 @@ def main() -> int:
             "generated_at": ais_generated_at,
             "source": "Voodoo Whiskers AIS provider broker",
             "provider_label": "AIS",
+            "providers_included": list(ais_pack.get("providers_included") or []),
+            "provider_status": provider_status,
+            "aisstream_live": aisstream_live,
+            "historical_source_codes": historical_source_codes,
             "feature_count": len(ais_features),
             "coverage_limit": "Filtered and monitored mixed terrestrial/regional AIS snapshots; not a complete traffic picture or continuous tracking.",
         },
@@ -597,7 +621,9 @@ def main() -> int:
     atomic_json(DOWNLOAD_DIR / "voi_list_latest.json", voi_product)
     fields = [
         "name", "imo", "mmsi", "callsign", "flag_detected", "flag_iso_code", "categories", "watch_priority",
-        "sanctioned", "shadow_fleet", "false_flag", "from_russia_confirmed", "destination", "latitude", "longitude",
+        "sanctioned", "shadow_fleet", "false_flag", "from_russia_confirmed",
+        "recent_russian_portcall_confirmed_10d", "recent_russian_portcall_unconfirmed_10d",
+        "recent_ru_portcall_confidence", "recent_ru_portcall_basis", "destination", "latitude", "longitude",
         "sog", "cog", "observed_at", "position_timestamp_basis", "source", "source_list", "source_url", "notes",
     ]
     write_csv(DOWNLOAD_DIR / "voi_list_latest.csv", voi_rows, fields)
@@ -614,7 +640,9 @@ def main() -> int:
             "contact_count": len(ais_contacts),
             "feature_count": len(ais_features),
             "provider_label": "AIS",
-            "display_label": "Current monitored AIS contacts",
+            "display_label": "AISStream live contacts or historical fallback data",
+            "aisstream_live": aisstream_live,
+            "historical_source_codes": historical_source_codes,
         },
         "history": {"href": "./voi_history_14d.jsonl" if history_stats.get("available") else None, **history_stats},
         "danish_historical": danish_history,
