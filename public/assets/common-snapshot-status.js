@@ -18,6 +18,18 @@
     return Number.isFinite(ms) ? Math.max(0, (Date.now() - ms) / 3600000) : Infinity;
   };
 
+  const sourceCodes = (status) => {
+    const coverage = status?.source_coverage && typeof status.source_coverage === "object"
+      ? status.source_coverage
+      : {};
+    return [
+      ["barentswatch", "(N)"],
+      ["fintraffic", "(FIN)"],
+      ["ais_dk_historical", "(DK)"],
+      ["global_fishing_watch", "(glob.)"],
+    ].filter(([provider]) => Object.hasOwn(coverage, provider)).map(([, code]) => code);
+  };
+
   const effectiveStatus = (status) => {
     if (!status || !status.snapshot_id || !status.snapshot_at || !status.generated_at) {
       return {tone: "red", label: "snapshot unavailable", buildAgeHours: Infinity};
@@ -37,10 +49,12 @@
     try {
       const status = await fetchJson("./data/vessels/maritime_common_snapshot_status.json");
       const effective = effectiveStatus(status);
+      const codes = sourceCodes(status);
       host.dataset.tone = effective.tone;
       host.innerHTML = `
         <strong>Harmonized vessel data</strong>
         <span>Observed: ${formatUtc(status.snapshot_at)}</span>
+        <span>Historical fallback data${codes.length ? ` ${codes.join(" ")}` : ""}</span>
         <span>Built: ${formatUtc(status.generated_at)}</span>
         <span>${effective.label}</span>
       `;

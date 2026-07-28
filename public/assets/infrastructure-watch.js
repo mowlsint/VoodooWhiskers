@@ -116,6 +116,71 @@
     return categoriesOf(p).some(category => DISPLAY_VOI_CATEGORIES.has(category));
   }
 
+  function providerId(properties){
+    const p = properties || {};
+    const text = [p.source_provider, p.provider, p.source, ...(Array.isArray(p.sources) ? p.sources : [])].join(" ").toLowerCase();
+    if (text.includes("aisstream")) return "aisstream";
+    if (text.includes("fintraffic")) return "fintraffic";
+    if (text.includes("barentswatch") || text.includes("norwegian coastal")) return "barentswatch";
+    if (text.includes("ais_dk") || text.includes("danish")) return "ais_dk_historical";
+    if (text.includes("global_fishing_watch") || text.includes("global fishing watch") || /\bgfw\b/.test(text)) return "global_fishing_watch";
+    return "unknown";
+  }
+
+  function aisSourceLabel(properties){
+    const provider = providerId(properties);
+    if (provider === "aisstream" && state.data.ais_contacts?.metadata?.aisstream_live === true) {
+      return "Live AIS (aisstream.io)";
+    }
+    const code = {
+      barentswatch:"N",
+      fintraffic:"FIN",
+      ais_dk_historical:"DK",
+      global_fishing_watch:"glob."
+    }[provider];
+    return code ? `Historical fallback data (${code})` : "Historical fallback data";
+  }
+
+  function russianPortcallLabel(properties){
+    const p = properties || {};
+    if (p.recent_russian_portcall_confirmed_10d || p.from_russia_confirmed) return "confirmed";
+    if (p.recent_russian_portcall_unconfirmed_10d) return "unconfirmed";
+    if (p.to_russia_declared) return "declared destination only — not a confirmed portcall";
+    return "";
+  }
+
+  function formatAgeDays(value){
+    const date = parseDate(value);
+    if (!date) return "unknown";
+    const days = Math.max(0, (Date.now() - date.getTime()) / 86400000);
+    return `${days < 10 ? days.toFixed(1) : Math.round(days)} days`;
+  }
+
+  function commonSourceCodes(){
+    const status = state.data.common_status || {};
+    const coverage = status.source_coverage && typeof status.source_coverage === "object" ? status.source_coverage : {};
+    const providers = new Set(Object.keys(coverage));
+    for (const feature of state.data.common_snapshot?.features || []) providers.add(providerId(feature?.properties));
+    return [
+      ["barentswatch","(N)"],
+      ["fintraffic","(FIN)"],
+      ["ais_dk_historical","(DK)"],
+      ["global_fishing_watch","(glob.)"]
+    ].filter(([provider]) => providers.has(provider)).map(([,code]) => code);
+  }
+
+  function renderAisDataAgeBanner(){
+    const host = $("aisDataAgeBanner");
+    if (!host) return;
+    const status = state.data.common_status || {};
+    const observedAt = state.timeMode === "dk24"
+      ? state.data.danish_status?.data_max_timestamp_utc || status.snapshot_at
+      : status.snapshot_at || state.data.common_snapshot?.snapshot_at;
+    const codes = commonSourceCodes();
+    host.textContent = `AIS not live, Data age ${formatAgeDays(observedAt)} · Historical fallback data${codes.length ? ` ${codes.join(" ")}` : ""}`;
+    host.title = observedAt ? `Observation watermark: ${observedAt}` : "AIS observation watermark unavailable";
+  }
+
   function vesselFinderUrl(properties){
     const p = properties || {};
     const onlyDigits = value => String(value || "").replace(/\D/g, "");
@@ -153,10 +218,12 @@
         <b>IMO</b><span>${esc(p.imo || "–")}</span>
         <b>Categories</b><span>${esc(cats)}</span>
         <b>Destination</b><span>${esc(p.destination || "–")}</span>
+        <b>RU portcall</b><span>${esc(russianPortcallLabel(p) || "–")}</span>
+        <b>RU evidence</b><span>${esc(p.recent_ru_portcall_basis || p.to_russia_declared_basis || "–")}</span>
         <b>SOG / COG</b><span>${esc(p.sog ?? "–")} kn / ${esc(p.cog ?? "–")}°</span>
         <b>Observed</b><span>${esc(p.observed_at || p.last_seen_utc || "–")}</span>
         <b>Common snapshot</b><span>${esc(p.snapshot_at || "–")}</span>
-        <b>AIS source</b><span>${esc(p.source || "AIS")}</span>
+        <b>AIS source</b><span>${esc(aisSourceLabel(p))}</span>
         <b>Watch source</b><span>${esc(p.source_list || "–")}</span>
       </div>
       ${historical ? `<div class="historyWarn">Historical point inside the selected time window. It is not necessarily the vessel's current position.</div>` : ""}
@@ -176,7 +243,7 @@
         <b>Observed</b><span>${esc(p.observed_at || "–")}</span>
         <b>SOG / COG</b><span>${esc(p.sog ?? "–")} kn / ${esc(p.cog ?? "–")}°</span>
         <b>Destination</b><span>${esc(p.destination || "–")}</span>
-        <b>Source</b><span>Danish historical AIS</span>
+        <b>Source</b><span>Historical fallback data (DK)</span>
       </div>
       ${vesselFinderLink(p) ? `<div style="margin-top:7px">${vesselFinderLink(p)}</div>` : ""}
       <div class="historyWarn">Delayed historical data. Do not use this point as a current vessel position.</div>`;
@@ -494,6 +561,7 @@
 
   async function applyTimeMode(mode){
     state.timeMode=mode;
+    renderAisDataAgeBanner();
     updateTimeButtons(mode);
     $("timeStatus").textContent="Loading…";
     const hours=TIME_HOURS[mode] || null;
@@ -581,7 +649,7 @@
 
   async function loadDynamicData(){
     const [ais,vessels,events,danish,danishStatus,commonSnapshot,commonStatus]=await Promise.all([
-      fetchJson(paths.aisContacts).catch(error=>{console.warn("Current AIS unavailable",error);return EMPTY_FC();}),
+      fetchJson(paths.aisContacts).catch(error=>{console.warn("AIS provider data unavailable",error);return EMPTY_FC();}),
       fetchJson(paths.vesselPositions).catch(error=>{console.warn("Current VOI positions unavailable",error);return EMPTY_FC();}),
       fetchJson(paths.infrastructure_events).catch(error=>{console.warn("Infrastructure events unavailable",error);return EMPTY_FC();}),
       fetchJson(paths.danishHistory).catch(error=>{console.warn("Danish historical AIS unavailable",error);return EMPTY_FC();}),
@@ -597,6 +665,7 @@
     state.data.common_snapshot=commonSnapshot;
     state.data.common_status=commonStatus;
     state.dynamicReady=true;
+    renderAisDataAgeBanner();
   }
 
   async function init(){
