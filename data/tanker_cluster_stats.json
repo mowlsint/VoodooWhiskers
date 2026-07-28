@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-07-28T04:49:45+00:00",
-  "total_contacts_seen": 815,
-  "total_unique_tankers_in_context_zones": 206,
+  "generated_at": "2026-07-28T05:24:29+00:00",
+  "total_contacts_seen": 806,
+  "total_unique_tankers_in_context_zones": 203,
   "total_tanker_context_zones": 7,
-  "neutral_tanker_context_total": 113,
-  "voi_tankers_in_context_zones": 93,
+  "neutral_tanker_context_total": 115,
+  "voi_tankers_in_context_zones": 88,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 55,
-      "neutral_tankers": 49,
+      "total_tankers": 56,
+      "neutral_tankers": 50,
       "voi_tankers": 6,
-      "slow_or_waiting": 21,
+      "slow_or_waiting": 23,
       "for_order": 1,
       "examples": [
         {
@@ -65,11 +65,21 @@
           ]
         },
         {
+          "name": "NORDIC",
+          "imo": "9438444",
+          "mmsi": "219027463",
+          "destination": "NLRTM",
+          "sog": "7.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
           "name": "DAN CISNE",
           "imo": "9513440",
           "mmsi": "219332000",
           "destination": "TRITON FPSO>DE RSK",
-          "sog": "8.7",
+          "sog": "11.7",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -83,16 +93,6 @@
           "categories": [
             "neutral_tanker_context"
           ]
-        },
-        {
-          "name": "TERN SEA",
-          "imo": "9747974",
-          "mmsi": "219814000",
-          "destination": "FI POR",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
         }
       ],
       "zone_id": "danish_straits_kattegat",
@@ -100,11 +100,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 114,
-      "neutral_tankers": 28,
-      "voi_tankers": 86,
-      "slow_or_waiting": 88,
-      "for_order": 7,
+      "total_tankers": 110,
+      "neutral_tankers": 29,
+      "voi_tankers": 81,
+      "slow_or_waiting": 71,
+      "for_order": 5,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -121,7 +121,7 @@
           "imo": "9819052",
           "mmsi": "209415000",
           "destination": "FIPRV",
-          "sog": "13.2",
+          "sog": "12.7",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -147,11 +147,21 @@
           ]
         },
         {
+          "name": "ELDIA",
+          "imo": "9798351",
+          "mmsi": "215078000",
+          "destination": "RU ULU",
+          "sog": "11.2",
+          "categories": [
+            "recent_russian_portcall_10d"
+          ]
+        },
+        {
           "name": "SEAFAITH",
           "imo": "9843209",
           "mmsi": "215515000",
           "destination": "FOR ORDERS",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -161,7 +171,7 @@
           "imo": "9909651",
           "mmsi": "219029880",
           "destination": "SEGOT",
-          "sog": "0.0",
+          "sog": "11.4",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -171,17 +181,7 @@
           "imo": "9892444",
           "mmsi": "230688000",
           "destination": "FISKV",
-          "sog": "0.2",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "AMALTHEA",
-          "imo": "9298650",
-          "mmsi": "240447000",
-          "destination": "BALTIC SEA FOR ORDER",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -193,9 +193,9 @@
     },
     {
       "total_tankers": 30,
-      "neutral_tankers": 27,
-      "voi_tankers": 3,
-      "slow_or_waiting": 13,
+      "neutral_tankers": 28,
+      "voi_tankers": 2,
+      "slow_or_waiting": 15,
       "for_order": 0,
       "examples": [
         {
@@ -229,11 +229,21 @@
           ]
         },
         {
+          "name": "NORDIC",
+          "imo": "9438444",
+          "mmsi": "219027463",
+          "destination": "NLRTM",
+          "sog": "7.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
           "name": "DAN CISNE",
           "imo": "9513440",
           "mmsi": "219332000",
           "destination": "TRITON FPSO>DE RSK",
-          "sog": "8.7",
+          "sog": "11.7",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -263,17 +273,7 @@
           "imo": "9341328",
           "mmsi": "236112059",
           "destination": "SE GOT",
-          "sog": "10.4",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "CORAL MEDUSA",
-          "imo": "9346926",
-          "mmsi": "244870427",
-          "destination": "DRIFTING GOTHENBURG",
-          "sog": "0.5",
+          "sog": "0",
           "categories": [
             "neutral_tanker_context"
           ]
