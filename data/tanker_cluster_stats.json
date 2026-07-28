@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-07-28T05:24:29+00:00",
-  "total_contacts_seen": 806,
-  "total_unique_tankers_in_context_zones": 203,
+  "generated_at": "2026-07-28T16:15:15+00:00",
+  "total_contacts_seen": 792,
+  "total_unique_tankers_in_context_zones": 205,
   "total_tanker_context_zones": 7,
   "neutral_tanker_context_total": 115,
-  "voi_tankers_in_context_zones": 88,
+  "voi_tankers_in_context_zones": 90,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 56,
-      "neutral_tankers": 50,
+      "total_tankers": 59,
+      "neutral_tankers": 53,
       "voi_tankers": 6,
       "slow_or_waiting": 23,
       "for_order": 1,
@@ -69,7 +69,7 @@
           "imo": "9438444",
           "mmsi": "219027463",
           "destination": "NLRTM",
-          "sog": "7.0",
+          "sog": "7.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,101 +100,9 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 110,
-      "neutral_tankers": 29,
-      "voi_tankers": 81,
-      "slow_or_waiting": 71,
-      "for_order": 5,
-      "examples": [
-        {
-          "name": "EXEMPLAR",
-          "imo": "9444649",
-          "mmsi": "205553000",
-          "destination": "FIINK",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "GIOCONDA",
-          "imo": "9819052",
-          "mmsi": "209415000",
-          "destination": "FIPRV",
-          "sog": "12.7",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "RINA",
-          "imo": "9152820",
-          "mmsi": "210051000",
-          "destination": "EE PAS",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "ZIRCONE",
-          "imo": "9010929",
-          "mmsi": "210056000",
-          "destination": "TALLINN",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "ELDIA",
-          "imo": "9798351",
-          "mmsi": "215078000",
-          "destination": "RU ULU",
-          "sog": "11.2",
-          "categories": [
-            "recent_russian_portcall_10d"
-          ]
-        },
-        {
-          "name": "SEAFAITH",
-          "imo": "9843209",
-          "mmsi": "215515000",
-          "destination": "FOR ORDERS",
-          "sog": "0.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TERN FORS",
-          "imo": "9909651",
-          "mmsi": "219029880",
-          "destination": "SEGOT",
-          "sog": "11.4",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "JATULI",
-          "imo": "9892444",
-          "mmsi": "230688000",
-          "destination": "FISKV",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        }
-      ],
-      "zone_id": "gulf_of_finland_ru_approaches",
-      "zone_label": "Gulf of Finland / Ust-Luga-Primorsk approaches",
-      "level": "heightened_context"
-    },
-    {
-      "total_tankers": 30,
-      "neutral_tankers": 28,
-      "voi_tankers": 2,
+      "total_tankers": 32,
+      "neutral_tankers": 31,
+      "voi_tankers": 1,
       "slow_or_waiting": 15,
       "for_order": 0,
       "examples": [
@@ -233,7 +141,7 @@
           "imo": "9438444",
           "mmsi": "219027463",
           "destination": "NLRTM",
-          "sog": "7.0",
+          "sog": "7.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -269,11 +177,11 @@
           ]
         },
         {
-          "name": "ATLANTIC TWIN",
-          "imo": "9341328",
-          "mmsi": "236112059",
-          "destination": "SE GOT",
-          "sog": "0",
+          "name": "STOLT AUK",
+          "imo": "9164108",
+          "mmsi": "235104739",
+          "destination": "GBGRG>SESTE",
+          "sog": "13.8",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -281,6 +189,98 @@
       ],
       "zone_id": "skagen_waiting_area",
       "zone_label": "Skagen / northern Kattegat",
+      "level": "heightened_context"
+    },
+    {
+      "total_tankers": 109,
+      "neutral_tankers": 26,
+      "voi_tankers": 83,
+      "slow_or_waiting": 80,
+      "for_order": 4,
+      "examples": [
+        {
+          "name": "EXEMPLAR",
+          "imo": "9444649",
+          "mmsi": "205553000",
+          "destination": "FIINK",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "GIOCONDA",
+          "imo": "9819052",
+          "mmsi": "209415000",
+          "destination": "FIPRV",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "RINA",
+          "imo": "9152820",
+          "mmsi": "210051000",
+          "destination": "EE PAS",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "ZIRCONE",
+          "imo": "9010929",
+          "mmsi": "210056000",
+          "destination": "TALLINN",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "ELDIA",
+          "imo": "9798351",
+          "mmsi": "215078000",
+          "destination": "RU ULU",
+          "sog": "8.3",
+          "categories": [
+            "recent_russian_portcall_10d"
+          ]
+        },
+        {
+          "name": "SEAFAITH",
+          "imo": "9843209",
+          "mmsi": "215515000",
+          "destination": "FOR ORDERS",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "TERN FORS",
+          "imo": "9909651",
+          "mmsi": "219029880",
+          "destination": "SEGOT",
+          "sog": "10.1",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "JATULI",
+          "imo": "9892444",
+          "mmsi": "230688000",
+          "destination": "FISKV",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        }
+      ],
+      "zone_id": "gulf_of_finland_ru_approaches",
+      "zone_label": "Gulf of Finland / Ust-Luga-Primorsk approaches",
       "level": "heightened_context"
     },
     {
