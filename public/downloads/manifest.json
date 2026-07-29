@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-28T16:16:07+00:00",
+  "generated_at": "2026-07-29T04:14:22+00:00",
   "source": "Voodoo Whiskers",
   "repository_public": true,
   "hosting_target": "Cloudflare Pages later",
@@ -8,7 +8,7 @@
   "groups": [
     {
       "id": "ais",
-      "label": "Monitored AIS positions"
+      "label": "AISStream / historical fallback data"
     },
     {
       "id": "ais_history",
@@ -30,22 +30,22 @@
   "products": [
     {
       "id": "ais_contacts_latest",
-      "label": "Current monitored AIS contacts — JSON",
+      "label": "AISStream or historical fallback contacts — JSON",
       "group": "ais",
-      "description": "Provider-neutral filtered AIS contacts currently monitored by Voodoo Whiskers.",
+      "description": "Filtered AISStream contacts when live; otherwise explicitly labelled historical fallback data from regional providers.",
       "href": "./ais_contacts_latest.json",
       "filename": "ais_contacts_latest.json",
-      "size_bytes": 806249,
+      "size_bytes": 806331,
       "media_type": "application/json"
     },
     {
       "id": "ais_contacts_latest",
-      "label": "Current monitored AIS positions — GeoJSON",
+      "label": "AISStream or historical fallback positions — GeoJSON",
       "group": "ais",
-      "description": "Map-ready filtered AIS positions currently monitored by Voodoo Whiskers.",
+      "description": "Map-ready AISStream positions when live; otherwise explicitly labelled historical fallback data from regional providers.",
       "href": "./ais_contacts_latest.geojson",
       "filename": "ais_contacts_latest.geojson",
-      "size_bytes": 950154,
+      "size_bytes": 951315,
       "media_type": "application/geo+json"
     },
     {
@@ -55,7 +55,7 @@
       "description": "Latest two temporally distinct historical Danish AIS observations per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions.",
       "href": "./ais_dk_last_two_positions.json",
       "filename": "ais_dk_last_two_positions.json",
-      "size_bytes": 500219,
+      "size_bytes": 537577,
       "media_type": "application/json"
     },
     {
@@ -65,7 +65,7 @@
       "description": "Map-ready latest two historical Danish AIS observations and short connectors per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions.",
       "href": "./ais_dk_last_two_positions.geojson",
       "filename": "ais_dk_last_two_positions.geojson",
-      "size_bytes": 1041645,
+      "size_bytes": 1130203,
       "media_type": "application/geo+json"
     },
     {
@@ -155,7 +155,7 @@
       "description": "Tabular current priority VOI list.",
       "href": "./voi_list_latest.csv",
       "filename": "voi_list_latest.csv",
-      "size_bytes": 100622,
+      "size_bytes": 113510,
       "media_type": "text/csv"
     },
     {

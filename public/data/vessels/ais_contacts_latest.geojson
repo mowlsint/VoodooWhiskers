@@ -32120,6 +32120,48 @@
     "generated_at": "2026-07-28T16:15:13+00:00",
     "source": "Voodoo Whiskers AIS provider broker",
     "provider_label": "AIS",
+    "providers_included": [
+      "aisstream",
+      "fintraffic",
+      "barentswatch"
+    ],
+    "provider_status": {
+      "aisstream": {
+        "path": "data/ais_contacts_aisstream_latest.json",
+        "included": true,
+        "generated_at": "2026-07-28T04:49:44+00:00",
+        "age_hours": 11.42,
+        "soft_ttl_hours": 40.0,
+        "hard_ttl_hours": 96.0,
+        "stale": false,
+        "contact_count": 494
+      },
+      "fintraffic": {
+        "path": "data/ais_contacts_fintraffic_latest.json",
+        "included": true,
+        "generated_at": "2026-07-28T16:15:10+00:00",
+        "age_hours": 0.0,
+        "soft_ttl_hours": 30.0,
+        "hard_ttl_hours": 72.0,
+        "stale": false,
+        "contact_count": 241
+      },
+      "barentswatch": {
+        "path": "data/ais_contacts_barentswatch_latest.json",
+        "included": true,
+        "generated_at": "2026-07-28T16:15:13+00:00",
+        "age_hours": 0.0,
+        "soft_ttl_hours": 30.0,
+        "hard_ttl_hours": 72.0,
+        "stale": false,
+        "contact_count": 111
+      }
+    },
+    "aisstream_live": false,
+    "historical_source_codes": [
+      "N",
+      "FIN"
+    ],
     "feature_count": 792,
     "coverage_limit": "Filtered and monitored mixed terrestrial/regional AIS snapshots; not a complete traffic picture or continuous tracking."
   }
