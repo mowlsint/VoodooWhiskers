@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0.0",
-  "snapshot_id": "maritime-20260724T230000Z",
-  "generated_at": "2026-07-30T05:17:46Z",
-  "snapshot_at": "2026-07-24T23:00:00Z",
-  "snapshot_age_hours": 126.3,
+  "snapshot_id": "maritime-20260725T230000Z",
+  "generated_at": "2026-07-30T07:58:53Z",
+  "snapshot_at": "2026-07-25T23:00:00Z",
+  "snapshot_age_hours": 104.98,
   "snapshot_complete": false,
   "snapshot_current": false,
   "expected_refresh_hours": 30.0,
@@ -16,8 +16,8 @@
     "source_path": "data/gfw_historical_ais_latest.json",
     "coverage_scope": "common_operational_regions",
     "coverage_complete": false,
-    "generated_at": "2026-07-29T08:09:13Z",
-    "data_max_timestamp_utc": "2026-07-24T23:00:00Z",
+    "generated_at": "2026-07-30T07:57:12Z",
+    "data_max_timestamp_utc": "2026-07-25T23:00:00Z",
     "status": "degraded",
     "cap_applied": true,
     "queries_failed": 0
@@ -26,19 +26,19 @@
     "global_fishing_watch": {
       "state": "limited_or_degraded",
       "reason": "GFW_region_failure_or_cap_or_SAR_only_scope",
-      "coverage_at": "2026-07-24T23:00:00Z",
-      "position_history_min": "2026-07-24T00:00:00Z",
-      "position_history_max": "2026-07-24T23:00:00Z",
+      "coverage_at": "2026-07-25T23:00:00Z",
+      "position_history_min": "2026-07-25T00:00:00Z",
+      "position_history_max": "2026-07-25T23:00:00Z",
       "selected_contacts": 12000,
       "max_age_at_snapshot_hours": 24
     },
     "ais_dk_historical": {
       "state": "ready",
       "reason": null,
-      "coverage_at": "2026-07-24T23:59:58Z",
+      "coverage_at": "2026-07-25T23:59:58Z",
       "position_history_min": "2026-07-23T01:34:03Z",
       "position_history_max": "2026-07-27T23:59:58Z",
-      "selected_contacts": 137,
+      "selected_contacts": 135,
       "max_age_at_snapshot_hours": 24
     },
     "fintraffic": {
@@ -56,12 +56,12 @@
       "coverage_at": null,
       "position_history_min": "2026-07-25T06:05:38Z",
       "position_history_max": "2026-07-30T05:17:41Z",
-      "selected_contacts": 0,
+      "selected_contacts": 25,
       "max_age_at_snapshot_hours": 16
     }
   },
   "assessment_limit": "The common snapshot is a harmonized delayed observation product, not a live traffic picture.",
-  "count": 12090,
+  "count": 12108,
   "mandatory_sources": [
     "global_fishing_watch",
     "ais_dk_historical",
