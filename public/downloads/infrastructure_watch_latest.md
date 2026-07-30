@@ -1,7 +1,7 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-07-30T04:02:36+00:00
-- Review events: 11
+- Generated: 2026-07-30T04:45:05+00:00
+- Review events: 15
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
 
@@ -15,6 +15,18 @@
 - Close-band points: 12
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
+## NORDSTRAUM — ELEVATED
+
+- MMSI / IMO: 258152000 / 9523548
+- Infrastructure: pipeline — NORD STREAM 1
+- Minimum distance: 0.09 nm
+- Close-band points: 2
+- Estimated dwell: 33.6 min
+- Signals: critical_infrastructure_proximity, extended_presence_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
@@ -48,10 +60,22 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 518100214 / 8605765
 - Infrastructure: offshore_energy — Flan Sea
 - Minimum distance: 0.219 nm
-- Close-band points: 10
+- Close-band points: 11
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, repeated_entries_into_close_band, voi_or_watchlist_context
 - Confidence: medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
+## NORDSTRAUM — REVIEW
+
+- MMSI / IMO: 258152000 / 9523548
+- Infrastructure: pipeline — pipelines.3729
+- Minimum distance: 0.335 nm
+- Close-band points: 5
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
@@ -115,6 +139,18 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
+## NORDSTRAUM — REVIEW
+
+- MMSI / IMO: 258152000 / 9523548
+- Infrastructure: pipeline — pipelines.3856
+- Minimum distance: 0.471 nm
+- Close-band points: 5
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
 ## AURORA — REVIEW
 
 - MMSI / IMO: 257727700 / –
@@ -136,5 +172,17 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
+## AURORA — REVIEW
+
+- MMSI / IMO: 668116291 / 9258351
+- Infrastructure: pipeline — NORD STREAM 2
+- Minimum distance: 0.516 nm
+- Close-band points: 3
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
