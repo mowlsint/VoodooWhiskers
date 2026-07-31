@@ -253,8 +253,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          2.9323533333333334,
-          51.227755
+          2.9323400000000004,
+          51.227761666666666
         ]
       },
       "properties": {
@@ -264,9 +264,9 @@
         "confidence": "medium",
         "vessel": {
           "mmsi": "518100214",
-          "imo": "8605765",
+          "imo": null,
           "name": "BLUE THISTLE",
-          "callsign": "E5U3155",
+          "callsign": null,
           "categories": [
             "falseflag_interest"
           ],
@@ -288,23 +288,23 @@
         "score_integration": false,
         "observation": {
           "event_position": {
-            "latitude": 51.227755,
-            "longitude": 2.9323533333333334,
-            "observed_at": "2026-07-30T04:42:35.253118+00:00"
+            "latitude": 51.227761666666666,
+            "longitude": 2.9323400000000004,
+            "observed_at": "2026-07-31T05:01:00.832748+00:00"
           },
           "latest_position": {
-            "latitude": 51.227755,
-            "longitude": 2.9323533333333334,
-            "observed_at": "2026-07-30T04:42:35.253118+00:00"
+            "latitude": 51.227761666666666,
+            "longitude": 2.9323400000000004,
+            "observed_at": "2026-07-31T05:01:00.832748+00:00"
           },
-          "minimum_distance_nm": 0.219,
-          "latest_distance_nm": 0.219,
-          "track_points_considered": 12,
-          "points_within_close_band": 10,
-          "low_speed_points_within_close_band": 10,
+          "minimum_distance_nm": 0.218,
+          "latest_distance_nm": 0.218,
+          "track_points_considered": 11,
+          "points_within_close_band": 11,
+          "low_speed_points_within_close_band": 11,
           "estimated_dwell_minutes": 0.0,
           "close_band_entries": 1,
-          "source_timestamp_points": 10,
+          "source_timestamp_points": 11,
           "fallback_timestamp_points": 0
         }
       }
@@ -689,20 +689,20 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          10.67069,
-          59.917836666666666
+          10.670608333333332,
+          59.91784166666666
         ]
       },
       "properties": {
         "event_id": "VWI-257080590-pcablesnve.460",
         "event_type": "critical_infrastructure_proximity",
         "level": "review",
-        "confidence": "low_medium",
+        "confidence": "medium",
         "vessel": {
           "mmsi": "257080590",
           "imo": null,
           "name": "AURORA",
-          "callsign": null,
+          "callsign": "LD4129",
           "categories": [
             "recent_russian_portcall_10d"
           ],
@@ -724,86 +724,24 @@
         "score_integration": false,
         "observation": {
           "event_position": {
-            "latitude": 59.917836666666666,
-            "longitude": 10.67069,
-            "observed_at": "2026-07-30T04:31:26.180096+00:00"
+            "latitude": 59.91784166666666,
+            "longitude": 10.670608333333332,
+            "observed_at": "2026-07-31T04:58:27.295744+00:00"
           },
           "latest_position": {
-            "latitude": 59.917836666666666,
-            "longitude": 10.67069,
-            "observed_at": "2026-07-30T04:31:26.180096+00:00"
+            "latitude": 59.91784166666666,
+            "longitude": 10.670608333333332,
+            "observed_at": "2026-07-31T04:58:27.295744+00:00"
           },
-          "minimum_distance_nm": 0.41,
-          "latest_distance_nm": 0.41,
-          "track_points_considered": 2,
-          "points_within_close_band": 2,
-          "low_speed_points_within_close_band": 2,
+          "minimum_distance_nm": 0.409,
+          "latest_distance_nm": 0.409,
+          "track_points_considered": 3,
+          "points_within_close_band": 3,
+          "low_speed_points_within_close_band": 3,
           "estimated_dwell_minutes": 0.0,
           "close_band_entries": 1,
-          "source_timestamp_points": 2,
+          "source_timestamp_points": 3,
           "fallback_timestamp_points": 0
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          28.05365,
-          60.473107
-        ]
-      },
-      "properties": {
-        "event_id": "VWI-273355380-pipelines.3423",
-        "event_type": "critical_infrastructure_proximity",
-        "level": "review",
-        "confidence": "low_medium",
-        "vessel": {
-          "mmsi": "273355380",
-          "imo": "9648221",
-          "name": "MIDVOLGA-1",
-          "callsign": "UBBJ8",
-          "categories": [
-            "russian_mmsi"
-          ],
-          "source": "Fintraffic Digitraffic"
-        },
-        "infrastructure": {
-          "type": "pipeline",
-          "reference_id": "pipelines.3423",
-          "name": "NORD STREAM 1",
-          "source": "EMODnet Human Activities",
-          "source_typename": "emodnet:pipelines"
-        },
-        "signals": [
-          "critical_infrastructure_proximity",
-          "repeated_entries_into_close_band",
-          "voi_or_watchlist_context",
-          "timestamp_quality_limited"
-        ],
-        "assessment": "Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.",
-        "score_integration": false,
-        "observation": {
-          "event_position": {
-            "latitude": 60.473107,
-            "longitude": 28.05365,
-            "observed_at": "2026-07-28T05:24:25+00:00"
-          },
-          "latest_position": {
-            "latitude": 60.592915,
-            "longitude": 28.546952,
-            "observed_at": "2026-07-30T16:00:07+00:00"
-          },
-          "minimum_distance_nm": 0.44,
-          "latest_distance_nm": 14.472,
-          "track_points_considered": 13,
-          "points_within_close_band": 2,
-          "low_speed_points_within_close_band": 0,
-          "estimated_dwell_minutes": 0.0,
-          "close_band_entries": 2,
-          "source_timestamp_points": 1,
-          "fallback_timestamp_points": 1
         }
       }
     },
@@ -1057,7 +995,7 @@
   ],
   "metadata": {
     "schema_version": "1.0.0",
-    "generated_at": "2026-07-31T04:25:45+00:00",
+    "generated_at": "2026-07-31T05:03:29+00:00",
     "source": "Voodoo Whiskers",
     "reference_source": "EMODnet Human Activities",
     "score_integration": false,
@@ -1071,7 +1009,7 @@
       "wind_farm": 826,
       "offshore_energy": 222
     },
-    "event_count": 17,
+    "event_count": 16,
     "assessment_limit": "Proximity and movement patterns are analyst leads and do not establish hostile intent, attribution or unlawful activity."
   }
 }

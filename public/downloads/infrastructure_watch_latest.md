@@ -1,7 +1,7 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-07-31T04:25:45+00:00
-- Review events: 17
+- Generated: 2026-07-31T05:03:29+00:00
+- Review events: 16
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
 
@@ -57,10 +57,10 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 ## BLUE THISTLE — ELEVATED
 
-- MMSI / IMO: 518100214 / 8605765
+- MMSI / IMO: 518100214 / –
 - Infrastructure: offshore_energy — Flan Sea
-- Minimum distance: 0.219 nm
-- Close-band points: 10
+- Minimum distance: 0.218 nm
+- Close-band points: 11
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -143,23 +143,11 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 257080590 / –
 - Infrastructure: power_cable — pcablesnve.460
-- Minimum distance: 0.41 nm
-- Close-band points: 2
+- Minimum distance: 0.409 nm
+- Close-band points: 3
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
-- Confidence: low_medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
-## MIDVOLGA-1 — REVIEW
-
-- MMSI / IMO: 273355380 / 9648221
-- Infrastructure: pipeline — NORD STREAM 1
-- Minimum distance: 0.44 nm
-- Close-band points: 2
-- Estimated dwell: 0.0 min
-- Signals: critical_infrastructure_proximity, repeated_entries_into_close_band, voi_or_watchlist_context, timestamp_quality_limited
-- Confidence: low_medium
+- Confidence: medium
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
