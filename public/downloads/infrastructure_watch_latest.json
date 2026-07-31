@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-31T05:03:29+00:00",
+  "generated_at": "2026-07-31T05:46:29+00:00",
   "source": "Voodoo Whiskers",
   "reference_source": "EMODnet Human Activities",
   "score_integration": false,
@@ -14,7 +14,7 @@
     "wind_farm": 826,
     "offshore_energy": 222
   },
-  "event_count": 16,
+  "event_count": 15,
   "assessment_limit": "Proximity and movement patterns are analyst leads and do not establish hostile intent, attribution or unlawful activity.",
   "events": [
     {
@@ -47,12 +47,12 @@
           "observed_at": "2026-07-30T05:17:42+00:00"
         },
         "latest_position": {
-          "latitude": 59.853315,
-          "longitude": 25.898845,
-          "observed_at": "2026-07-30T16:00:07+00:00"
+          "latitude": 59.85531,
+          "longitude": 25.900222,
+          "observed_at": "2026-07-31T05:45:16+00:00"
         },
         "minimum_distance_nm": 0.001,
-        "latest_distance_nm": 0.083,
+        "latest_distance_nm": 0.171,
         "track_points_considered": 12,
         "points_within_close_band": 12,
         "low_speed_points_within_close_band": 12,
@@ -151,12 +151,12 @@
           "observed_at": "2026-07-28T16:12:48+00:00"
         },
         "latest_position": {
-          "latitude": 71.134658,
-          "longitude": 21.911837,
-          "observed_at": "2026-07-30T15:59:59+00:00"
+          "latitude": 71.069228,
+          "longitude": 18.04983,
+          "observed_at": "2026-07-31T05:44:38+00:00"
         },
         "minimum_distance_nm": 0.091,
-        "latest_distance_nm": 104.452,
+        "latest_distance_nm": 85.097,
         "track_points_considered": 12,
         "points_within_close_band": 5,
         "low_speed_points_within_close_band": 5,
@@ -202,12 +202,12 @@
           "observed_at": "2026-07-28T16:12:48+00:00"
         },
         "latest_position": {
-          "latitude": 71.134658,
-          "longitude": 21.911837,
-          "observed_at": "2026-07-30T15:59:59+00:00"
+          "latitude": 71.069228,
+          "longitude": 18.04983,
+          "observed_at": "2026-07-31T05:44:38+00:00"
         },
         "minimum_distance_nm": 0.091,
-        "latest_distance_nm": 104.452,
+        "latest_distance_nm": 85.097,
         "track_points_considered": 12,
         "points_within_close_band": 5,
         "low_speed_points_within_close_band": 5,
@@ -403,24 +403,24 @@
       },
       "observation": {
         "event_position": {
-          "latitude": 60.52442,
-          "longitude": 28.154647,
-          "observed_at": "2026-07-30T16:00:07+00:00"
+          "latitude": 60.524407,
+          "longitude": 28.154687,
+          "observed_at": "2026-07-30T05:17:42+00:00"
         },
         "latest_position": {
-          "latitude": 60.52442,
-          "longitude": 28.154647,
-          "observed_at": "2026-07-30T16:00:07+00:00"
+          "latitude": 60.434415,
+          "longitude": 27.901557,
+          "observed_at": "2026-07-31T05:45:16+00:00"
         },
-        "minimum_distance_nm": 0.365,
-        "latest_distance_nm": 0.365,
+        "minimum_distance_nm": 0.366,
+        "latest_distance_nm": 5.975,
         "track_points_considered": 12,
-        "points_within_close_band": 10,
-        "low_speed_points_within_close_band": 10,
+        "points_within_close_band": 9,
+        "low_speed_points_within_close_band": 9,
         "estimated_dwell_minutes": 0.0,
         "close_band_entries": 2,
         "source_timestamp_points": 0,
-        "fallback_timestamp_points": 10
+        "fallback_timestamp_points": 9
       },
       "signals": [
         "critical_infrastructure_proximity",
@@ -461,12 +461,12 @@
           "observed_at": "2026-07-29T05:30:55+00:00"
         },
         "latest_position": {
-          "latitude": 60.524732,
-          "longitude": 28.154693,
-          "observed_at": "2026-07-30T16:00:07+00:00"
+          "latitude": 60.524717,
+          "longitude": 28.154672,
+          "observed_at": "2026-07-31T05:45:16+00:00"
         },
         "minimum_distance_nm": 0.366,
-        "latest_distance_nm": 0.367,
+        "latest_distance_nm": 0.366,
         "track_points_considered": 12,
         "points_within_close_band": 11,
         "low_speed_points_within_close_band": 11,
@@ -569,7 +569,7 @@
         "latest_position": {
           "latitude": 56.961808,
           "longitude": 19.301078,
-          "observed_at": "2026-07-30T16:00:07+00:00"
+          "observed_at": "2026-07-31T05:45:16+00:00"
         },
         "minimum_distance_nm": 0.355,
         "latest_distance_nm": 3.727,
@@ -637,58 +637,6 @@
         "critical_infrastructure_proximity",
         "low_speed_near_infrastructure",
         "voi_or_watchlist_context"
-      ],
-      "assessment": "Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.",
-      "score_integration": false
-    },
-    {
-      "event_id": "VWI-273298390-pipelines.3424",
-      "event_type": "critical_infrastructure_proximity",
-      "level": "review",
-      "confidence": "low_medium",
-      "vessel": {
-        "mmsi": "273298390",
-        "imo": "",
-        "name": "",
-        "callsign": "",
-        "categories": [
-          "russian_mmsi"
-        ],
-        "source": "Fintraffic Digitraffic"
-      },
-      "infrastructure": {
-        "type": "pipeline",
-        "reference_id": "pipelines.3424",
-        "name": "NORD STREAM 2",
-        "source": "EMODnet Human Activities",
-        "source_typename": "emodnet:pipelines"
-      },
-      "observation": {
-        "event_position": {
-          "latitude": 59.85260166666667,
-          "longitude": 25.64715,
-          "observed_at": "2026-07-30T05:17:45+00:00"
-        },
-        "latest_position": {
-          "latitude": 57.609265,
-          "longitude": 20.43609,
-          "observed_at": "2026-07-30T16:00:07+00:00"
-        },
-        "minimum_distance_nm": 0.447,
-        "latest_distance_nm": 24.003,
-        "track_points_considered": 13,
-        "points_within_close_band": 3,
-        "low_speed_points_within_close_band": 0,
-        "estimated_dwell_minutes": 0.0,
-        "close_band_entries": 2,
-        "source_timestamp_points": 0,
-        "fallback_timestamp_points": 3
-      },
-      "signals": [
-        "critical_infrastructure_proximity",
-        "repeated_entries_into_close_band",
-        "voi_or_watchlist_context",
-        "timestamp_quality_limited"
       ],
       "assessment": "Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.",
       "score_integration": false
@@ -774,9 +722,9 @@
           "observed_at": "2026-07-29T15:57:35+00:00"
         },
         "latest_position": {
-          "latitude": 63.568585,
-          "longitude": 9.474132,
-          "observed_at": "2026-07-30T15:59:56+00:00"
+          "latitude": 63.56858,
+          "longitude": 9.474137,
+          "observed_at": "2026-07-31T05:45:14+00:00"
         },
         "minimum_distance_nm": 0.482,
         "latest_distance_nm": 0.483,
@@ -820,24 +768,24 @@
       },
       "observation": {
         "event_position": {
-          "latitude": 59.852672,
-          "longitude": 25.940218,
-          "observed_at": "2026-07-26T05:40:46+00:00"
+          "latitude": 59.851842,
+          "longitude": 25.941362,
+          "observed_at": "2026-07-26T15:18:42+00:00"
         },
         "latest_position": {
-          "latitude": 60.023952,
-          "longitude": 27.05952,
-          "observed_at": "2026-07-30T16:00:07+00:00"
+          "latitude": 60.024172,
+          "longitude": 27.059568,
+          "observed_at": "2026-07-31T05:45:16+00:00"
         },
-        "minimum_distance_nm": 0.516,
-        "latest_distance_nm": 3.595,
-        "track_points_considered": 10,
-        "points_within_close_band": 3,
-        "low_speed_points_within_close_band": 3,
+        "minimum_distance_nm": 0.576,
+        "latest_distance_nm": 3.582,
+        "track_points_considered": 9,
+        "points_within_close_band": 2,
+        "low_speed_points_within_close_band": 2,
         "estimated_dwell_minutes": 0.0,
         "close_band_entries": 1,
         "source_timestamp_points": 0,
-        "fallback_timestamp_points": 3
+        "fallback_timestamp_points": 2
       },
       "signals": [
         "critical_infrastructure_proximity",

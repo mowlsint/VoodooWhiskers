@@ -1,7 +1,7 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-07-31T05:03:29+00:00
-- Review events: 16
+- Generated: 2026-07-31T05:46:29+00:00
+- Review events: 15
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
 
@@ -95,8 +95,8 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 273299870 / 9841055
 - Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.365 nm
-- Close-band points: 10
+- Minimum distance: 0.366 nm
+- Close-band points: 9
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, repeated_entries_into_close_band, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
@@ -151,18 +151,6 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
-## 273298390 — REVIEW
-
-- MMSI / IMO: 273298390 / –
-- Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.447 nm
-- Close-band points: 3
-- Estimated dwell: 0.0 min
-- Signals: critical_infrastructure_proximity, repeated_entries_into_close_band, voi_or_watchlist_context, timestamp_quality_limited
-- Confidence: low_medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
 ## NORDSTRAUM — REVIEW
 
 - MMSI / IMO: 258152000 / 9523548
@@ -191,8 +179,8 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 668116291 / 9258351
 - Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.516 nm
-- Close-band points: 3
+- Minimum distance: 0.576 nm
+- Close-band points: 2
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
