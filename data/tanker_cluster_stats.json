@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-07-31T05:45:21+00:00",
-  "total_contacts_seen": 1122,
-  "total_unique_tankers_in_context_zones": 214,
+  "generated_at": "2026-07-31T16:10:18+00:00",
+  "total_contacts_seen": 1127,
+  "total_unique_tankers_in_context_zones": 215,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 140,
-  "voi_tankers_in_context_zones": 74,
+  "neutral_tanker_context_total": 146,
+  "voi_tankers_in_context_zones": 69,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 57,
-      "neutral_tankers": 54,
+      "total_tankers": 61,
+      "neutral_tankers": 58,
       "voi_tankers": 3,
       "slow_or_waiting": 26,
       "for_order": 1,
@@ -192,8 +192,8 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 29,
-      "neutral_tankers": 29,
+      "total_tankers": 33,
+      "neutral_tankers": 33,
       "voi_tankers": 0,
       "slow_or_waiting": 13,
       "for_order": 0,
@@ -284,10 +284,10 @@
       "level": "watch"
     },
     {
-      "total_tankers": 94,
-      "neutral_tankers": 25,
-      "voi_tankers": 69,
-      "slow_or_waiting": 75,
+      "total_tankers": 91,
+      "neutral_tankers": 27,
+      "voi_tankers": 64,
+      "slow_or_waiting": 70,
       "for_order": 4,
       "examples": [
         {
@@ -325,7 +325,27 @@
           "imo": "9843209",
           "mmsi": "215515000",
           "destination": "PORT SAID",
-          "sog": "12.3",
+          "sog": "12.2",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "TERN LAND",
+          "imo": "9988994",
+          "mmsi": "219034373",
+          "destination": "FI PRV",
+          "sog": "7.1",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "TERNSUND",
+          "imo": "9722390",
+          "mmsi": "219775000",
+          "destination": "FIINK",
+          "sog": "13.4",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -345,26 +365,6 @@
           "imo": "9797802",
           "mmsi": "230690000",
           "destination": "DKKAL>EEMUU",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "SAANA",
-          "imo": "9739836",
-          "mmsi": "230706000",
-          "destination": "FISKV>FINLI",
-          "sog": "12.4",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "MATILDA",
-          "imo": "9407457",
-          "mmsi": "249747000",
-          "destination": "FOR ORDERS",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
