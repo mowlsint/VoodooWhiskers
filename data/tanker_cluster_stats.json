@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-07-31T05:02:41+00:00",
-  "total_contacts_seen": 1116,
+  "generated_at": "2026-07-31T05:45:21+00:00",
+  "total_contacts_seen": 1122,
   "total_unique_tankers_in_context_zones": 214,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 138,
-  "voi_tankers_in_context_zones": 76,
+  "neutral_tanker_context_total": 140,
+  "voi_tankers_in_context_zones": 74,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 54,
-      "neutral_tankers": 52,
-      "voi_tankers": 2,
-      "slow_or_waiting": 25,
+      "total_tankers": 57,
+      "neutral_tankers": 54,
+      "voi_tankers": 3,
+      "slow_or_waiting": 26,
       "for_order": 1,
       "examples": [
         {
@@ -55,6 +55,16 @@
           ]
         },
         {
+          "name": "MED SERHAT",
+          "imo": "9461922",
+          "mmsi": "215683000",
+          "destination": "NL RTM",
+          "sog": "8.6",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
           "name": "STATHAV22",
           "imo": "9096399",
           "mmsi": "219010252",
@@ -70,16 +80,6 @@
           "mmsi": "219022047",
           "destination": "ESBJERG",
           "sog": "0.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TERN ISLAND",
-          "imo": "9909649",
-          "mmsi": "219029722",
-          "destination": "SEGOT",
-          "sog": "14.8",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -192,10 +192,10 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 27,
-      "neutral_tankers": 27,
+      "total_tankers": 29,
+      "neutral_tankers": 29,
       "voi_tankers": 0,
-      "slow_or_waiting": 12,
+      "slow_or_waiting": 13,
       "for_order": 0,
       "examples": [
         {
@@ -209,11 +209,11 @@
           ]
         },
         {
-          "name": "TERN ISLAND",
-          "imo": "9909649",
-          "mmsi": "219029722",
-          "destination": "SEGOT",
-          "sog": "14.8",
+          "name": "MED SERHAT",
+          "imo": "9461922",
+          "mmsi": "215683000",
+          "destination": "NL RTM",
+          "sog": "8.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -249,11 +249,11 @@
           ]
         },
         {
-          "name": "CORAL MONACTIS",
-          "imo": "9373735",
-          "mmsi": "244870428",
-          "destination": "DE STA",
-          "sog": "11.0",
+          "name": "MARAN ASPASIA",
+          "imo": "9879997",
+          "mmsi": "241714000",
+          "destination": "US CRP>SE GOT",
+          "sog": "10.8",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -263,7 +263,7 @@
           "imo": "9425241",
           "mmsi": "244870429",
           "destination": "BE ZWL",
-          "sog": "13.8",
+          "sog": "14.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -284,10 +284,10 @@
       "level": "watch"
     },
     {
-      "total_tankers": 97,
+      "total_tankers": 94,
       "neutral_tankers": 25,
-      "voi_tankers": 72,
-      "slow_or_waiting": 81,
+      "voi_tankers": 69,
+      "slow_or_waiting": 75,
       "for_order": 4,
       "examples": [
         {
@@ -325,6 +325,16 @@
           "imo": "9843209",
           "mmsi": "215515000",
           "destination": "PORT SAID",
+          "sog": "12.3",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "MINERVA EMILY",
+          "imo": "9380063",
+          "mmsi": "229084000",
+          "destination": "EEPLA",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
@@ -344,18 +354,8 @@
           "name": "SAANA",
           "imo": "9739836",
           "mmsi": "230706000",
-          "destination": "NLRTM>FISKV",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "CORAL LEAF",
-          "imo": "9404625",
-          "mmsi": "244036000",
-          "destination": "NL MOE",
-          "sog": "14.4",
+          "destination": "FISKV>FINLI",
+          "sog": "12.4",
           "categories": [
             "neutral_tanker_context"
           ]
