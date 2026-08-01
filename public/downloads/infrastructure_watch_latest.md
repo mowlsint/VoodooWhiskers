@@ -1,7 +1,7 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-08-01T04:29:40+00:00
-- Review events: 12
+- Generated: 2026-08-01T05:00:24+00:00
+- Review events: 14
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
 
@@ -55,12 +55,24 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
+## SIRIUS — ELEVATED
+
+- MMSI / IMO: 205737000 / 9797618
+- Infrastructure: offshore_energy — Flan Sea
+- Minimum distance: 0.108 nm
+- Close-band points: 2
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
+- Confidence: low_medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
 ## BLUE THISTLE — ELEVATED
 
 - MMSI / IMO: 518100214 / –
 - Infrastructure: offshore_energy — Flan Sea
 - Minimum distance: 0.218 nm
-- Close-band points: 12
+- Close-band points: 13
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -124,6 +136,18 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
+## GEN. CHERNYAKHOVSKY — REVIEW
+
+- MMSI / IMO: 273298390 / –
+- Infrastructure: pipeline — NORD STREAM 2
+- Minimum distance: 0.447 nm
+- Close-band points: 3
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, repeated_entries_into_close_band, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
