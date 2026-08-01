@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-01T05:35:35+00:00",
-  "total_contacts_seen": 1070,
-  "total_unique_tankers_in_context_zones": 216,
+  "generated_at": "2026-08-01T15:16:14+00:00",
+  "total_contacts_seen": 1130,
+  "total_unique_tankers_in_context_zones": 240,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 164,
-  "voi_tankers_in_context_zones": 52,
+  "neutral_tanker_context_total": 170,
+  "voi_tankers_in_context_zones": 70,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
@@ -100,10 +100,10 @@
       "level": "watch"
     },
     {
-      "total_tankers": 54,
-      "neutral_tankers": 49,
+      "total_tankers": 59,
+      "neutral_tankers": 54,
       "voi_tankers": 5,
-      "slow_or_waiting": 24,
+      "slow_or_waiting": 25,
       "for_order": 2,
       "examples": [
         {
@@ -192,10 +192,10 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 32,
-      "neutral_tankers": 30,
+      "total_tankers": 36,
+      "neutral_tankers": 34,
       "voi_tankers": 2,
-      "slow_or_waiting": 14,
+      "slow_or_waiting": 15,
       "for_order": 0,
       "examples": [
         {
@@ -269,11 +269,11 @@
           ]
         },
         {
-          "name": "MARAN ASPASIA",
-          "imo": "9879997",
-          "mmsi": "241714000",
-          "destination": "US CRP>SE GOT",
-          "sog": "7.3",
+          "name": "KEY NORTH",
+          "imo": "9020417",
+          "mmsi": "236669000",
+          "destination": "NOSPG",
+          "sog": "6.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -284,11 +284,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 75,
-      "neutral_tankers": 28,
-      "voi_tankers": 47,
-      "slow_or_waiting": 57,
-      "for_order": 4,
+      "total_tankers": 94,
+      "neutral_tankers": 29,
+      "voi_tankers": 65,
+      "slow_or_waiting": 76,
+      "for_order": 5,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -321,11 +321,21 @@
           ]
         },
         {
+          "name": "TARNBRIS",
+          "imo": "9372652",
+          "mmsi": "219015298",
+          "destination": "FI SKV",
+          "sog": "3.3",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
           "name": "TERN DAL",
           "imo": "9992153",
           "mmsi": "219034372",
           "destination": "PORVOO",
-          "sog": "9.3",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -334,7 +344,7 @@
           "name": "TERN LAND",
           "imo": "9988994",
           "mmsi": "219034373",
-          "destination": "FI PRV",
+          "destination": "LV RIX",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
@@ -344,7 +354,7 @@
           "name": "TERNSUND",
           "imo": "9722390",
           "mmsi": "219775000",
-          "destination": "FIINK",
+          "destination": "SE GOT",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
@@ -355,17 +365,7 @@
           "imo": "9380063",
           "mmsi": "229084000",
           "destination": "EEPLA",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "LUNNI",
-          "imo": "9797802",
-          "mmsi": "230690000",
-          "destination": "EEMUG>FISKV",
-          "sog": "0.0",
+          "sog": "0",
           "categories": [
             "neutral_tanker_context"
           ]
