@@ -1,7 +1,7 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-08-01T05:00:24+00:00
-- Review events: 14
+- Generated: 2026-08-01T05:36:26+00:00
+- Review events: 15
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
 
@@ -11,7 +11,7 @@
 
 - MMSI / IMO: 667002310 / 9308132
 - Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.001 nm
+- Minimum distance: 0.0 nm
 - Close-band points: 12
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
@@ -72,7 +72,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 518100214 / –
 - Infrastructure: offshore_energy — Flan Sea
 - Minimum distance: 0.218 nm
-- Close-band points: 13
+- Close-band points: 11
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -107,7 +107,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 273299870 / 9841055
 - Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.365 nm
+- Minimum distance: 0.355 nm
 - Close-band points: 10
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, repeated_entries_into_close_band, voi_or_watchlist_context, timestamp_quality_limited
@@ -120,7 +120,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 273618550 / 9879557
 - Infrastructure: pipeline — NORD STREAM 2
 - Minimum distance: 0.366 nm
-- Close-band points: 10
+- Close-band points: 11
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, repeated_entries_into_close_band, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
@@ -141,7 +141,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 ## GEN. CHERNYAKHOVSKY — REVIEW
 
-- MMSI / IMO: 273298390 / –
+- MMSI / IMO: 273298390 / 9878929
 - Infrastructure: pipeline — NORD STREAM 2
 - Minimum distance: 0.447 nm
 - Close-band points: 3
@@ -160,6 +160,18 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
+## YUME — REVIEW
+
+- MMSI / IMO: 636025818 / 9459230
+- Infrastructure: pipeline — NORD STREAM 2
+- Minimum distance: 0.626 nm
+- Close-band points: 5
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
