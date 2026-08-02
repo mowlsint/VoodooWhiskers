@@ -1,6 +1,6 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-08-02T04:33:23+00:00
+- Generated: 2026-08-02T05:04:22+00:00
 - Review events: 19
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
@@ -81,10 +81,10 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 ## BLUE THISTLE — ELEVATED
 
-- MMSI / IMO: 518100214 / –
+- MMSI / IMO: 518100214 / 8605765
 - Infrastructure: offshore_energy — Flan Sea
 - Minimum distance: 0.218 nm
-- Close-band points: 13
+- Close-band points: 11
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
