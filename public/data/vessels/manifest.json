@@ -1,22 +1,22 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-02T05:36:22+00:00",
+  "generated_at": "2026-08-02T15:17:46+00:00",
   "snapshot": {
     "href": "./voi_snapshot_latest.json",
-    "item_count": 497
+    "item_count": 507
   },
   "positions": {
     "href": "./vessel_positions_latest.geojson",
-    "feature_count": 497
+    "feature_count": 507
   },
   "ais_contacts": {
     "json_href": "./ais_contacts_latest.json",
     "geojson_href": "./ais_contacts_latest.geojson",
-    "contact_count": 1212,
-    "feature_count": 1212,
+    "contact_count": 1219,
+    "feature_count": 1219,
     "provider_label": "AIS",
     "display_label": "AISStream live contacts or historical fallback data",
-    "aisstream_live": true,
+    "aisstream_live": false,
     "historical_source_codes": [
       "N",
       "FIN"
@@ -24,20 +24,13 @@
   },
   "history": {
     "href": "./voi_history_14d.jsonl",
-    "source_rows": 47788,
-    "malformed": 0,
-    "outside_window": 33919,
-    "missing_time": 0,
-    "invalid_position": 0,
-    "timestamp_repaired": 7597,
     "available": true,
     "published_rows": 11106,
     "published_bytes": 23066805,
-    "dropped_size": 2763,
     "max_age_days": 14,
     "max_bytes": 23068672,
     "build_mode": "daily_or_manual",
-    "rebuilt_in_this_run": true
+    "rebuilt_in_this_run": false
   },
   "danish_historical": {
     "available": true,
@@ -58,17 +51,17 @@
     {
       "id": "russian_mmsi",
       "href": "./layers/russian_mmsi.geojson",
-      "feature_count": 189
+      "feature_count": 192
     },
     {
       "id": "watchlist_live",
       "href": "./layers/watchlist_live.geojson",
-      "feature_count": 68
+      "feature_count": 69
     },
     {
       "id": "sanctions_shadowfleet",
       "href": "./layers/sanctions_shadowfleet.geojson",
-      "feature_count": 68
+      "feature_count": 69
     },
     {
       "id": "falseflag_interest",
@@ -88,7 +81,7 @@
     {
       "id": "recent_russian_portcall_10d",
       "href": "./layers/recent_russian_portcall_10d.geojson",
-      "feature_count": 107
+      "feature_count": 113
     },
     {
       "id": "neutral_tanker_context",
