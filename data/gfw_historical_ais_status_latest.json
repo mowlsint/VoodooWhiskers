@@ -1,16 +1,16 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-01T07:51:00Z",
+  "generated_at": "2026-08-02T07:52:16Z",
   "status": "degraded",
   "coverage_scope": "common_operational_regions",
   "coverage_complete": false,
   "identity_mode": "all_identified_vessel_rows",
   "date_range": {
-    "start": "2026-07-27",
-    "end_exclusive": "2026-07-28"
+    "start": "2026-07-28",
+    "end_exclusive": "2026-07-29"
   },
   "count": 12000,
-  "records_before_cap": 31659,
+  "records_before_cap": 34841,
   "max_kept_contacts": 12000,
   "cap_applied": true,
   "queries_expected": 3,
@@ -21,26 +21,26 @@
     {
       "region_id": "german_bight_channel",
       "status": "ok",
-      "report_rows": 289290,
-      "valid_identified_rows": 289290,
+      "report_rows": 304433,
+      "valid_identified_rows": 304433,
       "resolved_dataset": "public-global-presence:v4.0"
     },
     {
       "region_id": "north_sea_norway",
       "status": "ok",
-      "report_rows": 182455,
-      "valid_identified_rows": 182455,
+      "report_rows": 187989,
+      "valid_identified_rows": 187989,
       "resolved_dataset": "public-global-presence:v4.0"
     },
     {
       "region_id": "baltic_finland",
       "status": "ok",
-      "report_rows": 254707,
-      "valid_identified_rows": 254707,
+      "report_rows": 269940,
+      "valid_identified_rows": 269940,
       "resolved_dataset": "public-global-presence:v4.0"
     }
   ],
-  "data_min_timestamp_utc": "2026-07-27T00:00:00Z",
-  "data_max_timestamp_utc": "2026-07-27T23:00:00Z",
+  "data_min_timestamp_utc": "2026-07-28T01:00:00Z",
+  "data_max_timestamp_utc": "2026-07-28T23:00:00Z",
   "attribution": "Powered by Global Fishing Watch."
 }
