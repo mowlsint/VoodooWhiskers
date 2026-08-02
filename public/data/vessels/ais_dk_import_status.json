@@ -1,26 +1,26 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-01T04:29:06+00:00",
+  "generated_at": "2026-08-02T04:32:50+00:00",
   "ok": true,
   "changed": true,
   "provider": "ais_dk_historical",
   "source": {
-    "source_url": "http://aisdata.ais.dk/aisdk-2026-07-29.zip",
-    "source_filename": "aisdk-2026-07-29.zip",
-    "source_date_hint": "2026-07-29",
-    "etag": "\"8dd60792243d287308eb08c3b342188f-97\"",
-    "last_modified": "Sat, 01 Aug 2026 00:22:50 GMT",
-    "content_length": 810915825
+    "source_url": "http://aisdata.ais.dk/aisdk-2026-07-30.zip",
+    "source_filename": "aisdk-2026-07-30.zip",
+    "source_date_hint": "2026-07-30",
+    "etag": "\"650c9b620d61fb09400de74be67fe1e4-102\"",
+    "last_modified": "Sun, 02 Aug 2026 00:24:02 GMT",
+    "content_length": 853117493
   },
-  "source_sha256": "095db67736edef6b51b1b9bdb42935c0dd1e2cd25df69f6fe16f89dc25b57a37",
-  "source_download_bytes": 810915825,
+  "source_sha256": "2e1d6fb786cc39fa4eef331805a9e3ea8bfae76bc399e75dd0b70b8d7fdb9fb5",
+  "source_download_bytes": 853117493,
   "raw_files_persisted": false,
   "filter_mode": "known_categories",
   "filter_schema_version": "known-voi-categories-v1",
-  "category_index_fingerprint": "3f2408e7826bdbe4c46cec9ab9e7d23bad0c523af5a36d2ee10a5ec27da9569f",
+  "category_index_fingerprint": "9ae9d258bd5a3c87b40f31f575699074ed3c40522314a6a922e011e8762080b9",
   "category_index_summary": {
     "filter_schema_version": "known-voi-categories-v1",
-    "fingerprint": "3f2408e7826bdbe4c46cec9ab9e7d23bad0c523af5a36d2ee10a5ec27da9569f",
+    "fingerprint": "9ae9d258bd5a3c87b40f31f575699074ed3c40522314a6a922e011e8762080b9",
     "source_files_loaded": [
       "data/behavioral_voi.geojson",
       "data/false_flag_watch.geojson",
@@ -35,41 +35,41 @@
       "data/watchlist_live.geojson",
       "data/watchlist_master.csv"
     ],
-    "records_added": 1376,
+    "records_added": 1391,
     "exact_identity_counts": {
-      "mmsi": 293,
-      "imo": 858,
-      "callsign": 248
+      "mmsi": 298,
+      "imo": 869,
+      "callsign": 258
     },
-    "unique_name_count": 850,
-    "ambiguous_name_count": 21
+    "unique_name_count": 856,
+    "ambiguous_name_count": 24
   },
   "matched_by_category": {
-    "sanctions_shadowfleet": 119,
-    "watchlist": 119,
-    "russian_mmsi": 52,
+    "sanctions_shadowfleet": 118,
+    "watchlist": 118,
     "falseflag_interest": 4,
-    "behavioral_voi": 3,
-    "recent_russian_portcall_10d": 6
+    "russian_mmsi": 48,
+    "behavioral_voi": 5,
+    "recent_russian_portcall_10d": 10
   },
   "max_positions_per_vessel": 2,
-  "data_min_timestamp_utc": "2026-07-29T00:00:00+00:00",
-  "data_max_timestamp_utc": "2026-07-29T23:59:58+00:00",
-  "lag_hours_at_build": 52.49,
-  "raw_unique_class_ab_vessels": 9444,
-  "published_vessels": 174,
-  "published_positions": 347,
-  "processing_seconds": 831.55,
+  "data_min_timestamp_utc": "2026-07-30T00:00:00+00:00",
+  "data_max_timestamp_utc": "2026-07-30T23:59:58+00:00",
+  "lag_hours_at_build": 52.55,
+  "raw_unique_class_ab_vessels": 11012,
+  "published_vessels": 173,
+  "published_positions": 345,
+  "processing_seconds": 1001.0,
   "counters": {
-    "rows_read": 24271674,
+    "rows_read": 28266218,
     "headers_skipped": 0,
     "wrong_column_count": 0,
-    "non_vessel_mobile_type": 1534681,
-    "invalid_mmsi": 83861,
+    "non_vessel_mobile_type": 2068892,
+    "invalid_mmsi": 89276,
     "invalid_timestamp": 0,
-    "invalid_position": 71707,
-    "duplicate_same_time_position": 8789131,
-    "conflicting_positions_same_timestamp": 58692,
-    "older_positions_discarded": 13714885
+    "invalid_position": 54127,
+    "duplicate_same_time_position": 12103969,
+    "conflicting_positions_same_timestamp": 71318,
+    "older_positions_discarded": 13856907
   }
 }
