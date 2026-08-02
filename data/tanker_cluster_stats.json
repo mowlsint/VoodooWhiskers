@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-02T05:03:35+00:00",
-  "total_contacts_seen": 1209,
-  "total_unique_tankers_in_context_zones": 237,
+  "generated_at": "2026-08-02T05:36:22+00:00",
+  "total_contacts_seen": 1212,
+  "total_unique_tankers_in_context_zones": 225,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 165,
-  "voi_tankers_in_context_zones": 72,
+  "neutral_tanker_context_total": 158,
+  "voi_tankers_in_context_zones": 67,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 66,
-      "neutral_tankers": 63,
-      "voi_tankers": 3,
+      "total_tankers": 63,
+      "neutral_tankers": 61,
+      "voi_tankers": 2,
       "slow_or_waiting": 34,
       "for_order": 2,
       "examples": [
@@ -100,9 +100,9 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 46,
-      "neutral_tankers": 45,
-      "voi_tankers": 1,
+      "total_tankers": 43,
+      "neutral_tankers": 43,
+      "voi_tankers": 0,
       "slow_or_waiting": 24,
       "for_order": 0,
       "examples": [
@@ -189,7 +189,7 @@
       ],
       "zone_id": "skagen_waiting_area",
       "zone_label": "Skagen / northern Kattegat",
-      "level": "heightened_context"
+      "level": "watch"
     },
     {
       "total_tankers": 42,
@@ -284,11 +284,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 92,
-      "neutral_tankers": 26,
-      "voi_tankers": 66,
-      "slow_or_waiting": 73,
-      "for_order": 4,
+      "total_tankers": 83,
+      "neutral_tankers": 21,
+      "voi_tankers": 62,
+      "slow_or_waiting": 65,
+      "for_order": 5,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -324,8 +324,8 @@
           "name": "TARNBRIS",
           "imo": "9372652",
           "mmsi": "219015298",
-          "destination": "FI SKV",
-          "sog": "3.3",
+          "destination": "PORVO",
+          "sog": "1.7",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -335,7 +335,7 @@
           "imo": "9992153",
           "mmsi": "219034372",
           "destination": "PORVOO",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -345,17 +345,7 @@
           "imo": "9988994",
           "mmsi": "219034373",
           "destination": "LV RIX",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TERNSUND",
-          "imo": "9722390",
-          "mmsi": "219775000",
-          "destination": "SE GOT",
-          "sog": "0.0",
+          "sog": "12.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -366,6 +356,16 @@
           "mmsi": "230690000",
           "destination": "EEMUG>FISKV",
           "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "LOEVSTAKKEN",
+          "imo": "9724441",
+          "mmsi": "258050000",
+          "destination": "FI PRV",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
