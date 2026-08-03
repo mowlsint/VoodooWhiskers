@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-08-03T05:52:10+00:00",
-  "total_contacts_seen": 1118,
-  "total_unique_tankers_in_context_zones": 211,
+  "generated_at": "2026-08-03T16:40:02+00:00",
+  "total_contacts_seen": 1114,
+  "total_unique_tankers_in_context_zones": 213,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 161,
-  "voi_tankers_in_context_zones": 50,
+  "neutral_tanker_context_total": 155,
+  "voi_tankers_in_context_zones": 58,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 69,
-      "neutral_tankers": 65,
+      "total_tankers": 64,
+      "neutral_tankers": 60,
       "voi_tankers": 4,
       "slow_or_waiting": 33,
       "for_order": 2,
@@ -55,16 +55,6 @@
           ]
         },
         {
-          "name": "KEY FIGHTER",
-          "imo": "8712166",
-          "mmsi": "215211000",
-          "destination": "DK SKA",
-          "sog": "11.5",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "ZEUGMAN",
           "imo": "9259111",
           "mmsi": "215382000",
@@ -93,6 +83,16 @@
           "categories": [
             "neutral_tanker_context"
           ]
+        },
+        {
+          "name": "ANNIKA",
+          "imo": "9628489",
+          "mmsi": "218779000",
+          "destination": "DEKEL",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
         }
       ],
       "zone_id": "danish_straits_kattegat",
@@ -100,8 +100,8 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 40,
-      "neutral_tankers": 40,
+      "total_tankers": 34,
+      "neutral_tankers": 34,
       "voi_tankers": 0,
       "slow_or_waiting": 19,
       "for_order": 0,
@@ -122,16 +122,6 @@
           "mmsi": "215064000",
           "destination": "SE BRO",
           "sog": "2",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "KEY FIGHTER",
-          "imo": "8712166",
-          "mmsi": "215211000",
-          "destination": "DK SKA",
-          "sog": "11.5",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -182,6 +172,16 @@
           "mmsi": "219034365",
           "destination": "SELLA",
           "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "ORASUND",
+          "imo": "9336701",
+          "mmsi": "220514000",
+          "destination": "NO FRK - FREDRIKSTAD",
+          "sog": "13.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -284,11 +284,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 65,
-      "neutral_tankers": 20,
-      "voi_tankers": 45,
-      "slow_or_waiting": 52,
-      "for_order": 3,
+      "total_tankers": 72,
+      "neutral_tankers": 19,
+      "voi_tankers": 53,
+      "slow_or_waiting": 54,
+      "for_order": 2,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -324,8 +324,8 @@
           "name": "TARNBRIS",
           "imo": "9372652",
           "mmsi": "219015298",
-          "destination": "PORVO",
-          "sog": "0.0",
+          "destination": "ES BIO",
+          "sog": "8.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -341,31 +341,31 @@
           ]
         },
         {
-          "name": "LUNNI",
-          "imo": "9797802",
-          "mmsi": "230690000",
-          "destination": "FISKV>SEPIT",
-          "sog": "11.6",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "SAANA",
           "imo": "9739836",
           "mmsi": "230706000",
-          "destination": "FINLI>FISKV",
+          "destination": "FISKV>FIKOK",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "STAV VIKING",
-          "imo": "9401556",
-          "mmsi": "259936000",
-          "destination": "FI SKV",
-          "sog": "0.0",
+          "name": "OLYMPIC FLAG",
+          "imo": "9271341",
+          "mmsi": "240168000",
+          "destination": "SKAGEN,DK",
+          "sog": "11.0",
+          "categories": [
+            "recent_russian_portcall_10d"
+          ]
+        },
+        {
+          "name": "BITONIA",
+          "imo": "9503902",
+          "mmsi": "246354000",
+          "destination": "MUUGA",
+          "sog": "7.9",
           "categories": [
             "neutral_tanker_context"
           ]
