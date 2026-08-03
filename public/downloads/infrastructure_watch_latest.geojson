@@ -253,8 +253,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          2.9279683333333333,
-          51.23016333333333
+          2.928726666666667,
+          51.2297
         ]
       },
       "properties": {
@@ -282,29 +282,30 @@
         "signals": [
           "critical_infrastructure_proximity",
           "low_speed_near_infrastructure",
+          "repeated_entries_into_close_band",
           "voi_or_watchlist_context"
         ],
         "assessment": "Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.",
         "score_integration": false,
         "observation": {
           "event_position": {
-            "latitude": 51.23016333333333,
-            "longitude": 2.9279683333333333,
-            "observed_at": "2026-07-31T04:49:09.008621+00:00"
+            "latitude": 51.2297,
+            "longitude": 2.928726666666667,
+            "observed_at": "2026-08-03T05:03:24.139856+00:00"
           },
           "latest_position": {
-            "latitude": 51.251173333333334,
-            "longitude": 2.9079216666666667,
-            "observed_at": "2026-08-02T05:01:49.289412+00:00"
+            "latitude": 51.2297,
+            "longitude": 2.928726666666667,
+            "observed_at": "2026-08-03T05:03:24.139856+00:00"
           },
           "minimum_distance_nm": 0.108,
-          "latest_distance_nm": 1.466,
-          "track_points_considered": 15,
-          "points_within_close_band": 5,
-          "low_speed_points_within_close_band": 5,
+          "latest_distance_nm": 0.108,
+          "track_points_considered": 16,
+          "points_within_close_band": 6,
+          "low_speed_points_within_close_band": 6,
           "estimated_dwell_minutes": 0.0,
-          "close_band_entries": 1,
-          "source_timestamp_points": 5,
+          "close_band_entries": 2,
+          "source_timestamp_points": 6,
           "fallback_timestamp_points": 0
         }
       }
@@ -415,18 +416,18 @@
             "observed_at": "2026-07-31T05:01:00.832748+00:00"
           },
           "latest_position": {
-            "latitude": 51.224865,
-            "longitude": 2.9388833333333335,
-            "observed_at": "2026-08-02T04:59:50.244535+00:00"
+            "latitude": 51.22487833333333,
+            "longitude": 2.938845,
+            "observed_at": "2026-08-03T05:07:10.477992+00:00"
           },
           "minimum_distance_nm": 0.218,
-          "latest_distance_nm": 0.497,
-          "track_points_considered": 12,
-          "points_within_close_band": 12,
-          "low_speed_points_within_close_band": 12,
+          "latest_distance_nm": 0.495,
+          "track_points_considered": 10,
+          "points_within_close_band": 10,
+          "low_speed_points_within_close_band": 10,
           "estimated_dwell_minutes": 0.0,
           "close_band_entries": 1,
-          "source_timestamp_points": 12,
+          "source_timestamp_points": 10,
           "fallback_timestamp_points": 0
         }
       }
@@ -1050,7 +1051,7 @@
   ],
   "metadata": {
     "schema_version": "1.0.0",
-    "generated_at": "2026-08-03T04:34:03+00:00",
+    "generated_at": "2026-08-03T05:10:13+00:00",
     "source": "Voodoo Whiskers",
     "reference_source": "EMODnet Human Activities",
     "score_integration": false,
