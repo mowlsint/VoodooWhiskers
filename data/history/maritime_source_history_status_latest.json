@@ -1,19 +1,19 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-04T08:05:39Z",
+  "generated_at": "2026-08-04T16:21:43Z",
   "retention_days": 21,
   "max_bytes": 23068672,
   "position_history_path": "data/history/maritime_source_history_21d.jsonl",
   "coverage_history_path": "data/history/maritime_source_coverage_21d.jsonl",
-  "position_records": 10807,
-  "coverage_records": 48,
-  "records_added_from_current_snapshots": 764,
+  "position_records": 11259,
+  "coverage_records": 50,
+  "records_added_from_current_snapshots": 785,
   "dropped_old_or_invalid": 0,
   "dropped_for_size": 0,
   "provider_counts": {
     "ais_dk_historical": 3100,
-    "barentswatch": 2262,
-    "fintraffic": 5445
+    "barentswatch": 2399,
+    "fintraffic": 5760
   },
   "provider_position_ranges": {
     "ais_dk_historical": {
@@ -22,11 +22,11 @@
     },
     "barentswatch": {
       "min": "2026-07-25T06:05:38Z",
-      "max": "2026-08-04T05:24:17Z"
+      "max": "2026-08-04T16:21:41Z"
     },
     "fintraffic": {
       "min": "2026-07-26T05:40:46Z",
-      "max": "2026-08-04T05:24:17Z"
+      "max": "2026-08-04T16:21:40Z"
     }
   },
   "provider_coverage_ranges": {
@@ -36,29 +36,29 @@
     },
     "fintraffic": {
       "min": "2026-07-26T05:40:46Z",
-      "max": "2026-08-04T05:24:17Z"
+      "max": "2026-08-04T16:21:40Z"
     },
     "barentswatch": {
       "min": "2026-07-26T05:40:48Z",
-      "max": "2026-08-04T05:24:20Z"
+      "max": "2026-08-04T16:21:42Z"
     }
   },
   "sources": {
     "fintraffic": {
       "ok": true,
       "path": "data/ais_contacts_fintraffic_latest.json",
-      "source_generated_at": "2026-08-04T05:24:17+00:00",
-      "coverage_at": "2026-08-04T05:24:17Z",
+      "source_generated_at": "2026-08-04T16:21:40+00:00",
+      "coverage_at": "2026-08-04T16:21:40Z",
       "coverage_basis": "generated_at",
-      "records_seen": 297
+      "records_seen": 315
     },
     "barentswatch": {
       "ok": true,
       "path": "data/ais_contacts_barentswatch_latest.json",
-      "source_generated_at": "2026-08-04T05:24:20+00:00",
-      "coverage_at": "2026-08-04T05:24:20Z",
+      "source_generated_at": "2026-08-04T16:21:42+00:00",
+      "coverage_at": "2026-08-04T16:21:42Z",
       "coverage_basis": "generated_at",
-      "records_seen": 143
+      "records_seen": 146
     },
     "ais_dk_historical": {
       "ok": true,
