@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-08-05T04:51:27+00:00",
-  "total_contacts_seen": 1046,
-  "total_unique_tankers_in_context_zones": 200,
+  "generated_at": "2026-08-05T05:24:20+00:00",
+  "total_contacts_seen": 1042,
+  "total_unique_tankers_in_context_zones": 199,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 126,
-  "voi_tankers_in_context_zones": 74,
+  "neutral_tanker_context_total": 128,
+  "voi_tankers_in_context_zones": 71,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 58,
-      "neutral_tankers": 53,
-      "voi_tankers": 5,
+      "total_tankers": 59,
+      "neutral_tankers": 55,
+      "voi_tankers": 4,
       "slow_or_waiting": 31,
-      "for_order": 3,
+      "for_order": 2,
       "examples": [
         {
           "name": "CGAS MARINER",
@@ -101,10 +101,10 @@
     },
     {
       "total_tankers": 39,
-      "neutral_tankers": 35,
-      "voi_tankers": 4,
+      "neutral_tankers": 36,
+      "voi_tankers": 3,
       "slow_or_waiting": 20,
-      "for_order": 1,
+      "for_order": 0,
       "examples": [
         {
           "name": "ZEUGMAN",
@@ -157,21 +157,21 @@
           ]
         },
         {
-          "name": "COPENHAGEN",
-          "imo": "9327487",
-          "mmsi": "220614000",
-          "destination": "SEGOT PEC 10-0094",
-          "sog": "0",
+          "name": "ORASUND",
+          "imo": "9336701",
+          "mmsi": "220514000",
+          "destination": "DE EME - EMDEN",
+          "sog": "13.3",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "JATULI",
-          "imo": "9892444",
-          "mmsi": "230688000",
-          "destination": "NOSTU>PLGDN",
-          "sog": "12.8",
+          "name": "COPENHAGEN",
+          "imo": "9327487",
+          "mmsi": "220614000",
+          "destination": "SEGOT PEC 10-0094",
+          "sog": "0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -193,9 +193,9 @@
     },
     {
       "total_tankers": 92,
-      "neutral_tankers": 25,
-      "voi_tankers": 67,
-      "slow_or_waiting": 67,
+      "neutral_tankers": 26,
+      "voi_tankers": 66,
+      "slow_or_waiting": 63,
       "for_order": 3,
       "examples": [
         {
@@ -229,16 +229,6 @@
           ]
         },
         {
-          "name": "ELDIA",
-          "imo": "9798351",
-          "mmsi": "215078000",
-          "destination": "SANTOS  BRAZIL",
-          "sog": "11.6",
-          "categories": [
-            "recent_russian_portcall_10d"
-          ]
-        },
-        {
           "name": "TERN FORS",
           "imo": "9909651",
           "mmsi": "219029880",
@@ -252,8 +242,8 @@
           "name": "TERN DAL",
           "imo": "9992153",
           "mmsi": "219034372",
-          "destination": "PORVOO",
-          "sog": "0.0",
+          "destination": "NAANTALI",
+          "sog": "11.5",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -262,7 +252,7 @@
           "name": "HALTI",
           "imo": "9818278",
           "mmsi": "230707000",
-          "destination": "BEANR-FISKV",
+          "destination": "FISKV",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
@@ -273,7 +263,17 @@
           "imo": "9271353",
           "mmsi": "240221000",
           "destination": "GULF OF FINLAND",
-          "sog": "14.1",
+          "sog": "13.7",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "BITLAND",
+          "imo": "9503914",
+          "mmsi": "244784000",
+          "destination": "SENYN > FIHMN",
+          "sog": "10.7",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -376,22 +376,12 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 13,
-      "neutral_tankers": 12,
-      "voi_tankers": 1,
+      "total_tankers": 11,
+      "neutral_tankers": 11,
+      "voi_tankers": 0,
       "slow_or_waiting": 8,
       "for_order": 0,
       "examples": [
-        {
-          "name": "KEY EAST",
-          "imo": "9525584",
-          "mmsi": "229015000",
-          "destination": "KLAIPEDA",
-          "sog": "11.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
         {
           "name": "ATLANTIC  MATE",
           "imo": "9350745",
@@ -433,16 +423,6 @@
           ]
         },
         {
-          "name": "JINCHEN",
-          "imo": "9279757",
-          "mmsi": "352004150",
-          "destination": "PORT SAID",
-          "sog": "10.8",
-          "categories": [
-            "recent_russian_portcall_10d"
-          ]
-        },
-        {
           "name": "DREAM TERRAX",
           "imo": "9875719",
           "mmsi": "538008844",
@@ -461,11 +441,31 @@
           "categories": [
             "neutral_tanker_context"
           ]
+        },
+        {
+          "name": "BALVENIE",
+          "imo": "1055478",
+          "mmsi": "563318500",
+          "destination": "GBGIB",
+          "sog": "11.4",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "ZAPADNYY",
+          "imo": "8711837",
+          "mmsi": "620999607",
+          "destination": "GBFXT",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
         }
       ],
       "zone_id": "kaliningrad_baltiysk_approaches",
       "zone_label": "Kaliningrad / Baltiysk approaches",
-      "level": "heightened_context"
+      "level": "watch"
     },
     {
       "total_tankers": 11,
@@ -475,16 +475,6 @@
       "for_order": 0,
       "examples": [
         {
-          "name": "KEY EAST",
-          "imo": "9525584",
-          "mmsi": "229015000",
-          "destination": "KLAIPEDA",
-          "sog": "11.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "ATLANTIC  MATE",
           "imo": "9350745",
           "mmsi": "236683000",
@@ -540,6 +530,16 @@
           "mmsi": "538010363",
           "destination": "PLGDN (GDANSK)",
           "sog": "8.5",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "BALVENIE",
+          "imo": "1055478",
+          "mmsi": "563318500",
+          "destination": "GBGIB",
+          "sog": "11.4",
           "categories": [
             "neutral_tanker_context"
           ]
