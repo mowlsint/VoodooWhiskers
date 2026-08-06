@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-08-06T04:53:32+00:00",
-  "total_contacts_seen": 1058,
+  "generated_at": "2026-08-06T05:26:29+00:00",
+  "total_contacts_seen": 1059,
   "total_unique_tankers_in_context_zones": 201,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 125,
-  "voi_tankers_in_context_zones": 76,
+  "neutral_tanker_context_total": 127,
+  "voi_tankers_in_context_zones": 74,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 59,
-      "neutral_tankers": 55,
-      "voi_tankers": 4,
-      "slow_or_waiting": 31,
+      "total_tankers": 62,
+      "neutral_tankers": 57,
+      "voi_tankers": 5,
+      "slow_or_waiting": 32,
       "for_order": 2,
       "examples": [
         {
@@ -49,7 +49,7 @@
           "imo": "9352315",
           "mmsi": "218019000",
           "destination": "DKSKA",
-          "sog": "13.5",
+          "sog": "13.4",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,10 +100,10 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 38,
-      "neutral_tankers": 35,
-      "voi_tankers": 3,
-      "slow_or_waiting": 20,
+      "total_tankers": 41,
+      "neutral_tankers": 37,
+      "voi_tankers": 4,
+      "slow_or_waiting": 21,
       "for_order": 0,
       "examples": [
         {
@@ -131,7 +131,7 @@
           "imo": "9352315",
           "mmsi": "218019000",
           "destination": "DKSKA",
-          "sog": "13.5",
+          "sog": "13.4",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -147,6 +147,16 @@
           ]
         },
         {
+          "name": "DAN SABIA",
+          "imo": "9513438",
+          "mmsi": "219333000",
+          "destination": "CULZEAN OILFIELD>DK",
+          "sog": "12.7",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
           "name": "TERNSUND",
           "imo": "9722390",
           "mmsi": "219775000",
@@ -157,30 +167,20 @@
           ]
         },
         {
+          "name": "TERNFJORD",
+          "imo": "9722405",
+          "mmsi": "219805000",
+          "destination": "NO SLG",
+          "sog": "13.5",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
           "name": "TERN SEA",
           "imo": "9747974",
           "mmsi": "219814000",
           "destination": "SEGOT",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "ORASUND",
-          "imo": "9336701",
-          "mmsi": "220514000",
-          "destination": "DE EME - EMDEN",
-          "sog": "13.3",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "COPENHAGEN",
-          "imo": "9327487",
-          "mmsi": "220614000",
-          "destination": "SEGOT PEC 10-0094",
           "sog": "0",
           "categories": [
             "neutral_tanker_context"
@@ -284,10 +284,10 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 95,
+      "total_tankers": 92,
       "neutral_tankers": 24,
-      "voi_tankers": 71,
-      "slow_or_waiting": 64,
+      "voi_tankers": 68,
+      "slow_or_waiting": 66,
       "for_order": 4,
       "examples": [
         {
@@ -315,7 +315,7 @@
           "imo": "9010929",
           "mmsi": "210056000",
           "destination": "TALLINN",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -325,7 +325,7 @@
           "imo": "9909651",
           "mmsi": "219029880",
           "destination": "FIHMN>FISKV",
-          "sog": "11.3",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -345,7 +345,7 @@
           "imo": "9988994",
           "mmsi": "219034373",
           "destination": "FI SKV",
-          "sog": "8.0",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -354,7 +354,7 @@
           "name": "HALTI",
           "imo": "9818278",
           "mmsi": "230707000",
-          "destination": "FISKV",
+          "destination": "FISKV-BEANR",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
@@ -365,7 +365,7 @@
           "imo": "9503914",
           "mmsi": "244784000",
           "destination": "FIHMN > SENYN",
-          "sog": "0.0",
+          "sog": "12.8",
           "categories": [
             "neutral_tanker_context"
           ]
