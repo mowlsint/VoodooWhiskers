@@ -1,6 +1,6 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-08-06T04:54:13+00:00
+- Generated: 2026-08-06T05:27:29+00:00
 - Review events: 27
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
@@ -119,8 +119,8 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 518100214 / 8605765
 - Infrastructure: offshore_energy — Flan Sea
-- Minimum distance: 0.221 nm
-- Close-band points: 12
+- Minimum distance: 0.238 nm
+- Close-band points: 9
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -275,7 +275,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 257727700 / –
 - Infrastructure: power_cable — pcablesnve.792
-- Minimum distance: 0.482 nm
+- Minimum distance: 0.481 nm
 - Close-band points: 12
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
@@ -311,8 +311,8 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 277544000 / 8411023
 - Infrastructure: power_cable — pcablesnve.28
-- Minimum distance: 0.677 nm
-- Close-band points: 5
+- Minimum distance: 0.678 nm
+- Close-band points: 4
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -323,8 +323,8 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 277544000 / 8411023
 - Infrastructure: power_cable — pcablesnve.29
-- Minimum distance: 0.677 nm
-- Close-band points: 5
+- Minimum distance: 0.678 nm
+- Close-band points: 4
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
