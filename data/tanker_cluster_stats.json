@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-08-07T04:32:37+00:00",
-  "total_contacts_seen": 1058,
-  "total_unique_tankers_in_context_zones": 195,
+  "generated_at": "2026-08-07T15:07:43+00:00",
+  "total_contacts_seen": 1043,
+  "total_unique_tankers_in_context_zones": 198,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 129,
-  "voi_tankers_in_context_zones": 66,
+  "neutral_tanker_context_total": 130,
+  "voi_tankers_in_context_zones": 68,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
       "total_tankers": 62,
-      "neutral_tankers": 57,
-      "voi_tankers": 5,
-      "slow_or_waiting": 30,
+      "neutral_tankers": 56,
+      "voi_tankers": 6,
+      "slow_or_waiting": 31,
       "for_order": 2,
       "examples": [
         {
@@ -100,10 +100,10 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 41,
-      "neutral_tankers": 37,
-      "voi_tankers": 4,
-      "slow_or_waiting": 19,
+      "total_tankers": 39,
+      "neutral_tankers": 34,
+      "voi_tankers": 5,
+      "slow_or_waiting": 20,
       "for_order": 0,
       "examples": [
         {
@@ -167,16 +167,6 @@
           ]
         },
         {
-          "name": "KEY NORTH",
-          "imo": "9020417",
-          "mmsi": "236669000",
-          "destination": "NOTRF",
-          "sog": "13.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "THUN RELIANCE",
           "imo": "9970519",
           "mmsi": "244335000",
@@ -185,10 +175,112 @@
           "categories": [
             "neutral_tanker_context"
           ]
+        },
+        {
+          "name": "CORAL MEDUSA",
+          "imo": "9346926",
+          "mmsi": "244870427",
+          "destination": "SE BRO",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
         }
       ],
       "zone_id": "skagen_waiting_area",
       "zone_label": "Skagen / northern Kattegat",
+      "level": "heightened_context"
+    },
+    {
+      "total_tankers": 87,
+      "neutral_tankers": 26,
+      "voi_tankers": 61,
+      "slow_or_waiting": 55,
+      "for_order": 4,
+      "examples": [
+        {
+          "name": "EXEMPLAR",
+          "imo": "9444649",
+          "mmsi": "205553000",
+          "destination": "FIINK",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "RINA",
+          "imo": "9152820",
+          "mmsi": "210051000",
+          "destination": "EE PAS",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "ZIRCONE",
+          "imo": "9010929",
+          "mmsi": "210056000",
+          "destination": "TALLINN",
+          "sog": "0.1",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "TERN FORS",
+          "imo": "9909651",
+          "mmsi": "219029880",
+          "destination": "FISKV>BEANR",
+          "sog": "11.2",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "TERN DAL",
+          "imo": "9992153",
+          "mmsi": "219034372",
+          "destination": "PORVOO",
+          "sog": "0.1",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "TERN LAND",
+          "imo": "9988994",
+          "mmsi": "219034373",
+          "destination": "FI SKV",
+          "sog": "0.3",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "UIKKU",
+          "imo": "9797814",
+          "mmsi": "230689000",
+          "destination": "FISKV>NLRTM",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "OLYMPIC FUTURE",
+          "imo": "9271353",
+          "mmsi": "240221000",
+          "destination": "GULF OF FINLAND",
+          "sog": "14.1",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        }
+      ],
+      "zone_id": "gulf_of_finland_ru_approaches",
+      "zone_label": "Gulf of Finland / Ust-Luga-Primorsk approaches",
       "level": "heightened_context"
     },
     {
@@ -281,98 +373,6 @@
       ],
       "zone_id": "german_bight",
       "zone_label": "German Bight",
-      "level": "heightened_context"
-    },
-    {
-      "total_tankers": 84,
-      "neutral_tankers": 24,
-      "voi_tankers": 60,
-      "slow_or_waiting": 55,
-      "for_order": 4,
-      "examples": [
-        {
-          "name": "EXEMPLAR",
-          "imo": "9444649",
-          "mmsi": "205553000",
-          "destination": "FIINK",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "RINA",
-          "imo": "9152820",
-          "mmsi": "210051000",
-          "destination": "EE PAS",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "ZIRCONE",
-          "imo": "9010929",
-          "mmsi": "210056000",
-          "destination": "TALLINN",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TERN FORS",
-          "imo": "9909651",
-          "mmsi": "219029880",
-          "destination": "FIHMN>FISKV",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TERN DAL",
-          "imo": "9992153",
-          "mmsi": "219034372",
-          "destination": "PORVOO",
-          "sog": "8.7",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TERN LAND",
-          "imo": "9988994",
-          "mmsi": "219034373",
-          "destination": "FI SKV",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "UIKKU",
-          "imo": "9797814",
-          "mmsi": "230689000",
-          "destination": "SEBR0>FISKV",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "BITLAND",
-          "imo": "9503914",
-          "mmsi": "244784000",
-          "destination": "SENYN > FIHMN",
-          "sog": "11.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        }
-      ],
-      "zone_id": "gulf_of_finland_ru_approaches",
-      "zone_label": "Gulf of Finland / Ust-Luga-Primorsk approaches",
       "level": "heightened_context"
     },
     {
