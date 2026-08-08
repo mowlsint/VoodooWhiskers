@@ -1,6 +1,6 @@
 # Voodoo Whiskers — Current VOI List
 
-- Generated: 2026-08-07T15:07:43+00:00
+- Generated: 2026-08-08T03:01:11+00:00
 - Priority vessels: 439
 - Neutral tanker context is excluded from this VOI list and remains available as a separate map layer.
 - AIS coverage is mixed and not continuous. A listed position is the latest available observation, not proof of current presence.
@@ -94,7 +94,7 @@
 | AURORA |  | 257080590 | recent_russian_portcall_10d |  | 59.9178, 10.6707 | 2026-07-30T04:31:26.180096+00:00 | AISStream |
 | AURORA |  | 257727700 | recent_russian_portcall_10d |  | 63.5686, 9.4741 | 2026-08-07T15:07:31+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | AURORA |  | 258373500 | recent_russian_portcall_10d |  | 69.6734, 18.7467 | 2026-08-07T15:06:25+00:00 | BarentsWatch / Norwegian Coastal Administration |
-| AURORA |  | 259027310 | recent_russian_portcall_10d |  | 68.1641, 14.6604 | 2026-07-28T20:35:43+00:00 | BarentsWatch / Norwegian Coastal Administration |
+| AURORA |  | 259027310 | recent_russian_portcall_10d |  | 68.1649, 14.6627 | 2026-07-29T11:35:14+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | AURORA | 33710 | 259036280 | recent_russian_portcall_10d |  | 68.9267, 16.3465 | 2026-08-07T15:07:35+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | AURORA |  | 265509440 | recent_russian_portcall_10d |  | 57.9239, 11.5873 | 2026-07-31T04:53:59.866435+00:00 | AISStream |
 | AURORA |  | 265818840 | recent_russian_portcall_10d |  | 59.4584, 18.2806 | 2026-08-05T04:36:17.310016+00:00 | AISStream |
