@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-08T03:01:11+00:00",
-  "total_contacts_seen": 1043,
-  "total_unique_tankers_in_context_zones": 198,
+  "generated_at": "2026-08-08T03:42:42+00:00",
+  "total_contacts_seen": 1016,
+  "total_unique_tankers_in_context_zones": 204,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 130,
-  "voi_tankers_in_context_zones": 68,
+  "neutral_tanker_context_total": 129,
+  "voi_tankers_in_context_zones": 75,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 62,
-      "neutral_tankers": 56,
-      "voi_tankers": 6,
+      "total_tankers": 63,
+      "neutral_tankers": 58,
+      "voi_tankers": 5,
       "slow_or_waiting": 31,
       "for_order": 2,
       "examples": [
@@ -30,6 +30,16 @@
           "mmsi": "215382000",
           "destination": "NOSLH",
           "sog": "12.6",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "MITERA",
+          "imo": "9380104",
+          "mmsi": "215470000",
+          "destination": "NOSGE",
+          "sog": "13.2",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -83,16 +93,6 @@
           "categories": [
             "neutral_tanker_context"
           ]
-        },
-        {
-          "name": "BALTIC",
-          "imo": "9451226",
-          "mmsi": "219032007",
-          "destination": "NL RTM",
-          "sog": "6.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
         }
       ],
       "zone_id": "danish_straits_kattegat",
@@ -100,9 +100,9 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 39,
-      "neutral_tankers": 34,
-      "voi_tankers": 5,
+      "total_tankers": 41,
+      "neutral_tankers": 37,
+      "voi_tankers": 4,
       "slow_or_waiting": 20,
       "for_order": 0,
       "examples": [
@@ -112,6 +112,16 @@
           "mmsi": "215382000",
           "destination": "NOSLH",
           "sog": "12.6",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "MITERA",
+          "imo": "9380104",
+          "mmsi": "215470000",
+          "destination": "NOSGE",
+          "sog": "13.2",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -167,21 +177,11 @@
           ]
         },
         {
-          "name": "THUN RELIANCE",
-          "imo": "9970519",
-          "mmsi": "244335000",
-          "destination": "SE BRO",
-          "sog": "11.2",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "CORAL MEDUSA",
-          "imo": "9346926",
-          "mmsi": "244870427",
-          "destination": "SE BRO",
-          "sog": "0",
+          "name": "JAARLI",
+          "imo": "9892432",
+          "mmsi": "230687000",
+          "destination": "NO MON>FI SKV",
+          "sog": "14.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -192,10 +192,10 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 87,
-      "neutral_tankers": 26,
-      "voi_tankers": 61,
-      "slow_or_waiting": 55,
+      "total_tankers": 96,
+      "neutral_tankers": 27,
+      "voi_tankers": 69,
+      "slow_or_waiting": 60,
       "for_order": 4,
       "examples": [
         {
@@ -223,7 +223,7 @@
           "imo": "9010929",
           "mmsi": "210056000",
           "destination": "TALLINN",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -232,8 +232,8 @@
           "name": "TERN FORS",
           "imo": "9909651",
           "mmsi": "219029880",
-          "destination": "FISKV>BEANR",
-          "sog": "11.2",
+          "destination": "SEGOT>FIHMN",
+          "sog": "0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -243,7 +243,7 @@
           "imo": "9992153",
           "mmsi": "219034372",
           "destination": "PORVOO",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -253,7 +253,17 @@
           "imo": "9988994",
           "mmsi": "219034373",
           "destination": "FI SKV",
-          "sog": "0.3",
+          "sog": "0.4",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "MONA SWAN",
+          "imo": "9371804",
+          "mmsi": "219624000",
+          "destination": "NL_RTM=>FI_PRV",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -267,16 +277,6 @@
           "categories": [
             "neutral_tanker_context"
           ]
-        },
-        {
-          "name": "OLYMPIC FUTURE",
-          "imo": "9271353",
-          "mmsi": "240221000",
-          "destination": "GULF OF FINLAND",
-          "sog": "14.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
         }
       ],
       "zone_id": "gulf_of_finland_ru_approaches",
@@ -284,8 +284,8 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 26,
-      "neutral_tankers": 25,
+      "total_tankers": 25,
+      "neutral_tankers": 24,
       "voi_tankers": 1,
       "slow_or_waiting": 16,
       "for_order": 1,
@@ -376,38 +376,18 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 12,
-      "neutral_tankers": 12,
+      "total_tankers": 9,
+      "neutral_tankers": 9,
       "voi_tankers": 0,
-      "slow_or_waiting": 8,
+      "slow_or_waiting": 7,
       "for_order": 0,
       "examples": [
-        {
-          "name": "AMONITH",
-          "imo": "1047330",
-          "mmsi": "210904000",
-          "destination": "PLGDY",
-          "sog": "11.2",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
         {
           "name": "ATLANTIC  MATE",
           "imo": "9350745",
           "mmsi": "236683000",
           "destination": "PL GDN",
           "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "NJORD DF",
-          "imo": "9953468",
-          "mmsi": "241866000",
-          "destination": "EGSKT=>LTBOT",
-          "sog": "13.3",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -461,17 +441,37 @@
           "categories": [
             "neutral_tanker_context"
           ]
+        },
+        {
+          "name": "ZAPADNYY",
+          "imo": "8711837",
+          "mmsi": "620999607",
+          "destination": "GBFXT",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "NAVIGATOR AURORA",
+          "imo": "9726322",
+          "mmsi": "636017409",
+          "destination": "",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
         }
       ],
       "zone_id": "kaliningrad_baltiysk_approaches",
       "zone_label": "Kaliningrad / Baltiysk approaches",
-      "level": "watch"
+      "level": "context"
     },
     {
-      "total_tankers": 10,
-      "neutral_tankers": 10,
+      "total_tankers": 9,
+      "neutral_tankers": 9,
       "voi_tankers": 0,
-      "slow_or_waiting": 8,
+      "slow_or_waiting": 7,
       "for_order": 0,
       "examples": [
         {
@@ -557,7 +557,7 @@
       ],
       "zone_id": "gulf_of_gdansk",
       "zone_label": "Gulf of Gdansk",
-      "level": "watch"
+      "level": "context"
     },
     {
       "total_tankers": 7,
