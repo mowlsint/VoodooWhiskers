@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-08-08T03:42:42+00:00",
-  "total_contacts_seen": 1016,
-  "total_unique_tankers_in_context_zones": 204,
+  "generated_at": "2026-08-08T14:48:20+00:00",
+  "total_contacts_seen": 984,
+  "total_unique_tankers_in_context_zones": 203,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 129,
-  "voi_tankers_in_context_zones": 75,
+  "neutral_tanker_context_total": 124,
+  "voi_tankers_in_context_zones": 79,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 63,
-      "neutral_tankers": 58,
-      "voi_tankers": 5,
+      "total_tankers": 62,
+      "neutral_tankers": 55,
+      "voi_tankers": 7,
       "slow_or_waiting": 31,
-      "for_order": 2,
+      "for_order": 3,
       "examples": [
         {
           "name": "CGAS MARINER",
@@ -30,16 +30,6 @@
           "mmsi": "215382000",
           "destination": "NOSLH",
           "sog": "12.6",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "MITERA",
-          "imo": "9380104",
-          "mmsi": "215470000",
-          "destination": "NOSGE",
-          "sog": "13.2",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -93,6 +83,16 @@
           "categories": [
             "neutral_tanker_context"
           ]
+        },
+        {
+          "name": "AMAK SWAN",
+          "imo": "9318230",
+          "mmsi": "219355000",
+          "destination": "DKCPH",
+          "sog": "9.7",
+          "categories": [
+            "neutral_tanker_context"
+          ]
         }
       ],
       "zone_id": "danish_straits_kattegat",
@@ -100,11 +100,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 41,
-      "neutral_tankers": 37,
-      "voi_tankers": 4,
+      "total_tankers": 40,
+      "neutral_tankers": 35,
+      "voi_tankers": 5,
       "slow_or_waiting": 20,
-      "for_order": 0,
+      "for_order": 1,
       "examples": [
         {
           "name": "ZEUGMAN",
@@ -112,16 +112,6 @@
           "mmsi": "215382000",
           "destination": "NOSLH",
           "sog": "12.6",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "MITERA",
-          "imo": "9380104",
-          "mmsi": "215470000",
-          "destination": "NOSGE",
-          "sog": "13.2",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -185,6 +175,16 @@
           "categories": [
             "neutral_tanker_context"
           ]
+        },
+        {
+          "name": "KEY NORTH",
+          "imo": "9020417",
+          "mmsi": "236669000",
+          "destination": "DKEBJ",
+          "sog": "8.8",
+          "categories": [
+            "neutral_tanker_context"
+          ]
         }
       ],
       "zone_id": "skagen_waiting_area",
@@ -193,9 +193,9 @@
     },
     {
       "total_tankers": 96,
-      "neutral_tankers": 27,
-      "voi_tankers": 69,
-      "slow_or_waiting": 60,
+      "neutral_tankers": 25,
+      "voi_tankers": 71,
+      "slow_or_waiting": 57,
       "for_order": 4,
       "examples": [
         {
@@ -263,7 +263,7 @@
           "imo": "9371804",
           "mmsi": "219624000",
           "destination": "NL_RTM=>FI_PRV",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
