@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-08-09T03:36:07+00:00",
-  "total_contacts_seen": 984,
-  "total_unique_tankers_in_context_zones": 202,
+  "generated_at": "2026-08-09T03:52:36+00:00",
+  "total_contacts_seen": 990,
+  "total_unique_tankers_in_context_zones": 203,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 124,
-  "voi_tankers_in_context_zones": 78,
+  "neutral_tanker_context_total": 128,
+  "voi_tankers_in_context_zones": 75,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 62,
-      "neutral_tankers": 55,
+      "total_tankers": 63,
+      "neutral_tankers": 56,
       "voi_tankers": 7,
-      "slow_or_waiting": 31,
-      "for_order": 3,
+      "slow_or_waiting": 32,
+      "for_order": 4,
       "examples": [
         {
           "name": "CGAS MARINER",
@@ -78,8 +78,8 @@
           "name": "ANDREA",
           "imo": "9428188",
           "mmsi": "219031446",
-          "destination": "SESKO",
-          "sog": "5.7",
+          "destination": "DKTYB",
+          "sog": "6.9",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,11 +100,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 40,
-      "neutral_tankers": 35,
+      "total_tankers": 42,
+      "neutral_tankers": 37,
       "voi_tankers": 5,
-      "slow_or_waiting": 20,
-      "for_order": 1,
+      "slow_or_waiting": 21,
+      "for_order": 2,
       "examples": [
         {
           "name": "ZEUGMAN",
@@ -132,6 +132,16 @@
           "mmsi": "219028009",
           "destination": "SEGOT",
           "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "ANDREA",
+          "imo": "9428188",
+          "mmsi": "219031446",
+          "destination": "DKTYB",
+          "sog": "6.9",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -167,16 +177,6 @@
           ]
         },
         {
-          "name": "JAARLI",
-          "imo": "9892432",
-          "mmsi": "230687000",
-          "destination": "NO MON>FI SKV",
-          "sog": "14.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "KEY NORTH",
           "imo": "9020417",
           "mmsi": "236669000",
@@ -193,9 +193,9 @@
     },
     {
       "total_tankers": 95,
-      "neutral_tankers": 25,
-      "voi_tankers": 70,
-      "slow_or_waiting": 57,
+      "neutral_tankers": 28,
+      "voi_tankers": 67,
+      "slow_or_waiting": 56,
       "for_order": 4,
       "examples": [
         {
@@ -242,7 +242,7 @@
           "name": "TERN DAL",
           "imo": "9992153",
           "mmsi": "219034372",
-          "destination": "PORVOO",
+          "destination": "NAANTALI",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
@@ -253,7 +253,7 @@
           "imo": "9988994",
           "mmsi": "219034373",
           "destination": "FI SKV",
-          "sog": "0.4",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -263,7 +263,7 @@
           "imo": "9371804",
           "mmsi": "219624000",
           "destination": "NL_RTM=>FI_PRV",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -273,7 +273,7 @@
           "imo": "9797814",
           "mmsi": "230689000",
           "destination": "FISKV>NLRTM",
-          "sog": "0.0",
+          "sog": "11.8",
           "categories": [
             "neutral_tanker_context"
           ]
