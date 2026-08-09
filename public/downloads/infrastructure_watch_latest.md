@@ -1,7 +1,7 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-08-09T04:05:21+00:00
-- Review events: 28
+- Generated: 2026-08-09T14:52:43+00:00
+- Review events: 25
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
 
@@ -12,7 +12,7 @@
 - MMSI / IMO: 667002310 / 9308132
 - Infrastructure: pipeline — NORD STREAM 2
 - Minimum distance: 0.007 nm
-- Close-band points: 13
+- Close-band points: 12
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
@@ -36,19 +36,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 205737000 / 9797618
 - Infrastructure: offshore_energy — Flan Sea
 - Minimum distance: 0.108 nm
-- Close-band points: 13
-- Estimated dwell: 0.0 min
-- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
-- Confidence: medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
-## SIRIUS — ELEVATED
-
-- MMSI / IMO: 205737000 / –
-- Infrastructure: offshore_energy — Flan Sea
-- Minimum distance: 0.108 nm
-- Close-band points: 13
+- Close-band points: 11
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -59,8 +47,8 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 230931000 / 5400267
 - Infrastructure: pipeline — pipelines.3716
-- Minimum distance: 0.197 nm
-- Close-band points: 13
+- Minimum distance: 0.196 nm
+- Close-band points: 12
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
@@ -69,22 +57,10 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 ## AJAX — ELEVATED
 
-- MMSI / IMO: 257107000 / 9210983
-- Infrastructure: power_cable — pcablesnve.150
-- Minimum distance: 0.198 nm
-- Close-band points: 13
-- Estimated dwell: 0.0 min
-- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
-- Confidence: medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
-## AJAX — ELEVATED
-
 - MMSI / IMO: 230931000 / 5400267
 - Infrastructure: pipeline — pipelines.3715
-- Minimum distance: 0.201 nm
-- Close-band points: 13
+- Minimum distance: 0.2 nm
+- Close-band points: 12
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
@@ -96,7 +72,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 230047000 / 9974864
 - Infrastructure: pipeline — pipelines.3917
 - Minimum distance: 0.216 nm
-- Close-band points: 3
+- Close-band points: 2
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
@@ -108,22 +84,10 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 230047000 / 9974864
 - Infrastructure: pipeline — pipelines.3511
 - Minimum distance: 0.22 nm
-- Close-band points: 3
+- Close-band points: 2
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
-## BLUE THISTLE — ELEVATED
-
-- MMSI / IMO: 518100214 / 8605765
-- Infrastructure: offshore_energy — Flan Sea
-- Minimum distance: 0.238 nm
-- Close-band points: 13
-- Estimated dwell: 0.0 min
-- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
-- Confidence: medium
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
@@ -131,7 +95,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 273299870 / 9841055
 - Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.367 nm
+- Minimum distance: 0.368 nm
 - Close-band points: 9
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, repeated_entries_into_close_band, voi_or_watchlist_context, timestamp_quality_limited
@@ -143,8 +107,8 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 257107000 / 9210983
 - Infrastructure: pipeline — Vestprosess
-- Minimum distance: 0.266 nm
-- Close-band points: 13
+- Minimum distance: 0.268 nm
+- Close-band points: 12
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -155,8 +119,8 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 230931000 / 5400267
 - Infrastructure: pipeline — pipelines.3658
-- Minimum distance: 0.309 nm
-- Close-band points: 13
+- Minimum distance: 0.308 nm
+- Close-band points: 12
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
@@ -168,22 +132,10 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 230047000 / 9974864
 - Infrastructure: pipeline — pipelines.3512
 - Minimum distance: 0.341 nm
-- Close-band points: 3
+- Close-band points: 2
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
-## AJAX — REVIEW
-
-- MMSI / IMO: 257107000 / 9210983
-- Infrastructure: power_cable — pcablesnve.770
-- Minimum distance: 0.347 nm
-- Close-band points: 13
-- Estimated dwell: 0.0 min
-- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
-- Confidence: medium
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
@@ -199,9 +151,33 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
-## GOGLAND REEFER — REVIEW
+## AJAX — REVIEW
 
-- MMSI / IMO: 273218630 / 8509533
+- MMSI / IMO: 257107000 / 9210983
+- Infrastructure: power_cable — pcablesnve.150
+- Minimum distance: 0.371 nm
+- Close-band points: 12
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
+- Confidence: medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
+## AJAX — REVIEW
+
+- MMSI / IMO: 257107000 / 9210983
+- Infrastructure: pipeline — Vestprosess
+- Minimum distance: 0.374 nm
+- Close-band points: 12
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
+- Confidence: medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
+## 273218630 — REVIEW
+
+- MMSI / IMO: 273218630 / –
 - Infrastructure: pipeline — NORD STREAM 2
 - Minimum distance: 0.403 nm
 - Close-band points: 3
@@ -211,36 +187,12 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
-## AJAX — REVIEW
-
-- MMSI / IMO: 261011160 / –
-- Infrastructure: pipeline — pipelines.3444
-- Minimum distance: 0.473 nm
-- Close-band points: 13
-- Estimated dwell: 0.0 min
-- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
-- Confidence: medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
-## AJAX — REVIEW
-
-- MMSI / IMO: 261011160 / 9878280
-- Infrastructure: pipeline — pipelines.3444
-- Minimum distance: 0.473 nm
-- Close-band points: 13
-- Estimated dwell: 0.0 min
-- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
-- Confidence: medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
 ## AURORA — REVIEW
 
 - MMSI / IMO: 257727700 / –
 - Infrastructure: power_cable — pcablesnve.792
 - Minimum distance: 0.481 nm
-- Close-band points: 13
+- Close-band points: 12
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -288,7 +240,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 259033210 / –
 - Infrastructure: power_cable — pcablesnve.270
 - Minimum distance: 0.565 nm
-- Close-band points: 6
+- Close-band points: 5
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -299,7 +251,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 668116291 / 9258351
 - Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.586 nm
+- Minimum distance: 0.596 nm
 - Close-band points: 5
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
@@ -312,7 +264,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 277544000 / 8411023
 - Infrastructure: power_cable — pcablesnve.28
 - Minimum distance: 0.677 nm
-- Close-band points: 6
+- Close-band points: 5
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -324,10 +276,22 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 277544000 / 8411023
 - Infrastructure: power_cable — pcablesnve.29
 - Minimum distance: 0.677 nm
-- Close-band points: 6
+- Close-band points: 5
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
+## 636018490 — REVIEW
+
+- MMSI / IMO: 636018490 / –
+- Infrastructure: pipeline — pipelines.3798
+- Minimum distance: 0.732 nm
+- Close-band points: 4
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
