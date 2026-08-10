@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-08-10T04:06:40+00:00",
-  "total_contacts_seen": 422,
-  "total_unique_tankers_in_context_zones": 106,
-  "total_tanker_context_zones": 3,
-  "neutral_tanker_context_total": 29,
-  "voi_tankers_in_context_zones": 77,
+  "generated_at": "2026-08-10T15:15:57+00:00",
+  "total_contacts_seen": 438,
+  "total_unique_tankers_in_context_zones": 117,
+  "total_tanker_context_zones": 4,
+  "neutral_tanker_context_total": 37,
+  "voi_tankers_in_context_zones": 80,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 98,
-      "neutral_tankers": 22,
-      "voi_tankers": 76,
-      "slow_or_waiting": 60,
-      "for_order": 7,
+      "total_tankers": 107,
+      "neutral_tankers": 29,
+      "voi_tankers": 78,
+      "slow_or_waiting": 66,
+      "for_order": 10,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -39,7 +39,7 @@
           "imo": "9010929",
           "mmsi": "210056000",
           "destination": "TALLINN",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -49,7 +49,7 @@
           "imo": "9988994",
           "mmsi": "219034373",
           "destination": "FI SKV",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -58,8 +58,8 @@
           "name": "MONA SWAN",
           "imo": "9371804",
           "mmsi": "219624000",
-          "destination": "NL_RTM=>FI_PRV",
-          "sog": "0.0",
+          "destination": "FI_PRV",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -69,7 +69,7 @@
           "imo": "9797802",
           "mmsi": "230690000",
           "destination": "FISVK>LVRIX",
-          "sog": "0.0",
+          "sog": "11.7",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -79,7 +79,7 @@
           "imo": "9739836",
           "mmsi": "230706000",
           "destination": "FIKOK>FISKV",
-          "sog": "7.4",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -89,7 +89,7 @@
           "imo": "9309423",
           "mmsi": "248884000",
           "destination": "FOR ORDERS",
-          "sog": "14.9",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,9 +100,9 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 8,
+      "total_tankers": 9,
       "neutral_tankers": 7,
-      "voi_tankers": 1,
+      "voi_tankers": 2,
       "slow_or_waiting": 0,
       "for_order": 0,
       "examples": [
@@ -117,11 +117,11 @@
           ]
         },
         {
-          "name": "MITERA",
-          "imo": "9380104",
-          "mmsi": "215470000",
-          "destination": "NOMON",
-          "sog": "13.8",
+          "name": "INEOS INGENUITY",
+          "imo": "9685437",
+          "mmsi": "219000034",
+          "destination": "USMAH",
+          "sog": "17.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -159,11 +159,11 @@
           ]
         },
         {
-          "name": "CRYSTAL LAVENDER",
-          "imo": "9851610",
-          "mmsi": "563090100",
-          "destination": "PLGDY",
-          "sog": "14.1",
+          "name": "EAGLE KUANTAN",
+          "imo": "9417012",
+          "mmsi": "565949000",
+          "destination": "DKKAL",
+          "sog": "9.2",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -179,11 +179,11 @@
           ]
         },
         {
-          "name": "CORAL FRASERI",
-          "imo": "9378278",
-          "mmsi": "636022010",
-          "destination": "NO RAF",
-          "sog": "13.0",
+          "name": "ATLANTIC JADE",
+          "imo": "9892987",
+          "mmsi": "636021135",
+          "destination": "LTBOT",
+          "sog": "12.7",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -194,9 +194,9 @@
       "level": "context"
     },
     {
-      "total_tankers": 8,
+      "total_tankers": 9,
       "neutral_tankers": 7,
-      "voi_tankers": 1,
+      "voi_tankers": 2,
       "slow_or_waiting": 0,
       "for_order": 0,
       "examples": [
@@ -211,11 +211,11 @@
           ]
         },
         {
-          "name": "MITERA",
-          "imo": "9380104",
-          "mmsi": "215470000",
-          "destination": "NOMON",
-          "sog": "13.8",
+          "name": "INEOS INGENUITY",
+          "imo": "9685437",
+          "mmsi": "219000034",
+          "destination": "USMAH",
+          "sog": "17.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -253,11 +253,11 @@
           ]
         },
         {
-          "name": "CRYSTAL LAVENDER",
-          "imo": "9851610",
-          "mmsi": "563090100",
-          "destination": "PLGDY",
-          "sog": "14.1",
+          "name": "EAGLE KUANTAN",
+          "imo": "9417012",
+          "mmsi": "565949000",
+          "destination": "DKKAL",
+          "sog": "9.2",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -273,11 +273,11 @@
           ]
         },
         {
-          "name": "CORAL FRASERI",
-          "imo": "9378278",
-          "mmsi": "636022010",
-          "destination": "NO RAF",
-          "sog": "13.0",
+          "name": "ATLANTIC JADE",
+          "imo": "9892987",
+          "mmsi": "636021135",
+          "destination": "LTBOT",
+          "sog": "12.7",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -285,6 +285,28 @@
       ],
       "zone_id": "skagen_waiting_area",
       "zone_label": "Skagen / northern Kattegat",
+      "level": "context"
+    },
+    {
+      "total_tankers": 1,
+      "neutral_tankers": 1,
+      "voi_tankers": 0,
+      "slow_or_waiting": 1,
+      "for_order": 0,
+      "examples": [
+        {
+          "name": "EAGLE BARENTS",
+          "imo": "9676125",
+          "mmsi": "257980000",
+          "destination": "LTBOT",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        }
+      ],
+      "zone_id": "kaliningrad_baltiysk_approaches",
+      "zone_label": "Kaliningrad / Baltiysk approaches",
       "level": "context"
     }
   ]
