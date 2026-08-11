@@ -1,16 +1,15 @@
 {
-  "generated_at": "2026-08-11T03:54:45+00:00",
+  "generated_at": "2026-08-11T15:16:24+00:00",
   "providers": {
     "fintraffic": {
       "ok": true,
-      "raw_count": 1081,
-      "kept_count": 300
+      "raw_count": 883,
+      "kept_count": 266
     },
     "barentswatch": {
-      "ok": true,
-      "raw_count": 4135,
-      "kept_count": 132
+      "ok": false,
+      "error": "ConnectionError: HTTPSConnectionPool(host='id.barentswatch.no', port=443): Max retries exceeded with url: /connect/token (Caused by ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')))"
     }
   },
-  "successful_provider_fetches": 2
+  "successful_provider_fetches": 1
 }
