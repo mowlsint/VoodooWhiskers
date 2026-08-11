@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-08-11T03:38:57+00:00",
-  "total_contacts_seen": 438,
-  "total_unique_tankers_in_context_zones": 113,
+  "generated_at": "2026-08-11T03:54:50+00:00",
+  "total_contacts_seen": 432,
+  "total_unique_tankers_in_context_zones": 102,
   "total_tanker_context_zones": 4,
-  "neutral_tanker_context_total": 37,
-  "voi_tankers_in_context_zones": 76,
+  "neutral_tanker_context_total": 34,
+  "voi_tankers_in_context_zones": 68,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 103,
+      "total_tankers": 96,
       "neutral_tankers": 29,
-      "voi_tankers": 74,
-      "slow_or_waiting": 66,
+      "voi_tankers": 67,
+      "slow_or_waiting": 57,
       "for_order": 10,
       "examples": [
         {
@@ -39,7 +39,7 @@
           "imo": "9010929",
           "mmsi": "210056000",
           "destination": "TALLINN",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -65,11 +65,11 @@
           ]
         },
         {
-          "name": "LUNNI",
-          "imo": "9797802",
-          "mmsi": "230690000",
-          "destination": "FISVK>LVRIX",
-          "sog": "11.7",
+          "name": "JAARLI",
+          "imo": "9892432",
+          "mmsi": "230687000",
+          "destination": "NO MON>FI SKV",
+          "sog": "0.3",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -79,17 +79,17 @@
           "imo": "9739836",
           "mmsi": "230706000",
           "destination": "FIKOK>FISKV",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "MINERVA NOUNOU",
-          "imo": "9309423",
-          "mmsi": "248884000",
-          "destination": "FOR ORDERS",
-          "sog": "0.1",
+          "name": "KEY WEST",
+          "imo": "9020429",
+          "mmsi": "236668000",
+          "destination": "FIKTK",
+          "sog": "14.3",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,60 +100,28 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 9,
-      "neutral_tankers": 7,
-      "voi_tankers": 2,
+      "total_tankers": 5,
+      "neutral_tankers": 4,
+      "voi_tankers": 1,
       "slow_or_waiting": 0,
       "for_order": 0,
       "examples": [
         {
-          "name": "KEY OCEAN",
-          "imo": "9479668",
-          "mmsi": "210855000",
-          "destination": "DK ODE",
-          "sog": "13.8",
+          "name": "ORASUND",
+          "imo": "9336701",
+          "mmsi": "220514000",
+          "destination": "FR MRS",
+          "sog": "10.1",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "INEOS INGENUITY",
-          "imo": "9685437",
-          "mmsi": "219000034",
-          "destination": "USMAH",
-          "sog": "17.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "PIONEER",
-          "imo": "9255282",
-          "mmsi": "273254770",
-          "destination": "RU ULU",
-          "sog": "12.6",
-          "categories": [
-            "russian_mmsi",
-            "sanctions_shadowfleet",
-            "watchlist"
-          ]
-        },
-        {
-          "name": "FRONT SIRIUS",
-          "imo": "9767340",
-          "mmsi": "538007337",
-          "destination": "FI PRV",
-          "sog": "13.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "HOURAI MARU",
-          "imo": "9796585",
-          "mmsi": "538008262",
-          "destination": "SESTE",
-          "sog": "15.5",
+          "name": "SLOMAN HESTIA",
+          "imo": "9776133",
+          "mmsi": "304070000",
+          "destination": "NO MON > LT KLJ",
+          "sog": "13.3",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -169,16 +137,6 @@
           ]
         },
         {
-          "name": "KOOL ORCA",
-          "imo": "9870525",
-          "mmsi": "636020078",
-          "destination": "FOR ORDERS",
-          "sog": "15.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "ATLANTIC JADE",
           "imo": "9892987",
           "mmsi": "636021135",
@@ -186,6 +144,16 @@
           "sog": "12.7",
           "categories": [
             "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SEA BEAUTY",
+          "imo": "9806627",
+          "mmsi": "374007000",
+          "destination": "SINGAPORE",
+          "sog": "13.8",
+          "categories": [
+            "recent_russian_portcall_10d"
           ]
         }
       ],
@@ -194,60 +162,28 @@
       "level": "context"
     },
     {
-      "total_tankers": 9,
-      "neutral_tankers": 7,
-      "voi_tankers": 2,
+      "total_tankers": 5,
+      "neutral_tankers": 4,
+      "voi_tankers": 1,
       "slow_or_waiting": 0,
       "for_order": 0,
       "examples": [
         {
-          "name": "KEY OCEAN",
-          "imo": "9479668",
-          "mmsi": "210855000",
-          "destination": "DK ODE",
-          "sog": "13.8",
+          "name": "ORASUND",
+          "imo": "9336701",
+          "mmsi": "220514000",
+          "destination": "FR MRS",
+          "sog": "10.1",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "INEOS INGENUITY",
-          "imo": "9685437",
-          "mmsi": "219000034",
-          "destination": "USMAH",
-          "sog": "17.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "PIONEER",
-          "imo": "9255282",
-          "mmsi": "273254770",
-          "destination": "RU ULU",
-          "sog": "12.6",
-          "categories": [
-            "russian_mmsi",
-            "sanctions_shadowfleet",
-            "watchlist"
-          ]
-        },
-        {
-          "name": "FRONT SIRIUS",
-          "imo": "9767340",
-          "mmsi": "538007337",
-          "destination": "FI PRV",
-          "sog": "13.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "HOURAI MARU",
-          "imo": "9796585",
-          "mmsi": "538008262",
-          "destination": "SESTE",
-          "sog": "15.5",
+          "name": "SLOMAN HESTIA",
+          "imo": "9776133",
+          "mmsi": "304070000",
+          "destination": "NO MON > LT KLJ",
+          "sog": "13.3",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -263,16 +199,6 @@
           ]
         },
         {
-          "name": "KOOL ORCA",
-          "imo": "9870525",
-          "mmsi": "636020078",
-          "destination": "FOR ORDERS",
-          "sog": "15.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "ATLANTIC JADE",
           "imo": "9892987",
           "mmsi": "636021135",
@@ -280,6 +206,16 @@
           "sog": "12.7",
           "categories": [
             "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SEA BEAUTY",
+          "imo": "9806627",
+          "mmsi": "374007000",
+          "destination": "SINGAPORE",
+          "sog": "13.8",
+          "categories": [
+            "recent_russian_portcall_10d"
           ]
         }
       ],
