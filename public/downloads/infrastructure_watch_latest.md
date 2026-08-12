@@ -1,6 +1,6 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-08-12T03:36:14+00:00
+- Generated: 2026-08-12T04:07:41+00:00
 - Review events: 24
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
