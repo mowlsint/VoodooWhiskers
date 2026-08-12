@@ -48,12 +48,12 @@
             "observed_at": "2026-08-08T14:48:16+00:00"
           },
           "latest_position": {
-            "latitude": 59.85194,
-            "longitude": 25.905603,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 59.851522,
+            "longitude": 25.904797,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
           "minimum_distance_nm": 0.015,
-          "latest_distance_nm": 0.083,
+          "latest_distance_nm": 0.094,
           "track_points_considered": 9,
           "points_within_close_band": 9,
           "low_speed_points_within_close_band": 9,
@@ -69,15 +69,77 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          19.014843,
-          69.68903
+          25.593223,
+          59.843893
+        ]
+      },
+      "properties": {
+        "event_id": "VWI-273216620-pipelines.3424",
+        "event_type": "critical_infrastructure_proximity",
+        "level": "elevated",
+        "confidence": "low_medium",
+        "vessel": {
+          "mmsi": "273216620",
+          "imo": "9889198",
+          "name": "ALEKSANDR SOKOLOV",
+          "callsign": "UBKK",
+          "categories": [
+            "russian_mmsi"
+          ],
+          "source": "Fintraffic Digitraffic"
+        },
+        "infrastructure": {
+          "type": "pipeline",
+          "reference_id": "pipelines.3424",
+          "name": "NORD STREAM 2",
+          "source": "EMODnet Human Activities",
+          "source_typename": "emodnet:pipelines"
+        },
+        "signals": [
+          "critical_infrastructure_proximity",
+          "repeated_entries_into_close_band",
+          "voi_or_watchlist_context",
+          "timestamp_quality_limited"
+        ],
+        "assessment": "Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.",
+        "score_integration": false,
+        "observation": {
+          "event_position": {
+            "latitude": 59.843893,
+            "longitude": 25.593223,
+            "observed_at": "2026-08-09T14:51:22+00:00"
+          },
+          "latest_position": {
+            "latitude": 60.093423,
+            "longitude": 27.399047,
+            "observed_at": "2026-08-12T04:17:18+00:00"
+          },
+          "minimum_distance_nm": 0.016,
+          "latest_distance_nm": 0.425,
+          "track_points_considered": 6,
+          "points_within_close_band": 3,
+          "low_speed_points_within_close_band": 0,
+          "estimated_dwell_minutes": 0.0,
+          "close_band_entries": 2,
+          "source_timestamp_points": 0,
+          "fallback_timestamp_points": 3
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.014918,
+          69.689032
         ]
       },
       "properties": {
         "event_id": "VWI-273437550-pcablesnve.28",
         "event_type": "critical_infrastructure_proximity",
         "level": "elevated",
-        "confidence": "medium",
+        "confidence": "low_medium",
         "vessel": {
           "mmsi": "273437550",
           "imo": "8606654",
@@ -105,23 +167,23 @@
         "score_integration": false,
         "observation": {
           "event_position": {
-            "latitude": 69.68903,
-            "longitude": 19.014843,
-            "observed_at": "2026-08-11T03:54:29+00:00"
+            "latitude": 69.689032,
+            "longitude": 19.014918,
+            "observed_at": "2026-08-10T15:15:46+00:00"
           },
           "latest_position": {
-            "latitude": 69.68903,
-            "longitude": 19.014843,
-            "observed_at": "2026-08-11T03:54:29+00:00"
+            "latitude": 69.738068,
+            "longitude": 15.112927,
+            "observed_at": "2026-08-12T04:17:14+00:00"
           },
-          "minimum_distance_nm": 0.119,
-          "latest_distance_nm": 0.119,
+          "minimum_distance_nm": 0.12,
+          "latest_distance_nm": 81.082,
           "track_points_considered": 8,
-          "points_within_close_band": 3,
-          "low_speed_points_within_close_band": 3,
+          "points_within_close_band": 2,
+          "low_speed_points_within_close_band": 2,
           "estimated_dwell_minutes": 0.0,
           "close_band_entries": 1,
-          "source_timestamp_points": 3,
+          "source_timestamp_points": 2,
           "fallback_timestamp_points": 0
         }
       }
@@ -131,15 +193,15 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          19.014843,
-          69.68903
+          19.014918,
+          69.689032
         ]
       },
       "properties": {
         "event_id": "VWI-273437550-pcablesnve.29",
         "event_type": "critical_infrastructure_proximity",
         "level": "elevated",
-        "confidence": "medium",
+        "confidence": "low_medium",
         "vessel": {
           "mmsi": "273437550",
           "imo": "8606654",
@@ -167,23 +229,23 @@
         "score_integration": false,
         "observation": {
           "event_position": {
-            "latitude": 69.68903,
-            "longitude": 19.014843,
-            "observed_at": "2026-08-11T03:54:29+00:00"
+            "latitude": 69.689032,
+            "longitude": 19.014918,
+            "observed_at": "2026-08-10T15:15:46+00:00"
           },
           "latest_position": {
-            "latitude": 69.68903,
-            "longitude": 19.014843,
-            "observed_at": "2026-08-11T03:54:29+00:00"
+            "latitude": 69.738068,
+            "longitude": 15.112927,
+            "observed_at": "2026-08-12T04:17:14+00:00"
           },
-          "minimum_distance_nm": 0.119,
-          "latest_distance_nm": 0.119,
+          "minimum_distance_nm": 0.12,
+          "latest_distance_nm": 81.082,
           "track_points_considered": 8,
-          "points_within_close_band": 3,
-          "low_speed_points_within_close_band": 3,
+          "points_within_close_band": 2,
+          "low_speed_points_within_close_band": 2,
           "estimated_dwell_minutes": 0.0,
           "close_band_entries": 1,
-          "source_timestamp_points": 3,
+          "source_timestamp_points": 2,
           "fallback_timestamp_points": 0
         }
       }
@@ -234,12 +296,12 @@
             "observed_at": "2026-08-09T14:51:22+00:00"
           },
           "latest_position": {
-            "latitude": 60.096348,
-            "longitude": 23.553727,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 60.096403,
+            "longitude": 23.553735,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
           "minimum_distance_nm": 0.196,
-          "latest_distance_nm": 0.199,
+          "latest_distance_nm": 0.202,
           "track_points_considered": 9,
           "points_within_close_band": 9,
           "low_speed_points_within_close_band": 9,
@@ -296,12 +358,12 @@
             "observed_at": "2026-08-09T14:51:22+00:00"
           },
           "latest_position": {
-            "latitude": 60.096348,
-            "longitude": 23.553727,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 60.096403,
+            "longitude": 23.553735,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
           "minimum_distance_nm": 0.2,
-          "latest_distance_nm": 0.203,
+          "latest_distance_nm": 0.206,
           "track_points_considered": 9,
           "points_within_close_band": 9,
           "low_speed_points_within_close_band": 9,
@@ -357,12 +419,12 @@
             "observed_at": "2026-08-10T15:14:47+00:00"
           },
           "latest_position": {
-            "latitude": 60.620267,
-            "longitude": 4.856305,
-            "observed_at": "2026-08-11T03:52:51+00:00"
+            "latitude": 60.620313,
+            "longitude": 4.85628,
+            "observed_at": "2026-08-12T04:16:19+00:00"
           },
           "minimum_distance_nm": 0.271,
-          "latest_distance_nm": 0.272,
+          "latest_distance_nm": 0.273,
           "track_points_considered": 9,
           "points_within_close_band": 9,
           "low_speed_points_within_close_band": 9,
@@ -419,12 +481,12 @@
             "observed_at": "2026-08-09T14:51:22+00:00"
           },
           "latest_position": {
-            "latitude": 60.096348,
-            "longitude": 23.553727,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 60.096403,
+            "longitude": 23.553735,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
           "minimum_distance_nm": 0.308,
-          "latest_distance_nm": 0.311,
+          "latest_distance_nm": 0.314,
           "track_points_considered": 9,
           "points_within_close_band": 9,
           "low_speed_points_within_close_band": 9,
@@ -481,19 +543,19 @@
             "observed_at": "2026-08-08T14:48:16+00:00"
           },
           "latest_position": {
-            "latitude": 60.484703,
-            "longitude": 28.224807,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 60.524738,
+            "longitude": 28.154715,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
           "minimum_distance_nm": 0.365,
-          "latest_distance_nm": 2.847,
+          "latest_distance_nm": 0.367,
           "track_points_considered": 9,
-          "points_within_close_band": 8,
-          "low_speed_points_within_close_band": 8,
+          "points_within_close_band": 9,
+          "low_speed_points_within_close_band": 9,
           "estimated_dwell_minutes": 0.0,
           "close_band_entries": 1,
           "source_timestamp_points": 0,
-          "fallback_timestamp_points": 8
+          "fallback_timestamp_points": 9
         }
       }
     },
@@ -542,9 +604,9 @@
             "observed_at": "2026-08-08T14:47:50+00:00"
           },
           "latest_position": {
-            "latitude": 60.620267,
-            "longitude": 4.856305,
-            "observed_at": "2026-08-11T03:52:51+00:00"
+            "latitude": 60.620313,
+            "longitude": 4.85628,
+            "observed_at": "2026-08-12T04:16:19+00:00"
           },
           "minimum_distance_nm": 0.371,
           "latest_distance_nm": 0.373,
@@ -604,12 +666,12 @@
             "observed_at": "2026-08-08T14:48:16+00:00"
           },
           "latest_position": {
-            "latitude": 60.504052,
-            "longitude": 28.202253,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 60.517812,
+            "longitude": 27.905143,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
           "minimum_distance_nm": 0.371,
-          "latest_distance_nm": 1.972,
+          "latest_distance_nm": 6.802,
           "track_points_considered": 9,
           "points_within_close_band": 4,
           "low_speed_points_within_close_band": 4,
@@ -625,8 +687,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          4.856353,
-          60.6203
+          4.85628,
+          60.620313
         ]
       },
       "properties": {
@@ -660,17 +722,17 @@
         "score_integration": false,
         "observation": {
           "event_position": {
-            "latitude": 60.6203,
-            "longitude": 4.856353,
-            "observed_at": "2026-08-08T14:47:50+00:00"
+            "latitude": 60.620313,
+            "longitude": 4.85628,
+            "observed_at": "2026-08-12T04:16:19+00:00"
           },
           "latest_position": {
-            "latitude": 60.620267,
-            "longitude": 4.856305,
-            "observed_at": "2026-08-11T03:52:51+00:00"
+            "latitude": 60.620313,
+            "longitude": 4.85628,
+            "observed_at": "2026-08-12T04:16:19+00:00"
           },
-          "minimum_distance_nm": 0.376,
-          "latest_distance_nm": 0.377,
+          "minimum_distance_nm": 0.375,
+          "latest_distance_nm": 0.375,
           "track_points_considered": 9,
           "points_within_close_band": 9,
           "low_speed_points_within_close_band": 9,
@@ -727,9 +789,9 @@
             "observed_at": "2026-08-09T14:51:22+00:00"
           },
           "latest_position": {
-            "latitude": 60.160272,
-            "longitude": 24.928445,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 60.16027,
+            "longitude": 24.928453,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
           "minimum_distance_nm": 0.435,
           "latest_distance_nm": 0.436,
@@ -789,9 +851,9 @@
             "observed_at": "2026-08-09T14:51:22+00:00"
           },
           "latest_position": {
-            "latitude": 60.160272,
-            "longitude": 24.928445,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 60.16027,
+            "longitude": 24.928453,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
           "minimum_distance_nm": 0.435,
           "latest_distance_nm": 0.436,
@@ -810,8 +872,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          24.922438,
-          60.160782
+          24.922425,
+          60.160733
         ]
       },
       "properties": {
@@ -846,17 +908,17 @@
         "score_integration": false,
         "observation": {
           "event_position": {
-            "latitude": 60.160782,
-            "longitude": 24.922438,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 60.160733,
+            "longitude": 24.922425,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
           "latest_position": {
-            "latitude": 60.160782,
-            "longitude": 24.922438,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 60.160733,
+            "longitude": 24.922425,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
-          "minimum_distance_nm": 0.439,
-          "latest_distance_nm": 0.439,
+          "minimum_distance_nm": 0.436,
+          "latest_distance_nm": 0.436,
           "track_points_considered": 5,
           "points_within_close_band": 5,
           "low_speed_points_within_close_band": 5,
@@ -913,9 +975,9 @@
             "observed_at": "2026-08-09T14:51:22+00:00"
           },
           "latest_position": {
-            "latitude": 60.160272,
-            "longitude": 24.928445,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 60.16027,
+            "longitude": 24.928453,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
           "minimum_distance_nm": 0.458,
           "latest_distance_nm": 0.459,
@@ -974,12 +1036,12 @@
             "observed_at": "2026-08-08T14:47:59+00:00"
           },
           "latest_position": {
-            "latitude": 63.568583,
-            "longitude": 9.474128,
-            "observed_at": "2026-08-11T03:54:42+00:00"
+            "latitude": 63.568587,
+            "longitude": 9.47414,
+            "observed_at": "2026-08-12T04:17:13+00:00"
           },
           "minimum_distance_nm": 0.482,
-          "latest_distance_nm": 0.483,
+          "latest_distance_nm": 0.482,
           "track_points_considered": 9,
           "points_within_close_band": 9,
           "low_speed_points_within_close_band": 9,
@@ -1037,12 +1099,12 @@
             "observed_at": "2026-08-07T04:32:32+00:00"
           },
           "latest_position": {
-            "latitude": 59.832022,
-            "longitude": 28.418647,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 59.83001,
+            "longitude": 28.415585,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
           "minimum_distance_nm": 0.498,
-          "latest_distance_nm": 28.434,
+          "latest_distance_nm": 28.483,
           "track_points_considered": 10,
           "points_within_close_band": 5,
           "low_speed_points_within_close_band": 5,
@@ -1098,12 +1160,12 @@
             "observed_at": "2026-08-08T14:46:06+00:00"
           },
           "latest_position": {
-            "latitude": 70.159277,
-            "longitude": 31.630207,
-            "observed_at": "2026-08-11T03:54:45+00:00"
+            "latitude": 70.35359,
+            "longitude": 32.150187,
+            "observed_at": "2026-08-12T04:17:14+00:00"
           },
           "minimum_distance_nm": 0.51,
-          "latest_distance_nm": 40.363,
+          "latest_distance_nm": 55.933,
           "track_points_considered": 9,
           "points_within_close_band": 6,
           "low_speed_points_within_close_band": 6,
@@ -1162,19 +1224,19 @@
             "observed_at": "2026-08-10T15:15:52+00:00"
           },
           "latest_position": {
-            "latitude": 59.873183,
-            "longitude": 26.037253,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 59.872798,
+            "longitude": 26.036882,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
           "minimum_distance_nm": 0.526,
-          "latest_distance_nm": 0.744,
+          "latest_distance_nm": 0.759,
           "track_points_considered": 4,
-          "points_within_close_band": 4,
-          "low_speed_points_within_close_band": 3,
+          "points_within_close_band": 3,
+          "low_speed_points_within_close_band": 2,
           "estimated_dwell_minutes": 0.0,
           "close_band_entries": 1,
           "source_timestamp_points": 0,
-          "fallback_timestamp_points": 4
+          "fallback_timestamp_points": 3
         }
       }
     },
@@ -1224,12 +1286,12 @@
             "observed_at": "2026-08-10T15:15:52+00:00"
           },
           "latest_position": {
-            "latitude": 59.883398,
-            "longitude": 26.074425,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 59.882497,
+            "longitude": 26.073435,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
           "minimum_distance_nm": 0.543,
-          "latest_distance_nm": 0.704,
+          "latest_distance_nm": 0.739,
           "track_points_considered": 9,
           "points_within_close_band": 9,
           "low_speed_points_within_close_band": 9,
@@ -1245,8 +1307,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          24.922438,
-          60.160782
+          24.922425,
+          60.160733
         ]
       },
       "properties": {
@@ -1281,17 +1343,17 @@
         "score_integration": false,
         "observation": {
           "event_position": {
-            "latitude": 60.160782,
-            "longitude": 24.922438,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 60.160733,
+            "longitude": 24.922425,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
           "latest_position": {
-            "latitude": 60.160782,
-            "longitude": 24.922438,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 60.160733,
+            "longitude": 24.922425,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
-          "minimum_distance_nm": 0.557,
-          "latest_distance_nm": 0.557,
+          "minimum_distance_nm": 0.555,
+          "latest_distance_nm": 0.555,
           "track_points_considered": 5,
           "points_within_close_band": 5,
           "low_speed_points_within_close_band": 5,
@@ -1307,12 +1369,12 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          24.922427,
-          60.1608
+          24.922425,
+          60.160733
         ]
       },
       "properties": {
-        "event_id": "VWI-230992650-pipelines.3530",
+        "event_id": "VWI-230992650-pipelines.3472",
         "event_type": "critical_infrastructure_proximity",
         "level": "review",
         "confidence": "low_medium",
@@ -1328,8 +1390,8 @@
         },
         "infrastructure": {
           "type": "pipeline",
-          "reference_id": "pipelines.3530",
-          "name": "pipelines.3530",
+          "reference_id": "pipelines.3472",
+          "name": "pipelines.3472",
           "source": "EMODnet Human Activities",
           "source_typename": "emodnet:pipelines"
         },
@@ -1343,17 +1405,17 @@
         "score_integration": false,
         "observation": {
           "event_position": {
-            "latitude": 60.1608,
-            "longitude": 24.922427,
-            "observed_at": "2026-08-10T15:15:52+00:00"
+            "latitude": 60.160733,
+            "longitude": 24.922425,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
           "latest_position": {
-            "latitude": 60.160782,
-            "longitude": 24.922438,
-            "observed_at": "2026-08-11T15:16:25+00:00"
+            "latitude": 60.160733,
+            "longitude": 24.922425,
+            "observed_at": "2026-08-12T04:17:18+00:00"
           },
-          "minimum_distance_nm": 0.558,
-          "latest_distance_nm": 0.558,
+          "minimum_distance_nm": 0.557,
+          "latest_distance_nm": 0.557,
           "track_points_considered": 5,
           "points_within_close_band": 5,
           "low_speed_points_within_close_band": 5,
@@ -1491,7 +1553,7 @@
   ],
   "metadata": {
     "schema_version": "1.0.0",
-    "generated_at": "2026-08-12T04:07:41+00:00",
+    "generated_at": "2026-08-12T04:19:05+00:00",
     "source": "Voodoo Whiskers",
     "reference_source": "EMODnet Human Activities",
     "score_integration": false,
@@ -1505,7 +1567,7 @@
       "wind_farm": 826,
       "offshore_energy": 222
     },
-    "event_count": 24,
+    "event_count": 25,
     "assessment_limit": "Proximity and movement patterns are analyst leads and do not establish hostile intent, attribution or unlawful activity."
   }
 }
