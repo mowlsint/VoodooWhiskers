@@ -1,7 +1,7 @@
 # Voodoo Whiskers — Current VOI List
 
-- Generated: 2026-08-13T15:14:12+00:00
-- Priority vessels: 426
+- Generated: 2026-08-14T04:01:29+00:00
+- Priority vessels: 425
 - Neutral tanker context is excluded from this VOI list and remains available as a separate map layer.
 - AIS coverage is mixed and not continuous. A listed position is the latest available observation, not proof of current presence.
 
@@ -12,7 +12,6 @@
 | Unknown |  | 268238202 | recent_russian_portcall_10d |  | 58.6304, 20.9944 | 2026-08-08T03:42:36+00:00 | Fintraffic Digitraffic |
 | Unknown |  | 273133800 | russian_mmsi |  | 59.8898, 30.2084 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | Unknown |  | 273254160 | recent_russian_portcall_10d, russian_mmsi |  | 57.6540, 20.8210 | 2026-08-10T04:06:35+00:00 | Fintraffic Digitraffic |
-| Unknown |  | 273256640 | recent_russian_portcall_10d, russian_mmsi |  | 59.7257, 28.4331 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
 | Unknown |  | 273257540 | russian_mmsi |  | 59.6634, 28.2901 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | Unknown |  | 273271430 | russian_mmsi |  | 59.6641, 28.2922 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | Unknown |  | 273273250 | russian_mmsi |  | 59.8921, 30.2360 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
@@ -46,7 +45,7 @@
 | Unknown |  | 273456070 | recent_russian_portcall_10d, russian_mmsi |  | 59.8345, 28.3959 | 2026-08-12T15:13:49+00:00 | Fintraffic Digitraffic |
 | Unknown |  | 273458560 | russian_mmsi |  | 59.8717, 30.2078 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | Unknown |  | 275475000 | recent_russian_portcall_10d |  | 57.4022, 21.5728 | 2026-08-07T15:07:38+00:00 | Fintraffic Digitraffic |
-| Unknown |  | 276832000 | recent_russian_portcall_10d |  | 59.4192, 27.7396 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| Unknown |  | 276832000 | recent_russian_portcall_10d |  | 59.4192, 27.7396 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | Unknown |  | 304201000 | recent_russian_portcall_10d |  | 57.3163, 19.6983 | 2026-08-10T04:06:35+00:00 | Fintraffic Digitraffic |
 | Unknown |  | 305342000 | recent_russian_portcall_10d |  | 58.2568, 21.1076 | 2026-08-13T04:21:08+00:00 | Fintraffic Digitraffic |
 | Unknown |  | 311001018 | recent_russian_portcall_10d |  | 55.7386, 20.9711 | 2026-08-11T03:54:45+00:00 | Fintraffic Digitraffic |
@@ -79,7 +78,7 @@
 | AMBER LIGHT |  | 304778000 | recent_russian_portcall_10d |  | 54.4035, 18.6729 | 2026-08-05T04:39:03.504565+00:00 | AISStream |
 | AMBER SKY | 9312688 | 255806387 | recent_russian_portcall_10d |  | 59.7359, 28.4347 | 2026-08-07T15:07:38+00:00 | Fintraffic Digitraffic |
 | AMBER STAR | 9534286 | 305641000 | recent_russian_portcall_10d |  | 60.5329, 28.3445 | 2026-08-05T16:08:10+00:00 | Fintraffic Digitraffic |
-| ANTAKYA_M | 9302803 | 354214000 | recent_russian_portcall_10d |  | 59.7794, 24.4112 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| ANTAKYA_M | 9302803 | 354214000 | recent_russian_portcall_10d |  | 58.5144, 20.8165 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | ANTARKTIKA | 9413559 | 273251530 | russian_mmsi, sanctions_shadowfleet, watchlist |  | 57.6789, 32.5230 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | ANTEY | 8311912 | 273252340 | russian_mmsi |  | 59.6764, 28.4102 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | ARABESCA | 9288734 | 667001321 | sanctions_shadowfleet, watchlist | Sierra Leone | 60.0299, 27.1054 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
@@ -87,13 +86,13 @@
 | ARCTICA | 8607335 | 273298600 | recent_russian_portcall_10d, russian_mmsi |  | 70.7570, 14.3162 | 2026-08-13T14:55:52+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | ARCTICA | 6920147 | 273333320 | russian_mmsi |  | 60.0151, 29.3953 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | ARIES | 7802110 | 273538310 | russian_mmsi |  | 59.9094, 28.7331 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
-| ARINA | 9173446 | 374357000 | recent_russian_portcall_10d |  | 60.1891, 27.8833 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| ARINA | 9173446 | 374357000 | recent_russian_portcall_10d |  | 59.5492, 25.0268 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | ARISTO | 9229116 | 305848000 | recent_russian_portcall_10d |  | 60.1586, 27.6070 | 2026-08-07T04:32:32+00:00 | Fintraffic Digitraffic |
 | ARRHENIUS |  | 636019884 | recent_russian_portcall_10d |  | 51.8739, 3.4757 | 2026-08-04T04:47:08.757027+00:00 | AISStream |
 | ARRHENIUS | 9471032 | 636019884 | recent_russian_portcall_10d |  | 51.8751, 3.4760 | 2026-08-05T04:48:54.897155+00:00 | AISStream |
 | ASTERIY | 8409290 | 273397140 | russian_mmsi |  | 60.4396, 27.8877 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
-| ATLANTIC SPIRIT II | 9594509 | 538010610 | recent_russian_portcall_10d |  | 58.3755, 20.6134 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
 | ATLANTIC SPIRIT II |  | 538010610 | recent_russian_portcall_10d |  | 54.9318, 13.4344 | 2026-08-04T04:29:09.764019+00:00 | AISStream |
+| ATLANTIC SPIRIT II | 9594509 | 538010610 | recent_russian_portcall_10d |  | 57.3565, 11.5245 | 2026-08-05T04:50:37.740896+00:00 | AISStream |
 | AURORA |  | 211882890 | recent_russian_portcall_10d |  | 54.3535, 10.1762 | 2026-08-04T04:38:02.870525+00:00 | AISStream |
 | AURORA |  | 219018833 | recent_russian_portcall_10d |  | 56.1534, 10.2167 | 2026-08-04T04:50:14.074972+00:00 | AISStream |
 | AURORA | 9681596 | 219018833 | recent_russian_portcall_10d |  | 56.1534, 10.2168 | 2026-08-05T04:42:00.650620+00:00 | AISStream |
@@ -110,7 +109,7 @@
 | AURORA | 9234989 | 304080000 | recent_russian_portcall_10d |  | 53.3435, -6.2111 | 2026-08-04T04:39:08.629551+00:00 | AISStream |
 | AURORA | 9169524 | 310556000 | recent_russian_portcall_10d |  | 68.1146, 13.5959 | 2026-08-13T15:12:43+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | AURORA | 9258351 | 668116291 | recent_russian_portcall_10d |  | 58.9989, 21.3985 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
-| AURUM | 9248552 | 305014400 | recent_russian_portcall_10d |  | 60.1433, 26.4921 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| AURUM | 9248552 | 305014400 | recent_russian_portcall_10d |  | 60.1432, 26.4921 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | AVANGARD | 9322839 | 273272460 | russian_mmsi |  | 60.1065, 29.3942 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | AVIOR | 9164512 | 273415140 | russian_mmsi, sanctions_shadowfleet, watchlist |  | 60.0906, 29.3894 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | BALT. ISSLEDOVATEL | 9572020 | 273392360 | russian_mmsi |  | 59.8681, 30.2178 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
@@ -140,11 +139,11 @@
 | C VIKING | 9261657 | 667002414 | sanctions_shadowfleet, watchlist | Sierra Leone | 60.0226, 27.0783 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | CAPE GULL | 9674804 | 255915928 | recent_russian_portcall_10d |  | 60.0501, 28.6488 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | CAPE LINA | 9228174 | 636022519 | recent_russian_portcall_10d |  | 59.9400, 25.9187 | 2026-08-08T03:42:36+00:00 | Fintraffic Digitraffic |
-| CARMA | 9341081 | 461000252 | recent_russian_portcall_10d, sanctions_shadowfleet, watchlist |  | 60.1689, 27.6500 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| CARMA | 9341081 | 461000252 | recent_russian_portcall_10d, sanctions_shadowfleet, watchlist |  | 59.6526, 23.4453 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | CHAMPION BALTIC | 9315941 | 636013113 | recent_russian_portcall_10d |  | 60.1574, 28.1076 | 2026-08-10T15:15:52+00:00 | Fintraffic Digitraffic |
 | CHIOS | 9231509 | 613007420 | falseflag_interest, sanctions_shadowfleet, watchlist | Cameroon | 59.8216, 28.4193 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | CINDY | 9270517 | 631010110 | sanctions_shadowfleet, watchlist |  | 59.9766, 28.5631 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
-| CLEAR SKY | 9663245 | 355077000 | recent_russian_portcall_10d |  | 59.3212, 22.0699 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| CLEAR SKY | 9663245 | 355077000 | recent_russian_portcall_10d |  | 57.5313, 19.8978 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | CLEAR SKY |  | 355077000 | recent_russian_portcall_10d |  | 55.2553, 14.3484 | 2026-08-05T04:47:05.190622+00:00 | AISStream |
 | COOL BREEZE | 9400930 | 352002033 | recent_russian_portcall_10d |  | 60.0403, 28.8887 | 2026-08-09T03:52:31+00:00 | Fintraffic Digitraffic |
 | COOL EAGLE |  | 356639000 | recent_russian_portcall_10d |  | 50.2802, -1.3127 | 2026-08-04T04:47:27.041773+00:00 | AISStream |
@@ -198,10 +197,10 @@
 | HANNAH | 9464558 | 636016692 | recent_russian_portcall_10d |  | 60.1234, 27.4959 | 2026-08-10T15:15:52+00:00 | Fintraffic Digitraffic |
 | HERMES | 9913705 | 219029751 | recent_russian_portcall_10d |  | 56.1541, 10.2177 | 2026-08-04T04:47:40.432849+00:00 | AISStream |
 | HERMES | 9857535 | 257640000 | recent_russian_portcall_10d |  | 61.1306, 2.1502 | 2026-08-05T16:08:12+00:00 | BarentsWatch / Norwegian Coastal Administration |
-| HON FA | 9248899 | 352003954 | recent_russian_portcall_10d |  | 58.7139, 20.7766 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
-| HONEVER | 9533438 | 636020765 | recent_russian_portcall_10d |  | 60.1479, 26.5036 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| HON FA | 9248899 | 352003954 | recent_russian_portcall_10d |  | 57.3979, 19.2673 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
+| HONEVER | 9533438 | 636020765 | recent_russian_portcall_10d |  | 60.1481, 26.5032 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | HONEVER |  | 636020765 | recent_russian_portcall_10d |  | 60.1481, 26.5033 | 2026-08-05T04:22:42.602664+00:00 | AISStream |
-| HONG G | 9599573 | 636021767 | recent_russian_portcall_10d |  | 59.5684, 22.8099 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| HONG G | 9599573 | 636021767 | recent_russian_portcall_10d |  | 57.9167, 20.1809 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | HONG G |  | 636021767 | recent_russian_portcall_10d |  | 54.9207, 19.8961 | 2026-08-05T04:50:45.687169+00:00 | AISStream |
 | HONSIN | 9252369 | 311002290 | recent_russian_portcall_10d |  | 60.1095, 27.4399 | 2026-08-10T04:06:35+00:00 | Fintraffic Digitraffic |
 | INCE ANKARA | 9481714 | 563078800 | recent_russian_portcall_10d |  | 59.8677, 28.4751 | 2026-08-06T05:26:25+00:00 | Fintraffic Digitraffic |
@@ -209,13 +208,13 @@
 | IZOLA | 9249312 | 667001624 | sanctions_shadowfleet, watchlist | Sierra Leone | 59.8324, 25.6952 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | JALDHARA | 9304825 | 667001708 | sanctions_shadowfleet, watchlist | Sierra Leone | 59.9226, 28.6161 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | JASKEL | 9283289 | 667001258 | sanctions_shadowfleet, watchlist | Sierra Leone | 60.0416, 27.0683 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
-| JENS OLDENDORFF | 9852028 | 636022830 | recent_russian_portcall_10d |  | 57.8029, 20.0615 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
-| JINCHEN | 9279757 | 352004150 | recent_russian_portcall_10d |  | 58.2797, 20.6529 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| JENS OLDENDORFF | 9852028 | 636022830 | recent_russian_portcall_10d |  | 54.5526, 11.3774 | 2026-08-04T04:49:03.080094+00:00 | AISStream |
+| JINCHEN | 9279757 | 352004150 | recent_russian_portcall_10d |  | 56.2731, 18.4951 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | KAARI | 9434761 | 305342000 | recent_russian_portcall_10d |  | 60.7088, 28.7317 | 2026-08-07T15:07:38+00:00 | Fintraffic Digitraffic |
 | KAJA | 9130200 | 305465000 | recent_russian_portcall_10d |  | 60.1574, 27.6075 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | KAPITAN AFANASIEV | 9584413 | 273356340 | russian_mmsi |  | 60.6181, 28.5608 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | KAPITAN BULATOV | 9782780 | 273293480 | russian_mmsi |  | 70.5083, 14.7385 | 2026-08-13T09:14:12+00:00 | BarentsWatch / Norwegian Coastal Administration |
-| KAPITAN DURACHENKO | 9108336 | 273431440 | recent_russian_portcall_10d, russian_mmsi |  | 70.1292, 30.9661 | 2026-08-03T16:39:56+00:00 | BarentsWatch / Norwegian Coastal Administration |
+| KAPITAN DURACHENKO | 9108336 | 273431440 | recent_russian_portcall_10d, russian_mmsi |  | 71.6233, 33.5050 | 2026-08-04T05:14:47+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | KAPITAN DZHUMANOV | 8711760 | 273294560 | russian_mmsi |  | 59.8841, 30.2302 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | KAPITAN GERASHCHENKO | 8604022 | 273398180 | russian_mmsi |  | 70.5183, 11.1817 | 2026-08-13T14:57:38+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | KAPITAN SAKHAROV | 9279434 | 273395150 | russian_mmsi |  | 58.7311, 21.3906 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
@@ -229,12 +228,12 @@
 | KERTU | 9344368 | 256956000 | recent_russian_portcall_10d |  | 60.0452, 28.7714 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | KETTER | 9195860 | 229344000 | recent_russian_portcall_10d |  | 60.0334, 27.1948 | 2026-08-09T14:51:22+00:00 | Fintraffic Digitraffic |
 | KEVIN OLDENDORFF | 1021752 | 636093396 | recent_russian_portcall_10d |  | 60.1497, 27.5830 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
-| KEY | 9383869 | 273127420 | recent_russian_portcall_10d, russian_mmsi, sanctions_shadowfleet, watchlist |  | 58.0008, 20.2691 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
 | KEY |  | 273127420 | recent_russian_portcall_10d, russian_mmsi |  | 54.7387, 12.6459 | 2026-08-04T04:44:57.692187+00:00 | AISStream |
+| KEY | 9383869 | 273127420 | recent_russian_portcall_10d, russian_mmsi, sanctions_shadowfleet, watchlist |  | 57.7331, 11.0462 | 2026-08-05T04:51:21.575815+00:00 | AISStream |
 | KHOLMOGORY | 9109081 | 273342810 | russian_mmsi |  | 59.9853, 29.7165 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | KILDIN | 9205196 | 259635000 | recent_russian_portcall_10d |  | 70.6366, 29.7351 | 2026-08-13T15:14:06+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | KIMBERLY | 9378242 | 305238000 | recent_russian_portcall_10d |  | 59.7961, 24.4407 | 2026-08-11T03:54:45+00:00 | Fintraffic Digitraffic |
-| KIRAN ADRIATIC | 9653185 | 229788000 | recent_russian_portcall_10d |  | 60.1642, 28.0815 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| KIRAN ADRIATIC | 9653185 | 229788000 | recent_russian_portcall_10d |  | 59.6795, 23.6862 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | KIRAN ADRIATIC |  | 229788000 | recent_russian_portcall_10d |  | 56.2090, 16.9143 | 2026-08-06T05:26:25+00:00 | Fintraffic Digitraffic |
 | KIRAN AMERICA | 9491264 | 271051905 | recent_russian_portcall_10d |  | 60.1880, 27.7083 | 2026-08-08T03:42:36+00:00 | Fintraffic Digitraffic |
 | KNUD | 8903167 | 311062200 | recent_russian_portcall_10d |  | 60.0230, 26.6012 | 2026-08-10T04:06:35+00:00 | Fintraffic Digitraffic |
@@ -245,13 +244,13 @@
 | KRISTELLA | 9187928 | 304159000 | recent_russian_portcall_10d |  | 60.1830, 27.9184 | 2026-08-09T14:51:22+00:00 | Fintraffic Digitraffic |
 | KRISTIINA |  | 257109050 | recent_russian_portcall_10d |  | 68.7652, 14.7012 | 2026-08-13T10:02:02+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | KRISTIINA |  | 259033210 | recent_russian_portcall_10d |  | 63.6882, 8.7698 | 2026-08-13T15:12:19+00:00 | BarentsWatch / Norwegian Coastal Administration |
-| KRISTIINA | 9187916 | 304188000 | recent_russian_portcall_10d |  | 60.0266, 27.1716 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| KRISTIINA | 9187916 | 304188000 | recent_russian_portcall_10d |  | 59.5625, 22.8313 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | KRISTIINA |  | 304188000 | recent_russian_portcall_10d |  | 56.4329, 17.4181 | 2026-08-05T04:45:26.820731+00:00 | AISStream |
 | KRUZENSHTERN | 6822979 | 273243700 | russian_mmsi |  | 55.7932, 19.0199 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | KUBERA | 9292577 | 667001300 | sanctions_shadowfleet, watchlist | Sierra Leone | 60.1058, 29.3798 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | LARUS | 1065289 | 273263300 | russian_mmsi |  | 59.3975, 22.5329 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | LAVENDER | 9339337 | 461000249 | sanctions_shadowfleet, watchlist |  | 59.9201, 28.6654 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
-| LC PLANCHET | 9588603 | 636022414 | recent_russian_portcall_10d |  | 57.8332, 20.1314 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| LC PLANCHET | 9588603 | 636022414 | recent_russian_portcall_10d |  | 54.6956, 12.5244 | 2026-08-04T04:51:33.768444+00:00 | AISStream |
 | LERUO | 9385831 | 667002320 | sanctions_shadowfleet, watchlist | Sierra Leone | 60.0993, 29.3519 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | LEV | 9847841 | 273615070 | russian_mmsi |  | 75.7252, 16.7515 | 2026-08-13T15:08:50+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | LIRA | 8607294 | 273534110 | russian_mmsi |  | 69.1617, 4.8833 | 2026-08-13T14:55:48+00:00 | BarentsWatch / Norwegian Coastal Administration |
@@ -299,12 +298,12 @@
 | NES | 8890243 | 273212000 | russian_mmsi |  | 73.7600, 31.9100 | 2026-08-13T14:49:37+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | NEW LEGEND | 9230505 | 636017774 | recent_russian_portcall_10d |  | 59.9205, 28.5567 | 2026-08-05T16:08:10+00:00 | Fintraffic Digitraffic |
 | NILOS |  | 256683000 | recent_russian_portcall_10d |  | 56.4349, 6.7116 | 2026-08-04T04:47:28.951685+00:00 | AISStream |
-| NOMAD | 9610781 | 461000254 | recent_russian_portcall_10d, sanctions_shadowfleet, watchlist |  | 57.7714, 19.9801 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| NOMAD | 9610781 | 461000254 | recent_russian_portcall_10d, sanctions_shadowfleet, watchlist |  | 56.6060, 18.9527 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | NORVEZHSKOE MORE | 9836165 | 273291510 | russian_mmsi |  | 70.0764, 31.1330 | 2026-08-13T15:14:03+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | NOVIK MARIA | 9376024 | 273257140 | russian_mmsi |  | 60.1675, 27.6257 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | OBELIAI | 8522286 | 273213010 | russian_mmsi |  | 73.0179, 19.1199 | 2026-08-13T15:13:37+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | OLGA | 9846237 | 273414840 | russian_mmsi |  | 59.7324, 28.2513 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
-| OLYMPIC FLAG | 9271341 | 240168000 | recent_russian_portcall_10d |  | 60.0690, 28.4589 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| OLYMPIC FLAG | 9271341 | 240168000 | recent_russian_portcall_10d |  | 59.7340, 24.0360 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | OLYMPIC FLAG |  | 240168000 | recent_russian_portcall_10d |  | 56.4508, 18.8132 | 2026-08-05T04:51:16.146768+00:00 | AISStream |
 | OLYMPIC FUTURE | 9271353 | 240221000 | recent_russian_portcall_10d |  | 59.9552, 26.1399 | 2026-08-08T14:48:16+00:00 | Fintraffic Digitraffic |
 | OPHELIA | 8010427 | 273345030 | russian_mmsi, sanctions_shadowfleet, watchlist |  | 57.6729, 32.5308 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
@@ -327,7 +326,7 @@
 | PROSPERITY | 9322956 | 273266690 | russian_mmsi, sanctions_shadowfleet, watchlist |  | 64.5850, -0.0850 | 2026-08-13T14:52:03+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | PROTEY | 8603004 | 273431970 | russian_mmsi |  | 59.6925, 28.4227 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | QASR | 9402471 | 631010086 | sanctions_shadowfleet, watchlist |  | 58.4595, 4.9764 | 2026-08-13T15:14:00+00:00 | BarentsWatch / Norwegian Coastal Administration |
-| RADUGA PROTON | 8131116 | 209658000 | recent_russian_portcall_10d |  | 59.4511, 24.6716 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| RADUGA PROTON | 8131116 | 209658000 | recent_russian_portcall_10d |  | 59.4511, 24.6716 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | RATNIK | 9943011 | 273253530 | russian_mmsi |  | 60.4472, 27.8746 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | REGULUS | 9138123 | 371426000 | recent_russian_portcall_10d |  | 60.0934, 28.3661 | 2026-08-07T15:07:38+00:00 | Fintraffic Digitraffic |
 | REK BRAVE | 9607590 | 305032300 | recent_russian_portcall_10d |  | 60.0553, 28.5902 | 2026-08-08T14:48:16+00:00 | Fintraffic Digitraffic |
@@ -336,13 +335,13 @@
 | RORA | 9288722 | 631010130 | recent_russian_portcall_10d, sanctions_shadowfleet, watchlist |  | 59.9942, 26.9798 | 2026-08-05T05:24:16+00:00 | Fintraffic Digitraffic |
 | RORA |  | 631010130 | recent_russian_portcall_10d |  | 56.2512, 18.4474 | 2026-08-07T04:32:32+00:00 | Fintraffic Digitraffic |
 | ROSEBURG | 8817370 | 305184000 | recent_russian_portcall_10d |  | 59.8264, 26.0085 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
-| ROSTRUM SCEPTIC | 9955923 | 636093290 | recent_russian_portcall_10d |  | 59.1052, 21.5885 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| ROSTRUM SCEPTIC | 9955923 | 636093290 | recent_russian_portcall_10d |  | 55.7309, 15.9225 | 2026-08-04T04:50:18.382707+00:00 | AISStream |
 | ROSTRUM SCEPTIC |  | 636093290 | recent_russian_portcall_10d |  | 55.6787, 10.7851 | 2026-08-05T04:50:14.154679+00:00 | AISStream |
 | RUBEZH | 9296406 | 273126420 | russian_mmsi, sanctions_shadowfleet, watchlist |  | 59.9111, 28.6469 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | RUEN | 9754903 | 249517000 | recent_russian_portcall_10d |  | 60.0913, 27.3891 | 2026-08-07T04:32:32+00:00 | Fintraffic Digitraffic |
 | RUSICH | 9332652 | 273435680 | russian_mmsi |  | 60.3341, 28.7165 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | RYURIK | 9340790 | 273435190 | russian_mmsi |  | 57.6719, 32.5302 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
-| S SAMBA | 9712486 | 255915963 | recent_russian_portcall_10d |  | 60.1039, 27.4243 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| S SAMBA | 9712486 | 255915963 | recent_russian_portcall_10d |  | 59.5320, 22.6989 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | S SAMBA |  | 255915963 | recent_russian_portcall_10d |  | 55.7853, 16.2852 | 2026-08-06T05:26:25+00:00 | Fintraffic Digitraffic |
 | S Y ARCTICA II |  | 518887000 | falseflag_interest | Cook Islands | 78.2276, 15.6144 | 2026-08-12T22:05:32+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | SAGAR1 | 9302970 | 352002786 | recent_russian_portcall_10d |  | 60.1365, 27.5393 | 2026-08-10T15:15:52+00:00 | Fintraffic Digitraffic |
@@ -355,12 +354,12 @@
 | SEAGLASS II | 9498925 | 636021908 | recent_russian_portcall_10d |  | 59.9793, 28.5645 | 2026-08-05T05:24:16+00:00 | Fintraffic Digitraffic |
 | SEGULA | 9210323 | 314149000 | recent_russian_portcall_10d |  | 59.9927, 26.3928 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | SELVA | 9336426 | 461000187 | sanctions_shadowfleet, watchlist |  | 59.8469, 28.4044 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
-| SEPELU | 9216729 | 352002643 | recent_russian_portcall_10d |  | 60.0055, 27.1200 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| SEPELU | 9216729 | 352002643 | recent_russian_portcall_10d |  | 59.0032, 21.4337 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | SERENADA | 9201865 | 275545000 | recent_russian_portcall_10d |  | 59.8867, 30.2007 | 2026-08-05T16:08:10+00:00 | Fintraffic Digitraffic |
 | SEVRUGA | 9549982 | 273335020 | russian_mmsi |  | 59.6766, 28.4094 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | SGV-FLOT | 8033089 | 273458830 | russian_mmsi |  | 58.5810, 21.1716 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | SIGULDA | 8228362 | 273332420 | russian_mmsi |  | 60.0014, 29.7083 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
-| SILVER BREEZE | 9140932 | 257962000 | recent_russian_portcall_10d |  | 58.5694, 5.2566 | 2026-08-03T16:39:57+00:00 | BarentsWatch / Norwegian Coastal Administration |
+| SILVER BREEZE | 9140932 | 257962000 | recent_russian_portcall_10d |  | 61.3203, 2.7473 | 2026-08-04T05:24:12+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | SIRIUS | 9797618 | 205737000 | recent_russian_portcall_10d |  | 51.2297, 2.9287 | 2026-08-04T04:51:41.916508+00:00 | AISStream |
 | SIRIUS |  | 219035374 | recent_russian_portcall_10d |  | 55.6888, 12.6180 | 2026-08-04T04:42:21.219154+00:00 | AISStream |
 | SIRIUS |  | 244003884 | recent_russian_portcall_10d |  | 50.6944, -1.1021 | 2026-08-04T04:48:33.865670+00:00 | AISStream |
@@ -370,16 +369,16 @@
 | SIVER | 9673587 | 273335380 | russian_mmsi |  | 60.6151, 28.5641 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | SKIF | 9365271 | 273319230 | russian_mmsi |  | 59.7846, 28.4439 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | SKIRON |  | 235091645 | recent_russian_portcall_10d |  | 50.7107, -1.9604 | 2026-08-04T04:49:11.068113+00:00 | AISStream |
-| SKIRON | 9247443 | 631010126 | recent_russian_portcall_10d, sanctions_shadowfleet, watchlist |  | 58.2080, 20.4374 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| SKIRON | 9247443 | 631010126 | recent_russian_portcall_10d, sanctions_shadowfleet, watchlist |  | 54.9935, 13.7042 | 2026-08-04T04:52:18.346375+00:00 | AISStream |
 | SOLARIS | 9474266 | 255915935 | recent_russian_portcall_10d |  | 57.7160, 10.8149 | 2026-08-04T04:51:26.335953+00:00 | AISStream |
 | SOLARIS | 9333436 | 461000248 | recent_russian_portcall_10d, sanctions_shadowfleet, watchlist |  | 60.0377, 27.0484 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
-| SOLENT | 9375953 | 314085000 | recent_russian_portcall_10d |  | 58.2614, 20.5556 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
 | SOLENT |  | 314085000 | recent_russian_portcall_10d |  | 55.0193, 13.8030 | 2026-08-04T04:48:03.947472+00:00 | AISStream |
+| SOLENT | 9375953 | 314085000 | recent_russian_portcall_10d |  | 57.8191, 8.9495 | 2026-08-06T05:26:23+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | SOLSTRAUM | 9157014 | 273291710 | recent_russian_portcall_10d, russian_mmsi, sanctions_shadowfleet, watchlist |  | 59.6916, 28.3517 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | STANISLAV GOVORUKHIN | 9621596 | 273258520 | russian_mmsi, sanctions_shadowfleet, watchlist |  | 60.0179, 29.3795 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | STAR HAMBURG |  | 636024899 | recent_russian_portcall_10d |  | 56.8416, 11.8340 | 2026-08-04T04:51:46.977250+00:00 | AISStream |
 | STAR SPIRIT | 9765847 | 311001906 | recent_russian_portcall_10d |  | 59.9894, 27.0070 | 2026-08-08T03:42:36+00:00 | Fintraffic Digitraffic |
-| STAR TOKYO | 9748069 | 636024942 | recent_russian_portcall_10d |  | 59.9327, 28.6508 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| STAR TOKYO | 9748069 | 636024942 | recent_russian_portcall_10d |  | 59.8069, 28.4086 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | STEMNITSA | 9693070 | 249007000 | recent_russian_portcall_10d |  | 60.0022, 27.0900 | 2026-08-07T04:32:32+00:00 | Fintraffic Digitraffic |
 | SUNRISE | 9279719 | 304201000 | recent_russian_portcall_10d |  | 60.1830, 27.9402 | 2026-08-08T03:42:36+00:00 | Fintraffic Digitraffic |
 | SVETLOGORSK | 9135834 | 273254160 | russian_mmsi |  | 59.8301, 25.4579 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
@@ -393,7 +392,7 @@
 | TAURUS | 9657961 | 273332880 | russian_mmsi |  | 77.8600, 10.8287 | 2026-08-13T15:14:06+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | TAURUS | 8027793 | 273376520 | recent_russian_portcall_10d, russian_mmsi |  | 59.8338, 28.4178 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | TAURUS | 9190432 | 275475000 | recent_russian_portcall_10d |  | 57.4021, 21.5727 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
-| TAURUS | 8411023 | 277544000 | recent_russian_portcall_10d |  | 69.6381, 18.9526 | 2026-08-03T16:39:52+00:00 | BarentsWatch / Norwegian Coastal Administration |
+| TAURUS | 8411023 | 277544000 | recent_russian_portcall_10d |  | 69.6783, 18.9907 | 2026-08-04T05:24:12+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | TAXIDIARA | 9331919 | 215622000 | recent_russian_portcall_10d |  | 57.8504, 10.0047 | 2026-08-04T04:48:40.989179+00:00 | AISStream |
 | TEMPEST DREAM | 9308132 | 667002310 | sanctions_shadowfleet, watchlist | Sierra Leone | 59.8520, 25.9052 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | TIBURON | 9283291 | 667001287 | recent_russian_portcall_10d, sanctions_shadowfleet, watchlist | Sierra Leone | 58.0492, 20.2862 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
@@ -405,7 +404,7 @@
 | TSITRIN | 9437983 | 273128320 | recent_russian_portcall_10d, russian_mmsi, sanctions_shadowfleet, watchlist |  | 60.0186, 27.1463 | 2026-08-06T05:26:25+00:00 | Fintraffic Digitraffic |
 | TZAREVETZ | 9968504 | 256696000 | recent_russian_portcall_10d |  | 60.0860, 27.3819 | 2026-08-05T16:08:10+00:00 | Fintraffic Digitraffic |
 | URSUS | 0 | 230992650 | recent_russian_portcall_10d |  | 60.1608, 24.9224 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
-| V GEM | 9221889 | 352005176 | recent_russian_portcall_10d |  | 59.6673, 23.6001 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
+| V GEM | 9221889 | 352005176 | recent_russian_portcall_10d |  | 58.1801, 20.4702 | 2026-08-04T05:24:17+00:00 | Fintraffic Digitraffic |
 | V GEM |  | 352005176 | recent_russian_portcall_10d |  | 55.5833, 15.0226 | 2026-08-05T04:42:26.249597+00:00 | AISStream |
 | VALIDE | 9194995 | 630001207 | recent_russian_portcall_10d |  | 57.8703, 4.6473 | 2026-08-13T15:14:04+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | VANINO | 8724779 | 273331620 | russian_mmsi, sanctions_shadowfleet, watchlist |  | 59.7719, 28.4437 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
@@ -424,8 +423,8 @@
 | VOLGOTRANS 2701 | 9823039 | 273389670 | russian_mmsi |  | 59.7137, 28.4270 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | VOLZHSKIY-5 | 8745694 | 273397300 | recent_russian_portcall_10d, russian_mmsi |  | 59.8830, 30.2125 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
 | WARRIOR SPIRIT | 9293129 | 620800240 | recent_russian_portcall_10d |  | 57.6690, 32.5331 | 2026-08-09T03:52:31+00:00 | Fintraffic Digitraffic |
-| WILD PEONY | 9191474 | 311000804 | recent_russian_portcall_10d |  | 58.4292, 20.5587 | 2026-08-03T16:39:58+00:00 | Fintraffic Digitraffic |
 | WILD PEONY |  | 311000804 | recent_russian_portcall_10d |  | 56.6869, 12.2120 | 2026-08-04T04:50:52.828357+00:00 | AISStream |
+| WILD PEONY | 9191474 | 311000804 | recent_russian_portcall_10d |  | 53.2309, 4.4336 | 2026-08-05T04:50:34.044327+00:00 | AISStream |
 | XINGHAI | 9568201 | 636025693 | recent_russian_portcall_10d |  | 59.6885, 28.4207 | 2026-08-09T14:51:22+00:00 | Fintraffic Digitraffic |
 | YUME | 9459230 | 636025818 | recent_russian_portcall_10d |  | 56.6953, 11.7751 | 2026-08-04T04:44:52.588444+00:00 | AISStream |
 | YURI MASLYUKOV | 9848912 | 273215120 | russian_mmsi |  | 59.8890, 30.2107 | 2026-08-13T15:14:07+00:00 | Fintraffic Digitraffic |
