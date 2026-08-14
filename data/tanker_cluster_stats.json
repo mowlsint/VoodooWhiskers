@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-08-14T04:01:29+00:00",
-  "total_contacts_seen": 458,
-  "total_unique_tankers_in_context_zones": 112,
-  "total_tanker_context_zones": 4,
-  "neutral_tanker_context_total": 38,
-  "voi_tankers_in_context_zones": 74,
+  "generated_at": "2026-08-14T04:19:09+00:00",
+  "total_contacts_seen": 472,
+  "total_unique_tankers_in_context_zones": 109,
+  "total_tanker_context_zones": 5,
+  "neutral_tanker_context_total": 31,
+  "voi_tankers_in_context_zones": 78,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
       "total_tankers": 93,
-      "neutral_tankers": 24,
-      "voi_tankers": 69,
-      "slow_or_waiting": 61,
-      "for_order": 11,
+      "neutral_tankers": 22,
+      "voi_tankers": 71,
+      "slow_or_waiting": 45,
+      "for_order": 12,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -49,7 +49,7 @@
           "imo": "9468449",
           "mmsi": "210665000",
           "destination": "FI HMN",
-          "sog": "16.0",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -65,31 +65,31 @@
           ]
         },
         {
-          "name": "TERN OCEAN",
-          "imo": "9747986",
-          "mmsi": "219008000",
-          "destination": "FIHMN>SEGOT",
-          "sog": "9.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TERN LAND",
-          "imo": "9988994",
-          "mmsi": "219034373",
-          "destination": "FI NLI",
-          "sog": "11.7",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "JAARLI",
           "imo": "9892432",
           "mmsi": "230687000",
-          "destination": "NO MON>FI SKV",
+          "destination": "FI SKV",
           "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "CORAL PEARL",
+          "imo": "9425253",
+          "mmsi": "244870430",
+          "destination": "FI PRV",
+          "sog": "0.2",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "WILHELMINE ESSBERGER",
+          "imo": "9295440",
+          "mmsi": "255916284",
+          "destination": "BE ANR",
+          "sog": "11.9",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,139 +100,17 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 15,
-      "neutral_tankers": 10,
-      "voi_tankers": 5,
-      "slow_or_waiting": 1,
-      "for_order": 0,
-      "examples": [
-        {
-          "name": "KAIROS",
-          "imo": "9819882",
-          "mmsi": "209275000",
-          "destination": "SE LYS",
-          "sog": "13.2",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "KEY OCEAN",
-          "imo": "9479668",
-          "mmsi": "210855000",
-          "destination": "NO RAF",
-          "sog": "0.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "STOLT REDSHANK",
-          "imo": "9566746",
-          "mmsi": "235089046",
-          "destination": "LE HAVRE",
-          "sog": "11.9",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "KEY BAY",
-          "imo": "9291561",
-          "mmsi": "236446000",
-          "destination": "NLAMS",
-          "sog": "10.6",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "SEA URCHIN",
-          "imo": "9886720",
-          "mmsi": "241730000",
-          "destination": "DKSKA",
-          "sog": "12.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "THUN EOS",
-          "imo": "9817157",
-          "mmsi": "244013009",
-          "destination": "DK EBJ",
-          "sog": "12.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "CORAL ENERGY",
-          "imo": "9617698",
-          "mmsi": "246878000",
-          "destination": "DK SKA",
-          "sog": "16.7",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "KILSTRAUM",
-          "imo": "9164732",
-          "mmsi": "257643000",
-          "destination": "NLRTM",
-          "sog": "12.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        }
-      ],
-      "zone_id": "danish_straits_kattegat",
-      "zone_label": "Danish Straits / Kattegat",
-      "level": "heightened_context"
-    },
-    {
       "total_tankers": 11,
-      "neutral_tankers": 9,
-      "voi_tankers": 2,
-      "slow_or_waiting": 1,
-      "for_order": 0,
+      "neutral_tankers": 5,
+      "voi_tankers": 6,
+      "slow_or_waiting": 0,
+      "for_order": 1,
       "examples": [
-        {
-          "name": "KAIROS",
-          "imo": "9819882",
-          "mmsi": "209275000",
-          "destination": "SE LYS",
-          "sog": "13.2",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "KEY OCEAN",
-          "imo": "9479668",
-          "mmsi": "210855000",
-          "destination": "NO RAF",
-          "sog": "0.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
         {
           "name": "STOLT REDSHANK",
           "imo": "9566746",
           "mmsi": "235089046",
           "destination": "LE HAVRE",
-          "sog": "11.9",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "KEY BAY",
-          "imo": "9291561",
-          "mmsi": "236446000",
-          "destination": "NLAMS",
           "sog": "10.6",
           "categories": [
             "neutral_tanker_context"
@@ -244,16 +122,6 @@
           "mmsi": "241730000",
           "destination": "DKSKA",
           "sog": "12.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "THUN EOS",
-          "imo": "9817157",
-          "mmsi": "244013009",
-          "destination": "DK EBJ",
-          "sog": "12.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -277,6 +145,143 @@
           "categories": [
             "neutral_tanker_context"
           ]
+        },
+        {
+          "name": "DUZGIT ENDEAVOUR",
+          "imo": "9581007",
+          "mmsi": "271043022",
+          "destination": "BEANR",
+          "sog": "10.9",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "QASR",
+          "imo": "9402471",
+          "mmsi": "631010086",
+          "destination": "BALTIC FOR ORDER",
+          "sog": "13.2",
+          "categories": [
+            "sanctions_shadowfleet",
+            "watchlist"
+          ]
+        },
+        {
+          "name": "FUXI",
+          "imo": "9246463",
+          "mmsi": "304218000",
+          "destination": "DKSKA",
+          "sog": "11.2",
+          "categories": [
+            "recent_russian_portcall_10d"
+          ]
+        },
+        {
+          "name": "SAVIR LION",
+          "imo": "9306639",
+          "mmsi": "525121061",
+          "destination": "SG SGP",
+          "sog": "9.6",
+          "categories": [
+            "recent_russian_portcall_10d"
+          ]
+        }
+      ],
+      "zone_id": "danish_straits_kattegat",
+      "zone_label": "Danish Straits / Kattegat",
+      "level": "context"
+    },
+    {
+      "total_tankers": 8,
+      "neutral_tankers": 5,
+      "voi_tankers": 3,
+      "slow_or_waiting": 0,
+      "for_order": 1,
+      "examples": [
+        {
+          "name": "STOLT REDSHANK",
+          "imo": "9566746",
+          "mmsi": "235089046",
+          "destination": "LE HAVRE",
+          "sog": "10.6",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SEA URCHIN",
+          "imo": "9886720",
+          "mmsi": "241730000",
+          "destination": "DKSKA",
+          "sog": "12.1",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "CORAL ENERGY",
+          "imo": "9617698",
+          "mmsi": "246878000",
+          "destination": "DK SKA",
+          "sog": "16.7",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SATURNUS",
+          "imo": "9816529",
+          "mmsi": "266464000",
+          "destination": "SEBRO",
+          "sog": "10.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "DUZGIT ENDEAVOUR",
+          "imo": "9581007",
+          "mmsi": "271043022",
+          "destination": "BEANR",
+          "sog": "10.9",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "QASR",
+          "imo": "9402471",
+          "mmsi": "631010086",
+          "destination": "BALTIC FOR ORDER",
+          "sog": "13.2",
+          "categories": [
+            "sanctions_shadowfleet",
+            "watchlist"
+          ]
+        },
+        {
+          "name": "SAVIR LION",
+          "imo": "9306639",
+          "mmsi": "525121061",
+          "destination": "SG SGP",
+          "sog": "9.6",
+          "categories": [
+            "recent_russian_portcall_10d"
+          ]
+        },
+        {
+          "name": "KEY",
+          "imo": "9383869",
+          "mmsi": "273127420",
+          "destination": "SUE EG",
+          "sog": "11.9",
+          "categories": [
+            "recent_russian_portcall_10d",
+            "russian_mmsi",
+            "sanctions_shadowfleet",
+            "watchlist"
+          ]
         }
       ],
       "zone_id": "skagen_waiting_area",
@@ -284,30 +289,42 @@
       "level": "context"
     },
     {
-      "total_tankers": 4,
+      "total_tankers": 5,
       "neutral_tankers": 4,
-      "voi_tankers": 0,
-      "slow_or_waiting": 2,
+      "voi_tankers": 1,
+      "slow_or_waiting": 4,
       "for_order": 0,
       "examples": [
         {
-          "name": "LISA ESSBERGER",
-          "imo": "9295438",
-          "mmsi": "255916283",
-          "destination": "NLRTM",
-          "sog": "12.9",
+          "name": "AVENIR ASCENSION",
+          "imo": "9868974",
+          "mmsi": "215903000",
+          "destination": "LTKLJ",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "KAI 1",
-          "imo": "9290361",
-          "mmsi": "352005520",
-          "destination": "EGPSD",
-          "sog": "11.0",
+          "name": "LUNNI",
+          "imo": "9797802",
+          "mmsi": "230690000",
+          "destination": "LVRIX>LTKLJ",
+          "sog": "0.2",
           "categories": [
             "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "FLANDRIA",
+          "imo": "8414477",
+          "mmsi": "273350220",
+          "destination": "RUKGD",
+          "sog": "10.5",
+          "categories": [
+            "russian_mmsi",
+            "sanctions_shadowfleet",
+            "watchlist"
           ]
         },
         {
@@ -315,7 +332,7 @@
           "imo": "9518892",
           "mmsi": "538004638",
           "destination": "BUTINGE,LITHUANIA",
-          "sog": "0.0",
+          "sog": "0.4",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -333,6 +350,30 @@
       ],
       "zone_id": "kaliningrad_baltiysk_approaches",
       "zone_label": "Kaliningrad / Baltiysk approaches",
+      "level": "context"
+    },
+    {
+      "total_tankers": 1,
+      "neutral_tankers": 0,
+      "voi_tankers": 1,
+      "slow_or_waiting": 0,
+      "for_order": 0,
+      "examples": [
+        {
+          "name": "FLANDRIA",
+          "imo": "8414477",
+          "mmsi": "273350220",
+          "destination": "RUKGD",
+          "sog": "10.5",
+          "categories": [
+            "russian_mmsi",
+            "sanctions_shadowfleet",
+            "watchlist"
+          ]
+        }
+      ],
+      "zone_id": "gulf_of_gdansk",
+      "zone_label": "Gulf of Gdansk",
       "level": "context"
     }
   ]
