@@ -1,11 +1,23 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-08-14T04:03:27+00:00
+- Generated: 2026-08-14T04:21:21+00:00
 - Review events: 29
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
 
 > Proximity and movement patterns are analyst leads. They do not establish sabotage, espionage, hostile intent, attribution or unlawful activity.
+
+## TEMPEST DREAM — ELEVATED
+
+- MMSI / IMO: 667002310 / 9308132
+- Infrastructure: pipeline — NORD STREAM 2
+- Minimum distance: 0.01 nm
+- Close-band points: 9
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
 ## ALEKSANDR SOKOLOV — ELEVATED
 
@@ -27,18 +39,6 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - Close-band points: 4
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, repeated_entries_into_close_band, voi_or_watchlist_context, timestamp_quality_limited
-- Confidence: low_medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
-## TEMPEST DREAM — ELEVATED
-
-- MMSI / IMO: 667002310 / 9308132
-- Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.077 nm
-- Close-band points: 9
-- Estimated dwell: 0.0 min
-- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
@@ -119,7 +119,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 273618550 / 9879557
 - Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.366 nm
+- Minimum distance: 0.364 nm
 - Close-band points: 7
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, repeated_entries_into_close_band, voi_or_watchlist_context, timestamp_quality_limited
@@ -239,7 +239,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 257727700 / –
 - Infrastructure: power_cable — pcablesnve.792
-- Minimum distance: 0.482 nm
+- Minimum distance: 0.481 nm
 - Close-band points: 9
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
@@ -322,8 +322,8 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 ## URSUS — REVIEW
 
 - MMSI / IMO: 230992650 / 0
-- Infrastructure: pipeline — pipelines.3530
-- Minimum distance: 0.557 nm
+- Infrastructure: pipeline — pipelines.3609
+- Minimum distance: 0.556 nm
 - Close-band points: 9
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
@@ -334,8 +334,8 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 ## URSUS — REVIEW
 
 - MMSI / IMO: 230992650 / 0
-- Infrastructure: pipeline — pipelines.3609
-- Minimum distance: 0.557 nm
+- Infrastructure: pipeline — pipelines.3530
+- Minimum distance: 0.558 nm
 - Close-band points: 9
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
