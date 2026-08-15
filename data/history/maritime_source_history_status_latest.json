@@ -1,28 +1,28 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-14T15:07:18Z",
+  "generated_at": "2026-08-15T05:57:50Z",
   "retention_days": 21,
   "max_bytes": 23068672,
   "position_history_path": "data/history/maritime_source_history_21d.jsonl",
   "coverage_history_path": "data/history/maritime_source_coverage_21d.jsonl",
-  "position_records": 21860,
+  "position_records": 21996,
   "coverage_records": 96,
-  "records_added_from_current_snapshots": 750,
-  "dropped_old_or_invalid": 65,
+  "records_added_from_current_snapshots": 887,
+  "dropped_old_or_invalid": 247,
   "dropped_for_size": 0,
   "provider_counts": {
-    "ais_dk_historical": 5856,
     "barentswatch": 4696,
+    "ais_dk_historical": 5992,
     "fintraffic": 11308
   },
   "provider_position_ranges": {
-    "ais_dk_historical": {
-      "min": "2026-07-24T15:14:22Z",
-      "max": "2026-08-11T23:59:58Z"
-    },
     "barentswatch": {
       "min": "2026-07-25T06:05:38Z",
       "max": "2026-08-14T15:07:17Z"
+    },
+    "ais_dk_historical": {
+      "min": "2026-07-25T06:57:55Z",
+      "max": "2026-08-12T23:59:58Z"
     },
     "fintraffic": {
       "min": "2026-07-26T05:40:46Z",
@@ -31,8 +31,8 @@
   },
   "provider_coverage_ranges": {
     "ais_dk_historical": {
-      "min": "2026-07-24T23:59:58Z",
-      "max": "2026-08-11T23:59:58Z"
+      "min": "2026-07-25T23:59:58Z",
+      "max": "2026-08-12T23:59:58Z"
     },
     "fintraffic": {
       "min": "2026-07-26T05:40:46Z",
@@ -63,10 +63,10 @@
     "ais_dk_historical": {
       "ok": true,
       "path": "data/ais_contacts_aisdk_historical_latest.json",
-      "source_generated_at": "2026-08-14T03:29:42+00:00",
-      "coverage_at": "2026-08-11T23:59:58Z",
+      "source_generated_at": "2026-08-15T02:29:06+00:00",
+      "coverage_at": "2026-08-12T23:59:58Z",
       "coverage_basis": "data_max_timestamp_utc",
-      "records_seen": 246
+      "records_seen": 383
     }
   },
   "raw_provider_files_persisted": false
