@@ -218,6 +218,13 @@ jobs:
 
           git add -- "${required_outputs[@]}"
 
+          if [ -d data/voi_history_14d ]; then
+            git add -- data/voi_history_14d
+          else
+            echo "ERROR: canonical VOI history shard directory missing: data/voi_history_14d"
+            exit 1
+          fi
+
           if [ -f data/ais_contacts_aisstream_latest.json ]; then
             git add -- data/ais_contacts_aisstream_latest.json
           else
