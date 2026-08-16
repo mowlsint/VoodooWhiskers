@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0.0",
   "snapshot_id": "maritime-20260811T230000Z",
-  "generated_at": "2026-08-16T06:01:32Z",
+  "generated_at": "2026-08-16T06:40:34Z",
   "snapshot_at": "2026-08-11T23:00:00Z",
-  "snapshot_age_hours": 103.03,
+  "snapshot_age_hours": 103.68,
   "snapshot_complete": false,
   "snapshot_current": false,
   "expected_refresh_hours": 30.0,
@@ -11,7 +11,7 @@
   "status": "warming_up",
   "ais_status_color": "orange",
   "coverage_mode": "harmonized_common_watermark",
-  "voi_list_updated_at": "2026-08-15T14:38:39Z",
+  "voi_list_updated_at": "2026-08-16T06:40:34Z",
   "gfw_source": {
     "source_path": "data/gfw_historical_ais_latest.json",
     "coverage_scope": "common_operational_regions",
@@ -36,7 +36,7 @@
       "state": "ready",
       "reason": null,
       "coverage_at": "2026-08-11T23:59:58Z",
-      "position_history_min": "2026-07-26T06:14:05Z",
+      "position_history_min": "2026-07-26T07:24:50Z",
       "position_history_max": "2026-08-13T23:59:58Z",
       "selected_contacts": 103,
       "max_age_at_snapshot_hours": 24
@@ -46,7 +46,7 @@
       "reason": null,
       "coverage_at": "2026-08-11T15:16:25Z",
       "position_history_min": "2026-07-26T15:18:42Z",
-      "position_history_max": "2026-08-15T14:38:32Z",
+      "position_history_max": "2026-08-16T06:40:27Z",
       "selected_contacts": 266,
       "max_age_at_snapshot_hours": 16
     },
@@ -54,8 +54,8 @@
       "state": "missing_at_watermark",
       "reason": "coverage_archive_does_not_reach_common_watermark",
       "coverage_at": null,
-      "position_history_min": "2026-07-26T06:17:24Z",
-      "position_history_max": "2026-08-15T14:38:33Z",
+      "position_history_min": "2026-07-26T07:46:47Z",
+      "position_history_max": "2026-08-16T06:40:28Z",
       "selected_contacts": 17,
       "max_age_at_snapshot_hours": 16
     }
