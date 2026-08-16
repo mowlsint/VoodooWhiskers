@@ -14,6 +14,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
+from voi_history import load_policy as load_history_policy
+
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 PUBLIC = ROOT / "public"
@@ -21,6 +23,7 @@ VESSEL_DIR = PUBLIC / "data" / "vessels"
 LAYER_DIR = VESSEL_DIR / "layers"
 DOWNLOAD_DIR = PUBLIC / "downloads"
 CONFIG = json.loads((ROOT / "config" / "infrastructure_watch.json").read_text(encoding="utf-8"))
+HISTORY_POLICY = load_history_policy(ROOT)
 
 SNAPSHOT_PATH = DATA / "voi_snapshot_latest.json"
 HISTORY_PATH = DATA / "voi_history.jsonl"
@@ -221,8 +224,8 @@ def copy_category_layers() -> list[dict[str, Any]]:
 
 
 def build_bounded_history(snapshot_generated: datetime | None) -> dict[str, Any]:
-    max_days = int(CONFIG.get("history_max_age_days", 14))
-    max_bytes = int(CONFIG.get("history_max_bytes", 22 * 1024 * 1024))
+    max_days = HISTORY_POLICY["retention_days"]
+    max_bytes = HISTORY_POLICY["public_max_bytes"]
     cutoff = utc_now() - timedelta(days=max_days)
     rows: list[tuple[datetime, str]] = []
     stats = {"source_rows": 0, "malformed": 0, "outside_window": 0, "missing_time": 0, "invalid_position": 0, "timestamp_repaired": 0}
@@ -271,20 +274,30 @@ def build_bounded_history(snapshot_generated: datetime | None) -> dict[str, Any]
         byte_count += line_bytes
     selected = list(reversed(selected_reverse))
     output = "\n".join(selected) + ("\n" if selected else "")
-    atomic_text(VESSEL_DIR / "voi_history_14d.jsonl", output)
-    stats.update({"available": True, "published_rows": len(selected), "published_bytes": byte_count, "dropped_size": dropped_size, "max_age_days": max_days, "max_bytes": max_bytes, "build_mode": "daily_or_manual"})
+    atomic_text(VESSEL_DIR / HISTORY_POLICY["public_filename"], output)
+    stats.update({
+        "available": True,
+        "published_rows": len(selected),
+        "published_bytes": byte_count,
+        "dropped_size": dropped_size,
+        "max_age_days": max_days,
+        "max_bytes": max_bytes,
+        "complete_time_window": dropped_size == 0,
+        "build_mode": "daily_or_manual",
+        "compatibility_note": HISTORY_POLICY.get("compatibility_note"),
+    })
     return stats
 
 
 def existing_history_stats() -> dict[str, Any]:
-    path = VESSEL_DIR / "voi_history_14d.jsonl"
+    path = VESSEL_DIR / HISTORY_POLICY["public_filename"]
     if not path.exists():
         return {
             "available": False,
             "published_rows": 0,
             "published_bytes": 0,
-            "max_age_days": int(CONFIG.get("history_max_age_days", 14)),
-            "max_bytes": int(CONFIG.get("history_max_bytes", 22 * 1024 * 1024)),
+            "max_age_days": HISTORY_POLICY["retention_days"],
+            "max_bytes": HISTORY_POLICY["public_max_bytes"],
             "build_mode": "daily_or_manual",
         }
     rows = 0
@@ -296,9 +309,10 @@ def existing_history_stats() -> dict[str, Any]:
         "available": True,
         "published_rows": rows,
         "published_bytes": path.stat().st_size,
-        "max_age_days": int(CONFIG.get("history_max_age_days", 14)),
-        "max_bytes": int(CONFIG.get("history_max_bytes", 22 * 1024 * 1024)),
+        "max_age_days": HISTORY_POLICY["retention_days"],
+        "max_bytes": HISTORY_POLICY["public_max_bytes"],
         "build_mode": "daily_or_manual",
+        "compatibility_note": HISTORY_POLICY.get("compatibility_note"),
     }
 
 
@@ -644,7 +658,7 @@ def main() -> int:
             "aisstream_live": aisstream_live,
             "historical_source_codes": historical_source_codes,
         },
-        "history": {"href": "./voi_history_14d.jsonl" if history_stats.get("available") else None, **history_stats},
+        "history": {"href": f"./{HISTORY_POLICY['public_filename']}" if history_stats.get("available") else None, **history_stats},
         "danish_historical": danish_history,
         "category_layers": category_layers,
     }

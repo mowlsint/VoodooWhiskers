@@ -8,6 +8,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import quote_plus
 
+from voi_history import compact_source_history, load_policy as load_history_policy, retained_rows
+
 DATA_DIR = Path("data")
 WATCHLIST_PATH = DATA_DIR / "watchlist_master.csv"
 PORTS_RU_PATH = DATA_DIR / "ports_ru.csv"
@@ -53,6 +55,8 @@ LAYER_FILES = {
 
 SNAPSHOT_PATH = DATA_DIR / "voi_snapshot_latest.json"
 HISTORY_PATH = DATA_DIR / "voi_history.jsonl"
+HISTORY_STATUS_PATH = DATA_DIR / "voi_history_status.json"
+HISTORY_POLICY = load_history_policy(Path(__file__).resolve().parents[1])
 STATS_PATH = DATA_DIR / "voi_stats_by_slot.json"
 
 # Minimum fallback for AIS MMSI MID -> flag if flag field is absent.
@@ -919,36 +923,27 @@ def dedupe_key(contact, slot):
     return f"{slot}|{mmsi}|{imo}|{cats}"
 
 
-def read_history_rows():
-    rows = []
-    if not HISTORY_PATH.exists():
-        return rows
-    with open(HISTORY_PATH, "r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                rows.append(json.loads(line))
-            except Exception:
-                continue
-    return rows
+def read_history_rows(max_age_days=None):
+    return retained_rows(
+        HISTORY_PATH,
+        HISTORY_POLICY,
+        max_age_days=max_age_days,
+    )
 
 
 def update_history(snapshot_items, slot):
-    existing_keys = {row.get("_history_key") for row in read_history_rows() if row.get("_history_key")}
     new_rows = []
     for item in snapshot_items:
         row = dict(item)
         hk = dedupe_key(row, slot)
         row["_history_key"] = hk
-        if hk not in existing_keys:
-            new_rows.append(row)
-            existing_keys.add(hk)
-    if new_rows:
-        with open(HISTORY_PATH, "a", encoding="utf-8") as f:
-            for row in new_rows:
-                f.write(json.dumps(row, ensure_ascii=False) + "\n")
+        new_rows.append(row)
+    return compact_source_history(
+        HISTORY_PATH,
+        new_rows,
+        HISTORY_POLICY,
+        HISTORY_STATUS_PATH,
+    )
 
 
 def build_recent_ru_input_items(russian_ports, flag_ref):
@@ -991,7 +986,7 @@ def build_recent_ru_input_items(russian_ports, flag_ref):
 def build_recent_ru_history_items(current_items):
     cutoff = datetime.now(timezone.utc) - timedelta(days=RECENT_RUSSIAN_PORTCALL_DAYS)
     items = []
-    for row in read_history_rows():
+    for row in read_history_rows(max_age_days=RECENT_RUSSIAN_PORTCALL_DAYS):
         basis = clean_str(row.get("recent_ru_portcall_basis"))
         confirmed = bool(
             row.get("recent_russian_portcall_confirmed_10d")
