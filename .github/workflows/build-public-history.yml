@@ -33,7 +33,7 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Build bounded history and derived products
+      - name: Build bounded 20-day history and derived products
         run: |
           set -euo pipefail
           python scripts/build_public_outputs.py --include-history
@@ -41,26 +41,10 @@ jobs:
           python scripts/build_public_manifest.py
           node --check public/assets/infrastructure-watch.js
 
-      - name: Validate bounded history
+      - name: Validate bounded 20-day history
         run: |
           set -euo pipefail
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          history = Path('public/data/vessels/voi_history_14d.jsonl')
-          if not history.exists():
-              raise SystemExit('bounded public history missing')
-          limit = 22 * 1024 * 1024
-          if history.stat().st_size > limit:
-              raise SystemExit(f'bounded public history exceeds {limit} bytes')
-          rows = 0
-          with history.open(encoding='utf-8') as handle:
-              for line in handle:
-                  if line.strip():
-                      json.loads(line)
-                      rows += 1
-          print({'history_rows': rows, 'history_bytes': history.stat().st_size})
-          PY
+          python scripts/test_voi_history_retention.py --public-only
 
       - name: Commit bounded history products
         run: |
@@ -77,7 +61,7 @@ jobs:
             echo "No bounded-history changes to commit."
             exit 0
           fi
-          git commit -m "Build bounded public VOI history"
+          git commit -m "Build bounded 20-day public VOI history"
           for attempt in 1 2 3; do
             if git pull --rebase --autostash origin main && git push origin HEAD:main; then
               exit 0

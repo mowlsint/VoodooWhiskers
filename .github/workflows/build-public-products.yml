@@ -61,6 +61,9 @@ jobs:
             scripts/build_public_outputs.py \
             scripts/analyze_infrastructure_proximity.py \
             scripts/build_public_manifest.py \
+            scripts/voi_history.py \
+            scripts/test_voi_history_retention.py \
+            scripts/test_voi_history_policy_unit.py \
             scripts/fetch_aisdk_historical.py \
             scripts/fetch_gfw_sar.py
           node --check public/assets/infrastructure-watch.js

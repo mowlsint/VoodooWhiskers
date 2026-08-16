@@ -91,6 +91,12 @@ jobs:
           set -euo pipefail
           python scripts/build_layers.py
 
+      - name: Validate bounded 20-day VOI history
+        run: |
+          set -euo pipefail
+          python scripts/test_voi_history_policy_unit.py
+          python scripts/test_voi_history_retention.py --source-only
+
       - name: Audit sanctions/watchlist inputs
         run: |
           set -euo pipefail
@@ -157,6 +163,7 @@ jobs:
             data/tanker_cluster_stats.json
             data/voi_snapshot_latest.json
             data/voi_history.jsonl
+            data/voi_history_status.json
             data/voi_stats_by_slot.json
             data/watchlist_audit.json
             data/watchlist_changes_latest.md
