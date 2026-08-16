@@ -1,19 +1,19 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-16T08:13:11+00:00",
+  "generated_at": "2026-08-16T12:50:16+00:00",
   "snapshot": {
     "href": "./voi_snapshot_latest.json",
-    "item_count": 421
+    "item_count": 428
   },
   "positions": {
     "href": "./vessel_positions_latest.geojson",
-    "feature_count": 421
+    "feature_count": 428
   },
   "ais_contacts": {
     "json_href": "./ais_contacts_latest.json",
     "geojson_href": "./ais_contacts_latest.geojson",
-    "contact_count": 520,
-    "feature_count": 520,
+    "contact_count": 514,
+    "feature_count": 514,
     "provider_label": "AIS",
     "display_label": "AISStream live contacts or historical fallback data",
     "aisstream_live": false,
@@ -28,9 +28,12 @@
     "published_rows": 19078,
     "published_bytes": 41942597,
     "max_age_days": 14,
-    "max_bytes": 41943040,
+    "max_bytes": 23068672,
     "build_mode": "daily_or_manual",
-    "compatibility_note": "The public filename, content and manifest metadata use the binding 14-day policy.",
+    "compatibility_note": "The legacy public filename remains available below 22 MiB. Complete valid 14-day history is retained in the sharded manifest.",
+    "full": {
+      "available": false
+    },
     "rebuilt_in_this_run": false
   },
   "danish_historical": {
@@ -52,17 +55,17 @@
     {
       "id": "russian_mmsi",
       "href": "./layers/russian_mmsi.geojson",
-      "feature_count": 193
+      "feature_count": 197
     },
     {
       "id": "watchlist_live",
       "href": "./layers/watchlist_live.geojson",
-      "feature_count": 64
+      "feature_count": 66
     },
     {
       "id": "sanctions_shadowfleet",
       "href": "./layers/sanctions_shadowfleet.geojson",
-      "feature_count": 64
+      "feature_count": 66
     },
     {
       "id": "falseflag_interest",
@@ -82,12 +85,12 @@
     {
       "id": "recent_russian_portcall_10d",
       "href": "./layers/recent_russian_portcall_10d.geojson",
-      "feature_count": 200
+      "feature_count": 204
     },
     {
       "id": "neutral_tanker_context",
       "href": "./layers/neutral_tanker_context.geojson",
-      "feature_count": 34
+      "feature_count": 33
     }
   ]
 }
