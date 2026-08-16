@@ -14,7 +14,13 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
-from voi_history import load_policy as load_history_policy
+from voi_history import (
+    history_jsonl_paths,
+    history_key,
+    load_policy as load_history_policy,
+    select_balanced_history,
+    write_jsonl_shards,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
@@ -226,11 +232,21 @@ def copy_category_layers() -> list[dict[str, Any]]:
 def build_bounded_history(snapshot_generated: datetime | None) -> dict[str, Any]:
     max_days = HISTORY_POLICY["retention_days"]
     max_bytes = HISTORY_POLICY["public_max_bytes"]
-    cutoff = utc_now() - timedelta(days=max_days)
-    rows: list[tuple[datetime, str]] = []
-    stats = {"source_rows": 0, "malformed": 0, "outside_window": 0, "missing_time": 0, "invalid_position": 0, "timestamp_repaired": 0}
-    if HISTORY_PATH.exists():
-        with HISTORY_PATH.open("r", encoding="utf-8", errors="replace") as handle:
+    current = utc_now()
+    cutoff = current - timedelta(days=max_days)
+    future_limit = current + timedelta(hours=HISTORY_POLICY["future_tolerance_hours"])
+    stats = {
+        "source_rows": 0,
+        "malformed": 0,
+        "outside_window": 0,
+        "missing_time": 0,
+        "invalid_position": 0,
+        "timestamp_repaired": 0,
+        "duplicate_rows": 0,
+    }
+    by_key: dict[str, tuple[datetime, str, dict[str, Any]]] = {}
+    for source_path in history_jsonl_paths(HISTORY_PATH, HISTORY_POLICY):
+        with source_path.open("r", encoding="utf-8", errors="replace") as handle:
             for line in handle:
                 if not line.strip():
                     continue
@@ -248,7 +264,7 @@ def build_bounded_history(snapshot_generated: datetime | None) -> dict[str, Any]
                 if not dt:
                     stats["missing_time"] += 1
                     continue
-                if dt < cutoff or dt > utc_now() + timedelta(days=1):
+                if dt < cutoff or dt > future_limit:
                     stats["outside_window"] += 1
                     continue
                 if not item.get("data_quality", {}).get("has_valid_position"):
@@ -256,35 +272,75 @@ def build_bounded_history(snapshot_generated: datetime | None) -> dict[str, Any]
                     continue
                 if item.get("data_quality", {}).get("timestamp_repaired"):
                     stats["timestamp_repaired"] += 1
-                text = json.dumps(item, ensure_ascii=False, separators=(",", ":"))
-                rows.append((dt, text))
-    rows.sort(key=lambda pair: pair[0])
-    selected_reverse: list[str] = []
-    byte_count = 0
-    dropped_size = 0
-    for _dt, text in reversed(rows):
-        line_bytes = len((text + "\n").encode("utf-8"))
-        if line_bytes > max_bytes:
-            dropped_size += 1
-            continue
-        if byte_count + line_bytes > max_bytes:
-            dropped_size += len(rows) - len(selected_reverse)
-            break
-        selected_reverse.append(text)
-        byte_count += line_bytes
-    selected = list(reversed(selected_reverse))
-    output = "\n".join(selected) + ("\n" if selected else "")
+                key = history_key(item)
+                item.setdefault("_history_key", key)
+                if key in by_key:
+                    stats["duplicate_rows"] += 1
+                    if by_key[key][0] > dt:
+                        continue
+                by_key[key] = (dt, key, item)
+
+    rows = sorted(by_key.values(), key=lambda entry: (entry[0], entry[1]))
+    selected, compatibility = select_balanced_history(rows, max_bytes=max_bytes)
+    output = "".join(json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\n" for _dt, _key, row in selected)
     atomic_text(VESSEL_DIR / HISTORY_POLICY["public_filename"], output)
+
+    generated_at = iso(current)
+    shard_dir = VESSEL_DIR / HISTORY_POLICY["public_shard_directory"]
+    full_manifest = write_jsonl_shards(
+        shard_dir,
+        rows,
+        max_part_bytes=HISTORY_POLICY["public_shard_max_bytes"],
+        retention_days=max_days,
+        generated_at=generated_at,
+        kind="complete_public_14_day_history",
+        manifest_filename=HISTORY_POLICY["public_shard_manifest"],
+        metadata={
+            "source_quality": stats,
+            "compatibility": {
+                **compatibility,
+                "filename": HISTORY_POLICY["public_filename"],
+                "max_bytes": max_bytes,
+                "note": HISTORY_POLICY.get("compatibility_note"),
+            },
+            "note": "All valid retained rows are present in the shards. The single compatibility file is a bounded analytical sample when necessary.",
+        },
+    )
+    download_manifest = json.loads(json.dumps(full_manifest))
+    download_manifest["kind"] = "complete_public_14_day_history_download_index"
+    download_manifest["canonical_manifest_href"] = (
+        f"../data/vessels/{HISTORY_POLICY['public_shard_directory']}/{HISTORY_POLICY['public_shard_manifest']}"
+    )
+    for part in download_manifest["parts"]:
+        part["href"] = f"../data/vessels/{HISTORY_POLICY['public_shard_directory']}/{part['filename']}"
+    atomic_json(DOWNLOAD_DIR / HISTORY_POLICY["download_manifest_filename"], download_manifest)
+
     stats.update({
         "available": True,
-        "published_rows": len(selected),
-        "published_bytes": byte_count,
-        "dropped_size": dropped_size,
+        "published_rows": compatibility["selected_rows"],
+        "published_bytes": compatibility["selected_bytes"],
+        "dropped_size": compatibility.get("dropped_rows", 0),
         "max_age_days": max_days,
         "max_bytes": max_bytes,
-        "complete_time_window": dropped_size == 0,
+        "complete_time_window": compatibility["complete_time_window"],
+        "selection": compatibility["selection"],
+        "total_identities": compatibility["total_identities"],
+        "covered_identities": compatibility["covered_identities"],
+        "identity_coverage_percent": compatibility.get("identity_coverage_percent", 100.0),
         "build_mode": "daily_or_manual",
         "compatibility_note": HISTORY_POLICY.get("compatibility_note"),
+        "full": {
+            "available": True,
+            "manifest_href": f"./{HISTORY_POLICY['public_shard_directory']}/{HISTORY_POLICY['public_shard_manifest']}",
+            "download_manifest_href": f"../../downloads/{HISTORY_POLICY['download_manifest_filename']}",
+            "rows": full_manifest["total_rows"],
+            "bytes": full_manifest["total_bytes"],
+            "part_count": full_manifest["part_count"],
+            "max_part_bytes": full_manifest["max_part_bytes"],
+            "oldest": full_manifest["oldest"],
+            "newest": full_manifest["newest"],
+            "complete_time_window": True,
+        },
     })
     return stats
 
@@ -305,7 +361,7 @@ def existing_history_stats() -> dict[str, Any]:
         for line in handle:
             if line.strip():
                 rows += 1
-    return {
+    result: dict[str, Any] = {
         "available": True,
         "published_rows": rows,
         "published_bytes": path.stat().st_size,
@@ -314,6 +370,34 @@ def existing_history_stats() -> dict[str, Any]:
         "build_mode": "daily_or_manual",
         "compatibility_note": HISTORY_POLICY.get("compatibility_note"),
     }
+    shard_manifest_path = (
+        VESSEL_DIR / HISTORY_POLICY["public_shard_directory"] / HISTORY_POLICY["public_shard_manifest"]
+    )
+    if shard_manifest_path.exists():
+        manifest = json.loads(shard_manifest_path.read_text(encoding="utf-8"))
+        compatibility = manifest.get("compatibility") if isinstance(manifest.get("compatibility"), dict) else {}
+        result.update({
+            "complete_time_window": bool(compatibility.get("complete_time_window")),
+            "selection": compatibility.get("selection"),
+            "total_identities": compatibility.get("total_identities"),
+            "covered_identities": compatibility.get("covered_identities"),
+            "identity_coverage_percent": compatibility.get("identity_coverage_percent", 100.0),
+            "full": {
+                "available": True,
+                "manifest_href": f"./{HISTORY_POLICY['public_shard_directory']}/{HISTORY_POLICY['public_shard_manifest']}",
+                "download_manifest_href": f"../../downloads/{HISTORY_POLICY['download_manifest_filename']}",
+                "rows": int(manifest.get("total_rows") or 0),
+                "bytes": int(manifest.get("total_bytes") or 0),
+                "part_count": int(manifest.get("part_count") or 0),
+                "max_part_bytes": int(manifest.get("max_part_bytes") or 0),
+                "oldest": manifest.get("oldest"),
+                "newest": manifest.get("newest"),
+                "complete_time_window": bool(manifest.get("complete_time_window")),
+            },
+        })
+    else:
+        result["full"] = {"available": False}
+    return result
 
 
 
