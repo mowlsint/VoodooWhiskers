@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-16T11:48:40+00:00",
+  "generated_at": "2026-08-16T12:50:26+00:00",
   "source": "Voodoo Whiskers",
   "repository_public": true,
   "hosting_target": "Cloudflare Pages later",
@@ -21,6 +21,10 @@
     {
       "id": "voi",
       "label": "VOI lists"
+    },
+    {
+      "id": "voi_history",
+      "label": "VOI history"
     },
     {
       "id": "infrastructure",
@@ -85,7 +89,7 @@
       "description": "Canonical delayed vessel snapshot at the newest common source watermark. Includes real observation times and source-health metadata.",
       "href": "./maritime_common_snapshot_latest.json",
       "filename": "maritime_common_snapshot_latest.json",
-      "size_bytes": 24372266,
+      "size_bytes": 24372338,
       "media_type": "application/json"
     },
     {
@@ -95,7 +99,7 @@
       "description": "Map-ready canonical vessel positions selected at the newest common source watermark.",
       "href": "./maritime_common_snapshot_latest.geojson",
       "filename": "maritime_common_snapshot_latest.geojson",
-      "size_bytes": 19049454,
+      "size_bytes": 19049508,
       "media_type": "application/geo+json"
     },
     {

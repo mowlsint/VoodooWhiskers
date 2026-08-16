@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-08-16T08:13:11+00:00",
-  "total_contacts_seen": 520,
-  "total_unique_tankers_in_context_zones": 103,
-  "total_tanker_context_zones": 5,
-  "neutral_tanker_context_total": 34,
-  "voi_tankers_in_context_zones": 69,
+  "generated_at": "2026-08-16T12:50:16+00:00",
+  "total_contacts_seen": 514,
+  "total_unique_tankers_in_context_zones": 106,
+  "total_tanker_context_zones": 4,
+  "neutral_tanker_context_total": 33,
+  "voi_tankers_in_context_zones": 73,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 87,
-      "neutral_tankers": 24,
-      "voi_tankers": 63,
-      "slow_or_waiting": 67,
-      "for_order": 8,
+      "total_tankers": 90,
+      "neutral_tankers": 22,
+      "voi_tankers": 68,
+      "slow_or_waiting": 63,
+      "for_order": 9,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -39,17 +39,7 @@
           "imo": "9010929",
           "mmsi": "210056000",
           "destination": "TALLINN",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "CAPTAIN PARIS",
-          "imo": "9692844",
-          "mmsi": "229716000",
-          "destination": "TALLINN",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -59,7 +49,7 @@
           "imo": "9892432",
           "mmsi": "230687000",
           "destination": "FI SKV",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -68,7 +58,7 @@
           "name": "LUNNI",
           "imo": "9797802",
           "mmsi": "230690000",
-          "destination": "LTKLJ>FISVK",
+          "destination": "FISVK>FINLI",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
@@ -78,7 +68,7 @@
           "name": "CORAL PEARL",
           "imo": "9425253",
           "mmsi": "244870430",
-          "destination": "FI PRV",
+          "destination": "BE ANR",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
@@ -93,6 +83,16 @@
           "categories": [
             "neutral_tanker_context"
           ]
+        },
+        {
+          "name": "SEALOYALTY",
+          "imo": "9783928",
+          "mmsi": "256346000",
+          "destination": "FOR ORDERS",
+          "sog": "0.1",
+          "categories": [
+            "neutral_tanker_context"
+          ]
         }
       ],
       "zone_id": "gulf_of_finland_ru_approaches",
@@ -100,12 +100,32 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 10,
-      "neutral_tankers": 7,
+      "total_tankers": 12,
+      "neutral_tankers": 9,
       "voi_tankers": 3,
       "slow_or_waiting": 0,
       "for_order": 1,
       "examples": [
+        {
+          "name": "KEY BREEZE",
+          "imo": "9344265",
+          "mmsi": "236111791",
+          "destination": "NOFRO",
+          "sog": "9.6",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "THUN EOS",
+          "imo": "9817157",
+          "mmsi": "244013009",
+          "destination": "NO KRS",
+          "sog": "8.7",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
         {
           "name": "THUN RELIANCE",
           "imo": "9970519",
@@ -127,31 +147,11 @@
           ]
         },
         {
-          "name": "FROYA",
-          "imo": "9345350",
-          "mmsi": "257081000",
-          "destination": "GBTEE",
-          "sog": "11.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "SALTSTRAUM",
           "imo": "9854466",
           "mmsi": "257550000",
           "destination": "NO TBO > LT KLJ",
           "sog": "12.4",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "LOTUS",
-          "imo": "9297137",
-          "mmsi": "266473000",
-          "destination": "NOSLG",
-          "sog": "12.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -167,24 +167,23 @@
           ]
         },
         {
-          "name": "MURMURE",
-          "imo": "9939618",
-          "mmsi": "636023388",
-          "destination": "GULFHAVN",
-          "sog": "11.8",
+          "name": "EVA TRUST",
+          "imo": "9986037",
+          "mmsi": "548989000",
+          "destination": "DK SKA",
+          "sog": "12.9",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "MAYLO",
-          "imo": "9331153",
-          "mmsi": "667001249",
-          "destination": "GULF OF FINLAND",
-          "sog": "13.4",
+          "name": "CORAL FURCATA",
+          "imo": "9378307",
+          "mmsi": "636022088",
+          "destination": "BEANR",
+          "sog": "13.8",
           "categories": [
-            "sanctions_shadowfleet",
-            "watchlist"
+            "neutral_tanker_context"
           ]
         }
       ],
@@ -193,12 +192,32 @@
       "level": "context"
     },
     {
-      "total_tankers": 10,
-      "neutral_tankers": 7,
+      "total_tankers": 12,
+      "neutral_tankers": 9,
       "voi_tankers": 3,
       "slow_or_waiting": 0,
       "for_order": 1,
       "examples": [
+        {
+          "name": "KEY BREEZE",
+          "imo": "9344265",
+          "mmsi": "236111791",
+          "destination": "NOFRO",
+          "sog": "9.6",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "THUN EOS",
+          "imo": "9817157",
+          "mmsi": "244013009",
+          "destination": "NO KRS",
+          "sog": "8.7",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
         {
           "name": "THUN RELIANCE",
           "imo": "9970519",
@@ -220,31 +239,11 @@
           ]
         },
         {
-          "name": "FROYA",
-          "imo": "9345350",
-          "mmsi": "257081000",
-          "destination": "GBTEE",
-          "sog": "11.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "SALTSTRAUM",
           "imo": "9854466",
           "mmsi": "257550000",
           "destination": "NO TBO > LT KLJ",
           "sog": "12.4",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "LOTUS",
-          "imo": "9297137",
-          "mmsi": "266473000",
-          "destination": "NOSLG",
-          "sog": "12.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -260,24 +259,23 @@
           ]
         },
         {
-          "name": "MURMURE",
-          "imo": "9939618",
-          "mmsi": "636023388",
-          "destination": "GULFHAVN",
-          "sog": "11.8",
+          "name": "EVA TRUST",
+          "imo": "9986037",
+          "mmsi": "548989000",
+          "destination": "DK SKA",
+          "sog": "12.9",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "MAYLO",
-          "imo": "9331153",
-          "mmsi": "667001249",
-          "destination": "GULF OF FINLAND",
-          "sog": "13.4",
+          "name": "CORAL FURCATA",
+          "imo": "9378307",
+          "mmsi": "636022088",
+          "destination": "BEANR",
+          "sog": "13.8",
           "categories": [
-            "sanctions_shadowfleet",
-            "watchlist"
+            "neutral_tanker_context"
           ]
         }
       ],
@@ -286,9 +284,9 @@
       "level": "context"
     },
     {
-      "total_tankers": 6,
-      "neutral_tankers": 3,
-      "voi_tankers": 3,
+      "total_tankers": 4,
+      "neutral_tankers": 2,
+      "voi_tankers": 2,
       "slow_or_waiting": 2,
       "for_order": 0,
       "examples": [
@@ -327,26 +325,6 @@
           ]
         },
         {
-          "name": "MIDVOLGA-1",
-          "imo": "9648221",
-          "mmsi": "273355380",
-          "destination": "KALININGRAD",
-          "sog": "6.9",
-          "categories": [
-            "russian_mmsi"
-          ]
-        },
-        {
-          "name": "ZAPADNYY",
-          "imo": "8711837",
-          "mmsi": "620999607",
-          "destination": "LTKLJ",
-          "sog": "7.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "ATLANTIC JADE",
           "imo": "9892987",
           "mmsi": "636021135",
@@ -359,28 +337,6 @@
       ],
       "zone_id": "kaliningrad_baltiysk_approaches",
       "zone_label": "Kaliningrad / Baltiysk approaches",
-      "level": "context"
-    },
-    {
-      "total_tankers": 1,
-      "neutral_tankers": 0,
-      "voi_tankers": 1,
-      "slow_or_waiting": 0,
-      "for_order": 0,
-      "examples": [
-        {
-          "name": "MIDVOLGA-1",
-          "imo": "9648221",
-          "mmsi": "273355380",
-          "destination": "KALININGRAD",
-          "sog": "6.9",
-          "categories": [
-            "russian_mmsi"
-          ]
-        }
-      ],
-      "zone_id": "gulf_of_gdansk",
-      "zone_label": "Gulf of Gdansk",
       "level": "context"
     }
   ]
