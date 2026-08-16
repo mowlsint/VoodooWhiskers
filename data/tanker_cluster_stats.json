@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-08-16T06:40:32+00:00",
-  "total_contacts_seen": 517,
-  "total_unique_tankers_in_context_zones": 100,
+  "generated_at": "2026-08-16T08:13:11+00:00",
+  "total_contacts_seen": 520,
+  "total_unique_tankers_in_context_zones": 103,
   "total_tanker_context_zones": 5,
-  "neutral_tanker_context_total": 36,
-  "voi_tankers_in_context_zones": 64,
+  "neutral_tanker_context_total": 34,
+  "voi_tankers_in_context_zones": 69,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 83,
-      "neutral_tankers": 25,
-      "voi_tankers": 58,
-      "slow_or_waiting": 63,
-      "for_order": 9,
+      "total_tankers": 87,
+      "neutral_tankers": 24,
+      "voi_tankers": 63,
+      "slow_or_waiting": 67,
+      "for_order": 8,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -39,7 +39,7 @@
           "imo": "9010929",
           "mmsi": "210056000",
           "destination": "TALLINN",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -49,7 +49,7 @@
           "imo": "9692844",
           "mmsi": "229716000",
           "destination": "TALLINN",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -59,7 +59,7 @@
           "imo": "9892432",
           "mmsi": "230687000",
           "destination": "FI SKV",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -69,7 +69,7 @@
           "imo": "9797802",
           "mmsi": "230690000",
           "destination": "LTKLJ>FISVK",
-          "sog": "15.4",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,22 +100,12 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 11,
-      "neutral_tankers": 8,
+      "total_tankers": 10,
+      "neutral_tankers": 7,
       "voi_tankers": 3,
       "slow_or_waiting": 0,
       "for_order": 1,
       "examples": [
-        {
-          "name": "KEY WEST",
-          "imo": "9020429",
-          "mmsi": "236668000",
-          "destination": "NOSAG",
-          "sog": "12.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
         {
           "name": "THUN RELIANCE",
           "imo": "9970519",
@@ -161,7 +151,7 @@
           "imo": "9297137",
           "mmsi": "266473000",
           "destination": "NOSLG",
-          "sog": "12.5",
+          "sog": "12.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -184,6 +174,17 @@
           "sog": "11.8",
           "categories": [
             "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "MAYLO",
+          "imo": "9331153",
+          "mmsi": "667001249",
+          "destination": "GULF OF FINLAND",
+          "sog": "13.4",
+          "categories": [
+            "sanctions_shadowfleet",
+            "watchlist"
           ]
         }
       ],
@@ -192,22 +193,12 @@
       "level": "context"
     },
     {
-      "total_tankers": 11,
-      "neutral_tankers": 8,
+      "total_tankers": 10,
+      "neutral_tankers": 7,
       "voi_tankers": 3,
       "slow_or_waiting": 0,
       "for_order": 1,
       "examples": [
-        {
-          "name": "KEY WEST",
-          "imo": "9020429",
-          "mmsi": "236668000",
-          "destination": "NOSAG",
-          "sog": "12.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
         {
           "name": "THUN RELIANCE",
           "imo": "9970519",
@@ -253,7 +244,7 @@
           "imo": "9297137",
           "mmsi": "266473000",
           "destination": "NOSLG",
-          "sog": "12.5",
+          "sog": "12.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -276,6 +267,17 @@
           "sog": "11.8",
           "categories": [
             "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "MAYLO",
+          "imo": "9331153",
+          "mmsi": "667001249",
+          "destination": "GULF OF FINLAND",
+          "sog": "13.4",
+          "categories": [
+            "sanctions_shadowfleet",
+            "watchlist"
           ]
         }
       ],
