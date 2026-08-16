@@ -24,17 +24,39 @@
   },
   "history": {
     "href": "./voi_history_14d.jsonl",
+    "source_rows": 14122,
+    "malformed": 0,
+    "outside_window": 0,
+    "missing_time": 0,
+    "invalid_position": 0,
+    "timestamp_repaired": 8350,
+    "duplicate_rows": 0,
     "available": true,
-    "published_rows": 19078,
-    "published_bytes": 41942597,
+    "published_rows": 10537,
+    "published_bytes": 23067895,
+    "dropped_size": 3585,
     "max_age_days": 14,
     "max_bytes": 23068672,
+    "complete_time_window": false,
+    "selection": "identity_balanced_temporal_sampling",
+    "total_identities": 1080,
+    "covered_identities": 1080,
+    "identity_coverage_percent": 100.0,
     "build_mode": "daily_or_manual",
     "compatibility_note": "The legacy public filename remains available below 22 MiB. Complete valid 14-day history is retained in the sharded manifest.",
     "full": {
-      "available": false
+      "available": true,
+      "manifest_href": "./voi_history_14d/manifest.json",
+      "download_manifest_href": "../../downloads/voi_history_14d_manifest.json",
+      "rows": 14122,
+      "bytes": 31066493,
+      "part_count": 15,
+      "max_part_bytes": 20971520,
+      "oldest": "2026-08-02T13:57:54+00:00",
+      "newest": "2026-08-16T12:50:13+00:00",
+      "complete_time_window": true
     },
-    "rebuilt_in_this_run": false
+    "rebuilt_in_this_run": true
   },
   "danish_historical": {
     "available": true,
