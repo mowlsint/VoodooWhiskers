@@ -14,7 +14,7 @@ from typing import Any, Iterable
 
 DEFAULT_POLICY = {
     "schema_version": "1.0.0",
-    "retention_days": 20,
+    "retention_days": 14,
     "source_max_bytes": 45 * 1024 * 1024,
     "public_max_bytes": 40 * 1024 * 1024,
     "public_filename": "voi_history_14d.jsonl",

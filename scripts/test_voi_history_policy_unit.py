@@ -24,7 +24,7 @@ def row(dt: datetime, key: str, payload: str = "x") -> dict:
 def main() -> int:
     now = datetime(2026, 8, 16, 8, 0, tzinfo=timezone.utc)
     policy = {
-        "retention_days": 20,
+        "retention_days": 14,
         "source_max_bytes": 1300,
         "public_max_bytes": 1200,
         "public_filename": "voi_history_14d.jsonl",
@@ -36,7 +36,7 @@ def main() -> int:
         status = root / "data" / "voi_history_status.json"
         history.parent.mkdir(parents=True)
         initial = [
-            row(now - timedelta(days=21), "expired"),
+            row(now - timedelta(days=15), "expired"),
             row(now - timedelta(days=4), "duplicate", "old"),
             row(now - timedelta(days=3), "duplicate", "new"),
             {"_history_key": "missing-time"},

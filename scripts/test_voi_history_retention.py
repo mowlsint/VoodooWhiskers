@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the binding 20-day VOI source/public history policy."""
+"""Validate the binding 14-day VOI source/public history policy."""
 
 from __future__ import annotations
 
