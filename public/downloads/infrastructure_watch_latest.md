@@ -1,6 +1,6 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-08-16T06:43:27+00:00
+- Generated: 2026-08-16T07:54:20+00:00
 - Review events: 31
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
@@ -24,7 +24,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 259027310 / –
 - Infrastructure: power_cable — pcablesnve.503
 - Minimum distance: 0.13 nm
-- Close-band points: 3
+- Close-band points: 4
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -84,7 +84,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 259027310 / –
 - Infrastructure: power_cable — pcablesnve.501
 - Minimum distance: 0.239 nm
-- Close-band points: 3
+- Close-band points: 4
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -120,7 +120,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 259027310 / –
 - Infrastructure: power_cable — pcablesnve.264
 - Minimum distance: 0.31 nm
-- Close-band points: 3
+- Close-band points: 4
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
