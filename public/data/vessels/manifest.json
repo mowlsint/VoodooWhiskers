@@ -1,19 +1,19 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-15T14:38:37+00:00",
+  "generated_at": "2026-08-16T06:40:32+00:00",
   "snapshot": {
     "href": "./voi_snapshot_latest.json",
-    "item_count": 442
+    "item_count": 425
   },
   "positions": {
     "href": "./vessel_positions_latest.geojson",
-    "feature_count": 442
+    "feature_count": 425
   },
   "ais_contacts": {
     "json_href": "./ais_contacts_latest.json",
     "geojson_href": "./ais_contacts_latest.geojson",
-    "contact_count": 536,
-    "feature_count": 536,
+    "contact_count": 517,
+    "feature_count": 517,
     "provider_label": "AIS",
     "display_label": "AISStream live contacts or historical fallback data",
     "aisstream_live": false,
@@ -24,20 +24,14 @@
   },
   "history": {
     "href": "./voi_history_14d.jsonl",
-    "source_rows": 62666,
-    "malformed": 0,
-    "outside_window": 48653,
-    "missing_time": 0,
-    "invalid_position": 0,
-    "timestamp_repaired": 7724,
     "available": true,
     "published_rows": 10467,
     "published_bytes": 23067763,
-    "dropped_size": 3546,
-    "max_age_days": 14,
-    "max_bytes": 23068672,
+    "max_age_days": 20,
+    "max_bytes": 41943040,
     "build_mode": "daily_or_manual",
-    "rebuilt_in_this_run": true
+    "compatibility_note": "The public filename is retained for existing consumers; its content and manifest metadata use the binding 20-day policy.",
+    "rebuilt_in_this_run": false
   },
   "danish_historical": {
     "available": true,
@@ -58,17 +52,17 @@
     {
       "id": "russian_mmsi",
       "href": "./layers/russian_mmsi.geojson",
-      "feature_count": 188
+      "feature_count": 195
     },
     {
       "id": "watchlist_live",
       "href": "./layers/watchlist_live.geojson",
-      "feature_count": 70
+      "feature_count": 64
     },
     {
       "id": "sanctions_shadowfleet",
       "href": "./layers/sanctions_shadowfleet.geojson",
-      "feature_count": 70
+      "feature_count": 64
     },
     {
       "id": "falseflag_interest",
@@ -88,12 +82,12 @@
     {
       "id": "recent_russian_portcall_10d",
       "href": "./layers/recent_russian_portcall_10d.geojson",
-      "feature_count": 219
+      "feature_count": 201
     },
     {
       "id": "neutral_tanker_context",
       "href": "./layers/neutral_tanker_context.geojson",
-      "feature_count": 41
+      "feature_count": 36
     }
   ]
 }
