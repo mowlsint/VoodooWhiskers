@@ -2,8 +2,14 @@
   "schema_version": "1.0.0",
   "retention_days": 14,
   "source_max_bytes": 47185920,
-  "public_max_bytes": 41943040,
+  "source_shard_max_bytes": 20971520,
+  "source_shard_directory": "voi_history_14d",
+  "public_max_bytes": 23068672,
   "public_filename": "voi_history_14d.jsonl",
+  "public_shard_max_bytes": 20971520,
+  "public_shard_directory": "voi_history_14d",
+  "public_shard_manifest": "manifest.json",
+  "download_manifest_filename": "voi_history_14d_manifest.json",
   "future_tolerance_hours": 24,
-  "compatibility_note": "The public filename, content and manifest metadata use the binding 14-day policy."
+  "compatibility_note": "The legacy public filename remains available below 22 MiB. Complete valid 14-day history is retained in the sharded manifest."
 }
