@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-08-16T12:50:16+00:00",
-  "total_contacts_seen": 514,
-  "total_unique_tankers_in_context_zones": 106,
+  "generated_at": "2026-08-16T14:38:42+00:00",
+  "total_contacts_seen": 507,
+  "total_unique_tankers_in_context_zones": 112,
   "total_tanker_context_zones": 4,
-  "neutral_tanker_context_total": 33,
-  "voi_tankers_in_context_zones": 73,
+  "neutral_tanker_context_total": 34,
+  "voi_tankers_in_context_zones": 78,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 90,
+      "total_tankers": 95,
       "neutral_tankers": 22,
-      "voi_tankers": 68,
-      "slow_or_waiting": 63,
-      "for_order": 9,
+      "voi_tankers": 73,
+      "slow_or_waiting": 62,
+      "for_order": 10,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -49,7 +49,7 @@
           "imo": "9892432",
           "mmsi": "230687000",
           "destination": "FI SKV",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -69,7 +69,7 @@
           "imo": "9425253",
           "mmsi": "244870430",
           "destination": "BE ANR",
-          "sog": "0.0",
+          "sog": "13.9",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -89,7 +89,7 @@
           "imo": "9783928",
           "mmsi": "256346000",
           "destination": "FOR ORDERS",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,8 +100,8 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 12,
-      "neutral_tankers": 9,
+      "total_tankers": 13,
+      "neutral_tankers": 10,
       "voi_tankers": 3,
       "slow_or_waiting": 0,
       "for_order": 1,
@@ -111,7 +111,7 @@
           "imo": "9344265",
           "mmsi": "236111791",
           "destination": "NOFRO",
-          "sog": "9.6",
+          "sog": "8.7",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -121,17 +121,7 @@
           "imo": "9817157",
           "mmsi": "244013009",
           "destination": "NO KRS",
-          "sog": "8.7",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "THUN RELIANCE",
-          "imo": "9970519",
-          "mmsi": "244335000",
-          "destination": "SE BRO (PEC 10-0742)",
-          "sog": "13.2",
+          "sog": "8.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -157,6 +147,16 @@
           ]
         },
         {
+          "name": "PACIFIC DIAMOND",
+          "imo": "9893046",
+          "mmsi": "538009199",
+          "destination": "USHOU",
+          "sog": "11.1",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
           "name": "GAS PEACE",
           "imo": "9697507",
           "mmsi": "538011362",
@@ -177,11 +177,11 @@
           ]
         },
         {
-          "name": "CORAL FURCATA",
-          "imo": "9378307",
-          "mmsi": "636022088",
-          "destination": "BEANR",
-          "sog": "13.8",
+          "name": "BW NIVALIS",
+          "imo": "9968932",
+          "mmsi": "563315500",
+          "destination": "DKSKA",
+          "sog": "15.9",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -189,7 +189,7 @@
       ],
       "zone_id": "danish_straits_kattegat",
       "zone_label": "Danish Straits / Kattegat",
-      "level": "context"
+      "level": "heightened_context"
     },
     {
       "total_tankers": 12,
@@ -199,31 +199,11 @@
       "for_order": 1,
       "examples": [
         {
-          "name": "KEY BREEZE",
-          "imo": "9344265",
-          "mmsi": "236111791",
-          "destination": "NOFRO",
-          "sog": "9.6",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "THUN EOS",
           "imo": "9817157",
           "mmsi": "244013009",
           "destination": "NO KRS",
-          "sog": "8.7",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "THUN RELIANCE",
-          "imo": "9970519",
-          "mmsi": "244335000",
-          "destination": "SE BRO (PEC 10-0742)",
-          "sog": "13.2",
+          "sog": "8.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -249,6 +229,16 @@
           ]
         },
         {
+          "name": "PACIFIC DIAMOND",
+          "imo": "9893046",
+          "mmsi": "538009199",
+          "destination": "USHOU",
+          "sog": "11.1",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
           "name": "GAS PEACE",
           "imo": "9697507",
           "mmsi": "538011362",
@@ -269,11 +259,21 @@
           ]
         },
         {
+          "name": "BW NIVALIS",
+          "imo": "9968932",
+          "mmsi": "563315500",
+          "destination": "DKSKA",
+          "sog": "15.9",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
           "name": "CORAL FURCATA",
           "imo": "9378307",
           "mmsi": "636022088",
           "destination": "BEANR",
-          "sog": "13.8",
+          "sog": "13.3",
           "categories": [
             "neutral_tanker_context"
           ]
