@@ -1,6 +1,6 @@
 # Voodoo Whiskers — Current VOI List
 
-- Generated: 2026-08-16T14:38:42+00:00
+- Generated: 2026-08-17T03:08:14+00:00
 - Priority vessels: 396
 - Neutral tanker context is excluded from this VOI list and remains available as a separate map layer.
 - AIS coverage is mixed and not continuous. A listed position is the latest available observation, not proof of current presence.
