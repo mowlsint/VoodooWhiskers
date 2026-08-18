@@ -1,7 +1,7 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-08-18T03:06:32+00:00
-- Review events: 19
+- Generated: 2026-08-18T03:12:46+00:00
+- Review events: 18
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
 
@@ -43,18 +43,6 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
-## KAPITAN SAKHAROV — ELEVATED
-
-- MMSI / IMO: 273395150 / 9279434
-- Infrastructure: pipeline — NORD STREAM 1
-- Minimum distance: 0.206 nm
-- Close-band points: 2
-- Estimated dwell: 0.0 min
-- Signals: critical_infrastructure_proximity, repeated_entries_into_close_band, voi_or_watchlist_context, timestamp_quality_limited
-- Confidence: low_medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
 ## AURORA — ELEVATED
 
 - MMSI / IMO: 259027310 / –
@@ -72,6 +60,18 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 636022353 / 9490753
 - Infrastructure: pipeline — NORD STREAM 1
 - Minimum distance: 0.332 nm
+- Close-band points: 3
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, repeated_entries_into_close_band, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
+## BOGATYR — ELEVATED
+
+- MMSI / IMO: 273299870 / 9841055
+- Infrastructure: pipeline — NORD STREAM 2
+- Minimum distance: 0.383 nm
 - Close-band points: 3
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, repeated_entries_into_close_band, voi_or_watchlist_context, timestamp_quality_limited
@@ -151,24 +151,12 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
-## BOGATYR — REVIEW
-
-- MMSI / IMO: 273299870 / 9841055
-- Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.383 nm
-- Close-band points: 2
-- Estimated dwell: 0.0 min
-- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
-- Confidence: low_medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
 ## ROSEBURG — REVIEW
 
 - MMSI / IMO: 305184000 / 8817370
 - Infrastructure: pipeline — pipelines.3798
 - Minimum distance: 0.425 nm
-- Close-band points: 5
+- Close-band points: 4
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
 - Confidence: low_medium
