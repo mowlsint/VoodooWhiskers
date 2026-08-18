@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-17T14:47:01+00:00",
+  "generated_at": "2026-08-18T02:33:34+00:00",
   "source": "Voodoo Whiskers",
   "repository_public": true,
   "hosting_target": "Cloudflare Pages later",
@@ -59,7 +59,7 @@
       "description": "Latest two temporally distinct historical Danish AIS observations per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions.",
       "href": "./ais_dk_last_two_positions.json",
       "filename": "ais_dk_last_two_positions.json",
-      "size_bytes": 751645,
+      "size_bytes": 676098,
       "media_type": "application/json"
     },
     {
@@ -69,7 +69,7 @@
       "description": "Map-ready latest two historical Danish AIS observations and short connectors per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions.",
       "href": "./ais_dk_last_two_positions.geojson",
       "filename": "ais_dk_last_two_positions.geojson",
-      "size_bytes": 1563791,
+      "size_bytes": 1430164,
       "media_type": "application/geo+json"
     },
     {
@@ -79,7 +79,7 @@
       "description": "Source date, lag, row-quality counters and import health for the delayed Danish AIS supplement.",
       "href": "./ais_dk_import_status.json",
       "filename": "ais_dk_import_status.json",
-      "size_bytes": 2571,
+      "size_bytes": 2568,
       "media_type": "application/json"
     },
     {
@@ -189,7 +189,7 @@
       "description": "Machine-readable review events and assessment metadata.",
       "href": "./infrastructure_watch_latest.json",
       "filename": "infrastructure_watch_latest.json",
-      "size_bytes": 46027,
+      "size_bytes": 33724,
       "media_type": "application/json"
     },
     {
@@ -199,7 +199,7 @@
       "description": "Tabular infrastructure proximity review events.",
       "href": "./infrastructure_watch_latest.csv",
       "filename": "infrastructure_watch_latest.csv",
-      "size_bytes": 10390,
+      "size_bytes": 7576,
       "media_type": "text/csv"
     },
     {
@@ -209,7 +209,7 @@
       "description": "Readable infrastructure proximity assessment.",
       "href": "./infrastructure_watch_latest.md",
       "filename": "infrastructure_watch_latest.md",
-      "size_bytes": 12510,
+      "size_bytes": 9200,
       "media_type": "text/markdown"
     },
     {
@@ -219,7 +219,7 @@
       "description": "Map-ready event points for GIS and Leaflet.",
       "href": "./infrastructure_watch_latest.geojson",
       "filename": "infrastructure_watch_latest.geojson",
-      "size_bytes": 53507,
+      "size_bytes": 39206,
       "media_type": "application/geo+json"
     }
   ]
