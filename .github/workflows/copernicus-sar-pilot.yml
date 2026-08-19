@@ -1,0 +1,124 @@
+name: Copernicus SAR account and catalogue pilot
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  # This pilot writes only its own small status file and never touches shared manifests.
+  group: voodoo-copernicus-sar-pilot-main
+  cancel-in-progress: false
+
+jobs:
+  account-and-catalogue-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CDSE_SH_CLIENT_ID: ${{ secrets.CDSE_SH_CLIENT_ID }}
+      CDSE_SH_CLIENT_SECRET: ${{ secrets.CDSE_SH_CLIENT_SECRET }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Require protected Copernicus OAuth secrets
+        run: |
+          set -euo pipefail
+          if [ -z "${CDSE_SH_CLIENT_ID:-}" ]; then
+            echo "::error::Repository secret CDSE_SH_CLIENT_ID is missing."
+            exit 1
+          fi
+          if [ -z "${CDSE_SH_CLIENT_SECRET:-}" ]; then
+            echo "::error::Repository secret CDSE_SH_CLIENT_SECRET is missing."
+            exit 1
+          fi
+          echo "Both required Copernicus secret names are configured. Values are not displayed."
+
+      - name: Run offline catalogue regression tests
+        run: |
+          set -euo pipefail
+          python -m unittest tests/test_copernicus_sar_catalog.py -v
+          python -m py_compile scripts/copernicus_sar_catalog.py tests/test_copernicus_sar_catalog.py
+
+      - name: Validate account and select exact Sentinel-1 scene
+        run: |
+          set -euo pipefail
+          python scripts/copernicus_sar_catalog.py
+
+      - name: Validate metadata-only status and secret safety
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          path = Path('data/sar_copernicus_scene_status_latest.json')
+          if not path.exists() or path.stat().st_size == 0:
+              raise SystemExit('missing Copernicus SAR pilot status')
+          if path.stat().st_size > 1024 * 1024:
+              raise SystemExit('Copernicus SAR pilot status unexpectedly exceeds 1 MiB')
+          text = path.read_text(encoding='utf-8')
+          payload = json.loads(text)
+          if payload.get('status') != 'ok':
+              raise SystemExit(f"Copernicus pilot is not healthy: {payload.get('errors')}")
+          if payload.get('phase') != 'account_and_catalog_test':
+              raise SystemExit('unexpected Copernicus pilot phase')
+          if payload.get('oauth', {}).get('oauth_client_credentials_valid') is not True:
+              raise SystemExit('Copernicus OAuth validation did not succeed')
+          if payload.get('selected_scene', {}).get('item_id') != 'S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG':
+              raise SystemExit('configured Sentinel-1 scene was not selected exactly')
+          if payload.get('raw_download_performed') is not False or payload.get('raster_download_performed') is not False:
+              raise SystemExit('Phase 1 unexpectedly downloaded SAR data')
+          if payload.get('public_layer_modified') is not False or payload.get('magic_paws_modified') is not False:
+              raise SystemExit('Phase 1 unexpectedly modified a downstream product')
+          for env_name in ('CDSE_SH_CLIENT_ID', 'CDSE_SH_CLIENT_SECRET'):
+              secret = os.environ.get(env_name, '')
+              if secret and secret in text:
+                  raise SystemExit(f'{env_name} leaked into the status output')
+          forbidden = list(Path('.').glob('**/*.SAFE')) + list(Path('.').glob('**/*.tif')) + list(Path('.').glob('**/*.tiff'))
+          if forbidden:
+              raise SystemExit(f'raw/intermediate SAR files appeared in repository workspace: {forbidden[:5]}')
+          print(json.dumps({
+              'status': payload['status'],
+              'pilot_id': payload['pilot_id'],
+              'scene_id': payload['selected_scene']['item_id'],
+              'oauth_valid': payload['oauth']['oauth_client_credentials_valid'],
+              'raw_download_performed': payload['raw_download_performed'],
+          }, indent=2))
+          PY
+
+      - name: Commit small Phase 1 status only
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/sar_copernicus_scene_status_latest.json
+          if git diff --cached --quiet; then
+            echo "No Copernicus Phase 1 status change to commit."
+            exit 0
+          fi
+          staged="$(git diff --cached --name-only)"
+          if [ "$staged" != "data/sar_copernicus_scene_status_latest.json" ]; then
+            echo "::error::Unexpected staged path(s): ${staged}"
+            exit 1
+          fi
+          git commit -m "Update Copernicus SAR catalogue pilot status"
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            git rebase --abort || true
+            [ "$attempt" -lt 3 ] && sleep 12
+          done
+          echo "::error::Failed to push the Copernicus SAR pilot status after 3 attempts."
+          exit 1
