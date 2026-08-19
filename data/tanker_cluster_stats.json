@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-08-19T03:00:46+00:00",
-  "total_contacts_seen": 965,
-  "total_unique_tankers_in_context_zones": 213,
+  "generated_at": "2026-08-19T03:12:00+00:00",
+  "total_contacts_seen": 969,
+  "total_unique_tankers_in_context_zones": 201,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 137,
-  "voi_tankers_in_context_zones": 76,
+  "neutral_tanker_context_total": 136,
+  "voi_tankers_in_context_zones": 65,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 64,
-      "neutral_tankers": 58,
+      "total_tankers": 62,
+      "neutral_tankers": 56,
       "voi_tankers": 6,
       "slow_or_waiting": 24,
       "for_order": 2,
@@ -35,21 +35,21 @@
           ]
         },
         {
-          "name": "PACIFIC",
-          "imo": "9308900",
-          "mmsi": "219018272",
-          "destination": "FOR ORDERS",
-          "sog": "8.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "MAYA THERESA",
           "imo": "9521411",
           "mmsi": "219032954",
           "destination": "SEGOT",
           "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "DAN CISNE",
+          "imo": "9513440",
+          "mmsi": "219332000",
+          "destination": "DKSKA>GBANA",
+          "sog": "9.7",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -65,103 +65,11 @@
           ]
         },
         {
-          "name": "TERNSUND",
-          "imo": "9722390",
-          "mmsi": "219775000",
-          "destination": "SE GOT",
-          "sog": "11.7",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TERNFJORD",
-          "imo": "9722405",
-          "mmsi": "219805000",
-          "destination": "NO SLG",
-          "sog": "9.2",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "ATLANTIC TWIN",
-          "imo": "9341328",
-          "mmsi": "236112059",
-          "destination": "SE GOT",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        }
-      ],
-      "zone_id": "danish_straits_kattegat",
-      "zone_label": "Danish Straits / Kattegat",
-      "level": "heightened_context"
-    },
-    {
-      "total_tankers": 42,
-      "neutral_tankers": 40,
-      "voi_tankers": 2,
-      "slow_or_waiting": 18,
-      "for_order": 1,
-      "examples": [
-        {
-          "name": "ECO CORSAIR",
-          "imo": "9710311",
-          "mmsi": "210155000",
-          "destination": "NORAF",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "PACIFIC",
-          "imo": "9308900",
-          "mmsi": "219018272",
-          "destination": "FOR ORDERS",
-          "sog": "8.1",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "MAYA THERESA",
-          "imo": "9521411",
-          "mmsi": "219032954",
-          "destination": "SEGOT",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "AMAK SWAN",
-          "imo": "9318230",
-          "mmsi": "219355000",
-          "destination": "SEGOT",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TERNSUND",
-          "imo": "9722390",
-          "mmsi": "219775000",
-          "destination": "SE GOT",
-          "sog": "11.7",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TERNFJORD",
-          "imo": "9722405",
-          "mmsi": "219805000",
-          "destination": "NO SLG",
-          "sog": "9.2",
+          "name": "SELVIK ICE",
+          "imo": "9190200",
+          "mmsi": "231910000",
+          "destination": "DKFRC",
+          "sog": "10.7",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -187,16 +95,108 @@
           ]
         }
       ],
+      "zone_id": "danish_straits_kattegat",
+      "zone_label": "Danish Straits / Kattegat",
+      "level": "heightened_context"
+    },
+    {
+      "total_tankers": 40,
+      "neutral_tankers": 38,
+      "voi_tankers": 2,
+      "slow_or_waiting": 18,
+      "for_order": 1,
+      "examples": [
+        {
+          "name": "ECO CORSAIR",
+          "imo": "9710311",
+          "mmsi": "210155000",
+          "destination": "NORAF",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "MAYA THERESA",
+          "imo": "9521411",
+          "mmsi": "219032954",
+          "destination": "SEGOT",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "DAN CISNE",
+          "imo": "9513440",
+          "mmsi": "219332000",
+          "destination": "DKSKA>GBANA",
+          "sog": "9.7",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "AMAK SWAN",
+          "imo": "9318230",
+          "mmsi": "219355000",
+          "destination": "SEGOT",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SELVIK ICE",
+          "imo": "9190200",
+          "mmsi": "231910000",
+          "destination": "DKFRC",
+          "sog": "10.7",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "ATLANTIC TWIN",
+          "imo": "9341328",
+          "mmsi": "236112059",
+          "destination": "SE GOT",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "NJORD DF",
+          "imo": "9953468",
+          "mmsi": "241866000",
+          "destination": "NOMON=>PLGDN",
+          "sog": "14.6",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "THUN GAZELLE",
+          "imo": "9393333",
+          "mmsi": "246541000",
+          "destination": "DKAAL",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        }
+      ],
       "zone_id": "skagen_waiting_area",
       "zone_label": "Skagen / northern Kattegat",
       "level": "heightened_context"
     },
     {
-      "total_tankers": 96,
-      "neutral_tankers": 26,
-      "voi_tankers": 70,
-      "slow_or_waiting": 63,
-      "for_order": 8,
+      "total_tankers": 86,
+      "neutral_tankers": 27,
+      "voi_tankers": 59,
+      "slow_or_waiting": 53,
+      "for_order": 9,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -243,7 +243,17 @@
           "imo": "9872987",
           "mmsi": "215685000",
           "destination": "FIINK",
-          "sog": "0.0",
+          "sog": "1.8",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "TERN LAND",
+          "imo": "9988994",
+          "mmsi": "219034373",
+          "destination": "FI SKV",
+          "sog": "9.3",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -253,7 +263,7 @@
           "imo": "9406582",
           "mmsi": "220624000",
           "destination": "FI PRV",
-          "sog": "8.9",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -263,17 +273,7 @@
           "imo": "9892432",
           "mmsi": "230687000",
           "destination": "FI SKV",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "MINERVA ALEXANDRA",
-          "imo": "9892999",
-          "mmsi": "241734000",
-          "destination": "FOR ORDERS",
-          "sog": "0.0",
+          "sog": "0.9",
           "categories": [
             "neutral_tanker_context"
           ]
