@@ -1,0 +1,58 @@
+{
+  "type": "FeatureCollection",
+  "name": "Kadetrinne Phase 3 pilot land mask",
+  "schema_version": "1.0.0",
+  "metadata": {
+    "pilot_id": "kadetrinne-s1c-20260816",
+    "source": "Natural Earth 1:10m land polygons",
+    "source_version": "5.1.1",
+    "source_url": "https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-land/",
+    "source_archive": "ne_10m_land.zip",
+    "source_archive_sha256": "e547d749445eaa0964aba76738090ec88f5e63c4585122170f98c67a7ea922dc",
+    "license": "Natural Earth public domain",
+    "derivation": "Intersection of the source land polygons with the fixed pilot WGS84 bounding box [11.95, 54.48, 12.25, 54.66].",
+    "coordinate_reference_system": "OGC CRS84 / WGS84 longitude-latitude",
+    "cartographic_generalization_warning": "This small-scale land polygon is a clutter-exclusion aid, not a navigational coastline. A conservative processing buffer is applied and visual review remains mandatory."
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "natural-earth-land-pilot-intersection-001",
+      "properties": {
+        "mask_class": "LAND",
+        "source": "Natural Earth 1:10m land v5.1.1"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.971446160000085,
+              54.60561758000006
+            ],
+            [
+              11.969004754000082,
+              54.56976959800005
+            ],
+            [
+              11.95,
+              54.568644826918856
+            ],
+            [
+              11.95,
+              54.66
+            ],
+            [
+              11.96067890870221,
+              54.66
+            ],
+            [
+              11.971446160000085,
+              54.60561758000006
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

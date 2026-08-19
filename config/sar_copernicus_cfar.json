@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "single_scene_cfar_parameter_comparison",
+  "pilot_config": "config/sar_copernicus_pilot.json",
+  "chip_config": "config/sar_copernicus_chip.json",
+  "algorithm": {
+    "name": "CA_CFAR",
+    "implementation_version": "0.1.0-prototype",
+    "primary_band": "VV",
+    "secondary_band": "VH",
+    "profiles": [
+      {
+        "id": "strict_wide",
+        "training_radius_px": 17,
+        "guard_radius_px": 4,
+        "probability_of_false_alarm": 1e-7
+      },
+      {
+        "id": "balanced",
+        "training_radius_px": 15,
+        "guard_radius_px": 3,
+        "probability_of_false_alarm": 1e-6
+      },
+      {
+        "id": "exploratory_local",
+        "training_radius_px": 11,
+        "guard_radius_px": 2,
+        "probability_of_false_alarm": 1e-5
+      }
+    ],
+    "vh_corroboration": {
+      "training_radius_px": 15,
+      "guard_radius_px": 3,
+      "probability_of_false_alarm": 1e-5
+    },
+    "minimum_training_fraction": 0.8,
+    "candidate_link_radius_px": 1,
+    "maximum_seed_pixels_per_profile": 25000,
+    "maximum_union_candidates": 1000
+  },
+  "spatial_context": {
+    "open_water_aoi_reviewed": true,
+    "land_mask_required": true,
+    "land_mask_file": "config/sar_copernicus_land_mask.geojson",
+    "land_mask_source": "Natural Earth 1:10m land v5.1.1",
+    "coastline_mask_integrated": true,
+    "land_buffer_radius_px": 100,
+    "exclude_largest_cfar_border": true,
+    "infrastructure_search_radius_nm": 10.0,
+    "infrastructure_review_radius_nm": 1.0
+  },
+  "quicklook": {
+    "maximum_panel_width_px": 720,
+    "vv_db_percentile_low": 1.0,
+    "vv_db_percentile_high": 99.9,
+    "maximum_png_bytes": 5242880
+  },
+  "outputs": {
+    "candidate_geojson": "data/sar_copernicus_cfar_candidates_latest.geojson",
+    "status_json": "data/sar_copernicus_cfar_status_latest.json",
+    "parameter_comparison_png": "data/sar_copernicus_cfar_parameter_comparison_latest.png"
+  },
+  "guardrails": {
+    "manual_workflow_only": true,
+    "confirmation_phrase": "RUN_CFAR_ONE_SCENE",
+    "catalogue_must_return_one_scene": true,
+    "temporary_raster_only": true,
+    "delete_raster_after_processing": true,
+    "persist_raster": false,
+    "upload_raster_artifact": false,
+    "parameters_are_experimental": true,
+    "visual_review_required": true,
+    "candidate_is_not_vessel_classification": true,
+    "infrastructure_context_must_not_delete_candidates": true,
+    "download_ais": false,
+    "overlay_current_ais": false,
+    "claim_dark_vessel": false,
+    "publish_public_layer": false,
+    "modify_gfw_products": false,
+    "modify_magic_paws": false
+  }
+}
