@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "single_scene_visual_confirmation_evidence",
+  "pilot_config": "config/sar_copernicus_pilot.json",
+  "chip_config": "config/sar_copernicus_chip.json",
+  "phase4_context_input": "data/sar_copernicus_ais_context_latest.geojson",
+  "phase5_queue_input": "data/sar_copernicus_review_queue_latest.json",
+  "phase5_objects_input": "data/sar_copernicus_review_objects_latest.geojson",
+  "accepted_input_receipt": {
+    "phase4_context_sha256": "10776ef457aae76d79a19eebfd888a0de9800150a29e994cafebb1a6685d617b",
+    "phase5_queue_sha256": "7c8eab89dea0b3389338d14608db0a520bbc4ff16b51df0b594524d21c3175f6",
+    "phase5_objects_sha256": "22e172a6082dfc459b6cc74a43d186d8bdd96327b224a856ae4b2d5142863288",
+    "source_candidate_count": 6,
+    "review_object_count": 4
+  },
+  "scene": {
+    "normalized_scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+    "acquisition_time_utc": "2026-08-16T05:24:02Z"
+  },
+  "rendering": {
+    "crop_size_px": 256,
+    "minimum_content_margin_px": 20,
+    "panel_order": [
+      "VV_CLEAN_NATIVE_1_TO_1",
+      "VH_CLEAN_NATIVE_1_TO_1",
+      "VV_HISTORICAL_AIS_OVERLAY_NATIVE_1_TO_1"
+    ],
+    "source_pixels_per_output_pixel": 1.0,
+    "resampling": "NONE",
+    "display_percentiles": {
+      "vv_db": [
+        1.0,
+        99.9
+      ],
+      "vh_db": [
+        1.0,
+        99.9
+      ]
+    },
+    "candidate_marker_rgb": [
+      255,
+      196,
+      32
+    ],
+    "secondary_candidate_marker_rgb": [
+      255,
+      112,
+      192
+    ],
+    "historical_ais_marker_rgb": [
+      48,
+      224,
+      255
+    ],
+    "course_arrow_length_m": 500.0,
+    "scale_bar_length_m": 100.0,
+    "maximum_png_bytes": 8388608
+  },
+  "outputs": {
+    "review_sheet_png": "data/sar_copernicus_visual_review_sheet_latest.png",
+    "review_manifest_json": "data/sar_copernicus_visual_review_manifest_latest.json",
+    "status_json": "data/sar_copernicus_visual_review_status_latest.json"
+  },
+  "guardrails": {
+    "manual_workflow_only": true,
+    "confirmation_phrase": "RENDER_SAR_VISUAL_REVIEW_ONE_SCENE",
+    "catalogue_must_return_one_scene": true,
+    "temporary_raster_only": true,
+    "delete_raster_after_rendering": true,
+    "persist_raster": false,
+    "upload_raster_artifact": false,
+    "clean_unmarked_panels_required": true,
+    "overlay_must_be_separate_panel": true,
+    "native_pixel_scale_required": true,
+    "historical_ais_only": true,
+    "current_ais_files_must_not_be_read": true,
+    "current_ais_overlaid": false,
+    "analyst_decision_recorded": false,
+    "visual_confirmation_completed_automatically": false,
+    "automatic_final_disposition": false,
+    "downstream_eligible": false,
+    "publish_public_layer": false,
+    "modify_phase4_outputs": false,
+    "modify_phase5_outputs": false,
+    "modify_existing_ais_products": false,
+    "modify_gfw_products": false,
+    "modify_magic_paws": false,
+    "change_hybrid_index": false,
+    "claim_dark_vessel": false,
+    "classify_sar_candidate_as_vessel": false
+  }
+}
