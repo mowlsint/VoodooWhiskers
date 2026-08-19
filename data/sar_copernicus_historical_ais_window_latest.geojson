@@ -1,0 +1,2495 @@
+{
+  "type": "FeatureCollection",
+  "name": "Voodoo Whiskers Phase 4 projected historical AIS window",
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-19T16:30:45Z",
+  "metadata": {
+    "phase": "single_scene_historical_ais_match",
+    "pilot_id": "kadetrinne-s1c-20260816",
+    "scene": {
+      "normalized_scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+      "acquisition_time_utc": "2026-08-16T05:24:02Z"
+    },
+    "historical": true,
+    "coverage_mode": "historical_delayed_reception_dependent",
+    "projection_time_utc": "2026-08-16T05:24:02Z",
+    "window_start_utc": "2026-08-16T04:54:02Z",
+    "window_end_utc": "2026-08-16T05:54:02Z",
+    "feature_count": 41,
+    "current_positions_included": false,
+    "public_layer": false,
+    "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "AISDK-205168000-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.1211563,
+          54.3994211
+        ]
+      },
+      "properties": {
+        "mmsi": "205168000",
+        "imo": "9969455",
+        "callsign": "ONLQ",
+        "name": "CL FLANDERS",
+        "target_type": "Class A",
+        "ship_type_label": "Cargo",
+        "length_m": 88.0,
+        "width_m": 13.0,
+        "destination": "GDYNIA",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 145,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "MEDIUM",
+        "nearest_observation_gap_seconds": 651,
+        "bracket_span_seconds": 1327,
+        "motion_distance_from_nearest_observation_m": 3435.49,
+        "effective_sog_knots": 10.26,
+        "effective_cog_degrees": 86.13,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:12:46+00:00",
+            "latitude": 54.39728,
+            "longitude": 12.066167,
+            "sog_knots": 10.4,
+            "cog_degrees": 87.8,
+            "true_heading_degrees": 89,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:34:53+00:00",
+            "latitude": 54.401483,
+            "longitude": 12.174112,
+            "sog_knots": 9.6,
+            "cog_degrees": 38.5,
+            "true_heading_degrees": 35,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-211118680-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.921437,
+          54.58042
+        ]
+      },
+      "properties": {
+        "mmsi": "211118680",
+        "imo": "",
+        "callsign": "DJII",
+        "name": "ROLLO",
+        "target_type": "Class B",
+        "ship_type_label": "Sailing",
+        "length_m": 20.0,
+        "width_m": 5.0,
+        "destination": "",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 19,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 40,
+        "bracket_span_seconds": 295,
+        "motion_distance_from_nearest_observation_m": 0.0,
+        "effective_sog_knots": 0.0,
+        "effective_cog_degrees": 0.0,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:22+00:00",
+            "latitude": 54.58042,
+            "longitude": 11.921437,
+            "sog_knots": 0.0,
+            "cog_degrees": null,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          },
+          {
+            "observed_at": "2026-08-16T05:28:17+00:00",
+            "latitude": 54.58042,
+            "longitude": 11.921437,
+            "sog_knots": 0.0,
+            "cog_degrees": null,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-211129560-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.921702,
+          54.5802658
+        ]
+      },
+      "properties": {
+        "mmsi": "211129560",
+        "imo": "",
+        "callsign": "DA9488",
+        "name": "ABIGAL",
+        "target_type": "Class B",
+        "ship_type_label": "Sailing",
+        "length_m": 13.0,
+        "width_m": 4.0,
+        "destination": "",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 60,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 26,
+        "bracket_span_seconds": 130,
+        "motion_distance_from_nearest_observation_m": 0.32,
+        "effective_sog_knots": 0.02,
+        "effective_cog_degrees": 168.31,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:22:18+00:00",
+            "latitude": 54.580277,
+            "longitude": 11.921698,
+            "sog_knots": 0.0,
+            "cog_degrees": null,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          },
+          {
+            "observed_at": "2026-08-16T05:24:28+00:00",
+            "latitude": 54.580263,
+            "longitude": 11.921703,
+            "sog_knots": 0.0,
+            "cog_degrees": null,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-211185410-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.0700617,
+          54.6142752
+        ]
+      },
+      "properties": {
+        "mmsi": "211185410",
+        "imo": "",
+        "callsign": "DLAK2",
+        "name": "CEST LA VIE",
+        "target_type": "Class B",
+        "ship_type_label": "Pleasure",
+        "length_m": null,
+        "width_m": 5.0,
+        "destination": "",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 58,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 65,
+        "bracket_span_seconds": 359,
+        "motion_distance_from_nearest_observation_m": 591.27,
+        "effective_sog_knots": 17.68,
+        "effective_cog_degrees": 41.33,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:19:08+00:00",
+            "latitude": 54.59622,
+            "longitude": 12.042628,
+            "sog_knots": 17.5,
+            "cog_degrees": 42.0,
+            "true_heading_degrees": 40,
+            "navigational_status": ""
+          },
+          {
+            "observed_at": "2026-08-16T05:25:07+00:00",
+            "latitude": 54.618267,
+            "longitude": 12.076127,
+            "sog_knots": 17.8,
+            "cog_degrees": 40.6,
+            "true_heading_degrees": 39,
+            "navigational_status": ""
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-211273510-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.0410627,
+          54.7272796
+        ]
+      },
+      "properties": {
+        "mmsi": "211273510",
+        "imo": "",
+        "callsign": "DF3614",
+        "name": "FOXI",
+        "target_type": "Class B",
+        "ship_type_label": "Sailing",
+        "length_m": 14.0,
+        "width_m": 4.0,
+        "destination": "",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 81,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "MEDIUM",
+        "nearest_observation_gap_seconds": 744,
+        "bracket_span_seconds": 2103,
+        "motion_distance_from_nearest_observation_m": 415.3,
+        "effective_sog_knots": 1.09,
+        "effective_cog_degrees": 63.08,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:01:23+00:00",
+            "latitude": 54.724192,
+            "longitude": 12.030528,
+            "sog_knots": 0.1,
+            "cog_degrees": null,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          },
+          {
+            "observed_at": "2026-08-16T05:36:26+00:00",
+            "latitude": 54.72897,
+            "longitude": 12.04683,
+            "sog_knots": 5.1,
+            "cog_degrees": 60.7,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-211282130-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.9865501,
+          54.5799328
+        ]
+      },
+      "properties": {
+        "mmsi": "211282130",
+        "imo": "",
+        "callsign": "DG6726",
+        "name": "IMMERMEER",
+        "target_type": "Class B",
+        "ship_type_label": "Sailing",
+        "length_m": 10.0,
+        "width_m": 3.0,
+        "destination": "",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 194,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 1,
+        "bracket_span_seconds": 29,
+        "motion_distance_from_nearest_observation_m": 3.1,
+        "effective_sog_knots": 6.03,
+        "effective_cog_degrees": 183.7,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:34+00:00",
+            "latitude": 54.580712,
+            "longitude": 11.986637,
+            "sog_knots": 5.7,
+            "cog_degrees": 183.1,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          },
+          {
+            "observed_at": "2026-08-16T05:24:03+00:00",
+            "latitude": 54.579905,
+            "longitude": 11.986547,
+            "sog_knots": 5.2,
+            "cog_degrees": 181.5,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-211302570-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.0474611,
+          54.4835183
+        ]
+      },
+      "properties": {
+        "mmsi": "211302570",
+        "imo": "",
+        "callsign": "DEQZ",
+        "name": "ALBATROS-C",
+        "target_type": "Class A",
+        "ship_type_label": "Sailing",
+        "length_m": 36.0,
+        "width_m": 7.0,
+        "destination": "WISMAR",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 561,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 2,
+        "bracket_span_seconds": 11,
+        "motion_distance_from_nearest_observation_m": 3.81,
+        "effective_sog_knots": 3.71,
+        "effective_cog_degrees": 223.86,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:24:00+00:00",
+            "latitude": 54.483543,
+            "longitude": 12.047502,
+            "sog_knots": 3.4,
+            "cog_degrees": 230.5,
+            "true_heading_degrees": null,
+            "navigational_status": "Under way sailing"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:11+00:00",
+            "latitude": 54.483407,
+            "longitude": 12.047277,
+            "sog_knots": 3.7,
+            "cog_degrees": 223.2,
+            "true_heading_degrees": null,
+            "navigational_status": "Under way sailing"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-211383650-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.9713,
+          54.6101545
+        ]
+      },
+      "properties": {
+        "mmsi": "211383650",
+        "imo": "",
+        "callsign": "DKKQ2",
+        "name": "ENGELINA",
+        "target_type": "Class A",
+        "ship_type_label": "Sailing",
+        "length_m": 34.0,
+        "width_m": 6.0,
+        "destination": "WINDDEPENDING",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 15,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 74,
+        "bracket_span_seconds": 540,
+        "motion_distance_from_nearest_observation_m": 0.5,
+        "effective_sog_knots": 0.01,
+        "effective_cog_degrees": 180.0,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:16:16+00:00",
+            "latitude": 54.610183,
+            "longitude": 11.9713,
+            "sog_knots": 0.1,
+            "cog_degrees": 324.1,
+            "true_heading_degrees": null,
+            "navigational_status": "At anchor"
+          },
+          {
+            "observed_at": "2026-08-16T05:25:16+00:00",
+            "latitude": 54.61015,
+            "longitude": 11.9713,
+            "sog_knots": 0.1,
+            "cog_degrees": 238.2,
+            "true_heading_degrees": null,
+            "navigational_status": "At anchor"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-211563500-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.921698,
+          54.57999
+        ]
+      },
+      "properties": {
+        "mmsi": "211563500",
+        "imo": "",
+        "callsign": "",
+        "name": "",
+        "target_type": "Class B",
+        "ship_type_label": "Undefined",
+        "length_m": null,
+        "width_m": null,
+        "destination": "",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 14,
+        "retained_observation_count": 4,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "NEAREST_OBSERVATION_NO_MOTION_MODEL",
+        "projection_quality": "LOW",
+        "nearest_observation_gap_seconds": 185,
+        "bracket_span_seconds": null,
+        "motion_distance_from_nearest_observation_m": 0.0,
+        "effective_sog_knots": 0.0,
+        "effective_cog_degrees": null,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:27:07+00:00",
+            "latitude": 54.57999,
+            "longitude": 11.921698,
+            "sog_knots": 0.0,
+            "cog_degrees": null,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED",
+          "SOG_OR_COG_UNAVAILABLE_FOR_PROJECTION"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-211720780-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.00103,
+          54.580312
+        ]
+      },
+      "properties": {
+        "mmsi": "211720780",
+        "imo": "",
+        "callsign": "DH9089",
+        "name": "YMER",
+        "target_type": "Class B",
+        "ship_type_label": "Sailing",
+        "length_m": 10.0,
+        "width_m": 3.0,
+        "destination": "",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 175,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 8,
+        "bracket_span_seconds": 20,
+        "motion_distance_from_nearest_observation_m": 0.0,
+        "effective_sog_knots": 0.0,
+        "effective_cog_degrees": 0.0,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:50+00:00",
+            "latitude": 54.580312,
+            "longitude": 12.00103,
+            "sog_knots": 5.4,
+            "cog_degrees": 33.2,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          },
+          {
+            "observed_at": "2026-08-16T05:24:10+00:00",
+            "latitude": 54.580312,
+            "longitude": 12.00103,
+            "sog_knots": 5.4,
+            "cog_degrees": 33.2,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-211727510-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.9559113,
+          54.4822503
+        ]
+      },
+      "properties": {
+        "mmsi": "211727510",
+        "imo": "9587855",
+        "callsign": "DKDF2",
+        "name": "BERLIN",
+        "target_type": "Class A",
+        "ship_type_label": "Passenger",
+        "length_m": 170.0,
+        "width_m": 27.0,
+        "destination": "GED - ROS - GED",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 871,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 2,
+        "bracket_span_seconds": 6,
+        "motion_distance_from_nearest_observation_m": 15.26,
+        "effective_sog_knots": 14.83,
+        "effective_cog_degrees": 346.37,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:24:00+00:00",
+            "latitude": 54.482117,
+            "longitude": 11.955967,
+            "sog_knots": 14.8,
+            "cog_degrees": 346.0,
+            "true_heading_degrees": 345,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:06+00:00",
+            "latitude": 54.482517,
+            "longitude": 11.9558,
+            "sog_knots": 14.7,
+            "cog_degrees": 345.9,
+            "true_heading_degrees": 345,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [
+          "SARCAND-20260816T052402Z-0003"
+        ],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-211869710-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.4574476,
+          54.5816238
+        ]
+      },
+      "properties": {
+        "mmsi": "211869710",
+        "imo": "9934797",
+        "callsign": "DBIF",
+        "name": "NEUSTADT",
+        "target_type": "Class A",
+        "ship_type_label": "Law enforcement",
+        "length_m": 87.0,
+        "width_m": 12.0,
+        "destination": "ON PATROL",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 75,
+        "retained_observation_count": 4,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "SOG_COG_EXTRAPOLATION_SINGLE_SIDED",
+        "projection_quality": "LOW",
+        "nearest_observation_gap_seconds": 980,
+        "bracket_span_seconds": null,
+        "motion_distance_from_nearest_observation_m": 3781.17,
+        "effective_sog_knots": 7.5,
+        "effective_cog_degrees": 238.7,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:40:22+00:00",
+            "latitude": 54.563968,
+            "longitude": 12.407312,
+            "sog_knots": 7.5,
+            "cog_degrees": 238.7,
+            "true_heading_degrees": 240,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED",
+          "SINGLE_SIDED_CONSTANT_SPEED_COURSE_ASSUMPTION"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-212536000-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.150428,
+          54.463728
+        ]
+      },
+      "properties": {
+        "mmsi": "212536000",
+        "imo": "9436238",
+        "callsign": "5BMA2",
+        "name": "HALLAND",
+        "target_type": "Class A",
+        "ship_type_label": "Cargo",
+        "length_m": 119.0,
+        "width_m": 16.0,
+        "destination": "LUBECK",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 295,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "EXACT_ARCHIVE_OBSERVATION",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 0,
+        "bracket_span_seconds": null,
+        "motion_distance_from_nearest_observation_m": 0.0,
+        "effective_sog_knots": 9.0,
+        "effective_cog_degrees": 243.9,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:24:02+00:00",
+            "latitude": 54.463728,
+            "longitude": 12.150428,
+            "sog_knots": 9.0,
+            "cog_degrees": 243.9,
+            "true_heading_degrees": 245,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-218007630-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.9385424,
+          54.5250864
+        ]
+      },
+      "properties": {
+        "mmsi": "218007630",
+        "imo": "",
+        "callsign": "DH5157",
+        "name": "JULE",
+        "target_type": "Class B",
+        "ship_type_label": "Sailing",
+        "length_m": 12.0,
+        "width_m": 4.0,
+        "destination": "",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 93,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 23,
+        "bracket_span_seconds": 73,
+        "motion_distance_from_nearest_observation_m": 94.91,
+        "effective_sog_knots": 8.02,
+        "effective_cog_degrees": 171.18,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:12+00:00",
+            "latitude": 54.52692,
+            "longitude": 11.938052,
+            "sog_knots": 4.3,
+            "cog_degrees": 160.4,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          },
+          {
+            "observed_at": "2026-08-16T05:24:25+00:00",
+            "latitude": 54.524243,
+            "longitude": 11.938768,
+            "sog_knots": 5.3,
+            "cog_degrees": 167.5,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-219002666-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.9289657,
+          54.572213
+        ]
+      },
+      "properties": {
+        "mmsi": "219002666",
+        "imo": "",
+        "callsign": "XPI5752",
+        "name": "PILOT DISCO",
+        "target_type": "Class A",
+        "ship_type_label": "Pilot",
+        "length_m": 14.0,
+        "width_m": 5.0,
+        "destination": "",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 843,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 3,
+        "bracket_span_seconds": 9,
+        "motion_distance_from_nearest_observation_m": 0.04,
+        "effective_sog_knots": 0.03,
+        "effective_cog_degrees": 270.0,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:56+00:00",
+            "latitude": 54.572213,
+            "longitude": 11.928967,
+            "sog_knots": 0.0,
+            "cog_degrees": null,
+            "true_heading_degrees": 209,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:05+00:00",
+            "latitude": 54.572213,
+            "longitude": 11.928965,
+            "sog_knots": 0.0,
+            "cog_degrees": null,
+            "true_heading_degrees": 210,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-219002764-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.9300282,
+          54.5721115
+        ]
+      },
+      "properties": {
+        "mmsi": "219002764",
+        "imo": "8917443",
+        "callsign": "OUMS",
+        "name": "L.W.DAM",
+        "target_type": "Class A",
+        "ship_type_label": "SAR",
+        "length_m": 23.0,
+        "width_m": 6.0,
+        "destination": "GEDSER",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 10,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 198,
+        "bracket_span_seconds": 541,
+        "motion_distance_from_nearest_observation_m": 1.2,
+        "effective_sog_knots": 0.01,
+        "effective_cog_degrees": 151.85,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:18:19+00:00",
+            "latitude": 54.572128,
+            "longitude": 11.930013,
+            "sog_knots": 0.0,
+            "cog_degrees": 34.3,
+            "true_heading_degrees": 36,
+            "navigational_status": "Moored"
+          },
+          {
+            "observed_at": "2026-08-16T05:27:20+00:00",
+            "latitude": 54.572102,
+            "longitude": 11.930037,
+            "sog_knots": 0.0,
+            "cog_degrees": 34.3,
+            "true_heading_degrees": 37,
+            "navigational_status": "Moored"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-219009338-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.928402,
+          54.5724055
+        ]
+      },
+      "properties": {
+        "mmsi": "219009338",
+        "imo": "",
+        "callsign": "OVTM2",
+        "name": "WIND SUPPORTER",
+        "target_type": "Class A",
+        "ship_type_label": "Passenger",
+        "length_m": 24.0,
+        "width_m": 6.0,
+        "destination": "GEDSER-ASSENS",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 639,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 3,
+        "bracket_span_seconds": 11,
+        "motion_distance_from_nearest_observation_m": 1.06,
+        "effective_sog_knots": 0.69,
+        "effective_cog_degrees": 180.0,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:59+00:00",
+            "latitude": 54.572415,
+            "longitude": 11.928402,
+            "sog_knots": 0.3,
+            "cog_degrees": 28.6,
+            "true_heading_degrees": 13,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:10+00:00",
+            "latitude": 54.57238,
+            "longitude": 11.928402,
+            "sog_knots": 0.6,
+            "cog_degrees": 131.5,
+            "true_heading_degrees": 18,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-219012639-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.8468975,
+          54.5437589
+        ]
+      },
+      "properties": {
+        "mmsi": "219012639",
+        "imo": "",
+        "callsign": "OWCT2",
+        "name": "CATHRIN",
+        "target_type": "Class A",
+        "ship_type_label": "Passenger",
+        "length_m": 19.0,
+        "width_m": 6.0,
+        "destination": "NYSTED",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 317,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 216,
+        "bracket_span_seconds": 1170,
+        "motion_distance_from_nearest_observation_m": 1153.94,
+        "effective_sog_knots": 10.38,
+        "effective_cog_degrees": 288.24,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:20:26+00:00",
+            "latitude": 54.540518,
+            "longitude": 11.863895,
+            "sog_knots": 10.4,
+            "cog_degrees": 265.5,
+            "true_heading_degrees": null,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:39:56+00:00",
+            "latitude": 54.558073,
+            "longitude": 11.771825,
+            "sog_knots": 10.6,
+            "cog_degrees": 296.5,
+            "true_heading_degrees": null,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-219012818-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.921178,
+          54.5800033
+        ]
+      },
+      "properties": {
+        "mmsi": "219012818",
+        "imo": "",
+        "callsign": "XPD9440",
+        "name": "FILUKA",
+        "target_type": "Class B",
+        "ship_type_label": "Sailing",
+        "length_m": null,
+        "width_m": null,
+        "destination": "",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 45,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 46,
+        "bracket_span_seconds": 292,
+        "motion_distance_from_nearest_observation_m": 0.14,
+        "effective_sog_knots": 0.01,
+        "effective_cog_degrees": 0.0,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:16+00:00",
+            "latitude": 54.580002,
+            "longitude": 11.921178,
+            "sog_knots": 0.0,
+            "cog_degrees": 16.7,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          },
+          {
+            "observed_at": "2026-08-16T05:28:08+00:00",
+            "latitude": 54.58001,
+            "longitude": 11.921178,
+            "sog_knots": 0.1,
+            "cog_degrees": 16.7,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-219013179-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.3592443,
+          54.5302726
+        ]
+      },
+      "properties": {
+        "mmsi": "219013179",
+        "imo": "8228830",
+        "callsign": "0WFL2",
+        "name": "MHO 3",
+        "target_type": "Class A",
+        "ship_type_label": "Reserved",
+        "length_m": 26.0,
+        "width_m": 6.0,
+        "destination": "GUARDING CABLE OPS.",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 176,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "MEDIUM",
+        "nearest_observation_gap_seconds": 762,
+        "bracket_span_seconds": 1620,
+        "motion_distance_from_nearest_observation_m": 140.41,
+        "effective_sog_knots": 0.36,
+        "effective_cog_degrees": 97.86,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:09:44+00:00",
+            "latitude": 54.530467,
+            "longitude": 12.356817,
+            "sog_knots": 1.9,
+            "cog_degrees": 323.2,
+            "true_heading_degrees": 299,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:36:44+00:00",
+            "latitude": 54.5301,
+            "longitude": 12.3614,
+            "sog_knots": 3.5,
+            "cog_degrees": 90.4,
+            "true_heading_degrees": 130,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-219022256-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.1298723,
+          54.560182
+        ]
+      },
+      "properties": {
+        "mmsi": "219022256",
+        "imo": "9812030",
+        "callsign": "OXEB2",
+        "name": "DANPILOT ALFA",
+        "target_type": "Class A",
+        "ship_type_label": "Pilot",
+        "length_m": 20.0,
+        "width_m": 6.0,
+        "destination": "GEDSER",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 830,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 2,
+        "bracket_span_seconds": 6,
+        "motion_distance_from_nearest_observation_m": 20.6,
+        "effective_sog_knots": 20.02,
+        "effective_cog_degrees": 260.68,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:58+00:00",
+            "latitude": 54.560242,
+            "longitude": 12.130503,
+            "sog_knots": 20.2,
+            "cog_degrees": 258.8,
+            "true_heading_degrees": 263,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:04+00:00",
+            "latitude": 54.560152,
+            "longitude": 12.129557,
+            "sog_knots": 20.1,
+            "cog_degrees": 259.8,
+            "true_heading_degrees": 261,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [
+          "SARCAND-20260816T052402Z-0005"
+        ],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-219029703-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.9305414,
+          54.5723715
+        ]
+      },
+      "properties": {
+        "mmsi": "219029703",
+        "imo": "",
+        "callsign": "XPH8155",
+        "name": "SAR BIL GEDSER",
+        "target_type": "Class A",
+        "ship_type_label": "SAR",
+        "length_m": 6.0,
+        "width_m": 2.0,
+        "destination": "",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 197,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 3,
+        "bracket_span_seconds": 20,
+        "motion_distance_from_nearest_observation_m": 0.17,
+        "effective_sog_knots": 0.11,
+        "effective_cog_degrees": 166.95,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:45+00:00",
+            "latitude": 54.57238,
+            "longitude": 11.930538,
+            "sog_knots": 0.0,
+            "cog_degrees": 318.7,
+            "true_heading_degrees": 39,
+            "navigational_status": ""
+          },
+          {
+            "observed_at": "2026-08-16T05:24:05+00:00",
+            "latitude": 54.57237,
+            "longitude": 11.930542,
+            "sog_knots": 0.0,
+            "cog_degrees": 258.7,
+            "true_heading_degrees": 40,
+            "navigational_status": ""
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-219030656-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.9697865,
+          54.5513101
+        ]
+      },
+      "properties": {
+        "mmsi": "219030656",
+        "imo": "",
+        "callsign": "OU2009",
+        "name": "PILOT III",
+        "target_type": "Class A",
+        "ship_type_label": "Pilot",
+        "length_m": 15.0,
+        "width_m": 4.0,
+        "destination": "DKHNB > PILOT AREA",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 606,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 1,
+        "bracket_span_seconds": 19,
+        "motion_distance_from_nearest_observation_m": 7.61,
+        "effective_sog_knots": 14.78,
+        "effective_cog_degrees": 125.9,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:44+00:00",
+            "latitude": 54.552032,
+            "longitude": 11.968067,
+            "sog_knots": 16.0,
+            "cog_degrees": 130.0,
+            "true_heading_degrees": 127,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:03+00:00",
+            "latitude": 54.55127,
+            "longitude": 11.969882,
+            "sog_knots": 15.8,
+            "cog_degrees": 119.2,
+            "true_heading_degrees": 121,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-219033013-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.9287215,
+          54.5718327
+        ]
+      },
+      "properties": {
+        "mmsi": "219033013",
+        "imo": "",
+        "callsign": "XP14188",
+        "name": "DANPILOT PLUTO",
+        "target_type": "Class A",
+        "ship_type_label": "Pilot",
+        "length_m": 15.0,
+        "width_m": 4.0,
+        "destination": "SVENBORG",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 245,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 1,
+        "bracket_span_seconds": 11,
+        "motion_distance_from_nearest_observation_m": 0.04,
+        "effective_sog_knots": 0.08,
+        "effective_cog_degrees": 44.01,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:52+00:00",
+            "latitude": 54.57183,
+            "longitude": 11.928717,
+            "sog_knots": 0.0,
+            "cog_degrees": 27.0,
+            "true_heading_degrees": 144,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:03+00:00",
+            "latitude": 54.571833,
+            "longitude": 11.928722,
+            "sog_knots": 0.0,
+            "cog_degrees": 282.7,
+            "true_heading_degrees": 142,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-219034045-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.9229854,
+          54.5803823
+        ]
+      },
+      "properties": {
+        "mmsi": "219034045",
+        "imo": "",
+        "callsign": "XP15160",
+        "name": "NOW OR NEVER",
+        "target_type": "Class B",
+        "ship_type_label": "Pleasure",
+        "length_m": 11.0,
+        "width_m": 4.0,
+        "destination": "",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 29,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 24,
+        "bracket_span_seconds": 181,
+        "motion_distance_from_nearest_observation_m": 0.25,
+        "effective_sog_knots": 0.02,
+        "effective_cog_degrees": 5.84,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:38+00:00",
+            "latitude": 54.58038,
+            "longitude": 11.922985,
+            "sog_knots": 0.0,
+            "cog_degrees": null,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          },
+          {
+            "observed_at": "2026-08-16T05:26:39+00:00",
+            "latitude": 54.580397,
+            "longitude": 11.922988,
+            "sog_knots": 0.2,
+            "cog_degrees": null,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-219423000-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.9584289,
+          54.4446126
+        ]
+      },
+      "properties": {
+        "mmsi": "219423000",
+        "imo": "9587867",
+        "callsign": "OXML2",
+        "name": "COPENHAGEN",
+        "target_type": "Class A",
+        "ship_type_label": "Passenger",
+        "length_m": 170.0,
+        "width_m": 27.0,
+        "destination": "DKGED-DERSK-DKGED",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 818,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 14,
+        "bracket_span_seconds": 54,
+        "motion_distance_from_nearest_observation_m": 118.18,
+        "effective_sog_knots": 16.41,
+        "effective_cog_degrees": 172.8,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:48+00:00",
+            "latitude": 54.445667,
+            "longitude": 11.9582,
+            "sog_knots": 16.3,
+            "cog_degrees": 172.5,
+            "true_heading_degrees": 173,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:42+00:00",
+            "latitude": 54.4416,
+            "longitude": 11.959083,
+            "sog_knots": 16.3,
+            "cog_degrees": 172.5,
+            "true_heading_degrees": 173,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-228461700-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.2981651,
+          54.3743824
+        ]
+      },
+      "properties": {
+        "mmsi": "228461700",
+        "imo": "",
+        "callsign": "FMYZ",
+        "name": "ALKA BULLSEYE",
+        "target_type": "Class A",
+        "ship_type_label": "HSC",
+        "length_m": 19.0,
+        "width_m": 8.0,
+        "destination": "WARNEMUNDE",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 379,
+        "retained_observation_count": 7,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "MEDIUM",
+        "nearest_observation_gap_seconds": 356,
+        "bracket_span_seconds": 2117,
+        "motion_distance_from_nearest_observation_m": 3891.73,
+        "effective_sog_knots": 21.25,
+        "effective_cog_degrees": 216.29,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:18:06+00:00",
+            "latitude": 54.402625,
+            "longitude": 12.333605,
+            "sog_knots": 21.1,
+            "cog_degrees": 219.3,
+            "true_heading_degrees": 216,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:53:23+00:00",
+            "latitude": 54.234677,
+            "longitude": 12.122857,
+            "sog_knots": 21.4,
+            "cog_degrees": 214.3,
+            "true_heading_degrees": 219,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-241806000-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.3467135,
+          54.445822
+        ]
+      },
+      "properties": {
+        "mmsi": "241806000",
+        "imo": "8661616",
+        "callsign": "SVDM5",
+        "name": "ATALANTI",
+        "target_type": "Class A",
+        "ship_type_label": "Other",
+        "length_m": 97.0,
+        "width_m": 31.0,
+        "destination": "DERSK",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 164,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "LOW",
+        "nearest_observation_gap_seconds": 910,
+        "bracket_span_seconds": 1830,
+        "motion_distance_from_nearest_observation_m": 61.42,
+        "effective_sog_knots": 0.13,
+        "effective_cog_degrees": 5.35,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:08:52+00:00",
+            "latitude": 54.445272,
+            "longitude": 12.346625,
+            "sog_knots": 0.1,
+            "cog_degrees": 16.2,
+            "true_heading_degrees": 5,
+            "navigational_status": "Restricted maneuverability"
+          },
+          {
+            "observed_at": "2026-08-16T05:39:22+00:00",
+            "latitude": 54.446378,
+            "longitude": 12.346803,
+            "sog_knots": 0.2,
+            "cog_degrees": 347.5,
+            "true_heading_degrees": 5,
+            "navigational_status": "Restricted maneuverability"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-244042587-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.7973051,
+          54.514183
+        ]
+      },
+      "properties": {
+        "mmsi": "244042587",
+        "imo": "",
+        "callsign": "PF4551",
+        "name": "FREEJA",
+        "target_type": "Class B",
+        "ship_type_label": "Sailing",
+        "length_m": 8.0,
+        "width_m": 2.0,
+        "destination": "",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 8,
+        "retained_observation_count": 4,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "SOG_COG_EXTRAPOLATION_SINGLE_SIDED",
+        "projection_quality": "LOW",
+        "nearest_observation_gap_seconds": 952,
+        "bracket_span_seconds": null,
+        "motion_distance_from_nearest_observation_m": 2056.95,
+        "effective_sog_knots": 4.2,
+        "effective_cog_degrees": 241.2,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:08:10+00:00",
+            "latitude": 54.523098,
+            "longitude": 11.82523,
+            "sog_knots": 4.2,
+            "cog_degrees": 241.2,
+            "true_heading_degrees": 241,
+            "navigational_status": ""
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED",
+          "SINGLE_SIDED_CONSTANT_SPEED_COURSE_ASSUMPTION"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-244770393-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.7573253,
+          54.4096848
+        ]
+      },
+      "properties": {
+        "mmsi": "244770393",
+        "imo": "9721669",
+        "callsign": "PBXE",
+        "name": "FWN SUN",
+        "target_type": "Class A",
+        "ship_type_label": "Cargo",
+        "length_m": 123.0,
+        "width_m": 17.0,
+        "destination": "LTKLJ",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 236,
+        "retained_observation_count": 4,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "SOG_COG_EXTRAPOLATION_SINGLE_SIDED",
+        "projection_quality": "MEDIUM",
+        "nearest_observation_gap_seconds": 570,
+        "bracket_span_seconds": null,
+        "motion_distance_from_nearest_observation_m": 3606.77,
+        "effective_sog_knots": 12.3,
+        "effective_cog_degrees": 93.0,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:33:32+00:00",
+            "latitude": 54.408,
+            "longitude": 11.812983,
+            "sog_knots": 12.3,
+            "cog_degrees": 93.0,
+            "true_heading_degrees": 92,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED",
+          "SINGLE_SIDED_CONSTANT_SPEED_COURSE_ASSUMPTION"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-246061000-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.2984238,
+          54.520786
+        ]
+      },
+      "properties": {
+        "mmsi": "246061000",
+        "imo": "9369655",
+        "callsign": "PCGU",
+        "name": "SAGASBANK",
+        "target_type": "Class A",
+        "ship_type_label": "Cargo",
+        "length_m": 90.0,
+        "width_m": 14.0,
+        "destination": "STETTIN",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 710,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 2,
+        "bracket_span_seconds": 5,
+        "motion_distance_from_nearest_observation_m": 7.66,
+        "effective_sog_knots": 7.44,
+        "effective_cog_degrees": 69.6,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:59+00:00",
+            "latitude": 54.52075,
+            "longitude": 12.298257,
+            "sog_knots": 9.1,
+            "cog_degrees": 68.3,
+            "true_heading_degrees": 69,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:04+00:00",
+            "latitude": 54.52081,
+            "longitude": 12.298535,
+            "sog_knots": 9.1,
+            "cog_degrees": 68.3,
+            "true_heading_degrees": 69,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-255806196-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.2518063,
+          54.4714111
+        ]
+      },
+      "properties": {
+        "mmsi": "255806196",
+        "imo": "9172155",
+        "callsign": "CQAK2",
+        "name": "HELGA ESSBERGER",
+        "target_type": "Class A",
+        "ship_type_label": "Tanker",
+        "length_m": 127.0,
+        "width_m": 20.0,
+        "destination": "SE OER",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 315,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 6,
+        "bracket_span_seconds": 31,
+        "motion_distance_from_nearest_observation_m": 36.25,
+        "effective_sog_knots": 11.74,
+        "effective_cog_degrees": 19.07,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:56+00:00",
+            "latitude": 54.471103,
+            "longitude": 12.251623,
+            "sog_knots": 11.3,
+            "cog_degrees": 20.0,
+            "true_heading_degrees": 15,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:27+00:00",
+            "latitude": 54.472695,
+            "longitude": 12.25257,
+            "sog_knots": 11.2,
+            "cog_degrees": 19.7,
+            "true_heading_degrees": 15,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-255924000-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.091622,
+          54.447913
+        ]
+      },
+      "properties": {
+        "mmsi": "255924000",
+        "imo": "9184421",
+        "callsign": "CQWD",
+        "name": "ELENORA",
+        "target_type": "Class A",
+        "ship_type_label": "Cargo",
+        "length_m": 85.0,
+        "width_m": 13.0,
+        "destination": "GBKLN VIA NOK",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 420,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "EXACT_ARCHIVE_OBSERVATION",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 0,
+        "bracket_span_seconds": null,
+        "motion_distance_from_nearest_observation_m": 0.0,
+        "effective_sog_knots": 9.1,
+        "effective_cog_degrees": 268.8,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:24:02+00:00",
+            "latitude": 54.447913,
+            "longitude": 12.091622,
+            "sog_knots": 9.1,
+            "cog_degrees": 268.8,
+            "true_heading_degrees": 269,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-256571000-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.4475455,
+          54.67674
+        ]
+      },
+      "properties": {
+        "mmsi": "256571000",
+        "imo": "9958377",
+        "callsign": "9HA5886",
+        "name": "FLORENCIA",
+        "target_type": "Class A",
+        "ship_type_label": "Cargo",
+        "length_m": 183.0,
+        "width_m": 31.0,
+        "destination": "DK SKA",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 146,
+        "retained_observation_count": 4,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "SOG_COG_EXTRAPOLATION_SINGLE_SIDED",
+        "projection_quality": "MEDIUM",
+        "nearest_observation_gap_seconds": 877,
+        "bracket_span_seconds": null,
+        "motion_distance_from_nearest_observation_m": 3925.16,
+        "effective_sog_knots": 8.7,
+        "effective_cog_degrees": 225.0,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:38:39+00:00",
+            "latitude": 54.651787,
+            "longitude": 12.404375,
+            "sog_knots": 8.7,
+            "cog_degrees": 225.0,
+            "true_heading_degrees": 225,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED",
+          "SINGLE_SIDED_CONSTANT_SPEED_COURSE_ASSUMPTION"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-258714000-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.1818099,
+          54.4221963
+        ]
+      },
+      "properties": {
+        "mmsi": "258714000",
+        "imo": "9375977",
+        "callsign": "LAIR6",
+        "name": "NORDIC SUND",
+        "target_type": "Class A",
+        "ship_type_label": "Tanker",
+        "length_m": 89.0,
+        "width_m": 13.0,
+        "destination": "BE ANR - PL GDN",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 393,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 224,
+        "bracket_span_seconds": 720,
+        "motion_distance_from_nearest_observation_m": 1207.76,
+        "effective_sog_knots": 10.48,
+        "effective_cog_degrees": 52.91,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:15:46+00:00",
+            "latitude": 54.4077,
+            "longitude": 12.148828,
+            "sog_knots": 11.4,
+            "cog_degrees": 90.2,
+            "true_heading_degrees": 91,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:27:46+00:00",
+            "latitude": 54.428743,
+            "longitude": 12.196705,
+            "sog_knots": 11.2,
+            "cog_degrees": 38.7,
+            "true_heading_degrees": 37,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-261009362-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.920498,
+          54.580195
+        ]
+      },
+      "properties": {
+        "mmsi": "261009362",
+        "imo": "",
+        "callsign": "",
+        "name": "GRYPHON",
+        "target_type": "Class B",
+        "ship_type_label": "Undefined",
+        "length_m": null,
+        "width_m": null,
+        "destination": "",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 5,
+        "retained_observation_count": 4,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "NEAREST_OBSERVATION_NO_MOTION_MODEL",
+        "projection_quality": "LOW",
+        "nearest_observation_gap_seconds": 419,
+        "bracket_span_seconds": null,
+        "motion_distance_from_nearest_observation_m": 0.0,
+        "effective_sog_knots": 0.0,
+        "effective_cog_degrees": null,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:31:01+00:00",
+            "latitude": 54.580195,
+            "longitude": 11.920498,
+            "sog_knots": 0.0,
+            "cog_degrees": null,
+            "true_heading_degrees": null,
+            "navigational_status": ""
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED",
+          "SOG_OR_COG_UNAVAILABLE_FOR_PROJECTION"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-314115000-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.2470215,
+          54.5483214
+        ]
+      },
+      "properties": {
+        "mmsi": "314115000",
+        "imo": "9276597",
+        "callsign": "8PPC",
+        "name": "LUNA PELAGOS",
+        "target_type": "Class A",
+        "ship_type_label": "Tanker",
+        "length_m": 243.0,
+        "width_m": 42.0,
+        "destination": "SINGAPORE",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 544,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 3,
+        "bracket_span_seconds": 11,
+        "motion_distance_from_nearest_observation_m": 17.32,
+        "effective_sog_knots": 11.23,
+        "effective_cog_degrees": 200.82,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:59+00:00",
+            "latitude": 54.548467,
+            "longitude": 12.247117,
+            "sog_knots": 9.4,
+            "cog_degrees": 199.0,
+            "true_heading_degrees": 201,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:10+00:00",
+            "latitude": 54.547933,
+            "longitude": 12.246767,
+            "sog_knots": 9.6,
+            "cog_degrees": 200.0,
+            "true_heading_degrees": 201,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [
+          "SARCAND-20260816T052402Z-0001",
+          "SARCAND-20260816T052402Z-0004"
+        ],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-352002127-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.3039828,
+          54.4443863
+        ]
+      },
+      "properties": {
+        "mmsi": "352002127",
+        "imo": "8594382",
+        "callsign": "HOA5475",
+        "name": "SEA GUARDIAN",
+        "target_type": "Class A",
+        "ship_type_label": "SAR",
+        "length_m": 24.0,
+        "width_m": 6.0,
+        "destination": "GURD_AREA_KP1=13",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 274,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 28,
+        "bracket_span_seconds": 60,
+        "motion_distance_from_nearest_observation_m": 40.7,
+        "effective_sog_knots": 2.83,
+        "effective_cog_degrees": 297.99,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:30+00:00",
+            "latitude": 54.44419,
+            "longitude": 12.304618,
+            "sog_knots": 2.9,
+            "cog_degrees": 296.4,
+            "true_heading_degrees": 298,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:30+00:00",
+            "latitude": 54.444558,
+            "longitude": 12.303427,
+            "sog_knots": 3.0,
+            "cog_degrees": 297.4,
+            "true_heading_degrees": 298,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-352005354-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.2276844,
+          54.5200869
+        ]
+      },
+      "properties": {
+        "mmsi": "352005354",
+        "imo": "9389071",
+        "callsign": "3E8640",
+        "name": "TANGO 2",
+        "target_type": "Class A",
+        "ship_type_label": "Tanker",
+        "length_m": 244.0,
+        "width_m": 42.0,
+        "destination": "FOR ORDER",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 463,
+        "retained_observation_count": 8,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 4,
+        "bracket_span_seconds": 11,
+        "motion_distance_from_nearest_observation_m": 20.84,
+        "effective_sog_knots": 10.13,
+        "effective_cog_degrees": 197.36,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:55+00:00",
+            "latitude": 54.5204,
+            "longitude": 12.227853,
+            "sog_knots": 10.0,
+            "cog_degrees": 198.1,
+            "true_heading_degrees": 199,
+            "navigational_status": "Constrained by her draught"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:06+00:00",
+            "latitude": 54.519908,
+            "longitude": 12.227588,
+            "sog_knots": 10.0,
+            "cog_degrees": 197.4,
+            "true_heading_degrees": 199,
+            "navigational_status": "Constrained by her draught"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [
+          "SARCAND-20260816T052402Z-0002",
+          "SARCAND-20260816T052402Z-0006"
+        ],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-631010131-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.6877961,
+          54.4454043
+        ]
+      },
+      "properties": {
+        "mmsi": "631010131",
+        "imo": "9288693",
+        "callsign": "3CAN59",
+        "name": "MIRADOR",
+        "target_type": "Class A",
+        "ship_type_label": "Tanker",
+        "length_m": 250.0,
+        "width_m": 44.0,
+        "destination": "EGPSD",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 154,
+        "retained_observation_count": 4,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "SOG_COG_EXTRAPOLATION_SINGLE_SIDED",
+        "projection_quality": "MEDIUM",
+        "nearest_observation_gap_seconds": 877,
+        "bracket_span_seconds": null,
+        "motion_distance_from_nearest_observation_m": 5414.01,
+        "effective_sog_knots": 12.0,
+        "effective_cog_degrees": 269.0,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:09:25+00:00",
+            "latitude": 54.446283,
+            "longitude": 11.771517,
+            "sog_knots": 12.0,
+            "cog_degrees": 269.0,
+            "true_heading_degrees": 270,
+            "navigational_status": "Constrained by her draught"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED",
+          "SINGLE_SIDED_CONSTANT_SPEED_COURSE_ASSUMPTION"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AISDK-636017521-20260816T052402Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.4844483,
+          54.6878828
+        ]
+      },
+      "properties": {
+        "mmsi": "636017521",
+        "imo": "9302786",
+        "callsign": "D5LI9",
+        "name": "MIM VANGELIS JR",
+        "target_type": "Class A",
+        "ship_type_label": "Cargo",
+        "length_m": 225.0,
+        "width_m": 32.0,
+        "destination": "SINGAPORE",
+        "historical": true,
+        "source_provider": "ais_dk_historical",
+        "source_message_count_in_dynamic_guard": 161,
+        "retained_observation_count": 4,
+        "projection_time_utc": "2026-08-16T05:24:02Z",
+        "projection_method": "SOG_COG_EXTRAPOLATION_SINGLE_SIDED",
+        "projection_quality": "MEDIUM",
+        "nearest_observation_gap_seconds": 900,
+        "bracket_span_seconds": null,
+        "motion_distance_from_nearest_observation_m": 4907.8,
+        "effective_sog_knots": 10.6,
+        "effective_cog_degrees": 235.0,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:39:02+00:00",
+            "latitude": 54.662583,
+            "longitude": 12.4219,
+            "sog_knots": 10.6,
+            "cog_degrees": 235.0,
+            "true_heading_degrees": 235,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED",
+          "SINGLE_SIDED_CONSTANT_SPEED_COURSE_ASSUMPTION"
+        ],
+        "feature_kind": "HISTORICAL_AIS_PROJECTED_POSITION",
+        "historical_ais_only": true,
+        "current_position": false,
+        "plausible_for_candidate_ids": [],
+        "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+      }
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-19T16:30:45Z",
+  "status": "ok",
+  "phase": "single_scene_historical_ais_match",
+  "pilot_id": "kadetrinne-s1c-20260816",
+  "pilot_name": "Kadetrinne open-water Sentinel-1C pilot",
+  "scene": {
+    "normalized_scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+    "acquisition_time_utc": "2026-08-16T05:24:02Z"
+  },
+  "inputs": {
+    "phase3_candidate_path": "data/sar_copernicus_cfar_candidates_latest.geojson",
+    "phase3_candidate_geojson_sha256": "220a9720f6a8b7a6816e6cacafb5f27ea4bf864d6ea032d132813095896b0f5c",
+    "phase3_candidate_count": 6,
+    "phase3_candidates_modified": false,
+    "current_ais_files_read": false
+  },
+  "archive": {
+    "source": {
+      "provider": "ais_dk_historical",
+      "url": "http://aisdata.ais.dk/aisdk-2026-08-16.zip",
+      "filename": "aisdk-2026-08-16.zip",
+      "date": "2026-08-16",
+      "timestamp_timezone_assumption": "UTC"
+    },
+    "probe": {
+      "url": "http://aisdata.ais.dk/aisdk-2026-08-16.zip",
+      "filename": "aisdk-2026-08-16.zip",
+      "date_hint": "2026-08-16",
+      "etag": "\"92f52c2edc65b1ea38165003ae290028-78\"",
+      "last_modified": "Wed, 19 Aug 2026 00:18:49 GMT",
+      "content_length": 649570541
+    },
+    "download_performed": true,
+    "download_bytes": 649570541,
+    "sha256": "ad55a53c35d856b9e8f5c83d7cbf7d591c8dd6422d99c74851a9721c5c230ca8",
+    "temporary_archive_written": true,
+    "temporary_archive_deleted": true,
+    "raw_archive_persisted": false,
+    "raw_csv_extracted_to_repository": false
+  },
+  "time_alignment": {
+    "scene_acquisition_time_utc": "2026-08-16T05:24:02Z",
+    "window_before_minutes": 30,
+    "window_after_minutes": 30,
+    "current_workflow_time_is_irrelevant": true
+  },
+  "trajectory_parameters": {
+    "projection_target": "scene_acquisition_time",
+    "prefer_bracketing_linear_interpolation": true,
+    "allow_sog_cog_extrapolation": true,
+    "unknown_speed_guard_knots": 40.0,
+    "maximum_valid_sog_knots": 102.1,
+    "retained_observations_per_side": 4,
+    "high_quality_max_nearest_gap_seconds": 300,
+    "medium_quality_max_nearest_gap_seconds": 900
+  },
+  "matching_parameters": {
+    "method": "projected_position_dynamic_radius_pilot",
+    "minimum_dynamic_radius_m": 500.0,
+    "maximum_plausible_distance_m": 2000.0,
+    "movement_uncertainty_fraction": 0.1,
+    "movement_uncertainty_cap_m": 750.0,
+    "single_sided_projection_penalty_m": 250.0,
+    "no_motion_projection_penalty_m": 500.0,
+    "candidate_extent_allowance_cap_m": 100.0,
+    "low_quality_match_must_remain_possible": true,
+    "one_ais_to_multiple_sar_is_ambiguous": true,
+    "multiple_ais_to_one_sar_is_ambiguous": true,
+    "parameters_are_experimental": true
+  },
+  "parameters_are_experimental": true,
+  "method_note": "AIS tracks are projected to the fixed Sentinel-1 acquisition time. The pilot uses a candidate-specific dynamic core radius with a 500 m floor and rejects forced assignments beyond 2 km. These are calibration hypotheses, not production thresholds.",
+  "reference_reading": [
+    "https://www.mdpi.com/2072-4292/11/9/1078",
+    "https://www.mdpi.com/2072-4292/13/1/104"
+  ],
+  "extraction": {
+    "archive_csv_streamed_without_repository_extraction": true,
+    "scene_acquisition_time_utc": "2026-08-16T05:24:02Z",
+    "window_start_utc": "2026-08-16T04:54:02Z",
+    "window_end_utc": "2026-08-16T05:54:02Z",
+    "window_duration_minutes": 60,
+    "retained_mmsi_buckets": 47,
+    "retained_observations": 318,
+    "counters": {
+      "rows_read": 17675234,
+      "non_vessel_mobile_type": 1273568,
+      "outside_time_window": 15764764,
+      "valid_class_ab_messages_in_time_window": 632518,
+      "outside_dynamic_extraction_guard": 620244,
+      "messages_inside_dynamic_extraction_guard": 12274,
+      "invalid_position": 2014,
+      "invalid_mmsi": 2370
+    }
+  },
+  "coverage_assessment": {
+    "status": "AVAILABLE_AIS_ACTIVITY_OBSERVED",
+    "sufficient_for_available_ais_comparison": true,
+    "assessment_basis": "Observed Class A/B transmissions in the local archive window; this indicates usable available data but does not prove complete AIS reception",
+    "does_not_prove_complete_reception": true,
+    "window_start_utc": "2026-08-16T04:54:02Z",
+    "window_end_utc": "2026-08-16T05:54:02Z",
+    "local_padding_nm": 10.0,
+    "coverage_bbox_wgs84": [
+      11.6624989,
+      54.3133333,
+      12.5375011,
+      54.8266667
+    ],
+    "bin_minutes": 10,
+    "total_bins": 6,
+    "occupied_bins": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "occupied_bin_count": 6,
+    "distinct_valid_messages": 12565,
+    "distinct_mmsi": 68,
+    "first_local_observation_utc": "2026-08-16T04:54:02Z",
+    "last_local_observation_utc": "2026-08-16T05:54:02Z",
+    "thresholds": {
+      "minimum_occupied_bins": 5,
+      "minimum_distinct_mmsi": 3,
+      "minimum_valid_messages": 30
+    },
+    "messages_by_bin": {
+      "0": 1980,
+      "1": 2074,
+      "2": 2169,
+      "3": 2224,
+      "4": 1910,
+      "5": 2208
+    }
+  },
+  "trajectory_projection": {
+    "projected_vessels_in_local_context": 41,
+    "discarded_projected_vessels_outside_local_context": 6,
+    "quality_counts": {
+      "MEDIUM": 8,
+      "HIGH": 28,
+      "LOW": 5
+    },
+    "method_counts": {
+      "LINEAR_INTERPOLATION_BRACKETED": 31,
+      "NEAREST_OBSERVATION_NO_MOTION_MODEL": 2,
+      "SOG_COG_EXTRAPOLATION_SINGLE_SIDED": 6,
+      "EXACT_ARCHIVE_OBSERVATION": 2
+    },
+    "local_context_bbox_wgs84": [
+      11.6624989,
+      54.3133333,
+      12.5375011,
+      54.8266667
+    ],
+    "current_positions_used": false
+  },
+  "match_counts": {
+    "AMBIGUOUS": 4,
+    "MATCHED": 1,
+    "NO_AIS_COVERAGE": 0,
+    "POSSIBLE_MATCH": 1,
+    "UNMATCHED_IN_AVAILABLE_AIS": 0
+  },
+  "outputs": {
+    "candidate_context_geojson": {
+      "path": "data/sar_copernicus_ais_context_latest.geojson",
+      "bytes": 52732,
+      "sha256": "10776ef457aae76d79a19eebfd888a0de9800150a29e994cafebb1a6685d617b",
+      "candidate_count": 6,
+      "public_layer": false
+    },
+    "historical_ais_window_geojson": {
+      "path": "data/sar_copernicus_historical_ais_window_latest.geojson",
+      "bytes": 91338,
+      "sha256": "ccfc6664475918acacacfbdc4dc38922f4b1fac04b3cbdf791a184859ce46fe7",
+      "projected_vessel_count": 41,
+      "historical_only": true,
+      "public_layer": false
+    }
+  },
+  "historical_ais_only": true,
+  "current_ais_used": false,
+  "current_ais_overlaid": false,
+  "dark_vessel_claim": false,
+  "sar_candidates_classified_as_vessels": false,
+  "public_layer_modified": false,
+  "existing_ais_products_modified": false,
+  "gfw_products_modified": false,
+  "magic_paws_modified": false,
+  "production_ready": false,
+  "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent.",
+  "next_phase": "analyst_review_queue_and_quality_model",
+  "errors": []
+}
