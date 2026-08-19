@@ -1,0 +1,441 @@
+name: Copernicus SAR Phase 4 historical AIS match
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: "Type MATCH_HISTORICAL_AIS_ONE_SCENE to authorize one fixed historical archive comparison"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  # The archive is large, while the comparison and its three outputs remain fixed to one scene.
+  group: voodoo-copernicus-sar-historical-ais-main
+  cancel-in-progress: false
+
+jobs:
+  match-one-scene-to-historical-ais:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      SAR_AIS_CONFIRMATION: ${{ inputs.confirmation }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Require explicit historical single-scene confirmation
+        run: |
+          set -euo pipefail
+          if [ "${SAR_AIS_CONFIRMATION:-}" != "MATCH_HISTORICAL_AIS_ONE_SCENE" ]; then
+            echo "::error::Confirmation must be exactly MATCH_HISTORICAL_AIS_ONE_SCENE."
+            exit 1
+          fi
+          echo "One fixed Sentinel-1 scene is authorized for a historical, time-aligned AIS comparison."
+
+      - name: Install bounded pilot dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check \
+            "requests>=2.32,<3" \
+            "numpy>=2.0,<3" \
+            "scipy>=1.14,<2" \
+            "tifffile>=2025.5,<2027" \
+            "Pillow>=11,<13"
+
+      - name: Run offline Phase 1 through Phase 4 safety tests
+        run: |
+          set -euo pipefail
+          python -m unittest \
+            tests/test_copernicus_sar_catalog.py \
+            tests/test_copernicus_sar_chip.py \
+            tests/test_copernicus_sar_cfar.py \
+            tests/test_copernicus_sar_ais_match.py \
+            -v
+          python -m py_compile \
+            scripts/copernicus_sar_catalog.py \
+            scripts/copernicus_sar_chip.py \
+            scripts/copernicus_sar_cfar.py \
+            scripts/copernicus_sar_ais_match.py \
+            tests/test_copernicus_sar_ais_match.py
+
+      - name: Stream fixed archive and match at the SAR acquisition time
+        run: |
+          set -euo pipefail
+          python scripts/copernicus_sar_ais_match.py
+
+      - name: Validate historical outputs, evidence and repository isolation
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import json
+          import subprocess
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          status_path = Path('data/sar_copernicus_ais_match_status_latest.json')
+          context_path = Path('data/sar_copernicus_ais_context_latest.geojson')
+          ais_window_path = Path('data/sar_copernicus_historical_ais_window_latest.geojson')
+          source_candidate_path = Path('data/sar_copernicus_cfar_candidates_latest.geojson')
+          expected_outputs = {status_path, context_path, ais_window_path}
+
+          for path, maximum in (
+              (status_path, 1024 * 1024),
+              (context_path, 5 * 1024 * 1024),
+              (ais_window_path, 5 * 1024 * 1024),
+          ):
+              if not path.exists() or path.stat().st_size == 0:
+                  raise SystemExit(f'missing Phase 4 output: {path}')
+              if path.stat().st_size > maximum:
+                  raise SystemExit(f'Phase 4 output exceeds its byte guard: {path}')
+          if not source_candidate_path.exists():
+              raise SystemExit('Phase 3 candidate input is missing')
+
+          status = json.loads(status_path.read_text(encoding='utf-8'))
+          context = json.loads(context_path.read_text(encoding='utf-8'))
+          ais_window = json.loads(ais_window_path.read_text(encoding='utf-8'))
+
+          expected_scene = 'S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E'
+          acquisition = '2026-08-16T05:24:02Z'
+          expected_candidate_ids = {
+              'SARCAND-20260816T052402Z-0001',
+              'SARCAND-20260816T052402Z-0002',
+              'SARCAND-20260816T052402Z-0003',
+              'SARCAND-20260816T052402Z-0004',
+              'SARCAND-20260816T052402Z-0005',
+              'SARCAND-20260816T052402Z-0006',
+          }
+          allowed_states = {
+              'MATCHED',
+              'POSSIBLE_MATCH',
+              'AMBIGUOUS',
+              'UNMATCHED_IN_AVAILABLE_AIS',
+              'NO_AIS_COVERAGE',
+          }
+          allowed_methods = {
+              'EXACT_ARCHIVE_OBSERVATION',
+              'LINEAR_INTERPOLATION_BRACKETED',
+              'SOG_COG_EXTRAPOLATION_SINGLE_SIDED',
+              'NEAREST_OBSERVATION_NO_MOTION_MODEL',
+          }
+
+          if status.get('status') != 'ok' or status.get('errors') != []:
+              raise SystemExit(f"Phase 4 is not healthy: {status.get('errors')}")
+          if status.get('phase') != 'single_scene_historical_ais_match':
+              raise SystemExit('unexpected Phase 4 identifier')
+          scene = status.get('scene') or {}
+          if scene.get('normalized_scene_id') != expected_scene or scene.get('acquisition_time_utc') != acquisition:
+              raise SystemExit('Phase 4 scene identity/time changed')
+          inputs = status.get('inputs') or {}
+          source_hash = hashlib.sha256(source_candidate_path.read_bytes()).hexdigest()
+          if inputs.get('phase3_candidate_geojson_sha256') != source_hash:
+              raise SystemExit('Phase 3 source candidate hash audit failed')
+          if inputs.get('phase3_candidate_count') != 6 or inputs.get('phase3_candidates_modified') is not False:
+              raise SystemExit('Phase 3 candidate input count/isolation changed')
+          if inputs.get('current_ais_files_read') is not False:
+              raise SystemExit('Phase 4 reports reading current AIS files')
+
+          archive = status.get('archive') or {}
+          source = archive.get('source') or {}
+          if source != {
+              'provider': 'ais_dk_historical',
+              'url': 'http://aisdata.ais.dk/aisdk-2026-08-16.zip',
+              'filename': 'aisdk-2026-08-16.zip',
+              'date': '2026-08-16',
+              'timestamp_timezone_assumption': 'UTC',
+          }:
+              raise SystemExit('historical AIS source receipt changed')
+          if archive.get('download_performed') is not True:
+              raise SystemExit('fixed historical archive was not downloaded')
+          if archive.get('download_bytes') != 649570541:
+              raise SystemExit('historical archive byte receipt changed')
+          if archive.get('sha256') != 'ad55a53c35d856b9e8f5c83d7cbf7d591c8dd6422d99c74851a9721c5c230ca8':
+              raise SystemExit('historical archive SHA-256 receipt changed')
+          if archive.get('temporary_archive_written') is not True or archive.get('temporary_archive_deleted') is not True:
+              raise SystemExit('temporary historical archive lifecycle was not completed')
+          if archive.get('raw_archive_persisted') is not False or archive.get('raw_csv_extracted_to_repository') is not False:
+              raise SystemExit('raw Danish AIS material was persisted')
+
+          alignment = status.get('time_alignment') or {}
+          if alignment.get('scene_acquisition_time_utc') != acquisition:
+              raise SystemExit('AIS was not aligned to the fixed acquisition time')
+          if alignment.get('window_before_minutes') != 30 or alignment.get('window_after_minutes') != 30:
+              raise SystemExit('historical AIS time window changed')
+          if alignment.get('current_workflow_time_is_irrelevant') is not True:
+              raise SystemExit('workflow time was allowed to replace SAR acquisition time')
+          extraction = status.get('extraction') or {}
+          if extraction.get('window_start_utc') != '2026-08-16T04:54:02Z':
+              raise SystemExit('historical window start changed')
+          if extraction.get('window_end_utc') != '2026-08-16T05:54:02Z':
+              raise SystemExit('historical window end changed')
+          if extraction.get('window_duration_minutes') != 60:
+              raise SystemExit('historical window duration changed')
+          if extraction.get('archive_csv_streamed_without_repository_extraction') is not True:
+              raise SystemExit('archive CSV was not processed as a stream')
+
+          coverage = status.get('coverage_assessment') or {}
+          if coverage.get('status') not in {'AVAILABLE_AIS_ACTIVITY_OBSERVED', 'NO_AIS_COVERAGE'}:
+              raise SystemExit('unknown AIS coverage assessment state')
+          if coverage.get('does_not_prove_complete_reception') is not True:
+              raise SystemExit('AIS coverage limitations are missing')
+          if coverage.get('local_padding_nm') != 10.0 or coverage.get('bin_minutes') != 10:
+              raise SystemExit('AIS coverage assessment bounds changed')
+          thresholds = coverage.get('thresholds') or {}
+          if thresholds != {
+              'minimum_occupied_bins': 5,
+              'minimum_distinct_mmsi': 3,
+              'minimum_valid_messages': 30,
+          }:
+              raise SystemExit('AIS coverage thresholds changed')
+
+          forbidden_status = {
+              'historical_ais_only': True,
+              'current_ais_used': False,
+              'current_ais_overlaid': False,
+              'dark_vessel_claim': False,
+              'sar_candidates_classified_as_vessels': False,
+              'public_layer_modified': False,
+              'existing_ais_products_modified': False,
+              'gfw_products_modified': False,
+              'magic_paws_modified': False,
+              'production_ready': False,
+          }
+          for key, expected in forbidden_status.items():
+              if status.get(key) is not expected:
+                  raise SystemExit(f'Phase 4 isolation field {key} changed unexpectedly')
+
+          counts = status.get('match_counts') or {}
+          if set(counts) != allowed_states or any(not isinstance(value, int) or value < 0 for value in counts.values()):
+              raise SystemExit('Phase 4 match-count state set is invalid')
+          if sum(counts.values()) != 6:
+              raise SystemExit('Phase 4 match counts do not sum to six candidates')
+
+          metadata = context.get('metadata') or {}
+          if context.get('type') != 'FeatureCollection' or context.get('schema_version') != '1.0.0':
+              raise SystemExit('candidate context is not the expected GeoJSON product')
+          if metadata.get('phase') != 'single_scene_historical_ais_match':
+              raise SystemExit('candidate context has the wrong phase')
+          if metadata.get('source_candidate_sha256') != source_hash or metadata.get('source_candidate_count') != 6:
+              raise SystemExit('candidate context source audit is inconsistent')
+          if metadata.get('match_counts') != counts or set(metadata.get('allowed_match_states') or []) != allowed_states:
+              raise SystemExit('candidate context match-state audit is inconsistent')
+          for key, expected in (
+              ('parameters_are_experimental', True),
+              ('current_ais_used', False),
+              ('current_ais_overlaid', False),
+              ('dark_vessel_claim', False),
+              ('candidate_is_not_vessel_classification', True),
+              ('public_layer', False),
+          ):
+              if metadata.get(key) is not expected:
+                  raise SystemExit(f'candidate context metadata field {key} is unsafe')
+
+          features = context.get('features')
+          if not isinstance(features, list) or len(features) != 6:
+              raise SystemExit('candidate context does not contain exactly six candidates')
+          seen_ids = set()
+          observed_counts = {state: 0 for state in allowed_states}
+          for feature in features:
+              properties = feature.get('properties') or {}
+              identifier = properties.get('detection_id')
+              if identifier not in expected_candidate_ids or identifier in seen_ids or feature.get('id') != identifier:
+                  raise SystemExit(f'invalid Phase 4 candidate identifier: {identifier}')
+              seen_ids.add(identifier)
+              state = properties.get('ais_match_status')
+              if state not in allowed_states or properties.get('ais_context_status') != state:
+                  raise SystemExit(f'{identifier} has an invalid AIS match state')
+              observed_counts[state] += 1
+              if properties.get('previous_ais_context_status') != 'NOT_CHECKED':
+                  raise SystemExit(f'{identifier} did not preserve its prior AIS state')
+              if properties.get('candidate_status') != 'UNREVIEWED_SAR_CANDIDATE':
+                  raise SystemExit(f'{identifier} was promoted from candidate status')
+              if properties.get('candidate_is_not_vessel_classification') is not True:
+                  raise SystemExit(f'{identifier} is presented as a vessel classification')
+              if properties.get('current_ais_overlaid') is not False or properties.get('dark_vessel_claim') is not False:
+                  raise SystemExit(f'{identifier} has unsafe current-AIS/dark-vessel semantics')
+              if properties.get('downstream_eligible') is not False:
+                  raise SystemExit(f'{identifier} bypasses analyst review')
+
+              historical = properties.get('historical_ais_context') or {}
+              if historical.get('status') != state or historical.get('source_provider') != 'ais_dk_historical':
+                  raise SystemExit(f'{identifier} has inconsistent historical AIS evidence')
+              if historical.get('scene_acquisition_time_utc') != acquisition:
+                  raise SystemExit(f'{identifier} evidence uses the wrong time')
+              if historical.get('time_window_minutes') != {'before': 30, 'after': 30}:
+                  raise SystemExit(f'{identifier} evidence uses the wrong window')
+              if historical.get('parameters_are_experimental') is not True:
+                  raise SystemExit(f'{identifier} omits experimental-parameter disclosure')
+              if historical.get('current_ais_used') is not False or historical.get('dark_vessel_claim') is not False:
+                  raise SystemExit(f'{identifier} historical context has unsafe semantics')
+              alternatives = historical.get('plausible_alternatives') or []
+              if historical.get('plausible_alternative_count', -1) < len(alternatives):
+                  raise SystemExit(f'{identifier} alternative count is inconsistent')
+              for alternative in alternatives:
+                  mmsi = str(alternative.get('mmsi') or '')
+                  if len(mmsi) != 9 or not mmsi.isdigit():
+                      raise SystemExit(f'{identifier} has an invalid AIS MMSI')
+                  projected = alternative.get('projected_position') or {}
+                  if projected.get('time_utc') != acquisition:
+                      raise SystemExit(f'{identifier} alternative was not projected to SAR time')
+                  distance = float(alternative.get('distance_to_sar_candidate_m', -1))
+                  if not 0 <= distance <= 2000:
+                      raise SystemExit(f'{identifier} retained an AIS alternative beyond 2 km')
+                  radius = (alternative.get('dynamic_radius') or {}).get('resulting_dynamic_radius_m')
+                  if radius is None or not 500 <= float(radius) <= 2000:
+                      raise SystemExit(f'{identifier} has an invalid dynamic match radius')
+                  if alternative.get('within_maximum_plausible_distance') is not True:
+                      raise SystemExit(f'{identifier} retained an implausible alternative')
+                  if alternative.get('projection_method') not in allowed_methods:
+                      raise SystemExit(f'{identifier} has an unknown projection method')
+                  if alternative.get('projection_quality') not in {'HIGH', 'MEDIUM', 'LOW'}:
+                      raise SystemExit(f'{identifier} has an unknown projection quality')
+                  if 'SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED' not in (alternative.get('limitations') or []):
+                      raise SystemExit(f'{identifier} omits its SAR displacement limitation')
+
+              selected = historical.get('selected_match')
+              if state in {'MATCHED', 'POSSIBLE_MATCH'} and not isinstance(selected, dict):
+                  raise SystemExit(f'{identifier} has no selected match evidence')
+              if state in {'AMBIGUOUS', 'UNMATCHED_IN_AVAILABLE_AIS', 'NO_AIS_COVERAGE'} and selected is not None:
+                  raise SystemExit(f'{identifier} was force-assigned despite state {state}')
+              if state == 'UNMATCHED_IN_AVAILABLE_AIS' and historical.get('coverage_sufficient_for_available_ais_comparison') is not True:
+                  raise SystemExit(f'{identifier} uses unmatched without sufficient available AIS context')
+              if state == 'NO_AIS_COVERAGE' and historical.get('coverage_sufficient_for_available_ais_comparison') is not False:
+                  raise SystemExit(f'{identifier} uses no-coverage despite sufficient context')
+              if state == 'MATCHED' and historical.get('coverage_sufficient_for_available_ais_comparison') is not True:
+                  raise SystemExit(f'{identifier} uses matched without sufficient available AIS context')
+
+          if seen_ids != expected_candidate_ids or observed_counts != counts:
+              raise SystemExit('candidate IDs or per-state counts do not match the status audit')
+
+          if ais_window.get('type') != 'FeatureCollection' or ais_window.get('schema_version') != '1.0.0':
+              raise SystemExit('historical AIS window is not the expected GeoJSON product')
+          window_metadata = ais_window.get('metadata') or {}
+          if window_metadata.get('historical') is not True or window_metadata.get('current_positions_included') is not False:
+              raise SystemExit('historical AIS window has current-position semantics')
+          if window_metadata.get('projection_time_utc') != acquisition or window_metadata.get('public_layer') is not False:
+              raise SystemExit('historical AIS window time/publication semantics changed')
+          vessel_features = ais_window.get('features')
+          if not isinstance(vessel_features, list) or len(vessel_features) > 5000:
+              raise SystemExit('historical AIS window exceeds the vessel guard')
+          if window_metadata.get('feature_count') != len(vessel_features):
+              raise SystemExit('historical AIS feature count is inconsistent')
+          seen_mmsi = set()
+          for feature in vessel_features:
+              properties = feature.get('properties') or {}
+              mmsi = str(properties.get('mmsi') or '')
+              if len(mmsi) != 9 or not mmsi.isdigit() or mmsi in seen_mmsi:
+                  raise SystemExit(f'invalid/duplicate projected MMSI: {mmsi}')
+              seen_mmsi.add(mmsi)
+              if properties.get('feature_kind') != 'HISTORICAL_AIS_PROJECTED_POSITION':
+                  raise SystemExit(f'{mmsi} has the wrong feature kind')
+              if properties.get('historical_ais_only') is not True or properties.get('current_position') is not False:
+                  raise SystemExit(f'{mmsi} has current-position semantics')
+              if properties.get('projection_time_utc') != acquisition:
+                  raise SystemExit(f'{mmsi} was not projected to SAR acquisition time')
+              if properties.get('projection_method') not in allowed_methods:
+                  raise SystemExit(f'{mmsi} has an invalid projection method')
+              linked = set(properties.get('plausible_for_candidate_ids') or [])
+              if not linked.issubset(expected_candidate_ids):
+                  raise SystemExit(f'{mmsi} links to an unknown SAR candidate')
+
+          output_audit = status.get('outputs') or {}
+          context_audit = output_audit.get('candidate_context_geojson') or {}
+          window_audit = output_audit.get('historical_ais_window_geojson') or {}
+          if context_audit.get('sha256') != hashlib.sha256(context_path.read_bytes()).hexdigest():
+              raise SystemExit('candidate context hash does not match status audit')
+          if context_audit.get('candidate_count') != 6 or context_audit.get('public_layer') is not False:
+              raise SystemExit('candidate context output audit is inconsistent')
+          if window_audit.get('sha256') != hashlib.sha256(ais_window_path.read_bytes()).hexdigest():
+              raise SystemExit('historical AIS window hash does not match status audit')
+          if window_audit.get('projected_vessel_count') != len(vessel_features):
+              raise SystemExit('historical AIS window output count is inconsistent')
+          if window_audit.get('historical_only') is not True or window_audit.get('public_layer') is not False:
+              raise SystemExit('historical AIS output audit has unsafe semantics')
+
+          raw_material = [
+              path for path in Path('.').rglob('*')
+              if '.git' not in path.parts
+              and path.name.lower().startswith('aisdk-2026-08-16')
+              and path.suffix.lower() in {'.zip', '.csv'}
+          ]
+          if raw_material:
+              raise SystemExit(f'raw Danish AIS material appeared in the repository: {raw_material[:5]}')
+
+          porcelain = subprocess.check_output(
+              ['git', 'status', '--porcelain=v1', '--untracked-files=all'], text=True
+          )
+          changed = set()
+          for line in porcelain.splitlines():
+              if line:
+                  changed.add(Path(line[3:].split(' -> ')[-1]))
+          unexpected = changed - expected_outputs
+          if unexpected:
+              raise SystemExit(f'Phase 4 modified unexpected repository path(s): {sorted(map(str, unexpected))}')
+
+          generated = datetime.fromisoformat(status['generated_at'].replace('Z', '+00:00'))
+          if generated.tzinfo is None or generated.astimezone(timezone.utc).year < 2026:
+              raise SystemExit('Phase 4 generated_at is invalid')
+
+          print(json.dumps({
+              'status': status['status'],
+              'scene': expected_scene,
+              'acquisition_time_utc': acquisition,
+              'historical_window': [extraction['window_start_utc'], extraction['window_end_utc']],
+              'coverage': coverage['status'],
+              'coverage_messages': coverage['distinct_valid_messages'],
+              'projected_historical_vessels': len(vessel_features),
+              'match_counts': counts,
+              'temporary_archive_deleted': archive['temporary_archive_deleted'],
+              'current_ais_used': status['current_ais_used'],
+          }, indent=2))
+          PY
+
+      - name: Commit only three small Phase 4 audit outputs
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/sar_copernicus_ais_match_status_latest.json \
+            data/sar_copernicus_ais_context_latest.geojson \
+            data/sar_copernicus_historical_ais_window_latest.geojson
+          if git diff --cached --quiet; then
+            echo "No Copernicus Phase 4 historical-AIS output change to commit."
+            exit 0
+          fi
+          python - <<'PY'
+          import subprocess
+
+          allowed = {
+              'data/sar_copernicus_ais_match_status_latest.json',
+              'data/sar_copernicus_ais_context_latest.geojson',
+              'data/sar_copernicus_historical_ais_window_latest.geojson',
+          }
+          staged = set(subprocess.check_output(
+              ['git', 'diff', '--cached', '--name-only'], text=True
+          ).splitlines())
+          unexpected = staged - allowed
+          if not staged or unexpected:
+              raise SystemExit(f'Unexpected staged path(s): {sorted(unexpected)}')
+          PY
+          git commit -m "Add Copernicus SAR Phase 4 historical AIS match"
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            git rebase --abort || true
+            [ "$attempt" -lt 3 ] && sleep 12
+          done
+          echo "::error::Failed to push Phase 4 audit outputs after 3 attempts."
+          exit 1
