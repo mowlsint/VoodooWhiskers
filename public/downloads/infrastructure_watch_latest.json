@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-19T02:30:50+00:00",
+  "generated_at": "2026-08-19T03:03:34+00:00",
   "source": "Voodoo Whiskers",
   "reference_source": "EMODnet Human Activities",
   "score_integration": false,
@@ -14,9 +14,111 @@
     "wind_farm": 826,
     "offshore_energy": 222
   },
-  "event_count": 23,
+  "event_count": 27,
   "assessment_limit": "Proximity and movement patterns are analyst leads and do not establish hostile intent, attribution or unlawful activity.",
   "events": [
+    {
+      "event_id": "VWI-230166780-pipelines.3552",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "elevated",
+      "confidence": "low_medium",
+      "vessel": {
+        "mmsi": "230166780",
+        "imo": null,
+        "name": "CINDY",
+        "callsign": null,
+        "categories": [
+          "recent_russian_portcall_10d"
+        ],
+        "source": "AISStream"
+      },
+      "infrastructure": {
+        "type": "pipeline",
+        "reference_id": "pipelines.3552",
+        "name": "pipelines.3552",
+        "source": "EMODnet Human Activities",
+        "source_typename": "emodnet:pipelines"
+      },
+      "observation": {
+        "event_position": {
+          "latitude": 60.47492333333333,
+          "longitude": 22.023135,
+          "observed_at": "2026-08-18T03:00:48.407392+00:00"
+        },
+        "latest_position": {
+          "latitude": 60.47493,
+          "longitude": 22.02312,
+          "observed_at": "2026-08-19T02:58:11.795463+00:00"
+        },
+        "minimum_distance_nm": 0.018,
+        "latest_distance_nm": 0.018,
+        "track_points_considered": 2,
+        "points_within_close_band": 2,
+        "low_speed_points_within_close_band": 2,
+        "estimated_dwell_minutes": 0.0,
+        "close_band_entries": 1,
+        "source_timestamp_points": 2,
+        "fallback_timestamp_points": 0
+      },
+      "signals": [
+        "critical_infrastructure_proximity",
+        "low_speed_near_infrastructure",
+        "voi_or_watchlist_context"
+      ],
+      "assessment": "Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.",
+      "score_integration": false
+    },
+    {
+      "event_id": "VWI-230166780-pipelines.3513",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "elevated",
+      "confidence": "low_medium",
+      "vessel": {
+        "mmsi": "230166780",
+        "imo": null,
+        "name": "CINDY",
+        "callsign": null,
+        "categories": [
+          "recent_russian_portcall_10d"
+        ],
+        "source": "AISStream"
+      },
+      "infrastructure": {
+        "type": "pipeline",
+        "reference_id": "pipelines.3513",
+        "name": "pipelines.3513",
+        "source": "EMODnet Human Activities",
+        "source_typename": "emodnet:pipelines"
+      },
+      "observation": {
+        "event_position": {
+          "latitude": 60.47492333333333,
+          "longitude": 22.023135,
+          "observed_at": "2026-08-18T03:00:48.407392+00:00"
+        },
+        "latest_position": {
+          "latitude": 60.47493,
+          "longitude": 22.02312,
+          "observed_at": "2026-08-19T02:58:11.795463+00:00"
+        },
+        "minimum_distance_nm": 0.056,
+        "latest_distance_nm": 0.056,
+        "track_points_considered": 2,
+        "points_within_close_band": 2,
+        "low_speed_points_within_close_band": 2,
+        "estimated_dwell_minutes": 0.0,
+        "close_band_entries": 1,
+        "source_timestamp_points": 2,
+        "fallback_timestamp_points": 0
+      },
+      "signals": [
+        "critical_infrastructure_proximity",
+        "low_speed_near_infrastructure",
+        "voi_or_watchlist_context"
+      ],
+      "assessment": "Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.",
+      "score_integration": false
+    },
     {
       "event_id": "VWI-631010086-pipelines.3424",
       "event_type": "critical_infrastructure_proximity",
@@ -163,6 +265,57 @@
         "estimated_dwell_minutes": 0.0,
         "close_band_entries": 1,
         "source_timestamp_points": 8,
+        "fallback_timestamp_points": 0
+      },
+      "signals": [
+        "critical_infrastructure_proximity",
+        "low_speed_near_infrastructure",
+        "voi_or_watchlist_context"
+      ],
+      "assessment": "Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.",
+      "score_integration": false
+    },
+    {
+      "event_id": "VWI-230166780-pipelines.3553",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "elevated",
+      "confidence": "low_medium",
+      "vessel": {
+        "mmsi": "230166780",
+        "imo": null,
+        "name": "CINDY",
+        "callsign": null,
+        "categories": [
+          "recent_russian_portcall_10d"
+        ],
+        "source": "AISStream"
+      },
+      "infrastructure": {
+        "type": "pipeline",
+        "reference_id": "pipelines.3553",
+        "name": "pipelines.3553",
+        "source": "EMODnet Human Activities",
+        "source_typename": "emodnet:pipelines"
+      },
+      "observation": {
+        "event_position": {
+          "latitude": 60.47493,
+          "longitude": 22.02312,
+          "observed_at": "2026-08-19T02:58:11.795463+00:00"
+        },
+        "latest_position": {
+          "latitude": 60.47493,
+          "longitude": 22.02312,
+          "observed_at": "2026-08-19T02:58:11.795463+00:00"
+        },
+        "minimum_distance_nm": 0.177,
+        "latest_distance_nm": 0.177,
+        "track_points_considered": 2,
+        "points_within_close_band": 2,
+        "low_speed_points_within_close_band": 2,
+        "estimated_dwell_minutes": 0.0,
+        "close_band_entries": 1,
+        "source_timestamp_points": 2,
         "fallback_timestamp_points": 0
       },
       "signals": [
@@ -1043,6 +1196,57 @@
         "estimated_dwell_minutes": 0.0,
         "close_band_entries": 1,
         "source_timestamp_points": 3,
+        "fallback_timestamp_points": 0
+      },
+      "signals": [
+        "critical_infrastructure_proximity",
+        "low_speed_near_infrastructure",
+        "voi_or_watchlist_context"
+      ],
+      "assessment": "Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.",
+      "score_integration": false
+    },
+    {
+      "event_id": "VWI-518100214-oenergy.fid--33fabb22_19f848d8412_-db5",
+      "event_type": "critical_infrastructure_proximity",
+      "level": "review",
+      "confidence": "low_medium",
+      "vessel": {
+        "mmsi": "518100214",
+        "imo": null,
+        "name": "BLUE THISTLE",
+        "callsign": null,
+        "categories": [
+          "falseflag_interest"
+        ],
+        "source": "AISStream"
+      },
+      "infrastructure": {
+        "type": "offshore_energy",
+        "reference_id": "oenergy.fid--33fabb22_19f848d8412_-db5",
+        "name": "Flan Sea",
+        "source": "EMODnet Human Activities",
+        "source_typename": null
+      },
+      "observation": {
+        "event_position": {
+          "latitude": 51.22490666666667,
+          "longitude": 2.9388666666666667,
+          "observed_at": "2026-08-19T02:54:41.167618+00:00"
+        },
+        "latest_position": {
+          "latitude": 51.22490666666667,
+          "longitude": 2.9388666666666667,
+          "observed_at": "2026-08-19T02:54:41.167618+00:00"
+        },
+        "minimum_distance_nm": 0.494,
+        "latest_distance_nm": 0.494,
+        "track_points_considered": 2,
+        "points_within_close_band": 2,
+        "low_speed_points_within_close_band": 2,
+        "estimated_dwell_minutes": 0.0,
+        "close_band_entries": 1,
+        "source_timestamp_points": 2,
         "fallback_timestamp_points": 0
       },
       "signals": [
