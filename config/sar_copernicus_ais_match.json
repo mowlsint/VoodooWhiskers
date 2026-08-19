@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "single_scene_historical_ais_match",
+  "pilot_config": "config/sar_copernicus_pilot.json",
+  "candidate_input": "data/sar_copernicus_cfar_candidates_latest.geojson",
+  "source": {
+    "provider": "ais_dk_historical",
+    "archive_url": "http://aisdata.ais.dk/aisdk-2026-08-16.zip",
+    "archive_filename": "aisdk-2026-08-16.zip",
+    "archive_date": "2026-08-16",
+    "expected_sha256": "ad55a53c35d856b9e8f5c83d7cbf7d591c8dd6422d99c74851a9721c5c230ca8",
+    "expected_download_bytes": 649570541,
+    "maximum_download_bytes": 734003200,
+    "timestamp_timezone_assumption": "UTC",
+    "coverage_description": "Danish land-based historical AIS daily archive; delayed, reception-dependent and not a current traffic picture"
+  },
+  "time_alignment": {
+    "scene_acquisition_time_utc": "2026-08-16T05:24:02Z",
+    "window_before_minutes": 30,
+    "window_after_minutes": 30,
+    "current_workflow_time_is_irrelevant": true
+  },
+  "trajectory": {
+    "projection_target": "scene_acquisition_time",
+    "prefer_bracketing_linear_interpolation": true,
+    "allow_sog_cog_extrapolation": true,
+    "unknown_speed_guard_knots": 40.0,
+    "maximum_valid_sog_knots": 102.1,
+    "retained_observations_per_side": 4,
+    "high_quality_max_nearest_gap_seconds": 300,
+    "medium_quality_max_nearest_gap_seconds": 900
+  },
+  "coverage_assessment": {
+    "local_padding_nm": 10.0,
+    "bin_minutes": 10,
+    "minimum_occupied_bins": 5,
+    "minimum_distinct_mmsi": 3,
+    "minimum_valid_messages": 30,
+    "basis": "Observed Class A/B transmissions in the local archive window; this indicates usable available data but does not prove complete AIS reception"
+  },
+  "matching": {
+    "method": "projected_position_dynamic_radius_pilot",
+    "minimum_dynamic_radius_m": 500.0,
+    "maximum_plausible_distance_m": 2000.0,
+    "movement_uncertainty_fraction": 0.1,
+    "movement_uncertainty_cap_m": 750.0,
+    "single_sided_projection_penalty_m": 250.0,
+    "no_motion_projection_penalty_m": 500.0,
+    "candidate_extent_allowance_cap_m": 100.0,
+    "low_quality_match_must_remain_possible": true,
+    "one_ais_to_multiple_sar_is_ambiguous": true,
+    "multiple_ais_to_one_sar_is_ambiguous": true,
+    "parameters_are_experimental": true
+  },
+  "outputs": {
+    "candidate_context_geojson": "data/sar_copernicus_ais_context_latest.geojson",
+    "historical_ais_window_geojson": "data/sar_copernicus_historical_ais_window_latest.geojson",
+    "status_json": "data/sar_copernicus_ais_match_status_latest.json"
+  },
+  "guardrails": {
+    "manual_workflow_only": true,
+    "confirmation_phrase": "MATCH_HISTORICAL_AIS_ONE_SCENE",
+    "exact_phase3_scene_required": true,
+    "temporary_raw_archive_only": true,
+    "delete_raw_archive_after_processing": true,
+    "persist_raw_archive": false,
+    "extract_raw_csv_to_repository": false,
+    "use_historical_ais_only": true,
+    "overlay_current_ais": false,
+    "unmatched_and_no_coverage_must_remain_distinct": true,
+    "claim_dark_vessel": false,
+    "classify_sar_candidate_as_vessel": false,
+    "publish_public_layer": false,
+    "modify_phase3_candidates": false,
+    "modify_existing_ais_products": false,
+    "modify_gfw_products": false,
+    "modify_magic_paws": false
+  }
+}
