@@ -1,0 +1,701 @@
+{
+  "type": "FeatureCollection",
+  "name": "Voodoo Whiskers Phase 3 unreviewed SAR candidates",
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-19T13:06:58Z",
+  "metadata": {
+    "phase": "single_scene_cfar_parameter_comparison",
+    "pilot_id": "kadetrinne-s1c-20260816",
+    "scene": {
+      "catalogue_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+      "matched_scene_identifier": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+      "normalized_scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+      "datetime": "2026-08-16T05:24:02Z"
+    },
+    "aoi": {
+      "name": "Kadetrinne open water east of Fehmarn",
+      "bbox_wgs84": [
+        11.95,
+        54.48,
+        12.25,
+        54.66
+      ],
+      "approx_width_m": 19338,
+      "approx_height_m": 20015,
+      "description": "Technical calibration area chosen to reduce immediate land and harbour clutter while retaining commercial traffic and matching Danish historical AIS availability. It is not a legal or jurisdictional boundary."
+    },
+    "coordinate_reference_system": "OGC CRS84 / WGS84 longitude-latitude",
+    "candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+    "candidate_count": 6,
+    "parameters_are_experimental": true,
+    "visual_review_required": true,
+    "coastline_mask_integrated": true,
+    "land_mask": {
+      "applied": true,
+      "required": true,
+      "source": "Natural Earth 1:10m land polygons",
+      "source_version": "5.1.1",
+      "source_url": "https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-land/",
+      "source_archive_sha256": "e547d749445eaa0964aba76738090ec88f5e63c4585122170f98c67a7ea922dc",
+      "land_mask_path": "config/sar_copernicus_land_mask.geojson",
+      "land_pixels": 116475,
+      "land_plus_buffer_pixels": 237530,
+      "buffer_only_pixels": 121055,
+      "buffer_radius_px": 100,
+      "approximate_buffer_radius_m": 999.9,
+      "source_valid_pixels": 3871868,
+      "processing_valid_pixels_after_land_mask": 3634338,
+      "processing_valid_fraction_after_land_mask": 0.93865235,
+      "valid_pixels_excluded_by_land_and_buffer": 237530,
+      "cartographic_generalization_warning": "This small-scale land polygon is a clutter-exclusion aid, not a navigational coastline. A conservative processing buffer is applied and visual review remains mandatory.",
+      "navigational_use": false
+    },
+    "ais_context_status": "NOT_CHECKED",
+    "current_ais_overlaid": false,
+    "dark_vessel_claim": false,
+    "public_layer": false,
+    "method_note": "The three CA-CFAR settings are an uncalibrated parameter comparison for one scene, not validated operating thresholds. VV is primary; VH can corroborate but cannot create a candidate by itself.",
+    "assessment_limit": "Experimental CFAR bright-return groups are not vessel classifications. No AIS data was retrieved or overlaid, no claim about a so-called dark vessel is made, and every candidate requires visual analyst review before any later use.",
+    "profile_parameters": [
+      {
+        "training_radius_px": 17,
+        "guard_radius_px": 4,
+        "probability_of_false_alarm": 1e-07,
+        "full_training_cell_count": 1144,
+        "full_training_alpha": 16.232177,
+        "id": "strict_wide"
+      },
+      {
+        "training_radius_px": 15,
+        "guard_radius_px": 3,
+        "probability_of_false_alarm": 1e-06,
+        "full_training_cell_count": 912,
+        "full_training_alpha": 13.920684,
+        "id": "balanced"
+      },
+      {
+        "training_radius_px": 11,
+        "guard_radius_px": 2,
+        "probability_of_false_alarm": 1e-05,
+        "full_training_cell_count": 504,
+        "full_training_alpha": 11.645428,
+        "id": "exploratory_local"
+      }
+    ]
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "SARCAND-20260816T052402Z-0001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.2470677,
+          54.5483816
+        ]
+      },
+      "properties": {
+        "feature_kind": "SAR_CANDIDATE",
+        "candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+        "review_status": "unreviewed",
+        "analyst_disposition": null,
+        "classification": "UNCLASSIFIED_BRIGHT_RETURN",
+        "candidate_is_not_vessel_classification": true,
+        "human_visual_review_required": true,
+        "downstream_eligible": false,
+        "scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+        "catalogue_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+        "acquisition_time": "2026-08-16T05:24:02Z",
+        "platform": "Sentinel-1C",
+        "instrument_mode": "IW",
+        "product_level": "GRD Level-1",
+        "polarizations": [
+          "VV",
+          "VH"
+        ],
+        "detection_method": {
+          "algorithm": "CA_CFAR",
+          "implementation_version": "0.1.0-prototype",
+          "primary_band": "VV",
+          "detected_by_profiles": [
+            "strict_wide",
+            "balanced",
+            "exploratory_local"
+          ],
+          "profile_count": 3,
+          "parameter_consensus": "ALL_PROFILES",
+          "profile_max_threshold_excess_db": {
+            "strict_wide": 11.0094,
+            "balanced": 10.5393,
+            "exploratory_local": 9.1454
+          },
+          "vh_role": "corroboration_only",
+          "vh_cfar_corroborated": true,
+          "vh_max_threshold_excess_db": 6.5933
+        },
+        "signature_measurements": {
+          "vv_peak_linear_power": 44.34919357,
+          "vv_peak_db": 16.4689,
+          "vh_at_vv_peak_linear_power": 0.94486278,
+          "vh_at_vv_peak_db": -0.2463,
+          "primary_seed_pixel_count": 27,
+          "seed_bbox_pixels": {
+            "row_min": 1236,
+            "row_max": 1244,
+            "column_min": 1913,
+            "column_max": 1916
+          },
+          "approximate_axis_aligned_signature_span_m": {
+            "x": 40.0,
+            "y": 89.98
+          },
+          "span_is_not_vessel_length": true
+        },
+        "spatial_quality": {
+          "open_water_aoi_reviewed": true,
+          "coastline_mask_integrated": true,
+          "land_mask_source": "Natural Earth 1:10m land v5.1.1",
+          "land_buffer_radius_px": 100,
+          "common_cfar_border_excluded": true,
+          "quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED",
+            "VH_CFAR_CORROBORATED"
+          ]
+        },
+        "infrastructure_context": {
+          "reference_available": true,
+          "found_within_search_radius": true,
+          "search_radius_nm": 10.0,
+          "review_radius_nm": 1.0,
+          "near_infrastructure_reference": false,
+          "nearest_type": "power_cable",
+          "nearest_reference_id": "pcablesbshcontis.4",
+          "nearest_name": "pcablesbshcontis.4",
+          "nearest_distance_nm": 4.1147,
+          "source": "local EMODnet reference snapshot"
+        },
+        "ais_context_status": "NOT_CHECKED",
+        "ais_match_status": "NOT_ASSESSED",
+        "current_ais_overlaid": false,
+        "dark_vessel_claim": false,
+        "assessment_limit": "Experimental CFAR bright-return groups are not vessel classifications. No AIS data was retrieved or overlaid, no claim about a so-called dark vessel is made, and every candidate requires visual analyst review before any later use.",
+        "detection_id": "SARCAND-20260816T052402Z-0001",
+        "centroid_pixel": {
+          "row": 1240.945,
+          "column": 1914.596
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SARCAND-20260816T052402Z-0002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.2278267,
+          54.5200815
+        ]
+      },
+      "properties": {
+        "feature_kind": "SAR_CANDIDATE",
+        "candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+        "review_status": "unreviewed",
+        "analyst_disposition": null,
+        "classification": "UNCLASSIFIED_BRIGHT_RETURN",
+        "candidate_is_not_vessel_classification": true,
+        "human_visual_review_required": true,
+        "downstream_eligible": false,
+        "scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+        "catalogue_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+        "acquisition_time": "2026-08-16T05:24:02Z",
+        "platform": "Sentinel-1C",
+        "instrument_mode": "IW",
+        "product_level": "GRD Level-1",
+        "polarizations": [
+          "VV",
+          "VH"
+        ],
+        "detection_method": {
+          "algorithm": "CA_CFAR",
+          "implementation_version": "0.1.0-prototype",
+          "primary_band": "VV",
+          "detected_by_profiles": [
+            "strict_wide",
+            "balanced",
+            "exploratory_local"
+          ],
+          "profile_count": 3,
+          "parameter_consensus": "ALL_PROFILES",
+          "profile_max_threshold_excess_db": {
+            "strict_wide": 8.9687,
+            "balanced": 8.3598,
+            "exploratory_local": 6.7513
+          },
+          "vh_role": "corroboration_only",
+          "vh_cfar_corroborated": true,
+          "vh_max_threshold_excess_db": 5.0285
+        },
+        "signature_measurements": {
+          "vv_peak_linear_power": 34.53529739,
+          "vv_peak_db": 15.3826,
+          "vh_at_vv_peak_linear_power": 1.18122315,
+          "vh_at_vv_peak_db": 0.7233,
+          "primary_seed_pixel_count": 27,
+          "seed_bbox_pixels": {
+            "row_min": 1551,
+            "row_max": 1560,
+            "column_min": 1788,
+            "column_max": 1792
+          },
+          "approximate_axis_aligned_signature_span_m": {
+            "x": 49.99,
+            "y": 99.98
+          },
+          "span_is_not_vessel_length": true
+        },
+        "spatial_quality": {
+          "open_water_aoi_reviewed": true,
+          "coastline_mask_integrated": true,
+          "land_mask_source": "Natural Earth 1:10m land v5.1.1",
+          "land_buffer_radius_px": 100,
+          "common_cfar_border_excluded": true,
+          "quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED",
+            "VH_CFAR_CORROBORATED"
+          ]
+        },
+        "infrastructure_context": {
+          "reference_available": true,
+          "found_within_search_radius": true,
+          "search_radius_nm": 10.0,
+          "review_radius_nm": 1.0,
+          "near_infrastructure_reference": false,
+          "nearest_type": "power_cable",
+          "nearest_reference_id": "pcablesbshcontis.4",
+          "nearest_name": "pcablesbshcontis.4",
+          "nearest_distance_nm": 3.8225,
+          "source": "local EMODnet reference snapshot"
+        },
+        "ais_context_status": "NOT_CHECKED",
+        "ais_match_status": "NOT_ASSESSED",
+        "current_ais_overlaid": false,
+        "dark_vessel_claim": false,
+        "assessment_limit": "Experimental CFAR bright-return groups are not vessel classifications. No AIS data was retrieved or overlaid, no claim about a so-called dark vessel is made, and every candidate requires visual analyst review before any later use.",
+        "detection_id": "SARCAND-20260816T052402Z-0002",
+        "centroid_pixel": {
+          "row": 1555.704,
+          "column": 1790.556
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SARCAND-20260816T052402Z-0003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.9568227,
+          54.4844232
+        ]
+      },
+      "properties": {
+        "feature_kind": "SAR_CANDIDATE",
+        "candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+        "review_status": "unreviewed",
+        "analyst_disposition": null,
+        "classification": "UNCLASSIFIED_BRIGHT_RETURN",
+        "candidate_is_not_vessel_classification": true,
+        "human_visual_review_required": true,
+        "downstream_eligible": false,
+        "scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+        "catalogue_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+        "acquisition_time": "2026-08-16T05:24:02Z",
+        "platform": "Sentinel-1C",
+        "instrument_mode": "IW",
+        "product_level": "GRD Level-1",
+        "polarizations": [
+          "VV",
+          "VH"
+        ],
+        "detection_method": {
+          "algorithm": "CA_CFAR",
+          "implementation_version": "0.1.0-prototype",
+          "primary_band": "VV",
+          "detected_by_profiles": [
+            "strict_wide",
+            "balanced",
+            "exploratory_local"
+          ],
+          "profile_count": 3,
+          "parameter_consensus": "ALL_PROFILES",
+          "profile_max_threshold_excess_db": {
+            "strict_wide": 7.5308,
+            "balanced": 7.1268,
+            "exploratory_local": 6.4471
+          },
+          "vh_role": "corroboration_only",
+          "vh_cfar_corroborated": true,
+          "vh_max_threshold_excess_db": 9.6539
+        },
+        "signature_measurements": {
+          "vv_peak_linear_power": 28.70009041,
+          "vv_peak_db": 14.5788,
+          "vh_at_vv_peak_linear_power": 1.38549519,
+          "vh_at_vv_peak_db": 1.4161,
+          "primary_seed_pixel_count": 36,
+          "seed_bbox_pixels": {
+            "row_min": 1944,
+            "row_max": 1959,
+            "column_min": 41,
+            "column_max": 46
+          },
+          "approximate_axis_aligned_signature_span_m": {
+            "x": 59.99,
+            "y": 159.96
+          },
+          "span_is_not_vessel_length": true
+        },
+        "spatial_quality": {
+          "open_water_aoi_reviewed": true,
+          "coastline_mask_integrated": true,
+          "land_mask_source": "Natural Earth 1:10m land v5.1.1",
+          "land_buffer_radius_px": 100,
+          "common_cfar_border_excluded": true,
+          "quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED",
+            "VH_CFAR_CORROBORATED"
+          ]
+        },
+        "infrastructure_context": {
+          "reference_available": true,
+          "found_within_search_radius": true,
+          "search_radius_nm": 10.0,
+          "review_radius_nm": 1.0,
+          "near_infrastructure_reference": false,
+          "nearest_type": "wind_farm",
+          "nearest_reference_id": "windfarms.13",
+          "nearest_name": "Guldborgsund Syd",
+          "nearest_distance_nm": 2.9688,
+          "source": "local EMODnet reference snapshot"
+        },
+        "ais_context_status": "NOT_CHECKED",
+        "ais_match_status": "NOT_ASSESSED",
+        "current_ais_overlaid": false,
+        "dark_vessel_claim": false,
+        "assessment_limit": "Experimental CFAR bright-return groups are not vessel classifications. No AIS data was retrieved or overlaid, no claim about a so-called dark vessel is made, and every candidate requires visual analyst review before any later use.",
+        "detection_id": "SARCAND-20260816T052402Z-0003",
+        "centroid_pixel": {
+          "row": 1952.304,
+          "column": 43.484
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SARCAND-20260816T052402Z-0004",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.2455447,
+          54.5466323
+        ]
+      },
+      "properties": {
+        "feature_kind": "SAR_CANDIDATE",
+        "candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+        "review_status": "unreviewed",
+        "analyst_disposition": null,
+        "classification": "UNCLASSIFIED_BRIGHT_RETURN",
+        "candidate_is_not_vessel_classification": true,
+        "human_visual_review_required": true,
+        "downstream_eligible": false,
+        "scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+        "catalogue_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+        "acquisition_time": "2026-08-16T05:24:02Z",
+        "platform": "Sentinel-1C",
+        "instrument_mode": "IW",
+        "product_level": "GRD Level-1",
+        "polarizations": [
+          "VV",
+          "VH"
+        ],
+        "detection_method": {
+          "algorithm": "CA_CFAR",
+          "implementation_version": "0.1.0-prototype",
+          "primary_band": "VV",
+          "detected_by_profiles": [
+            "strict_wide",
+            "balanced",
+            "exploratory_local"
+          ],
+          "profile_count": 3,
+          "parameter_consensus": "ALL_PROFILES",
+          "profile_max_threshold_excess_db": {
+            "strict_wide": 2.584,
+            "balanced": 2.5848,
+            "exploratory_local": 2.0699
+          },
+          "vh_role": "corroboration_only",
+          "vh_cfar_corroborated": false,
+          "vh_max_threshold_excess_db": null
+        },
+        "signature_measurements": {
+          "vv_peak_linear_power": 4.5122323,
+          "vv_peak_db": 6.5439,
+          "vh_at_vv_peak_linear_power": 0.22843421,
+          "vh_at_vv_peak_db": -6.4124,
+          "primary_seed_pixel_count": 5,
+          "seed_bbox_pixels": {
+            "row_min": 1259,
+            "row_max": 1262,
+            "column_min": 1904,
+            "column_max": 1905
+          },
+          "approximate_axis_aligned_signature_span_m": {
+            "x": 20.0,
+            "y": 39.99
+          },
+          "span_is_not_vessel_length": true
+        },
+        "spatial_quality": {
+          "open_water_aoi_reviewed": true,
+          "coastline_mask_integrated": true,
+          "land_mask_source": "Natural Earth 1:10m land v5.1.1",
+          "land_buffer_radius_px": 100,
+          "common_cfar_border_excluded": true,
+          "quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED"
+          ]
+        },
+        "infrastructure_context": {
+          "reference_available": true,
+          "found_within_search_radius": true,
+          "search_radius_nm": 10.0,
+          "review_radius_nm": 1.0,
+          "near_infrastructure_reference": false,
+          "nearest_type": "power_cable",
+          "nearest_reference_id": "pcablesbshcontis.4",
+          "nearest_name": "pcablesbshcontis.4",
+          "nearest_distance_nm": 4.1066,
+          "source": "local EMODnet reference snapshot"
+        },
+        "ais_context_status": "NOT_CHECKED",
+        "ais_match_status": "NOT_ASSESSED",
+        "current_ais_overlaid": false,
+        "dark_vessel_claim": false,
+        "assessment_limit": "Experimental CFAR bright-return groups are not vessel classifications. No AIS data was retrieved or overlaid, no claim about a so-called dark vessel is made, and every candidate requires visual analyst review before any later use.",
+        "detection_id": "SARCAND-20260816T052402Z-0004",
+        "centroid_pixel": {
+          "row": 1260.4,
+          "column": 1904.778
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SARCAND-20260816T052402Z-0005",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.1302557,
+          54.5668575
+        ]
+      },
+      "properties": {
+        "feature_kind": "SAR_CANDIDATE",
+        "candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+        "review_status": "unreviewed",
+        "analyst_disposition": null,
+        "classification": "UNCLASSIFIED_BRIGHT_RETURN",
+        "candidate_is_not_vessel_classification": true,
+        "human_visual_review_required": true,
+        "downstream_eligible": false,
+        "scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+        "catalogue_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+        "acquisition_time": "2026-08-16T05:24:02Z",
+        "platform": "Sentinel-1C",
+        "instrument_mode": "IW",
+        "product_level": "GRD Level-1",
+        "polarizations": [
+          "VV",
+          "VH"
+        ],
+        "detection_method": {
+          "algorithm": "CA_CFAR",
+          "implementation_version": "0.1.0-prototype",
+          "primary_band": "VV",
+          "detected_by_profiles": [
+            "balanced",
+            "exploratory_local"
+          ],
+          "profile_count": 2,
+          "parameter_consensus": "MULTI_PROFILE",
+          "profile_max_threshold_excess_db": {
+            "balanced": 0.361,
+            "exploratory_local": 1.0906
+          },
+          "vh_role": "corroboration_only",
+          "vh_cfar_corroborated": true,
+          "vh_max_threshold_excess_db": 7.3242
+        },
+        "signature_measurements": {
+          "vv_peak_linear_power": 0.37844133,
+          "vv_peak_db": -4.22,
+          "vh_at_vv_peak_linear_power": 0.04130418,
+          "vh_at_vv_peak_db": -13.8401,
+          "primary_seed_pixel_count": 2,
+          "seed_bbox_pixels": {
+            "row_min": 1035,
+            "row_max": 1036,
+            "column_min": 1161,
+            "column_max": 1162
+          },
+          "approximate_axis_aligned_signature_span_m": {
+            "x": 20.0,
+            "y": 20.0
+          },
+          "span_is_not_vessel_length": true
+        },
+        "spatial_quality": {
+          "open_water_aoi_reviewed": true,
+          "coastline_mask_integrated": true,
+          "land_mask_source": "Natural Earth 1:10m land v5.1.1",
+          "land_buffer_radius_px": 100,
+          "common_cfar_border_excluded": true,
+          "quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED",
+            "VH_CFAR_CORROBORATED"
+          ]
+        },
+        "infrastructure_context": {
+          "reference_available": true,
+          "found_within_search_radius": true,
+          "search_radius_nm": 10.0,
+          "review_radius_nm": 1.0,
+          "near_infrastructure_reference": false,
+          "nearest_type": "wind_farm",
+          "nearest_reference_id": "windfarms.13",
+          "nearest_name": "Guldborgsund Syd",
+          "nearest_distance_nm": 5.3586,
+          "source": "local EMODnet reference snapshot"
+        },
+        "ais_context_status": "NOT_CHECKED",
+        "ais_match_status": "NOT_ASSESSED",
+        "current_ais_overlaid": false,
+        "dark_vessel_claim": false,
+        "assessment_limit": "Experimental CFAR bright-return groups are not vessel classifications. No AIS data was retrieved or overlaid, no claim about a so-called dark vessel is made, and every candidate requires visual analyst review before any later use.",
+        "detection_id": "SARCAND-20260816T052402Z-0005",
+        "centroid_pixel": {
+          "row": 1035.452,
+          "column": 1161.548
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SARCAND-20260816T052402Z-0006",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.226891,
+          54.5183467
+        ]
+      },
+      "properties": {
+        "feature_kind": "SAR_CANDIDATE",
+        "candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+        "review_status": "unreviewed",
+        "analyst_disposition": null,
+        "classification": "UNCLASSIFIED_BRIGHT_RETURN",
+        "candidate_is_not_vessel_classification": true,
+        "human_visual_review_required": true,
+        "downstream_eligible": false,
+        "scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+        "catalogue_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+        "acquisition_time": "2026-08-16T05:24:02Z",
+        "platform": "Sentinel-1C",
+        "instrument_mode": "IW",
+        "product_level": "GRD Level-1",
+        "polarizations": [
+          "VV",
+          "VH"
+        ],
+        "detection_method": {
+          "algorithm": "CA_CFAR",
+          "implementation_version": "0.1.0-prototype",
+          "primary_band": "VV",
+          "detected_by_profiles": [
+            "balanced",
+            "exploratory_local"
+          ],
+          "profile_count": 2,
+          "parameter_consensus": "MULTI_PROFILE",
+          "profile_max_threshold_excess_db": {
+            "balanced": 0.6976,
+            "exploratory_local": 0.4354
+          },
+          "vh_role": "corroboration_only",
+          "vh_cfar_corroborated": true,
+          "vh_max_threshold_excess_db": 3.558
+        },
+        "signature_measurements": {
+          "vv_peak_linear_power": 3.88961577,
+          "vv_peak_db": 5.8991,
+          "vh_at_vv_peak_linear_power": 0.63086998,
+          "vh_at_vv_peak_db": -2.0006,
+          "primary_seed_pixel_count": 2,
+          "seed_bbox_pixels": {
+            "row_min": 1575,
+            "row_max": 1575,
+            "column_min": 1784,
+            "column_max": 1785
+          },
+          "approximate_axis_aligned_signature_span_m": {
+            "x": 20.0,
+            "y": 10.0
+          },
+          "span_is_not_vessel_length": true
+        },
+        "spatial_quality": {
+          "open_water_aoi_reviewed": true,
+          "coastline_mask_integrated": true,
+          "land_mask_source": "Natural Earth 1:10m land v5.1.1",
+          "land_buffer_radius_px": 100,
+          "common_cfar_border_excluded": true,
+          "quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED",
+            "VH_CFAR_CORROBORATED"
+          ]
+        },
+        "infrastructure_context": {
+          "reference_available": true,
+          "found_within_search_radius": true,
+          "search_radius_nm": 10.0,
+          "review_radius_nm": 1.0,
+          "near_infrastructure_reference": false,
+          "nearest_type": "power_cable",
+          "nearest_reference_id": "pcablesbshcontis.4",
+          "nearest_name": "pcablesbshcontis.4",
+          "nearest_distance_nm": 3.7973,
+          "source": "local EMODnet reference snapshot"
+        },
+        "ais_context_status": "NOT_CHECKED",
+        "ais_match_status": "NOT_ASSESSED",
+        "current_ais_overlaid": false,
+        "dark_vessel_claim": false,
+        "assessment_limit": "Experimental CFAR bright-return groups are not vessel classifications. No AIS data was retrieved or overlaid, no claim about a so-called dark vessel is made, and every candidate requires visual analyst review before any later use.",
+        "detection_id": "SARCAND-20260816T052402Z-0006",
+        "centroid_pixel": {
+          "row": 1575.0,
+          "column": 1784.524
+        }
+      }
+    }
+  ]
+}
