@@ -1,0 +1,333 @@
+name: Copernicus SAR Phase 3 CFAR comparison
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: "Type RUN_CFAR_ONE_SCENE to authorize one bounded chip and experimental CFAR comparison"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  # This remains a manual, single-scene pilot and writes only three small review outputs.
+  group: voodoo-copernicus-sar-cfar-main
+  cancel-in-progress: false
+
+jobs:
+  compare-cfar-on-one-temporary-chip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      CDSE_SH_CLIENT_ID: ${{ secrets.CDSE_SH_CLIENT_ID }}
+      CDSE_SH_CLIENT_SECRET: ${{ secrets.CDSE_SH_CLIENT_SECRET }}
+      SAR_CFAR_CONFIRMATION: ${{ inputs.confirmation }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Require explicit single-scene confirmation and protected secrets
+        run: |
+          set -euo pipefail
+          if [ "${SAR_CFAR_CONFIRMATION:-}" != "RUN_CFAR_ONE_SCENE" ]; then
+            echo "::error::Confirmation must be exactly RUN_CFAR_ONE_SCENE."
+            exit 1
+          fi
+          if [ -z "${CDSE_SH_CLIENT_ID:-}" ]; then
+            echo "::error::Repository secret CDSE_SH_CLIENT_ID is missing."
+            exit 1
+          fi
+          if [ -z "${CDSE_SH_CLIENT_SECRET:-}" ]; then
+            echo "::error::Repository secret CDSE_SH_CLIENT_SECRET is missing."
+            exit 1
+          fi
+          echo "One bounded scene is authorized for an experimental CFAR comparison. Secret values are not displayed."
+
+      - name: Install temporary raster and CFAR dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check \
+            "numpy>=2.0,<3" \
+            "scipy>=1.14,<2" \
+            "tifffile>=2025.5,<2027" \
+            "Pillow>=11,<13"
+
+      - name: Run offline Phase 1 through Phase 3 safety tests
+        run: |
+          set -euo pipefail
+          python -m unittest \
+            tests/test_copernicus_sar_catalog.py \
+            tests/test_copernicus_sar_chip.py \
+            tests/test_copernicus_sar_cfar.py \
+            -v
+          python -m py_compile \
+            scripts/copernicus_sar_catalog.py \
+            scripts/copernicus_sar_chip.py \
+            scripts/copernicus_sar_cfar.py \
+            tests/test_copernicus_sar_cfar.py
+
+      - name: Download one temporary chip and compare three CFAR profiles
+        run: |
+          set -euo pipefail
+          python scripts/copernicus_sar_cfar.py
+
+      - name: Validate review outputs, semantics and repository isolation
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+
+          status_path = Path('data/sar_copernicus_cfar_status_latest.json')
+          candidate_path = Path('data/sar_copernicus_cfar_candidates_latest.geojson')
+          quicklook_path = Path('data/sar_copernicus_cfar_parameter_comparison_latest.png')
+          expected_output_paths = {status_path, candidate_path, quicklook_path}
+
+          for path, maximum in (
+              (status_path, 1024 * 1024),
+              (candidate_path, 10 * 1024 * 1024),
+              (quicklook_path, 5 * 1024 * 1024),
+          ):
+              if not path.exists() or path.stat().st_size == 0:
+                  raise SystemExit(f'missing Phase 3 output: {path}')
+              if path.stat().st_size > maximum:
+                  raise SystemExit(f'Phase 3 output exceeds its byte guard: {path}')
+
+          status_text = status_path.read_text(encoding='utf-8')
+          candidate_text = candidate_path.read_text(encoding='utf-8')
+          status = json.loads(status_text)
+          geojson = json.loads(candidate_text)
+          png_bytes = quicklook_path.read_bytes()
+          if png_bytes[:8] != b'\x89PNG\r\n\x1a\n':
+              raise SystemExit('Phase 3 comparison visual is not a PNG')
+
+          if status.get('status') != 'ok':
+              raise SystemExit(f"Phase 3 is not healthy: {status.get('errors')}")
+          if status.get('phase') != 'single_scene_cfar_parameter_comparison':
+              raise SystemExit('unexpected Phase 3 identifier')
+          if status.get('oauth', {}).get('oauth_client_credentials_valid') is not True:
+              raise SystemExit('Copernicus OAuth validation did not succeed')
+          catalogue = status.get('catalogue_confirmation', {})
+          if catalogue.get('returned_features') != 1 or catalogue.get('single_scene_guard_passed') is not True:
+              raise SystemExit('single-scene catalogue guard did not pass')
+          expected_scene = 'S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E'
+          if status.get('selected_scene', {}).get('normalized_scene_id') != expected_scene:
+              raise SystemExit('configured Sentinel-1 scene was not selected exactly')
+          if status.get('raster_download_performed') is not True:
+              raise SystemExit('Phase 3 did not receive its temporary raster')
+          if status.get('temporary_raster_written') is not True or status.get('temporary_raster_deleted') is not True:
+              raise SystemExit('temporary Phase 3 raster lifecycle was not completed')
+          if status.get('raster_persisted') is not False or status.get('raster_artifact_uploaded') is not False:
+              raise SystemExit('Phase 3 unexpectedly persisted or uploaded the raster')
+          if status.get('candidate_extraction_performed') is not True or status.get('detection_performed') is not True:
+              raise SystemExit('Phase 3 candidate extraction was not completed')
+
+          algorithm = status.get('algorithm', {})
+          if algorithm.get('name') != 'CA_CFAR' or algorithm.get('parameters_are_experimental') is not True:
+              raise SystemExit('Phase 3 algorithm is missing its experimental CFAR disclosure')
+          if algorithm.get('primary_band') != 'VV' or algorithm.get('secondary_band_role') != 'corroboration_only':
+              raise SystemExit('Phase 3 polarization roles changed unexpectedly')
+          profile_results = status.get('profile_results') or []
+          expected_profiles = ['strict_wide', 'balanced', 'exploratory_local']
+          if [profile.get('id') for profile in profile_results] != expected_profiles:
+              raise SystemExit('Phase 3 did not compare the three reviewed profiles')
+          for profile in profile_results:
+              if int(profile.get('seed_pixels', -1)) < 0 or int(profile.get('seed_pixels', 25001)) > 25000:
+                  raise SystemExit(f"CFAR seed guard failed for {profile.get('id')}")
+          if not status.get('vh_corroboration_result'):
+              raise SystemExit('Phase 3 has no VH corroboration audit result')
+
+          spatial = status.get('spatial_context', {})
+          land = spatial.get('land_mask') or {}
+          if spatial.get('coastline_mask_integrated') is not True or land.get('applied') is not True:
+              raise SystemExit('required pilot land mask was not applied')
+          if land.get('source_version') != '5.1.1' or land.get('buffer_radius_px') != 100:
+              raise SystemExit('pilot land-mask source or conservative buffer changed')
+          if int(land.get('land_pixels') or 0) <= 0 or int(land.get('valid_pixels_excluded_by_land_and_buffer') or 0) <= 0:
+              raise SystemExit('pilot land mask did not exclude any valid source pixels')
+          if land.get('navigational_use') is not False:
+              raise SystemExit('land mask is incorrectly presented for navigational use')
+          if spatial.get('infrastructure_context_deleted_candidates') is not False:
+              raise SystemExit('infrastructure context was allowed to delete candidates')
+
+          forbidden_status = {
+              'ais_download_performed': False,
+              'current_ais_overlaid': False,
+              'dark_vessel_claim': False,
+              'public_layer_modified': False,
+              'gfw_products_modified': False,
+              'magic_paws_modified': False,
+              'production_ready': False,
+          }
+          for key, expected in forbidden_status.items():
+              if status.get(key) is not expected:
+                  raise SystemExit(f'Phase 3 isolation field {key} changed unexpectedly')
+          if status.get('ais_context_status') != 'NOT_CHECKED' or status.get('visual_review_required') is not True:
+              raise SystemExit('Phase 3 AIS/review semantics changed unexpectedly')
+
+          if geojson.get('type') != 'FeatureCollection' or not isinstance(geojson.get('features'), list):
+              raise SystemExit('candidate output is not a GeoJSON FeatureCollection')
+          metadata = geojson.get('metadata', {})
+          if metadata.get('candidate_status') != 'UNREVIEWED_SAR_CANDIDATE':
+              raise SystemExit('candidate collection has an unsafe status')
+          if metadata.get('parameters_are_experimental') is not True or metadata.get('visual_review_required') is not True:
+              raise SystemExit('candidate collection omits experimental/review disclosures')
+          if metadata.get('coastline_mask_integrated') is not True:
+              raise SystemExit('candidate collection omits its applied land mask')
+          if metadata.get('ais_context_status') != 'NOT_CHECKED' or metadata.get('current_ais_overlaid') is not False:
+              raise SystemExit('candidate collection incorrectly claims AIS context')
+          if metadata.get('dark_vessel_claim') is not False or metadata.get('public_layer') is not False:
+              raise SystemExit('candidate collection has unsafe claim/publication semantics')
+
+          features = geojson['features']
+          counts = status.get('candidate_counts', {})
+          total = int(counts.get('total_unreviewed_candidate_groups', -1))
+          if total != len(features) or not 0 <= total <= 1000:
+              raise SystemExit('candidate count is inconsistent or exceeds the pilot guard')
+          categorized = sum(int(counts.get(key, 0)) for key in ('all_profiles', 'multi_profile', 'single_profile'))
+          if categorized != total:
+              raise SystemExit('candidate profile-consensus counts do not sum to total')
+          identifiers = set()
+          west, south, east, north = 11.95, 54.48, 12.25, 54.66
+          for feature in features:
+              properties = feature.get('properties', {})
+              identifier = properties.get('detection_id')
+              if not identifier or identifier in identifiers or feature.get('id') != identifier:
+                  raise SystemExit('candidate identifier is missing, duplicated or inconsistent')
+              identifiers.add(identifier)
+              if properties.get('candidate_status') != 'UNREVIEWED_SAR_CANDIDATE':
+                  raise SystemExit(f'{identifier} has an unsafe candidate status')
+              if properties.get('classification') != 'UNCLASSIFIED_BRIGHT_RETURN':
+                  raise SystemExit(f'{identifier} is presented as a vessel classification')
+              if properties.get('candidate_is_not_vessel_classification') is not True:
+                  raise SystemExit(f'{identifier} omits the non-classification disclosure')
+              if properties.get('human_visual_review_required') is not True or properties.get('downstream_eligible') is not False:
+                  raise SystemExit(f'{identifier} bypasses analyst review/downstream isolation')
+              if properties.get('ais_context_status') != 'NOT_CHECKED' or properties.get('ais_match_status') != 'NOT_ASSESSED':
+                  raise SystemExit(f'{identifier} incorrectly claims AIS assessment')
+              if properties.get('current_ais_overlaid') is not False or properties.get('dark_vessel_claim') is not False:
+                  raise SystemExit(f'{identifier} contains an unsafe AIS/dark-vessel claim')
+              method = properties.get('detection_method', {})
+              detected_profiles = method.get('detected_by_profiles') or []
+              if not detected_profiles or not set(detected_profiles).issubset(set(expected_profiles)):
+                  raise SystemExit(f'{identifier} has no valid VV profile provenance')
+              if method.get('primary_band') != 'VV' or method.get('vh_role') != 'corroboration_only':
+                  raise SystemExit(f'{identifier} has invalid polarization provenance')
+              quality_flags = properties.get('spatial_quality', {}).get('quality_flags') or []
+              if 'COARSE_LAND_MASK_APPLIED' not in quality_flags:
+                  raise SystemExit(f'{identifier} omits its land-mask quality flag')
+              coordinates = (feature.get('geometry') or {}).get('coordinates') or []
+              if len(coordinates) != 2 or not west <= float(coordinates[0]) <= east or not south <= float(coordinates[1]) <= north:
+                  raise SystemExit(f'{identifier} lies outside the fixed pilot AOI')
+
+          output_audit = status.get('outputs', {})
+          candidate_audit = output_audit.get('candidate_geojson') or {}
+          png_audit = output_audit.get('parameter_comparison_png') or {}
+          if candidate_audit.get('sha256') != hashlib.sha256(candidate_path.read_bytes()).hexdigest():
+              raise SystemExit('candidate GeoJSON hash does not match status audit')
+          if candidate_audit.get('feature_count') != len(features) or candidate_audit.get('public_layer') is not False:
+              raise SystemExit('candidate GeoJSON status audit is inconsistent')
+          if png_audit.get('sha256') != hashlib.sha256(png_bytes).hexdigest():
+              raise SystemExit('comparison PNG hash does not match status audit')
+          if png_audit.get('contains_source_raster') is not False or png_audit.get('derived_review_visual_only') is not True:
+              raise SystemExit('comparison PNG has unsafe source-raster semantics')
+
+          for env_name in ('CDSE_SH_CLIENT_ID', 'CDSE_SH_CLIENT_SECRET'):
+              secret = os.environ.get(env_name, '')
+              if secret and (
+                  secret in status_text
+                  or secret in candidate_text
+                  or secret.encode('utf-8') in png_bytes
+              ):
+                  raise SystemExit(f'{env_name} leaked into a Phase 3 output')
+
+          forbidden_raw = []
+          for path in Path('.').rglob('*'):
+              if '.git' in path.parts:
+                  continue
+              lower_name = path.name.lower()
+              if lower_name.endswith('.safe') or path.suffix.lower() in ('.tif', '.tiff'):
+                  forbidden_raw.append(path)
+          if forbidden_raw:
+              raise SystemExit(f'raw/intermediate SAR files appeared in the repository: {forbidden_raw[:5]}')
+
+          porcelain = subprocess.check_output(
+              ['git', 'status', '--porcelain=v1', '--untracked-files=all'], text=True
+          )
+          changed = set()
+          for line in porcelain.splitlines():
+              if not line:
+                  continue
+              path_text = line[3:].split(' -> ')[-1]
+              changed.add(Path(path_text))
+          unexpected = changed - expected_output_paths
+          if unexpected:
+              raise SystemExit(f'Phase 3 modified unexpected repository path(s): {sorted(map(str, unexpected))}')
+
+          print(json.dumps({
+              'status': status['status'],
+              'pilot_id': status['pilot_id'],
+              'scene_id': status['selected_scene']['matched_scene_identifier'],
+              'profile_seed_counts': {
+                  profile['id']: profile['seed_pixels'] for profile in profile_results
+              },
+              'candidate_counts': counts,
+              'land_mask_excluded_valid_pixels': land['valid_pixels_excluded_by_land_and_buffer'],
+              'temporary_raster_deleted': status['temporary_raster_deleted'],
+              'ais_context_status': status['ais_context_status'],
+              'visual_review_required': status['visual_review_required'],
+              'quicklook_bytes': len(png_bytes),
+          }, indent=2))
+          PY
+
+      - name: Commit only small Phase 3 review outputs
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/sar_copernicus_cfar_status_latest.json \
+            data/sar_copernicus_cfar_candidates_latest.geojson \
+            data/sar_copernicus_cfar_parameter_comparison_latest.png
+          if git diff --cached --quiet; then
+            echo "No Copernicus Phase 3 review-output change to commit."
+            exit 0
+          fi
+          python - <<'PY'
+          import subprocess
+
+          allowed = {
+              'data/sar_copernicus_cfar_status_latest.json',
+              'data/sar_copernicus_cfar_candidates_latest.geojson',
+              'data/sar_copernicus_cfar_parameter_comparison_latest.png',
+          }
+          staged = set(subprocess.check_output(
+              ['git', 'diff', '--cached', '--name-only'], text=True
+          ).splitlines())
+          unexpected = staged - allowed
+          if not staged or unexpected:
+              raise SystemExit(f'Unexpected staged path(s): {sorted(unexpected)}')
+          PY
+          git commit -m "Add Copernicus SAR Phase 3 CFAR comparison"
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            git rebase --abort || true
+            [ "$attempt" -lt 3 ] && sleep 12
+          done
+          echo "::error::Failed to push Phase 3 review outputs after 3 attempts."
+          exit 1
