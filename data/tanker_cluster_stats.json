@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-08-19T03:12:00+00:00",
-  "total_contacts_seen": 969,
-  "total_unique_tankers_in_context_zones": 201,
+  "generated_at": "2026-08-19T14:53:42+00:00",
+  "total_contacts_seen": 967,
+  "total_unique_tankers_in_context_zones": 206,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 136,
-  "voi_tankers_in_context_zones": 65,
+  "neutral_tanker_context_total": 138,
+  "voi_tankers_in_context_zones": 68,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 62,
-      "neutral_tankers": 56,
+      "total_tankers": 61,
+      "neutral_tankers": 55,
       "voi_tankers": 6,
-      "slow_or_waiting": 24,
+      "slow_or_waiting": 25,
       "for_order": 2,
       "examples": [
         {
@@ -45,16 +45,6 @@
           ]
         },
         {
-          "name": "DAN CISNE",
-          "imo": "9513440",
-          "mmsi": "219332000",
-          "destination": "DKSKA>GBANA",
-          "sog": "9.7",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "AMAK SWAN",
           "imo": "9318230",
           "mmsi": "219355000",
@@ -85,11 +75,21 @@
           ]
         },
         {
+          "name": "HARMONIC",
+          "imo": "9819868",
+          "mmsi": "241665000",
+          "destination": "PLGDN",
+          "sog": "12.8",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
           "name": "NJORD DF",
           "imo": "9953468",
           "mmsi": "241866000",
           "destination": "NOMON=>PLGDN",
-          "sog": "14.6",
+          "sog": "13.2",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,10 +100,10 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 40,
-      "neutral_tankers": 38,
+      "total_tankers": 37,
+      "neutral_tankers": 35,
       "voi_tankers": 2,
-      "slow_or_waiting": 18,
+      "slow_or_waiting": 19,
       "for_order": 1,
       "examples": [
         {
@@ -127,16 +127,6 @@
           ]
         },
         {
-          "name": "DAN CISNE",
-          "imo": "9513440",
-          "mmsi": "219332000",
-          "destination": "DKSKA>GBANA",
-          "sog": "9.7",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "AMAK SWAN",
           "imo": "9318230",
           "mmsi": "219355000",
@@ -167,11 +157,11 @@
           ]
         },
         {
-          "name": "NJORD DF",
-          "imo": "9953468",
-          "mmsi": "241866000",
-          "destination": "NOMON=>PLGDN",
-          "sog": "14.6",
+          "name": "HARMONIC",
+          "imo": "9819868",
+          "mmsi": "241665000",
+          "destination": "PLGDN",
+          "sog": "12.8",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -185,6 +175,16 @@
           "categories": [
             "neutral_tanker_context"
           ]
+        },
+        {
+          "name": "STELLA ORION",
+          "imo": "9265251",
+          "mmsi": "246553000",
+          "destination": "DK NBG>NL AMS",
+          "sog": "10.9",
+          "categories": [
+            "neutral_tanker_context"
+          ]
         }
       ],
       "zone_id": "skagen_waiting_area",
@@ -192,11 +192,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 86,
-      "neutral_tankers": 27,
-      "voi_tankers": 59,
-      "slow_or_waiting": 53,
-      "for_order": 9,
+      "total_tankers": 92,
+      "neutral_tankers": 30,
+      "voi_tankers": 62,
+      "slow_or_waiting": 62,
+      "for_order": 11,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -213,7 +213,7 @@
           "imo": "9870666",
           "mmsi": "210048000",
           "destination": "KOTKA",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -233,7 +233,7 @@
           "imo": "9010929",
           "mmsi": "210056000",
           "destination": "TALLINN",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -243,7 +243,7 @@
           "imo": "9872987",
           "mmsi": "215685000",
           "destination": "FIINK",
-          "sog": "1.8",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -253,7 +253,7 @@
           "imo": "9988994",
           "mmsi": "219034373",
           "destination": "FI SKV",
-          "sog": "9.3",
+          "sog": "0.4",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -263,7 +263,7 @@
           "imo": "9406582",
           "mmsi": "220624000",
           "destination": "FI PRV",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -272,8 +272,8 @@
           "name": "JAARLI",
           "imo": "9892432",
           "mmsi": "230687000",
-          "destination": "FI SKV",
-          "sog": "0.9",
+          "destination": "FI SKV>DK LIN",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
