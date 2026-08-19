@@ -1,0 +1,384 @@
+name: Copernicus SAR Phase 5.1 native visual review evidence
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: "Type RENDER_SAR_VISUAL_REVIEW_ONE_SCENE to render native review crops from one temporary chip"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: voodoo-copernicus-sar-visual-review-main
+  cancel-in-progress: false
+
+jobs:
+  render-one-scene-native-review-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      CDSE_SH_CLIENT_ID: ${{ secrets.CDSE_SH_CLIENT_ID }}
+      CDSE_SH_CLIENT_SECRET: ${{ secrets.CDSE_SH_CLIENT_SECRET }}
+      SAR_VISUAL_REVIEW_CONFIRMATION: ${{ inputs.confirmation }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Require explicit one-scene confirmation and protected secrets
+        run: |
+          set -euo pipefail
+          if [ "${SAR_VISUAL_REVIEW_CONFIRMATION:-}" != "RENDER_SAR_VISUAL_REVIEW_ONE_SCENE" ]; then
+            echo "::error::Confirmation must be exactly RENDER_SAR_VISUAL_REVIEW_ONE_SCENE."
+            exit 1
+          fi
+          if [ -z "${CDSE_SH_CLIENT_ID:-}" ]; then
+            echo "::error::Repository secret CDSE_SH_CLIENT_ID is missing."
+            exit 1
+          fi
+          if [ -z "${CDSE_SH_CLIENT_SECRET:-}" ]; then
+            echo "::error::Repository secret CDSE_SH_CLIENT_SECRET is missing."
+            exit 1
+          fi
+          echo "One temporary copy of the accepted scene is authorized for native review evidence. Secret values are not displayed."
+
+      - name: Install temporary raster and regression-test dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check \
+            "requests>=2.32,<3" \
+            "numpy>=2.0,<3" \
+            "scipy>=1.14,<2" \
+            "tifffile>=2025.5,<2027" \
+            "Pillow>=11,<13"
+
+      - name: Run offline Phase 1 through Phase 5.1 safety tests
+        run: |
+          set -euo pipefail
+          python -m unittest \
+            tests/test_copernicus_sar_catalog.py \
+            tests/test_copernicus_sar_chip.py \
+            tests/test_copernicus_sar_cfar.py \
+            tests/test_copernicus_sar_ais_match.py \
+            tests/test_copernicus_sar_review_queue.py \
+            tests/test_copernicus_sar_visual_review.py \
+            -v
+          python -m py_compile \
+            scripts/copernicus_sar_catalog.py \
+            scripts/copernicus_sar_chip.py \
+            scripts/copernicus_sar_cfar.py \
+            scripts/copernicus_sar_ais_match.py \
+            scripts/copernicus_sar_review_queue.py \
+            scripts/copernicus_sar_visual_review.py \
+            tests/test_copernicus_sar_visual_review.py
+
+      - name: Download, render and delete one temporary Sentinel-1 chip
+        run: |
+          set -euo pipefail
+          python scripts/copernicus_sar_visual_review.py
+
+      - name: Validate native panels, pending-review semantics and isolation
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import io
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+
+          from PIL import Image
+
+          sheet_path = Path('data/sar_copernicus_visual_review_sheet_latest.png')
+          manifest_path = Path('data/sar_copernicus_visual_review_manifest_latest.json')
+          status_path = Path('data/sar_copernicus_visual_review_status_latest.json')
+          context_path = Path('data/sar_copernicus_ais_context_latest.geojson')
+          queue_path = Path('data/sar_copernicus_review_queue_latest.json')
+          objects_path = Path('data/sar_copernicus_review_objects_latest.geojson')
+          expected_outputs = {sheet_path, manifest_path, status_path}
+
+          for path, maximum in (
+              (sheet_path, 8 * 1024 * 1024),
+              (manifest_path, 5 * 1024 * 1024),
+              (status_path, 1024 * 1024),
+          ):
+              if not path.exists() or path.stat().st_size == 0:
+                  raise SystemExit(f'missing Phase 5.1 output: {path}')
+              if path.stat().st_size > maximum:
+                  raise SystemExit(f'Phase 5.1 output exceeds its byte guard: {path}')
+          for path in (context_path, queue_path, objects_path):
+              if not path.exists() or path.stat().st_size == 0:
+                  raise SystemExit(f'missing accepted Phase 5.1 input: {path}')
+
+          sheet_bytes = sheet_path.read_bytes()
+          manifest_text = manifest_path.read_text(encoding='utf-8')
+          status_text = status_path.read_text(encoding='utf-8')
+          manifest = json.loads(manifest_text)
+          status = json.loads(status_text)
+          expected_scene = 'S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E'
+          expected_hashes = {
+              'phase4_context_sha256': '10776ef457aae76d79a19eebfd888a0de9800150a29e994cafebb1a6685d617b',
+              'phase5_queue_sha256': '7c8eab89dea0b3389338d14608db0a520bbc4ff16b51df0b594524d21c3175f6',
+              'phase5_objects_sha256': '22e172a6082dfc459b6cc74a43d186d8bdd96327b224a856ae4b2d5142863288',
+          }
+          expected_candidates = {
+              'SARREVIEW-20260816T052402Z-0001': {
+                  'SARCAND-20260816T052402Z-0001',
+                  'SARCAND-20260816T052402Z-0004',
+              },
+              'SARREVIEW-20260816T052402Z-0002': {
+                  'SARCAND-20260816T052402Z-0002',
+                  'SARCAND-20260816T052402Z-0006',
+              },
+              'SARREVIEW-20260816T052402Z-0003': {
+                  'SARCAND-20260816T052402Z-0003',
+              },
+              'SARREVIEW-20260816T052402Z-0004': {
+                  'SARCAND-20260816T052402Z-0005',
+              },
+          }
+          actual_input_hashes = {
+              'phase4_context_sha256': hashlib.sha256(context_path.read_bytes()).hexdigest(),
+              'phase5_queue_sha256': hashlib.sha256(queue_path.read_bytes()).hexdigest(),
+              'phase5_objects_sha256': hashlib.sha256(objects_path.read_bytes()).hexdigest(),
+          }
+          if actual_input_hashes != expected_hashes:
+              raise SystemExit('accepted Phase 4/5 input hashes changed')
+
+          if status.get('status') != 'ok' or status.get('errors') != []:
+              raise SystemExit(f"Phase 5.1 is not healthy: {status.get('errors')}")
+          if status.get('phase') != 'single_scene_visual_confirmation_evidence':
+              raise SystemExit('unexpected Phase 5.1 identifier')
+          if (status.get('selected_scene') or {}).get('normalized_scene_id') != expected_scene:
+              raise SystemExit('Phase 5.1 selected the wrong scene')
+          inputs = status.get('inputs') or {}
+          for key, expected in expected_hashes.items():
+              if inputs.get(key) != expected:
+                  raise SystemExit(f'Phase 5.1 input receipt differs for {key}')
+          if inputs.get('exact_accepted_hashes_verified') is not True:
+              raise SystemExit('Phase 5.1 did not verify the accepted inputs')
+          if inputs.get('phase4_outputs_modified') is not False:
+              raise SystemExit('Phase 5.1 reports modifying Phase 4')
+          if inputs.get('phase5_outputs_modified') is not False:
+              raise SystemExit('Phase 5.1 reports modifying Phase 5')
+          if inputs.get('current_ais_files_read') is not False:
+              raise SystemExit('Phase 5.1 reports reading current AIS')
+
+          if status.get('oauth', {}).get('oauth_client_credentials_valid') is not True:
+              raise SystemExit('Phase 5.1 OAuth validation failed')
+          catalogue = status.get('catalogue_confirmation') or {}
+          if catalogue.get('returned_features') != 1 or catalogue.get('single_scene_guard_passed') is not True:
+              raise SystemExit('Phase 5.1 single-scene catalogue guard failed')
+          if status.get('network_access_performed') is not True:
+              raise SystemExit('Phase 5.1 did not record its bounded network access')
+          if status.get('sar_download_performed') is not True:
+              raise SystemExit('Phase 5.1 did not receive the temporary raster')
+          if status.get('temporary_raster_written') is not True or status.get('temporary_raster_deleted') is not True:
+              raise SystemExit('Phase 5.1 temporary raster lifecycle was not completed')
+          if status.get('raster_persisted') is not False or status.get('raster_artifact_uploaded') is not False:
+              raise SystemExit('Phase 5.1 unexpectedly persisted or uploaded the raster')
+          validation = status.get('raster_validation') or {}
+          if validation.get('shape') != [2002, 1934, 3] or validation.get('dtype') != 'float32':
+              raise SystemExit('Phase 5.1 temporary raster has the wrong structure')
+
+          rendering = status.get('rendering') or {}
+          if rendering.get('clean_unmarked_panels_created') is not True:
+              raise SystemExit('Phase 5.1 did not create clean panels')
+          if rendering.get('separate_overlay_panels_created') is not True:
+              raise SystemExit('Phase 5.1 did not separate its overlay')
+          if rendering.get('native_pixel_scale_preserved') is not True:
+              raise SystemExit('Phase 5.1 did not preserve native 1:1 pixels')
+          if rendering.get('review_object_count') != 4:
+              raise SystemExit('Phase 5.1 did not render four review objects')
+
+          forbidden_status = {
+              'ais_download_performed': False,
+              'historical_ais_only': True,
+              'current_ais_used': False,
+              'current_ais_overlaid': False,
+              'review_queue_modified': False,
+              'review_objects_modified': False,
+              'analyst_decision_recorded': False,
+              'visual_confirmation_completed_automatically': False,
+              'visual_confirmation_complete_count': 0,
+              'final_disposition_count': 0,
+              'downstream_eligible_count': 0,
+              'automatic_final_disposition': False,
+              'public_layer_modified': False,
+              'existing_ais_products_modified': False,
+              'gfw_products_modified': False,
+              'magic_paws_modified': False,
+              'hybrid_index_modified': False,
+              'dark_vessel_claim': False,
+              'sar_candidates_classified_as_vessels': False,
+              'production_ready': False,
+          }
+          for key, expected in forbidden_status.items():
+              if status.get(key) is not expected:
+                  raise SystemExit(f'Phase 5.1 isolation field {key} changed')
+
+          if sheet_bytes[:8] != b'\x89PNG\r\n\x1a\n':
+              raise SystemExit('Phase 5.1 review sheet is not a PNG')
+          image = Image.open(io.BytesIO(sheet_bytes))
+          if image.size != (
+              manifest['review_sheet']['width_px'],
+              manifest['review_sheet']['height_px'],
+          ):
+              raise SystemExit('Phase 5.1 PNG dimensions differ from the manifest')
+          if manifest.get('phase') != 'single_scene_visual_confirmation_evidence':
+              raise SystemExit('Phase 5.1 manifest has the wrong phase')
+          if (manifest.get('scene') or {}).get('normalized_scene_id') != expected_scene:
+              raise SystemExit('Phase 5.1 manifest has the wrong scene')
+          source = manifest.get('source') or {}
+          for key, expected in expected_hashes.items():
+              if source.get(key) != expected:
+                  raise SystemExit(f'Phase 5.1 manifest receipt differs for {key}')
+          if source.get('temporary_raster_deleted') is not True:
+              raise SystemExit('Phase 5.1 manifest does not confirm raster deletion')
+          sheet = manifest.get('review_sheet') or {}
+          if sheet.get('panel_order') != [
+              'VV_CLEAN_NATIVE_1_TO_1',
+              'VH_CLEAN_NATIVE_1_TO_1',
+              'VV_HISTORICAL_AIS_OVERLAY_NATIVE_1_TO_1',
+          ]:
+              raise SystemExit('Phase 5.1 manifest panel order changed')
+          if sheet.get('clean_panels_unmarked') is not True:
+              raise SystemExit('Phase 5.1 manifest does not preserve clean panels')
+          if sheet.get('overlay_is_separate_panel') is not True:
+              raise SystemExit('Phase 5.1 manifest does not separate its overlay')
+          if sheet.get('native_source_pixels_per_output_pixel') != 1.0:
+              raise SystemExit('Phase 5.1 manifest does not preserve 1:1 pixels')
+          if sheet.get('resampling') != 'NONE':
+              raise SystemExit('Phase 5.1 manifest introduced resampling')
+          panels = sheet.get('review_panels')
+          if not isinstance(panels, list) or len(panels) != 4:
+              raise SystemExit('Phase 5.1 manifest does not contain four review panels')
+          for panel in panels:
+              identifier = panel.get('review_object_id')
+              if identifier not in expected_candidates:
+                  raise SystemExit(f'unknown Phase 5.1 review object: {identifier}')
+              if set(panel.get('source_candidate_ids') or []) != expected_candidates[identifier]:
+                  raise SystemExit(f'Phase 5.1 source candidates changed for {identifier}')
+              window = panel.get('source_pixel_window') or {}
+              if window.get('width_px') != 256 or window.get('height_px') != 256:
+                  raise SystemExit(f'Phase 5.1 crop size changed for {identifier}')
+              if window.get('source_pixels_per_output_pixel') != 1.0 or window.get('resampling') != 'NONE':
+                  raise SystemExit(f'Phase 5.1 native crop semantics changed for {identifier}')
+              review = panel.get('visual_confirmation') or {}
+              if review.get('required') is not True or review.get('complete') is not False:
+                  raise SystemExit(f'Phase 5.1 review state changed for {identifier}')
+              if review.get('analyst_decision_recorded') is not False:
+                  raise SystemExit(f'Phase 5.1 recorded an analyst decision for {identifier}')
+
+          scope = manifest.get('review_scope') or {}
+          if scope != {
+              'analyst_decision_recorded': False,
+              'visual_confirmation_complete_count': 0,
+              'final_disposition_count': 0,
+              'downstream_eligible_count': 0,
+              'automatic_final_disposition': False,
+              'public_layer': False,
+          }:
+              raise SystemExit('Phase 5.1 manifest review scope changed')
+          if manifest.get('current_ais_used') is not False or manifest.get('current_ais_overlaid') is not False:
+              raise SystemExit('Phase 5.1 manifest uses current AIS')
+          if manifest.get('dark_vessel_claim') is not False:
+              raise SystemExit('Phase 5.1 manifest contains an unsafe claim')
+
+          outputs = status.get('outputs') or {}
+          sheet_audit = outputs.get('review_sheet_png') or {}
+          manifest_audit = outputs.get('review_manifest_json') or {}
+          if sheet_audit.get('sha256') != hashlib.sha256(sheet_bytes).hexdigest():
+              raise SystemExit('Phase 5.1 review-sheet hash audit failed')
+          if manifest_audit.get('sha256') != hashlib.sha256(manifest_path.read_bytes()).hexdigest():
+              raise SystemExit('Phase 5.1 manifest hash audit failed')
+
+          combined_text = manifest_text + '\n' + status_text
+          for env_name in ('CDSE_SH_CLIENT_ID', 'CDSE_SH_CLIENT_SECRET'):
+              secret = os.environ.get(env_name, '')
+              if secret and secret in combined_text:
+                  raise SystemExit(f'{env_name} leaked into a Phase 5.1 output')
+
+          raw_material = [
+              path for path in Path('.').rglob('*')
+              if '.git' not in path.parts
+              and (path.suffix.lower() in {'.safe', '.tif', '.tiff'} or path.name.lower().endswith('.safe'))
+          ]
+          if raw_material:
+              raise SystemExit(f'raw/intermediate SAR material appeared in the repository: {raw_material[:5]}')
+
+          porcelain = subprocess.check_output(
+              ['git', 'status', '--porcelain=v1', '--untracked-files=all'], text=True
+          )
+          changed = set()
+          for line in porcelain.splitlines():
+              if line:
+                  changed.add(Path(line[3:].split(' -> ')[-1]))
+          unexpected = changed - expected_outputs
+          if unexpected:
+              raise SystemExit(f'Phase 5.1 modified unexpected repository path(s): {sorted(map(str, unexpected))}')
+
+          print(json.dumps({
+              'status': status['status'],
+              'scene': expected_scene,
+              'review_objects_rendered': 4,
+              'source_candidates_preserved': 6,
+              'clean_panels_unmarked': True,
+              'native_source_pixels_per_output_pixel': 1.0,
+              'temporary_raster_deleted': True,
+              'analyst_decision_recorded': False,
+              'visual_confirmation_complete': 0,
+              'downstream_eligible': 0,
+              'current_ais_used': False,
+          }, indent=2))
+          PY
+
+      - name: Commit only three small Phase 5.1 review-evidence outputs
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/sar_copernicus_visual_review_sheet_latest.png \
+            data/sar_copernicus_visual_review_manifest_latest.json \
+            data/sar_copernicus_visual_review_status_latest.json
+          if git diff --cached --quiet; then
+            echo "No Copernicus Phase 5.1 review-evidence change to commit."
+            exit 0
+          fi
+          python - <<'PY'
+          import subprocess
+
+          allowed = {
+              'data/sar_copernicus_visual_review_sheet_latest.png',
+              'data/sar_copernicus_visual_review_manifest_latest.json',
+              'data/sar_copernicus_visual_review_status_latest.json',
+          }
+          staged = set(subprocess.check_output(
+              ['git', 'diff', '--cached', '--name-only'], text=True
+          ).splitlines())
+          unexpected = staged - allowed
+          if not staged or unexpected:
+              raise SystemExit(f'Unexpected staged path(s): {sorted(unexpected)}')
+          PY
+          git commit -m "Add Copernicus SAR Phase 5.1 native visual review evidence"
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            git rebase --abort || true
+            [ "$attempt" -lt 3 ] && sleep 12
+          done
+          echo "::error::Failed to push Phase 5.1 review evidence after 3 attempts."
+          exit 1
