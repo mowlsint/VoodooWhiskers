@@ -210,19 +210,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          19.019667,
-          69.695848
+          18.927945,
+          69.631422
         ]
       },
       "properties": {
-        "mmsi": "518887000",
+        "mmsi": "518100656",
         "imo": "—",
-        "callsign": "E5U2834",
-        "name": "S Y ARCTICA II",
-        "latitude": 69.695848,
-        "longitude": 19.019667,
+        "callsign": "E5U3570",
+        "name": "VALFREYJA",
+        "latitude": 69.631422,
+        "longitude": 18.927945,
         "destination": "",
-        "ship_type": 90,
+        "ship_type": 60,
         "navigational_status": 0,
         "sog": 0.0,
         "cog": null,
@@ -230,7 +230,115 @@
         "source": "BarentsWatch / Norwegian Coastal Administration",
         "source_provider": "barentswatch",
         "message_type_last": "RegionalSnapshot",
-        "last_seen_utc": "2026-08-19T03:11:36+00:00",
+        "last_seen_utc": "2026-08-19T14:01:19+00:00",
+        "position_timestamp_valid": true,
+        "position_timestamp_basis": "source_timestamp",
+        "source_stream": "terra",
+        "sources": [
+          "BarentsWatch / Norwegian Coastal Administration"
+        ],
+        "is_tanker_context_candidate": false,
+        "tanker_context_zone_ids": "",
+        "tanker_context_zone_labels": "",
+        "tanker_context_note": "",
+        "to_russia_declared": false,
+        "to_russia_declared_basis": "",
+        "to_russia_declared_port_hits": [],
+        "recent_russian_portcall_unconfirmed_10d": false,
+        "recent_russian_portcall_confirmed_10d": false,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "flag_detected": "Cook Islands",
+        "flag_detected_source": "mmsi_mid:518",
+        "flag_iso_code": "CK",
+        "flag_risk_category": "B",
+        "flag_registry_status": "fraud_notice_or_historical_abuse",
+        "flag_risk_band": "soft",
+        "flag_risk_score": 70,
+        "flag_risk_reason": "IMO-Kommunikation/Reporting zu fraudulent registration oder missbräuchlicher Flaggen-/Register-Nutzung; Einzelfallprüfung nötig",
+        "flag_risk_source": "IMO / reporting",
+        "flag_risk_url": "https://www.imo.org/en/OurWork/Legal/Pages/Fraudulent-registration-and-fraudulent-registries-of-ships.aspx",
+        "flag_risk_last_verified": "2026-06-29",
+        "flag_watch_context": false,
+        "false_flag_candidate": true,
+        "false_flag_hard_watch": false,
+        "false_flag_hard_reasons": "missing_imo_current_ais",
+        "watch_matched_on": "",
+        "watch_name": "",
+        "watch_imo": "",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "",
+        "source_url": "",
+        "watch_priority": "",
+        "notes": "",
+        "source_status": "unmatched_live_context",
+        "source_last_checked": "",
+        "sanctions_source_count": 0,
+        "sanctioned": false,
+        "shadow_fleet": false,
+        "false_flag": true,
+        "behavioral_voi": false,
+        "neutral_tanker_context": false,
+        "index_impact": "voi_context",
+        "voi_role": "voi_or_watchlist_context",
+        "categories": [
+          "falseflag_interest"
+        ],
+        "primary_category": "falseflag_interest",
+        "layer_name": "falseflag_interest",
+        "layer_label": "False-flag candidate / interest",
+        "display_category": "False flag candidate",
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=518100656",
+        "vesselfinder_label": "VesselFinder",
+        "marker-color": "#ff00c8",
+        "marker-symbol": "flag",
+        "marker-size": "medium",
+        "stroke": "#7a005f",
+        "stroke-width": 2,
+        "stroke-opacity": 0.95,
+        "fill": "#ff00c8",
+        "fillColor": "#ff00c8",
+        "fill-opacity": 0.82,
+        "color": "#ff00c8",
+        "_umap_options": {
+          "color": "#ff00c8",
+          "fillColor": "#ff00c8",
+          "weight": 2,
+          "opacity": 0.95,
+          "fillOpacity": 0.82
+        },
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">VALFREYJA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>—</td></tr><tr><th>MMSI</th><td>518100656</td></tr><tr><th>Callsign</th><td>E5U3570</td></tr><tr><th>Destination</th><td>—</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T14:01:19+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=518100656\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">VALFREYJA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>—</td></tr><tr><th>MMSI</th><td>518100656</td></tr><tr><th>Callsign</th><td>E5U3570</td></tr><tr><th>Destination</th><td>—</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T14:01:19+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=518100656\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">VALFREYJA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>—</td></tr><tr><th>MMSI</th><td>518100656</td></tr><tr><th>Callsign</th><td>E5U3570</td></tr><tr><th>Destination</th><td>—</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T14:01:19+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=518100656\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.019617,
+          69.695743
+        ]
+      },
+      "properties": {
+        "mmsi": "518887000",
+        "imo": "—",
+        "callsign": "E5U2834",
+        "name": "S Y ARCTICA II",
+        "latitude": 69.695743,
+        "longitude": 19.019617,
+        "destination": "",
+        "ship_type": 90,
+        "navigational_status": 0,
+        "sog": 1.1,
+        "cog": null,
+        "true_heading": null,
+        "source": "BarentsWatch / Norwegian Coastal Administration",
+        "source_provider": "barentswatch",
+        "message_type_last": "RegionalSnapshot",
+        "last_seen_utc": "2026-08-19T14:52:39+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "source_stream": "terra",
@@ -308,9 +416,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S Y ARCTICA II</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>—</td></tr><tr><th>MMSI</th><td>518887000</td></tr><tr><th>Callsign</th><td>E5U2834</td></tr><tr><th>Destination</th><td>—</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T03:11:36+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=518887000\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S Y ARCTICA II</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>—</td></tr><tr><th>MMSI</th><td>518887000</td></tr><tr><th>Callsign</th><td>E5U2834</td></tr><tr><th>Destination</th><td>—</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T03:11:36+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=518887000\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S Y ARCTICA II</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>—</td></tr><tr><th>MMSI</th><td>518887000</td></tr><tr><th>Callsign</th><td>E5U2834</td></tr><tr><th>Destination</th><td>—</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T03:11:36+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=518887000\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S Y ARCTICA II</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>—</td></tr><tr><th>MMSI</th><td>518887000</td></tr><tr><th>Callsign</th><td>E5U2834</td></tr><tr><th>Destination</th><td>—</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>1.1 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T14:52:39+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=518887000\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S Y ARCTICA II</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>—</td></tr><tr><th>MMSI</th><td>518887000</td></tr><tr><th>Callsign</th><td>E5U2834</td></tr><tr><th>Destination</th><td>—</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>1.1 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T14:52:39+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=518887000\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S Y ARCTICA II</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>—</td></tr><tr><th>MMSI</th><td>518887000</td></tr><tr><th>Callsign</th><td>E5U2834</td></tr><tr><th>Destination</th><td>—</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>1.1 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T14:52:39+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=518887000\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
       }
     },
     {
@@ -318,8 +426,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          28.660867,
-          59.918323
+          28.668842,
+          59.919392
         ]
       },
       "properties": {
@@ -327,18 +435,18 @@
         "imo": "9231509",
         "callsign": "TJMY20",
         "name": "CHIOS",
-        "latitude": 59.918323,
-        "longitude": 28.660867,
+        "latitude": 59.919392,
+        "longitude": 28.668842,
         "destination": "FOR ORDER",
         "ship_type": 80,
         "navigational_status": 1,
-        "sog": 0.1,
+        "sog": 0.5,
         "cog": null,
-        "true_heading": 25,
+        "true_heading": 289,
         "source": "Fintraffic Digitraffic",
         "source_provider": "fintraffic",
         "message_type_last": "RegionalSnapshot",
-        "last_seen_utc": "2026-08-19T03:11:56+00:00",
+        "last_seen_utc": "2026-08-19T14:53:37+00:00",
         "position_timestamp_valid": false,
         "position_timestamp_basis": "retrieval_time_fallback",
         "sources": [
@@ -417,9 +525,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">CHIOS</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9231509</td></tr><tr><th>MMSI</th><td>613007420</td></tr><tr><th>Callsign</th><td>TJMY20</td></tr><tr><th>Destination</th><td>FOR ORDER</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.1 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T03:11:56+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9231509\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">CHIOS</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9231509</td></tr><tr><th>MMSI</th><td>613007420</td></tr><tr><th>Callsign</th><td>TJMY20</td></tr><tr><th>Destination</th><td>FOR ORDER</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.1 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T03:11:56+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9231509\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">CHIOS</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9231509</td></tr><tr><th>MMSI</th><td>613007420</td></tr><tr><th>Callsign</th><td>TJMY20</td></tr><tr><th>Destination</th><td>FOR ORDER</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.1 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T03:11:56+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9231509\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">CHIOS</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9231509</td></tr><tr><th>MMSI</th><td>613007420</td></tr><tr><th>Callsign</th><td>TJMY20</td></tr><tr><th>Destination</th><td>FOR ORDER</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.5 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T14:53:37+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9231509\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">CHIOS</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9231509</td></tr><tr><th>MMSI</th><td>613007420</td></tr><tr><th>Callsign</th><td>TJMY20</td></tr><tr><th>Destination</th><td>FOR ORDER</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.5 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T14:53:37+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9231509\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">CHIOS</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9231509</td></tr><tr><th>MMSI</th><td>613007420</td></tr><tr><th>Callsign</th><td>TJMY20</td></tr><tr><th>Destination</th><td>FOR ORDER</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.5 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T14:53:37+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9231509\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
       }
     },
     {
@@ -532,8 +640,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          28.606062,
-          59.930542
+          28.611553,
+          59.932687
         ]
       },
       "properties": {
@@ -541,18 +649,18 @@
         "imo": "9378620",
         "callsign": "TJM021",
         "name": "DALVA",
-        "latitude": 59.930542,
-        "longitude": 28.606062,
+        "latitude": 59.932687,
+        "longitude": 28.611553,
         "destination": "UST LUGA",
         "ship_type": 80,
         "navigational_status": 1,
-        "sog": 0.2,
-        "cog": 145.2,
-        "true_heading": 18,
+        "sog": 1.1,
+        "cog": 358.6,
+        "true_heading": 299,
         "source": "Fintraffic Digitraffic",
         "source_provider": "fintraffic",
         "message_type_last": "RegionalSnapshot",
-        "last_seen_utc": "2026-08-19T03:11:56+00:00",
+        "last_seen_utc": "2026-08-19T14:53:37+00:00",
         "position_timestamp_valid": false,
         "position_timestamp_basis": "retrieval_time_fallback",
         "to_russia_declared": true,
@@ -635,9 +743,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">DALVA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9378620</td></tr><tr><th>MMSI</th><td>613271403</td></tr><tr><th>Callsign</th><td>TJM021</td></tr><tr><th>Destination</th><td>UST LUGA</td></tr><tr><th>RU route state</th><td>declared_destination_only</td></tr><tr><th>RU evidence</th><td>current_ais_destination</td></tr><tr><th>SOG / COG</th><td>0.2 kn / 145.2°</td></tr><tr><th>Last seen</th><td>2026-08-19T03:11:56+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU designated vessel; EU application date 21-05-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9378620\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">DALVA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9378620</td></tr><tr><th>MMSI</th><td>613271403</td></tr><tr><th>Callsign</th><td>TJM021</td></tr><tr><th>Destination</th><td>UST LUGA</td></tr><tr><th>RU route state</th><td>declared_destination_only</td></tr><tr><th>RU evidence</th><td>current_ais_destination</td></tr><tr><th>SOG / COG</th><td>0.2 kn / 145.2°</td></tr><tr><th>Last seen</th><td>2026-08-19T03:11:56+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU designated vessel; EU application date 21-05-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9378620\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">DALVA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9378620</td></tr><tr><th>MMSI</th><td>613271403</td></tr><tr><th>Callsign</th><td>TJM021</td></tr><tr><th>Destination</th><td>UST LUGA</td></tr><tr><th>RU route state</th><td>declared_destination_only</td></tr><tr><th>RU evidence</th><td>current_ais_destination</td></tr><tr><th>SOG / COG</th><td>0.2 kn / 145.2°</td></tr><tr><th>Last seen</th><td>2026-08-19T03:11:56+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU designated vessel; EU application date 21-05-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9378620\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">DALVA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9378620</td></tr><tr><th>MMSI</th><td>613271403</td></tr><tr><th>Callsign</th><td>TJM021</td></tr><tr><th>Destination</th><td>UST LUGA</td></tr><tr><th>RU route state</th><td>declared_destination_only</td></tr><tr><th>RU evidence</th><td>current_ais_destination</td></tr><tr><th>SOG / COG</th><td>1.1 kn / 358.6°</td></tr><tr><th>Last seen</th><td>2026-08-19T14:53:37+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU designated vessel; EU application date 21-05-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9378620\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">DALVA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9378620</td></tr><tr><th>MMSI</th><td>613271403</td></tr><tr><th>Callsign</th><td>TJM021</td></tr><tr><th>Destination</th><td>UST LUGA</td></tr><tr><th>RU route state</th><td>declared_destination_only</td></tr><tr><th>RU evidence</th><td>current_ais_destination</td></tr><tr><th>SOG / COG</th><td>1.1 kn / 358.6°</td></tr><tr><th>Last seen</th><td>2026-08-19T14:53:37+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU designated vessel; EU application date 21-05-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9378620\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">DALVA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9378620</td></tr><tr><th>MMSI</th><td>613271403</td></tr><tr><th>Callsign</th><td>TJM021</td></tr><tr><th>Destination</th><td>UST LUGA</td></tr><tr><th>RU route state</th><td>declared_destination_only</td></tr><tr><th>RU evidence</th><td>current_ais_destination</td></tr><tr><th>SOG / COG</th><td>1.1 kn / 358.6°</td></tr><tr><th>Last seen</th><td>2026-08-19T14:53:37+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU designated vessel; EU application date 21-05-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9378620\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
       }
     },
     {
@@ -1063,8 +1171,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          28.606947,
-          59.900155
+          28.612165,
+          59.901822
         ]
       },
       "properties": {
@@ -1072,18 +1180,18 @@
         "imo": "9336490",
         "callsign": "5RA002",
         "name": "MYRA",
-        "latitude": 59.900155,
-        "longitude": 28.606947,
+        "latitude": 59.901822,
+        "longitude": 28.612165,
         "destination": "RU ULU",
         "ship_type": 80,
         "navigational_status": 1,
-        "sog": 0.3,
-        "cog": 352.6,
-        "true_heading": 347,
+        "sog": 0.9,
+        "cog": 188.5,
+        "true_heading": 254,
         "source": "Fintraffic Digitraffic",
         "source_provider": "fintraffic",
         "message_type_last": "RegionalSnapshot",
-        "last_seen_utc": "2026-08-19T03:11:56+00:00",
+        "last_seen_utc": "2026-08-19T14:53:37+00:00",
         "position_timestamp_valid": false,
         "position_timestamp_basis": "retrieval_time_fallback",
         "to_russia_declared": true,
@@ -1166,9 +1274,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">MYRA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9336490</td></tr><tr><th>MMSI</th><td>647260302</td></tr><tr><th>Callsign</th><td>5RA002</td></tr><tr><th>Destination</th><td>RU ULU</td></tr><tr><th>RU route state</th><td>declared_destination_only</td></tr><tr><th>RU evidence</th><td>current_ais_destination</td></tr><tr><th>SOG / COG</th><td>0.3 kn / 352.6°</td></tr><tr><th>Last seen</th><td>2026-08-19T03:11:56+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 24-10-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9336490\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">MYRA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9336490</td></tr><tr><th>MMSI</th><td>647260302</td></tr><tr><th>Callsign</th><td>5RA002</td></tr><tr><th>Destination</th><td>RU ULU</td></tr><tr><th>RU route state</th><td>declared_destination_only</td></tr><tr><th>RU evidence</th><td>current_ais_destination</td></tr><tr><th>SOG / COG</th><td>0.3 kn / 352.6°</td></tr><tr><th>Last seen</th><td>2026-08-19T03:11:56+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 24-10-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9336490\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">MYRA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9336490</td></tr><tr><th>MMSI</th><td>647260302</td></tr><tr><th>Callsign</th><td>5RA002</td></tr><tr><th>Destination</th><td>RU ULU</td></tr><tr><th>RU route state</th><td>declared_destination_only</td></tr><tr><th>RU evidence</th><td>current_ais_destination</td></tr><tr><th>SOG / COG</th><td>0.3 kn / 352.6°</td></tr><tr><th>Last seen</th><td>2026-08-19T03:11:56+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 24-10-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9336490\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">MYRA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9336490</td></tr><tr><th>MMSI</th><td>647260302</td></tr><tr><th>Callsign</th><td>5RA002</td></tr><tr><th>Destination</th><td>RU ULU</td></tr><tr><th>RU route state</th><td>declared_destination_only</td></tr><tr><th>RU evidence</th><td>current_ais_destination</td></tr><tr><th>SOG / COG</th><td>0.9 kn / 188.5°</td></tr><tr><th>Last seen</th><td>2026-08-19T14:53:37+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 24-10-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9336490\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">MYRA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9336490</td></tr><tr><th>MMSI</th><td>647260302</td></tr><tr><th>Callsign</th><td>5RA002</td></tr><tr><th>Destination</th><td>RU ULU</td></tr><tr><th>RU route state</th><td>declared_destination_only</td></tr><tr><th>RU evidence</th><td>current_ais_destination</td></tr><tr><th>SOG / COG</th><td>0.9 kn / 188.5°</td></tr><tr><th>Last seen</th><td>2026-08-19T14:53:37+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 24-10-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9336490\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">MYRA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9336490</td></tr><tr><th>MMSI</th><td>647260302</td></tr><tr><th>Callsign</th><td>5RA002</td></tr><tr><th>Destination</th><td>RU ULU</td></tr><tr><th>RU route state</th><td>declared_destination_only</td></tr><tr><th>RU evidence</th><td>current_ais_destination</td></tr><tr><th>SOG / COG</th><td>0.9 kn / 188.5°</td></tr><tr><th>Last seen</th><td>2026-08-19T14:53:37+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII</td></tr><tr><th>Notes</th><td>EU designated vessel; EU application date 24-10-2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9336490\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
       }
     },
     {
@@ -1491,8 +1599,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          14.083333333333334,
-          79.48333333333333
+          -0.12000000000000001,
+          80.37166666666667
         ]
       },
       "properties": {
@@ -1500,18 +1608,18 @@
         "imo": "115608600",
         "callsign": "5IM670",
         "name": "SIMBA 1",
-        "latitude": 79.48333333333333,
-        "longitude": 14.083333333333334,
+        "latitude": 80.37166666666667,
+        "longitude": -0.12000000000000001,
         "destination": "ZANZIBAR",
         "ship_type": 70,
         "navigational_status": 1,
-        "sog": 3.0,
-        "cog": null,
+        "sog": 0.0,
+        "cog": 55.0,
         "true_heading": null,
         "source": "BarentsWatch / Norwegian Coastal Administration",
         "source_provider": "barentswatch",
         "message_type_last": "RegionalSnapshot",
-        "last_seen_utc": "2026-08-18T07:43:13+00:00",
+        "last_seen_utc": "2026-08-19T07:50:45+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "source_stream": "satellite",
@@ -1589,9 +1697,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SIMBA 1</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>115608600</td></tr><tr><th>MMSI</th><td>677057000</td></tr><tr><th>Callsign</th><td>5IM670</td></tr><tr><th>Destination</th><td>ZANZIBAR</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>3.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-18T07:43:13+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=115608600\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SIMBA 1</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>115608600</td></tr><tr><th>MMSI</th><td>677057000</td></tr><tr><th>Callsign</th><td>5IM670</td></tr><tr><th>Destination</th><td>ZANZIBAR</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>3.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-18T07:43:13+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=115608600\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SIMBA 1</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>115608600</td></tr><tr><th>MMSI</th><td>677057000</td></tr><tr><th>Callsign</th><td>5IM670</td></tr><tr><th>Destination</th><td>ZANZIBAR</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>3.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-18T07:43:13+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=115608600\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SIMBA 1</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>115608600</td></tr><tr><th>MMSI</th><td>677057000</td></tr><tr><th>Callsign</th><td>5IM670</td></tr><tr><th>Destination</th><td>ZANZIBAR</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 55.0°</td></tr><tr><th>Last seen</th><td>2026-08-19T07:50:45+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=115608600\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SIMBA 1</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>115608600</td></tr><tr><th>MMSI</th><td>677057000</td></tr><tr><th>Callsign</th><td>5IM670</td></tr><tr><th>Destination</th><td>ZANZIBAR</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 55.0°</td></tr><tr><th>Last seen</th><td>2026-08-19T07:50:45+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=115608600\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SIMBA 1</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>115608600</td></tr><tr><th>MMSI</th><td>677057000</td></tr><tr><th>Callsign</th><td>5IM670</td></tr><tr><th>Destination</th><td>ZANZIBAR</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 55.0°</td></tr><tr><th>Last seen</th><td>2026-08-19T07:50:45+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=115608600\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
       }
     },
     {
@@ -1599,8 +1707,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          16.355,
-          67.875
+          16.37333333333333,
+          68.075
         ]
       },
       "properties": {
@@ -1608,18 +1716,18 @@
         "imo": "1162001",
         "callsign": "5IM 885",
         "name": "S C 612",
-        "latitude": 67.875,
-        "longitude": 16.355,
+        "latitude": 68.075,
+        "longitude": 16.37333333333333,
         "destination": "BOFFA GUINEA",
         "ship_type": 52,
         "navigational_status": 1,
         "sog": 2.0,
-        "cog": 355.0,
+        "cog": null,
         "true_heading": null,
         "source": "BarentsWatch / Norwegian Coastal Administration",
         "source_provider": "barentswatch",
         "message_type_last": "RegionalSnapshot",
-        "last_seen_utc": "2026-08-18T23:00:20+00:00",
+        "last_seen_utc": "2026-08-19T12:30:17+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "source_stream": "satellite",
@@ -1697,9 +1805,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S C 612</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1162001</td></tr><tr><th>MMSI</th><td>677078500</td></tr><tr><th>Callsign</th><td>5IM 885</td></tr><tr><th>Destination</th><td>BOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>2.0 kn / 355.0°</td></tr><tr><th>Last seen</th><td>2026-08-18T23:00:20+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1162001\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S C 612</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1162001</td></tr><tr><th>MMSI</th><td>677078500</td></tr><tr><th>Callsign</th><td>5IM 885</td></tr><tr><th>Destination</th><td>BOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>2.0 kn / 355.0°</td></tr><tr><th>Last seen</th><td>2026-08-18T23:00:20+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1162001\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S C 612</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1162001</td></tr><tr><th>MMSI</th><td>677078500</td></tr><tr><th>Callsign</th><td>5IM 885</td></tr><tr><th>Destination</th><td>BOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>2.0 kn / 355.0°</td></tr><tr><th>Last seen</th><td>2026-08-18T23:00:20+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1162001\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S C 612</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1162001</td></tr><tr><th>MMSI</th><td>677078500</td></tr><tr><th>Callsign</th><td>5IM 885</td></tr><tr><th>Destination</th><td>BOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>2.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T12:30:17+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1162001\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S C 612</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1162001</td></tr><tr><th>MMSI</th><td>677078500</td></tr><tr><th>Callsign</th><td>5IM 885</td></tr><tr><th>Destination</th><td>BOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>2.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T12:30:17+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1162001\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S C 612</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1162001</td></tr><tr><th>MMSI</th><td>677078500</td></tr><tr><th>Callsign</th><td>5IM 885</td></tr><tr><th>Destination</th><td>BOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>2.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T12:30:17+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1162001\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
       }
     },
     {
@@ -1707,8 +1815,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          6.876666666666667,
-          75.93
+          6.88,
+          79.85333333333332
         ]
       },
       "properties": {
@@ -1716,18 +1824,18 @@
         "imo": "1093327",
         "callsign": "5IM 969",
         "name": "GREAT WALL 21",
-        "latitude": 75.93,
-        "longitude": 6.876666666666667,
+        "latitude": 79.85333333333332,
+        "longitude": 6.88,
         "destination": "QUELIMANE",
         "ship_type": 70,
         "navigational_status": 0,
-        "sog": 17.0,
-        "cog": 297.0,
+        "sog": 0.0,
+        "cog": null,
         "true_heading": null,
         "source": "BarentsWatch / Norwegian Coastal Administration",
         "source_provider": "barentswatch",
         "message_type_last": "RegionalSnapshot",
-        "last_seen_utc": "2026-08-18T07:46:41+00:00",
+        "last_seen_utc": "2026-08-19T09:28:35+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "source_stream": "satellite",
@@ -1805,9 +1913,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">GREAT WALL 21</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1093327</td></tr><tr><th>MMSI</th><td>677086900</td></tr><tr><th>Callsign</th><td>5IM 969</td></tr><tr><th>Destination</th><td>QUELIMANE</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>17.0 kn / 297.0°</td></tr><tr><th>Last seen</th><td>2026-08-18T07:46:41+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1093327\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">GREAT WALL 21</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1093327</td></tr><tr><th>MMSI</th><td>677086900</td></tr><tr><th>Callsign</th><td>5IM 969</td></tr><tr><th>Destination</th><td>QUELIMANE</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>17.0 kn / 297.0°</td></tr><tr><th>Last seen</th><td>2026-08-18T07:46:41+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1093327\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">GREAT WALL 21</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1093327</td></tr><tr><th>MMSI</th><td>677086900</td></tr><tr><th>Callsign</th><td>5IM 969</td></tr><tr><th>Destination</th><td>QUELIMANE</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>17.0 kn / 297.0°</td></tr><tr><th>Last seen</th><td>2026-08-18T07:46:41+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1093327\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">GREAT WALL 21</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1093327</td></tr><tr><th>MMSI</th><td>677086900</td></tr><tr><th>Callsign</th><td>5IM 969</td></tr><tr><th>Destination</th><td>QUELIMANE</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T09:28:35+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1093327\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">GREAT WALL 21</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1093327</td></tr><tr><th>MMSI</th><td>677086900</td></tr><tr><th>Callsign</th><td>5IM 969</td></tr><tr><th>Destination</th><td>QUELIMANE</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T09:28:35+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1093327\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">GREAT WALL 21</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1093327</td></tr><tr><th>MMSI</th><td>677086900</td></tr><tr><th>Callsign</th><td>5IM 969</td></tr><tr><th>Destination</th><td>QUELIMANE</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-08-19T09:28:35+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1093327\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
       }
     }
   ]
