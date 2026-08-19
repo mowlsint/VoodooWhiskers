@@ -1,0 +1,1012 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "single_scene_analyst_review_queue",
+  "generated_at": "2026-08-19T16:59:46Z",
+  "complete": true,
+  "degraded": false,
+  "scene": {
+    "normalized_scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+    "acquisition_start_utc": "2026-08-16T05:24:02Z",
+    "acquisition_end_utc": "2026-08-16T05:24:27Z",
+    "platform": "Sentinel-1C",
+    "product_level": "GRD Level-1"
+  },
+  "source": {
+    "phase4_context_path": "data/sar_copernicus_ais_context_latest.geojson",
+    "phase4_ais_window_path": "data/sar_copernicus_historical_ais_window_latest.geojson",
+    "phase4_context_sha256": "10776ef457aae76d79a19eebfd888a0de9800150a29e994cafebb1a6685d617b",
+    "phase4_ais_window_sha256": "ccfc6664475918acacacfbdc4dc38922f4b1fac04b3cbdf791a184859ce46fe7",
+    "phase3_candidate_sha256": "220a9720f6a8b7a6816e6cacafb5f27ea4bf864d6ea032d132813095896b0f5c",
+    "phase4_generated_at": "2026-08-19T16:30:45Z",
+    "historical_ais_only": true
+  },
+  "coverage_area_wgs84": [
+    11.6624989,
+    54.3133333,
+    12.5375011,
+    54.8266667
+  ],
+  "review_acceptance": {
+    "accepted": true,
+    "accepted_on_utc_date": "2026-08-19",
+    "actor_role": "project_owner_analyst",
+    "scope": "preliminary_phase4_interpretation_not_final_vessel_classification",
+    "visual_confirmation_still_required": true
+  },
+  "deduplication_model": {
+    "method_version": "course_length_fragment_grouping_v1",
+    "minimum_pair_separation_fraction_of_reported_length": 0.5,
+    "maximum_pair_separation_fraction_of_reported_length": 1.25,
+    "maximum_alignment_difference_degrees": 15.0,
+    "maximum_representative_candidate_distance_to_ais_m": 50.0,
+    "all_cluster_members_must_be_within_dynamic_radius": true,
+    "preserve_every_source_candidate_id": true,
+    "deduplicated_fragment_is_not_false_positive": true
+  },
+  "quality_model": {
+    "method_version": "separate_detection_data_match_quality_v1",
+    "allowed_labels": [
+      "HIGH",
+      "MEDIUM",
+      "LOW",
+      "NOT_ASSESSABLE"
+    ],
+    "detection_quality": {
+      "high_minimum_profile_count": 3,
+      "high_requires_vh_on_at_least_one_member": true,
+      "medium_minimum_profile_count": 2
+    },
+    "data_quality": {
+      "high_requires_sufficient_local_coverage": true,
+      "high_requires_every_coverage_bin_occupied": true,
+      "high_maximum_nearest_observation_gap_seconds": 60,
+      "high_allowed_projection_qualities": [
+        "HIGH"
+      ]
+    },
+    "match_quality": {
+      "high_unique_match_requires_within_dynamic_radius": true,
+      "high_fragment_cluster_requires_all_geometry_checks": true,
+      "possible_match_minimum_size_ratio": 0.5,
+      "possible_match_maximum_size_ratio": 2.0,
+      "hard_maximum_plausible_distance_m": 2000.0,
+      "doppler_correction_applied": false
+    },
+    "no_blended_operational_score": true,
+    "parameters_are_experimental": true
+  },
+  "allowed_review_states": [
+    "FINAL_REVIEW_COMPLETE",
+    "NEEDS_MORE_DATA",
+    "READY_FOR_VISUAL_CONFIRMATION"
+  ],
+  "allowed_analyst_statuses": [
+    "CONFIRMED_ASSOCIATION",
+    "NEEDS_MORE_DATA",
+    "PRELIMINARY_REVIEW_ACCEPTED",
+    "REJECTED_FALSE_POSITIVE",
+    "UNREVIEWED"
+  ],
+  "queue_summary": {
+    "source_candidate_count": 6,
+    "review_object_count": 4,
+    "deduplicated_source_candidate_reduction": 2,
+    "fragment_cluster_count": 2,
+    "single_candidate_object_count": 2,
+    "preliminary_review_accepted_count": 4,
+    "visual_confirmation_pending_count": 4,
+    "confirmed_false_positive_count": 0,
+    "final_disposition_count": 0,
+    "downstream_eligible_count": 0,
+    "quality_counts": {
+      "detection": {
+        "HIGH": 3,
+        "MEDIUM": 1
+      },
+      "data": {
+        "HIGH": 4
+      },
+      "match": {
+        "HIGH": 3,
+        "MEDIUM": 1
+      }
+    },
+    "association_hypothesis_counts": {
+      "LIKELY_ONE_AIS_ASSOCIATED_OBJECT_WITH_FRAGMENTED_SAR_RETURNS": 2,
+      "LIKELY_UNIQUE_AIS_ASSOCIATED_SAR_RETURN": 1,
+      "POSSIBLE_DOPPLER_DISPLACED_AIS_ASSOCIATION": 1
+    }
+  },
+  "candidate_to_review_object": {
+    "SARCAND-20260816T052402Z-0001": "SARREVIEW-20260816T052402Z-0001",
+    "SARCAND-20260816T052402Z-0002": "SARREVIEW-20260816T052402Z-0002",
+    "SARCAND-20260816T052402Z-0003": "SARREVIEW-20260816T052402Z-0003",
+    "SARCAND-20260816T052402Z-0004": "SARREVIEW-20260816T052402Z-0001",
+    "SARCAND-20260816T052402Z-0005": "SARREVIEW-20260816T052402Z-0004",
+    "SARCAND-20260816T052402Z-0006": "SARREVIEW-20260816T052402Z-0002"
+  },
+  "items": [
+    {
+      "review_object_id": "SARREVIEW-20260816T052402Z-0001",
+      "review_state": "READY_FOR_VISUAL_CONFIRMATION",
+      "review_priority": "ROUTINE_FRAGMENT_CONFIRMATION",
+      "association_hypothesis": "LIKELY_ONE_AIS_ASSOCIATED_OBJECT_WITH_FRAGMENTED_SAR_RETURNS",
+      "candidate_is_not_vessel_classification": true,
+      "observation": {
+        "scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+        "acquisition_start_utc": "2026-08-16T05:24:02Z",
+        "acquisition_end_utc": "2026-08-16T05:24:27Z",
+        "source": "Copernicus / Sentinel-1C",
+        "product_level": "GRD Level-1",
+        "phase4_processing_time_utc": "2026-08-19T16:30:45Z",
+        "phase5_processing_time_utc": "2026-08-19T16:59:46Z"
+      },
+      "geometry": {
+        "type": "MultiPoint",
+        "coordinates": [
+          [
+            12.2470677,
+            54.5483816
+          ],
+          [
+            12.2455447,
+            54.5466323
+          ]
+        ]
+      },
+      "representative_candidate_id": "SARCAND-20260816T052402Z-0001",
+      "representative_coordinates": [
+        12.2470677,
+        54.5483816
+      ],
+      "source_candidates": [
+        {
+          "candidate_id": "SARCAND-20260816T052402Z-0001",
+          "member_role": "REPRESENTATIVE_SCATTERING_GROUP",
+          "coordinates": [
+            12.2470677,
+            54.5483816
+          ],
+          "source_candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+          "source_phase4_match_state": "AMBIGUOUS",
+          "cfar_profile_consensus": "ALL_PROFILES",
+          "cfar_profile_count": 3,
+          "vh_cfar_corroborated": true,
+          "vv_peak_db": 16.4689,
+          "vh_at_vv_peak_db": -0.2463,
+          "axis_aligned_signature_span_m": {
+            "x": 40.0,
+            "y": 89.98
+          },
+          "span_is_not_vessel_length": true,
+          "distance_to_projected_ais_m": 7.3,
+          "dynamic_radius_m": 550.97,
+          "within_dynamic_radius": true,
+          "near_infrastructure_reference": false,
+          "nearest_infrastructure_distance_nm": 4.1147,
+          "spatial_quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED",
+            "VH_CFAR_CORROBORATED"
+          ]
+        },
+        {
+          "candidate_id": "SARCAND-20260816T052402Z-0004",
+          "member_role": "SECONDARY_ALIGNED_SCATTERING_GROUP",
+          "coordinates": [
+            12.2455447,
+            54.5466323
+          ],
+          "source_candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+          "source_phase4_match_state": "AMBIGUOUS",
+          "cfar_profile_consensus": "ALL_PROFILES",
+          "cfar_profile_count": 3,
+          "vh_cfar_corroborated": false,
+          "vv_peak_db": 6.5439,
+          "vh_at_vv_peak_db": -6.4124,
+          "axis_aligned_signature_span_m": {
+            "x": 20.0,
+            "y": 39.99
+          },
+          "span_is_not_vessel_length": true,
+          "distance_to_projected_ais_m": 210.6,
+          "dynamic_radius_m": 524.09,
+          "within_dynamic_radius": true,
+          "near_infrastructure_reference": false,
+          "nearest_infrastructure_distance_nm": 4.1066,
+          "spatial_quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED"
+          ]
+        }
+      ],
+      "deduplication": {
+        "grouping_method": "COURSE_AND_LENGTH_ALIGNED_FRAGMENT_CLUSTER",
+        "method_version": "course_length_fragment_grouping_v1",
+        "source_candidate_count": 2,
+        "source_candidate_ids_preserved": [
+          "SARCAND-20260816T052402Z-0001",
+          "SARCAND-20260816T052402Z-0004"
+        ],
+        "member_roles": {
+          "SARCAND-20260816T052402Z-0001": "REPRESENTATIVE_SCATTERING_GROUP",
+          "SARCAND-20260816T052402Z-0004": "SECONDARY_ALIGNED_SCATTERING_GROUP"
+        },
+        "fragment_geometry": {
+          "pair_separation_m": 217.9,
+          "reported_vessel_length_m": 243.0,
+          "separation_fraction_of_reported_length": 0.8967,
+          "representative_to_secondary_bearing_degrees": 206.79,
+          "effective_ais_course_degrees": 200.82,
+          "alignment_difference_degrees": 5.97,
+          "representative_to_projected_ais_distance_m": 7.3,
+          "checks": {
+            "same_accepted_mmsi": true,
+            "separation_within_reported_length_fraction": true,
+            "pair_aligned_with_ais_course": true,
+            "representative_close_to_projected_ais": true,
+            "all_members_within_dynamic_radius": true
+          },
+          "all_geometry_checks_passed": true,
+          "interpretation": "Likely separate SAR scattering groups from one reported long vessel; not a false-positive decision."
+        },
+        "fragment_is_not_recorded_as_false_positive": true,
+        "repeat_detection_status": "NOT_ASSESSED_SINGLE_SCENE",
+        "priority_inflation_from_duplicate_processing": false
+      },
+      "historical_ais_association": {
+        "source_provider": "ais_dk_historical",
+        "coverage_status": "AVAILABLE_AIS_ACTIVITY_OBSERVED",
+        "coverage_sufficient_for_available_ais_comparison": true,
+        "mmsi": "314115000",
+        "imo": "9276597",
+        "name": "LUNA PELAGOS",
+        "callsign": "8PPC",
+        "ship_type_label": "Tanker",
+        "reported_length_m": 243.0,
+        "reported_width_m": 42.0,
+        "destination": "SINGAPORE",
+        "projected_position": {
+          "coordinates": [
+            12.2470215,
+            54.5483214
+          ],
+          "time_utc": "2026-08-16T05:24:02Z"
+        },
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 3,
+        "bracket_span_seconds": 11,
+        "effective_sog_knots": 11.23,
+        "effective_cog_degrees": 200.82,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:59+00:00",
+            "latitude": 54.548467,
+            "longitude": 12.247117,
+            "sog_knots": 9.4,
+            "cog_degrees": 199.0,
+            "true_heading_degrees": 201,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:10+00:00",
+            "latitude": 54.547933,
+            "longitude": 12.246767,
+            "sog_knots": 9.6,
+            "cog_degrees": 200.0,
+            "true_heading_degrees": 201,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "candidate_distances_m": {
+          "SARCAND-20260816T052402Z-0001": 7.3,
+          "SARCAND-20260816T052402Z-0004": 210.6
+        },
+        "dynamic_radii_m": {
+          "SARCAND-20260816T052402Z-0001": 550.97,
+          "SARCAND-20260816T052402Z-0004": 524.09
+        },
+        "current_ais_used": false,
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ]
+      },
+      "quality": {
+        "method_version": "separate_detection_data_match_quality_v1",
+        "parameters_are_experimental": true,
+        "detection_quality": {
+          "label": "HIGH",
+          "basis": "CFAR profile consensus and VH corroboration are assessed without treating a bright return as a vessel classification.",
+          "maximum_profile_count": 3,
+          "minimum_profile_count": 3,
+          "vh_corroborated_member_count": 1,
+          "member_count": 2
+        },
+        "data_quality": {
+          "label": "HIGH",
+          "basis": "Local historical AIS activity, temporal bin occupancy and trajectory-projection quality are reported separately from match quality.",
+          "coverage_status": "AVAILABLE_AIS_ACTIVITY_OBSERVED",
+          "coverage_sufficient": true,
+          "occupied_bins": 6,
+          "total_bins": 6,
+          "distinct_valid_messages": 12565,
+          "distinct_mmsi": 68,
+          "maximum_nearest_observation_gap_seconds": 3,
+          "projection_qualities": [
+            "HIGH"
+          ],
+          "does_not_prove_complete_reception": true
+        },
+        "match_quality": {
+          "label": "HIGH",
+          "basis": "One-to-many Phase 4 ambiguity is re-expressed only when same-MMSI, length and course-alignment checks support fragmentation.",
+          "source_match_state": "AMBIGUOUS",
+          "same_mmsi_for_all_members": true,
+          "all_members_within_hard_maximum": true,
+          "all_fragment_geometry_checks_passed": true,
+          "doppler_correction_applied": false
+        },
+        "blended_operational_score": null
+      },
+      "analyst_review": {
+        "analyst_status": "PRELIMINARY_REVIEW_ACCEPTED",
+        "acceptance_scope": "preliminary_phase4_interpretation_not_final_vessel_classification",
+        "analyst_note": "Preliminary review accepted: candidates 0001 and 0004 are likely separate scattering groups from one 243 m tanker. Their separation is close to reported vessel length and aligned with historical AIS course. Preserve both source candidates and confirm visually before any later use.",
+        "false_positive_status": "NOT_CONFIRMED",
+        "false_positive_reason": null,
+        "visual_confirmation_required": true,
+        "visual_confirmation_complete": false,
+        "final_disposition": null,
+        "automatic_final_disposition": false
+      },
+      "external_research_helpers": {
+        "vesselfinder_by_mmsi": "https://www.vesselfinder.com/vessels/details/314115000",
+        "external_current_positions_are_not_part_of_this_historical_assessment": true
+      },
+      "current_ais_overlaid": false,
+      "dark_vessel_claim": false,
+      "downstream_eligible": false,
+      "public_layer": false,
+      "assessment_limit": "Phase 5 records preliminary analyst-review hypotheses, not vessel classifications, attribution, intent or proof of AIS disablement. Visual confirmation remains required."
+    },
+    {
+      "review_object_id": "SARREVIEW-20260816T052402Z-0002",
+      "review_state": "READY_FOR_VISUAL_CONFIRMATION",
+      "review_priority": "ROUTINE_FRAGMENT_CONFIRMATION",
+      "association_hypothesis": "LIKELY_ONE_AIS_ASSOCIATED_OBJECT_WITH_FRAGMENTED_SAR_RETURNS",
+      "candidate_is_not_vessel_classification": true,
+      "observation": {
+        "scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+        "acquisition_start_utc": "2026-08-16T05:24:02Z",
+        "acquisition_end_utc": "2026-08-16T05:24:27Z",
+        "source": "Copernicus / Sentinel-1C",
+        "product_level": "GRD Level-1",
+        "phase4_processing_time_utc": "2026-08-19T16:30:45Z",
+        "phase5_processing_time_utc": "2026-08-19T16:59:46Z"
+      },
+      "geometry": {
+        "type": "MultiPoint",
+        "coordinates": [
+          [
+            12.2278267,
+            54.5200815
+          ],
+          [
+            12.226891,
+            54.5183467
+          ]
+        ]
+      },
+      "representative_candidate_id": "SARCAND-20260816T052402Z-0002",
+      "representative_coordinates": [
+        12.2278267,
+        54.5200815
+      ],
+      "source_candidates": [
+        {
+          "candidate_id": "SARCAND-20260816T052402Z-0002",
+          "member_role": "REPRESENTATIVE_SCATTERING_GROUP",
+          "coordinates": [
+            12.2278267,
+            54.5200815
+          ],
+          "source_candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+          "source_phase4_match_state": "AMBIGUOUS",
+          "cfar_profile_consensus": "ALL_PROFILES",
+          "cfar_profile_count": 3,
+          "vh_cfar_corroborated": true,
+          "vv_peak_db": 15.3826,
+          "vh_at_vv_peak_db": 0.7233,
+          "axis_aligned_signature_span_m": {
+            "x": 49.99,
+            "y": 99.98
+          },
+          "span_is_not_vessel_length": true,
+          "distance_to_projected_ais_m": 9.2,
+          "dynamic_radius_m": 557.97,
+          "within_dynamic_radius": true,
+          "near_infrastructure_reference": false,
+          "nearest_infrastructure_distance_nm": 3.8225,
+          "spatial_quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED",
+            "VH_CFAR_CORROBORATED"
+          ]
+        },
+        {
+          "candidate_id": "SARCAND-20260816T052402Z-0006",
+          "member_role": "SECONDARY_ALIGNED_SCATTERING_GROUP",
+          "coordinates": [
+            12.226891,
+            54.5183467
+          ],
+          "source_candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+          "source_phase4_match_state": "AMBIGUOUS",
+          "cfar_profile_consensus": "MULTI_PROFILE",
+          "cfar_profile_count": 2,
+          "vh_cfar_corroborated": true,
+          "vv_peak_db": 5.8991,
+          "vh_at_vv_peak_db": -2.0006,
+          "axis_aligned_signature_span_m": {
+            "x": 20.0,
+            "y": 10.0
+          },
+          "span_is_not_vessel_length": true,
+          "distance_to_projected_ais_m": 200.2,
+          "dynamic_radius_m": 513.26,
+          "within_dynamic_radius": true,
+          "near_infrastructure_reference": false,
+          "nearest_infrastructure_distance_nm": 3.7973,
+          "spatial_quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED",
+            "VH_CFAR_CORROBORATED"
+          ]
+        }
+      ],
+      "deduplication": {
+        "grouping_method": "COURSE_AND_LENGTH_ALIGNED_FRAGMENT_CLUSTER",
+        "method_version": "course_length_fragment_grouping_v1",
+        "source_candidate_count": 2,
+        "source_candidate_ids_preserved": [
+          "SARCAND-20260816T052402Z-0002",
+          "SARCAND-20260816T052402Z-0006"
+        ],
+        "member_roles": {
+          "SARCAND-20260816T052402Z-0002": "REPRESENTATIVE_SCATTERING_GROUP",
+          "SARCAND-20260816T052402Z-0006": "SECONDARY_ALIGNED_SCATTERING_GROUP"
+        },
+        "fragment_geometry": {
+          "pair_separation_m": 202.1,
+          "reported_vessel_length_m": 244.0,
+          "separation_fraction_of_reported_length": 0.8284,
+          "representative_to_secondary_bearing_degrees": 197.38,
+          "effective_ais_course_degrees": 197.36,
+          "alignment_difference_degrees": 0.02,
+          "representative_to_projected_ais_distance_m": 9.2,
+          "checks": {
+            "same_accepted_mmsi": true,
+            "separation_within_reported_length_fraction": true,
+            "pair_aligned_with_ais_course": true,
+            "representative_close_to_projected_ais": true,
+            "all_members_within_dynamic_radius": true
+          },
+          "all_geometry_checks_passed": true,
+          "interpretation": "Likely separate SAR scattering groups from one reported long vessel; not a false-positive decision."
+        },
+        "fragment_is_not_recorded_as_false_positive": true,
+        "repeat_detection_status": "NOT_ASSESSED_SINGLE_SCENE",
+        "priority_inflation_from_duplicate_processing": false
+      },
+      "historical_ais_association": {
+        "source_provider": "ais_dk_historical",
+        "coverage_status": "AVAILABLE_AIS_ACTIVITY_OBSERVED",
+        "coverage_sufficient_for_available_ais_comparison": true,
+        "mmsi": "352005354",
+        "imo": "9389071",
+        "name": "TANGO 2",
+        "callsign": "3E8640",
+        "ship_type_label": "Tanker",
+        "reported_length_m": 244.0,
+        "reported_width_m": 42.0,
+        "destination": "FOR ORDER",
+        "projected_position": {
+          "coordinates": [
+            12.2276844,
+            54.5200869
+          ],
+          "time_utc": "2026-08-16T05:24:02Z"
+        },
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 4,
+        "bracket_span_seconds": 11,
+        "effective_sog_knots": 10.13,
+        "effective_cog_degrees": 197.36,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:55+00:00",
+            "latitude": 54.5204,
+            "longitude": 12.227853,
+            "sog_knots": 10.0,
+            "cog_degrees": 198.1,
+            "true_heading_degrees": 199,
+            "navigational_status": "Constrained by her draught"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:06+00:00",
+            "latitude": 54.519908,
+            "longitude": 12.227588,
+            "sog_knots": 10.0,
+            "cog_degrees": 197.4,
+            "true_heading_degrees": 199,
+            "navigational_status": "Constrained by her draught"
+          }
+        ],
+        "candidate_distances_m": {
+          "SARCAND-20260816T052402Z-0002": 9.2,
+          "SARCAND-20260816T052402Z-0006": 200.2
+        },
+        "dynamic_radii_m": {
+          "SARCAND-20260816T052402Z-0002": 557.97,
+          "SARCAND-20260816T052402Z-0006": 513.26
+        },
+        "current_ais_used": false,
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ]
+      },
+      "quality": {
+        "method_version": "separate_detection_data_match_quality_v1",
+        "parameters_are_experimental": true,
+        "detection_quality": {
+          "label": "HIGH",
+          "basis": "CFAR profile consensus and VH corroboration are assessed without treating a bright return as a vessel classification.",
+          "maximum_profile_count": 3,
+          "minimum_profile_count": 2,
+          "vh_corroborated_member_count": 2,
+          "member_count": 2
+        },
+        "data_quality": {
+          "label": "HIGH",
+          "basis": "Local historical AIS activity, temporal bin occupancy and trajectory-projection quality are reported separately from match quality.",
+          "coverage_status": "AVAILABLE_AIS_ACTIVITY_OBSERVED",
+          "coverage_sufficient": true,
+          "occupied_bins": 6,
+          "total_bins": 6,
+          "distinct_valid_messages": 12565,
+          "distinct_mmsi": 68,
+          "maximum_nearest_observation_gap_seconds": 4,
+          "projection_qualities": [
+            "HIGH"
+          ],
+          "does_not_prove_complete_reception": true
+        },
+        "match_quality": {
+          "label": "HIGH",
+          "basis": "One-to-many Phase 4 ambiguity is re-expressed only when same-MMSI, length and course-alignment checks support fragmentation.",
+          "source_match_state": "AMBIGUOUS",
+          "same_mmsi_for_all_members": true,
+          "all_members_within_hard_maximum": true,
+          "all_fragment_geometry_checks_passed": true,
+          "doppler_correction_applied": false
+        },
+        "blended_operational_score": null
+      },
+      "analyst_review": {
+        "analyst_status": "PRELIMINARY_REVIEW_ACCEPTED",
+        "acceptance_scope": "preliminary_phase4_interpretation_not_final_vessel_classification",
+        "analyst_note": "Preliminary review accepted: candidates 0002 and 0006 are likely separate scattering groups from one 244 m tanker. The pair lies almost exactly along historical AIS course and is separated by about 202 m. Preserve both source candidates and confirm visually before any later use.",
+        "false_positive_status": "NOT_CONFIRMED",
+        "false_positive_reason": null,
+        "visual_confirmation_required": true,
+        "visual_confirmation_complete": false,
+        "final_disposition": null,
+        "automatic_final_disposition": false
+      },
+      "external_research_helpers": {
+        "vesselfinder_by_mmsi": "https://www.vesselfinder.com/vessels/details/352005354",
+        "external_current_positions_are_not_part_of_this_historical_assessment": true
+      },
+      "current_ais_overlaid": false,
+      "dark_vessel_claim": false,
+      "downstream_eligible": false,
+      "public_layer": false,
+      "assessment_limit": "Phase 5 records preliminary analyst-review hypotheses, not vessel classifications, attribution, intent or proof of AIS disablement. Visual confirmation remains required."
+    },
+    {
+      "review_object_id": "SARREVIEW-20260816T052402Z-0003",
+      "review_state": "READY_FOR_VISUAL_CONFIRMATION",
+      "review_priority": "ROUTINE_ASSOCIATION_CONFIRMATION",
+      "association_hypothesis": "LIKELY_UNIQUE_AIS_ASSOCIATED_SAR_RETURN",
+      "candidate_is_not_vessel_classification": true,
+      "observation": {
+        "scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+        "acquisition_start_utc": "2026-08-16T05:24:02Z",
+        "acquisition_end_utc": "2026-08-16T05:24:27Z",
+        "source": "Copernicus / Sentinel-1C",
+        "product_level": "GRD Level-1",
+        "phase4_processing_time_utc": "2026-08-19T16:30:45Z",
+        "phase5_processing_time_utc": "2026-08-19T16:59:46Z"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.9568227,
+          54.4844232
+        ]
+      },
+      "representative_candidate_id": "SARCAND-20260816T052402Z-0003",
+      "representative_coordinates": [
+        11.9568227,
+        54.4844232
+      ],
+      "source_candidates": [
+        {
+          "candidate_id": "SARCAND-20260816T052402Z-0003",
+          "member_role": "SINGLE_REVIEW_CANDIDATE",
+          "coordinates": [
+            11.9568227,
+            54.4844232
+          ],
+          "source_candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+          "source_phase4_match_state": "MATCHED",
+          "cfar_profile_consensus": "ALL_PROFILES",
+          "cfar_profile_count": 3,
+          "vh_cfar_corroborated": true,
+          "vv_peak_db": 14.5788,
+          "vh_at_vv_peak_db": 1.4161,
+          "axis_aligned_signature_span_m": {
+            "x": 59.99,
+            "y": 159.96
+          },
+          "span_is_not_vessel_length": true,
+          "distance_to_projected_ais_m": 248.7,
+          "dynamic_radius_m": 586.95,
+          "within_dynamic_radius": true,
+          "near_infrastructure_reference": false,
+          "nearest_infrastructure_distance_nm": 2.9688,
+          "spatial_quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED",
+            "VH_CFAR_CORROBORATED"
+          ]
+        }
+      ],
+      "deduplication": {
+        "grouping_method": "SINGLE_CANDIDATE",
+        "method_version": "course_length_fragment_grouping_v1",
+        "source_candidate_count": 1,
+        "source_candidate_ids_preserved": [
+          "SARCAND-20260816T052402Z-0003"
+        ],
+        "member_roles": {
+          "SARCAND-20260816T052402Z-0003": "SINGLE_REVIEW_CANDIDATE"
+        },
+        "fragment_geometry": null,
+        "fragment_is_not_recorded_as_false_positive": false,
+        "repeat_detection_status": "NOT_ASSESSED_SINGLE_SCENE",
+        "priority_inflation_from_duplicate_processing": false
+      },
+      "historical_ais_association": {
+        "source_provider": "ais_dk_historical",
+        "coverage_status": "AVAILABLE_AIS_ACTIVITY_OBSERVED",
+        "coverage_sufficient_for_available_ais_comparison": true,
+        "mmsi": "211727510",
+        "imo": "9587855",
+        "name": "BERLIN",
+        "callsign": "DKDF2",
+        "ship_type_label": "Passenger",
+        "reported_length_m": 170.0,
+        "reported_width_m": 27.0,
+        "destination": "GED - ROS - GED",
+        "projected_position": {
+          "coordinates": [
+            11.9559113,
+            54.4822503
+          ],
+          "time_utc": "2026-08-16T05:24:02Z"
+        },
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 2,
+        "bracket_span_seconds": 6,
+        "effective_sog_knots": 14.83,
+        "effective_cog_degrees": 346.37,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:24:00+00:00",
+            "latitude": 54.482117,
+            "longitude": 11.955967,
+            "sog_knots": 14.8,
+            "cog_degrees": 346.0,
+            "true_heading_degrees": 345,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:06+00:00",
+            "latitude": 54.482517,
+            "longitude": 11.9558,
+            "sog_knots": 14.7,
+            "cog_degrees": 345.9,
+            "true_heading_degrees": 345,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "candidate_distances_m": {
+          "SARCAND-20260816T052402Z-0003": 248.7
+        },
+        "dynamic_radii_m": {
+          "SARCAND-20260816T052402Z-0003": 586.95
+        },
+        "current_ais_used": false,
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ]
+      },
+      "quality": {
+        "method_version": "separate_detection_data_match_quality_v1",
+        "parameters_are_experimental": true,
+        "detection_quality": {
+          "label": "HIGH",
+          "basis": "CFAR profile consensus and VH corroboration are assessed without treating a bright return as a vessel classification.",
+          "maximum_profile_count": 3,
+          "minimum_profile_count": 3,
+          "vh_corroborated_member_count": 1,
+          "member_count": 1
+        },
+        "data_quality": {
+          "label": "HIGH",
+          "basis": "Local historical AIS activity, temporal bin occupancy and trajectory-projection quality are reported separately from match quality.",
+          "coverage_status": "AVAILABLE_AIS_ACTIVITY_OBSERVED",
+          "coverage_sufficient": true,
+          "occupied_bins": 6,
+          "total_bins": 6,
+          "distinct_valid_messages": 12565,
+          "distinct_mmsi": 68,
+          "maximum_nearest_observation_gap_seconds": 2,
+          "projection_qualities": [
+            "HIGH"
+          ],
+          "does_not_prove_complete_reception": true
+        },
+        "match_quality": {
+          "label": "HIGH",
+          "basis": "Unique-association quality retains the Phase 4 dynamic radius, hard maximum, projection quality and transparent size agreement.",
+          "source_match_state": "MATCHED",
+          "within_dynamic_radius": true,
+          "within_hard_maximum": true,
+          "distance_to_candidate_m": 248.7,
+          "dynamic_radius_m": 586.95,
+          "signature_major_span_m": 160.0,
+          "reported_vessel_length_m": 170.0,
+          "signature_to_reported_length_ratio": 0.9409,
+          "size_ratio_plausible": true,
+          "doppler_correction_applied": false
+        },
+        "blended_operational_score": null
+      },
+      "analyst_review": {
+        "analyst_status": "PRELIMINARY_REVIEW_ACCEPTED",
+        "acceptance_scope": "preliminary_phase4_interpretation_not_final_vessel_classification",
+        "analyst_note": "Preliminary review accepted: candidate 0003 has a unique high-quality historical AIS association with BERLIN. The approximately 249 m offset remains subject to uncorrected SAR moving-target displacement; visual confirmation is still required.",
+        "false_positive_status": "NOT_CONFIRMED",
+        "false_positive_reason": null,
+        "visual_confirmation_required": true,
+        "visual_confirmation_complete": false,
+        "final_disposition": null,
+        "automatic_final_disposition": false
+      },
+      "external_research_helpers": {
+        "vesselfinder_by_mmsi": "https://www.vesselfinder.com/vessels/details/211727510",
+        "external_current_positions_are_not_part_of_this_historical_assessment": true
+      },
+      "current_ais_overlaid": false,
+      "dark_vessel_claim": false,
+      "downstream_eligible": false,
+      "public_layer": false,
+      "assessment_limit": "Phase 5 records preliminary analyst-review hypotheses, not vessel classifications, attribution, intent or proof of AIS disablement. Visual confirmation remains required."
+    },
+    {
+      "review_object_id": "SARREVIEW-20260816T052402Z-0004",
+      "review_state": "READY_FOR_VISUAL_CONFIRMATION",
+      "review_priority": "DOPPLER_CALIBRATION_REVIEW",
+      "association_hypothesis": "POSSIBLE_DOPPLER_DISPLACED_AIS_ASSOCIATION",
+      "candidate_is_not_vessel_classification": true,
+      "observation": {
+        "scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+        "acquisition_start_utc": "2026-08-16T05:24:02Z",
+        "acquisition_end_utc": "2026-08-16T05:24:27Z",
+        "source": "Copernicus / Sentinel-1C",
+        "product_level": "GRD Level-1",
+        "phase4_processing_time_utc": "2026-08-19T16:30:45Z",
+        "phase5_processing_time_utc": "2026-08-19T16:59:46Z"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.1302557,
+          54.5668575
+        ]
+      },
+      "representative_candidate_id": "SARCAND-20260816T052402Z-0005",
+      "representative_coordinates": [
+        12.1302557,
+        54.5668575
+      ],
+      "source_candidates": [
+        {
+          "candidate_id": "SARCAND-20260816T052402Z-0005",
+          "member_role": "SINGLE_REVIEW_CANDIDATE",
+          "coordinates": [
+            12.1302557,
+            54.5668575
+          ],
+          "source_candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+          "source_phase4_match_state": "POSSIBLE_MATCH",
+          "cfar_profile_consensus": "MULTI_PROFILE",
+          "cfar_profile_count": 2,
+          "vh_cfar_corroborated": true,
+          "vv_peak_db": -4.22,
+          "vh_at_vv_peak_db": -13.8401,
+          "axis_aligned_signature_span_m": {
+            "x": 20.0,
+            "y": 20.0
+          },
+          "span_is_not_vessel_length": true,
+          "distance_to_projected_ais_m": 742.7,
+          "dynamic_radius_m": 516.2,
+          "within_dynamic_radius": false,
+          "near_infrastructure_reference": false,
+          "nearest_infrastructure_distance_nm": 5.3586,
+          "spatial_quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED",
+            "VH_CFAR_CORROBORATED"
+          ]
+        }
+      ],
+      "deduplication": {
+        "grouping_method": "SINGLE_CANDIDATE",
+        "method_version": "course_length_fragment_grouping_v1",
+        "source_candidate_count": 1,
+        "source_candidate_ids_preserved": [
+          "SARCAND-20260816T052402Z-0005"
+        ],
+        "member_roles": {
+          "SARCAND-20260816T052402Z-0005": "SINGLE_REVIEW_CANDIDATE"
+        },
+        "fragment_geometry": null,
+        "fragment_is_not_recorded_as_false_positive": false,
+        "repeat_detection_status": "NOT_ASSESSED_SINGLE_SCENE",
+        "priority_inflation_from_duplicate_processing": false
+      },
+      "historical_ais_association": {
+        "source_provider": "ais_dk_historical",
+        "coverage_status": "AVAILABLE_AIS_ACTIVITY_OBSERVED",
+        "coverage_sufficient_for_available_ais_comparison": true,
+        "mmsi": "219022256",
+        "imo": "9812030",
+        "name": "DANPILOT ALFA",
+        "callsign": "OXEB2",
+        "ship_type_label": "Pilot",
+        "reported_length_m": 20.0,
+        "reported_width_m": 6.0,
+        "destination": "GEDSER",
+        "projected_position": {
+          "coordinates": [
+            12.1298723,
+            54.560182
+          ],
+          "time_utc": "2026-08-16T05:24:02Z"
+        },
+        "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+        "projection_quality": "HIGH",
+        "nearest_observation_gap_seconds": 2,
+        "bracket_span_seconds": 6,
+        "effective_sog_knots": 20.02,
+        "effective_cog_degrees": 260.68,
+        "input_observations": [
+          {
+            "observed_at": "2026-08-16T05:23:58+00:00",
+            "latitude": 54.560242,
+            "longitude": 12.130503,
+            "sog_knots": 20.2,
+            "cog_degrees": 258.8,
+            "true_heading_degrees": 263,
+            "navigational_status": "Under way using engine"
+          },
+          {
+            "observed_at": "2026-08-16T05:24:04+00:00",
+            "latitude": 54.560152,
+            "longitude": 12.129557,
+            "sog_knots": 20.1,
+            "cog_degrees": 259.8,
+            "true_heading_degrees": 261,
+            "navigational_status": "Under way using engine"
+          }
+        ],
+        "candidate_distances_m": {
+          "SARCAND-20260816T052402Z-0005": 742.7
+        },
+        "dynamic_radii_m": {
+          "SARCAND-20260816T052402Z-0005": 516.2
+        },
+        "current_ais_used": false,
+        "limitations": [
+          "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+        ]
+      },
+      "quality": {
+        "method_version": "separate_detection_data_match_quality_v1",
+        "parameters_are_experimental": true,
+        "detection_quality": {
+          "label": "MEDIUM",
+          "basis": "CFAR profile consensus and VH corroboration are assessed without treating a bright return as a vessel classification.",
+          "maximum_profile_count": 2,
+          "minimum_profile_count": 2,
+          "vh_corroborated_member_count": 1,
+          "member_count": 1
+        },
+        "data_quality": {
+          "label": "HIGH",
+          "basis": "Local historical AIS activity, temporal bin occupancy and trajectory-projection quality are reported separately from match quality.",
+          "coverage_status": "AVAILABLE_AIS_ACTIVITY_OBSERVED",
+          "coverage_sufficient": true,
+          "occupied_bins": 6,
+          "total_bins": 6,
+          "distinct_valid_messages": 12565,
+          "distinct_mmsi": 68,
+          "maximum_nearest_observation_gap_seconds": 2,
+          "projection_qualities": [
+            "HIGH"
+          ],
+          "does_not_prove_complete_reception": true
+        },
+        "match_quality": {
+          "label": "MEDIUM",
+          "basis": "Unique-association quality retains the Phase 4 dynamic radius, hard maximum, projection quality and transparent size agreement.",
+          "source_match_state": "POSSIBLE_MATCH",
+          "within_dynamic_radius": false,
+          "within_hard_maximum": true,
+          "distance_to_candidate_m": 742.7,
+          "dynamic_radius_m": 516.2,
+          "signature_major_span_m": 20.0,
+          "reported_vessel_length_m": 20.0,
+          "signature_to_reported_length_ratio": 1.0,
+          "size_ratio_plausible": true,
+          "doppler_correction_applied": false
+        },
+        "blended_operational_score": null
+      },
+      "analyst_review": {
+        "analyst_status": "PRELIMINARY_REVIEW_ACCEPTED",
+        "acceptance_scope": "preliminary_phase4_interpretation_not_final_vessel_classification",
+        "analyst_note": "Preliminary review accepted as a possible association only: the 20 m SAR signature and reported vessel length agree, but the approximately 743 m separation exceeds the experimental dynamic radius. Test an orbit-aware Doppler correction before any confidence upgrade.",
+        "false_positive_status": "NOT_CONFIRMED",
+        "false_positive_reason": null,
+        "visual_confirmation_required": true,
+        "visual_confirmation_complete": false,
+        "final_disposition": null,
+        "automatic_final_disposition": false
+      },
+      "external_research_helpers": {
+        "vesselfinder_by_mmsi": "https://www.vesselfinder.com/vessels/details/219022256",
+        "external_current_positions_are_not_part_of_this_historical_assessment": true
+      },
+      "current_ais_overlaid": false,
+      "dark_vessel_claim": false,
+      "downstream_eligible": false,
+      "public_layer": false,
+      "assessment_limit": "Phase 5 records preliminary analyst-review hypotheses, not vessel classifications, attribution, intent or proof of AIS disablement. Visual confirmation remains required."
+    }
+  ],
+  "current_ais_used": false,
+  "current_ais_overlaid": false,
+  "dark_vessel_claim": false,
+  "automatic_final_disposition": false,
+  "public_layer": false,
+  "downstream_eligible": false,
+  "assessment_limit": "Phase 5 records preliminary analyst-review hypotheses, not vessel classifications, attribution, intent or proof of AIS disablement. Visual confirmation remains required."
+}

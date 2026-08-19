@@ -1,0 +1,240 @@
+{
+  "type": "FeatureCollection",
+  "name": "Voodoo Whiskers Copernicus SAR Phase 5 analyst review objects",
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-19T16:59:46Z",
+  "metadata": {
+    "phase": "single_scene_analyst_review_queue",
+    "scene": {
+      "normalized_scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+      "acquisition_start_utc": "2026-08-16T05:24:02Z",
+      "acquisition_end_utc": "2026-08-16T05:24:27Z",
+      "platform": "Sentinel-1C",
+      "product_level": "GRD Level-1"
+    },
+    "source_candidate_count": 6,
+    "review_object_count": 4,
+    "deduplicated_source_candidate_reduction": 2,
+    "historical_ais_only": true,
+    "current_positions_included": false,
+    "visual_confirmation_required": true,
+    "public_layer": false,
+    "assessment_limit": "Phase 5 records preliminary analyst-review hypotheses, not vessel classifications, attribution, intent or proof of AIS disablement. Visual confirmation remains required."
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "SARREVIEW-20260816T052402Z-0001",
+      "geometry": {
+        "type": "MultiPoint",
+        "coordinates": [
+          [
+            12.2470677,
+            54.5483816
+          ],
+          [
+            12.2455447,
+            54.5466323
+          ]
+        ]
+      },
+      "properties": {
+        "review_object_id": "SARREVIEW-20260816T052402Z-0001",
+        "review_state": "READY_FOR_VISUAL_CONFIRMATION",
+        "review_priority": "ROUTINE_FRAGMENT_CONFIRMATION",
+        "association_hypothesis": "LIKELY_ONE_AIS_ASSOCIATED_OBJECT_WITH_FRAGMENTED_SAR_RETURNS",
+        "source_candidate_ids": [
+          "SARCAND-20260816T052402Z-0001",
+          "SARCAND-20260816T052402Z-0004"
+        ],
+        "source_candidate_count": 2,
+        "grouping_method": "COURSE_AND_LENGTH_ALIGNED_FRAGMENT_CLUSTER",
+        "representative_candidate_id": "SARCAND-20260816T052402Z-0001",
+        "representative_coordinates": [
+          12.2470677,
+          54.5483816
+        ],
+        "historical_ais_mmsi": "314115000",
+        "historical_ais_name": "LUNA PELAGOS",
+        "historical_ais_projected_position": {
+          "coordinates": [
+            12.2470215,
+            54.5483214
+          ],
+          "time_utc": "2026-08-16T05:24:02Z"
+        },
+        "detection_quality": "HIGH",
+        "data_quality": "HIGH",
+        "match_quality": "HIGH",
+        "analyst_status": "PRELIMINARY_REVIEW_ACCEPTED",
+        "analyst_note": "Preliminary review accepted: candidates 0001 and 0004 are likely separate scattering groups from one 243 m tanker. Their separation is close to reported vessel length and aligned with historical AIS course. Preserve both source candidates and confirm visually before any later use.",
+        "false_positive_status": "NOT_CONFIRMED",
+        "visual_confirmation_required": true,
+        "visual_confirmation_complete": false,
+        "candidate_is_not_vessel_classification": true,
+        "current_ais_overlaid": false,
+        "dark_vessel_claim": false,
+        "downstream_eligible": false,
+        "public_layer": false,
+        "assessment_limit": "Phase 5 records preliminary analyst-review hypotheses, not vessel classifications, attribution, intent or proof of AIS disablement. Visual confirmation remains required."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SARREVIEW-20260816T052402Z-0002",
+      "geometry": {
+        "type": "MultiPoint",
+        "coordinates": [
+          [
+            12.2278267,
+            54.5200815
+          ],
+          [
+            12.226891,
+            54.5183467
+          ]
+        ]
+      },
+      "properties": {
+        "review_object_id": "SARREVIEW-20260816T052402Z-0002",
+        "review_state": "READY_FOR_VISUAL_CONFIRMATION",
+        "review_priority": "ROUTINE_FRAGMENT_CONFIRMATION",
+        "association_hypothesis": "LIKELY_ONE_AIS_ASSOCIATED_OBJECT_WITH_FRAGMENTED_SAR_RETURNS",
+        "source_candidate_ids": [
+          "SARCAND-20260816T052402Z-0002",
+          "SARCAND-20260816T052402Z-0006"
+        ],
+        "source_candidate_count": 2,
+        "grouping_method": "COURSE_AND_LENGTH_ALIGNED_FRAGMENT_CLUSTER",
+        "representative_candidate_id": "SARCAND-20260816T052402Z-0002",
+        "representative_coordinates": [
+          12.2278267,
+          54.5200815
+        ],
+        "historical_ais_mmsi": "352005354",
+        "historical_ais_name": "TANGO 2",
+        "historical_ais_projected_position": {
+          "coordinates": [
+            12.2276844,
+            54.5200869
+          ],
+          "time_utc": "2026-08-16T05:24:02Z"
+        },
+        "detection_quality": "HIGH",
+        "data_quality": "HIGH",
+        "match_quality": "HIGH",
+        "analyst_status": "PRELIMINARY_REVIEW_ACCEPTED",
+        "analyst_note": "Preliminary review accepted: candidates 0002 and 0006 are likely separate scattering groups from one 244 m tanker. The pair lies almost exactly along historical AIS course and is separated by about 202 m. Preserve both source candidates and confirm visually before any later use.",
+        "false_positive_status": "NOT_CONFIRMED",
+        "visual_confirmation_required": true,
+        "visual_confirmation_complete": false,
+        "candidate_is_not_vessel_classification": true,
+        "current_ais_overlaid": false,
+        "dark_vessel_claim": false,
+        "downstream_eligible": false,
+        "public_layer": false,
+        "assessment_limit": "Phase 5 records preliminary analyst-review hypotheses, not vessel classifications, attribution, intent or proof of AIS disablement. Visual confirmation remains required."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SARREVIEW-20260816T052402Z-0003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.9568227,
+          54.4844232
+        ]
+      },
+      "properties": {
+        "review_object_id": "SARREVIEW-20260816T052402Z-0003",
+        "review_state": "READY_FOR_VISUAL_CONFIRMATION",
+        "review_priority": "ROUTINE_ASSOCIATION_CONFIRMATION",
+        "association_hypothesis": "LIKELY_UNIQUE_AIS_ASSOCIATED_SAR_RETURN",
+        "source_candidate_ids": [
+          "SARCAND-20260816T052402Z-0003"
+        ],
+        "source_candidate_count": 1,
+        "grouping_method": "SINGLE_CANDIDATE",
+        "representative_candidate_id": "SARCAND-20260816T052402Z-0003",
+        "representative_coordinates": [
+          11.9568227,
+          54.4844232
+        ],
+        "historical_ais_mmsi": "211727510",
+        "historical_ais_name": "BERLIN",
+        "historical_ais_projected_position": {
+          "coordinates": [
+            11.9559113,
+            54.4822503
+          ],
+          "time_utc": "2026-08-16T05:24:02Z"
+        },
+        "detection_quality": "HIGH",
+        "data_quality": "HIGH",
+        "match_quality": "HIGH",
+        "analyst_status": "PRELIMINARY_REVIEW_ACCEPTED",
+        "analyst_note": "Preliminary review accepted: candidate 0003 has a unique high-quality historical AIS association with BERLIN. The approximately 249 m offset remains subject to uncorrected SAR moving-target displacement; visual confirmation is still required.",
+        "false_positive_status": "NOT_CONFIRMED",
+        "visual_confirmation_required": true,
+        "visual_confirmation_complete": false,
+        "candidate_is_not_vessel_classification": true,
+        "current_ais_overlaid": false,
+        "dark_vessel_claim": false,
+        "downstream_eligible": false,
+        "public_layer": false,
+        "assessment_limit": "Phase 5 records preliminary analyst-review hypotheses, not vessel classifications, attribution, intent or proof of AIS disablement. Visual confirmation remains required."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SARREVIEW-20260816T052402Z-0004",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.1302557,
+          54.5668575
+        ]
+      },
+      "properties": {
+        "review_object_id": "SARREVIEW-20260816T052402Z-0004",
+        "review_state": "READY_FOR_VISUAL_CONFIRMATION",
+        "review_priority": "DOPPLER_CALIBRATION_REVIEW",
+        "association_hypothesis": "POSSIBLE_DOPPLER_DISPLACED_AIS_ASSOCIATION",
+        "source_candidate_ids": [
+          "SARCAND-20260816T052402Z-0005"
+        ],
+        "source_candidate_count": 1,
+        "grouping_method": "SINGLE_CANDIDATE",
+        "representative_candidate_id": "SARCAND-20260816T052402Z-0005",
+        "representative_coordinates": [
+          12.1302557,
+          54.5668575
+        ],
+        "historical_ais_mmsi": "219022256",
+        "historical_ais_name": "DANPILOT ALFA",
+        "historical_ais_projected_position": {
+          "coordinates": [
+            12.1298723,
+            54.560182
+          ],
+          "time_utc": "2026-08-16T05:24:02Z"
+        },
+        "detection_quality": "MEDIUM",
+        "data_quality": "HIGH",
+        "match_quality": "MEDIUM",
+        "analyst_status": "PRELIMINARY_REVIEW_ACCEPTED",
+        "analyst_note": "Preliminary review accepted as a possible association only: the 20 m SAR signature and reported vessel length agree, but the approximately 743 m separation exceeds the experimental dynamic radius. Test an orbit-aware Doppler correction before any confidence upgrade.",
+        "false_positive_status": "NOT_CONFIRMED",
+        "visual_confirmation_required": true,
+        "visual_confirmation_complete": false,
+        "candidate_is_not_vessel_classification": true,
+        "current_ais_overlaid": false,
+        "dark_vessel_claim": false,
+        "downstream_eligible": false,
+        "public_layer": false,
+        "assessment_limit": "Phase 5 records preliminary analyst-review hypotheses, not vessel classifications, attribution, intent or proof of AIS disablement. Visual confirmation remains required."
+      }
+    }
+  ]
+}

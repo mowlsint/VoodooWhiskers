@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "single_scene_analyst_review_queue",
+  "generated_at": "2026-08-19T16:59:46Z",
+  "status": "ok",
+  "scene": {
+    "normalized_scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+    "acquisition_start_utc": "2026-08-16T05:24:02Z",
+    "acquisition_end_utc": "2026-08-16T05:24:27Z",
+    "platform": "Sentinel-1C",
+    "product_level": "GRD Level-1"
+  },
+  "inputs": {
+    "phase4_context_path": "data/sar_copernicus_ais_context_latest.geojson",
+    "phase4_ais_window_path": "data/sar_copernicus_historical_ais_window_latest.geojson",
+    "phase4_context_sha256": "10776ef457aae76d79a19eebfd888a0de9800150a29e994cafebb1a6685d617b",
+    "phase4_ais_window_sha256": "ccfc6664475918acacacfbdc4dc38922f4b1fac04b3cbdf791a184859ce46fe7",
+    "exact_accepted_hashes_verified": true,
+    "phase4_outputs_modified": false,
+    "current_ais_files_read": false
+  },
+  "processing": {
+    "source_candidate_count": 6,
+    "review_object_count": 4,
+    "deduplicated_source_candidate_reduction": 2,
+    "fragment_cluster_count": 2,
+    "single_candidate_object_count": 2,
+    "preliminary_review_accepted_count": 4,
+    "visual_confirmation_pending_count": 4,
+    "confirmed_false_positive_count": 0,
+    "final_disposition_count": 0,
+    "downstream_eligible_count": 0,
+    "quality_counts": {
+      "detection": {
+        "HIGH": 3,
+        "MEDIUM": 1
+      },
+      "data": {
+        "HIGH": 4
+      },
+      "match": {
+        "HIGH": 3,
+        "MEDIUM": 1
+      }
+    },
+    "association_hypothesis_counts": {
+      "LIKELY_ONE_AIS_ASSOCIATED_OBJECT_WITH_FRAGMENTED_SAR_RETURNS": 2,
+      "LIKELY_UNIQUE_AIS_ASSOCIATED_SAR_RETURN": 1,
+      "POSSIBLE_DOPPLER_DISPLACED_AIS_ASSOCIATION": 1
+    },
+    "deduplication_method": "course_length_fragment_grouping_v1",
+    "quality_method": "separate_detection_data_match_quality_v1",
+    "source_candidate_ids_preserved_exactly_once": true,
+    "false_positive_reasons_required_for_future_rejections": true,
+    "doppler_correction_applied": false
+  },
+  "outputs": {
+    "review_queue_json": {
+      "path": "data/sar_copernicus_review_queue_latest.json",
+      "bytes": 40475,
+      "sha256": "7c8eab89dea0b3389338d14608db0a520bbc4ff16b51df0b594524d21c3175f6",
+      "review_object_count": 4,
+      "public_layer": false
+    },
+    "review_objects_geojson": {
+      "path": "data/sar_copernicus_review_objects_latest.geojson",
+      "bytes": 9884,
+      "sha256": "22e172a6082dfc459b6cc74a43d186d8bdd96327b224a856ae4b2d5142863288",
+      "feature_count": 4,
+      "public_layer": false
+    }
+  },
+  "network_access_performed": false,
+  "sar_or_ais_download_performed": false,
+  "historical_ais_only": true,
+  "current_ais_used": false,
+  "current_ais_overlaid": false,
+  "dark_vessel_claim": false,
+  "sar_candidates_classified_as_vessels": false,
+  "automatic_final_disposition": false,
+  "visual_confirmation_required": true,
+  "public_layer_modified": false,
+  "existing_ais_products_modified": false,
+  "gfw_products_modified": false,
+  "magic_paws_modified": false,
+  "hybrid_index_modified": false,
+  "production_ready": false,
+  "assessment_limit": "Phase 5 records preliminary analyst-review hypotheses, not vessel classifications, attribution, intent or proof of AIS disablement. Visual confirmation remains required.",
+  "next_phase": "voodoo_derived_product_integration_after_visual_confirmation",
+  "errors": []
+}
