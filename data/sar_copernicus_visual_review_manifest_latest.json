@@ -1,0 +1,466 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-19T17:33:16Z",
+  "phase": "single_scene_visual_confirmation_evidence",
+  "scene": {
+    "catalogue_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+    "matched_scene_identifier": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+    "normalized_scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+    "datetime": "2026-08-16T05:24:02Z"
+  },
+  "source": {
+    "phase4_context_path": "data/sar_copernicus_ais_context_latest.geojson",
+    "phase5_queue_path": "data/sar_copernicus_review_queue_latest.json",
+    "phase5_objects_path": "data/sar_copernicus_review_objects_latest.geojson",
+    "phase4_context_sha256": "10776ef457aae76d79a19eebfd888a0de9800150a29e994cafebb1a6685d617b",
+    "phase5_queue_sha256": "7c8eab89dea0b3389338d14608db0a520bbc4ff16b51df0b594524d21c3175f6",
+    "phase5_objects_sha256": "22e172a6082dfc459b6cc74a43d186d8bdd96327b224a856ae4b2d5142863288",
+    "exact_accepted_hashes_verified": true,
+    "phase4_outputs_modified": false,
+    "phase5_outputs_modified": false,
+    "current_ais_files_read": false,
+    "temporary_raster_sha256": "9bb682e4089998d887df5e5bcb0121fc4ef7bd6574e79fce567167e280281289",
+    "temporary_raster_deleted": true,
+    "historical_ais_only": true
+  },
+  "review_sheet": {
+    "path": "data/sar_copernicus_visual_review_sheet_latest.png",
+    "format": "PNG",
+    "width_px": 832,
+    "height_px": 1516,
+    "bytes": 1072189,
+    "sha256": "9b3f5a38d50f05f90296ec5e76470ead2bc51ff29f020efa4a1a6453bfaeb54d",
+    "source_raster_shape": [
+      2002,
+      1934,
+      3
+    ],
+    "panel_order": [
+      "VV_CLEAN_NATIVE_1_TO_1",
+      "VH_CLEAN_NATIVE_1_TO_1",
+      "VV_HISTORICAL_AIS_OVERLAY_NATIVE_1_TO_1"
+    ],
+    "clean_panels_unmarked": true,
+    "overlay_is_separate_panel": true,
+    "native_source_pixels_per_output_pixel": 1.0,
+    "resampling": "NONE",
+    "pixel_scale": {
+      "x_m_per_pixel": 10.0103,
+      "y_m_per_pixel": 9.9919,
+      "mean_m_per_pixel": 10.0011,
+      "approximate_only": true
+    },
+    "global_display_stretch_db": {
+      "vv": {
+        "low_db": -24.5561,
+        "high_db": -5.2417
+      },
+      "vh": {
+        "low_db": -48.9397,
+        "high_db": -10.9643
+      }
+    },
+    "review_object_count": 4,
+    "review_panels": [
+      {
+        "review_object_id": "SARREVIEW-20260816T052402Z-0001",
+        "sheet_row": 1,
+        "historical_ais_association_hypothesis": {
+          "name": "LUNA PELAGOS",
+          "mmsi": "314115000",
+          "projected_position": {
+            "coordinates": [
+              12.2470215,
+              54.5483214
+            ],
+            "time_utc": "2026-08-16T05:24:02Z"
+          },
+          "effective_cog_degrees": 200.82,
+          "identity_is_not_sar_derived": true
+        },
+        "source_candidate_ids": [
+          "SARCAND-20260816T052402Z-0001",
+          "SARCAND-20260816T052402Z-0004"
+        ],
+        "source_pixel_window": {
+          "row_min": 1123,
+          "row_max_exclusive": 1379,
+          "column_min": 1678,
+          "column_max_exclusive": 1934,
+          "width_px": 256,
+          "height_px": 256,
+          "source_pixels_per_output_pixel": 1.0,
+          "resampling": "NONE"
+        },
+        "sheet_panel_origins_px": {
+          "VV_CLEAN_NATIVE_1_TO_1": {
+            "x": 18,
+            "y": 170
+          },
+          "VH_CLEAN_NATIVE_1_TO_1": {
+            "x": 288,
+            "y": 170
+          },
+          "VV_HISTORICAL_AIS_OVERLAY_NATIVE_1_TO_1": {
+            "x": 558,
+            "y": 170
+          }
+        },
+        "overlay": {
+          "candidates": [
+            {
+              "candidate_id": "SARCAND-20260816T052402Z-0001",
+              "member_role": "REPRESENTATIVE_SCATTERING_GROUP",
+              "centroid_source_pixel": {
+                "row": 1240.945,
+                "column": 1914.596
+              },
+              "centroid_crop_pixel": {
+                "row": 117.945,
+                "column": 236.596
+              },
+              "seed_bbox_source_pixels": {
+                "row_min": 1236,
+                "row_max": 1244,
+                "column_min": 1913,
+                "column_max": 1916
+              }
+            },
+            {
+              "candidate_id": "SARCAND-20260816T052402Z-0004",
+              "member_role": "SECONDARY_ALIGNED_SCATTERING_GROUP",
+              "centroid_source_pixel": {
+                "row": 1260.4,
+                "column": 1904.778
+              },
+              "centroid_crop_pixel": {
+                "row": 137.4,
+                "column": 226.778
+              },
+              "seed_bbox_source_pixels": {
+                "row_min": 1259,
+                "row_max": 1262,
+                "column_min": 1904,
+                "column_max": 1905
+              }
+            }
+          ],
+          "historical_ais_source_pixel": {
+            "row": 1241.614,
+            "column": 1914.299
+          },
+          "historical_ais_crop_pixel": {
+            "row": 118.614,
+            "column": 236.299
+          },
+          "historical_ais_course_degrees": 200.82,
+          "course_arrow_end_crop_pixel": {
+            "row": 165.344,
+            "column": 218.529
+          },
+          "scale_bar_length_m": 100.0,
+          "scale_bar_length_px": 10
+        },
+        "visual_confirmation": {
+          "required": true,
+          "complete": false,
+          "analyst_decision_recorded": false,
+          "state": "AWAITING_ANALYST_REVIEW_OF_PHASE_5_1_EVIDENCE"
+        }
+      },
+      {
+        "review_object_id": "SARREVIEW-20260816T052402Z-0002",
+        "sheet_row": 2,
+        "historical_ais_association_hypothesis": {
+          "name": "TANGO 2",
+          "mmsi": "352005354",
+          "projected_position": {
+            "coordinates": [
+              12.2276844,
+              54.5200869
+            ],
+            "time_utc": "2026-08-16T05:24:02Z"
+          },
+          "effective_cog_degrees": 197.36,
+          "identity_is_not_sar_derived": true
+        },
+        "source_candidate_ids": [
+          "SARCAND-20260816T052402Z-0002",
+          "SARCAND-20260816T052402Z-0006"
+        ],
+        "source_pixel_window": {
+          "row_min": 1437,
+          "row_max_exclusive": 1693,
+          "column_min": 1660,
+          "column_max_exclusive": 1916,
+          "width_px": 256,
+          "height_px": 256,
+          "source_pixels_per_output_pixel": 1.0,
+          "resampling": "NONE"
+        },
+        "sheet_panel_origins_px": {
+          "VV_CLEAN_NATIVE_1_TO_1": {
+            "x": 18,
+            "y": 526
+          },
+          "VH_CLEAN_NATIVE_1_TO_1": {
+            "x": 288,
+            "y": 526
+          },
+          "VV_HISTORICAL_AIS_OVERLAY_NATIVE_1_TO_1": {
+            "x": 558,
+            "y": 526
+          }
+        },
+        "overlay": {
+          "candidates": [
+            {
+              "candidate_id": "SARCAND-20260816T052402Z-0002",
+              "member_role": "REPRESENTATIVE_SCATTERING_GROUP",
+              "centroid_source_pixel": {
+                "row": 1555.704,
+                "column": 1790.556
+              },
+              "centroid_crop_pixel": {
+                "row": 118.704,
+                "column": 130.556
+              },
+              "seed_bbox_source_pixels": {
+                "row_min": 1551,
+                "row_max": 1560,
+                "column_min": 1788,
+                "column_max": 1792
+              }
+            },
+            {
+              "candidate_id": "SARCAND-20260816T052402Z-0006",
+              "member_role": "SECONDARY_ALIGNED_SCATTERING_GROUP",
+              "centroid_source_pixel": {
+                "row": 1575.0,
+                "column": 1784.524
+              },
+              "centroid_crop_pixel": {
+                "row": 138.0,
+                "column": 124.524
+              },
+              "seed_bbox_source_pixels": {
+                "row_min": 1575,
+                "row_max": 1575,
+                "column_min": 1784,
+                "column_max": 1785
+              }
+            }
+          ],
+          "historical_ais_source_pixel": {
+            "row": 1555.645,
+            "column": 1789.639
+          },
+          "historical_ais_crop_pixel": {
+            "row": 118.645,
+            "column": 129.639
+          },
+          "historical_ais_course_degrees": 197.36,
+          "course_arrow_end_crop_pixel": {
+            "row": 166.362,
+            "column": 114.722
+          },
+          "scale_bar_length_m": 100.0,
+          "scale_bar_length_px": 10
+        },
+        "visual_confirmation": {
+          "required": true,
+          "complete": false,
+          "analyst_decision_recorded": false,
+          "state": "AWAITING_ANALYST_REVIEW_OF_PHASE_5_1_EVIDENCE"
+        }
+      },
+      {
+        "review_object_id": "SARREVIEW-20260816T052402Z-0003",
+        "sheet_row": 3,
+        "historical_ais_association_hypothesis": {
+          "name": "BERLIN",
+          "mmsi": "211727510",
+          "projected_position": {
+            "coordinates": [
+              11.9559113,
+              54.4822503
+            ],
+            "time_utc": "2026-08-16T05:24:02Z"
+          },
+          "effective_cog_degrees": 346.37,
+          "identity_is_not_sar_derived": true
+        },
+        "source_candidate_ids": [
+          "SARCAND-20260816T052402Z-0003"
+        ],
+        "source_pixel_window": {
+          "row_min": 1746,
+          "row_max_exclusive": 2002,
+          "column_min": 0,
+          "column_max_exclusive": 256,
+          "width_px": 256,
+          "height_px": 256,
+          "source_pixels_per_output_pixel": 1.0,
+          "resampling": "NONE"
+        },
+        "sheet_panel_origins_px": {
+          "VV_CLEAN_NATIVE_1_TO_1": {
+            "x": 18,
+            "y": 882
+          },
+          "VH_CLEAN_NATIVE_1_TO_1": {
+            "x": 288,
+            "y": 882
+          },
+          "VV_HISTORICAL_AIS_OVERLAY_NATIVE_1_TO_1": {
+            "x": 558,
+            "y": 882
+          }
+        },
+        "overlay": {
+          "candidates": [
+            {
+              "candidate_id": "SARCAND-20260816T052402Z-0003",
+              "member_role": "SINGLE_REVIEW_CANDIDATE",
+              "centroid_source_pixel": {
+                "row": 1952.304,
+                "column": 43.484
+              },
+              "centroid_crop_pixel": {
+                "row": 206.304,
+                "column": 43.484
+              },
+              "seed_bbox_source_pixels": {
+                "row_min": 1944,
+                "row_max": 1959,
+                "column_min": 41,
+                "column_max": 46
+              }
+            }
+          ],
+          "historical_ais_source_pixel": {
+            "row": 1976.472,
+            "column": 37.608
+          },
+          "historical_ais_crop_pixel": {
+            "row": 230.472,
+            "column": 37.608
+          },
+          "historical_ais_course_degrees": 346.37,
+          "course_arrow_end_crop_pixel": {
+            "row": 181.885,
+            "column": 25.827
+          },
+          "scale_bar_length_m": 100.0,
+          "scale_bar_length_px": 10
+        },
+        "visual_confirmation": {
+          "required": true,
+          "complete": false,
+          "analyst_decision_recorded": false,
+          "state": "AWAITING_ANALYST_REVIEW_OF_PHASE_5_1_EVIDENCE"
+        }
+      },
+      {
+        "review_object_id": "SARREVIEW-20260816T052402Z-0004",
+        "sheet_row": 4,
+        "historical_ais_association_hypothesis": {
+          "name": "DANPILOT ALFA",
+          "mmsi": "219022256",
+          "projected_position": {
+            "coordinates": [
+              12.1298723,
+              54.560182
+            ],
+            "time_utc": "2026-08-16T05:24:02Z"
+          },
+          "effective_cog_degrees": 260.68,
+          "identity_is_not_sar_derived": true
+        },
+        "source_candidate_ids": [
+          "SARCAND-20260816T052402Z-0005"
+        ],
+        "source_pixel_window": {
+          "row_min": 945,
+          "row_max_exclusive": 1201,
+          "column_min": 1032,
+          "column_max_exclusive": 1288,
+          "width_px": 256,
+          "height_px": 256,
+          "source_pixels_per_output_pixel": 1.0,
+          "resampling": "NONE"
+        },
+        "sheet_panel_origins_px": {
+          "VV_CLEAN_NATIVE_1_TO_1": {
+            "x": 18,
+            "y": 1238
+          },
+          "VH_CLEAN_NATIVE_1_TO_1": {
+            "x": 288,
+            "y": 1238
+          },
+          "VV_HISTORICAL_AIS_OVERLAY_NATIVE_1_TO_1": {
+            "x": 558,
+            "y": 1238
+          }
+        },
+        "overlay": {
+          "candidates": [
+            {
+              "candidate_id": "SARCAND-20260816T052402Z-0005",
+              "member_role": "SINGLE_REVIEW_CANDIDATE",
+              "centroid_source_pixel": {
+                "row": 1035.452,
+                "column": 1161.548
+              },
+              "centroid_crop_pixel": {
+                "row": 90.452,
+                "column": 129.548
+              },
+              "seed_bbox_source_pixels": {
+                "row_min": 1035,
+                "row_max": 1036,
+                "column_min": 1161,
+                "column_max": 1162
+              }
+            }
+          ],
+          "historical_ais_source_pixel": {
+            "row": 1109.698,
+            "column": 1159.077
+          },
+          "historical_ais_crop_pixel": {
+            "row": 164.698,
+            "column": 127.077
+          },
+          "historical_ais_course_degrees": 260.68,
+          "course_arrow_end_crop_pixel": {
+            "row": 172.795,
+            "column": 77.742
+          },
+          "scale_bar_length_m": 100.0,
+          "scale_bar_length_px": 10
+        },
+        "visual_confirmation": {
+          "required": true,
+          "complete": false,
+          "analyst_decision_recorded": false,
+          "state": "AWAITING_ANALYST_REVIEW_OF_PHASE_5_1_EVIDENCE"
+        }
+      }
+    ]
+  },
+  "review_scope": {
+    "analyst_decision_recorded": false,
+    "visual_confirmation_complete_count": 0,
+    "final_disposition_count": 0,
+    "downstream_eligible_count": 0,
+    "automatic_final_disposition": false,
+    "public_layer": false
+  },
+  "current_ais_used": false,
+  "current_ais_overlaid": false,
+  "dark_vessel_claim": false,
+  "candidate_is_not_vessel_classification": true,
+  "assessment_limit": "Phase 5.1 supplies native-resolution visual-review evidence only. Historical AIS names and positions are association hypotheses at the fixed SAR acquisition time, not SAR-derived vessel identities. No current AIS is read, no analyst decision is recorded, and no object becomes downstream eligible in this phase."
+}
