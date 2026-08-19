@@ -1,0 +1,448 @@
+name: Copernicus SAR Phase 5 analyst review queue
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: "Type BUILD_SAR_REVIEW_QUEUE_ONE_SCENE to build the accepted preliminary review queue"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: voodoo-copernicus-sar-review-queue-main
+  cancel-in-progress: false
+
+jobs:
+  build-one-scene-review-queue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      SAR_REVIEW_CONFIRMATION: ${{ inputs.confirmation }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Require explicit preliminary-review confirmation
+        run: |
+          set -euo pipefail
+          if [ "${SAR_REVIEW_CONFIRMATION:-}" != "BUILD_SAR_REVIEW_QUEUE_ONE_SCENE" ]; then
+            echo "::error::Confirmation must be exactly BUILD_SAR_REVIEW_QUEUE_ONE_SCENE."
+            exit 1
+          fi
+          echo "The accepted Phase 4 result is authorized for one isolated preliminary analyst-review queue."
+
+      - name: Install regression-test dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check \
+            "requests>=2.32,<3" \
+            "numpy>=2.0,<3" \
+            "scipy>=1.14,<2" \
+            "tifffile>=2025.5,<2027" \
+            "Pillow>=11,<13"
+
+      - name: Run offline Phase 1 through Phase 5 safety tests
+        run: |
+          set -euo pipefail
+          python -m unittest \
+            tests/test_copernicus_sar_catalog.py \
+            tests/test_copernicus_sar_chip.py \
+            tests/test_copernicus_sar_cfar.py \
+            tests/test_copernicus_sar_ais_match.py \
+            tests/test_copernicus_sar_review_queue.py \
+            -v
+          python -m py_compile \
+            scripts/copernicus_sar_catalog.py \
+            scripts/copernicus_sar_chip.py \
+            scripts/copernicus_sar_cfar.py \
+            scripts/copernicus_sar_ais_match.py \
+            scripts/copernicus_sar_review_queue.py \
+            tests/test_copernicus_sar_review_queue.py
+
+      - name: Build four-object preliminary review queue
+        run: |
+          set -euo pipefail
+          python scripts/copernicus_sar_review_queue.py
+
+      - name: Validate review objects, quality separation and isolation
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import json
+          import subprocess
+          from pathlib import Path
+
+          queue_path = Path('data/sar_copernicus_review_queue_latest.json')
+          objects_path = Path('data/sar_copernicus_review_objects_latest.geojson')
+          status_path = Path('data/sar_copernicus_review_queue_status_latest.json')
+          context_path = Path('data/sar_copernicus_ais_context_latest.geojson')
+          window_path = Path('data/sar_copernicus_historical_ais_window_latest.geojson')
+          expected_outputs = {queue_path, objects_path, status_path}
+
+          for path, maximum in (
+              (queue_path, 5 * 1024 * 1024),
+              (objects_path, 2 * 1024 * 1024),
+              (status_path, 1024 * 1024),
+          ):
+              if not path.exists() or path.stat().st_size == 0:
+                  raise SystemExit(f'missing Phase 5 output: {path}')
+              if path.stat().st_size > maximum:
+                  raise SystemExit(f'Phase 5 output exceeds its byte guard: {path}')
+          for path in (context_path, window_path):
+              if not path.exists():
+                  raise SystemExit(f'missing accepted Phase 4 input: {path}')
+
+          queue = json.loads(queue_path.read_text(encoding='utf-8'))
+          objects = json.loads(objects_path.read_text(encoding='utf-8'))
+          status = json.loads(status_path.read_text(encoding='utf-8'))
+          expected_scene = 'S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E'
+          expected_context_hash = '10776ef457aae76d79a19eebfd888a0de9800150a29e994cafebb1a6685d617b'
+          expected_window_hash = 'ccfc6664475918acacacfbdc4dc38922f4b1fac04b3cbdf791a184859ce46fe7'
+          expected_candidates = {
+              f'SARCAND-20260816T052402Z-{index:04d}' for index in range(1, 7)
+          }
+          expected_objects = {
+              'SARREVIEW-20260816T052402Z-0001': {
+                  'candidates': {
+                      'SARCAND-20260816T052402Z-0001',
+                      'SARCAND-20260816T052402Z-0004',
+                  },
+                  'mmsi': '314115000',
+                  'name': 'LUNA PELAGOS',
+                  'grouping': 'COURSE_AND_LENGTH_ALIGNED_FRAGMENT_CLUSTER',
+                  'hypothesis': 'LIKELY_ONE_AIS_ASSOCIATED_OBJECT_WITH_FRAGMENTED_SAR_RETURNS',
+                  'quality': ('HIGH', 'HIGH', 'HIGH'),
+              },
+              'SARREVIEW-20260816T052402Z-0002': {
+                  'candidates': {
+                      'SARCAND-20260816T052402Z-0002',
+                      'SARCAND-20260816T052402Z-0006',
+                  },
+                  'mmsi': '352005354',
+                  'name': 'TANGO 2',
+                  'grouping': 'COURSE_AND_LENGTH_ALIGNED_FRAGMENT_CLUSTER',
+                  'hypothesis': 'LIKELY_ONE_AIS_ASSOCIATED_OBJECT_WITH_FRAGMENTED_SAR_RETURNS',
+                  'quality': ('HIGH', 'HIGH', 'HIGH'),
+              },
+              'SARREVIEW-20260816T052402Z-0003': {
+                  'candidates': {'SARCAND-20260816T052402Z-0003'},
+                  'mmsi': '211727510',
+                  'name': 'BERLIN',
+                  'grouping': 'SINGLE_CANDIDATE',
+                  'hypothesis': 'LIKELY_UNIQUE_AIS_ASSOCIATED_SAR_RETURN',
+                  'quality': ('HIGH', 'HIGH', 'HIGH'),
+              },
+              'SARREVIEW-20260816T052402Z-0004': {
+                  'candidates': {'SARCAND-20260816T052402Z-0005'},
+                  'mmsi': '219022256',
+                  'name': 'DANPILOT ALFA',
+                  'grouping': 'SINGLE_CANDIDATE',
+                  'hypothesis': 'POSSIBLE_DOPPLER_DISPLACED_AIS_ASSOCIATION',
+                  'quality': ('MEDIUM', 'HIGH', 'MEDIUM'),
+              },
+          }
+
+          if hashlib.sha256(context_path.read_bytes()).hexdigest() != expected_context_hash:
+              raise SystemExit('accepted Phase 4 context hash changed')
+          if hashlib.sha256(window_path.read_bytes()).hexdigest() != expected_window_hash:
+              raise SystemExit('accepted Phase 4 AIS-window hash changed')
+
+          if status.get('status') != 'ok' or status.get('errors') != []:
+              raise SystemExit(f"Phase 5 is not healthy: {status.get('errors')}")
+          if status.get('phase') != 'single_scene_analyst_review_queue':
+              raise SystemExit('unexpected Phase 5 identifier')
+          if (status.get('scene') or {}).get('normalized_scene_id') != expected_scene:
+              raise SystemExit('Phase 5 scene changed')
+          inputs = status.get('inputs') or {}
+          if inputs.get('phase4_context_sha256') != expected_context_hash:
+              raise SystemExit('Phase 5 context receipt is inconsistent')
+          if inputs.get('phase4_ais_window_sha256') != expected_window_hash:
+              raise SystemExit('Phase 5 AIS-window receipt is inconsistent')
+          if inputs.get('exact_accepted_hashes_verified') is not True:
+              raise SystemExit('Phase 5 did not verify accepted input hashes')
+          if inputs.get('phase4_outputs_modified') is not False:
+              raise SystemExit('Phase 5 reports modifying Phase 4 outputs')
+          if inputs.get('current_ais_files_read') is not False:
+              raise SystemExit('Phase 5 reports reading current AIS files')
+
+          processing = status.get('processing') or {}
+          expected_counts = {
+              'source_candidate_count': 6,
+              'review_object_count': 4,
+              'deduplicated_source_candidate_reduction': 2,
+              'fragment_cluster_count': 2,
+              'single_candidate_object_count': 2,
+              'preliminary_review_accepted_count': 4,
+              'visual_confirmation_pending_count': 4,
+              'confirmed_false_positive_count': 0,
+              'final_disposition_count': 0,
+              'downstream_eligible_count': 0,
+          }
+          for key, expected in expected_counts.items():
+              if processing.get(key) != expected:
+                  raise SystemExit(f'Phase 5 processing count {key} changed')
+          if processing.get('quality_counts') != {
+              'detection': {'HIGH': 3, 'MEDIUM': 1},
+              'data': {'HIGH': 4},
+              'match': {'HIGH': 3, 'MEDIUM': 1},
+          }:
+              raise SystemExit('Phase 5 quality counts changed')
+          if processing.get('source_candidate_ids_preserved_exactly_once') is not True:
+              raise SystemExit('Phase 5 did not preserve candidate IDs exactly once')
+          if processing.get('doppler_correction_applied') is not False:
+              raise SystemExit('Phase 5 incorrectly claims Doppler correction')
+
+          forbidden_status = {
+              'network_access_performed': False,
+              'sar_or_ais_download_performed': False,
+              'historical_ais_only': True,
+              'current_ais_used': False,
+              'current_ais_overlaid': False,
+              'dark_vessel_claim': False,
+              'sar_candidates_classified_as_vessels': False,
+              'automatic_final_disposition': False,
+              'visual_confirmation_required': True,
+              'public_layer_modified': False,
+              'existing_ais_products_modified': False,
+              'gfw_products_modified': False,
+              'magic_paws_modified': False,
+              'hybrid_index_modified': False,
+              'production_ready': False,
+          }
+          for key, expected in forbidden_status.items():
+              if status.get(key) is not expected:
+                  raise SystemExit(f'Phase 5 isolation field {key} changed unexpectedly')
+
+          if queue.get('schema_version') != '1.0.0' or queue.get('phase') != 'single_scene_analyst_review_queue':
+              raise SystemExit('review queue has the wrong schema/phase')
+          if queue.get('complete') is not True or queue.get('degraded') is not False:
+              raise SystemExit('review queue completeness state is invalid')
+          if (queue.get('scene') or {}).get('normalized_scene_id') != expected_scene:
+              raise SystemExit('review queue scene changed')
+          source = queue.get('source') or {}
+          if source.get('phase4_context_sha256') != expected_context_hash:
+              raise SystemExit('review queue context receipt changed')
+          if source.get('phase4_ais_window_sha256') != expected_window_hash:
+              raise SystemExit('review queue AIS-window receipt changed')
+          if source.get('historical_ais_only') is not True:
+              raise SystemExit('review queue lost historical-only semantics')
+          acceptance = queue.get('review_acceptance') or {}
+          if acceptance.get('accepted') is not True or acceptance.get('visual_confirmation_still_required') is not True:
+              raise SystemExit('review queue acceptance scope changed')
+          if queue.get('quality_model', {}).get('no_blended_operational_score') is not True:
+              raise SystemExit('review queue introduced a blended operational score')
+          if queue.get('quality_model', {}).get('match_quality', {}).get('doppler_correction_applied') is not False:
+              raise SystemExit('review queue incorrectly claims Doppler correction')
+          # Status adds method/audit fields beyond queue_summary; shared results must agree exactly.
+          for key in (*expected_counts, 'quality_counts', 'association_hypothesis_counts'):
+              if queue.get('queue_summary', {}).get(key) != processing.get(key):
+                  raise SystemExit(f'review queue/status summary differs for {key}')
+
+          mapping = queue.get('candidate_to_review_object') or {}
+          if set(mapping) != expected_candidates or len(mapping) != 6:
+              raise SystemExit('candidate-to-review-object map is incomplete')
+          items = queue.get('items')
+          if not isinstance(items, list) or len(items) != 4:
+              raise SystemExit('review queue does not contain four objects')
+          seen_objects = set()
+          seen_candidates = set()
+          for item in items:
+              identifier = item.get('review_object_id')
+              expected = expected_objects.get(identifier)
+              if expected is None or identifier in seen_objects:
+                  raise SystemExit(f'unknown/duplicate review object: {identifier}')
+              seen_objects.add(identifier)
+              dedupe = item.get('deduplication') or {}
+              members = set(dedupe.get('source_candidate_ids_preserved') or [])
+              if members != expected['candidates'] or seen_candidates & members:
+                  raise SystemExit(f'{identifier} has invalid/duplicate source candidates')
+              seen_candidates.update(members)
+              if dedupe.get('grouping_method') != expected['grouping']:
+                  raise SystemExit(f'{identifier} has the wrong grouping method')
+              if item.get('association_hypothesis') != expected['hypothesis']:
+                  raise SystemExit(f'{identifier} has the wrong association hypothesis')
+              ais = item.get('historical_ais_association') or {}
+              if ais.get('mmsi') != expected['mmsi'] or ais.get('name') != expected['name']:
+                  raise SystemExit(f'{identifier} has the wrong historical AIS identity')
+              if ais.get('current_ais_used') is not False:
+                  raise SystemExit(f'{identifier} uses current AIS')
+              quality = item.get('quality') or {}
+              labels = (
+                  (quality.get('detection_quality') or {}).get('label'),
+                  (quality.get('data_quality') or {}).get('label'),
+                  (quality.get('match_quality') or {}).get('label'),
+              )
+              if labels != expected['quality']:
+                  raise SystemExit(f'{identifier} has the wrong separated quality labels')
+              if quality.get('blended_operational_score') is not None:
+                  raise SystemExit(f'{identifier} contains a blended operational score')
+              analyst = item.get('analyst_review') or {}
+              if analyst.get('analyst_status') != 'PRELIMINARY_REVIEW_ACCEPTED':
+                  raise SystemExit(f'{identifier} has the wrong preliminary analyst status')
+              if analyst.get('visual_confirmation_required') is not True:
+                  raise SystemExit(f'{identifier} bypasses visual confirmation')
+              if analyst.get('visual_confirmation_complete') is not False:
+                  raise SystemExit(f'{identifier} incorrectly claims visual confirmation')
+              if analyst.get('final_disposition') is not None or analyst.get('automatic_final_disposition') is not False:
+                  raise SystemExit(f'{identifier} has an automatic/final disposition')
+              if analyst.get('false_positive_status') != 'NOT_CONFIRMED' or analyst.get('false_positive_reason') is not None:
+                  raise SystemExit(f'{identifier} has an unsupported false-positive decision')
+              for key, expected_value in (
+                  ('candidate_is_not_vessel_classification', True),
+                  ('current_ais_overlaid', False),
+                  ('dark_vessel_claim', False),
+                  ('downstream_eligible', False),
+                  ('public_layer', False),
+              ):
+                  if item.get(key) is not expected_value:
+                      raise SystemExit(f'{identifier} safety field {key} changed')
+
+              if expected['grouping'].endswith('FRAGMENT_CLUSTER'):
+                  fragment = dedupe.get('fragment_geometry') or {}
+                  if fragment.get('all_geometry_checks_passed') is not True:
+                      raise SystemExit(f'{identifier} fragment geometry did not pass')
+                  if not all((fragment.get('checks') or {}).values()):
+                      raise SystemExit(f'{identifier} has a failed fragment geometry check')
+                  if fragment.get('alignment_difference_degrees', 99) > 15:
+                      raise SystemExit(f'{identifier} fragment alignment exceeds the guard')
+                  if dedupe.get('fragment_is_not_recorded_as_false_positive') is not True:
+                      raise SystemExit(f'{identifier} fragment was treated as a false positive')
+
+          if seen_objects != set(expected_objects) or seen_candidates != expected_candidates:
+              raise SystemExit('Phase 5 object/candidate coverage is incomplete')
+
+          danpilot = next(item for item in items if item['historical_ais_association']['name'] == 'DANPILOT ALFA')
+          danpilot_match = danpilot['quality']['match_quality']
+          if danpilot_match.get('within_dynamic_radius') is not False:
+              raise SystemExit('DANPILOT was incorrectly placed inside the dynamic radius')
+          if danpilot_match.get('distance_to_candidate_m') != 742.7:
+              raise SystemExit('DANPILOT distance changed')
+          if danpilot_match.get('doppler_correction_applied') is not False:
+              raise SystemExit('DANPILOT incorrectly claims Doppler correction')
+
+          if objects.get('type') != 'FeatureCollection' or objects.get('schema_version') != '1.0.0':
+              raise SystemExit('review objects are not the expected GeoJSON product')
+          object_metadata = objects.get('metadata') or {}
+          if object_metadata.get('source_candidate_count') != 6 or object_metadata.get('review_object_count') != 4:
+              raise SystemExit('review-object metadata counts changed')
+          if object_metadata.get('current_positions_included') is not False or object_metadata.get('public_layer') is not False:
+              raise SystemExit('review-object metadata has unsafe time/public semantics')
+          object_features = objects.get('features')
+          if not isinstance(object_features, list) or len(object_features) != 4:
+              raise SystemExit('review-object GeoJSON feature count changed')
+          for feature in object_features:
+              identifier = feature.get('id')
+              properties = feature.get('properties') or {}
+              if identifier not in expected_objects or properties.get('review_object_id') != identifier:
+                  raise SystemExit('review-object GeoJSON ID is inconsistent')
+              expected_geometry = 'MultiPoint' if len(expected_objects[identifier]['candidates']) == 2 else 'Point'
+              if (feature.get('geometry') or {}).get('type') != expected_geometry:
+                  raise SystemExit(f'{identifier} has the wrong review geometry')
+              if properties.get('visual_confirmation_complete') is not False:
+                  raise SystemExit(f'{identifier} GeoJSON incorrectly claims visual confirmation')
+              if properties.get('downstream_eligible') is not False or properties.get('public_layer') is not False:
+                  raise SystemExit(f'{identifier} GeoJSON bypasses isolation')
+
+          output_audit = status.get('outputs') or {}
+          queue_audit = output_audit.get('review_queue_json') or {}
+          object_audit = output_audit.get('review_objects_geojson') or {}
+          if queue_audit.get('sha256') != hashlib.sha256(queue_path.read_bytes()).hexdigest():
+              raise SystemExit('review queue hash does not match status audit')
+          if queue_audit.get('review_object_count') != 4 or queue_audit.get('public_layer') is not False:
+              raise SystemExit('review queue output audit is inconsistent')
+          if object_audit.get('sha256') != hashlib.sha256(objects_path.read_bytes()).hexdigest():
+              raise SystemExit('review-object GeoJSON hash does not match status audit')
+          if object_audit.get('feature_count') != 4 or object_audit.get('public_layer') is not False:
+              raise SystemExit('review-object output audit is inconsistent')
+
+          raw_material = [
+              path for path in Path('.').rglob('*')
+              if '.git' not in path.parts
+              and path.suffix.lower() in {'.safe', '.tif', '.tiff'}
+          ]
+          if raw_material:
+              raise SystemExit(f'raw/intermediate SAR material appeared in the repository: {raw_material[:5]}')
+
+          porcelain = subprocess.check_output(
+              ['git', 'status', '--porcelain=v1', '--untracked-files=all'], text=True
+          )
+          changed = set()
+          for line in porcelain.splitlines():
+              if line:
+                  changed.add(Path(line[3:].split(' -> ')[-1]))
+          unexpected = changed - expected_outputs
+          if unexpected:
+              raise SystemExit(f'Phase 5 modified unexpected repository path(s): {sorted(map(str, unexpected))}')
+
+          print(json.dumps({
+              'status': status['status'],
+              'scene': expected_scene,
+              'source_candidates_preserved': 6,
+              'review_objects': 4,
+              'fragment_clusters': 2,
+              'quality_counts': processing['quality_counts'],
+              'associations': {
+                  item['review_object_id']: {
+                      'name': item['historical_ais_association']['name'],
+                      'mmsi': item['historical_ais_association']['mmsi'],
+                      'hypothesis': item['association_hypothesis'],
+                  }
+                  for item in items
+              },
+              'visual_confirmation_pending': 4,
+              'false_positives_confirmed': 0,
+              'downstream_eligible': 0,
+              'current_ais_used': False,
+          }, indent=2))
+          PY
+
+      - name: Commit only three small Phase 5 review outputs
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/sar_copernicus_review_queue_latest.json \
+            data/sar_copernicus_review_objects_latest.geojson \
+            data/sar_copernicus_review_queue_status_latest.json
+          if git diff --cached --quiet; then
+            echo "No Copernicus Phase 5 review-output change to commit."
+            exit 0
+          fi
+          python - <<'PY'
+          import subprocess
+
+          allowed = {
+              'data/sar_copernicus_review_queue_latest.json',
+              'data/sar_copernicus_review_objects_latest.geojson',
+              'data/sar_copernicus_review_queue_status_latest.json',
+          }
+          staged = set(subprocess.check_output(
+              ['git', 'diff', '--cached', '--name-only'], text=True
+          ).splitlines())
+          unexpected = staged - allowed
+          if not staged or unexpected:
+              raise SystemExit(f'Unexpected staged path(s): {sorted(unexpected)}')
+          PY
+          git commit -m "Add Copernicus SAR Phase 5 analyst review queue"
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            git rebase --abort || true
+            [ "$attempt" -lt 3 ] && sleep 12
+          done
+          echo "::error::Failed to push Phase 5 review outputs after 3 attempts."
+          exit 1
