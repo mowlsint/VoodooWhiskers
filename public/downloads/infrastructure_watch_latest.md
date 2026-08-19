@@ -1,6 +1,6 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-08-19T03:03:34+00:00
+- Generated: 2026-08-19T03:15:10+00:00
 - Review events: 27
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
@@ -19,6 +19,18 @@
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
+## QASR — ELEVATED
+
+- MMSI / IMO: 631010086 / 9402471
+- Infrastructure: pipeline — NORD STREAM 2
+- Minimum distance: 0.035 nm
+- Close-band points: 3
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
 ## CINDY — ELEVATED
 
 - MMSI / IMO: 230166780 / –
@@ -31,23 +43,11 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
-## QASR — ELEVATED
-
-- MMSI / IMO: 631010086 / 9402471
-- Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.089 nm
-- Close-band points: 3
-- Estimated dwell: 0.0 min
-- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
-- Confidence: low_medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
 ## BISON — ELEVATED
 
 - MMSI / IMO: 230938570 / 5001839
 - Infrastructure: pipeline — pipelines.3666
-- Minimum distance: 0.091 nm
+- Minimum distance: 0.089 nm
 - Close-band points: 2
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
@@ -299,7 +299,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 518887000 / –
 - Infrastructure: power_cable — pcablesnve.28
-- Minimum distance: 0.538 nm
+- Minimum distance: 0.535 nm
 - Close-band points: 2
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
@@ -311,7 +311,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 518887000 / –
 - Infrastructure: power_cable — pcablesnve.29
-- Minimum distance: 0.538 nm
+- Minimum distance: 0.535 nm
 - Close-band points: 2
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
