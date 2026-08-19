@@ -1,0 +1,173 @@
+name: Copernicus SAR single-scene chip pilot
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: "Type PROCESS_ONE_SCENE to authorize one bounded Process API request"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  # This manual pilot writes only its own small status file.
+  group: voodoo-copernicus-sar-chip-main
+  cancel-in-progress: false
+
+jobs:
+  process-one-temporary-chip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CDSE_SH_CLIENT_ID: ${{ secrets.CDSE_SH_CLIENT_ID }}
+      CDSE_SH_CLIENT_SECRET: ${{ secrets.CDSE_SH_CLIENT_SECRET }}
+      SAR_CHIP_CONFIRMATION: ${{ inputs.confirmation }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Require explicit single-scene confirmation and protected secrets
+        run: |
+          set -euo pipefail
+          if [ "${SAR_CHIP_CONFIRMATION:-}" != "PROCESS_ONE_SCENE" ]; then
+            echo "::error::Confirmation must be exactly PROCESS_ONE_SCENE."
+            exit 1
+          fi
+          if [ -z "${CDSE_SH_CLIENT_ID:-}" ]; then
+            echo "::error::Repository secret CDSE_SH_CLIENT_ID is missing."
+            exit 1
+          fi
+          if [ -z "${CDSE_SH_CLIENT_SECRET:-}" ]; then
+            echo "::error::Repository secret CDSE_SH_CLIENT_SECRET is missing."
+            exit 1
+          fi
+          echo "One bounded single-scene request is authorized. Secret values are not displayed."
+
+      - name: Install temporary raster validation dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check "numpy>=2.0,<3" "tifffile>=2025.5,<2027"
+
+      - name: Run offline chip safety and regression tests
+        run: |
+          set -euo pipefail
+          python -m unittest tests/test_copernicus_sar_catalog.py tests/test_copernicus_sar_chip.py -v
+          python -m py_compile \
+            scripts/copernicus_sar_catalog.py \
+            scripts/copernicus_sar_chip.py \
+            tests/test_copernicus_sar_chip.py
+
+      - name: Download, validate and delete one temporary Sentinel-1 chip
+        run: |
+          set -euo pipefail
+          python scripts/copernicus_sar_chip.py
+
+      - name: Validate Phase 2 status and repository cleanliness
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          path = Path('data/sar_copernicus_chip_status_latest.json')
+          if not path.exists() or path.stat().st_size == 0:
+              raise SystemExit('missing Copernicus SAR chip status')
+          if path.stat().st_size > 1024 * 1024:
+              raise SystemExit('Copernicus SAR chip status unexpectedly exceeds 1 MiB')
+          text = path.read_text(encoding='utf-8')
+          payload = json.loads(text)
+          if payload.get('status') != 'ok':
+              raise SystemExit(f"Copernicus chip pilot is not healthy: {payload.get('errors')}")
+          if payload.get('phase') != 'single_scene_process_api_chip':
+              raise SystemExit('unexpected Copernicus chip pilot phase')
+          if payload.get('oauth', {}).get('oauth_client_credentials_valid') is not True:
+              raise SystemExit('Copernicus OAuth validation did not succeed')
+          catalogue = payload.get('catalogue_confirmation', {})
+          if catalogue.get('returned_features') != 1 or catalogue.get('single_scene_guard_passed') is not True:
+              raise SystemExit('single-scene catalogue guard did not pass')
+          expected_scene = 'S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E'
+          if payload.get('selected_scene', {}).get('normalized_scene_id') != expected_scene:
+              raise SystemExit('configured Sentinel-1 scene was not selected exactly')
+          if payload.get('raster_download_performed') is not True:
+              raise SystemExit('Phase 2 did not receive the temporary raster')
+          if payload.get('temporary_raster_written') is not True or payload.get('temporary_raster_deleted') is not True:
+              raise SystemExit('temporary raster lifecycle was not completed')
+          if payload.get('raster_persisted') is not False or payload.get('raster_artifact_uploaded') is not False:
+              raise SystemExit('Phase 2 unexpectedly persisted or uploaded the raster')
+          if payload.get('detection_performed') is not False or payload.get('ais_download_performed') is not False:
+              raise SystemExit('Phase 2 unexpectedly performed detection or AIS retrieval')
+          if payload.get('public_layer_modified') is not False:
+              raise SystemExit('Phase 2 unexpectedly modified the public layer')
+          if payload.get('gfw_products_modified') is not False or payload.get('magic_paws_modified') is not False:
+              raise SystemExit('Phase 2 unexpectedly modified an existing downstream product')
+          validation = payload.get('raster_validation') or {}
+          if validation.get('shape') != [2002, 1934, 3] or validation.get('dtype') != 'float32':
+              raise SystemExit(f"unexpected temporary raster structure: {validation.get('shape')} {validation.get('dtype')}")
+          if float(validation.get('valid_fraction') or 0) < 0.8:
+              raise SystemExit('temporary raster has insufficient valid coverage')
+          if validation.get('geotiff', {}).get('spatial_transform_present') is not True:
+              raise SystemExit('temporary raster has no spatial transform')
+          for band in ('VV', 'VH'):
+              stats = validation.get('band_statistics', {}).get(band, {}).get('linear_power', {})
+              if float(stats.get('p99') or 0) <= 0:
+                  raise SystemExit(f'temporary raster has no usable {band} values')
+          for env_name in ('CDSE_SH_CLIENT_ID', 'CDSE_SH_CLIENT_SECRET'):
+              secret = os.environ.get(env_name, '')
+              if secret and secret in text:
+                  raise SystemExit(f'{env_name} leaked into the status output')
+          forbidden = []
+          for candidate in Path('.').rglob('*'):
+              lower_name = candidate.name.lower()
+              if lower_name.endswith('.safe') or candidate.suffix.lower() in ('.tif', '.tiff'):
+                  forbidden.append(candidate)
+          if forbidden:
+              raise SystemExit(f'raw/intermediate SAR files appeared in repository workspace: {forbidden[:5]}')
+          print(json.dumps({
+              'status': payload['status'],
+              'pilot_id': payload['pilot_id'],
+              'scene_id': payload['selected_scene']['matched_scene_identifier'],
+              'estimated_processing_units': payload['processing_unit_estimate']['estimated_processing_units'],
+              'reported_processing_units': payload.get('process_api_reported_processing_units'),
+              'raster_response_bytes': payload['raster_response_bytes'],
+              'valid_fraction': validation['valid_fraction'],
+              'temporary_raster_deleted': payload['temporary_raster_deleted'],
+              'detection_performed': payload['detection_performed'],
+          }, indent=2))
+          PY
+
+      - name: Commit small Phase 2 status only
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/sar_copernicus_chip_status_latest.json
+          if git diff --cached --quiet; then
+            echo "No Copernicus Phase 2 status change to commit."
+            exit 0
+          fi
+          staged="$(git diff --cached --name-only)"
+          if [ "$staged" != "data/sar_copernicus_chip_status_latest.json" ]; then
+            echo "::error::Unexpected staged path(s): ${staged}"
+            exit 1
+          fi
+          git commit -m "Update Copernicus SAR single-scene chip status"
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            git rebase --abort || true
+            [ "$attempt" -lt 3 ] && sleep 12
+          done
+          echo "::error::Failed to push the Copernicus SAR chip status after 3 attempts."
+          exit 1
