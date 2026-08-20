@@ -1,7 +1,7 @@
 # Voodoo Whiskers — Current VOI List
 
-- Generated: 2026-08-19T14:53:42+00:00
-- Priority vessels: 419
+- Generated: 2026-08-20T02:56:32+00:00
+- Priority vessels: 418
 - Neutral tanker context is excluded from this VOI list and remains available as a separate map layer.
 - AIS coverage is mixed and not continuous. A listed position is the latest available observation, not proof of current presence.
 
@@ -240,7 +240,6 @@
 | LEV | 9847841 | 273615070 | russian_mmsi |  | 75.3940, 15.1200 | 2026-08-19T14:52:31+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | LIDER BULUT | 9198719 | 613013405 | falseflag_interest | Cameroon | 43.1907, 27.8992 | 2026-08-19T02:58:53.783331+00:00 | AISStream |
 | LIRA | 8607294 | 273534110 | russian_mmsi |  | 71.4017, 15.0117 | 2026-08-19T14:22:34+00:00 | BarentsWatch / Norwegian Coastal Administration |
-| LL ANTIAS | 9055199 | 273843800 | recent_russian_portcall_10d, russian_mmsi |  | 67.1280, 3.3667 | 2026-08-09T22:17:29+00:00 | BarentsWatch / Norwegian Coastal Administration |
 | LUCA |  | 205520370 | recent_russian_portcall_10d |  | 51.1953, 3.2255 | 2026-08-19T03:00:14.166457+00:00 | AISStream |
 | LUCA |  | 211185960 | recent_russian_portcall_10d |  | 53.9534, 10.8679 | 2026-08-18T03:03:12.341460+00:00 | AISStream |
 | LUCA | 9286712 | 304408000 | recent_russian_portcall_10d |  | 58.9940, 21.3734 | 2026-08-19T14:53:37+00:00 | Fintraffic Digitraffic |
