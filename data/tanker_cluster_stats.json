@@ -1,19 +1,29 @@
 {
-  "generated_at": "2026-08-20T02:56:32+00:00",
-  "total_contacts_seen": 967,
-  "total_unique_tankers_in_context_zones": 206,
+  "generated_at": "2026-08-20T03:08:58+00:00",
+  "total_contacts_seen": 958,
+  "total_unique_tankers_in_context_zones": 208,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 138,
-  "voi_tankers_in_context_zones": 68,
+  "neutral_tanker_context_total": 143,
+  "voi_tankers_in_context_zones": 65,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 61,
-      "neutral_tankers": 55,
+      "total_tankers": 66,
+      "neutral_tankers": 60,
       "voi_tankers": 6,
-      "slow_or_waiting": 25,
+      "slow_or_waiting": 24,
       "for_order": 2,
       "examples": [
+        {
+          "name": "JOAN",
+          "imo": "9448877",
+          "mmsi": "205771000",
+          "destination": "NOMON>SESTE",
+          "sog": "14.6",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
         {
           "name": "ECO CORSAIR",
           "imo": "9710311",
@@ -55,16 +65,6 @@
           ]
         },
         {
-          "name": "SELVIK ICE",
-          "imo": "9190200",
-          "mmsi": "231910000",
-          "destination": "DKFRC",
-          "sog": "10.7",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "ATLANTIC TWIN",
           "imo": "9341328",
           "mmsi": "236112059",
@@ -100,12 +100,22 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 37,
-      "neutral_tankers": 35,
-      "voi_tankers": 2,
-      "slow_or_waiting": 19,
+      "total_tankers": 43,
+      "neutral_tankers": 40,
+      "voi_tankers": 3,
+      "slow_or_waiting": 18,
       "for_order": 1,
       "examples": [
+        {
+          "name": "JOAN",
+          "imo": "9448877",
+          "mmsi": "205771000",
+          "destination": "NOMON>SESTE",
+          "sog": "14.6",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
         {
           "name": "ECO CORSAIR",
           "imo": "9710311",
@@ -137,16 +147,6 @@
           ]
         },
         {
-          "name": "SELVIK ICE",
-          "imo": "9190200",
-          "mmsi": "231910000",
-          "destination": "DKFRC",
-          "sog": "10.7",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "ATLANTIC TWIN",
           "imo": "9341328",
           "mmsi": "236112059",
@@ -167,21 +167,21 @@
           ]
         },
         {
-          "name": "THUN GAZELLE",
-          "imo": "9393333",
-          "mmsi": "246541000",
-          "destination": "DKAAL",
-          "sog": "0",
+          "name": "THUN EQUALITY",
+          "imo": "9817171",
+          "mmsi": "244859000",
+          "destination": "NO SLG",
+          "sog": "9.4",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "STELLA ORION",
-          "imo": "9265251",
-          "mmsi": "246553000",
-          "destination": "DK NBG>NL AMS",
-          "sog": "10.9",
+          "name": "THUN GAZELLE",
+          "imo": "9393333",
+          "mmsi": "246541000",
+          "destination": "DKAAL",
+          "sog": "0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -192,11 +192,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 92,
+      "total_tankers": 89,
       "neutral_tankers": 30,
-      "voi_tankers": 62,
-      "slow_or_waiting": 62,
-      "for_order": 11,
+      "voi_tankers": 59,
+      "slow_or_waiting": 59,
+      "for_order": 12,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -213,7 +213,7 @@
           "imo": "9870666",
           "mmsi": "210048000",
           "destination": "KOTKA",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -233,7 +233,7 @@
           "imo": "9010929",
           "mmsi": "210056000",
           "destination": "TALLINN",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -253,7 +253,7 @@
           "imo": "9988994",
           "mmsi": "219034373",
           "destination": "FI SKV",
-          "sog": "0.4",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -263,7 +263,7 @@
           "imo": "9406582",
           "mmsi": "220624000",
           "destination": "FI PRV",
-          "sog": "0.1",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -272,8 +272,8 @@
           "name": "JAARLI",
           "imo": "9892432",
           "mmsi": "230687000",
-          "destination": "FI SKV>DK LIN",
-          "sog": "0.0",
+          "destination": "FI SKV",
+          "sog": "0.5",
           "categories": [
             "neutral_tanker_context"
           ]

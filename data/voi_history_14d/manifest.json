@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0.0",
   "kind": "canonical_source_history",
-  "generated_at": "2026-08-20T02:56:32+00:00",
+  "generated_at": "2026-08-20T03:08:59+00:00",
   "retention_days": 14,
   "max_part_bytes": 20971520,
-  "part_count": 14,
-  "total_rows": 10496,
-  "total_bytes": 20702554,
+  "part_count": 15,
+  "total_rows": 10543,
+  "total_bytes": 20793370,
   "oldest": "2026-08-06T03:51:56+00:00",
-  "newest": "2026-08-19T14:53:37+00:00",
+  "newest": "2026-08-20T03:08:55+00:00",
   "complete_time_window": true,
   "parts": [
     {
@@ -60,9 +60,9 @@
       "href": "./voi-history-2026-08-10-part-001.jsonl",
       "date_utc": "2026-08-10",
       "part": 1,
-      "rows": 929,
-      "bytes": 1837191,
-      "sha256": "db3c853e3578ba1e3d9ab24b1c227de8156f8f43279dc0900ea7a663ada18388",
+      "rows": 931,
+      "bytes": 1841307,
+      "sha256": "774cfd1441a9347d253a14a40d4f4a673826543200b09a86a9c6f3d5ca7d2ba7",
       "oldest": "2026-08-10T03:20:01+00:00",
       "newest": "2026-08-10T20:57:43+00:00"
     },
@@ -148,9 +148,9 @@
       "href": "./voi-history-2026-08-18-part-001.jsonl",
       "date_utc": "2026-08-18",
       "part": 1,
-      "rows": 948,
-      "bytes": 1835846,
-      "sha256": "94b80397934156b61d71b2d93b5180db0a83c387229e71e8f39ce5c0c24f751f",
+      "rows": 946,
+      "bytes": 1831137,
+      "sha256": "b06d60fa8cf7994c82fec3cbb17b22f8d955a518585e7c01b0b46f99cb037a32",
       "oldest": "2026-08-18T02:01:21+00:00",
       "newest": "2026-08-18T23:00:20+00:00"
     },
@@ -159,11 +159,22 @@
       "href": "./voi-history-2026-08-19-part-001.jsonl",
       "date_utc": "2026-08-19",
       "part": 1,
-      "rows": 1192,
-      "bytes": 2305066,
-      "sha256": "76c12036adb31620831b445449fbc75be0972e2e32a8137e592d826d39fcd9fb",
+      "rows": 1023,
+      "bytes": 1964680,
+      "sha256": "1f22cbc902e08c85363f353f15f5f57be450de07cd42ffd5389105e262f41f00",
       "oldest": "2026-08-19T01:10:35+00:00",
-      "newest": "2026-08-19T14:53:37+00:00"
+      "newest": "2026-08-19T23:02:17+00:00"
+    },
+    {
+      "filename": "voi-history-2026-08-20-part-001.jsonl",
+      "href": "./voi-history-2026-08-20-part-001.jsonl",
+      "date_utc": "2026-08-20",
+      "part": 1,
+      "rows": 216,
+      "bytes": 431795,
+      "sha256": "5c10de7217cd23ccec598495b3f907d5e4e4226bcb2730c23b7525533ad5299e",
+      "oldest": "2026-08-20T01:32:02+00:00",
+      "newest": "2026-08-20T03:08:55+00:00"
     }
   ],
   "legacy_compatibility_file": "voi_history.jsonl",
