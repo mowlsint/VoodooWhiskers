@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-08-20T03:08:58+00:00",
-  "total_contacts_seen": 958,
-  "total_unique_tankers_in_context_zones": 208,
+  "generated_at": "2026-08-20T14:53:15+00:00",
+  "total_contacts_seen": 983,
+  "total_unique_tankers_in_context_zones": 217,
   "total_tanker_context_zones": 8,
   "neutral_tanker_context_total": 143,
-  "voi_tankers_in_context_zones": 65,
+  "voi_tankers_in_context_zones": 74,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 66,
-      "neutral_tankers": 60,
-      "voi_tankers": 6,
+      "total_tankers": 62,
+      "neutral_tankers": 57,
+      "voi_tankers": 5,
       "slow_or_waiting": 24,
-      "for_order": 2,
+      "for_order": 3,
       "examples": [
         {
           "name": "JOAN",
@@ -75,21 +75,21 @@
           ]
         },
         {
-          "name": "HARMONIC",
-          "imo": "9819868",
-          "mmsi": "241665000",
-          "destination": "PLGDN",
-          "sog": "12.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "NJORD DF",
           "imo": "9953468",
           "mmsi": "241866000",
           "destination": "NOMON=>PLGDN",
           "sog": "13.2",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "BITLAND",
+          "imo": "9503914",
+          "mmsi": "244784000",
+          "destination": "SENYN > DKAAR",
+          "sog": "10.4",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,11 +100,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 43,
-      "neutral_tankers": 40,
-      "voi_tankers": 3,
+      "total_tankers": 40,
+      "neutral_tankers": 38,
+      "voi_tankers": 2,
       "slow_or_waiting": 18,
-      "for_order": 1,
+      "for_order": 2,
       "examples": [
         {
           "name": "JOAN",
@@ -157,30 +157,30 @@
           ]
         },
         {
-          "name": "HARMONIC",
-          "imo": "9819868",
-          "mmsi": "241665000",
-          "destination": "PLGDN",
-          "sog": "12.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "THUN EQUALITY",
-          "imo": "9817171",
-          "mmsi": "244859000",
-          "destination": "NO SLG",
-          "sog": "9.4",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "THUN GAZELLE",
           "imo": "9393333",
           "mmsi": "246541000",
           "destination": "DKAAL",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "STELLA ORION",
+          "imo": "9265251",
+          "mmsi": "246553000",
+          "destination": "DK NBG>NL AMS",
+          "sog": "10.9",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "STAVANGER TS",
+          "imo": "9737395",
+          "mmsi": "248022000",
+          "destination": "FISKV-SKAGEN",
           "sog": "0",
           "categories": [
             "neutral_tanker_context"
@@ -192,11 +192,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 89,
-      "neutral_tankers": 30,
-      "voi_tankers": 59,
-      "slow_or_waiting": 59,
-      "for_order": 12,
+      "total_tankers": 102,
+      "neutral_tankers": 33,
+      "voi_tankers": 69,
+      "slow_or_waiting": 62,
+      "for_order": 16,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -249,11 +249,21 @@
           ]
         },
         {
+          "name": "TERN DAL",
+          "imo": "9992153",
+          "mmsi": "219034372",
+          "destination": "PORVOO",
+          "sog": "8.7",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
           "name": "TERN LAND",
           "imo": "9988994",
           "mmsi": "219034373",
-          "destination": "FI SKV",
-          "sog": "0.0",
+          "destination": "FI KOK",
+          "sog": "12.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -264,16 +274,6 @@
           "mmsi": "220624000",
           "destination": "FI PRV",
           "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "JAARLI",
-          "imo": "9892432",
-          "mmsi": "230687000",
-          "destination": "FI SKV",
-          "sog": "0.5",
           "categories": [
             "neutral_tanker_context"
           ]
