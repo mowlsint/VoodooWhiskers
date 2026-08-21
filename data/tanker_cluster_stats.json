@@ -1,29 +1,19 @@
 {
-  "generated_at": "2026-08-21T03:05:15+00:00",
-  "total_contacts_seen": 983,
-  "total_unique_tankers_in_context_zones": 214,
+  "generated_at": "2026-08-21T03:14:41+00:00",
+  "total_contacts_seen": 972,
+  "total_unique_tankers_in_context_zones": 204,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 143,
-  "voi_tankers_in_context_zones": 71,
+  "neutral_tanker_context_total": 135,
+  "voi_tankers_in_context_zones": 69,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 62,
-      "neutral_tankers": 57,
+      "total_tankers": 56,
+      "neutral_tankers": 51,
       "voi_tankers": 5,
       "slow_or_waiting": 24,
       "for_order": 3,
       "examples": [
-        {
-          "name": "JOAN",
-          "imo": "9448877",
-          "mmsi": "205771000",
-          "destination": "NOMON>SESTE",
-          "sog": "14.6",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
         {
           "name": "ECO CORSAIR",
           "imo": "9710311",
@@ -93,6 +83,16 @@
           "categories": [
             "neutral_tanker_context"
           ]
+        },
+        {
+          "name": "RLO MERCHANT",
+          "imo": "9305350",
+          "mmsi": "245323000",
+          "destination": "KIEL LTHSE",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
         }
       ],
       "zone_id": "danish_straits_kattegat",
@@ -100,22 +100,12 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 40,
-      "neutral_tankers": 38,
-      "voi_tankers": 2,
+      "total_tankers": 35,
+      "neutral_tankers": 34,
+      "voi_tankers": 1,
       "slow_or_waiting": 18,
       "for_order": 2,
       "examples": [
-        {
-          "name": "JOAN",
-          "imo": "9448877",
-          "mmsi": "205771000",
-          "destination": "NOMON>SESTE",
-          "sog": "14.6",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
         {
           "name": "ECO CORSAIR",
           "imo": "9710311",
@@ -157,6 +147,16 @@
           ]
         },
         {
+          "name": "TWISTER",
+          "imo": "9507594",
+          "mmsi": "245881000",
+          "destination": "NORAF",
+          "sog": "10.1",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
           "name": "THUN GAZELLE",
           "imo": "9393333",
           "mmsi": "246541000",
@@ -192,11 +192,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 99,
-      "neutral_tankers": 33,
-      "voi_tankers": 66,
-      "slow_or_waiting": 62,
-      "for_order": 15,
+      "total_tankers": 96,
+      "neutral_tankers": 32,
+      "voi_tankers": 64,
+      "slow_or_waiting": 55,
+      "for_order": 12,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -212,8 +212,8 @@
           "name": "NORMA",
           "imo": "9870666",
           "mmsi": "210048000",
-          "destination": "KOTKA",
-          "sog": "0.0",
+          "destination": "ROTTERDAM",
+          "sog": "12.4",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -243,7 +243,7 @@
           "imo": "9872987",
           "mmsi": "215685000",
           "destination": "FIINK",
-          "sog": "0.0",
+          "sog": "1.4",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -253,17 +253,7 @@
           "imo": "9992153",
           "mmsi": "219034372",
           "destination": "PORVOO",
-          "sog": "8.7",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TERN LAND",
-          "imo": "9988994",
-          "mmsi": "219034373",
-          "destination": "FI KOK",
-          "sog": "12.0",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -274,6 +264,16 @@
           "mmsi": "220624000",
           "destination": "FI PRV",
           "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "JAARLI",
+          "imo": "9892432",
+          "mmsi": "230687000",
+          "destination": "FI SKV",
+          "sog": "0.5",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -379,98 +379,6 @@
       "total_tankers": 13,
       "neutral_tankers": 13,
       "voi_tankers": 0,
-      "slow_or_waiting": 10,
-      "for_order": 0,
-      "examples": [
-        {
-          "name": "EEMSHAVEN LNG",
-          "imo": "9757694",
-          "mmsi": "205157000",
-          "destination": "",
-          "sog": "",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TRANSPORTER II",
-          "imo": "8615148",
-          "mmsi": "211226450",
-          "destination": "WILHELMSHAVEN",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "FINJA",
-          "imo": "9212345",
-          "mmsi": "211333700",
-          "destination": "DEBRV",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "WESER-SERVICE",
-          "imo": "0",
-          "mmsi": "211428750",
-          "destination": "BREMERHAVEN",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "JANA",
-          "imo": "9330185",
-          "mmsi": "211809000",
-          "destination": "DEWVN",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "STATHAV22",
-          "imo": "9096399",
-          "mmsi": "219010252",
-          "destination": "BUNKERING OPR.",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "PROMITHEAS",
-          "imo": "9305611",
-          "mmsi": "240547000",
-          "destination": "USCRP>DEWVN",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "THUN RESPONSE",
-          "imo": "1051953",
-          "mmsi": "244960000",
-          "destination": "",
-          "sog": "",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        }
-      ],
-      "zone_id": "german_bight",
-      "zone_label": "German Bight",
-      "level": "watch"
-    },
-    {
-      "total_tankers": 13,
-      "neutral_tankers": 13,
-      "voi_tankers": 0,
       "slow_or_waiting": 7,
       "for_order": 0,
       "examples": [
@@ -557,6 +465,98 @@
       ],
       "zone_id": "dover_channel_gateway",
       "zone_label": "Dover Strait / Channel gateway",
+      "level": "watch"
+    },
+    {
+      "total_tankers": 12,
+      "neutral_tankers": 12,
+      "voi_tankers": 0,
+      "slow_or_waiting": 9,
+      "for_order": 0,
+      "examples": [
+        {
+          "name": "EEMSHAVEN LNG",
+          "imo": "9757694",
+          "mmsi": "205157000",
+          "destination": "",
+          "sog": "",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "TRANSPORTER II",
+          "imo": "8615148",
+          "mmsi": "211226450",
+          "destination": "WILHELMSHAVEN",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "FINJA",
+          "imo": "9212345",
+          "mmsi": "211333700",
+          "destination": "DEBRV",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "WESER-SERVICE",
+          "imo": "0",
+          "mmsi": "211428750",
+          "destination": "BREMERHAVEN",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "JANA",
+          "imo": "9330185",
+          "mmsi": "211809000",
+          "destination": "DEWVN",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "STATHAV22",
+          "imo": "9096399",
+          "mmsi": "219010252",
+          "destination": "BUNKERING OPR.",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "PROMITHEAS",
+          "imo": "9305611",
+          "mmsi": "240547000",
+          "destination": "USCRP>DEWVN",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "THUN RESPONSE",
+          "imo": "1051953",
+          "mmsi": "244960000",
+          "destination": "",
+          "sog": "",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        }
+      ],
+      "zone_id": "german_bight",
+      "zone_label": "German Bight",
       "level": "watch"
     },
     {
