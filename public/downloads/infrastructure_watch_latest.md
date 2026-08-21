@@ -1,6 +1,6 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-08-21T03:06:09+00:00
+- Generated: 2026-08-21T03:15:43+00:00
 - Review events: 23
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
@@ -19,6 +19,18 @@
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
+## QASR — ELEVATED
+
+- MMSI / IMO: 631010086 / 9402471
+- Infrastructure: pipeline — NORD STREAM 2
+- Minimum distance: 0.017 nm
+- Close-band points: 7
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
 ## CINDY — ELEVATED
 
 - MMSI / IMO: 230166780 / –
@@ -28,18 +40,6 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
-
-Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
-
-## QASR — ELEVATED
-
-- MMSI / IMO: 631010086 / 9402471
-- Infrastructure: pipeline — NORD STREAM 2
-- Minimum distance: 0.035 nm
-- Close-band points: 7
-- Estimated dwell: 0.0 min
-- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
-- Confidence: low_medium
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
 
