@@ -1,42 +1,42 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-21T06:05:01Z",
+  "generated_at": "2026-08-21T14:52:20Z",
   "retention_days": 21,
   "max_bytes": 23068672,
   "position_history_path": "data/history/maritime_source_history_21d.jsonl",
   "coverage_history_path": "data/history/maritime_source_coverage_21d.jsonl",
-  "position_records": 23709,
-  "coverage_records": 100,
-  "records_added_from_current_snapshots": 698,
-  "dropped_old_or_invalid": 441,
+  "position_records": 24058,
+  "coverage_records": 102,
+  "records_added_from_current_snapshots": 703,
+  "dropped_old_or_invalid": 67,
   "dropped_for_size": 0,
   "provider_counts": {
-    "barentswatch": 5084,
-    "ais_dk_historical": 6310,
-    "fintraffic": 12315
+    "ais_dk_historical": 6254,
+    "barentswatch": 5201,
+    "fintraffic": 12603
   },
   "provider_position_ranges": {
-    "barentswatch": {
-      "min": "2026-07-31T06:49:24Z",
-      "max": "2026-08-21T03:14:39Z"
-    },
     "ais_dk_historical": {
-      "min": "2026-07-31T08:58:26Z",
+      "min": "2026-07-31T14:53:25Z",
       "max": "2026-08-18T23:59:58Z"
+    },
+    "barentswatch": {
+      "min": "2026-07-31T14:59:59Z",
+      "max": "2026-08-21T14:52:18Z"
     },
     "fintraffic": {
       "min": "2026-07-31T16:09:55Z",
-      "max": "2026-08-21T03:14:38Z"
+      "max": "2026-08-21T14:52:17Z"
     }
   },
   "provider_coverage_ranges": {
     "fintraffic": {
       "min": "2026-07-31T16:09:55Z",
-      "max": "2026-08-21T03:14:38Z"
+      "max": "2026-08-21T14:52:17Z"
     },
     "barentswatch": {
       "min": "2026-07-31T16:10:16Z",
-      "max": "2026-08-21T03:14:40Z"
+      "max": "2026-08-21T14:52:20Z"
     },
     "ais_dk_historical": {
       "min": "2026-07-31T23:59:58Z",
@@ -47,18 +47,18 @@
     "fintraffic": {
       "ok": true,
       "path": "data/ais_contacts_fintraffic_latest.json",
-      "source_generated_at": "2026-08-21T03:14:38+00:00",
-      "coverage_at": "2026-08-21T03:14:38Z",
+      "source_generated_at": "2026-08-21T14:52:17+00:00",
+      "coverage_at": "2026-08-21T14:52:17Z",
       "coverage_basis": "generated_at",
-      "records_seen": 284
+      "records_seen": 288
     },
     "barentswatch": {
       "ok": true,
       "path": "data/ais_contacts_barentswatch_latest.json",
-      "source_generated_at": "2026-08-21T03:14:40+00:00",
-      "coverage_at": "2026-08-21T03:14:40Z",
+      "source_generated_at": "2026-08-21T14:52:20+00:00",
+      "coverage_at": "2026-08-21T14:52:20Z",
       "coverage_basis": "generated_at",
-      "records_seen": 132
+      "records_seen": 133
     },
     "ais_dk_historical": {
       "ok": true,
