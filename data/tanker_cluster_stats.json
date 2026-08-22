@@ -1,19 +1,29 @@
 {
-  "generated_at": "2026-08-22T03:06:27+00:00",
-  "total_contacts_seen": 1042,
-  "total_unique_tankers_in_context_zones": 212,
+  "generated_at": "2026-08-22T14:36:38+00:00",
+  "total_contacts_seen": 1050,
+  "total_unique_tankers_in_context_zones": 234,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 138,
-  "voi_tankers_in_context_zones": 74,
+  "neutral_tanker_context_total": 145,
+  "voi_tankers_in_context_zones": 89,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 58,
-      "neutral_tankers": 54,
-      "voi_tankers": 4,
+      "total_tankers": 63,
+      "neutral_tankers": 60,
+      "voi_tankers": 3,
       "slow_or_waiting": 25,
       "for_order": 2,
       "examples": [
+        {
+          "name": "YURIY KUCHIEV",
+          "imo": "9804033",
+          "mmsi": "209508000",
+          "destination": "FOR ORDERS",
+          "sog": "12.3",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
         {
           "name": "ECO CORSAIR",
           "imo": "9710311",
@@ -40,6 +50,16 @@
           "mmsi": "219032954",
           "destination": "SEGOT",
           "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "DAN CISNE",
+          "imo": "9513440",
+          "mmsi": "219332000",
+          "destination": "GBANA>SE BRO",
+          "sog": "11.3",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -73,26 +93,6 @@
           "categories": [
             "neutral_tanker_context"
           ]
-        },
-        {
-          "name": "ITHAKI DF",
-          "imo": "9953494",
-          "mmsi": "241875000",
-          "destination": "NOMON>DKSKA",
-          "sog": "12.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "BITLAND",
-          "imo": "9503914",
-          "mmsi": "244784000",
-          "destination": "SENYN > DKAAR",
-          "sog": "10.4",
-          "categories": [
-            "neutral_tanker_context"
-          ]
         }
       ],
       "zone_id": "danish_straits_kattegat",
@@ -100,12 +100,22 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 38,
-      "neutral_tankers": 37,
-      "voi_tankers": 1,
+      "total_tankers": 43,
+      "neutral_tankers": 43,
+      "voi_tankers": 0,
       "slow_or_waiting": 19,
       "for_order": 1,
       "examples": [
+        {
+          "name": "YURIY KUCHIEV",
+          "imo": "9804033",
+          "mmsi": "209508000",
+          "destination": "FOR ORDERS",
+          "sog": "12.3",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
         {
           "name": "ECO CORSAIR",
           "imo": "9710311",
@@ -122,6 +132,16 @@
           "mmsi": "219032954",
           "destination": "SEGOT",
           "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "DAN CISNE",
+          "imo": "9513440",
+          "mmsi": "219332000",
+          "destination": "GBANA>SE BRO",
+          "sog": "11.3",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -157,31 +177,11 @@
           ]
         },
         {
-          "name": "THUN GAZELLE",
-          "imo": "9393333",
-          "mmsi": "246541000",
-          "destination": "DKAAL",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "STELLA ORION",
-          "imo": "9265251",
-          "mmsi": "246553000",
-          "destination": "DK NBG>NL AMS",
-          "sog": "10.9",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "STAVANGER TS",
-          "imo": "9737395",
-          "mmsi": "248022000",
-          "destination": "FISKV-SKAGEN",
-          "sog": "0",
+          "name": "CORAL PATULA",
+          "imo": "9425241",
+          "mmsi": "244870429",
+          "destination": "DE STA",
+          "sog": "14.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -189,13 +189,13 @@
       ],
       "zone_id": "skagen_waiting_area",
       "zone_label": "Skagen / northern Kattegat",
-      "level": "heightened_context"
+      "level": "watch"
     },
     {
-      "total_tankers": 102,
-      "neutral_tankers": 32,
-      "voi_tankers": 70,
-      "slow_or_waiting": 63,
+      "total_tankers": 119,
+      "neutral_tankers": 33,
+      "voi_tankers": 86,
+      "slow_or_waiting": 75,
       "for_order": 12,
       "examples": [
         {
@@ -252,8 +252,8 @@
           "name": "TERN DAL",
           "imo": "9992153",
           "mmsi": "219034372",
-          "destination": "PORVOO",
-          "sog": "5.4",
+          "destination": "KLAIPEDA",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -262,8 +262,8 @@
           "name": "TERNSUND",
           "imo": "9722390",
           "mmsi": "219775000",
-          "destination": "FI HMN",
-          "sog": "13.7",
+          "destination": "DKKAL",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
