@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-22T02:55:54+00:00",
-  "total_contacts_seen": 980,
-  "total_unique_tankers_in_context_zones": 206,
+  "generated_at": "2026-08-22T03:06:27+00:00",
+  "total_contacts_seen": 1042,
+  "total_unique_tankers_in_context_zones": 212,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 135,
-  "voi_tankers_in_context_zones": 71,
+  "neutral_tanker_context_total": 138,
+  "voi_tankers_in_context_zones": 74,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 53,
-      "neutral_tankers": 50,
-      "voi_tankers": 3,
+      "total_tankers": 58,
+      "neutral_tankers": 54,
+      "voi_tankers": 4,
       "slow_or_waiting": 25,
       "for_order": 2,
       "examples": [
@@ -75,21 +75,21 @@
           ]
         },
         {
-          "name": "BITLAND",
-          "imo": "9503914",
-          "mmsi": "244784000",
-          "destination": "SENYN > DKAAR",
-          "sog": "10.4",
+          "name": "ITHAKI DF",
+          "imo": "9953494",
+          "mmsi": "241875000",
+          "destination": "NOMON>DKSKA",
+          "sog": "12.8",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "THUN EQUALITY",
-          "imo": "9817171",
-          "mmsi": "244859000",
-          "destination": "NO TRD",
-          "sog": "11.3",
+          "name": "BITLAND",
+          "imo": "9503914",
+          "mmsi": "244784000",
+          "destination": "SENYN > DKAAR",
+          "sog": "10.4",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,11 +100,103 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 101,
-      "neutral_tankers": 33,
-      "voi_tankers": 68,
-      "slow_or_waiting": 72,
-      "for_order": 13,
+      "total_tankers": 38,
+      "neutral_tankers": 37,
+      "voi_tankers": 1,
+      "slow_or_waiting": 19,
+      "for_order": 1,
+      "examples": [
+        {
+          "name": "ECO CORSAIR",
+          "imo": "9710311",
+          "mmsi": "210155000",
+          "destination": "NORAF",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "MAYA THERESA",
+          "imo": "9521411",
+          "mmsi": "219032954",
+          "destination": "SEGOT",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "AMAK SWAN",
+          "imo": "9318230",
+          "mmsi": "219355000",
+          "destination": "SEGOT",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "ATLANTIC TWIN",
+          "imo": "9341328",
+          "mmsi": "236112059",
+          "destination": "SE GOT",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "ITHAKI DF",
+          "imo": "9953494",
+          "mmsi": "241875000",
+          "destination": "NOMON>DKSKA",
+          "sog": "12.8",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "THUN GAZELLE",
+          "imo": "9393333",
+          "mmsi": "246541000",
+          "destination": "DKAAL",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "STELLA ORION",
+          "imo": "9265251",
+          "mmsi": "246553000",
+          "destination": "DK NBG>NL AMS",
+          "sog": "10.9",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "STAVANGER TS",
+          "imo": "9737395",
+          "mmsi": "248022000",
+          "destination": "FISKV-SKAGEN",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        }
+      ],
+      "zone_id": "skagen_waiting_area",
+      "zone_label": "Skagen / northern Kattegat",
+      "level": "heightened_context"
+    },
+    {
+      "total_tankers": 102,
+      "neutral_tankers": 32,
+      "voi_tankers": 70,
+      "slow_or_waiting": 63,
+      "for_order": 12,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -161,7 +253,17 @@
           "imo": "9992153",
           "mmsi": "219034372",
           "destination": "PORVOO",
-          "sog": "0.0",
+          "sog": "5.4",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "TERNSUND",
+          "imo": "9722390",
+          "mmsi": "219775000",
+          "destination": "FI HMN",
+          "sog": "13.7",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -170,18 +272,8 @@
           "name": "JETTE THERESA",
           "imo": "9406582",
           "mmsi": "220624000",
-          "destination": "BE GNE",
-          "sog": "10.7",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "JAARLI",
-          "imo": "9892432",
-          "mmsi": "230687000",
-          "destination": "FI SKV",
-          "sog": "0.5",
+          "destination": "FI PRV",
+          "sog": "0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -189,98 +281,6 @@
       ],
       "zone_id": "gulf_of_finland_ru_approaches",
       "zone_label": "Gulf of Finland / Ust-Luga-Primorsk approaches",
-      "level": "heightened_context"
-    },
-    {
-      "total_tankers": 33,
-      "neutral_tankers": 32,
-      "voi_tankers": 1,
-      "slow_or_waiting": 19,
-      "for_order": 1,
-      "examples": [
-        {
-          "name": "ECO CORSAIR",
-          "imo": "9710311",
-          "mmsi": "210155000",
-          "destination": "NORAF",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "MAYA THERESA",
-          "imo": "9521411",
-          "mmsi": "219032954",
-          "destination": "SEGOT",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "AMAK SWAN",
-          "imo": "9318230",
-          "mmsi": "219355000",
-          "destination": "SEGOT",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "ATLANTIC TWIN",
-          "imo": "9341328",
-          "mmsi": "236112059",
-          "destination": "SE GOT",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "THUN EQUALITY",
-          "imo": "9817171",
-          "mmsi": "244859000",
-          "destination": "NO TRD",
-          "sog": "11.3",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "THUN GAZELLE",
-          "imo": "9393333",
-          "mmsi": "246541000",
-          "destination": "DKAAL",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "STELLA ORION",
-          "imo": "9265251",
-          "mmsi": "246553000",
-          "destination": "DK NBG>NL AMS",
-          "sog": "10.9",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "STAVANGER TS",
-          "imo": "9737395",
-          "mmsi": "248022000",
-          "destination": "FISKV-SKAGEN",
-          "sog": "0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        }
-      ],
-      "zone_id": "skagen_waiting_area",
-      "zone_label": "Skagen / northern Kattegat",
       "level": "heightened_context"
     },
     {
