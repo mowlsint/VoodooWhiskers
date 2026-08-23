@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-08-23T03:14:04+00:00",
-  "total_contacts_seen": 1030,
-  "total_unique_tankers_in_context_zones": 227,
+  "generated_at": "2026-08-23T14:37:07+00:00",
+  "total_contacts_seen": 1008,
+  "total_unique_tankers_in_context_zones": 232,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 159,
-  "voi_tankers_in_context_zones": 68,
+  "neutral_tanker_context_total": 158,
+  "voi_tankers_in_context_zones": 74,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 79,
-      "neutral_tankers": 75,
+      "total_tankers": 78,
+      "neutral_tankers": 74,
       "voi_tankers": 4,
       "slow_or_waiting": 33,
       "for_order": 2,
@@ -40,16 +40,6 @@
           "mmsi": "209275000",
           "destination": "SEGOT",
           "sog": "6.4",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "YURIY KUCHIEV",
-          "imo": "9804033",
-          "mmsi": "209508000",
-          "destination": "FOR ORDERS",
-          "sog": "12.3",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -93,6 +83,16 @@
           "categories": [
             "neutral_tanker_context"
           ]
+        },
+        {
+          "name": "HELLAS DIANA",
+          "imo": "9872987",
+          "mmsi": "215685000",
+          "destination": "FOR ORDERS",
+          "sog": "18.3",
+          "categories": [
+            "neutral_tanker_context"
+          ]
         }
       ],
       "zone_id": "danish_straits_kattegat",
@@ -100,8 +100,8 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 52,
-      "neutral_tankers": 52,
+      "total_tankers": 49,
+      "neutral_tankers": 49,
       "voi_tankers": 0,
       "slow_or_waiting": 23,
       "for_order": 1,
@@ -132,16 +132,6 @@
           "mmsi": "209275000",
           "destination": "SEGOT",
           "sog": "6.4",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "YURIY KUCHIEV",
-          "imo": "9804033",
-          "mmsi": "209508000",
-          "destination": "FOR ORDERS",
-          "sog": "12.3",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -182,6 +172,16 @@
           "mmsi": "219029722",
           "destination": "SEGOT",
           "sog": "10.4",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "TERN VIK",
+          "imo": "9988970",
+          "mmsi": "219034365",
+          "destination": "SEGOT",
+          "sog": "8.5",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -284,11 +284,11 @@
       "level": "watch"
     },
     {
-      "total_tankers": 85,
+      "total_tankers": 91,
       "neutral_tankers": 22,
-      "voi_tankers": 63,
-      "slow_or_waiting": 55,
-      "for_order": 9,
+      "voi_tankers": 69,
+      "slow_or_waiting": 64,
+      "for_order": 11,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -315,7 +315,7 @@
           "imo": "9010929",
           "mmsi": "210056000",
           "destination": "TALLINN",
-          "sog": "0.0",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -325,29 +325,9 @@
           "imo": "9992153",
           "mmsi": "219034372",
           "destination": "KLAIPEDA",
-          "sog": "9.1",
+          "sog": "9.2",
           "categories": [
             "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TERNSUND",
-          "imo": "9722390",
-          "mmsi": "219775000",
-          "destination": "DKKAL",
-          "sog": "14.3",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "CAPTAIN PARIS",
-          "imo": "9692844",
-          "mmsi": "229716000",
-          "destination": "EGPSD",
-          "sog": "12.7",
-          "categories": [
-            "recent_russian_portcall_10d"
           ]
         },
         {
@@ -355,7 +335,7 @@
           "imo": "9407988",
           "mmsi": "255915979",
           "destination": "FISKV",
-          "sog": "11.3",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -365,7 +345,27 @@
           "imo": "9322712",
           "mmsi": "255946000",
           "destination": "FIKOK",
-          "sog": "9.7",
+          "sog": "9.9",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "VIKSTRAUM",
+          "imo": "9829796",
+          "mmsi": "257084120",
+          "destination": "PLSZZ > FISKV",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "FJELLSTRAUM",
+          "imo": "9140815",
+          "mmsi": "257601000",
+          "destination": "EEVEB",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
