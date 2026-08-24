@@ -1,22 +1,22 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-23T14:37:07+00:00",
+  "generated_at": "2026-08-24T03:05:29+00:00",
   "snapshot": {
     "href": "./voi_snapshot_latest.json",
-    "item_count": 619
+    "item_count": 635
   },
   "positions": {
     "href": "./vessel_positions_latest.geojson",
-    "feature_count": 619
+    "feature_count": 635
   },
   "ais_contacts": {
     "json_href": "./ais_contacts_latest.json",
     "geojson_href": "./ais_contacts_latest.geojson",
-    "contact_count": 1008,
-    "feature_count": 1008,
+    "contact_count": 1040,
+    "feature_count": 1040,
     "provider_label": "AIS",
     "display_label": "AISStream live contacts or historical fallback data",
-    "aisstream_live": false,
+    "aisstream_live": true,
     "historical_source_codes": [
       "N",
       "FIN"
@@ -69,22 +69,22 @@
     {
       "id": "russian_mmsi",
       "href": "./layers/russian_mmsi.geojson",
-      "feature_count": 165
+      "feature_count": 163
     },
     {
       "id": "watchlist_live",
       "href": "./layers/watchlist_live.geojson",
-      "feature_count": 67
+      "feature_count": 65
     },
     {
       "id": "sanctions_shadowfleet",
       "href": "./layers/sanctions_shadowfleet.geojson",
-      "feature_count": 67
+      "feature_count": 65
     },
     {
       "id": "falseflag_interest",
       "href": "./layers/falseflag_interest.geojson",
-      "feature_count": 15
+      "feature_count": 18
     },
     {
       "id": "false_flag_watch",
@@ -99,12 +99,12 @@
     {
       "id": "recent_russian_portcall_10d",
       "href": "./layers/recent_russian_portcall_10d.geojson",
-      "feature_count": 307
+      "feature_count": 314
     },
     {
       "id": "neutral_tanker_context",
       "href": "./layers/neutral_tanker_context.geojson",
-      "feature_count": 158
+      "feature_count": 165
     }
   ]
 }
