@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-08-24T03:05:29+00:00",
-  "total_contacts_seen": 1040,
-  "total_unique_tankers_in_context_zones": 235,
+  "generated_at": "2026-08-24T03:14:59+00:00",
+  "total_contacts_seen": 1025,
+  "total_unique_tankers_in_context_zones": 233,
   "total_tanker_context_zones": 8,
   "neutral_tanker_context_total": 165,
-  "voi_tankers_in_context_zones": 70,
+  "voi_tankers_in_context_zones": 68,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 88,
-      "neutral_tankers": 80,
+      "total_tankers": 87,
+      "neutral_tankers": 79,
       "voi_tankers": 8,
-      "slow_or_waiting": 42,
+      "slow_or_waiting": 44,
       "for_order": 4,
       "examples": [
         {
@@ -100,10 +100,10 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 63,
-      "neutral_tankers": 59,
+      "total_tankers": 61,
+      "neutral_tankers": 57,
       "voi_tankers": 4,
-      "slow_or_waiting": 30,
+      "slow_or_waiting": 32,
       "for_order": 3,
       "examples": [
         {
@@ -150,8 +150,8 @@
           "name": "TERN ISLAND",
           "imo": "9909649",
           "mmsi": "219029722",
-          "destination": "SEGOT",
-          "sog": "10.4",
+          "destination": "FIINK",
+          "sog": "0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -171,7 +171,7 @@
           "imo": "9513440",
           "mmsi": "219332000",
           "destination": "GBANA>SE BRO",
-          "sog": "11.7",
+          "sog": "0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -284,10 +284,10 @@
       "level": "watch"
     },
     {
-      "total_tankers": 80,
-      "neutral_tankers": 20,
-      "voi_tankers": 60,
-      "slow_or_waiting": 58,
+      "total_tankers": 79,
+      "neutral_tankers": 21,
+      "voi_tankers": 58,
+      "slow_or_waiting": 52,
       "for_order": 10,
       "examples": [
         {
@@ -295,6 +295,16 @@
           "imo": "9444649",
           "mmsi": "205553000",
           "destination": "FIINK",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "GIOCONDA",
+          "imo": "9819052",
+          "mmsi": "209415000",
+          "destination": "FIPRV",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
@@ -315,7 +325,17 @@
           "imo": "9010929",
           "mmsi": "210056000",
           "destination": "TALLINN",
-          "sog": "0.1",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "CORAL ENERGY",
+          "imo": "9617698",
+          "mmsi": "246878000",
+          "destination": "FI INK",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -334,8 +354,8 @@
           "name": "VIKSTRAUM",
           "imo": "9829796",
           "mmsi": "257084120",
-          "destination": "PLSZZ > FISKV",
-          "sog": "0.0",
+          "destination": "FISKV - DEHAM",
+          "sog": "10.8",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -348,28 +368,6 @@
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "ASTRAL",
-          "imo": "9371878",
-          "mmsi": "266266000",
-          "destination": "EE TLL",
-          "sog": "0.2",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "TANZANIT",
-          "imo": "9388766",
-          "mmsi": "273121230",
-          "destination": "UST LUGA",
-          "sog": "0.3",
-          "categories": [
-            "russian_mmsi",
-            "sanctions_shadowfleet",
-            "watchlist"
           ]
         }
       ],
