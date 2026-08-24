@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-08-24T03:14:59+00:00",
-  "total_contacts_seen": 1025,
-  "total_unique_tankers_in_context_zones": 233,
+  "generated_at": "2026-08-24T14:58:16+00:00",
+  "total_contacts_seen": 1020,
+  "total_unique_tankers_in_context_zones": 237,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 165,
-  "voi_tankers_in_context_zones": 68,
+  "neutral_tanker_context_total": 168,
+  "voi_tankers_in_context_zones": 69,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 87,
-      "neutral_tankers": 79,
-      "voi_tankers": 8,
+      "total_tankers": 89,
+      "neutral_tankers": 82,
+      "voi_tankers": 7,
       "slow_or_waiting": 44,
-      "for_order": 4,
+      "for_order": 5,
       "examples": [
         {
           "name": "JOAN",
@@ -100,11 +100,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 61,
+      "total_tankers": 60,
       "neutral_tankers": 57,
-      "voi_tankers": 4,
+      "voi_tankers": 3,
       "slow_or_waiting": 32,
-      "for_order": 3,
+      "for_order": 4,
       "examples": [
         {
           "name": "JOAN",
@@ -167,20 +167,20 @@
           ]
         },
         {
-          "name": "DAN CISNE",
-          "imo": "9513440",
-          "mmsi": "219332000",
-          "destination": "GBANA>SE BRO",
-          "sog": "0",
+          "name": "ORALORA",
+          "imo": "9534066",
+          "mmsi": "219200000",
+          "destination": "SEKAN",
+          "sog": "10.0",
           "categories": [
             "neutral_tanker_context"
           ]
         },
         {
-          "name": "DAN SABIA",
-          "imo": "9513438",
-          "mmsi": "219333000",
-          "destination": "SKAGEN",
+          "name": "DAN CISNE",
+          "imo": "9513440",
+          "mmsi": "219332000",
+          "destination": "GBANA>SE BRO",
           "sog": "0",
           "categories": [
             "neutral_tanker_context"
@@ -284,10 +284,10 @@
       "level": "watch"
     },
     {
-      "total_tankers": 79,
+      "total_tankers": 81,
       "neutral_tankers": 21,
-      "voi_tankers": 58,
-      "slow_or_waiting": 52,
+      "voi_tankers": 60,
+      "slow_or_waiting": 61,
       "for_order": 10,
       "examples": [
         {
@@ -341,26 +341,6 @@
           ]
         },
         {
-          "name": "STEN BERGEN",
-          "imo": "9407988",
-          "mmsi": "255915979",
-          "destination": "FISKV",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "VIKSTRAUM",
-          "imo": "9829796",
-          "mmsi": "257084120",
-          "destination": "FISKV - DEHAM",
-          "sog": "10.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "FJELLSTRAUM",
           "imo": "9140815",
           "mmsi": "257601000",
@@ -368,6 +348,28 @@
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "ASTRAL",
+          "imo": "9371878",
+          "mmsi": "266266000",
+          "destination": "EE TLL",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "TANZANIT",
+          "imo": "9388766",
+          "mmsi": "273121230",
+          "destination": "UST LUGA",
+          "sog": "0.5",
+          "categories": [
+            "russian_mmsi",
+            "sanctions_shadowfleet",
+            "watchlist"
           ]
         }
       ],
