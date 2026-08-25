@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-25T02:54:40+00:00",
-  "total_contacts_seen": 1024,
-  "total_unique_tankers_in_context_zones": 240,
+  "generated_at": "2026-08-25T03:11:27+00:00",
+  "total_contacts_seen": 1042,
+  "total_unique_tankers_in_context_zones": 241,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 175,
-  "voi_tankers_in_context_zones": 65,
+  "neutral_tanker_context_total": 173,
+  "voi_tankers_in_context_zones": 68,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
       "total_tankers": 101,
-      "neutral_tankers": 95,
-      "voi_tankers": 6,
+      "neutral_tankers": 93,
+      "voi_tankers": 8,
       "slow_or_waiting": 50,
       "for_order": 6,
       "examples": [
@@ -100,9 +100,9 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 68,
-      "neutral_tankers": 66,
-      "voi_tankers": 2,
+      "total_tankers": 67,
+      "neutral_tankers": 64,
+      "voi_tankers": 3,
       "slow_or_waiting": 38,
       "for_order": 5,
       "examples": [
@@ -192,11 +192,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 80,
+      "total_tankers": 81,
       "neutral_tankers": 23,
-      "voi_tankers": 57,
-      "slow_or_waiting": 59,
-      "for_order": 9,
+      "voi_tankers": 58,
+      "slow_or_waiting": 53,
+      "for_order": 8,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -212,8 +212,8 @@
           "name": "GIOCONDA",
           "imo": "9819052",
           "mmsi": "209415000",
-          "destination": "FIPRV",
-          "sog": "0.0",
+          "destination": "FIKOK",
+          "sog": "13.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -239,11 +239,11 @@
           ]
         },
         {
-          "name": "CORAL ENERGY",
-          "imo": "9617698",
-          "mmsi": "246878000",
-          "destination": "FI INK",
-          "sog": "0.0",
+          "name": "ROLAND ESSBERGER",
+          "imo": "9504217",
+          "mmsi": "255801280",
+          "destination": "FIHMN",
+          "sog": "12.4",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -253,7 +253,17 @@
           "imo": "9327059",
           "mmsi": "255806303",
           "destination": "FI OUL>FI PRV",
-          "sog": "11.1",
+          "sog": "11.2",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "SYDSTRAUM",
+          "imo": "9854478",
+          "mmsi": "257600000",
+          "destination": "SESTE>FIKTK",
+          "sog": "11.5",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -263,16 +273,6 @@
           "imo": "9140815",
           "mmsi": "257601000",
           "destination": "EEVEB",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "ASTRAL",
-          "imo": "9371878",
-          "mmsi": "266266000",
-          "destination": "EE TLL",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
