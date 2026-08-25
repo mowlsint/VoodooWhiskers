@@ -1,7 +1,7 @@
 # Voodoo Whiskers — Critical Infrastructure Watch
 
-- Generated: 2026-08-25T02:24:37+00:00
-- Review events: 39
+- Generated: 2026-08-25T02:55:41+00:00
+- Review events: 40
 - Reference features: 6044
 - Score integration: disabled (shadow/calibration phase)
 
@@ -12,7 +12,7 @@
 - MMSI / IMO: 230166780 / –
 - Infrastructure: pipeline — pipelines.3552
 - Minimum distance: 0.017 nm
-- Close-band points: 3
+- Close-band points: 4
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -35,8 +35,8 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 230094510 / –
 - Infrastructure: pipeline — pipelines.3765
-- Minimum distance: 0.049 nm
-- Close-band points: 3
+- Minimum distance: 0.048 nm
+- Close-band points: 4
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -48,7 +48,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 230166780 / –
 - Infrastructure: pipeline — pipelines.3513
 - Minimum distance: 0.055 nm
-- Close-band points: 3
+- Close-band points: 4
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -59,8 +59,8 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 230094510 / –
 - Infrastructure: pipeline — pipelines.3766
-- Minimum distance: 0.071 nm
-- Close-band points: 3
+- Minimum distance: 0.07 nm
+- Close-band points: 4
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -96,7 +96,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 205737000 / 9797618
 - Infrastructure: offshore_energy — Flan Sea
 - Minimum distance: 0.106 nm
-- Close-band points: 3
+- Close-band points: 4
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -132,7 +132,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 230166780 / –
 - Infrastructure: pipeline — pipelines.3553
 - Minimum distance: 0.177 nm
-- Close-band points: 3
+- Close-band points: 4
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -384,7 +384,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - MMSI / IMO: 230094510 / –
 - Infrastructure: pipeline — pipelines.3768
 - Minimum distance: 0.455 nm
-- Close-band points: 3
+- Close-band points: 4
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -405,10 +405,10 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 ## AJAX — REVIEW
 
-- MMSI / IMO: 261011160 / –
+- MMSI / IMO: 261011160 / 9878280
 - Infrastructure: pipeline — pipelines.3444
 - Minimum distance: 0.471 nm
-- Close-band points: 4
+- Close-band points: 5
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -417,7 +417,7 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 ## AJAX — REVIEW
 
-- MMSI / IMO: 261011160 / 9878280
+- MMSI / IMO: 261011160 / –
 - Infrastructure: pipeline — pipelines.3444
 - Minimum distance: 0.471 nm
 - Close-band points: 4
@@ -431,8 +431,8 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 
 - MMSI / IMO: 518100214 / 8605765
 - Infrastructure: offshore_energy — Flan Sea
-- Minimum distance: 0.495 nm
-- Close-band points: 3
+- Minimum distance: 0.494 nm
+- Close-band points: 4
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: medium
@@ -471,6 +471,18 @@ Behaviour warrants analyst review. Proximity and movement patterns alone do not 
 - Close-band points: 3
 - Estimated dwell: 0.0 min
 - Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context, timestamp_quality_limited
+- Confidence: low_medium
+
+Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
+
+## OLGA — REVIEW
+
+- MMSI / IMO: 636016374 / 9109548
+- Infrastructure: wind_farm — Frederikshavn Nord
+- Minimum distance: 0.576 nm
+- Close-band points: 2
+- Estimated dwell: 0.0 min
+- Signals: critical_infrastructure_proximity, low_speed_near_infrastructure, voi_or_watchlist_context
 - Confidence: low_medium
 
 Behaviour warrants analyst review. Proximity and movement patterns alone do not indicate hostile intent, attribution or unlawful activity.
