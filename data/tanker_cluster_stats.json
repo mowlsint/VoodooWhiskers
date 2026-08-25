@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-25T03:11:27+00:00",
-  "total_contacts_seen": 1042,
-  "total_unique_tankers_in_context_zones": 241,
+  "generated_at": "2026-08-25T15:02:31+00:00",
+  "total_contacts_seen": 1066,
+  "total_unique_tankers_in_context_zones": 242,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 173,
+  "neutral_tanker_context_total": 174,
   "voi_tankers_in_context_zones": 68,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 101,
-      "neutral_tankers": 93,
-      "voi_tankers": 8,
+      "total_tankers": 99,
+      "neutral_tankers": 92,
+      "voi_tankers": 7,
       "slow_or_waiting": 50,
       "for_order": 6,
       "examples": [
@@ -100,11 +100,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 67,
-      "neutral_tankers": 64,
-      "voi_tankers": 3,
+      "total_tankers": 63,
+      "neutral_tankers": 62,
+      "voi_tankers": 1,
       "slow_or_waiting": 38,
-      "for_order": 5,
+      "for_order": 4,
       "examples": [
         {
           "name": "ECO CORSAIR",
@@ -147,16 +147,6 @@
           ]
         },
         {
-          "name": "ORALORA",
-          "imo": "9534066",
-          "mmsi": "219200000",
-          "destination": "SEKAN",
-          "sog": "10.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
           "name": "GIJON KNUTSEN",
           "imo": "9313527",
           "mmsi": "219309000",
@@ -185,6 +175,16 @@
           "categories": [
             "neutral_tanker_context"
           ]
+        },
+        {
+          "name": "AMAK SWAN",
+          "imo": "9318230",
+          "mmsi": "219355000",
+          "destination": "SEGOT",
+          "sog": "0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
         }
       ],
       "zone_id": "skagen_waiting_area",
@@ -192,11 +192,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 81,
-      "neutral_tankers": 23,
-      "voi_tankers": 58,
-      "slow_or_waiting": 53,
-      "for_order": 8,
+      "total_tankers": 84,
+      "neutral_tankers": 25,
+      "voi_tankers": 59,
+      "slow_or_waiting": 60,
+      "for_order": 9,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -213,7 +213,7 @@
           "imo": "9819052",
           "mmsi": "209415000",
           "destination": "FIKOK",
-          "sog": "13.6",
+          "sog": "13.5",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -239,11 +239,31 @@
           ]
         },
         {
+          "name": "UIKKU",
+          "imo": "9797814",
+          "mmsi": "230689000",
+          "destination": "DERSK>FISKV",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "CORAL ENERGICE",
+          "imo": "9783124",
+          "mmsi": "244090097",
+          "destination": "FI INK",
+          "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
           "name": "ROLAND ESSBERGER",
           "imo": "9504217",
           "mmsi": "255801280",
           "destination": "FIHMN",
-          "sog": "12.4",
+          "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -253,26 +273,6 @@
           "imo": "9327059",
           "mmsi": "255806303",
           "destination": "FI OUL>FI PRV",
-          "sog": "11.2",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "SYDSTRAUM",
-          "imo": "9854478",
-          "mmsi": "257600000",
-          "destination": "SESTE>FIKTK",
-          "sog": "11.5",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "FJELLSTRAUM",
-          "imo": "9140815",
-          "mmsi": "257601000",
-          "destination": "EEVEB",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
