@@ -1,22 +1,22 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-25T03:11:27+00:00",
+  "generated_at": "2026-08-25T15:02:31+00:00",
   "snapshot": {
     "href": "./voi_snapshot_latest.json",
-    "item_count": 658
+    "item_count": 668
   },
   "positions": {
     "href": "./vessel_positions_latest.geojson",
-    "feature_count": 658
+    "feature_count": 668
   },
   "ais_contacts": {
     "json_href": "./ais_contacts_latest.json",
     "geojson_href": "./ais_contacts_latest.geojson",
-    "contact_count": 1042,
-    "feature_count": 1042,
+    "contact_count": 1066,
+    "feature_count": 1066,
     "provider_label": "AIS",
     "display_label": "AISStream live contacts or historical fallback data",
-    "aisstream_live": true,
+    "aisstream_live": false,
     "historical_source_codes": [
       "N",
       "FIN"
@@ -24,26 +24,18 @@
   },
   "history": {
     "href": "./voi_history_14d.jsonl",
-    "source_rows": 12492,
-    "malformed": 0,
-    "outside_window": 6,
-    "missing_time": 0,
-    "invalid_position": 0,
-    "timestamp_repaired": 7298,
-    "duplicate_rows": 0,
     "available": true,
     "published_rows": 10502,
     "published_bytes": 23066827,
-    "dropped_size": 1984,
     "max_age_days": 14,
     "max_bytes": 23068672,
+    "build_mode": "daily_or_manual",
+    "compatibility_note": "The legacy public filename remains available below 22 MiB. Complete valid 14-day history is retained in the sharded manifest.",
     "complete_time_window": false,
     "selection": "identity_balanced_temporal_sampling",
     "total_identities": 1173,
     "covered_identities": 1173,
     "identity_coverage_percent": 100.0,
-    "build_mode": "daily_or_manual",
-    "compatibility_note": "The legacy public filename remains available below 22 MiB. Complete valid 14-day history is retained in the sharded manifest.",
     "full": {
       "available": true,
       "manifest_href": "./voi_history_14d/manifest.json",
@@ -56,7 +48,7 @@
       "newest": "2026-08-25T03:11:23+00:00",
       "complete_time_window": true
     },
-    "rebuilt_in_this_run": true
+    "rebuilt_in_this_run": false
   },
   "danish_historical": {
     "available": true,
@@ -77,17 +69,17 @@
     {
       "id": "russian_mmsi",
       "href": "./layers/russian_mmsi.geojson",
-      "feature_count": 159
+      "feature_count": 170
     },
     {
       "id": "watchlist_live",
       "href": "./layers/watchlist_live.geojson",
-      "feature_count": 64
+      "feature_count": 66
     },
     {
       "id": "sanctions_shadowfleet",
       "href": "./layers/sanctions_shadowfleet.geojson",
-      "feature_count": 64
+      "feature_count": 66
     },
     {
       "id": "falseflag_interest",
@@ -107,12 +99,12 @@
     {
       "id": "recent_russian_portcall_10d",
       "href": "./layers/recent_russian_portcall_10d.geojson",
-      "feature_count": 332
+      "feature_count": 330
     },
     {
       "id": "neutral_tanker_context",
       "href": "./layers/neutral_tanker_context.geojson",
-      "feature_count": 173
+      "feature_count": 174
     }
   ]
 }
