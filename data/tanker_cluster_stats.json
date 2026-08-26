@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-08-26T03:16:57+00:00",
-  "total_contacts_seen": 1206,
-  "total_unique_tankers_in_context_zones": 245,
+  "generated_at": "2026-08-26T15:00:55+00:00",
+  "total_contacts_seen": 1261,
+  "total_unique_tankers_in_context_zones": 259,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 174,
-  "voi_tankers_in_context_zones": 71,
+  "neutral_tanker_context_total": 176,
+  "voi_tankers_in_context_zones": 83,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 80,
-      "neutral_tankers": 74,
-      "voi_tankers": 6,
-      "slow_or_waiting": 41,
-      "for_order": 7,
+      "total_tankers": 87,
+      "neutral_tankers": 77,
+      "voi_tankers": 10,
+      "slow_or_waiting": 40,
+      "for_order": 8,
       "examples": [
         {
           "name": "JOAN",
@@ -100,11 +100,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 48,
-      "neutral_tankers": 44,
-      "voi_tankers": 4,
-      "slow_or_waiting": 32,
-      "for_order": 4,
+      "total_tankers": 53,
+      "neutral_tankers": 46,
+      "voi_tankers": 7,
+      "slow_or_waiting": 31,
+      "for_order": 5,
       "examples": [
         {
           "name": "JOAN",
@@ -376,11 +376,11 @@
       "level": "watch"
     },
     {
-      "total_tankers": 83,
-      "neutral_tankers": 21,
-      "voi_tankers": 62,
-      "slow_or_waiting": 52,
-      "for_order": 7,
+      "total_tankers": 90,
+      "neutral_tankers": 20,
+      "voi_tankers": 70,
+      "slow_or_waiting": 58,
+      "for_order": 9,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -417,7 +417,7 @@
           "imo": "9798375",
           "mmsi": "215233000",
           "destination": "TRALA",
-          "sog": "1.8",
+          "sog": "12.2",
           "categories": [
             "recent_russian_portcall_10d"
           ]
@@ -436,17 +436,7 @@
           "name": "LUNNI",
           "imo": "9797802",
           "mmsi": "230690000",
-          "destination": "LVRIX>EEMUG",
-          "sog": "3.8",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "CORAL ENERGICE",
-          "imo": "9783124",
-          "mmsi": "244090097",
-          "destination": "FI INK",
+          "destination": "EEMUG>FISKV",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
@@ -458,6 +448,16 @@
           "mmsi": "255801280",
           "destination": "FIHMN",
           "sog": "0.0",
+          "categories": [
+            "neutral_tanker_context"
+          ]
+        },
+        {
+          "name": "ANNETTE ESSBERGER",
+          "imo": "9327059",
+          "mmsi": "255806303",
+          "destination": "FI OUL>FI PRV",
+          "sog": "0.1",
           "categories": [
             "neutral_tanker_context"
           ]
