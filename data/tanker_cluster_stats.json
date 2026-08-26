@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-08-26T03:07:40+00:00",
-  "total_contacts_seen": 1187,
-  "total_unique_tankers_in_context_zones": 246,
+  "generated_at": "2026-08-26T03:16:57+00:00",
+  "total_contacts_seen": 1206,
+  "total_unique_tankers_in_context_zones": 245,
   "total_tanker_context_zones": 8,
-  "neutral_tanker_context_total": 177,
-  "voi_tankers_in_context_zones": 69,
+  "neutral_tanker_context_total": 174,
+  "voi_tankers_in_context_zones": 71,
   "policy": "Neutral tankers are context-only. They imply no sanctions, Russian link or false-flag status unless another category is present.",
   "zones": [
     {
-      "total_tankers": 81,
-      "neutral_tankers": 75,
+      "total_tankers": 80,
+      "neutral_tankers": 74,
       "voi_tankers": 6,
-      "slow_or_waiting": 40,
-      "for_order": 6,
+      "slow_or_waiting": 41,
+      "for_order": 7,
       "examples": [
         {
           "name": "JOAN",
@@ -59,7 +59,7 @@
           "imo": "9872999",
           "mmsi": "215684000",
           "destination": "DEMUK",
-          "sog": "15",
+          "sog": "15.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -100,11 +100,11 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 51,
-      "neutral_tankers": 47,
+      "total_tankers": 48,
+      "neutral_tankers": 44,
       "voi_tankers": 4,
-      "slow_or_waiting": 31,
-      "for_order": 3,
+      "slow_or_waiting": 32,
+      "for_order": 4,
       "examples": [
         {
           "name": "JOAN",
@@ -131,7 +131,7 @@
           "imo": "9872999",
           "mmsi": "215684000",
           "destination": "DEMUK",
-          "sog": "15",
+          "sog": "15.6",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -284,10 +284,10 @@
       "level": "heightened_context"
     },
     {
-      "total_tankers": 27,
-      "neutral_tankers": 27,
+      "total_tankers": 28,
+      "neutral_tankers": 28,
       "voi_tankers": 0,
-      "slow_or_waiting": 18,
+      "slow_or_waiting": 19,
       "for_order": 2,
       "examples": [
         {
@@ -376,11 +376,11 @@
       "level": "watch"
     },
     {
-      "total_tankers": 84,
-      "neutral_tankers": 24,
-      "voi_tankers": 60,
-      "slow_or_waiting": 60,
-      "for_order": 9,
+      "total_tankers": 83,
+      "neutral_tankers": 21,
+      "voi_tankers": 62,
+      "slow_or_waiting": 52,
+      "for_order": 7,
       "examples": [
         {
           "name": "EXEMPLAR",
@@ -413,10 +413,20 @@
           ]
         },
         {
+          "name": "AGIOI FANENDES",
+          "imo": "9798375",
+          "mmsi": "215233000",
+          "destination": "TRALA",
+          "sog": "1.8",
+          "categories": [
+            "recent_russian_portcall_10d"
+          ]
+        },
+        {
           "name": "UIKKU",
           "imo": "9797814",
           "mmsi": "230689000",
-          "destination": "DERSK>FISKV",
+          "destination": "FI SKV > BE ANR",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
@@ -427,7 +437,7 @@
           "imo": "9797802",
           "mmsi": "230690000",
           "destination": "LVRIX>EEMUG",
-          "sog": "5",
+          "sog": "3.8",
           "categories": [
             "neutral_tanker_context"
           ]
@@ -447,16 +457,6 @@
           "imo": "9504217",
           "mmsi": "255801280",
           "destination": "FIHMN",
-          "sog": "0.0",
-          "categories": [
-            "neutral_tanker_context"
-          ]
-        },
-        {
-          "name": "ANNETTE ESSBERGER",
-          "imo": "9327059",
-          "mmsi": "255806303",
-          "destination": "FI OUL>FI PRV",
           "sog": "0.0",
           "categories": [
             "neutral_tanker_context"
