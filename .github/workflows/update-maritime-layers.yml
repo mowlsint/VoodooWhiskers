@@ -1,6 +1,8 @@
 name: Update maritime layers
 
 on:
+  # LOW ACTIONS MODE 2026-08-27: automatic triggers are paused.
+  # Restore details: docs/operations/AUTOMATIC_ACTIONS_PAUSE_2026-08-27.md
   workflow_dispatch:
     inputs:
       certificate_probe_only:
@@ -8,10 +10,6 @@ on:
         required: false
         type: boolean
         default: false
-  schedule:
-    # One daily AISstream attempt. Emergency certificate pinning is automatically
-    # bypassed as soon as normal TLS validation succeeds again.
-    - cron: "10 1 * * *"
 
 permissions:
   contents: write

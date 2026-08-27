@@ -1,11 +1,9 @@
 name: Update regional AIS layers
 
 on:
+  # LOW ACTIONS MODE 2026-08-27: automatic triggers are paused.
+  # Restore details: docs/operations/AUTOMATIC_ACTIONS_PAUSE_2026-08-27.md
   workflow_dispatch:
-  schedule:
-    # Secondary/open-data AIS refresh, twice daily.
-    # Morning run follows the daily AISstream test and should finish before the 03:05 UTC Magic Paws mirror fetch.
-    - cron: "10 2,14 * * *"
 
 permissions:
   contents: write

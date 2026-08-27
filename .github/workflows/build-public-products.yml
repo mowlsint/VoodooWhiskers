@@ -1,14 +1,9 @@
 name: Build public Voodoo products (lightweight)
 
 on:
+  # LOW ACTIONS MODE 2026-08-27: automatic triggers are paused.
+  # Restore details: docs/operations/AUTOMATIC_ACTIONS_PAUSE_2026-08-27.md
   workflow_dispatch:
-  workflow_run:
-    workflows:
-      - Update maritime layers
-      - Update regional AIS layers
-      - Update Danish historical AIS
-      - Update GFW SAR and historical AIS context
-    types: [completed]
 
 permissions:
   contents: write
