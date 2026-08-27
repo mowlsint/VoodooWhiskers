@@ -1,11 +1,9 @@
 name: Update Danish historical AIS
 
 on:
+  # LOW ACTIONS MODE 2026-08-27: automatic triggers are paused.
+  # Restore details: docs/operations/AUTOMATIC_ACTIONS_PAUSE_2026-08-27.md
   workflow_dispatch:
-  schedule:
-    # Heavy daily archive processing is isolated from the current Fintraffic/BarentsWatch refresh.
-    # The run should finish before the 03:05 UTC Magic Paws mirror fetch.
-    - cron: "35 0 * * *"
 
 permissions:
   contents: write
