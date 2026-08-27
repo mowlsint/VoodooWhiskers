@@ -1,10 +1,9 @@
 name: Build bounded public VOI history
 
 on:
+  # LOW ACTIONS MODE 2026-08-27: automatic triggers are paused.
+  # Restore details: docs/operations/AUTOMATIC_ACTIONS_PAUSE_2026-08-27.md
   workflow_dispatch:
-  schedule:
-    # Once daily after the 02:10 UTC regional AIS/layer refresh and before Magic Paws mirrors at 03:05 UTC.
-    - cron: "50 2 * * *"
 
 permissions:
   contents: write
@@ -29,7 +28,7 @@ jobs:
           python-version: "3.11"
 
       - name: Set up Node.js 24
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "24"
 
