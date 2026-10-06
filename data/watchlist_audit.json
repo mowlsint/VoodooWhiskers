@@ -1,11 +1,116 @@
 {
-  "generated_at": "2026-08-26T15:00:57+00:00",
-  "rows": 682,
-  "unique_identity_keys": 682,
-  "track_sanctions_rows": 677,
+  "generated_at": "2026-10-06T20:14:42+00:00",
+  "rows": 1985,
+  "unique_identity_keys": 1985,
+  "track_sanctions_rows": 1984,
   "track_shadowfleet_rows": 682,
   "duplicates": [],
   "missing_identity_rows": [],
   "test_or_example_rows": [],
-  "policy": "No automatic deletion. Missing official confirmation should become source_status=source_missing/manual_watch_only, not deletion."
+  "policy": "No automatic deletion. Missing official confirmation should become source_status=source_missing/manual_watch_only, not deletion.",
+  "source_last_checked": "2026-10-06",
+  "track_falseflag_rows": 2,
+  "removed_tracking_fields": [
+    "track_behavior",
+    "track_russian_mmsi"
+  ],
+  "baseline_rows": 682,
+  "added_rows": 1303,
+  "source_unique_vessels": {
+    "EU_Russia": 671,
+    "EU_DPRK": 58,
+    "UK_DPRK": 37,
+    "UK_Libya": 1,
+    "UK_Russia": 633,
+    "OFAC_SDN": 1539,
+    "UN_1718": 59,
+    "AU_Russia": 298,
+    "AU_Libya": 1,
+    "AU_DPRK": 59
+  },
+  "weak_identity_keys": [
+    "source:UK_DPR0120",
+    "source:OFAC_SDN_23424"
+  ],
+  "manual_only_rows": [
+    "ZANGAZUR"
+  ],
+  "sources": [
+    {
+      "source": "EU vessel tables",
+      "url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+      "source_date": "2026-07-24 (Russia table; publication date)",
+      "retrieved_at_date": "2026-10-06",
+      "sha256": "ee5ba2ae3daa2af29bc5ece03e803581edf8ce43f9ada2f5ba56823f8683220d"
+    },
+    {
+      "source": "UK direct Ship designations",
+      "url": "https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv",
+      "source_date": "2026-10-06 (report date)",
+      "retrieved_at_date": "2026-10-06",
+      "sha256": "2249e82f12cda3194e557e47fd0b245d04594785e744cf1a8be0ccc92fe744f2"
+    },
+    {
+      "source": "OFAC SDN vessels",
+      "url": "https://sanctionslist.ofac.treas.gov/Home/SdnList",
+      "source_date": "2026-10-05 (official SDN page publication date)",
+      "retrieved_at_date": "2026-10-06",
+      "sha256": "880ce3f23ac99e766f90a93b00b939ca2ff80c4d6aca6380d6a8c58825fea9e0"
+    },
+    {
+      "source": "OFAC remarks continuation",
+      "url": "https://sanctionslist.ofac.treas.gov/Home/SdnList",
+      "source_date": "Downloaded 2026-10-06 with SDN CSV",
+      "retrieved_at_date": "2026-10-06",
+      "sha256": "8255ce1eb2b85e08bac9e378eb8b28c59ca4926a3645f9421502cc11d48b86f1"
+    },
+    {
+      "source": "UN 1718 designated vessels",
+      "url": "https://main.un.org/securitycouncil/sites/default/files/1718_designated_vessels_list_final.pdf",
+      "source_date": "Current linked PDF; publication timestamp unavailable",
+      "retrieved_at_date": "2026-10-06",
+      "sha256": "6db4f58b8de25d576ab916a112585b3bc9fc5250f75af71c64832ffa816a7ea0"
+    },
+    {
+      "source": "Australia DFAT vessel rows",
+      "url": "https://www.dfat.gov.au/sites/default/files/Australian_Sanctions_Consolidated_List.xlsx",
+      "source_date": "2026-10-03 (web page); workbook sheet Consolidated List - 2_10_2026",
+      "retrieved_at_date": "2026-10-06",
+      "sha256": "0936243df3269ba127709353bc0f26128f7268cbee4133e64cbbb81311def679"
+    }
+  ],
+  "falseflag_review": [
+    {
+      "imo": "9257993",
+      "status": "source_reported_candidate",
+      "source_url": "https://war-sanctions.gur.gov.ua/en/transport/ships/705",
+      "source_updated": "2026-06-05",
+      "claim": "GUR reports false Gambia flag data; current registry status not independently verified"
+    },
+    {
+      "imo": "9289477",
+      "status": "historical_review",
+      "source_url": "https://war-sanctions.gur.gov.ua/en/transport/ships/695",
+      "source_updated": "2026-01-14",
+      "incident_date": "2026-01-07",
+      "claim": "GUR reports false Panama flag / JM SOPHIA alias and statelessness at detention; current registry status needs recheck"
+    }
+  ],
+  "falseflag_markers_cleared": [
+    "9292034",
+    "9292058",
+    "9285847",
+    "9258521"
+  ],
+  "validation": {
+    "csv_roundtrip": "passed",
+    "unique_primary_identity_keys": "passed",
+    "imo_checksums": "passed",
+    "official_vessel_source_coverage": "passed",
+    "uk_october_respecifications": "passed",
+    "existing_build_layers_loader_and_matcher": "passed",
+    "removed_field_defaults_false": "passed",
+    "ais_name_only_match_disabled": "passed"
+  },
+  "scope": "Direct listed vessel rows only; not a global ownership/50-percent-rule sanctions screen. Australia DPRK vessel-class reference 8599 is a rule, not an individual vessel, and is excluded. Other national lists are not covered."
 }
