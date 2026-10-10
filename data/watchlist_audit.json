@@ -1,82 +1,99 @@
 {
-  "generated_at": "2026-10-06T20:14:42+00:00",
-  "rows": 1985,
-  "unique_identity_keys": 1985,
-  "track_sanctions_rows": 1984,
+  "generated_at": "2026-10-10T08:01:15+00:00",
+  "rows": 2006,
+  "unique_identity_keys": 2006,
+  "track_sanctions_rows": 2003,
   "track_shadowfleet_rows": 682,
   "duplicates": [],
   "missing_identity_rows": [],
   "test_or_example_rows": [],
   "policy": "No automatic deletion. Missing official confirmation should become source_status=source_missing/manual_watch_only, not deletion.",
-  "source_last_checked": "2026-10-06",
+  "source_last_checked": "2026-10-10",
   "track_falseflag_rows": 2,
   "removed_tracking_fields": [
     "track_behavior",
     "track_russian_mmsi"
   ],
-  "baseline_rows": 682,
-  "added_rows": 1303,
+  "baseline_rows": 1985,
+  "added_rows": 21,
   "source_unique_vessels": {
-    "EU_Russia": 671,
+    "AU_DPRK": 59,
+    "AU_Libya": 1,
+    "AU_Russia": 298,
     "EU_DPRK": 58,
+    "EU_Russia": 671,
+    "JP_Russia": 35,
+    "OFAC_SDN": 1559,
     "UK_DPRK": 37,
     "UK_Libya": 1,
-    "UK_Russia": 633,
-    "OFAC_SDN": 1539,
-    "UN_1718": 59,
-    "AU_Russia": 298,
-    "AU_Libya": 1,
-    "AU_DPRK": 59
+    "UK_Russia": 645,
+    "UN_1718": 59
   },
   "weak_identity_keys": [
     "source:UK_DPR0120",
     "source:OFAC_SDN_23424"
   ],
   "manual_only_rows": [
-    "ZANGAZUR"
+    "ZANGAZUR",
+    "HAKUNA MATATA",
+    "PINOCCHIO"
   ],
   "sources": [
     {
       "source": "EU vessel tables",
       "url": "https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
-      "source_date": "2026-07-24 (Russia table; publication date)",
-      "retrieved_at_date": "2026-10-06",
-      "sha256": "ee5ba2ae3daa2af29bc5ece03e803581edf8ce43f9ada2f5ba56823f8683220d"
+      "source_date": "2026-07-24 (Russia table); 2026-07-17 (DPRK table)",
+      "retrieved_at_date": "2026-10-10",
+      "sha256": "da592b469deb29fba5f28121e612afcb7878bb6b59e4477a79f83b58bed8fee0"
     },
     {
       "source": "UK direct Ship designations",
       "url": "https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv",
-      "source_date": "2026-10-06 (report date)",
-      "retrieved_at_date": "2026-10-06",
-      "sha256": "2249e82f12cda3194e557e47fd0b245d04594785e744cf1a8be0ccc92fe744f2"
+      "source_date": "2026-10-08 (report date)",
+      "retrieved_at_date": "2026-10-10",
+      "sha256": "a3936bbac61585160b6f9d72c7c3ce204b378109a9185305912adb4181f21c13"
     },
     {
       "source": "OFAC SDN vessels",
-      "url": "https://sanctionslist.ofac.treas.gov/Home/SdnList",
-      "source_date": "2026-10-05 (official SDN page publication date)",
-      "retrieved_at_date": "2026-10-06",
-      "sha256": "880ce3f23ac99e766f90a93b00b939ca2ff80c4d6aca6380d6a8c58825fea9e0"
+      "url": "https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.CSV",
+      "source_date": "Current export retrieved 2026-10-10; vessel changes 2026-10-08; latest SDN notice 2026-10-09",
+      "retrieved_at_date": "2026-10-10",
+      "sha256": "64be7a7991059f59a2ebb43bc5dcc7e2951e1e27cbed8cbe41b0231b3a161946"
     },
     {
       "source": "OFAC remarks continuation",
-      "url": "https://sanctionslist.ofac.treas.gov/Home/SdnList",
-      "source_date": "Downloaded 2026-10-06 with SDN CSV",
-      "retrieved_at_date": "2026-10-06",
+      "url": "https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN_COMMENTS.CSV",
+      "source_date": "Retrieved 2026-10-10 with SDN CSV",
+      "retrieved_at_date": "2026-10-10",
       "sha256": "8255ce1eb2b85e08bac9e378eb8b28c59ca4926a3645f9421502cc11d48b86f1"
     },
     {
       "source": "UN 1718 designated vessels",
       "url": "https://main.un.org/securitycouncil/sites/default/files/1718_designated_vessels_list_final.pdf",
-      "source_date": "Current linked PDF; publication timestamp unavailable",
-      "retrieved_at_date": "2026-10-06",
+      "source_date": "Current linked PDF; byte-identical to 2026-10-06 verification",
+      "retrieved_at_date": "2026-10-10",
       "sha256": "6db4f58b8de25d576ab916a112585b3bc9fc5250f75af71c64832ffa816a7ea0"
     },
     {
       "source": "Australia DFAT vessel rows",
       "url": "https://www.dfat.gov.au/sites/default/files/Australian_Sanctions_Consolidated_List.xlsx",
-      "source_date": "2026-10-03 (web page); workbook sheet Consolidated List - 2_10_2026",
-      "retrieved_at_date": "2026-10-06",
-      "sha256": "0936243df3269ba127709353bc0f26128f7268cbee4133e64cbbb81311def679"
+      "source_date": "2026-10-07 (DFAT web page and workbook sheet)",
+      "retrieved_at_date": "2026-10-10",
+      "sha256": "94311a95be8fe51d38aa00fda9e8fdcf158777ca1126bfc7a1b76291713d85c7"
+    },
+    {
+      "source": "Japan MOFA Appendix 3 specified vessels",
+      "url": "https://www.mofa.go.jp/files/101096154.pdf",
+      "source_date": "2026-10-02 (designation); MOF current list page 2026-10-09",
+      "retrieved_at_date": "2026-10-10",
+      "sha256": "bf1f78a4dd885881a3e259ea088f78c04ad795c9e31aff8e87d71e798c34298e"
+    },
+    {
+      "source": "Japan MOF current specified-vessel CSV",
+      "url": "https://www.mof.go.jp/policy/international_policy/gaitame_kawase/gaitame/economic_sanctions/ekimukisei_IMOnumber_20261002.csv",
+      "source_date": "2026-10-02 (designation); MOF current list page 2026-10-09",
+      "retrieved_at_date": "2026-10-10",
+      "sha256": "79829e588e2ac219ce6438982e19ed564c7d2a038403894c7610a44aa3a38b9c"
     }
   ],
   "falseflag_review": [
@@ -110,7 +127,558 @@
     "uk_october_respecifications": "passed",
     "existing_build_layers_loader_and_matcher": "passed",
     "removed_field_defaults_false": "passed",
-    "ais_name_only_match_disabled": "passed"
+    "ais_name_only_match_disabled": "passed",
+    "japan_mofa_pdf_mof_csv_identity_crosscheck": "passed",
+    "existing_identity_and_tracking_flags_preserved": "passed",
+    "ofac_october8_additions_and_deletions": "passed"
   },
-  "scope": "Direct listed vessel rows only; not a global ownership/50-percent-rule sanctions screen. Australia DPRK vessel-class reference 8599 is a rule, not an individual vessel, and is excluded. Other national lists are not covered."
+  "scope": "Direct listed vessel rows only: EU Russia/DPRK, UK Ship records, OFAC SDN vessel records, UN 1718, Australia DFAT individual vessel records, Japan October 2 specified-vessel service/capital transaction restrictions. Not a global ownership/50-percent-rule sanctions screen or all Japanese sanctions regimes. Australia DPRK vessel-class reference 8599 is a rule, not an individual vessel, and is excluded. Other national lists are not covered.",
+  "initial_import": {
+    "baseline_rows": 682,
+    "added_rows": 1303,
+    "date": "2026-10-06"
+  },
+  "latest_refresh": {
+    "baseline_commit": "0232b1d782133928f7210fb765ddba9ed6d548c9",
+    "baseline_rows": 1985,
+    "added_rows": 21,
+    "new_vessels": [
+      {
+        "name": "G SPRING",
+        "imo": "9040118",
+        "key": "imo:9040118"
+      },
+      {
+        "name": "PARITOSH",
+        "imo": "9383352",
+        "key": "imo:9383352"
+      },
+      {
+        "name": "KANHA",
+        "imo": "9308766",
+        "key": "imo:9308766"
+      },
+      {
+        "name": "KING CHAIN",
+        "imo": "9277761",
+        "key": "imo:9277761"
+      },
+      {
+        "name": "POLAR",
+        "imo": "9050187",
+        "key": "imo:9050187"
+      },
+      {
+        "name": "BITU",
+        "imo": "9531765",
+        "key": "imo:9531765"
+      },
+      {
+        "name": "STARWAY",
+        "imo": "9273246",
+        "key": "imo:9273246"
+      },
+      {
+        "name": "GAS LUCKY",
+        "imo": "9177557",
+        "key": "imo:9177557"
+      },
+      {
+        "name": "YASHAR",
+        "imo": "9129380",
+        "key": "imo:9129380"
+      },
+      {
+        "name": "YONG TAI",
+        "imo": "9231511",
+        "key": "imo:9231511"
+      },
+      {
+        "name": "ARGO MARIS",
+        "imo": "9041643",
+        "key": "imo:9041643"
+      },
+      {
+        "name": "BLACK MAYA",
+        "imo": "9118800",
+        "key": "imo:9118800"
+      },
+      {
+        "name": "ATHE NOVA",
+        "imo": "9188116",
+        "key": "imo:9188116"
+      },
+      {
+        "name": "TINA 5",
+        "imo": "9237761",
+        "key": "imo:9237761"
+      },
+      {
+        "name": "SOGL",
+        "imo": "9208227",
+        "key": "imo:9208227"
+      },
+      {
+        "name": "MACKEREL",
+        "imo": "9234628",
+        "key": "imo:9234628"
+      },
+      {
+        "name": "GAS MARAKUA",
+        "imo": "9240421",
+        "key": "imo:9240421"
+      },
+      {
+        "name": "ZIXUAN",
+        "imo": "9317298",
+        "key": "imo:9317298"
+      },
+      {
+        "name": "AVA 6",
+        "imo": "9226140",
+        "key": "imo:9226140"
+      },
+      {
+        "name": "NOBLE SEA",
+        "imo": "9343118",
+        "key": "imo:9343118"
+      },
+      {
+        "name": "EXFLAME",
+        "imo": "9294678",
+        "key": "imo:9294678"
+      }
+    ],
+    "source_designations_added": [
+      {
+        "name": "ANGARA",
+        "imo": "9179842",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "MARIA",
+        "imo": "8517839",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "LEGACY",
+        "imo": "9339337",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "SAGA",
+        "imo": "9318553",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "SERENADE",
+        "imo": "9318541",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "SUCCESS",
+        "imo": "9333436",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "LADY R",
+        "imo": "9161003",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "MAIA-1",
+        "imo": "9358010",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "KEMEROVO",
+        "imo": "9312884",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "KRASNOYARSK",
+        "imo": "9312896",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "KALININGRAD",
+        "imo": "9341067",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "ALISSA",
+        "imo": "9273052",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "RIGEL",
+        "imo": "9511533",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "CASSIOPEIA",
+        "imo": "9341081",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "CALLISTO",
+        "imo": "9299692",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "LEO",
+        "imo": "9412347",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "ZENITH",
+        "imo": "9610781",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "SIRIUS",
+        "imo": "9422445",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "KRISHNA 1",
+        "imo": "9271585",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "VLADIMIR VINOGRADOV",
+        "imo": "9842188",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "MERIDIAN",
+        "imo": "9511521",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "BOLERO",
+        "imo": "9412335",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "YI MENG SHAN",
+        "imo": "9436941",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "GEORGY MASLOV",
+        "imo": "9610793",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "PREMIER",
+        "imo": "9577082",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "PATHFINDER",
+        "imo": "9577094",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "TRUST",
+        "imo": "9382798",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "JAGUAR",
+        "imo": "9354301",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "ZALIV AMURSKIY",
+        "imo": "9354313",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "AMBER 6",
+        "imo": "9235713",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "AREIA",
+        "imo": "9321847",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "FJORD SEAL",
+        "imo": "9513139",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "HEIDI A",
+        "imo": "9321976",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "OKEANSKY PROSPECT",
+        "imo": "9866380",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "CAPELLA",
+        "imo": "9341079",
+        "source": "JP_MOFA_Specified_Vessels",
+        "new_row": false
+      },
+      {
+        "name": "SHENZHEN",
+        "imo": "9276561",
+        "source": "OFAC_SDN_58832",
+        "new_row": false
+      },
+      {
+        "name": "ANAYA",
+        "imo": "9326885",
+        "source": "UK_RUS3784",
+        "new_row": false
+      },
+      {
+        "name": "DAKAR",
+        "imo": "9251743",
+        "source": "UK_RUS3776",
+        "new_row": false
+      },
+      {
+        "name": "BELLARIS",
+        "imo": "9332614",
+        "source": "UK_RUS3775",
+        "new_row": false
+      },
+      {
+        "name": "FLINT WIND",
+        "imo": "9314179",
+        "source": "UK_RUS3778",
+        "new_row": false
+      },
+      {
+        "name": "DAPHNE V",
+        "imo": "9321677",
+        "source": "UK_RUS3777",
+        "new_row": false
+      },
+      {
+        "name": "YEHOPE",
+        "imo": "9243320",
+        "source": "UK_RUS3790",
+        "new_row": false
+      },
+      {
+        "name": "VASILY SURIKOV",
+        "imo": "9645023",
+        "source": "UK_RUS3788",
+        "new_row": false
+      },
+      {
+        "name": "MIDVOLGA-3",
+        "imo": "9735141",
+        "source": "UK_RUS3786",
+        "new_row": false
+      },
+      {
+        "name": "PIONEER",
+        "imo": "9255282",
+        "source": "UK_RUS3787",
+        "new_row": false
+      },
+      {
+        "name": "ANDREY PERVOZVANNIY",
+        "imo": "9255268",
+        "source": "UK_RUS3785",
+        "new_row": false
+      },
+      {
+        "name": "VIRENT",
+        "imo": "9332171",
+        "source": "UK_RUS3789",
+        "new_row": false
+      },
+      {
+        "name": "ALEXANDER NEVSKIY",
+        "imo": "9356610",
+        "source": "UK_RUS3783",
+        "new_row": false
+      },
+      {
+        "name": "G SPRING",
+        "imo": "9040118",
+        "source": "OFAC_SDN_58473",
+        "new_row": true
+      },
+      {
+        "name": "PARITOSH",
+        "imo": "9383352",
+        "source": "OFAC_SDN_58474",
+        "new_row": true
+      },
+      {
+        "name": "KANHA",
+        "imo": "9308766",
+        "source": "OFAC_SDN_58475",
+        "new_row": true
+      },
+      {
+        "name": "KING CHAIN",
+        "imo": "9277761",
+        "source": "OFAC_SDN_58476",
+        "new_row": true
+      },
+      {
+        "name": "POLAR",
+        "imo": "9050187",
+        "source": "OFAC_SDN_58477",
+        "new_row": true
+      },
+      {
+        "name": "BITU",
+        "imo": "9531765",
+        "source": "OFAC_SDN_58478",
+        "new_row": true
+      },
+      {
+        "name": "STARWAY",
+        "imo": "9273246",
+        "source": "OFAC_SDN_58479",
+        "new_row": true
+      },
+      {
+        "name": "GAS LUCKY",
+        "imo": "9177557",
+        "source": "OFAC_SDN_58480",
+        "new_row": true
+      },
+      {
+        "name": "YASHAR",
+        "imo": "9129380",
+        "source": "OFAC_SDN_58715",
+        "new_row": true
+      },
+      {
+        "name": "YONG TAI",
+        "imo": "9231511",
+        "source": "OFAC_SDN_58748",
+        "new_row": true
+      },
+      {
+        "name": "ARGO MARIS",
+        "imo": "9041643",
+        "source": "OFAC_SDN_58750",
+        "new_row": true
+      },
+      {
+        "name": "BLACK MAYA",
+        "imo": "9118800",
+        "source": "OFAC_SDN_58751",
+        "new_row": true
+      },
+      {
+        "name": "ATHE NOVA",
+        "imo": "9188116",
+        "source": "OFAC_SDN_58752",
+        "new_row": true
+      },
+      {
+        "name": "TINA 5",
+        "imo": "9237761",
+        "source": "OFAC_SDN_58812",
+        "new_row": true
+      },
+      {
+        "name": "SOGL",
+        "imo": "9208227",
+        "source": "OFAC_SDN_58815",
+        "new_row": true
+      },
+      {
+        "name": "MACKEREL",
+        "imo": "9234628",
+        "source": "OFAC_SDN_58821",
+        "new_row": true
+      },
+      {
+        "name": "GAS MARAKUA",
+        "imo": "9240421",
+        "source": "OFAC_SDN_58822",
+        "new_row": true
+      },
+      {
+        "name": "ZIXUAN",
+        "imo": "9317298",
+        "source": "OFAC_SDN_58823",
+        "new_row": true
+      },
+      {
+        "name": "AVA 6",
+        "imo": "9226140",
+        "source": "OFAC_SDN_58824",
+        "new_row": true
+      },
+      {
+        "name": "NOBLE SEA",
+        "imo": "9343118",
+        "source": "OFAC_SDN_58831",
+        "new_row": true
+      },
+      {
+        "name": "EXFLAME",
+        "imo": "9294678",
+        "source": "OFAC_SDN_58834",
+        "new_row": true
+      }
+    ],
+    "source_designations_removed": [
+      {
+        "name": "HAKUNA MATATA",
+        "imo": "9354167",
+        "source": "OFAC_SDN_54931",
+        "reason": "Explicit OFAC deletion 2026-10-08"
+      },
+      {
+        "name": "PINOCCHIO",
+        "imo": "9400112",
+        "source": "OFAC_SDN_54934",
+        "reason": "Explicit OFAC deletion 2026-10-08"
+      }
+    ],
+    "rows_deleted": 0
+  }
 }
