@@ -29,7 +29,7 @@ Path('data/ais_contacts_fintraffic_latest.json').write_text(json.dumps({'generat
     result=subprocess.run([sys.executable,'-c',script,now],cwd=root,capture_output=True,text=True)
     assert result.returncode==0,result.stderr
     commands=[['merge_ais_contacts.py'],['archive_maritime_snapshots.py'],['build_layers.py'],
-              ['test_voi_history_retention.py','--source-only'],['build_public_outputs.py'],
+              ['test_voi_history_retention.py','--source-only'],['build_public_outputs.py','--include-history'],
               ['analyze_infrastructure_proximity.py'],['build_common_maritime_snapshot.py'],['build_public_manifest.py']]
     for script,*args in commands:
         result=subprocess.run([sys.executable,f'scripts/{script}',*args],cwd=root,capture_output=True,text=True)
@@ -47,3 +47,7 @@ Path('data/ais_contacts_fintraffic_latest.json').write_text(json.dumps({'generat
     contact=public['contacts'][0]
     assert contact['position_timestamp_valid'] and contact['observed_at']==now
     assert contact['upstream_source']=='kystverket'
+
+    history=[json.loads(line) for line in (root/'public/data/vessels/voi_history_14d.jsonl').read_text().splitlines() if line.strip()]
+    assert {'openwaters','fintraffic'}<={r.get('source_provider') for r in history}
+    assert all(r.get('position_timestamp_valid') is True for r in history)

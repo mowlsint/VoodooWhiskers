@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import re
 import tempfile
 from collections import defaultdict, deque
@@ -16,6 +17,8 @@ from typing import Any, Iterable
 DEFAULT_POLICY = {
     "schema_version": "1.0.0",
     "retention_days": 14,
+    "source_total_max_bytes":45*1024*1024,
+    "public_total_max_bytes":22*1024*1024,
     "source_max_bytes": 45 * 1024 * 1024,
     "source_shard_max_bytes": 20 * 1024 * 1024,
     "source_shard_directory": "voi_history_14d",
@@ -62,6 +65,8 @@ def load_policy(root: Path) -> dict[str, Any]:
     for key in (
         "retention_days",
         "source_max_bytes",
+        "source_total_max_bytes",
+        "public_total_max_bytes",
         "source_shard_max_bytes",
         "public_max_bytes",
         "public_shard_max_bytes",
@@ -79,6 +84,8 @@ def load_policy(root: Path) -> dict[str, Any]:
 
     if not 1 <= policy["retention_days"] <= 60:
         raise ValueError("VOI history retention_days must be between 1 and 60")
+    for key in ("source_total_max_bytes","public_total_max_bytes"):
+        if not 1024*1024<=policy[key]<=45*1024*1024:raise ValueError("VOI total byte guard out of range")
     if not 1024 * 1024 <= policy["source_max_bytes"] < 50 * 1024 * 1024:
         raise ValueError("VOI source history size guard must be between 1 MiB and 50 MiB")
     if not 1024 * 1024 <= policy["source_shard_max_bytes"] <= 22 * 1024 * 1024:
@@ -114,6 +121,11 @@ def history_dt(row: dict[str, Any]) -> datetime | None:
 
 
 def history_key(row: dict[str, Any]) -> str:
+    dt=parse_dt(row.get('observed_at') or row.get('last_seen_utc'))
+    lat=row.get('latitude');lon=row.get('longitude')
+    if dt and row.get('position_timestamp_valid') is True and all(isinstance(v,(int,float)) and math.isfinite(v) for v in (lat,lon)):
+        identity=str(row.get('imo') or row.get('mmsi') or '')
+        if identity:return f"{dt.isoformat()}|obs|{identity}|{row.get('source_provider') or row.get('provider') or 'unknown'}|{lat:.6f}|{lon:.6f}"
     existing = str(row.get("_history_key") or "").strip()
     if existing:
         return existing
@@ -436,8 +448,8 @@ def compact_source_history(
             stats["future_timestamp_rows"] += 1
             return
         key = history_key(row)
-        clean = dict(row)
-        clean.setdefault("_history_key", key)
+        clean = {k:v for k,v in row.items() if k not in {'positions','message','Message','raw','popup_html','html','tooltip'}}
+        clean['_history_key']=key
         previous = by_key.get(key)
         if previous is not None:
             stats["duplicate_rows"] += 1
@@ -460,6 +472,7 @@ def compact_source_history(
         consider(row, is_new=True)
 
     ordered = sorted(((dt, key, row) for key, (dt, row) in by_key.items()), key=lambda item: (item[0], item[1]))
+    ordered, capacity = select_balanced_history(ordered,max_bytes=int(policy.get("source_total_max_bytes",45*1024*1024)))
     generated_at = current.replace(microsecond=0).isoformat()
     shard_dir = path.parent / str(policy.get("source_shard_directory") or "voi_history_14d")
     full_manifest = write_jsonl_shards(
@@ -470,9 +483,12 @@ def compact_source_history(
         generated_at=generated_at,
         kind="canonical_source_history",
         metadata={
+            "complete_time_window":capacity["complete_time_window"],
+            "capacity":capacity,
+            "total_max_bytes":int(policy.get("source_total_max_bytes",45*1024*1024)),
             "legacy_compatibility_file": path.name,
             "legacy_max_bytes": policy["source_max_bytes"],
-            "note": "The shards are canonical. The single legacy file may be size-bounded without losing rows from the shard set.",
+            "note": "The canonical shards and compatibility file both obey total byte budgets; sampling is reported in capacity metadata.",
         },
     )
 
@@ -503,18 +519,18 @@ def compact_source_history(
         "file_bytes": byte_count,
         "oldest_kept_at": selected[0][0].isoformat() if selected else None,
         "newest_kept_at": selected[-1][0].isoformat() if selected else None,
-        "legacy_complete_time_window": stats["legacy_dropped_for_size"] == 0 and stats["legacy_oversized_single_rows"] == 0,
+        "legacy_complete_time_window": capacity["complete_time_window"] and stats["legacy_dropped_for_size"] == 0 and stats["legacy_oversized_single_rows"] == 0,
         "full_manifest_path": (shard_dir / "manifest.json").as_posix(),
         "full_rows": full_manifest["total_rows"],
         "full_bytes": full_manifest["total_bytes"],
         "full_part_count": full_manifest["part_count"],
         "full_oldest_at": full_manifest["oldest"],
         "full_newest_at": full_manifest["newest"],
-        "complete_time_window": True,
+        "complete_time_window":capacity["complete_time_window"],
         "oversized_single_rows": 0,
-        "dropped_for_size": 0,
+        "dropped_for_size":capacity.get("dropped_rows",0),
         "policy_note": (
-            f"All valid rows from the latest {policy['retention_days']} days are retained in canonical shards. "
+            f"Rows from at most {policy['retention_days']} days are retained within the total byte budget; capacity metadata reports sampling. "
             "The single legacy JSONL file keeps newest complete rows only when its byte guard is reached."
         ),
     })
@@ -573,3 +589,4 @@ def validate_jsonl(
         "retention_days": retention_days,
         "max_bytes": max_bytes,
     }
+

@@ -14,6 +14,7 @@ import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from vessel_identity import resolve
 
 DATA_DIR = Path("data")
 OUTPUT_PATH = DATA_DIR / "ais_contacts_latest.json"
@@ -174,7 +175,7 @@ def main() -> int:
     merged: dict[str, dict[str, Any]] = {}
     provider_status: dict[str, Any] = {}
     included_provider_ids: list[str] = []
-    aliases: dict[str, str] = {}
+    incoming_rows=[]
 
     for provider in PROVIDERS:
         payload, status = load_provider(provider, now)
@@ -201,30 +202,15 @@ def main() -> int:
                 continue
             incoming["position_age_hours"] = round(max(0, age), 2)
             incoming["position_stale"] = age > provider["soft_ttl_hours"]
-            strong_aliases = [f"{field}:{digits(incoming.get(field))}" for field in ("imo", "mmsi") if digits(incoming.get(field))]
-            # A shared MMSI bridges records where one source omits the IMO.
-            known = {aliases[a] for a in strong_aliases if a in aliases}
-            if known:
-                key = sorted(known)[0]
-                for other in known-{key}:
-                    merged[key] = combine_contacts(merged[key], merged.pop(other))
-                    aliases = {a: key if k == other else k for a, k in aliases.items()}
-            for alias in strong_aliases:
-                aliases[alias] = key
-            source_name = str(incoming.get("source") or payload.get("source") or provider["id"])
-            incoming_sources = set(incoming.get("sources") or [])
-            incoming_sources.add(source_name)
-            incoming["sources"] = sorted(incoming_sources)
+            incoming.setdefault('source_provider',provider['id'])
+            source_name = str(incoming.get('source') or payload.get('source') or provider['id'])
+            incoming['sources']=sorted(set(incoming.get('sources') or [])|{source_name})
+            incoming_rows.append(incoming)
 
-            if key not in merged:
-                merged[key] = incoming
-                continue
-
-            current = merged[key]
-            all_sources = set(current.get("sources") or []) | set(incoming.get("sources") or [])
-            combined = combine_contacts(current, incoming)
-            combined["sources"] = sorted(all_sources)
-            merged[key] = combined
+    for incoming in resolve(incoming_rows):
+        key=incoming.get('vessel_identity') or contact_key(incoming)
+        if not key:continue
+        merged[key]=combine_contacts(merged[key],incoming) if key in merged else incoming
 
     if not included_provider_ids:
         print("ERROR: no provider snapshot is available within its hard TTL")

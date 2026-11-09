@@ -57,7 +57,7 @@ def source_range(rows):
 def normalize_gfw(x):
  t=parse(x.get('observed_at'));lat=finite(x.get('latitude'));lon=finite(x.get('longitude'));i=ident(x)
  if not t or lat is None or lon is None or not i:return None
- return {**x,'provider':'global_fishing_watch','identity_key':i,'observed_at':iso(t),'latitude':lat,'longitude':lon,'timestamp_valid':True,'timestamp_basis':'gfw_hourly_report_cell','position_is_exact':False,'historical':True,'not_current_position':True}
+ return {**{k:v for k,v in x.items() if k not in {'positions','raw','message','Message','popup_html'}},'provider':'global_fishing_watch','identity_key':i,'observed_at':iso(t),'latitude':lat,'longitude':lon,'timestamp_valid':True,'timestamp_basis':'gfw_hourly_report_cell','position_is_exact':False,'historical':True,'not_current_position':True}
 def gfw_data():
  p=read_json(GFW_PATH);s=read_json(GFW_STATUS_PATH) or {}
  if p:
@@ -66,11 +66,12 @@ def gfw_data():
    if not isinstance(c,dict):continue
    for pos in c.get('positions') if isinstance(c.get('positions'),list) else [c]:
     m=dict(c);m.update(pos if isinstance(pos,dict) else {});r=normalize_gfw(m)
-    if r:rows.append(r)
+    if r and now()-timedelta(days=14)<=parse(r['observed_at'])<=now():rows.append(r)
+  p={**p,'contacts':rows,'count':len(rows),'retention_days':14,'data_max_timestamp_utc':max((r['observed_at'] for r in rows),default=None),'coverage_complete':bool(rows and p.get('coverage_complete'))};atomic(GFW_PATH,p,True)
   return rows,{'source_path':str(GFW_PATH.relative_to(ROOT)),'coverage_scope':p.get('coverage_scope'),'coverage_complete':bool(p.get('coverage_complete') and s.get('coverage_complete')),'generated_at':p.get('generated_at'),'data_max_timestamp_utc':p.get('data_max_timestamp_utc'),'status':s.get('status'),'cap_applied':bool(s.get('cap_applied')),'queries_failed':s.get('queries_failed')}
  f=read_json(GFW_FALLBACK)
  if f:
-  rows=[r for x in f.get('historical_ais_presence_records') or [] if isinstance(x,dict) and (r:=normalize_gfw(x))]
+  rows=[r for x in f.get('historical_ais_presence_records') or [] if isinstance(x,dict) and (r:=normalize_gfw(x)) and now()-timedelta(days=14)<=parse(r['observed_at'])<=now()]
   return rows,{'source_path':str(GFW_FALLBACK.relative_to(ROOT)),'coverage_scope':'sar_matched_context_only','coverage_complete':False,'generated_at':f.get('generated_at'),'data_max_timestamp_utc':max((r['observed_at'] for r in rows),default=None),'status':'limited_scope'}
  return [],{'source_path':None,'coverage_scope':'missing','coverage_complete':False,'generated_at':None,'data_max_timestamp_utc':None,'status':'missing'}
 def choose_at(rows,snapshot,max_age):
@@ -166,7 +167,7 @@ def geojson(rows,meta):
   props={k:v for k,v in r.items() if k not in {'latitude','longitude'}};fs.append({'type':'Feature','id':f"{r.get('provider','source')}|{r.get('identity_key','unknown')}",'geometry':{'type':'Point','coordinates':[lon,lat]},'properties':props})
  return {'type':'FeatureCollection','name':'Voodoo Whiskers harmonized common maritime snapshot',**meta,'features':fs}
 def main():
- cfg=json.loads(CONFIG_PATH.read_text(encoding='utf-8'));generated=now();hist=read_jsonl(HISTORY_PATH);cov=read_jsonl(COVERAGE_PATH);grows,gmeta=gfw_data();gmax=source_range(grows)[1] or parse(gmeta.get('data_max_timestamp_utc'));snapshot=floor_hour(gmax) if gmax else None
+ cfg=json.loads(CONFIG_PATH.read_text(encoding='utf-8'));generated=now();hist=[r for r in read_jsonl(HISTORY_PATH) if parse(r.get('observed_at')) and generated-timedelta(days=14)<=parse(r['observed_at'])<=generated];cov=read_jsonl(COVERAGE_PATH);grows,gmeta=gfw_data();gmax=source_range(grows)[1] or parse(gmeta.get('data_max_timestamp_utc'));snapshot=floor_hour(gmax) if gmax else None
  sources={'fintraffic':[r for r in hist if r.get('provider')=='fintraffic'],'barentswatch':[r for r in hist if r.get('provider')=='barentswatch'],'ais_dk_historical':[r for r in hist if r.get('provider')=='ais_dk_historical'],'global_fishing_watch':grows}
  mandatory=[str(x) for x in cfg.get('mandatory_sources') or []];coverage={};candidates=[];complete=bool(snapshot and gmeta.get('coverage_complete'))
  for provider in mandatory:

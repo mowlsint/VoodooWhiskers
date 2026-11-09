@@ -176,6 +176,7 @@ jobs:
             exit 0
           fi
 
+          python scripts/repo_storage_guard.py
           git commit -m "Update regional AIS layers"
 
           for i in 1 2 3; do
@@ -191,3 +192,4 @@ jobs:
           echo "ERROR: Push failed after 3 attempts."
           send_push_failure_ntfy
           exit 1
+

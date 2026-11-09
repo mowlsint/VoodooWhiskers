@@ -9,6 +9,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
+from data_retention import bound_gfw
 
 from fetch_gfw_common_presence import (ROOT, DATASET, ATTRIBUTION, flatten, finite, parse_dt,
                                        atomic_json, iso_z, regions)
@@ -156,7 +157,7 @@ def main(argv=None):
         records = list(dedup.values())[:20000]
         grid_pack = {**common, "records": records, "count": len(records), "vessel_identity_available": False,
                      "cap_applied": len(dedup)>len(records), "queries": [q for q in queries if q["kind"] == "presence_grid"]}
-        atomic_json(GRID, grid_pack)
+        atomic_json(GRID, bound_gfw(grid_pack,'presence'))
         # Old identity-aware product is retained, with an explicit incompatible/current status.
         atomic_json(ROOT/"data/gfw_historical_ais_status_latest.json", {**common,
             "status": "vessel_identified_cells_unavailable", "coverage_complete": False,
@@ -167,7 +168,7 @@ def main(argv=None):
     if event_queries and all(q["ok"] and not q.get("cap_applied") for q in event_queries):
         dedup = {(e["type"], e["id"]): e for e in events}
         if len(dedup) <= 10000:
-            atomic_json(EVENTS, {**common, "events": list(dedup.values()), "count": len(dedup), "queries": event_queries})
+            atomic_json(EVENTS, bound_gfw({**common, "events": list(dedup.values()), "count": len(dedup), "queries": event_queries},"events"))
     atomic_json(STATUS, {**common, "queries": queries, "live_requests_performed": True,
                         "ok": bool(queries) and all(q["ok"] and not q.get("cap_applied") for q in queries)})
     return 0 if any(q["ok"] for q in queries) else 1

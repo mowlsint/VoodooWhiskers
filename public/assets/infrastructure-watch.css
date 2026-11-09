@@ -14,3 +14,12 @@ body{overflow:hidden}.topbar{height:104px;display:flex;justify-content:space-bet
 
 .timeButtons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.timeButton{border:1px solid var(--stroke);border-radius:9px;background:var(--panel2);color:var(--text);padding:7px 6px;font-size:12px;font-weight:800;cursor:pointer}.timeButton:hover{border-color:var(--cyan)}.timeButton.active{border-color:var(--cyan);background:rgba(66,212,244,.16);box-shadow:inset 0 0 0 1px rgba(66,212,244,.18)}.timeButton.wide{grid-column:1/-1}.timeBadge{font-size:10px;color:var(--yellow);border:1px solid rgba(244,208,63,.35);border-radius:999px;padding:3px 7px}.timeHelp{margin-top:8px!important}.control input:disabled{opacity:.45}.control:has(input:disabled){opacity:.55;cursor:not-allowed}.dkLatest{background:#ffd166;border:1px solid #fff}.dkPrevious{background:transparent;border:2px solid #ffd166}.legendLine{display:inline-block;width:17px;height:0;margin:0 5px 3px 0;border-top:2px solid}.dkTrack{border-color:#ffd166;border-top-style:dashed}.historyWarn{margin-top:7px;padding:6px;border-radius:7px;background:#fff3cd;color:#664d03;font-size:11px}.mapLegend>div{white-space:nowrap}
 @media(max-width:520px){.timeButtons{grid-template-columns:repeat(2,minmax(0,1fr))}.timeButton.wide{grid-column:1/-1}.mapLegend{grid-template-columns:1fr}}
+
+
+.loiteringItem{display:block;text-align:left;border:1px solid #73558b;border-radius:8px;background:#281d36;color:#eee;padding:8px;cursor:pointer;font:inherit;font-size:12px}.trackPopupButton{margin:8px 0;padding:6px 10px;cursor:pointer}.sourceControls .dot{flex:0 0 10px}.sourceControls p{margin-top:8px}.mapLegend{max-width:calc(100% - 80px);max-height:35%;overflow:auto}
+
+#vesselSearch{width:100%;padding:8px;background:#0a1a24;color:#edf4fa;border:1px solid #49606f;border-radius:7px;margin:6px 0}.sourceControls .smallButton{margin:3px 0 8px}
+
+.vesselListItem{cursor:pointer;text-align:left;color:#e9f4fa;background:#102331;border:1px solid #344957;border-left:4px solid #9da6b1;border-radius:6px;padding:7px;font-size:11px}.sidebar summary{cursor:pointer;font-weight:700;font-size:13px;padding:4px 0 8px}
+
+.topbar a.statusPill{color:#8ed8ee;text-decoration:none}

@@ -181,6 +181,7 @@ jobs:
             echo "No public product changes to commit."
             exit 0
           fi
+          python scripts/repo_storage_guard.py
           git commit -m "Build public Voodoo Whiskers products"
           for attempt in 1 2 3; do
             if git pull --rebase --autostash origin main && git push origin HEAD:main; then
@@ -191,3 +192,4 @@ jobs:
           done
           echo "::error::Failed to push public products after 3 attempts."
           exit 1
+

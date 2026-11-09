@@ -48,7 +48,7 @@ def load_config():return json.loads(CONFIG.read_text(encoding='utf-8'))
 def validate_request(raw,cfg,now=None):
     now=now or utc()
     if not isinstance(raw,dict) or raw.get('v')!=1:raise WorkbenchError('REQUEST_VERSION')
-    if set(raw)-{'v','id','created_at','action','area_id','bbox','days','scene_id','gfw_context','danish_ais'}:raise WorkbenchError('REQUEST_FIELDS')
+    if set(raw)-{'v','id','created_at','action','area_id','bbox','days','scene_id','gfw_context','danish_ais','range_from','range_to','event_id'}:raise WorkbenchError('REQUEST_FIELDS')
     action=raw.get('action')
     if action not in {'search','analyse','refresh_context'}:raise WorkbenchError('REQUEST_ACTION')
     identifier=str(raw.get('id',''))
@@ -80,6 +80,12 @@ def validate_request(raw,cfg,now=None):
     for key in ('gfw_context','danish_ais'):
         if key in raw and not isinstance(raw[key],bool):raise WorkbenchError('REQUEST_BOOLEAN')
     if raw.get('danish_ais') and not (3<=west<east<=17 and 53<=south<north<=60):raise WorkbenchError('DANISH_AIS_OUTSIDE_REGION')
+    if any(key in raw for key in ('range_from','range_to','event_id')):
+        try:
+            begin=catalog.parse_utc(raw['range_from'],'period start');end=catalog.parse_utc(raw['range_to'],'period end')
+        except Exception as exc:raise WorkbenchError('EVENT_PERIOD_INVALID') from exc
+        if not now-timedelta(days=14,minutes=5)<=begin<=end<=now+timedelta(minutes=5):raise WorkbenchError('EVENT_PERIOD_OUTSIDE_RETENTION')
+        if not isinstance(raw.get('event_id'),str) or not 1<=len(raw['event_id'])<=160:raise WorkbenchError('EVENT_ID_INVALID')
     return {**raw,'action':action,'area_id':area_id,'area_name':name,'bbox':bbox,'days':days,'scene_id':scene_id,
             'width_px':width,'height_px':height,'area_km2':round(area,2),'approx_width_m':width_m,'approx_height_m':height_m}
 
@@ -129,7 +135,9 @@ def read_response(response,maximum):
 
 def search_scenes(request,cfg,session=None,now=None):
     now=now or utc();session=session or requests.Session()
-    params={'bbox':','.join(map(str,request['bbox'])),'datetime':f"{iso(now-timedelta(days=request['days']))}/{iso(now)}",'limit':cfg['max_catalog_scenes']}
+    begin=catalog.parse_utc(request['range_from'],'period start') if request.get('range_from') else now-timedelta(days=request['days'])
+    end=catalog.parse_utc(request['range_to'],'period end') if request.get('range_to') else now
+    params={'bbox':','.join(map(str,request['bbox'])),'datetime':f'{iso(begin)}/{iso(end)}','limit':cfg['max_catalog_scenes']}
     with session.get(CATALOG_ITEMS,params=params,timeout=(10,45),stream=True) as response:
         payload=json.loads(read_response(response,3*1024*1024))
     if not isinstance(payload.get('features'),list):raise WorkbenchError('CATALOG_SCHEMA')
@@ -137,7 +145,7 @@ def search_scenes(request,cfg,session=None,now=None):
     for f in payload['features']:
         try:s=normalize_scene(f,request['bbox'])
         except (ValueError,TypeError,KeyError,catalog.PilotError):continue
-        if s and now-timedelta(days=request['days'])<=catalog.parse_utc(s['datetime'],'scene time')<=now:scenes.append(s)
+        if s and begin<=catalog.parse_utc(s['datetime'],'scene time')<=end:scenes.append(s)
     scenes=list({s['scene_id']:s for s in scenes}.values())
     scenes.sort(key=lambda s:s['datetime'],reverse=True)
     return {'scenes':scenes,'truncated':any(l.get('rel')=='next' for l in payload.get('links',[]) if isinstance(l,dict)),

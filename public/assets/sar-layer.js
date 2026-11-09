@@ -8,6 +8,8 @@
 
   const vesselLayerIds = [
     "ais_contacts",
+    "gfw_loitering",
+    "gfw_presence",
     "vessel_positions",
     "danish_history",
     "neutral_tanker_context",
@@ -320,3 +322,4 @@
   if (window.__voodooLeafletMap) init(window.__voodooLeafletMap);
   else window.addEventListener("voodoo-map-ready", (event) => init(event.detail.map), { once: true });
 })();
+

@@ -22,3 +22,11 @@ export function normalizeScene(feature,bbox,now=Date.now()){
 }
 export function safeImage(value){return typeof value==='string'&&value.length<3*1024*1024&&/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(value)?value:'';}
 export function stateText(state){return STATES[state]||'Noch nicht geprüft';}
+
+export function eventFromHash(hash,cfg,now=Date.now()){
+  if(!hash.startsWith('#event=')||hash.length>3000)return null;
+  try{const e=JSON.parse(decodeURIComponent(hash.slice(7)));inspectBbox(e.bbox,cfg);const start=Date.parse(e.start),end=Date.parse(e.end);
+    if(e.v!==1||e.source!=='global_fishing_watch'||typeof e.event_id!=='string'||!e.event_id||e.event_id.length>160||!Number.isFinite(start)||!Number.isFinite(end)||start>end||start<now-14*86400000-300000||end>now+300000)return null;
+    return {...e,start:new Date(start).toISOString(),end:new Date(end).toISOString()};
+  }catch{return null;}
+}

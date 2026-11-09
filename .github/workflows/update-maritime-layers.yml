@@ -155,7 +155,7 @@ jobs:
             exit 1
           fi
 
-          for path in data/watchlist_master.csv data/sanctions_sources data/sanctions_refresh_status_latest.json data/ais_contacts_openwaters_latest.json data/ais_openwaters_fetch_status_latest.json data/ais_contacts_fintraffic_latest.json data/ais_contacts_barentswatch_latest.json data/ais_regional_fetch_status_latest.json data/history data/maritime_common_snapshot_latest.json data/maritime_common_snapshot_status_latest.json public; do
+          for path in data/gfw_historical_ais_latest.json data/watchlist_master.csv data/sanctions_sources data/sanctions_refresh_status_latest.json data/ais_contacts_openwaters_latest.json data/ais_openwaters_fetch_status_latest.json data/ais_contacts_fintraffic_latest.json data/ais_contacts_barentswatch_latest.json data/ais_regional_fetch_status_latest.json data/history data/maritime_common_snapshot_latest.json data/maritime_common_snapshot_status_latest.json public; do
             [ ! -e "$path" ] || git add -- "$path"
           done
 
@@ -164,6 +164,7 @@ jobs:
             exit 0
           fi
 
+          python scripts/repo_storage_guard.py
           git commit -m "Update maritime layers"
 
           for i in 1 2 3; do
