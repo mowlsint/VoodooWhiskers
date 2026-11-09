@@ -298,6 +298,7 @@ def openwaters_worker(stream, token, out):
                         raise RuntimeError("Token not recognized as Personal tier")
                     item = from_openwaters(event)
                     if item:
+                        item["stream_connection"] = stream["name"]
                         out.put(item, timeout=10)
         except Exception as exc:
             if STOP.is_set():
@@ -430,6 +431,9 @@ def run():
     for worker in workers:
         worker.start()
     counts = Counter()
+    per_second = Counter()
+    max_per_second = Counter()
+    last_second = time.monotonic()
     last_export = last_log = last_expire = time.monotonic()
     export_interval = max(5, int(os.getenv("AIS_EXPORT_INTERVAL_SECONDS", "30")))
     try:
@@ -448,14 +452,23 @@ def run():
                 with store.db:
                     for item in batch:
                         store.apply(item)
-                        counts[item["source_provider"]] += 1
+                        label = item.get("stream_connection") or item["source_provider"]
+                        counts[label] += 1
+                        per_second[label] += 1
             now = time.monotonic()
+            if now - last_second >= 1:
+                for label, amount in per_second.items():
+                    max_per_second[label] = max(max_per_second[label], amount)
+                per_second.clear()
+                last_second = now
             if now - last_export >= export_interval:
                 store.export(snapshots)
                 last_export = now
             if now - last_log >= 60:
-                LOG.info("AIS messages last minute: %s, pending=%d", dict(counts), out.qsize())
+                LOG.info("AIS messages last minute: %s; peak/s: %s; queue=%d",
+                         dict(counts), dict(max_per_second), out.qsize())
                 counts.clear()
+                max_per_second.clear()
                 last_log = now
             if now - last_expire >= 3600:
                 store.expire()
