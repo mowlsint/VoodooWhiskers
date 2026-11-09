@@ -13,7 +13,7 @@ concurrency:
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 15
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -36,7 +36,7 @@ jobs:
           GFW_TOKEN: ${{ secrets.GFW_TOKEN }}
         run: |
           set -euo pipefail
-          python scripts/fetch_gfw_common_presence.py
+          python scripts/fetch_gfw_context.py
 
       - name: Archive current regional and Danish snapshots
         run: |
@@ -49,31 +49,12 @@ jobs:
           python scripts/build_common_maritime_snapshot.py
           python scripts/build_public_manifest.py
 
-      - name: Validate outputs
+      - name: Publish delayed context separately from AIS contacts
         run: |
           set -euo pipefail
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          paths = [
-              Path("data/gfw_historical_ais_latest.json"),
-              Path("data/maritime_common_snapshot_status_latest.json"),
-              Path("public/data/vessels/maritime_common_snapshot_latest.geojson"),
-          ]
-          for path in paths:
-              if not path.exists():
-                  raise SystemExit(f"missing {path}")
-              json.loads(path.read_text(encoding="utf-8"))
-          gfw_status = json.loads(Path("data/gfw_historical_ais_status_latest.json").read_text(encoding="utf-8"))
-          if int(gfw_status.get("count") or 0) <= 0:
-              raise SystemExit("GFW common-presence query returned zero contacts")
-          if not gfw_status.get("data_max_timestamp_utc"):
-              raise SystemExit("GFW common-presence query returned no data watermark")
-          status = json.loads(Path("data/maritime_common_snapshot_status_latest.json").read_text(encoding="utf-8"))
-          if not status.get("snapshot_at"):
-              raise SystemExit("common snapshot has no snapshot_at watermark")
-          print(json.dumps({k: status.get(k) for k in ("status","ais_status_color","snapshot_at","count")}, indent=2))
-          PY
+          python scripts/build_public_outputs.py
+          python scripts/build_public_manifest.py
+          python -c 'import json; from pathlib import Path; p=json.loads(Path("data/gfw_context_status_latest.json").read_text()); assert p["historical"] is True'
 
       - name: Commit derived products
         run: |
@@ -81,6 +62,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           files=(
+            public/data/vessels
+            public/downloads
+            data/gfw_presence_cells_latest.json
+            data/gfw_events_latest.json
+            data/gfw_context_status_latest.json
             data/gfw_historical_ais_latest.json
             data/gfw_historical_ais_status_latest.json
             data/history/maritime_source_history_21d.jsonl
@@ -113,3 +99,4 @@ jobs:
             [ "$attempt" -lt 3 ] && sleep 12
           done
           exit 1
+

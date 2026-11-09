@@ -17,6 +17,7 @@ HISTORY_PATH=DATA/'history'/'maritime_source_history_21d.jsonl'
 COVERAGE_PATH=DATA/'history'/'maritime_source_coverage_21d.jsonl'
 STATUS_PATH=DATA/'history'/'maritime_source_history_status_latest.json'
 SOURCE_FILES={
+ 'openwaters':DATA/'ais_contacts_openwaters_latest.json',
  'fintraffic':DATA/'ais_contacts_fintraffic_latest.json',
  'barentswatch':DATA/'ais_contacts_barentswatch_latest.json',
  'ais_dk_historical':DATA/'ais_contacts_aisdk_historical_latest.json',
@@ -72,7 +73,8 @@ def iter_positions(payload,provider):
    merged=dict(contact);merged.update(pos);merged['_generated_at']=generated;merged['provider']=provider
    yield merged
 def normalize(item,provider):
- observed=parse_dt(item.get('observed_at') or item.get('last_seen_utc') or item.get('timestamp') or item.get('_generated_at'))
+ if item.get('position_timestamp_valid') is False:return None
+ observed=parse_dt(item.get('observed_at') or item.get('last_seen_utc') or item.get('timestamp'))
  lat=finite(item.get('latitude'));lon=finite(item.get('longitude'));ident=identity(item)
  if not observed or lat is None or lon is None or not ident:return None
  if not(-90<=lat<=90 and -180<=lon<=180):return None
@@ -87,6 +89,8 @@ def normalize(item,provider):
   'true_heading':item.get('true_heading'),'navigational_status':item.get('navigational_status'),
   'destination':clean(item.get('destination')) or None,'ship_type':item.get('ship_type'),
   'source':clean(item.get('source')) or provider,
+  'upstream_source':item.get('upstream_source'),'upstream_station':item.get('upstream_station'),
+  'synthesized':item.get('synthesized'),'coverage_complete':False,'filtered_monitored_contacts_only':True,
  }
 def coverage_time(payload,records):
  for key in ('data_max_timestamp_utc','source_data_max_timestamp_utc','max_observed_at','generated_at'):
@@ -145,3 +149,4 @@ def main():
   'provider_position_ranges':ranges,'provider_coverage_ranges':coverage_ranges,'sources':source_status,'raw_provider_files_persisted':False}
  atomic_json(STATUS_PATH,status);print(json.dumps(status,ensure_ascii=False));return 0
 if __name__=='__main__':raise SystemExit(main())
+

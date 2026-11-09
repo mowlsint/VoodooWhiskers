@@ -8,6 +8,7 @@ hard TTL so a temporary upstream outage cannot replace valid AIS data with an em
 from __future__ import annotations
 
 import json
+import math
 import os
 import tempfile
 from datetime import datetime, timezone
@@ -18,6 +19,12 @@ DATA_DIR = Path("data")
 OUTPUT_PATH = DATA_DIR / "ais_contacts_latest.json"
 
 PROVIDERS = (
+    {
+        "id": "openwaters",
+        "path": DATA_DIR / "ais_contacts_openwaters_latest.json",
+        "soft_ttl_hours": 12,
+        "hard_ttl_hours": 72,
+    },
     {
         "id": "aisstream",
         "path": DATA_DIR / "ais_contacts_aisstream_latest.json",
@@ -80,8 +87,8 @@ def norm(value: Any) -> str:
 
 def contact_key(contact: dict[str, Any]) -> str:
     return (
-        ("mmsi:" + digits(contact.get("mmsi"))) if digits(contact.get("mmsi")) else
         ("imo:" + digits(contact.get("imo"))) if digits(contact.get("imo")) else
+        ("mmsi:" + digits(contact.get("mmsi"))) if digits(contact.get("mmsi")) else
         ("callsign:" + norm(contact.get("callsign"))) if norm(contact.get("callsign")) else
         ("name:" + norm(contact.get("name"))) if norm(contact.get("name")) else
         ""
@@ -97,7 +104,27 @@ def merge_nonempty(base: dict[str, Any], incoming: dict[str, Any]) -> dict[str, 
 
 
 def contact_time(contact: dict[str, Any]) -> datetime:
+    if contact.get("position_timestamp_valid") is False:
+        return datetime.min.replace(tzinfo=timezone.utc)
     return parse_datetime(contact.get("last_seen_utc")) or datetime.min.replace(tzinfo=timezone.utc)
+
+
+POSITION_FIELDS = {"latitude", "longitude", "last_seen_utc", "observed_at", "retrieved_at",
+                   "sog", "cog", "true_heading", "navigational_status", "source", "source_provider",
+                   "upstream_source", "upstream_station", "synthesized", "positions",
+                   "position_timestamp_valid", "position_timestamp_basis", "stream_id"}
+
+
+def combine_contacts(current, incoming):
+    """A position, its motion and its quality/provenance form one indivisible observation."""
+    winner, older = (incoming, current) if contact_time(incoming) > contact_time(current) else (current, incoming)
+    combined = merge_nonempty(older, winner)
+    for key in POSITION_FIELDS:
+        combined.pop(key, None)
+        if key in winner:
+            combined[key] = winner[key]
+    combined["sources"] = sorted(set(current.get("sources") or []) | set(incoming.get("sources") or []))
+    return combined
 
 
 def load_provider(provider: dict[str, Any], now: datetime) -> tuple[dict[str, Any] | None, dict[str, Any]]:
@@ -115,6 +142,9 @@ def load_provider(provider: dict[str, Any], now: datetime) -> tuple[dict[str, An
     generated = parse_datetime(payload.get("generated_at"))
     if generated is None:
         status["reason"] = "generated_at missing or invalid"
+        return None, status
+    if (generated-now).total_seconds() > 300:
+        status["reason"] = "generated_at is in the future"
         return None, status
 
     age_hours = max(0.0, (now - generated).total_seconds() / 3600.0)
@@ -144,6 +174,7 @@ def main() -> int:
     merged: dict[str, dict[str, Any]] = {}
     provider_status: dict[str, Any] = {}
     included_provider_ids: list[str] = []
+    aliases: dict[str, str] = {}
 
     for provider in PROVIDERS:
         payload, status = load_provider(provider, now)
@@ -158,6 +189,28 @@ def main() -> int:
             if not key:
                 continue
             incoming = dict(contact)
+            observed = contact_time(incoming)
+            age = (now-observed).total_seconds()/3600
+            try:
+                lat, lon = float(incoming["latitude"]), float(incoming["longitude"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            if not (math.isfinite(lat) and math.isfinite(lon) and -90 <= lat <= 90 and -180 <= lon <= 180):
+                continue
+            if age < -5/60 or age > provider["hard_ttl_hours"]:
+                continue
+            incoming["position_age_hours"] = round(max(0, age), 2)
+            incoming["position_stale"] = age > provider["soft_ttl_hours"]
+            strong_aliases = [f"{field}:{digits(incoming.get(field))}" for field in ("imo", "mmsi") if digits(incoming.get(field))]
+            # A shared MMSI bridges records where one source omits the IMO.
+            known = {aliases[a] for a in strong_aliases if a in aliases}
+            if known:
+                key = sorted(known)[0]
+                for other in known-{key}:
+                    merged[key] = combine_contacts(merged[key], merged.pop(other))
+                    aliases = {a: key if k == other else k for a, k in aliases.items()}
+            for alias in strong_aliases:
+                aliases[alias] = key
             source_name = str(incoming.get("source") or payload.get("source") or provider["id"])
             incoming_sources = set(incoming.get("sources") or [])
             incoming_sources.add(source_name)
@@ -169,10 +222,7 @@ def main() -> int:
 
             current = merged[key]
             all_sources = set(current.get("sources") or []) | set(incoming.get("sources") or [])
-            if contact_time(incoming) >= contact_time(current):
-                combined = merge_nonempty(current, incoming)
-            else:
-                combined = merge_nonempty(incoming, current)
+            combined = combine_contacts(current, incoming)
             combined["sources"] = sorted(all_sources)
             merged[key] = combined
 
@@ -190,13 +240,9 @@ def main() -> int:
         "generated_at": utc_now_iso(),
         "source": "Voodoo Whiskers AIS provider broker",
         "filter_mode": "Merged provider snapshots; provider-level LKG bounded by TTL",
-        "coverage_mode": (
-            "mixed_regional_and_primary"
-            if "aisstream" in included_provider_ids and any(p != "aisstream" for p in included_provider_ids)
-            else "primary_only"
-            if included_provider_ids == ["aisstream"]
-            else "regional_only"
-        ),
+        "coverage_mode": ("mixed_regional_and_primary" if "openwaters" in included_provider_ids and len(included_provider_ids)>1
+                          else "primary_only" if "openwaters" in included_provider_ids else "regional_only"),
+        "coverage_complete": False,
         "stale": bool(stale),
         "providers_included": included_provider_ids,
         "provider_status": provider_status,
@@ -212,3 +258,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

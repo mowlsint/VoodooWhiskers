@@ -855,7 +855,10 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref):
         track_behavior = to_bool(matched_row.get("track_behavior"))
         track_russian_mmsi = to_bool(matched_row.get("track_russian_mmsi"))
 
-        merged["sanctioned"] = track_sanctions
+        verification = clean_str(matched_row.get("sanctions_verification_status"))
+        merged["sanctions_verification_status"] = verification or "legacy_curated_source"
+        merged["sanctioned"] = track_sanctions and verification != "manual_review_required"
+        merged["sanctions_listed_historical"] = track_sanctions
         merged["shadow_fleet"] = track_shadowfleet
         merged["false_flag"] = track_falseflag or bool(flag_risk and flag_risk.get("flag_risk_band") != "context")
         merged["behavioral_voi"] = track_behavior
@@ -1209,3 +1212,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

@@ -243,6 +243,8 @@ class GFWClient:
         filters: list[str] | None = None,
         group_by: str | None = None,
     ) -> dict[str, Any]:
+        if dataset.startswith("public-global-presence:") and group_by in {"VESSEL_ID", "MMSI"}:
+            raise RuntimeError("GFW vessel-identified spatial cells unavailable since 2026-11-03; use anonymous presence context, never fabricate tracks")
         params: list[tuple[str, str]] = [
             ("spatial-resolution", "HIGH"),
             ("temporal-resolution", "HOURLY"),
@@ -884,3 +886,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

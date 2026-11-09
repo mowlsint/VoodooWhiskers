@@ -127,7 +127,8 @@ def classification_index():
     'recent_russian_portcall_10d.geojson':'recent_russian_portcall_10d','neutral_tanker_context.geojson':'neutral_tanker_context'}.get(name)
    if implied:props['categories']=list(props.get('categories') or [])+[implied]
    if implied=='neutral_tanker_context':props['neutral_tanker_context']=True
-   if implied=='sanctions_shadowfleet':props['sanctioned']=True;props['shadow_fleet']=True
+   if implied=='sanctions_shadowfleet':
+    props.setdefault('sanctioned',props.get('sanctions_verification_status')!='manual_review_required')
    if implied in {'falseflag_interest','false_flag_watch'}:props['false_flag']=True
    if implied=='behavioral_voi':props['behavioral_voi']=True
    if implied=='watchlist':props['known_voi_match']=True;props['is_priority_voi']=True
@@ -196,3 +197,4 @@ def main():
   if p.stat().st_size>25*1024*1024:raise SystemExit(f'common snapshot output exceeds 25 MiB: {p}')
  print(json.dumps({'status':overall,'ais_status_color':color,'snapshot_id':sid,'snapshot_at':meta['snapshot_at'],'count':len(canon),'coverage':{k:v['state'] for k,v in coverage.items()}},ensure_ascii=False));return 0
 if __name__=='__main__':raise SystemExit(main())
+
