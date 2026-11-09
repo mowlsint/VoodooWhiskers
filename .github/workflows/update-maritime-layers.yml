@@ -3,7 +3,7 @@ name: Update maritime layers
 on:
   # Owner-authorized collection windows; all cron times are UTC.
   schedule:
-    - cron: "0 4,12,20 * * *"
+    - cron: "0 0,4,8,12,16,20 * * *"
   workflow_dispatch:
 
 permissions:
@@ -16,7 +16,7 @@ concurrency:
 jobs:
   build-layers:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 35
 
     steps:
       - name: Checkout repository
