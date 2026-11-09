@@ -412,6 +412,9 @@ def _fast_archive_seconds(value: Any, expected_date: date) -> tuple[int | None, 
 
 def _public_observation(record: dict[str, Any]) -> dict[str, Any]:
     return {
+        "source_provider": record.get("provider") or record.get("source_provider") or "ais_dk_historical",
+        "upstream_source": record.get("upstream_source"),
+        "upstream_station": record.get("upstream_station"),
         "observed_at": record["observed_at"],
         "latitude": record["latitude"],
         "longitude": record["longitude"],
@@ -852,6 +855,7 @@ def _pair_evidence(
     radius, components = dynamic_radius(candidate["properties"], projection, matching_config)
     return {
         "mmsi": projection["mmsi"],
+        "source_provider": projection.get("source_provider", "ais_dk_historical"),
         "imo": projection.get("imo") or "",
         "name": projection.get("name") or "",
         "callsign": projection.get("callsign") or "",
@@ -948,7 +952,7 @@ def match_candidates(
         evidence_limit = 20
         historical_context = {
             "status": match_status,
-            "source_provider": "ais_dk_historical",
+            "source_provider": phase_config["source"].get("provider", "ais_dk_historical"),
             "source_archive_date": phase_config["source"]["archive_date"],
             "scene_acquisition_time_utc": phase_config["time_alignment"][
                 "scene_acquisition_time_utc"
@@ -1417,3 +1421,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

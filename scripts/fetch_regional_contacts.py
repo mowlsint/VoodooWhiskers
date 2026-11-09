@@ -13,6 +13,7 @@ separately by merge_ais_contacts.py.
 from __future__ import annotations
 
 import json
+import math
 import os
 import sys
 import tempfile
@@ -63,14 +64,14 @@ def atomic_json_write(path: Path, payload: Any) -> None:
 
 def build_session() -> requests.Session:
     retry = Retry(
-        total=3,
-        connect=3,
-        read=3,
-        status=3,
+        total=1,
+        connect=1,
+        read=1,
+        status=1,
         backoff_factor=1.0,
         status_forcelist=(429, 500, 502, 503, 504),
         allowed_methods=frozenset({"GET", "POST"}),
-        respect_retry_after_header=True,
+        respect_retry_after_header=False,
     )
     adapter = HTTPAdapter(max_retries=retry, pool_connections=4, pool_maxsize=4)
     session = requests.Session()
@@ -90,17 +91,16 @@ def first_value(mapping: dict[str, Any], *keys: str) -> Any:
 def normalize_timestamp(value: Any, fallback: str | None = None) -> tuple[str, bool, str]:
     """Return a timestamp plus explicit quality metadata.
 
-    Invalid epoch-like values (notably 1970 dates from Fintraffic payload variants)
-    use retrieval time as a bounded fallback. The fallback is marked as imprecise so
-    downstream dwell and track analysis can reduce confidence.
+    Invalid values have no observation time. Retrieval time belongs in retrieved_at.
     """
-    fallback = fallback or utc_now_iso()
     parsed: datetime | None = None
     if value not in (None, ""):
         text = str(value).strip()
         numeric = isinstance(value, (int, float)) or text.replace(".", "", 1).isdigit()
         if numeric:
             number = float(value)
+            if not math.isfinite(number):
+                return "", False, "missing_or_invalid"
             if number > 10_000_000_000:
                 number /= 1000.0
             try:
@@ -118,7 +118,7 @@ def normalize_timestamp(value: Any, fallback: str | None = None) -> tuple[str, b
     now = datetime.now(timezone.utc).replace(microsecond=0)
     if parsed and datetime(2000, 1, 1, tzinfo=timezone.utc) <= parsed <= now + timedelta(days=1):
         return parsed.isoformat(), True, "source_timestamp"
-    return fallback, False, "retrieval_time_fallback"
+    return "", False, "missing_or_invalid"
 
 
 def normalize_sog(value: Any) -> float | None:
@@ -127,7 +127,7 @@ def normalize_sog(value: Any) -> float | None:
     except (TypeError, ValueError):
         return None
     # AIS raw sentinel 1023 is commonly exposed as 102.3 knots.
-    if number < 0 or number >= 102.2:
+    if not math.isfinite(number) or number < 0 or number >= 102.2:
         return None
     return round(number, 2)
 
@@ -137,7 +137,7 @@ def normalize_cog(value: Any) -> float | None:
         number = float(value)
     except (TypeError, ValueError):
         return None
-    if number < 0 or number >= 360:
+    if not math.isfinite(number) or number < 0 or number >= 360:
         return None
     return round(number, 2)
 
@@ -147,7 +147,7 @@ def normalize_heading(value: Any) -> int | None:
         number = float(value)
     except (TypeError, ValueError):
         return None
-    if number < 0 or number >= 511:
+    if not math.isfinite(number) or number < 0 or number >= 360:
         return None
     return int(round(number))
 
@@ -203,7 +203,7 @@ def normalize_fintraffic(location_record: dict[str, Any], metadata: dict[str, An
     lat = coordinates[1] if len(coordinates) >= 2 else first_value(props, "lat", "latitude", "Latitude")
 
     observed_at, timestamp_valid, timestamp_basis = normalize_timestamp(
-        first_value(props, "timestamp", "time", "timestampExternal", "msgtime"), fetched_at
+        first_value(props, "timestampExternal", "time", "msgtime"), fetched_at
     )
     return {
         "mmsi": mmsi,
@@ -222,6 +222,7 @@ def normalize_fintraffic(location_record: dict[str, Any], metadata: dict[str, An
         "source_provider": "fintraffic",
         "message_type_last": "RegionalSnapshot",
         "last_seen_utc": observed_at,
+        "retrieved_at": fetched_at,
         "position_timestamp_valid": timestamp_valid,
         "position_timestamp_basis": timestamp_basis,
     }
@@ -257,6 +258,7 @@ def normalize_barentswatch(record: dict[str, Any], fetched_at: str) -> dict[str,
         "source_provider": "barentswatch",
         "message_type_last": "RegionalSnapshot",
         "last_seen_utc": observed_at,
+        "retrieved_at": fetched_at,
         "position_timestamp_valid": timestamp_valid,
         "position_timestamp_basis": timestamp_basis,
     }
@@ -271,7 +273,7 @@ def filter_contacts(contacts: Iterable[dict[str, Any]], provider: str) -> list[d
     risk_mids = load_flag_risk_mids()
     ru_codes, ru_names = load_russian_port_terms()
     annotated = apply_russian_route_state(
-        list(contacts),
+        [c for c in contacts if c.get("position_timestamp_valid") is True],
         ru_codes,
         ru_names,
         provider=provider,
@@ -282,9 +284,9 @@ def filter_contacts(contacts: Iterable[dict[str, Any]], provider: str) -> list[d
 
 
 def fetch_fintraffic(session: requests.Session) -> tuple[dict[str, Any], dict[str, Any]]:
-    locations_response = session.get(FINTRAFFIC_LOCATIONS_URL, timeout=(15, 120))
+    locations_response = session.get(FINTRAFFIC_LOCATIONS_URL, timeout=(10, 45))
     locations_response.raise_for_status()
-    vessels_response = session.get(FINTRAFFIC_VESSELS_URL, timeout=(15, 120))
+    vessels_response = session.get(FINTRAFFIC_VESSELS_URL, timeout=(10, 45))
     vessels_response.raise_for_status()
 
     fetched_at = utc_now_iso()
@@ -325,7 +327,7 @@ def fetch_barentswatch(session: requests.Session, client_id: str, client_secret:
             "grant_type": "client_credentials",
         },
         headers={"Content-Type": "application/x-www-form-urlencoded"},
-        timeout=(15, 60),
+        timeout=(10, 30),
     )
     token_response.raise_for_status()
     token_payload = token_response.json()
@@ -337,7 +339,7 @@ def fetch_barentswatch(session: requests.Session, client_id: str, client_secret:
         BARENTSWATCH_LATEST_URL,
         params={"modelType": "Full"},
         headers={"Authorization": f"Bearer {access_token}"},
-        timeout=(15, 180),
+        timeout=(10, 45),
     )
     response.raise_for_status()
     fetched_at = utc_now_iso()
@@ -406,3 +408,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

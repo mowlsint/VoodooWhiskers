@@ -142,6 +142,8 @@ def fallback_history_dt(item: dict[str, Any], snapshot_generated: datetime | Non
     raw = parse_dt(item.get("last_seen_utc"))
     declared_basis = str(item.get("position_timestamp_basis") or "").strip()
     declared_valid = item.get("position_timestamp_valid")
+    if declared_valid is False:
+        return None, declared_basis or "missing_or_invalid"
     if valid_operational_dt(raw) and declared_valid is False:
         return raw, declared_basis or "retrieval_time_fallback"
     if valid_operational_dt(raw):
@@ -173,7 +175,7 @@ def normalize_item(item: dict[str, Any], snapshot_generated: datetime | None = N
         "cog": cog,
         "true_heading": heading,
         "observed_at": observed_at.isoformat() if observed_at else None,
-        "position_timestamp_valid": timestamp_basis == "source_timestamp",
+        "position_timestamp_valid": bool(observed_at and item.get("position_timestamp_valid") is not False and timestamp_basis == "source_timestamp"),
         "position_timestamp_basis": timestamp_basis,
         "is_priority_voi": priority and not (categories == ["neutral_tanker_context"]),
         "categories": categories,
@@ -699,6 +701,18 @@ def main() -> int:
     atomic_json(DOWNLOAD_DIR / "ais_contacts_latest.json", public_ais_pack)
     atomic_json(DOWNLOAD_DIR / "ais_contacts_latest.geojson", ais_geojson)
 
+    # Delayed context remains separate from current AIS and is validated before publishing.
+    for filename in ("gfw_presence_cells_latest.json", "gfw_events_latest.json", "gfw_context_status_latest.json"):
+        src = DATA / filename
+        if src.exists():
+            content = json.loads(src.read_text(encoding="utf-8"))
+            if not isinstance(content, dict) or content.get("historical") is not True:
+                raise ValueError(f"Invalid historical GFW product: {filename}")
+            if src.stat().st_size > 25*1024*1024:
+                raise ValueError(f"Oversized GFW context product: {filename}")
+            atomic_json(VESSEL_DIR / filename, content)
+            atomic_json(DOWNLOAD_DIR / filename, content)
+
     danish_history = build_danish_public_products()
     category_layers = copy_category_layers()
     history_stats = build_bounded_history(snapshot_dt) if args.include_history else existing_history_stats()
@@ -738,7 +752,7 @@ def main() -> int:
             "contact_count": len(ais_contacts),
             "feature_count": len(ais_features),
             "provider_label": "AIS",
-            "display_label": "AISStream live contacts or historical fallback data",
+            "display_label": "Current monitored AIS contacts",
             "aisstream_live": aisstream_live,
             "historical_source_codes": historical_source_codes,
         },
@@ -763,3 +777,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

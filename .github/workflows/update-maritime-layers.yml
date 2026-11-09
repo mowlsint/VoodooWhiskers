@@ -4,12 +4,6 @@ on:
   # LOW ACTIONS MODE 2026-08-27: automatic triggers are paused.
   # Restore details: docs/operations/AUTOMATIC_ACTIONS_PAUSE_2026-08-27.md
   workflow_dispatch:
-    inputs:
-      certificate_probe_only:
-        description: "Only inspect the current AISstream certificate; do not send the API key or build layers"
-        required: false
-        type: boolean
-        default: false
 
 permissions:
   contents: write
@@ -18,137 +12,70 @@ concurrency:
   group: voodoo-maritime-layers-main
   cancel-in-progress: false
 
-env:
-  AISSTREAM_TLS_MODE: auto_pinned_emergency
-  AISSTREAM_EMERGENCY_PIN_UNTIL: "2026-09-01T00:00:00Z"
-  AISSTREAM_PIN_MAX_EXPIRED_DAYS: "60"
-  AISSTREAM_MAX_CONNECTION_ATTEMPTS: "3"
-  AISSTREAM_OPEN_TIMEOUT_SECONDS: "25"
-  AISSTREAM_PROBE_ATTEMPTS: "3"
-  AISSTREAM_PROBE_BACKOFF_SECONDS: "10"
-  AISSTREAM_SAMPLE_SECONDS: "1800"
-  AISSTREAM_MIN_MESSAGES: "1"
-  AISSTREAM_MIN_KEPT_CONTACTS: "1"
-
 jobs:
   build-layers:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 15
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-ais.txt
 
       - name: Install dependencies
         run: |
           set -euo pipefail
-          python -m pip install --upgrade pip
-          pip install \
-            "requests>=2.32,<3" \
-            "websockets>=15,<16" \
-            "cryptography>=45,<46"
+          pip install -r requirements-ais.txt
 
-      - name: Probe AISstream certificate without API key
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.certificate_probe_only == true }}
-        run: |
-          set -euo pipefail
-          python scripts/fetch_contacts.py --probe-certificate
-
-      - name: Ensure data directory exists
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
-        run: |
-          set -euo pipefail
-          mkdir -p data
-
-      - name: Fetch contacts with strict TLS or pinned emergency fallback
-        id: aisstream_fetch
+      - name: Refresh official vessel designations at most once per day
         continue-on-error: true
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
+        run: python scripts/refresh_sanctions.py --fetch
+
+      - name: Collect Open Waters and regional AIS in one window
         env:
-          AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
-          AISSTREAM_PINNED_CERT_SHA256: ${{ secrets.AISSTREAM_PINNED_CERT_SHA256 }}
-        run: |
-          set -euo pipefail
-          python scripts/fetch_contacts.py
+          OPENWATERS_TOKEN: ${{ secrets.OPENWATERS_TOKEN }}
+          BARENTSWATCH_CLIENT_ID: ${{ secrets.BARENTSWATCH_CLIENT_ID }}
+          BARENTSWATCH_CLIENT_SECRET: ${{ secrets.BARENTSWATCH_CLIENT_SECRET }}
+        run: python scripts/collect_ais.py
 
-      - name: Report unavailable AISstream test
-        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false) && steps.aisstream_fetch.outcome == 'failure' }}
-        run: |
-          echo "::warning title=AISstream unavailable::The daily AISstream test failed. The previous AISstream snapshot is retained; Fintraffic and BarentsWatch remain available to the provider merge."
-
-      - name: Merge available AIS providers
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
-        run: |
-          set -euo pipefail
-          python scripts/merge_ais_contacts.py
-
-      - name: Debug input files
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
-        run: |
-          set -euo pipefail
-          echo "--- data directory ---"
-          ls -la data || true
-          echo "--- AISstream provider file exists? ---"
-          if test -f data/ais_contacts_aisstream_latest.json; then
-            echo "YES"
-            echo "--- transport security ---"
-            python - <<'PY'
-          import json
-          from pathlib import Path
-          payload = json.loads(Path("data/ais_contacts_aisstream_latest.json").read_text(encoding="utf-8"))
-          print(json.dumps(payload.get("transport_security", {}), indent=2))
-          print(json.dumps(payload.get("fetch_stats", {}), indent=2))
-          PY
-          else
-            echo "NO: no AISstream provider snapshot exists yet; continuing with regional providers."
-          fi
-          echo "--- merged contacts file exists? ---"
-          test -f data/ais_contacts_latest.json && echo "YES" || (echo "NO: data/ais_contacts_latest.json missing" && exit 1)
-          echo "--- first lines of merged contacts file ---"
-          head -n 40 data/ais_contacts_latest.json || true
+      - name: Archive bounded filtered observations
+        run: python scripts/archive_maritime_snapshots.py
 
       - name: Build layers
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
         env:
           GFW_TOKEN: ${{ secrets.GFW_TOKEN }}
-          AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
         run: |
           set -euo pipefail
           python scripts/build_layers.py
 
       - name: Validate bounded 14-day VOI history
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
         run: |
           set -euo pipefail
           python scripts/test_voi_history_policy_unit.py
           python scripts/test_voi_history_retention.py --source-only
 
       - name: Audit sanctions/watchlist inputs
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
         run: |
           set -euo pipefail
           python scripts/sync_sanctions_watchlists.py
 
-      - name: Debug generated outputs
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
+      - name: Build public products and existing delayed snapshot
         run: |
           set -euo pipefail
-          echo "--- generated files ---"
-          ls -la data || true
-          echo "--- geojson files ---"
-          find data -maxdepth 1 -name "*.geojson" -exec ls -lh {} \;
-          echo "--- snapshot ---"
-          test -f data/voi_snapshot_latest.json && head -n 40 data/voi_snapshot_latest.json || true
+          python scripts/build_public_outputs.py
+          python scripts/analyze_infrastructure_proximity.py
+          python scripts/build_common_maritime_snapshot.py
+          python scripts/build_public_manifest.py
 
       - name: Commit updated outputs
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.certificate_probe_only == false }}
         env:
           NTFY_ENABLED: ${{ secrets.NTFY_ENABLED }}
           NTFY_URL: ${{ secrets.NTFY_URL }}
@@ -184,6 +111,11 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if [ "${GITHUB_REF_NAME}" != "main" ]; then
+            echo "Refusing production writes from a non-main branch."
+            exit 1
+          fi
 
           # Required outputs must exist. The AISstream provider snapshot is optional:
           # on a failed first-ever AISstream test there is no file yet, while the
@@ -223,11 +155,9 @@ jobs:
             exit 1
           fi
 
-          if [ -f data/ais_contacts_aisstream_latest.json ]; then
-            git add -- data/ais_contacts_aisstream_latest.json
-          else
-            echo "AISstream provider snapshot absent; preserving regional-only state."
-          fi
+          for path in data/watchlist_master.csv data/sanctions_sources data/sanctions_refresh_status_latest.json data/ais_contacts_openwaters_latest.json data/ais_openwaters_fetch_status_latest.json data/ais_contacts_fintraffic_latest.json data/ais_contacts_barentswatch_latest.json data/ais_regional_fetch_status_latest.json data/history data/maritime_common_snapshot_latest.json data/maritime_common_snapshot_status_latest.json public; do
+            [ ! -e "$path" ] || git add -- "$path"
+          done
 
           if git diff --cached --quiet; then
             echo "No maritime layer changes to commit."
@@ -239,7 +169,7 @@ jobs:
           for i in 1 2 3; do
             echo "Push attempt ${i}/3..."
 
-            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+            if git fetch --deepen=1 origin main && git rebase FETCH_HEAD && git push origin HEAD:main; then
               echo "Push succeeded."
               exit 0
             fi
@@ -256,3 +186,4 @@ jobs:
           echo "ERROR: Push failed after 3 attempts."
           send_push_failure_ntfy
           exit 1
+

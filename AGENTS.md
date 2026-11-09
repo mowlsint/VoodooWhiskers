@@ -56,7 +56,7 @@ Keep infrastructure `score_integration` disabled until the owner explicitly appr
 
 ## Data and source constraints
 
-- Do not introduce paid AIS APIs. AIS Hub, supplied by the owner's receiver, is the chosen long-term AIS approach. AISStream, Fintraffic, and BarentsWatch are transitional/free sources.
+- Do not introduce paid AIS APIs. Open Waters Personal is the primary AIS source, collected in two bounded parallel streams in GitHub Actions. Preserve Fintraffic and BarentsWatch snapshots and delayed GFW context. Magic Paws consumes Voodoo products; no duplicate provider collection.
 - Never commit raw Danish AIS archives, provider downloads, credentials, API keys, tokens, or private endpoints.
 - Preserve the bounded 14-day public VOI history and repository size guards unless the owner explicitly changes the policy.
 - Prefer changing generators and configuration over hand-editing generated files under `public/`.
@@ -139,3 +139,4 @@ Flag changes that:
 - describe monitored AIS as complete traffic coverage;
 - commit raw provider data or expose secrets;
 - trigger or expand paid/exhaustible workflows without explicit approval.
+

@@ -2,9 +2,8 @@
 """
 VOODOO WHISKERS // Sanctions watchlist audit helper
 
-Conservative by design: this script does not delete local watchlist rows. It creates
-an audit sidecar and may be extended to merge official EU/UK/OFAC CSV/JSON exports
-when those files are supplied in data/sanctions_sources/.
+Conservative local audit companion to refresh_sanctions.py. The refresher fetches
+official vessel designations; this audit never deletes curated watchlist rows.
 """
 import csv, json
 from pathlib import Path
@@ -57,6 +56,10 @@ def main():
         "test_or_example_rows": test_rows,
         "policy": "No automatic deletion. Missing official confirmation should become source_status=source_missing/manual_watch_only, not deletion."
     }
+    refresh_path = DATA / "sanctions_refresh_status_latest.json"
+    if refresh_path.exists():
+        refresh = json.loads(refresh_path.read_text(encoding="utf-8"))
+        audit["official_refresh"] = {key: refresh.get(key) for key in ("generated_at", "sources", "added_imos", "manual_review", "all_sources_ok")}
     AUDIT.write_text(json.dumps(audit, indent=2, ensure_ascii=False)+"\n", encoding="utf-8")
     lines = ["# VOODOO WHISKERS Watchlist Audit", "", f"Generated: {now}", "", f"Rows: {len(rows)}", f"Unique keys: {len(seen)}", f"Sanctions rows: {sanctions}", f"Shadow-fleet rows: {shadow}", f"Duplicates: {len(duplicates)}", f"Missing identity rows: {len(missing_ids)}", f"Test/example rows: {len(test_rows)}", "", "No rows were deleted automatically."]
     CHANGES.write_text("\n".join(lines)+"\n", encoding="utf-8")
@@ -64,3 +67,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

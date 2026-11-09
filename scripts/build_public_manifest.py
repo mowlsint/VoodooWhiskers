@@ -46,8 +46,11 @@ def main() -> int:
     generated_at = now_iso()
     products = []
     specs = [
-        ("ais_contacts_latest.json", "AISStream or historical fallback contacts — JSON", "ais", "Filtered AISStream contacts when live; otherwise explicitly labelled historical fallback data from regional providers."),
-        ("ais_contacts_latest.geojson", "AISStream or historical fallback positions — GeoJSON", "ais", "Map-ready AISStream positions when live; otherwise explicitly labelled historical fallback data from regional providers."),
+        ("gfw_presence_cells_latest.json", "GFW historical AIS presence grid", "ais_history", "Anonymous hourly 0.01-degree cells; no vessel identities or live positions. Powered by Global Fishing Watch; CC BY-NC 4.0."),
+        ("gfw_events_latest.json", "GFW loitering and AIS-gap context", "ais_history", "Delayed provider behavior events for analyst review; no automatic intent finding. Powered by Global Fishing Watch; CC BY-NC 4.0."),
+        ("gfw_context_status_latest.json", "GFW context query status", "ais_history", "Provider failures, truncation and delayed context availability."),
+        ("ais_contacts_latest.json", "Current monitored AIS contacts — JSON", "ais", "Filtered Open Waters and regional AIS observations with source timestamps and freshness metadata; reception-dependent sampled coverage."),
+        ("ais_contacts_latest.geojson", "Current monitored AIS contacts — GeoJSON", "ais", "Map-ready monitored AIS observations with provider provenance and data-quality fields."),
         ("ais_dk_last_two_positions.json", "Danish historical AIS — latest two observations — JSON", "ais_history", "Latest two temporally distinct historical Danish AIS observations per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions."),
         ("ais_dk_last_two_positions.geojson", "Danish historical AIS — latest two observations — GeoJSON", "ais_history", "Map-ready latest two historical Danish AIS observations and short connectors per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions."),
         ("ais_dk_import_status.json", "Danish historical AIS — import status", "ais_history", "Source date, lag, row-quality counters and import health for the delayed Danish AIS supplement."),
@@ -78,7 +81,7 @@ def main() -> int:
         "hosting_target": "Cloudflare Pages later",
         "assessment_limit": "VOI, SAR and proximity products support analyst review and do not establish hostile intent, attribution or unlawful activity.",
         "groups": [
-            {"id": "ais", "label": "AISStream / historical fallback data"},
+            {"id": "ais", "label": "AIS"},
             {"id": "ais_history", "label": "Historical AIS supplements"},
             {"id": "sar", "label": "SAR satellite detection cells"},
             {"id": "voi", "label": "VOI lists"},
@@ -119,3 +122,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

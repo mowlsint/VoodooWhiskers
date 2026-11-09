@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-11-09T13:48:31+00:00",
+  "sources": {
+    "eu": {
+      "ok": true,
+      "count": 729,
+      "checked_at": "2026-11-09T13:48:31+00:00",
+      "download_bytes": 177725,
+      "source_report_date": "24/07/2026",
+      "scope": "EU Russia Annex XLII and DPRK vessel designations published by DMA, distinguished by regime; not every EU financial sanctions regime"
+    },
+    "uk": {
+      "ok": true,
+      "count": 682,
+      "checked_at": "2026-11-09T13:48:31+00:00",
+      "download_bytes": 50354956,
+      "source_report_date": "03-Nov-2026",
+      "unresolved_vessels_without_valid_imo": 1
+    },
+    "ofac": {
+      "ok": true,
+      "count": 1555,
+      "checked_at": "2026-11-09T13:48:31+00:00",
+      "download_bytes": 5833851,
+      "unresolved_vessels_without_valid_imo": 15
+    }
+  },
+  "added_imos": [
+    "9205952",
+    "9242209",
+    "9375032",
+    "9385491",
+    "9449510",
+    "9449522",
+    "9474199",
+    "9483114",
+    "9487407",
+    "9540273",
+    "9548316"
+  ],
+  "confirmed_imos": 1998,
+  "manual_review": [
+    {
+      "imo": "9894387",
+      "name": "FU YUAN YU 8683",
+      "reason": "not found in refreshed supported designations; retained for manual review"
+    }
+  ],
+  "rows_before": 2006,
+  "rows_after": 2017,
+  "automatically_deleted": 0,
+  "raw_authority_files_persisted": false,
+  "unsupported_existing_authorities": "JP/AU and other curated sources retained; no automatic current-status claim from this updater",
+  "all_sources_ok": true
+}
