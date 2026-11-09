@@ -1,0 +1,23 @@
+services:
+  ais-collector:
+    build:
+      context: ..
+      dockerfile: live_ais/Dockerfile
+    restart: unless-stopped
+    environment:
+      OPENWATERS_TOKEN: ${OPENWATERS_TOKEN:?Set private Personal token in .env}
+      BARENTSWATCH_CLIENT_ID: ${BARENTSWATCH_CLIENT_ID:-}
+      BARENTSWATCH_CLIENT_SECRET: ${BARENTSWATCH_CLIENT_SECRET:-}
+      AIS_DB_PATH: /state/ais.sqlite3
+      AIS_PRIVATE_SNAPSHOT_DIR: /state/snapshots
+      AIS_EXPORT_INTERVAL_SECONDS: 30
+      TRACK_MMSIS: ${TRACK_MMSIS:-}
+    volumes:
+      - ./state:/state
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    pids_limit: 100
+    mem_limit: 512m
