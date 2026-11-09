@@ -11,5 +11,7 @@
   "public_shard_manifest": "manifest.json",
   "download_manifest_filename": "voi_history_14d_manifest.json",
   "future_tolerance_hours": 24,
-  "compatibility_note": "The legacy public filename remains available below 22 MiB. Complete valid 14-day history is retained in the sharded manifest."
+  "compatibility_note": "At most fourteen days, bounded by total byte budgets; size sampling is explicitly reported in manifests.",
+  "source_total_max_bytes": 47185920,
+  "public_total_max_bytes": 23068672
 }

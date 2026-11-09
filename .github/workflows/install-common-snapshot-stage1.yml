@@ -103,6 +103,7 @@ jobs:
             echo "Stage 1 is already installed and products are unchanged."
             exit 0
           fi
+          python scripts/repo_storage_guard.py
           git commit -m "Install harmonized maritime common snapshot Stage 1"
           for attempt in 1 2 3; do
             if git pull --rebase --autostash origin main && git push origin HEAD:main; then
@@ -112,3 +113,4 @@ jobs:
             [ "$attempt" -lt 3 ] && sleep 12
           done
           exit 1
+

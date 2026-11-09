@@ -63,7 +63,7 @@ def main() -> int:
         ("voi_list_latest.json", "VOI list — JSON", "voi", "Machine-readable current priority VOI list."),
         ("voi_list_latest.csv", "VOI list — CSV", "voi", "Tabular current priority VOI list."),
         ("voi_list_latest.md", "VOI list — Markdown", "voi", "Readable current priority VOI list."),
-        ("voi_history_14d_manifest.json", "Complete 14-day VOI history — shard manifest", "voi_history", "Index of the complete retained 14-day VOI history. Each listed JSONL shard stays below the static-hosting safety limit."),
+        ("voi_history_14d_manifest.json", "Bounded 14-day VOI history — shard manifest", "voi_history", "Index of retained observations from at most fourteen days, bounded by total byte limits. Capacity metadata reports sampling."),
         ("infrastructure_watch_latest.json", "Infrastructure Watch — JSON", "infrastructure", "Machine-readable review events and assessment metadata."),
         ("infrastructure_watch_latest.csv", "Infrastructure Watch — CSV", "infrastructure", "Tabular infrastructure proximity review events."),
         ("infrastructure_watch_latest.md", "Infrastructure Watch — Markdown", "infrastructure", "Readable infrastructure proximity assessment."),

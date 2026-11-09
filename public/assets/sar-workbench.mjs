@@ -1,15 +1,21 @@
 import {encryptObject,decryptObject,validatePassword} from './sar-crypto.mjs';
-import {inspectBbox,normalizeScene,safeImage,stateText,STATES} from './sar-workbench-core.mjs';
+import {inspectBbox,normalizeScene,safeImage,stateText,STATES,eventFromHash} from './sar-workbench-core.mjs?v=20261109-sources-retention';
+import {readWorkspaceFile} from './sar-import.mjs';
 
 const $=id=>document.getElementById(id),RAW='https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/main/public/data/sar/workbench.enc.json';
-const state={password:'',workspace:{v:1,jobs:[],analysis_ledger:{}},scenes:[],selected:null,currentJob:null,currentCandidate:null,map:null,mapLayers:null,bounds:null,config:null};
-const ERRORS={COPERNICUS_CREDENTIALS_MISSING:'Die Copernicus-Zugangsdaten fehlen in den GitHub Secrets.',NO_SUITABLE_SCENE:'Im gewählten Zeitraum ist keine passende vollständige Aufnahme verfügbar.',DAILY_ANALYSIS_LIMIT:'Heute wurden bereits drei neue Bildauswertungen angefordert. Kontextprüfungen vorhandener Bilder bleiben möglich.',REQUEST_EXPIRED:'Der Auftrag ist älter als 24 Stunden. Erzeuge einen neuen Auftrag.',REQUEST_ALREADY_COMPLETED:'Dieser Auftrag wurde schon verarbeitet.',DANISH_ARCHIVE_UNAVAILABLE:'Das dänische Tagesarchiv ist noch nicht verfügbar.',LAND_MASK_CHECKSUM:'Die Landmasken-Datei hat sich geändert. Die Verarbeitung wurde zur Prüfung angehalten.',NO_OPEN_WATER_PIXELS:'Land und Küstenpuffer bedecken den gesamten Ausschnitt. Wähle ein Gebiet weiter auf See.',PilotError:'Copernicus-Antwort oder Bildqualität hat die Verarbeitungskontrolle nicht bestanden. Prüfe Zugangsdaten und versuche eine andere Aufnahme.',RASTER_GEOREFERENCE_MISMATCH:'Die Georeferenz des Radarbildes passt nicht zum angeforderten Ausschnitt. Das Bild wurde verworfen.'};
+const state={password:'',workspace:{v:1,jobs:[],analysis_ledger:{}},scenes:[],selected:null,currentJob:null,currentCandidate:null,map:null,mapLayers:null,bounds:null,config:null,event:null};
+const ERRORS={EVENT_PERIOD_OUTSIDE_RETENTION:'Der Ereigniszeitraum liegt außerhalb der letzten vierzehn Tage. Öffne das Loitering-Ereignis erneut.',EVENT_PERIOD_INVALID:'Der Ereigniszeitraum ist ungültig.',COPERNICUS_CREDENTIALS_MISSING:'Die Copernicus-Zugangsdaten fehlen in den GitHub Secrets.',NO_SUITABLE_SCENE:'Im gewählten Zeitraum ist keine passende vollständige Aufnahme verfügbar.',DAILY_ANALYSIS_LIMIT:'Heute wurden bereits drei neue Bildauswertungen angefordert. Kontextprüfungen vorhandener Bilder bleiben möglich.',REQUEST_EXPIRED:'Der Auftrag ist älter als 24 Stunden. Erzeuge einen neuen Auftrag.',REQUEST_ALREADY_COMPLETED:'Dieser Auftrag wurde schon verarbeitet.',DANISH_ARCHIVE_UNAVAILABLE:'Das dänische Tagesarchiv ist noch nicht verfügbar.',LAND_MASK_CHECKSUM:'Die Landmasken-Datei hat sich geändert. Die Verarbeitung wurde zur Prüfung angehalten.',NO_OPEN_WATER_PIXELS:'Land und Küstenpuffer bedecken den gesamten Ausschnitt. Wähle ein Gebiet weiter auf See.',PilotError:'Copernicus-Antwort oder Bildqualität hat die Verarbeitungskontrolle nicht bestanden. Prüfe Zugangsdaten und versuche eine andere Aufnahme.',RASTER_GEOREFERENCE_MISMATCH:'Die Georeferenz des Radarbildes passt nicht zum angeforderten Ausschnitt. Das Bild wurde verworfen.'};
 
 function element(tag,text,className){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e;}
 function status(id,text,error=false){$(id).textContent=text;$(id).classList.toggle('error',error);}
 function fmtDate(value){const d=new Date(value);return Number.isFinite(+d)?new Intl.DateTimeFormat('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'UTC'}).format(d)+' UTC':'Zeit unbekannt';}
 function download(name,payload,type='application/json'){const url=URL.createObjectURL(new Blob([typeof payload==='string'?payload:JSON.stringify(payload,null,2)],{type}));const link=element('a');link.href=url;link.download=name;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 function bbox(){return $('area').value==='custom'?['west','south','east','north'].map(id=>Number($(id).value)):state.config.areas.find(a=>a.id===$('area').value).bbox.slice();}
+function applyEvent(){
+  if(!state.event)return;
+  $('event-context').hidden=false;$('event-description').textContent=`GFW-Loitering: ${state.event.name||state.event.mmsi||'Identität offen'} · ${fmtDate(state.event.start)} bis ${fmtDate(state.event.end)}. Suche im 10 × 10 km Ausschnitt um die Ereignis-Referenzposition; das ist nicht die gesamte beobachtete Fahrtfläche.`;
+  $('area').value='custom';for(const [i,id] of ['west','south','east','north'].entries())$(id).value=state.event.bbox[i];$('days').disabled=true;updateArea();
+}
 function updateArea(){
   $('custom-bbox').hidden=$('area').value!=='custom';state.selected=null;$('analyse').disabled=true;
   $('selected-scene').textContent='Wähle zuerst eine passende Radaraufnahme.';
@@ -43,8 +49,8 @@ async function unlock(event){
     const workspace=envelope?await decryptObject(envelope,password,'workspace'):{v:1,jobs:[],analysis_ledger:{}};
     if(workspace.v!==1||!Array.isArray(workspace.jobs))throw new Error('Ungültige Sitzung.');
     state.password=password;state.workspace=workspace;$('password').value='';$('gate').hidden=true;$('workspace').hidden=false;$('lock').hidden=false;
-    initMap();setTimeout(()=>state.map?.invalidateSize(),0);updateArea();renderJobs();
-    status('workspace-status',envelope?`Ablage geöffnet · ${fmtDate(workspace.updated_at)}`:'Noch keine gespeicherte Datei. Das Passwort wird beim ersten GitHub-Auftrag geprüft.');
+    initMap();setTimeout(()=>state.map?.invalidateSize(),0);updateArea();renderJobs();applyEvent();
+    status('workspace-status',envelope?`Ablage geöffnet · ${fmtDate(workspace.updated_at)}`:'Noch keine Sitzung geöffnet. Das Passwort wird beim ersten GitHub-Auftrag geprüft. Ergebnisse als verschlüsseltes GitHub-Artefakt herunterladen und über Sicherung öffnen laden.');
   }catch{status('unlock-status','Öffnen nicht möglich. Prüfe Passwort und Verbindung; gespeicherte Daten werden nicht verändert.',true);}
   finally{$('unlock-submit').disabled=false;}
 }
@@ -67,10 +73,10 @@ function showScenes(){
 }
 async function search(){
   $('search').disabled=true;status('catalog-status','Copernicus-Katalog wird durchsucht …');$('search-via-github').hidden=true;
-  try{const box=bbox();inspectBbox(box,state.config);const end=new Date(),start=new Date(+end-Number($('days').value)*86400000);
+  try{const box=bbox();inspectBbox(box,state.config);const end=state.event?new Date(state.event.end):new Date(),start=state.event?new Date(state.event.start):new Date(+end-Number($('days').value)*86400000);
     const url=new URL('https://stac.dataspace.copernicus.eu/v1/collections/sentinel-1-grd/items');url.search=new URLSearchParams({bbox:box.join(','),datetime:`${start.toISOString()}/${end.toISOString()}`,limit:'40'});
     const payload=await readJson(url);if(!Array.isArray(payload?.features))throw new Error('Der Katalog hat keine verwertbare Antwort geliefert.');
-    state.scenes=payload.features.map(f=>normalizeScene(f,box)).filter(Boolean).sort((a,b)=>Date.parse(b.datetime)-Date.parse(a.datetime));
+    state.scenes=payload.features.map(f=>normalizeScene(f,box)).filter(s=>s&&Date.parse(s.datetime)>=+start&&Date.parse(s.datetime)<=+end).sort((a,b)=>Date.parse(b.datetime)-Date.parse(a.datetime));
     state.scenes=[...new Map(state.scenes.map(s=>[s.scene_id,s])).values()];state.selected=null;$('analyse').disabled=true;showScenes();
     const suitable=state.scenes.filter(s=>s.processable).length,truncated=(payload.links||[]).some(l=>l.rel==='next');
     status('catalog-status',state.scenes.length?`${state.scenes.length} Aufnahmen · ${suitable} geeignet.${truncated?' Anzeige begrenzt; verkürze bei Bedarf den Zeitraum.':''}`:'Keine passende Aufnahme in diesem Zeitraum gefunden. Vergrößere den Zeitraum oder verschiebe das Gebiet.');
@@ -82,6 +88,7 @@ async function dispatch(action,previous=null){
   try{if(!state.password)throw new Error('Bitte den Arbeitsplatz zuerst öffnen.');const box=previous?previous.request.bbox:bbox();inspectBbox(box,state.config);
     if(action==='analyse'&&!state.selected)throw new Error('Wähle zuerst eine geeignete Aufnahme.');
     const request={v:1,id:crypto.randomUUID(),created_at:new Date().toISOString(),action,area_id:previous?previous.request.area_id:$('area').value,bbox:box,days:previous?previous.request.days:Number($('days').value),scene_id:previous?previous.scene.scene_id:state.selected?.scene_id||'latest',gfw_context:$('gfw-context').checked,danish_ais:$('danish-ais').checked};
+    if(state.event&&!previous)Object.assign(request,{range_from:state.event.start,range_to:state.event.end,event_id:state.event.event_id});
     if(action==='refresh_context')request.gfw_context=true;
     $('request-envelope').value=JSON.stringify(await encryptObject(request,state.password,'request'));
     $('dispatch-title').textContent=action==='search'?'Katalogsuche bei GitHub starten':action==='refresh_context'?'Historischen AIS-Kontext erneut prüfen':'Diese Aufnahme bei GitHub auswerten';
@@ -149,25 +156,18 @@ function selectCandidate(feature,index){
   for(const row of $('candidate-rows').children)row.classList.toggle('selected',row.dataset.id===props.detection_id);
 }
 function saveNote(){if(!state.currentJob||!state.currentCandidate)return;state.currentJob.analyst_review||={};state.currentJob.analyst_review[state.currentCandidate.properties.detection_id]={disposition:$('review-disposition').value,note:$('review-note').value.slice(0,2000),updated_at:new Date().toISOString()};}
-async function refresh(){
-  $('refresh').disabled=true;status('workspace-status','Verschlüsselte Ergebnisse werden geladen …');
-  try{const envelope=await getEnvelope();if(!envelope){status('workspace-status','Noch kein gespeichertes Ergebnis. Prüfe, ob der GitHub-Lauf abgeschlossen ist.');return;}
-    const latest=await decryptObject(envelope,state.password,'workspace');if(latest.v!==1||!Array.isArray(latest.jobs))throw new Error('Ungültige Ablage.');
-    for(const job of latest.jobs){const local=state.workspace.jobs.find(j=>j.request_id===job.request_id)||state.workspace.jobs.find(j=>j.scene?.scene_id===job.scene?.scene_id&&JSON.stringify(j.request?.bbox)===JSON.stringify(job.request?.bbox));if(local?.analyst_review)job.analyst_review=local.analyst_review;}
-    state.workspace=latest;renderJobs();status('workspace-status',`Ergebnisse aktualisiert · ${fmtDate(latest.updated_at)}`);
-  }catch{status('workspace-status','Ergebnisse konnten nicht entschlüsselt werden. Prüfe Verbindung und Passwort.',true);}
-  finally{$('refresh').disabled=false;}
-}
-
 $('unlock-form').addEventListener('submit',unlock);$('lock').addEventListener('click',lock);
 $('show-password').addEventListener('click',()=>{const shown=$('password').type==='password';$('password').type=shown?'text':'password';$('show-password').textContent=shown?'Verbergen':'Anzeigen';});
 $('area').addEventListener('change',updateArea);for(const id of ['west','south','east','north'])$(id).addEventListener('change',updateArea);
 $('search').addEventListener('click',search);$('analyse').addEventListener('click',()=>dispatch('analyse'));$('search-via-github').addEventListener('click',()=>dispatch('search'));
-$('context-refresh').addEventListener('click',()=>dispatch('refresh_context',state.currentJob));$('refresh').addEventListener('click',refresh);$('job-select').addEventListener('change',renderJob);
+$('context-refresh').addEventListener('click',()=>dispatch('refresh_context',state.currentJob));$('refresh').addEventListener('click',()=>{window.open('https://github.com/mowlsint/VoodooWhiskers/actions/workflows/sar-workbench.yml','_blank','noopener,noreferrer');status('workspace-status','Abgeschlossenen Lauf öffnen → Artefakt sar-workbench-encrypted herunterladen → hier Sicherung öffnen. Die ZIP-Datei kann direkt geöffnet werden.');});$('job-select').addEventListener('change',renderJob);
 $('fit-map').addEventListener('click',()=>{if(state.bounds)setBounds(state.bounds);});$('review-disposition').addEventListener('change',saveNote);$('review-note').addEventListener('input',saveNote);
 $('close-dispatch').addEventListener('click',()=>$('dispatch-dialog').close());$('copy-request').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('request-envelope').value);status('copy-status','Auftrag kopiert. Jetzt GitHub öffnen und in encrypted_request einfügen.');}catch{$('request-envelope').focus();$('request-envelope').select();status('copy-status','Bitte den markierten Auftrag mit Strg+C kopieren.');}});
 $('download-geojson').addEventListener('click',()=>{if(state.currentJob?.context)download('sar-kandidaten.geojson',state.currentJob.context,'application/geo+json');});
 $('export-session').addEventListener('click',async()=>{try{download('sar-sitzung-verschluesselt.json',await encryptObject(state.workspace,state.password,'workspace'));}catch{status('workspace-status','Sicherung konnte nicht erstellt werden.',true);}});
-$('import-session').addEventListener('change',async e=>{try{const file=e.target.files[0];if(!file)return;if(file.size>24*1024*1024)throw new Error();const data=await decryptObject(JSON.parse(await file.text()),state.password,'workspace');if(data.v!==1||!Array.isArray(data.jobs))throw new Error();state.workspace=data;renderJobs();status('workspace-status','Verschlüsselte Sitzung geöffnet.');}catch{status('workspace-status','Sicherung konnte mit diesem Passwort nicht geöffnet werden.',true);}finally{e.target.value='';}});
+$('import-session').addEventListener('change',async e=>{try{const file=e.target.files[0];if(!file)return;if(file.size>24*1024*1024)throw new Error();const data=await decryptObject(await readWorkspaceFile(file),state.password,'workspace');if(data.v!==1||!Array.isArray(data.jobs))throw new Error();for(const job of data.jobs){const local=state.workspace.jobs.find(j=>j.request_id===job.request_id)||state.workspace.jobs.find(j=>j.scene?.scene_id===job.scene?.scene_id&&JSON.stringify(j.request?.bbox)===JSON.stringify(job.request?.bbox));if(local?.analyst_review)job.analyst_review=local.analyst_review;}state.workspace=data;renderJobs();status('workspace-status','Verschlüsselte Sitzung geöffnet.');}catch{status('workspace-status','Sicherung konnte mit diesem Passwort nicht geöffnet werden.',true);}finally{e.target.value='';}});
 
 try{state.config=await readJson('./assets/sar-workbench-config.json');for(const area of state.config.areas){const option=element('option',area.name);option.value=area.id;$('area').append(option);}const custom=element('option','Eigenen Ausschnitt wählen');custom.value='custom';$('area').append(custom);}catch{status('unlock-status','Konfiguration konnte nicht geladen werden. Bitte lade die Seite erneut.',true);$('unlock-submit').disabled=true;}
+
+state.event=eventFromHash(location.hash,state.config);
+$('clear-event').addEventListener('click',()=>{state.event=null;$('event-context').hidden=true;$('days').disabled=false;history.replaceState(null,'',location.pathname);});

@@ -166,8 +166,9 @@ def test_new_workflow_only_publishes_ciphertext_and_has_no_schedule():
     assert set(workflow['on'])=={'workflow_dispatch'}
     text=path.read_text()
     assert "github.actor == github.repository_owner" in text
-    assert 'git add -- "$result"' in text and 'git add public' not in text
-    assert 'actions/upload-artifact' not in text
+    assert 'git commit' not in text and 'git add' not in text
+    assert 'actions/upload-artifact@v4' in text and 'retention-days: 14' in text
+    assert 'sar-workbench-encrypted' in text and 'actions: write' in text
     assert 'SAR_WORKBENCH_PASSWORD: ${{ secrets.SAR_WORKBENCH_PASSWORD }}' in text
 
 

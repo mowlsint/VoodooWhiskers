@@ -14,6 +14,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
+from data_retention import bound_gfw
+from vessel_identity import resolve as resolve_vessel_rows
 from voi_history import (
     history_jsonl_paths,
     history_key,
@@ -282,8 +284,35 @@ def build_bounded_history(snapshot_generated: datetime | None) -> dict[str, Any]
                         continue
                 by_key[key] = (dt, key, item)
 
+    # Add direct-feed observations to the same VOI timeline; source switches must not split ships.
+    archive_path=ROOT/'data/history/maritime_source_history_21d.jsonl'
+    if archive_path.exists() and archive_path.stat().st_size<=24*1024*1024:
+        anchors=[entry[2] for entry in by_key.values()]
+        if SNAPSHOT_PATH.exists():anchors.extend(json.loads(SNAPSHOT_PATH.read_text()).get('items') or [])
+        archive=[]
+        for line in archive_path.read_text().splitlines():
+            try:row=json.loads(line)
+            except ValueError:continue
+            if isinstance(row,dict) and row.get('timestamp_valid') is True:archive.append(row)
+        combined=resolve_vessel_rows([*anchors,*archive]);classifications={}
+        fields=('categories','is_priority_voi','known_voi_match','neutral_tanker_context','sanctioned','shadow_fleet','false_flag','behavioral_voi','source_list','source_url')
+        for row in combined[:len(anchors)]:
+            if row.get('vessel_identity') and (row.get('is_priority_voi') or PRIORITY_CATEGORIES.intersection(row.get('categories') or [])):
+                classifications[row['vessel_identity']]={k:row[k] for k in fields if k in row}
+        for raw in combined[len(anchors):]:
+            context=classifications.get(raw.get('vessel_identity'));dt=parse_dt(raw.get('observed_at'))
+            if not context or raw.get('identity_conflict') or not dt or not cutoff<=dt<=future_limit:continue
+            item=normalize_item({**context,**raw,'source_provider':raw.get('provider'),'last_seen_utc':raw.get('observed_at'),'position_timestamp_valid':True,'position_timestamp_basis':'source_timestamp'},snapshot_generated)
+            if not item.get('data_quality',{}).get('has_valid_position'):continue
+            key=history_key(item);item['_history_key']=key;by_key[key]=(dt,key,item)
+
     rows = sorted(by_key.values(), key=lambda entry: (entry[0], entry[1]))
+    rows, total_capacity = select_balanced_history(rows,max_bytes=int(HISTORY_POLICY.get("public_total_max_bytes",22*1024*1024)))
     selected, compatibility = select_balanced_history(rows, max_bytes=max_bytes)
+    compatibility['complete_time_window']=bool(compatibility['complete_time_window'] and total_capacity['complete_time_window'])
+    compatibility['dropped_rows']=compatibility.get('dropped_rows',0)+total_capacity.get('dropped_rows',0)
+    compatibility['total_identities']=total_capacity['total_identities']
+    compatibility['identity_coverage_percent']=round(100*compatibility['covered_identities']/max(1,total_capacity['total_identities']),2)
     output = "".join(json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\n" for _dt, _key, row in selected)
     atomic_text(VESSEL_DIR / HISTORY_POLICY["public_filename"], output)
 
@@ -299,13 +328,15 @@ def build_bounded_history(snapshot_generated: datetime | None) -> dict[str, Any]
         manifest_filename=HISTORY_POLICY["public_shard_manifest"],
         metadata={
             "source_quality": stats,
+            "complete_time_window":total_capacity["complete_time_window"],
+            "total_capacity":total_capacity,
             "compatibility": {
                 **compatibility,
                 "filename": HISTORY_POLICY["public_filename"],
                 "max_bytes": max_bytes,
                 "note": HISTORY_POLICY.get("compatibility_note"),
             },
-            "note": "All valid retained rows are present in the shards. The single compatibility file is a bounded analytical sample when necessary.",
+            "note": "Fourteen-day history within the total byte budget. Capacity metadata reports any size sampling.",
         },
     )
     download_manifest = json.loads(json.dumps(full_manifest))
@@ -341,7 +372,7 @@ def build_bounded_history(snapshot_generated: datetime | None) -> dict[str, Any]
             "max_part_bytes": full_manifest["max_part_bytes"],
             "oldest": full_manifest["oldest"],
             "newest": full_manifest["newest"],
-            "complete_time_window": True,
+            "complete_time_window":total_capacity["complete_time_window"],
         },
     })
     return stats
@@ -710,6 +741,9 @@ def main() -> int:
                 raise ValueError(f"Invalid historical GFW product: {filename}")
             if src.stat().st_size > 25*1024*1024:
                 raise ValueError(f"Oversized GFW context product: {filename}")
+            if filename!='gfw_context_status_latest.json':
+                content=bound_gfw(content,'events' if 'events' in filename else 'presence')
+                atomic_json(src,content)
             atomic_json(VESSEL_DIR / filename, content)
             atomic_json(DOWNLOAD_DIR / filename, content)
 

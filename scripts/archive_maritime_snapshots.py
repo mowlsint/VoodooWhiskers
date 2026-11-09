@@ -9,6 +9,7 @@ import json, math, os, tempfile
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable
+from vessel_identity import resolve
 
 ROOT=Path(__file__).resolve().parents[1]
 DATA=ROOT/'data'
@@ -98,13 +99,13 @@ def coverage_time(payload,records):
   if d:return d,key
  vals=[parse_dt(r.get('observed_at')) for r in records];vals=[v for v in vals if v]
  return (max(vals),'max_normalized_observation') if vals else (None,None)
-def pos_key(r):return (r.get('provider'),r.get('identity_key'),r.get('observed_at'),round(float(r['latitude']),6),round(float(r['longitude']),6))
+def pos_key(r):return (r.get('provider'),r.get('vessel_identity') or r.get('identity_key'),r.get('observed_at'),round(float(r['latitude']),6),round(float(r['longitude']),6))
 def cov_key(r):return (r.get('provider'),r.get('coverage_at'),r.get('source_generated_at'))
 
 def main():
  cfg=json.loads(CONFIG_PATH.read_text(encoding='utf-8')) if CONFIG_PATH.exists() else {}
- keep=max(7,int(os.environ.get('COMMON_HISTORY_RETENTION_DAYS',cfg.get('history_retention_days',21))))
- max_bytes=max(1_000_000,int(os.environ.get('COMMON_HISTORY_MAX_BYTES',cfg.get('history_max_bytes',23068672))))
+ keep=min(14,max(1,int(os.environ.get('COMMON_HISTORY_RETENTION_DAYS',cfg.get('history_retention_days',14)))))
+ max_bytes=min(23068672,max(1_000_000,int(os.environ.get('COMMON_HISTORY_MAX_BYTES',cfg.get('history_max_bytes',23068672)))))
  now=utc_now();cutoff=now-timedelta(days=keep)
  positions=read_jsonl(HISTORY_PATH);coverages=read_jsonl(COVERAGE_PATH);source_status={};added=0
  for provider,path in SOURCE_FILES.items():
@@ -120,7 +121,8 @@ def main():
       'coverage_at':iso_z(cov) if cov else None,'coverage_basis':cov_basis,'records_seen':len(records)}
   except Exception as exc:source_status[provider]={'ok':False,'reason':f'{type(exc).__name__}: {exc}','path':str(path.relative_to(ROOT))}
  pos_dedup={};dropped_old=0
- for r in positions:
+ for r in resolve(positions):
+  r['identity_key']=r.get('vessel_identity') or r.get('identity_key')
   d=parse_dt(r.get('observed_at'))
   if not d or d<cutoff or d>now+timedelta(days=1):dropped_old+=1;continue
   pos_dedup[pos_key(r)]=r

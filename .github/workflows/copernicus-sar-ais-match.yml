@@ -429,6 +429,7 @@ jobs:
           if not staged or unexpected:
               raise SystemExit(f'Unexpected staged path(s): {sorted(unexpected)}')
           PY
+          python scripts/repo_storage_guard.py
           git commit -m "Add Copernicus SAR Phase 4 historical AIS match"
           for attempt in 1 2 3; do
             if git pull --rebase --autostash origin main && git push origin HEAD:main; then
@@ -439,3 +440,4 @@ jobs:
           done
           echo "::error::Failed to push Phase 4 audit outputs after 3 attempts."
           exit 1
+

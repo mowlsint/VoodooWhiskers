@@ -112,6 +112,7 @@ jobs:
             echo "::error::Unexpected staged path(s): ${staged}"
             exit 1
           fi
+          python scripts/repo_storage_guard.py
           git commit -m "Update Copernicus SAR catalogue pilot status"
           for attempt in 1 2 3; do
             if git pull --rebase --autostash origin main && git push origin HEAD:main; then
@@ -122,3 +123,4 @@ jobs:
           done
           echo "::error::Failed to push the Copernicus SAR pilot status after 3 attempts."
           exit 1
+
