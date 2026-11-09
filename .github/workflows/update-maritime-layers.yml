@@ -1,8 +1,9 @@
 name: Update maritime layers
 
 on:
-  # LOW ACTIONS MODE 2026-08-27: automatic triggers are paused.
-  # Restore details: docs/operations/AUTOMATIC_ACTIONS_PAUSE_2026-08-27.md
+  # Owner-authorized collection windows; all cron times are UTC.
+  schedule:
+    - cron: "0 4,12,20 * * *"
   workflow_dispatch:
 
 permissions:

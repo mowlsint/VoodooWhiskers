@@ -1,6 +1,10 @@
 name: Probe GFW common AIS presence
 
 on:
+  # Delayed historical presence and events need one refresh per UTC day.
+  # Stagger after the 04:00 AIS window; shared concurrency serializes writes.
+  schedule:
+    - cron: "20 4 * * *"
   workflow_dispatch:
 
 permissions:
