@@ -6,6 +6,7 @@ This file applies to the entire repository.
 
 - Communicate task summaries and decisions to the repository owner in German unless the owner requests another language.
 - Keep code identifiers, schemas, filenames, and existing technical terminology in their established language.
+- All maintained user-interface copy must be English, including dialogs, popups, tooltips, accessibility labels, status/error messages and embedded help. Preserve original provider content, vessel/place names and analyst-entered notes.
 - Prefer small, reviewable changes. Do not refactor unrelated areas.
 
 ## Repository role

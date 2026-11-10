@@ -1,11 +1,11 @@
-export const STATES={MATCHED:'Zuordnung plausibel',POSSIBLE_MATCH:'Mögliche Zuordnung',AMBIGUOUS:'Mehrdeutig',UNMATCHED_IN_AVAILABLE_AIS:'Kein Treffer im verfügbaren AIS',NO_AIS_COVERAGE:'AIS-Abdeckung fehlt'};
+export const STATES={MATCHED:'Plausible association',POSSIBLE_MATCH:'Possible association',AMBIGUOUS:'Ambiguous',UNMATCHED_IN_AVAILABLE_AIS:'No match in available AIS',NO_AIS_COVERAGE:'No AIS coverage'};
 export function inspectBbox(bbox,cfg){
-  if(!Array.isArray(bbox)||bbox.length!==4||bbox.some(v=>typeof v!=='number'||!Number.isFinite(v)))throw new Error('Bitte vier gültige Koordinaten eingeben.');
+  if(!Array.isArray(bbox)||bbox.length!==4||bbox.some(v=>typeof v!=='number'||!Number.isFinite(v)))throw new Error('Enter four valid coordinates.');
   const [w,s,e,n]=bbox;
-  if(!(w>=-25&&w<e&&e<=35&&s>=48&&s<n&&n<=80))throw new Error('Der Ausschnitt muss in Nordsee, Ostsee oder angrenzenden nordeuropäischen Seegebieten liegen.');
+  if(!(w>=-25&&w<e&&e<=35&&s>=48&&s<n&&n<=80))throw new Error('The area must be in the North Sea, Baltic Sea or adjacent northern European waters.');
   const width=(e-w)*111320*Math.cos((s+n)/2*Math.PI/180),height=(n-s)*111320,area=width*height/1e6;
   const widthPx=Math.max(64,Math.ceil(width/cfg.pixel_spacing_m)),heightPx=Math.max(64,Math.ceil(height/cfg.pixel_spacing_m));
-  if(area>cfg.max_area_km2||Math.max(widthPx,heightPx)>cfg.max_dimension_px||Math.min(width,height)<1000)throw new Error(`Bitte einen kleineren Ausschnitt wählen: höchstens ${cfg.max_area_km2} km² und etwa 25 km je Seite, mindestens 1 km je Seite.`);
+  if(area>cfg.max_area_km2||Math.max(widthPx,heightPx)>cfg.max_dimension_px||Math.min(width,height)<1000)throw new Error(`Choose a smaller area: at most ${cfg.max_area_km2} km² and about 25 km per side, with at least 1 km per side.`);
   return {area,widthPx,heightPx};
 }
 function inRing([x,y],ring){let inside=false;for(let i=0;i+1<ring.length;i++){const [x1,y1]=ring[i],[x2,y2]=ring[i+1];if((y1>y)!==(y2>y)&&x<(x2-x1)*(y-y1)/(y2-y1)+x1)inside=!inside;}return inside;}
@@ -21,7 +21,7 @@ export function normalizeScene(feature,bbox,now=Date.now()){
   return {item_id:id,scene_id:id.replace(/_COG$/,''),datetime:dt,platform:p.platform||id.slice(0,3),orbit_direction:p['sat:orbit_state'],footprint:feature.geometry,covers_aoi:covers,processable:covers&&['ascending','descending'].includes(p['sat:orbit_state']),gfw_delay_elapsed:now-time>=5*86400000};
 }
 export function safeImage(value){return typeof value==='string'&&value.length<3*1024*1024&&/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(value)?value:'';}
-export function stateText(state){return STATES[state]||'Noch nicht geprüft';}
+export function stateText(state){return STATES[state]||'Not yet reviewed';}
 
 export function eventFromHash(hash,cfg,now=Date.now()){
   if(!hash.startsWith('#event=')||hash.length>3000)return null;
