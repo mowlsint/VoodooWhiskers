@@ -36,6 +36,16 @@ jobs:
           set -euo pipefail
           pip install -r requirements-ais.txt
 
+      - name: Check AIS collector imports without provider calls
+        run: |
+          python - <<'PYTHON'
+          import sys
+          sys.path.insert(0, "scripts")
+          import collect_ais
+          import merge_ais_contacts
+          print("AIS collector import check passed; no provider requests made.")
+          PYTHON
+
       - name: Refresh official vessel designations at most once per day
         continue-on-error: true
         run: python scripts/refresh_sanctions.py --fetch
