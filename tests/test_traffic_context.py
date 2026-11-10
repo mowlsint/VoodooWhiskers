@@ -129,6 +129,38 @@ def test_combined_job_keeps_background_out_of_monitored_contacts(tmp_path,monkey
     assert json.loads(target.read_text())["providers"]["openwaters"]["state"]=="partial"
 
 
+def test_combined_job_recovers_usable_interrupted_openwaters_sample(tmp_path, monkeypatch):
+    context = traffic.TrafficContext(NOW)
+    target = tmp_path / "traffic.json"
+    original_publish = context.publish
+    context.publish = lambda monitored: original_publish(monitored, path=target)
+    monkeypatch.setattr(collect_ais, "TrafficContext", lambda: context)
+    monkeypatch.setenv("OPENWATERS_TOKEN", "offline-token")
+
+    async def collect(cfg, token):
+        return [([row(1), row(2)], {"id": "stream_1", "ok": False,
+                                     "no_events": False, "usable_partial": True}),
+                ([], {"id": "stream_2", "ok": False, "no_events": True})]
+
+    def regional_main(context_sink=None):
+        context_sink("fintraffic", [row(3)])
+        return 0
+
+    monkeypatch.setattr(collect_ais.ow, "collect", collect)
+    monkeypatch.setattr(collect_ais.ow, "publish", lambda results: 1)
+    monkeypatch.setattr(collect_ais.regional, "main", regional_main)
+    import merge_ais_contacts as broker
+    output = tmp_path / "monitored.json"
+    output.write_text(json.dumps({"contacts": [row(1)]}))
+    monkeypatch.setattr(broker, "OUTPUT_PATH", output)
+    monkeypatch.setattr(broker, "main", lambda: 0)
+
+    assert asyncio.run(collect_ais.run()) == 0
+    pack = json.loads(target.read_text())
+    assert {r["mmsi"] for r in unpack(pack)} == {"200000002", "200000003"}
+    assert pack["providers"]["openwaters"]["state"] == "partial"
+
+
 def test_browser_context_model_guards_and_clustering(tmp_path):
     context=traffic.TrafficContext(NOW)
     context.add_source("openwaters",[row(1,imo="9179842",upstream_source="<img src=x onerror=alert(1)>"),row(2)])
