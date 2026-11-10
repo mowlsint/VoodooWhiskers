@@ -154,6 +154,59 @@ def test_partial_success_preserves_other_stream_and_static_identity(tmp_path, mo
     assert by_mmsi[second['mmsi']]['last_seen_utc']==second['last_seen_utc']
 
 
+def test_late_websocket_disconnect_keeps_valid_bounded_sample():
+    class ConnectionClosedError(Exception):
+        pass
+
+    class Socket:
+        def __init__(self):
+            self.frames = iter([{"type": "welcome", "limits": {"area": 400, "rate": 50}},
+                                event(id="fresh", time=datetime.now(timezone.utc).isoformat())])
+
+        async def __aenter__(self): return self
+        async def __aexit__(self, *args): return False
+        async def send(self, message): pass
+
+        async def recv(self):
+            try:
+                return json.dumps(next(self.frames))
+            except StopIteration:
+                await asyncio.sleep(.25)
+                raise ConnectionClosedError("never persist provider exception detail")
+
+    rows, status = asyncio.run(ow.collect_stream({"id": "stream_1", "boxes": [[0, 0, 1, 1]]},
+                                                   "test-token", .4, connect=lambda *a, **k: Socket()))
+    assert len(rows) == 1
+    assert status["errors"] == ["ConnectionClosedError"]
+    assert not status["ok"] and status["usable_partial"]
+    assert ow.stream_publishable(rows, status)
+    assert "never persist" not in json.dumps(status)
+
+
+def test_partial_disconnect_publishes_but_keeps_health_degraded(tmp_path, monkeypatch):
+    monkeypatch.setattr(ow, "filter_contacts", lambda rows, provider: list(rows))
+    now = datetime.now(timezone.utc).isoformat()
+    row = {"mmsi": "273123456", "latitude": 54.5, "longitude": 12.1,
+           "last_seen_utc": now, "position_timestamp_valid": True, "stream_id": "stream_1"}
+    status1 = {"id": "stream_1", "ok": False, "no_events": False,
+               "usable_partial": True, "errors": ["ConnectionClosedError"]}
+    status2 = {"id": "stream_2", "ok": False, "no_events": True, "errors": ["RuntimeError"]}
+    output, status_path = tmp_path / "ais.json", tmp_path / "status.json"
+    assert ow.publish([([row], status1), ([], status2)], output=output, status_path=status_path) == 1
+    assert json.loads(output.read_text())["contacts"][0]["mmsi"] == row["mmsi"]
+    health = json.loads(status_path.read_text())
+    assert not health["ok"] and health["partial"] and health["retained_previous_on_failure"]
+    assert health["published_streams"] == ["stream_1"]
+    assert health["degraded_streams"] == ["stream_1"]
+
+    # Even a nonempty row must not bypass a fatal provider error.
+    status1["usable_partial"] = False
+    status1["errors"] = ["provider_error_frame"]
+    original = output.read_text()
+    assert ow.publish([([row], status1), ([], status2)], output=output, status_path=status_path) == 1
+    assert output.read_text() == original
+
+
 def test_sar_sparse_history_and_gfw_cannot_establish_full_coverage():
     payload = candidates()
     grid = {"records": [{"record_type": "ais_presence_grid", "latitude": 54.5, "longitude": 12.1,
