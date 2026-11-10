@@ -30,8 +30,8 @@ def validate_config(cfg):
     streams = cfg.get("streams")
     if not isinstance(streams, list) or len(streams) != 2:
         raise ValueError("exactly two streams required")
-    if not 120 <= float(cfg.get("sample_seconds", 0)) <= 300:
-        raise ValueError("sample_seconds must be between 120 and 300")
+    if not 120 <= float(cfg.get("sample_seconds", 0)) <= 1200:
+        raise ValueError("sample_seconds must be between 120 and 1200")
     areas = []
     for stream in streams:
         boxes = stream.get("boxes")
