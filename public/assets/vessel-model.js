@@ -1,7 +1,7 @@
 /* Shared, dependency-free source and identity model. Coordinates never imply continuity. */
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.VesselModel=api;})(globalThis,()=>{
   'use strict';
-  const SOURCES={openwaters:{label:'Open Waters',color:'#4da3ff'},fintraffic:{label:'Finnland · Fintraffic',color:'#39d3df'},barentswatch:{label:'Norwegen · BarentsWatch',color:'#61d29a'},ais_dk_historical:{label:'Dänemark · historisches AIS',color:'#ffb44e'},global_fishing_watch:{label:'GFW · historischer Kontext',color:'#c8a1ff'},unknown:{label:'Quelle nicht belegt',color:'#9da6b1'}};
+  const SOURCES={openwaters:{label:'Open Waters',color:'#4da3ff'},fintraffic:{label:'Finland · Fintraffic',color:'#39d3df'},barentswatch:{label:'Norway · BarentsWatch',color:'#61d29a'},ais_dk_historical:{label:'Denmark · historical AIS',color:'#ffb44e'},global_fishing_watch:{label:'GFW · historical context',color:'#c8a1ff'},unknown:{label:'Source unknown',color:'#9da6b1'}};
   const digits=v=>String(v??'').replace(/\D/g,'');
   function imo(v){const s=digits(v);return /^\d{7}$/.test(s)&&[...s.slice(0,6)].reduce((n,c,i)=>n+Number(c)*(7-i),0)%10===Number(s[6])?s:'';}
   function mmsi(v){const s=digits(v);return /^\d{9}$/.test(s)&&s!=='000000000'?s:'';}
@@ -16,9 +16,9 @@
     if(/global.fishing.watch|\bgfw\b/.test(text))return 'global_fishing_watch';
     return 'unknown';
   }
-  function sourceLabel(p){const id=source(p);return SOURCES[id].label+(id==='openwaters'&&p.upstream_source?` · Zulieferer: ${p.upstream_source}`:'');}
+  function sourceLabel(p){const id=source(p);return SOURCES[id].label+(id==='openwaters'&&p.upstream_source?` · Upstream source: ${p.upstream_source}`:'');}
   function observed(p){const raw=p.observed_at||p.last_seen_utc;return p.position_timestamp_valid===false||p.timestamp_valid===false||p.data_quality?.timestamp_repaired?NaN:Date.parse(raw||'');}
-  function age(p,now=Date.now()){const t=observed(p);if(!Number.isFinite(t))return 'Beobachtungszeit nicht belastbar';const minutes=Math.max(0,(now-t)/60000);return `${minutes<120?Math.round(minutes)+' min':minutes<2880?(minutes/60).toFixed(1)+' h':(minutes/1440).toFixed(1)+' d'} alt`;}
+  function age(p,now=Date.now()){const t=observed(p);if(!Number.isFinite(t))return 'Observation time is not reliable';const minutes=Math.max(0,(now-t)/60000);return `${minutes<120?Math.round(minutes)+' min':minutes<2880?(minutes/60).toFixed(1)+' h':(minutes/1440).toFixed(1)+' d'} old`;}
   function groups(rows){
     const alias=new Map();
     for(const p of rows){const i=imo(p.imo),m=mmsi(p.mmsi);if(i&&m){if(!alias.has(m))alias.set(m,new Set());alias.get(m).add(i);}}
@@ -54,7 +54,7 @@
     if(!Number.isFinite(start)||!Number.isFinite(end)||end<start||end<now-14*86400000||start>now||!Number.isFinite(lat)||!Number.isFinite(lon)||lat<48||lat>80||lon< -25||lon>35)return null;
     const dx=5/(111.32*Math.cos(lat*Math.PI/180)),dy=5/111.32;
     const vessel=event.vessel||{};
-    return {v:1,event_id:String(event.id||'').slice(0,160),name:String(vessel.name||'Unbekanntes Schiff').slice(0,120),mmsi:mmsi(vessel.mmsi||vessel.ssvid),imo:imo(vessel.imo),start:new Date(Math.max(start,now-14*86400000)).toISOString(),end:new Date(Math.min(end,now)).toISOString(),bbox:[Math.max(-25,lon-dx),Math.max(48,lat-dy),Math.min(35,lon+dx),Math.min(80,lat+dy)],source:'global_fishing_watch',period_clipped:start<now-14*86400000||end>now};
+    return {v:1,event_id:String(event.id||'').slice(0,160),name:String(vessel.name||'Unknown vessel').slice(0,120),mmsi:mmsi(vessel.mmsi||vessel.ssvid),imo:imo(vessel.imo),start:new Date(Math.max(start,now-14*86400000)).toISOString(),end:new Date(Math.min(end,now)).toISOString(),bbox:[Math.max(-25,lon-dx),Math.max(48,lat-dy),Math.min(35,lon+dx),Math.min(80,lat+dy)],source:'global_fishing_watch',period_clipped:start<now-14*86400000||end>now};
   }
   return {SOURCES,imo,mmsi,source,sourceLabel,observed,age,groups,coordinates,distance,track,vesselFinder,eventContext};
 });

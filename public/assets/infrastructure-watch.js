@@ -153,7 +153,7 @@
     const host=$('aisDataAgeBanner');if(!host)return;
     const rows=(state.data.vessel_positions?.features||[]).map(f=>f.properties||{});
     const times=rows.map(VM.observed).filter(Number.isFinite),latest=times.length?Math.max(...times):NaN;
-    host.textContent=Number.isFinite(latest)?`AIS-Stichproben · jüngste Beobachtung ${VM.age({observed_at:new Date(latest).toISOString()})} · kein kontinuierlicher Stream`:'Keine belastbare AIS-Beobachtungszeit verfügbar';
+    host.textContent=Number.isFinite(latest)?`AIS samples · latest observation ${VM.age({observed_at:new Date(latest).toISOString()})} · not a continuous stream`:'No reliable AIS observation time available';
   }
 
   function vesselFinderUrl(p){return VM.vesselFinder(p);}
@@ -182,10 +182,10 @@
         <b>MMSI</b><span>${esc(p.mmsi || "–")}</span>
         <b>IMO</b><span>${esc(p.imo || "–")}</span>
         <b>Observed</b><span>${esc(p.observed_at || p.last_seen_utc || "–")}</span>
-        <b>AIS-Quelle</b><span>${esc(aisSourceLabel(p))}</span>
-        <b>Datenalter</b><span>${esc(VM.age(p))}</span>
-        <b>Abgerufen</b><span>${esc(p.retrieved_at||p.snapshot_generated_at||"nicht belegt")}</span>
-        <b>Weitere Lieferwege</b><span>${esc((p.observation_sources||[]).map(id=>VM.SOURCES[id]?.label||id).join(", ")||"–")}</span>
+        <b>AIS source</b><span>${esc(aisSourceLabel(p))}</span>
+        <b>Data age</b><span>${esc(VM.age(p))}</span>
+        <b>Retrieved</b><span>${esc(p.retrieved_at||p.snapshot_generated_at||"not established")}</span>
+        <b>Other delivery sources</b><span>${esc((p.observation_sources||[]).map(id=>VM.SOURCES[id]?.label||id).join(", ")||"–")}</span>
         <b>Categories</b><span>${esc(cats)}</span>
         <b>Destination</b><span>${esc(p.destination || "–")}</span>
         <b>RU portcall</b><span>${esc(russianPortcallLabel(p) || "–")}</span>
@@ -195,8 +195,8 @@
         <b>Common snapshot</b><span>${esc(p.snapshot_at || "–")}</span>
         <b>Watch source</b><span>${esc(p.source_list || "–")}</span>
       </div>
-      <button type="button" class="trackPopupButton" data-track-id="${esc(p.vessel_identity||identityKey(p))}">Spur dieses Schiffs anzeigen</button>
-      ${p.identity_conflict ? `<div class="qualityWarn">Widersprüchliche IMO/MMSI-Angaben: keine automatische Trackverbindung.</div>` : ""}
+      <button type="button" class="trackPopupButton" data-track-id="${esc(p.vessel_identity||identityKey(p))}">Show this vessel’s track</button>
+      ${p.identity_conflict ? `<div class="qualityWarn">Conflicting IMO/MMSI details: tracks are not linked automatically.</div>` : ""}
       ${historical ? `<div class="historyWarn">Historical point inside the selected time window. It is not necessarily the vessel's current position.</div>` : ""}
       ${positionQuality ? `<div class="qualityWarn">Timestamp was repaired from the snapshot/history slot. Do not use it for precise dwell or gap calculations.</div>` : ""}
       ${(vesselFinderLink(p) || sourceUrls.length) ? `<div style="margin-top:7px">${[vesselFinderLink(p), ...sourceUrls.slice(0,3).map((url,i)=>`<a href="${esc(url)}" target="_blank" rel="noopener">Source ${i+1}</a>`)].filter(Boolean).join(" · ")}</div>` : ""}
@@ -468,15 +468,15 @@
     return result;
   }
   async function selectVesselTrack(identity){
-    state.selectedIdentity=identity;$('trackStatus').textContent='Schiffshistorie wird geladen …';
+    state.selectedIdentity=identity;$('trackStatus').textContent='Loading vessel history …';
     try{state.trackRows=await loadVoiHistory();renderVesselView();const selected=VM.track([...scopedRows(),...state.trackRows],{hours:TIME_HOURS[state.timeMode]||336}).find(t=>t.identity===identity);
       if(selected?.points.length){state.map.closePopup();state.map.fitBounds(L.latLngBounds(selected.points.map(p=>{const c=VM.coordinates(p);return [c[1],c[0]];})).pad(.15),{maxZoom:11});}
-    }catch{$('trackStatus').textContent='Die Schiffshistorie konnte nicht geladen werden. Letzte Positionen bleiben sichtbar.';}
+    }catch{$('trackStatus').textContent='Vessel history could not be loaded. Latest positions remain visible.';}
   }
   function renderVesselView(){
     state.traffic?.render();
     // Source/search controls must not re-enable current AIS inside the historical SAR comparison.
-    if($('sarDetectionsToggle')?.checked){$('trackStatus').textContent='Historischer SAR-Vergleich aktiv; aktuelle AIS-Ebenen bleiben ausgeblendet.';return;}
+    if($('sarDetectionsToggle')?.checked){$('trackStatus').textContent='Historical SAR comparison is active; current AIS layers remain hidden.';return;}
     const latest=state.timeMode==='latest',hours=TIME_HOURS[state.timeMode]||336;
     const rows=latest?[...scopedRows(),...(state.trackRows||[])]:(state.trackRows||[]);
     const models=VM.track(rows,{hours}).sort((a,b)=>Number(b.identity===state.selectedIdentity)-Number(a.identity===state.selectedIdentity));const points=[],lines=[],historyPoints=[];let gaps=0,displayCap=false;
@@ -502,10 +502,10 @@
     setControl('neutral_tanker_context',{enabled:true});
     $('vesselList').replaceChildren();
     for(const feature of points.slice(0,25)){
-      const p=feature.properties,button=document.createElement('button');button.className='vesselListItem';button.style.borderLeftColor=VM.SOURCES[VM.source(p)].color;button.textContent=`AIS: ${p.name||p.imo||p.mmsi||'Identität offen'} · ${VM.sourceLabel(p)} · ${VM.age(p)}`;
+      const p=feature.properties,button=document.createElement('button');button.className='vesselListItem';button.style.borderLeftColor=VM.SOURCES[VM.source(p)].color;button.textContent=`AIS: ${p.name||p.imo||p.mmsi||'Identity unknown'} · ${VM.sourceLabel(p)} · ${VM.age(p)}`;
       button.addEventListener('click',()=>{for(const id of ['vessel_positions','neutral_tanker_context'])state.layers[id]?.eachLayer?.(layer=>{if(layer.feature?.geometry?.type==='Point'&&layer.feature.properties.timeline_role!=='historical_point'&&layer.feature.properties.vessel_identity===p.vessel_identity){state.map.setView([feature.geometry.coordinates[1],feature.geometry.coordinates[0]],9);layer.openPopup();}});});$('vesselList').append(button);
     }
-    $('trackStatus').textContent=`${points.length} Schiffe · ${lines.length} Spursegmente · ${gaps} unterbrochene Verbindungen. Linien verbinden Beobachtungen; Datenlücken bleiben offen.${displayCap?" Anzeige auf 3.000 Spursegmente/Punkte begrenzt. Wähle ein einzelnes Schiff.":""}`;
+    $('trackStatus').textContent=`${points.length} vessels · ${lines.length} track segments · ${gaps} broken connections. Lines connect observations; data gaps remain open.${displayCap?" Display limited to 3,000 track segments/points. Select one vessel.":""}`;
   }
   function historyGeoJson(rows,hours){
     const models=VM.track(rows,{hours,maxPoints:120});return {type:'FeatureCollection',features:models.flatMap(m=>m.segments.map(seg=>({type:'Feature',geometry:{type:'LineString',coordinates:[VM.coordinates(seg.from),VM.coordinates(seg.to)]},properties:{...seg.to,timeline_role:'historical_track',vessel_identity:m.identity}})))};
@@ -555,10 +555,10 @@
     const danish=mode==='dk24';setControl('danish_history',{enabled:danish&&Boolean(state.data.danish_history?.features?.length),checked:danish});
     replaceLayer('danish_history',danish?state.data.danish_history:EMPTY_FC());
     if(mode!=='latest'||$('showTracks').checked||state.selectedIdentity){
-      try{state.trackRows=await loadVoiHistory();}catch{$('trackStatus').textContent='Historie nicht verfügbar. Keine Spur ergänzt.';state.trackRows=[];}
+      try{state.trackRows=await loadVoiHistory();}catch{$('trackStatus').textContent='History unavailable. No track added.';state.trackRows=[];}
     }
     renderVesselView();const events=filterEvents(TIME_HOURS[mode]||null);replaceLayer('infrastructure_events',events);renderAnalysisList(events);
-    $('timeStatus').textContent=mode==='latest'?'Letzte AIS-Beobachtungen':`${mode==='dk24'?'24 h + DK':mode} · historische Beobachtungen`;
+    $('timeStatus').textContent=mode==='latest'?'Latest AIS observations':`${mode==='dk24'?'24 h + DK':mode} · historical observations`;
     renderGfw();
   }
 
@@ -567,18 +567,18 @@
     const events=(state.gfwEvents?.events||[]).filter(e=>e.type==='LOITERING'&&Date.parse(e.end)>=cutoff).map(e=>({event:e,context:VM.eventContext(e,now)})).filter(e=>e.context).sort((a,b)=>Date.parse(b.event.end)-Date.parse(a.event.end));
     const shown=events.slice(0,200);$('loiteringList').replaceChildren();
     for(const {event:e,context:c} of shown){
-      const point=e.position,vessel=e.vessel||{},label=vessel.name||c.mmsi||'Identität nicht veröffentlicht',duration=(Date.parse(e.end)-Date.parse(e.start))/3600000;
+      const point=e.position,vessel=e.vessel||{},label=vessel.name||c.mmsi||'Identity not published',duration=(Date.parse(e.end)-Date.parse(e.start))/3600000;
       const sar='./sar.html#event='+encodeURIComponent(JSON.stringify(c)),vf=VM.vesselFinder({imo:c.imo,mmsi:c.mmsi});
-      const html=`<div class="popupTitle">GFW Loitering · ${esc(label)}</div><div class="popupMeta"><b>MMSI / GFW-ID</b><span>${esc(c.mmsi||vessel.id||'nicht verfügbar')}</span><b>Beginn UTC</b><span>${esc(e.start)}</span><b>Ende UTC</b><span>${esc(e.end)}</span><b>Dauer</b><span>${duration.toFixed(1)} h</span><b>Quelle</b><span>Global Fishing Watch · historisch</span></div><p>Provider-Ereignis; Referenzposition statt vollständiger Fahrtspur. Loitering belegt keine rechtswidrige Handlung.</p><a href="${esc(sar)}" target="_blank" rel="noopener noreferrer">SAR-Aufnahmen für diesen Zeitraum suchen ↗</a>${vf?`<p><a href="${esc(vf)}" target="_blank" rel="noopener noreferrer">VesselFinder ↗</a></p>`:''}${c.period_clipped?'<p>Suchzeitraum auf die verfügbaren letzten 14 Tage begrenzt.</p>':''}`;
+      const html=`<div class="popupTitle">GFW Loitering · ${esc(label)}</div><div class="popupMeta"><b>MMSI / GFW-ID</b><span>${esc(c.mmsi||vessel.id||'unavailable')}</span><b>Start UTC</b><span>${esc(e.start)}</span><b>End UTC</b><span>${esc(e.end)}</span><b>Duration</b><span>${duration.toFixed(1)} h</span><b>Source</b><span>Global Fishing Watch · historical</span></div><p>Provider-reported event; reference position rather than a complete track. Loitering does not establish unlawful activity.</p><a href="${esc(sar)}" target="_blank" rel="noopener noreferrer">Search SAR acquisitions for this period ↗</a>${vf?`<p><a href="${esc(vf)}" target="_blank" rel="noopener noreferrer">VesselFinder ↗</a></p>`:''}${c.period_clipped?'<p>Search period limited to the available last 14 days.</p>':''}`;
       const marker=L.circleMarker([point.lat,point.lon],{radius:9,color:'#c8a1ff',weight:3,fillColor:'#c8a1ff',fillOpacity:.12}).bindPopup(html,{maxWidth:420}).addTo(layers);
       if($('loiteringList').children.length<20){const button=document.createElement('button');button.className='loiteringItem';button.textContent=`${label} · ${e.start.slice(0,16).replace('T',' ')} UTC · ${duration.toFixed(1)} h`;button.addEventListener('click',()=>{state.map.setView([point.lat,point.lon],10);marker.openPopup();});$('loiteringList').append(button);}
     }
     for(const c of (state.gfwGrid?.records||[]).filter(c=>Date.parse(c.interval_end)>=cutoff&&Date.parse(c.interval_start)<=now).slice(-300)){
       const lat=Number(c.latitude),lon=Number(c.longitude);if(!Number.isFinite(lat)||!Number.isFinite(lon))continue;
-      L.rectangle([[lat-.005,lon-.005],[lat+.005,lon+.005]],{color:'#c8a1ff',weight:1,fillOpacity:.08}).bindPopup(`GFW-Präsenzzelle · ${esc(c.interval_start)} bis ${esc(c.interval_end)} · keine exakte Schiffsposition oder Identität`).addTo(cells);
+      L.rectangle([[lat-.005,lon-.005],[lat+.005,lon+.005]],{color:'#c8a1ff',weight:1,fillOpacity:.08}).bindPopup(`GFW presence cell · ${esc(c.interval_start)} to ${esc(c.interval_end)} · not an exact vessel position or identity`).addTo(cells);
     }
     for(const [id,layer] of [['gfw_loitering',layers],['gfw_presence',cells]]){state.layers[id]?.remove();state.layers[id]=layer;syncLayerVisibility(id);}
-    $('gfwStatus').textContent=state.gfwEvents?`${shown.length}/${events.length} Loitering-Ereignisse angezeigt · maximal 200 Marker und 20 Listeneinträge. Powered by Global Fishing Watch · CC BY-NC 4.0.`:'GFW-Ereignisdaten fehlen; das ist kein belegtes Nullergebnis.';
+    $('gfwStatus').textContent=state.gfwEvents?`${shown.length}/${events.length} loitering events shown · up to 200 markers and 20 list entries. Powered by Global Fishing Watch · CC BY-NC 4.0.`:'GFW event data are missing; this is not a confirmed zero result.';
   }
 
   async function loadSummary(){
@@ -629,7 +629,7 @@
   async function init(){
     state.map = L.map("map",{zoomControl:true,minZoom:3,maxZoom:18,worldCopyJump:true});
     state.traffic = globalThis.TrafficContext.attach(state.map,()=>({timeMode:state.timeMode,monitoredRows:scopedRows()}));
-    fetchJson('./assets/sar-basemap.geojson').then(data=>{L.geoJSON(data,{pane:'tilePane',interactive:false,style:{color:'#536776',weight:1,fillColor:'#263c49',fillOpacity:1}}).addTo(state.map);state.map.attributionControl.addAttribution('Natural Earth · Orientierung, keine Seekarte');}).catch(()=>console.warn('Küstenübersicht nicht verfügbar'));
+    fetchJson('./assets/sar-basemap.geojson').then(data=>{L.geoJSON(data,{pane:'tilePane',interactive:false,style:{color:'#536776',weight:1,fillColor:'#263c49',fillOpacity:1}}).addTo(state.map);state.map.attributionControl.addAttribution('Natural Earth · orientation only, not a nautical chart');}).catch(()=>console.warn('Coastline overview unavailable'));
     state.map.fitBounds(MAP_BOUNDS);
     L.control.scale({imperial:false,nautical:true}).addTo(state.map);
 

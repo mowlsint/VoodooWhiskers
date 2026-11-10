@@ -1,10 +1,10 @@
-name: SAR Workbench · verschlüsselter Auftrag
+name: SAR Workbench · encrypted request
 
 on:
   workflow_dispatch:
     inputs:
       encrypted_request:
-        description: Verschlüsselten Auftrag aus der SAR-Arbeitsoberfläche hier einfügen
+        description: Paste the encrypted request from the SAR workbench here
         type: string
         required: true
 
@@ -65,5 +65,5 @@ jobs:
       - name: Report processing status
         if: ${{ steps.sar.outcome == 'failure' }}
         run: |
-          echo "::error::Auftrag nicht abgeschlossen. Passwort/Secret prüfen oder verschlüsselte Fehlerdetails in der SAR-Oberfläche öffnen."
+          echo "::error::Request not completed. Check the password/secret or open the encrypted error details in the SAR workbench."
           exit 1

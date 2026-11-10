@@ -14,12 +14,12 @@
     if (!pack || pack.kind !== 'sampled_traffic_context' || pack.schema_version !== '1.0.0' ||
         pack.coverage_complete !== false || pack.context_only !== true || pack.position_timestamp_valid !== true ||
         JSON.stringify(pack.columns) !== JSON.stringify(COLUMNS) || !Array.isArray(pack.contacts) || pack.contacts.length > MAX_CONTACTS) {
-      throw new Error('Ungültiges oder zu großes Verkehrsprodukt');
+      throw new Error('Invalid or oversized traffic product');
     }
     const generated = Date.parse(pack.generated_at), expires = Date.parse(pack.expires_at);
     if (!Number.isFinite(generated) || !Number.isFinite(expires) || generated > now + 300000 ||
         expires <= generated || expires > generated + MAX_AGE || now > expires || now - generated > MAX_AGE) {
-      throw new Error('Verkehrskontext abgelaufen oder Zeitangaben ungültig');
+      throw new Error('Traffic context expired or timestamps invalid');
     }
     const rows = [];
     for (const tuple of pack.contacts) {
@@ -62,13 +62,13 @@
 
   async function fetchPack(url) {
     const response = await fetch(url, {cache:'no-store', signal:AbortSignal.timeout(15000)});
-    if (!response.ok) throw new Error('Verkehrsdaten nicht verfügbar');
+    if (!response.ok) throw new Error('Traffic data unavailable');
     const reader = response.body.getReader(), chunks = []; let size = 0;
     try {
       while (true) {
         const {done, value} = await reader.read(); if (done) break;
         size += value.byteLength;
-        if (size > MAX_BYTES) throw new Error('Verkehrsdaten überschreiten 1 MiB');
+        if (size > MAX_BYTES) throw new Error('Traffic data exceed 1 MiB');
         chunks.push(value);
       }
     } finally { await reader.cancel(); }
@@ -79,10 +79,10 @@
 
   function popup(p, vm) {
     const link = vm.vesselFinder(p);
-    return `<div class="popupTitle">Verkehrskontext · ${esc(p.mmsi)}</div><div class="popupMeta">` +
-      `<b>Quelle</b><span>${esc(vm.sourceLabel(p))}</span><b>IMO</b><span>${esc(vm.imo(p.imo)||'nicht bekannt')}</span>` +
-      `<b>Beobachtung UTC</b><span>${esc(p.observed_at)}</span><b>Datenalter</b><span>${esc(vm.age(p))}</span>` +
-      `</div><p>Letzte empfangene Position, keine kontinuierliche Live-Verfolgung. Nur Verkehrskontext; keine Verlaufsspeicherung.</p>` +
+    return `<div class="popupTitle">Traffic context · ${esc(p.mmsi)}</div><div class="popupMeta">` +
+      `<b>Source</b><span>${esc(vm.sourceLabel(p))}</span><b>IMO</b><span>${esc(vm.imo(p.imo)||'unknown')}</span>` +
+      `<b>Observation UTC</b><span>${esc(p.observed_at)}</span><b>Data age</b><span>${esc(vm.age(p))}</span>` +
+      `</div><p>Latest received position, not continuous live tracking. Traffic context only; no history is stored.</p>` +
       (link ? `<a href="${esc(link)}" target="_blank" rel="noopener noreferrer">VesselFinder ↗</a>` : '');
   }
 
@@ -105,13 +105,13 @@
 
     function render() {
       layer.clearLayers();
-      if (!toggle.checked) { closeContextPopup(); status.textContent = 'Ausgeblendet · Hintergrund ohne Schiffshistorie.'; return; }
+      if (!toggle.checked) { closeContextPopup(); status.textContent = 'Hidden · background context without vessel history.'; return; }
       if (getView().timeMode !== 'latest' || $('sarDetectionsToggle')?.checked) {
-        closeContextPopup(); status.textContent = 'Im historischen Zeitfenster und SAR-Vergleich ausgeblendet. Nur bei „Letzte AIS-Beobachtungen“ verfügbar.'; return;
+        closeContextPopup(); status.textContent = 'Hidden in historical time views and SAR comparison. Available only in “Latest AIS observations”.'; return;
       }
-      if (loading) { closeContextPopup(); status.textContent = 'Verkehrskontext wird geladen …'; return; }
-      if (error || !pack) { closeContextPopup(); status.textContent = error || 'Verkehrskontext noch nicht geladen.'; return; }
-      try { rows = decode(pack); } catch (e) { closeContextPopup(); status.textContent = e.message + '; keine Hintergrundpunkte angezeigt.'; return; }
+      if (loading) { closeContextPopup(); status.textContent = 'Loading traffic context …'; return; }
+      if (error || !pack) { closeContextPopup(); status.textContent = error || 'Traffic context has not been loaded.'; return; }
+      try { rows = decode(pack); } catch (e) { closeContextPopup(); status.textContent = e.message + '; no background points shown.'; return; }
       const now = Date.now(), query = $('vesselSearch').value.trim();
       const allowed = visibleRows(rows,getView().monitoredRows,vm,now).filter(p => {
         const source = document.querySelector(`[data-source="${p.source_provider}"]`);
@@ -127,7 +127,7 @@
           radius:clustered ? Math.min(3.5,2.5+Math.log2(group.rows.length)*.25) : 2.5,
           color:vm.SOURCES[p.source_provider].color,fillColor:vm.SOURCES[p.source_provider].color,
           weight:clustered?1:0,opacity:.55,fillOpacity:age > 6*3600000 ? .2 : .5});
-        if (clustered) marker.bindTooltip(`${group.rows.length} erfasste Kontakte · ${vm.SOURCES[p.source_provider].label} · zum Auflösen hineinzoomen`)
+        if (clustered) marker.bindTooltip(`${group.rows.length} received contacts · ${vm.SOURCES[p.source_provider].label} · zoom in to see individual contacts`)
           .on('click',()=>map.fitBounds(L.latLngBounds(group.rows.map(r=>[r.latitude,r.longitude])).pad(.15),{maxZoom:Math.max(8,map.getZoom()+2)}));
         // A standalone popup survives canvas marker replacement during its own auto-pan.
         else marker.on('click',()=>{
@@ -137,19 +137,19 @@
         marker.addTo(layer);
       }
       const failed = Object.entries(pack.providers||{}).filter(([,s])=>s.state!=='ok').map(([id])=>vm.SOURCES[id]?.label||id);
-      const cap = pack.cap_applied ? ` Kapazitätsbegrenzte Auswahl${pack.omitted_count ? `: ${pack.omitted_count} weitere Kontakte ausgelassen` : '; bereits in der Quellvorstufe begrenzt'}.` : '';
+      const cap = pack.cap_applied ? ` Capacity-limited selection${pack.omitted_count ? `: ${pack.omitted_count} additional contacts omitted` : '; already limited at the source processing stage'}.` : '';
       const stale = allowed.filter(p=>now-Date.parse(p.observed_at)>6*3600000).length;
-      status.textContent = `${view.length} Kontakte im Ausschnitt · ${groups.length} Punkte/Gruppen · ${allowed.length} nach Filtern. Stand: ${new Date(pack.generated_at).toISOString().slice(0,16).replace('T',' ')} UTC.${cap}` +
-        (failed.length ? ` Quellen fehlen/teilweise: ${failed.join(', ')}.` : '') +
-        (stale ? ` ${stale} Positionen älter als 6 h, abgeschwächt.` : '') +
-        (rows.length ? ' Empfangene Auswahl, kein vollständiges Verkehrsbild.' : ' Keine verwertbaren Hintergrundkontakte; kein Nachweis für Verkehrsfreiheit.');
+      status.textContent = `${view.length} contacts in view · ${groups.length} dots/groups · ${allowed.length} after filters. Updated: ${new Date(pack.generated_at).toISOString().slice(0,16).replace('T',' ')} UTC.${cap}` +
+        (failed.length ? ` Sources missing/partial: ${failed.join(', ')}.` : '') +
+        (stale ? ` ${stale} positions older than 6 h, shown fainter.` : '') +
+        (rows.length ? ' Received sample, not a complete traffic picture.' : ' No usable background contacts; this does not establish an absence of traffic.');
     }
 
     async function load() {
       if (loading) return loading;
       loading = fetchPack('./data/vessels/traffic_context_latest.json').then(value=>{
         rows=decode(value); pack=value; error=''; loadedAt=Date.now();
-      }).catch(()=>{pack=null;rows=[];error='Verkehrskontext fehlt, ist abgelaufen oder konnte nicht geladen werden; kein belegtes Nullergebnis.';})
+      }).catch(()=>{pack=null;rows=[];error='Traffic context is missing, expired or could not be loaded; this is not a confirmed zero result.';})
         .finally(()=>{loading=null;render();});
       render(); return loading;
     }

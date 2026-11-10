@@ -34,7 +34,7 @@ CONFIG=ROOT/'config/sar_workbench.json'
 WORKSPACE=ROOT/'public/data/sar/workbench.enc.json'
 PUBLIC_CONFIG=ROOT/'public/assets/sar-workbench-config.json'
 CATALOG_ITEMS='https://stac.dataspace.copernicus.eu/v1/collections/sentinel-1-grd/items'
-LIMIT='Ungeprüfte Radar-Kandidaten. Weder Schiffsidentität noch absichtliche AIS-Abschaltung oder feindliche Tätigkeit sind damit nachgewiesen.'
+LIMIT='Unreviewed radar candidates. These do not establish vessel identity, deliberate AIS disablement or hostile activity.'
 
 
 class WorkbenchError(RuntimeError):pass
@@ -63,7 +63,7 @@ def validate_request(raw,cfg,now=None):
     if area_id in areas:
         bbox=areas[area_id]['bbox'];name=areas[area_id]['name']
         if 'bbox' in raw and raw['bbox']!=bbox:raise WorkbenchError('PRESET_BBOX_MISMATCH')
-    elif area_id=='custom':bbox=raw.get('bbox');name='Eigener Ausschnitt'
+    elif area_id=='custom':bbox=raw.get('bbox');name='Custom area'
     else:raise WorkbenchError('UNKNOWN_AREA')
     if not isinstance(bbox,list) or len(bbox)!=4 or any(isinstance(v,bool) or not isinstance(v,(int,float)) or not math.isfinite(v) for v in bbox):raise WorkbenchError('BBOX_INVALID')
     west,south,east,north=bbox
@@ -373,7 +373,7 @@ def main():
         request=validate_request(sar_crypto.decrypt(json.loads(encrypted),password,'request'),cfg)
         workspace=sar_crypto.decrypt(json.loads(WORKSPACE.read_text()),password,'workspace') if WORKSPACE.exists() else {'v':1,'jobs':[],'analysis_ledger':{}}
     except Exception:
-        print('SAR-Anmeldung oder verschlüsselter Auftrag ungültig. Keine Provider-Auswertung gestartet.')
+        print('Invalid SAR password or encrypted request. No provider analysis was started.')
         return 1
     try:
         job=run_task(request,cfg,workspace)
@@ -383,7 +383,7 @@ def main():
         job={'request_id':request['id'],'created_at':iso(utc()),'action':request['action'],'request':request,'state':'error','error_code':code,'assessment_limit':LIMIT}
         ok=False
     save_workspace(workspace,job,password,cfg)
-    print('SAR-Auftrag abgeschlossen; Ergebnis verschlüsselt gespeichert.' if ok else 'SAR-Auftrag fehlgeschlagen; verschlüsselte Fehlerdetails in der Arbeitsoberfläche.')
+    print('SAR request complete; result stored encrypted.' if ok else 'SAR request failed; encrypted error details are available in the workbench.')
     return 0 if ok else 1
 
 

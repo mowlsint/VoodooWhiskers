@@ -47,35 +47,35 @@
       </section>
       <section class="card timeCard">
         <div class="sectionHead"><h2>Time view</h2><span class="timeBadge" id="timeStatus">Common snapshot</span></div>
-        <details><summary>Separates historisches Vergleichsbild</summary><div class="commonSnapshotBanner" id="commonSnapshotBanner" data-tone="neutral">
+        <details><summary>Separate historical comparison</summary><div class="commonSnapshotBanner" id="commonSnapshotBanner" data-tone="neutral">
           <strong>Harmonized vessel data</strong><span>Loading snapshot status…</span>
         </div></details>
         <div class="timeButtons" role="group" aria-label="Vessel and event time window">
-          <button type="button" class="timeButton active" data-time-mode="latest">Letzte AIS-Beobachtungen</button>
+          <button type="button" class="timeButton active" data-time-mode="latest">Latest AIS observations</button>
           <button type="button" class="timeButton" data-time-mode="24h">24 h</button>
           <button type="button" class="timeButton" data-time-mode="48h">48 h</button>
           <button type="button" class="timeButton" data-time-mode="120h">120 h</button>
           <button type="button" class="timeButton" data-time-mode="14d">14 d</button>
           <button type="button" class="timeButton wide" data-time-mode="dk24">24 h + latest Danish historical</button>
         </div>
-        <p class="timeHelp">Standardansicht: letzte belastbare AIS-Beobachtung je beobachtetem Schiff. Beobachtungszeit und Alter stehen im Popup. Historische Zeitfenster und GFW bleiben erkennbar getrennt.</p>
+        <p class="timeHelp">Default view: the latest reliable AIS observation for each monitored vessel. Popups show the observation time and data age. Historical time windows and GFW context remain clearly separate.</p>
       </section>
-      <section class="card sourceControls"><h2>AIS-Quellen & Spuren</h2><label for="vesselSearch">Schiff suchen</label><input id="vesselSearch" type="search" placeholder="Name, IMO oder MMSI"><button id="resetOverview" class="smallButton" type="button">Ruhige Übersicht</button><div id="vesselList" class="analysisList" aria-label="Gefundene Schiffe"></div><p>Füllfarbe = Lieferweg, magentafarbener Rand = False-Flag-Kontext. Das Popup nennt Quelle, Beobachtungszeit und Datenalter. Open Waters kann regionale Daten weiterliefern.</p>
+      <section class="card sourceControls"><h2>AIS sources & tracks</h2><label for="vesselSearch">Find a vessel</label><input id="vesselSearch" type="search" placeholder="Name, IMO or MMSI"><button id="resetOverview" class="smallButton" type="button">Clear overview</button><div id="vesselList" class="analysisList" aria-label="Matching vessels"></div><p>Fill colour indicates the delivery source; a magenta outline indicates false-flag context. Popups show the source, observation time and data age. Open Waters may relay regional feeds.</p>
         <label class="control"><input type="checkbox" data-source="openwaters" checked><i style="background:#4da3ff" class="dot"></i>Open Waters</label>
-        <label class="control"><input type="checkbox" data-source="fintraffic" checked><i style="background:#39d3df" class="dot"></i>Finnland · Fintraffic</label>
-        <label class="control"><input type="checkbox" data-source="barentswatch" checked><i style="background:#61d29a" class="dot"></i>Norwegen · BarentsWatch</label>
-        <label class="control"><input type="checkbox" data-source="ais_dk_historical" checked><i style="background:#ffb44e" class="dot"></i>Dänemark · historisch</label>
-        <label class="control"><input type="checkbox" data-source="unknown" checked><i style="background:#9da6b1" class="dot"></i>Quelle nicht belegt</label>
-        <label class="control"><input type="checkbox" id="showTracks">Alle verfügbaren Schiffsspuren</label><button type="button" id="clearTrack" class="smallButton">Einzelspurauswahl zurücksetzen</button><p id="trackStatus" role="status"></p><p>Ein Schiff bleibt über IMO/MMSI dieselbe Identität. Farbwechsel zeigen einen anderen Lieferweg. Über 12 Stunden Datenlücke, widersprüchliche Identitäten und unplausible Sprünge werden nicht verbunden.</p>
+        <label class="control"><input type="checkbox" data-source="fintraffic" checked><i style="background:#39d3df" class="dot"></i>Finland · Fintraffic</label>
+        <label class="control"><input type="checkbox" data-source="barentswatch" checked><i style="background:#61d29a" class="dot"></i>Norway · BarentsWatch</label>
+        <label class="control"><input type="checkbox" data-source="ais_dk_historical" checked><i style="background:#ffb44e" class="dot"></i>Denmark · historical</label>
+        <label class="control"><input type="checkbox" data-source="unknown" checked><i style="background:#9da6b1" class="dot"></i>Source unknown</label>
+        <label class="control"><input type="checkbox" id="showTracks">All available vessel tracks</label><button type="button" id="clearTrack" class="smallButton">Clear selected vessel track</button><p id="trackStatus" role="status"></p><p>IMO/MMSI links observations to the same vessel across sources. Colour changes indicate a different delivery source. Gaps over 12 hours, conflicting identities and implausible jumps are not connected.</p>
       </section>
       <section class="card trafficContextCard">
-        <h2>Verkehrskontext</h2>
-        <label class="control"><input type="checkbox" id="showTrafficContext">Verkehrskontext anzeigen</label>
-        <p>Kleine Punkte in Quellenfarben; dichte Bereiche werden beim Herauszoomen zusammengefasst. Ältere Positionen erscheinen blasser. Nur die letzte empfangene Position, keine zusätzliche Schiffshistorie.</p>
-        <p id="trafficContextStatus" role="status">Ausgeblendet · wird erst beim Einschalten geladen.</p>
+        <h2>Traffic context</h2>
+        <label class="control"><input type="checkbox" id="showTrafficContext">Show traffic context</label>
+        <p>Small dots use source colours; dense areas are grouped when zoomed out. Older positions appear fainter. Latest received positions only, with no additional vessel history.</p>
+        <p id="trafficContextStatus" role="status">Hidden · loaded only when enabled.</p>
       </section>
       <section class="card">
-        <details><summary>VOI-Kategorien und Zusatzebenen</summary><div class="sectionHead"><h2>Vessel layers</h2><button type="button" class="smallButton" id="fitVessels">Fit</button></div>
+        <details><summary>VOI categories and additional layers</summary><div class="sectionHead"><h2>Vessel layers</h2><button type="button" class="smallButton" id="fitVessels">Fit</button></div>
         <p class="timeHelp">Default vessel scope: all priority VOIs plus neutral tanker context. Optional background traffic is a separate, bounded latest-only context layer; it is not part of VOI history.</p>
         <label class="control"><input type="checkbox" data-layer="vessel_positions" checked> All priority VOIs at common snapshot / selected history</label>
         <label class="control"><input type="checkbox" data-layer="danish_history" disabled> Danish historical matched-VOI tracks</label>
@@ -88,8 +88,8 @@
         <label class="control"><input type="checkbox" data-layer="recent_russian_portcall_10d"> Recent Russian portcall (confirmed / unconfirmed)</label>
         <label class="control"><input type="checkbox" data-layer="behavioral_voi"> Behavioural VOI</label></details>
       </section>
-      <section class="card"><h2>GFW · historischer Kontext</h2><p><a href="./sar.html">Geschützten SAR-Arbeitsplatz öffnen ↗</a></p><label class="control"><input type="checkbox" data-layer="gfw_loitering" checked>Loitering-Ereignisse · violette Ringe</label><label class="control"><input type="checkbox" data-layer="gfw_presence">AIS-Präsenzraster · ohne Einzelidentitäten</label><p id="gfwStatus" role="status"></p><div id="loiteringList" class="analysisList"></div><p>Ein Ereignis zeigt Schiff, Zeitraum und Dauer, soweit vom Anbieter geliefert. Im Popup findest du die Suche nach damaligen SAR-Aufnahmen.</p></section>
-      <section class="card sarCard"><details><summary>Älterer GFW-SAR-Vergleich</summary>
+      <section class="card"><h2>GFW · historical context</h2><p><a href="./sar.html">Open protected SAR workbench ↗</a></p><label class="control"><input type="checkbox" data-layer="gfw_loitering" checked>Loitering events · purple rings</label><label class="control"><input type="checkbox" data-layer="gfw_presence">AIS presence grid · no individual identities</label><p id="gfwStatus" role="status"></p><div id="loiteringList" class="analysisList"></div><p>Events show the vessel, period and duration where supplied by the provider. Use the popup to search for SAR acquisitions from that period.</p></section>
+      <section class="card sarCard"><details><summary>Legacy GFW SAR comparison</summary>
         <div class="sectionHead"><h2>Historical SAR–AIS comparison</h2><button type="button" class="smallButton" id="fitSar">Fit</button></div>
         <label class="control"><input type="checkbox" id="sarDetectionsToggle" disabled> Show synchronized historical SAR + AIS context</label>
         <p class="sarClickExplainer"><strong>What this click shows:</strong> delayed Sentinel-1 SAR detection cells together with the nearest GFW hourly AIS-presence cells for the same vessel identity, within the configured time tolerance. Current AIS, VOI and Danish vessel layers are automatically hidden. Historical AIS comparison is bounded, always prioritises Voodoo watchlist matches, and then uses the newest additional matched identities. Dashed lines connect the same GFW vessel identity; they are not tracks.</p>
@@ -104,7 +104,7 @@
         <p class="sarHelp">Both SAR and AIS markers are 0.01° report-cell centres, not exact or current vessel positions. The status and pop-ups show the permitted time difference and the actual difference for each comparison. “AIS-unmatched” means that GFW did not establish a match; it is not proof of deliberate AIS disablement.</p></details>
       </section>
       <section class="card">
-        <div class="sectionHead"><h2>Infrastructure</h2><button type="button" class="smallButton" id="fitInfrastructure">Fit</button></div><label class="control"><input type="checkbox" id="showInfrastructure">Infrastruktur-Ebenen einblenden</label>
+        <div class="sectionHead"><h2>Infrastructure</h2><button type="button" class="smallButton" id="fitInfrastructure">Fit</button></div><label class="control"><input type="checkbox" id="showInfrastructure">Show infrastructure layers</label>
         <label class="control"><input type="checkbox" data-layer="telecom_cables" checked> Telecommunication cables</label>
         <label class="control"><input type="checkbox" data-layer="power_cables" checked> Power cables</label>
         <label class="control"><input type="checkbox" data-layer="cable_landings" checked> Cable landing stations</label>
@@ -133,15 +133,15 @@
     <section class="mapShell">
       <div class="aisDataAgeBanner" id="aisDataAgeBanner" role="status">AIS not live, Data age unknown</div>
       <div id="map" role="application" aria-label="Voodoo Whiskers maritime infrastructure map"></div>
-      <aside id="trafficCoverageNotice" class="trafficCoverageNotice" role="note" aria-label="Hinweis zur Verkehrsabdeckung">
-        <button type="button" id="closeCoverageNotice" class="coverageClose" aria-label="Abdeckungshinweis schließen">×</button>
-        <strong>Das Verkehrsbild kann unvollständig sein</strong>
-        <p>Aufgrund begrenzter Datenkapazitäten und Empfangsabdeckung wird vermutlich nicht der gesamte Schiffsverkehr angezeigt. Die Punkte zeigen empfangene Positionen mit ihrer jeweiligen Beobachtungszeit, keinen kontinuierlichen Livestream.</p>
+      <aside id="trafficCoverageNotice" class="trafficCoverageNotice" role="note" aria-label="Traffic coverage notice">
+        <button type="button" id="closeCoverageNotice" class="coverageClose" aria-label="Close coverage notice">×</button>
+        <strong>The traffic picture may be incomplete</strong>
+        <p>Due to limited data capacity and reception coverage, some vessel traffic is likely to be missing. Dots show received positions at their individual observation times, not a continuous live stream.</p>
       </aside>
-      <button type="button" id="showCoverageNotice" class="coverageReopen" hidden>Abdeckungshinweis</button>
+      <button type="button" id="showCoverageNotice" class="coverageReopen" hidden>Coverage notice</button>
       <div class="mapLegend">
-        <div><span class="dot trafficContextDot"></span>Kleine Punkte: Verkehrskontext</div>
-        <div><span class="dot" style="background:#4da3ff"></span>Open Waters</div><div><span class="dot" style="background:#39d3df"></span>Finnland</div><div><span class="dot" style="background:#61d29a"></span>Norwegen</div><div><span class="dot" style="background:#ffb44e"></span>Dänemark historisch</div><div><span class="dot" style="background:#c8a1ff"></span>GFW-Kontext</div><div>Magenta-Rand: False Flag</div>
+        <div><span class="dot trafficContextDot"></span>Small dots: traffic context</div>
+        <div><span class="dot" style="background:#4da3ff"></span>Open Waters</div><div><span class="dot" style="background:#39d3df"></span>Finland</div><div><span class="dot" style="background:#61d29a"></span>Norway</div><div><span class="dot" style="background:#ffb44e"></span>Denmark historical</div><div><span class="dot" style="background:#c8a1ff"></span>GFW context</div><div>Magenta outline: false-flag context</div>
 
 
 
@@ -160,9 +160,9 @@
   </main>
   <script src="./assets/vendor/leaflet.js"></script>
   <script src="./assets/sar-map-hook.js"></script>
-  <script src="./assets/vessel-model.js?v=20261109-sources-retention"></script>
-  <script src="./assets/traffic-context.js?v=20261110-traffic-context"></script>
-  <script src="./assets/infrastructure-watch.js?v=20261110-traffic-context"></script>
+  <script src="./assets/vessel-model.js?v=20261110-en"></script>
+  <script src="./assets/traffic-context.js?v=20261110-en"></script>
+  <script src="./assets/infrastructure-watch.js?v=20261110-en"></script>
   <script src="./assets/sar-layer.js?v=20261109-sources-retention"></script>
   <script src="./assets/vesselfinder-links.js"></script>
   <script src="./assets/common-snapshot-status.js"></script>
