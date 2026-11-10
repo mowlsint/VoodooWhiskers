@@ -1,2 +1,4 @@
 requests>=2.32,<3
 websockets>=15,<16
+# Imported by shared TLS/certificate helpers used by the AIS collectors.
+cryptography>=45,<46
