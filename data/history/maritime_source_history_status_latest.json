@@ -1,56 +1,31 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-26T15:00:53Z",
-  "retention_days": 21,
+  "generated_at": "2026-11-10T04:44:47Z",
+  "retention_days": 14,
   "max_bytes": 23068672,
   "position_history_path": "data/history/maritime_source_history_21d.jsonl",
   "coverage_history_path": "data/history/maritime_source_coverage_21d.jsonl",
-  "position_records": 23465,
-  "coverage_records": 102,
-  "records_added_from_current_snapshots": 734,
-  "dropped_old_or_invalid": 77,
+  "position_records": 0,
+  "coverage_records": 0,
+  "records_added_from_current_snapshots": 396,
+  "dropped_old_or_invalid": 23861,
   "dropped_for_size": 0,
-  "provider_counts": {
-    "ais_dk_historical": 5813,
-    "barentswatch": 5199,
-    "fintraffic": 12453
-  },
-  "provider_position_ranges": {
-    "ais_dk_historical": {
-      "min": "2026-08-05T15:01:27Z",
-      "max": "2026-08-23T23:59:58Z"
-    },
-    "barentswatch": {
-      "min": "2026-08-05T15:02:38Z",
-      "max": "2026-08-26T15:00:51Z"
-    },
-    "fintraffic": {
-      "min": "2026-08-05T16:08:10Z",
-      "max": "2026-08-26T15:00:50Z"
-    }
-  },
-  "provider_coverage_ranges": {
-    "fintraffic": {
-      "min": "2026-08-05T16:08:10Z",
-      "max": "2026-08-26T15:00:50Z"
-    },
-    "barentswatch": {
-      "min": "2026-08-05T16:08:13Z",
-      "max": "2026-08-26T15:00:53Z"
-    },
-    "ais_dk_historical": {
-      "min": "2026-08-05T23:59:58Z",
-      "max": "2026-08-23T23:59:58Z"
-    }
-  },
+  "provider_counts": {},
+  "provider_position_ranges": {},
+  "provider_coverage_ranges": {},
   "sources": {
+    "openwaters": {
+      "ok": false,
+      "reason": "source_file_missing",
+      "path": "data/ais_contacts_openwaters_latest.json"
+    },
     "fintraffic": {
       "ok": true,
       "path": "data/ais_contacts_fintraffic_latest.json",
       "source_generated_at": "2026-08-26T15:00:50+00:00",
       "coverage_at": "2026-08-26T15:00:50Z",
       "coverage_basis": "generated_at",
-      "records_seen": 338
+      "records_seen": 0
     },
     "barentswatch": {
       "ok": true,

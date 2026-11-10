@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-26T15:01:04+00:00",
+  "generated_at": "2026-11-10T04:44:49+00:00",
   "source": "Voodoo Whiskers",
   "repository_public": true,
   "hosting_target": "Cloudflare Pages later",
@@ -8,7 +8,7 @@
   "groups": [
     {
       "id": "ais",
-      "label": "AISStream / historical fallback data"
+      "label": "AIS"
     },
     {
       "id": "ais_history",
@@ -33,23 +33,43 @@
   ],
   "products": [
     {
-      "id": "ais_contacts_latest",
-      "label": "AISStream or historical fallback contacts — JSON",
-      "group": "ais",
-      "description": "Filtered AISStream contacts when live; otherwise explicitly labelled historical fallback data from regional providers.",
-      "href": "./ais_contacts_latest.json",
-      "filename": "ais_contacts_latest.json",
-      "size_bytes": 1323436,
+      "id": "gfw_presence_cells_latest",
+      "label": "GFW historical AIS presence grid",
+      "group": "ais_history",
+      "description": "Anonymous hourly 0.01-degree cells; no vessel identities or live positions. Powered by Global Fishing Watch; CC BY-NC 4.0.",
+      "href": "./gfw_presence_cells_latest.json",
+      "filename": "gfw_presence_cells_latest.json",
+      "size_bytes": 5422564,
+      "media_type": "application/json"
+    },
+    {
+      "id": "gfw_context_status_latest",
+      "label": "GFW context query status",
+      "group": "ais_history",
+      "description": "Provider failures, truncation and delayed context availability.",
+      "href": "./gfw_context_status_latest.json",
+      "filename": "gfw_context_status_latest.json",
+      "size_bytes": 3743,
       "media_type": "application/json"
     },
     {
       "id": "ais_contacts_latest",
-      "label": "AISStream or historical fallback positions — GeoJSON",
+      "label": "Current monitored AIS contacts — JSON",
       "group": "ais",
-      "description": "Map-ready AISStream positions when live; otherwise explicitly labelled historical fallback data from regional providers.",
+      "description": "Filtered Open Waters and regional AIS observations with source timestamps and freshness metadata; reception-dependent sampled coverage.",
+      "href": "./ais_contacts_latest.json",
+      "filename": "ais_contacts_latest.json",
+      "size_bytes": 1378244,
+      "media_type": "application/json"
+    },
+    {
+      "id": "ais_contacts_latest",
+      "label": "Current monitored AIS contacts — GeoJSON",
+      "group": "ais",
+      "description": "Map-ready monitored AIS observations with provider provenance and data-quality fields.",
       "href": "./ais_contacts_latest.geojson",
       "filename": "ais_contacts_latest.geojson",
-      "size_bytes": 1548472,
+      "size_bytes": 1613826,
       "media_type": "application/geo+json"
     },
     {
@@ -89,7 +109,7 @@
       "description": "Canonical delayed vessel snapshot at the newest common source watermark. Includes real observation times and source-health metadata.",
       "href": "./maritime_common_snapshot_latest.json",
       "filename": "maritime_common_snapshot_latest.json",
-      "size_bytes": 24663923,
+      "size_bytes": 2021,
       "media_type": "application/json"
     },
     {
@@ -99,7 +119,7 @@
       "description": "Map-ready canonical vessel positions selected at the newest common source watermark.",
       "href": "./maritime_common_snapshot_latest.geojson",
       "filename": "maritime_common_snapshot_latest.geojson",
-      "size_bytes": 19264068,
+      "size_bytes": 1704,
       "media_type": "application/geo+json"
     },
     {
@@ -109,7 +129,7 @@
       "description": "Snapshot ID, observation watermark, generation time, mandatory-source coverage and green/orange/red status.",
       "href": "./maritime_common_snapshot_status.json",
       "filename": "maritime_common_snapshot_status.json",
-      "size_bytes": 2498,
+      "size_bytes": 2269,
       "media_type": "application/json"
     },
     {
@@ -149,7 +169,7 @@
       "description": "Machine-readable current priority VOI list.",
       "href": "./voi_list_latest.json",
       "filename": "voi_list_latest.json",
-      "size_bytes": 1486266,
+      "size_bytes": 1525879,
       "media_type": "application/json"
     },
     {
@@ -159,7 +179,7 @@
       "description": "Tabular current priority VOI list.",
       "href": "./voi_list_latest.csv",
       "filename": "voi_list_latest.csv",
-      "size_bytes": 154845,
+      "size_bytes": 150998,
       "media_type": "text/csv"
     },
     {
@@ -169,14 +189,14 @@
       "description": "Readable current priority VOI list.",
       "href": "./voi_list_latest.md",
       "filename": "voi_list_latest.md",
-      "size_bytes": 74967,
+      "size_bytes": 69926,
       "media_type": "text/markdown"
     },
     {
       "id": "voi_history_14d_manifest",
-      "label": "Complete 14-day VOI history — shard manifest",
+      "label": "Bounded 14-day VOI history — shard manifest",
       "group": "voi_history",
-      "description": "Index of the complete retained 14-day VOI history. Each listed JSONL shard stays below the static-hosting safety limit.",
+      "description": "Index of retained observations from at most fourteen days, bounded by total byte limits. Capacity metadata reports sampling.",
       "href": "./voi_history_14d_manifest.json",
       "filename": "voi_history_14d_manifest.json",
       "size_bytes": 7717,
