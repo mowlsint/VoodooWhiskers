@@ -115,6 +115,9 @@ def main() -> int:
         "downloads": "./downloads/manifest.json",
         "active_score_integration": False,
     }
+    traffic = PUBLIC / "data/vessels/traffic_context_latest.json"
+    if traffic.is_file() and traffic.stat().st_size > 0:
+        data_manifest["traffic_context"] = "./data/vessels/traffic_context_latest.json"
     atomic_json(PUBLIC / "data" / "manifest.json", data_manifest)
     print(json.dumps({"generated_at": generated_at, "download_products": len(products)}, ensure_ascii=False))
     return 0

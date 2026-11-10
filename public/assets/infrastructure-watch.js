@@ -474,6 +474,7 @@
     }catch{$('trackStatus').textContent='Die Schiffshistorie konnte nicht geladen werden. Letzte Positionen bleiben sichtbar.';}
   }
   function renderVesselView(){
+    state.traffic?.render();
     // Source/search controls must not re-enable current AIS inside the historical SAR comparison.
     if($('sarDetectionsToggle')?.checked){$('trackStatus').textContent='Historischer SAR-Vergleich aktiv; aktuelle AIS-Ebenen bleiben ausgeblendet.';return;}
     const latest=state.timeMode==='latest',hours=TIME_HOURS[state.timeMode]||336;
@@ -549,7 +550,7 @@
   }
 
   async function applyTimeMode(mode){
-    state.timeMode=mode;updateTimeButtons(mode);renderAisDataAgeBanner();
+    state.timeMode=mode;state.traffic?.render();updateTimeButtons(mode);renderAisDataAgeBanner();
     setControl('ais_contacts',{enabled:false,checked:false});replaceLayer('ais_contacts',EMPTY_FC());
     const danish=mode==='dk24';setControl('danish_history',{enabled:danish&&Boolean(state.data.danish_history?.features?.length),checked:danish});
     replaceLayer('danish_history',danish?state.data.danish_history:EMPTY_FC());
@@ -627,6 +628,7 @@
 
   async function init(){
     state.map = L.map("map",{zoomControl:true,minZoom:3,maxZoom:18,worldCopyJump:true});
+    state.traffic = globalThis.TrafficContext.attach(state.map,()=>({timeMode:state.timeMode,monitoredRows:scopedRows()}));
     fetchJson('./assets/sar-basemap.geojson').then(data=>{L.geoJSON(data,{pane:'tilePane',interactive:false,style:{color:'#536776',weight:1,fillColor:'#263c49',fillOpacity:1}}).addTo(state.map);state.map.attributionControl.addAttribution('Natural Earth · Orientierung, keine Seekarte');}).catch(()=>console.warn('Küstenübersicht nicht verfügbar'));
     state.map.fitBounds(MAP_BOUNDS);
     L.control.scale({imperial:false,nautical:true}).addTo(state.map);
@@ -657,7 +659,7 @@
     $('sarDetectionsToggle')?.addEventListener('change',()=>{if(!$('sarDetectionsToggle').checked)setTimeout(renderVesselView,0);});
     $('vesselSearch').addEventListener('input',renderVesselView);
     $('showInfrastructure').addEventListener('change',()=>['telecom_cables','power_cables','cable_landings','pipelines','wind_farms','offshore_energy'].forEach(syncLayerVisibility));
-    $('resetOverview').addEventListener('click',()=>{state.selectedIdentity=null;$('showTracks').checked=false;$('vesselSearch').value='';$('showInfrastructure').checked=false;$('showInfrastructure').dispatchEvent(new Event('change'));document.querySelectorAll('[data-source]').forEach(input=>input.checked=true);document.querySelectorAll('input[data-layer]').forEach(input=>{if(['sanctions_shadowfleet','watchlist','falseflag_interest','false_flag_watch','russian_mmsi','recent_russian_portcall_10d','behavioral_voi','gfw_presence'].includes(input.dataset.layer)){input.checked=false;syncLayerVisibility(input.dataset.layer);}});applyTimeMode('latest');});
+    $('resetOverview').addEventListener('click',()=>{state.selectedIdentity=null;$('showTrafficContext').checked=false;$('showTracks').checked=false;$('vesselSearch').value='';$('showInfrastructure').checked=false;$('showInfrastructure').dispatchEvent(new Event('change'));document.querySelectorAll('[data-source]').forEach(input=>input.checked=true);document.querySelectorAll('input[data-layer]').forEach(input=>{if(['sanctions_shadowfleet','watchlist','falseflag_interest','false_flag_watch','russian_mmsi','recent_russian_portcall_10d','behavioral_voi','gfw_presence'].includes(input.dataset.layer)){input.checked=false;syncLayerVisibility(input.dataset.layer);}});applyTimeMode('latest');});
     document.querySelectorAll('[data-source]').forEach(input=>input.addEventListener('change',renderVesselView));
     $('showTracks').addEventListener('change',()=>applyTimeMode(state.timeMode));
     $('clearTrack').addEventListener('click',()=>{state.selectedIdentity=null;renderVesselView();});

@@ -16,6 +16,7 @@ def inspect_staged(root=ROOT):
         low=name.lower()
         if name=='public/data/sar/workbench.enc.json' or (low.startswith(('data/raw/','tmp/aisdk/'))) or (Path(low).name.startswith('aisdk-') and low.endswith(('.zip','.csv'))):raise ValueError('Raw or permanent SAR data is staged')
         size=int(subprocess.check_output(['git','cat-file','-s',':'+name],cwd=root))
+        if name=='public/data/vessels/traffic_context_latest.json' and size>1024*1024:raise ValueError('Traffic context exceeds the 1 MiB latest-only budget')
         if size>=50*1024*1024:raise ValueError('Staged file reaches the 50 MiB application guard')
         pending+=size
     return pending

@@ -24,6 +24,10 @@ event={'type':'event','id':'fixture','time':now,'mmsi':273123456,'msg_type':'Pos
 row=ow.normalize_event(event,now)
 row.update({'name':'OFFLINE FIXTURE','imo':'9179842','stream_id':'stream_1','positions':[row.copy()]})
 assert ow.publish([([row],{'id':'stream_1','ok':True,'no_events':False}),([] ,{'id':'stream_2','ok':True,'no_events':False})])==0
+from traffic_context import TrafficContext
+context=TrafficContext()
+context.add_source('openwaters',[row,{**row,'mmsi':'200000001','imo':''}])
+context.publish(monitored=[row])
 Path('data/ais_contacts_fintraffic_latest.json').write_text(json.dumps({'generated_at':now,'source':'Fintraffic Digitraffic','contacts':[{**row,'source_provider':'fintraffic','imo':''}]}))
 '''
     result=subprocess.run([sys.executable,'-c',script,now],cwd=root,capture_output=True,text=True)
@@ -51,3 +55,9 @@ Path('data/ais_contacts_fintraffic_latest.json').write_text(json.dumps({'generat
     history=[json.loads(line) for line in (root/'public/data/vessels/voi_history_14d.jsonl').read_text().splitlines() if line.strip()]
     assert {'openwaters','fintraffic'}<={r.get('source_provider') for r in history}
     assert all(r.get('position_timestamp_valid') is True for r in history)
+    assert all(r.get('mmsi')!='200000001' for r in history)
+    data_manifest=json.loads((root/'public/data/manifest.json').read_text())
+    assert data_manifest['traffic_context']=='./data/vessels/traffic_context_latest.json'
+    context_path=root/'public/data/vessels/traffic_context_latest.json'
+    assert context_path.stat().st_size<=1024*1024
+    assert json.loads(context_path.read_text())['count']==1
