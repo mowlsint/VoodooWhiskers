@@ -187,6 +187,7 @@ async def collect_stream(stream, token, seconds, snapshot=True, connect=None):
                     del vals[old]
             stats["ok"] = not stats["errors"]
     except Exception as exc:
+        stats["ok"] = False
         stats["errors"].append(type(exc).__name__)
         stats["disconnects"] += 1
         stats["thinning_possible"] = True
@@ -208,6 +209,14 @@ async def collect_stream(stream, token, seconds, snapshot=True, connect=None):
         record["positions"] = ordered
         records.append(record)
     stats["contacts_before_filter"] = len(records)
+    # Preserve valid, bounded observations after a late transport disconnect or
+    # the existing event-memory guard. Explicit provider errors and early
+    # failures remain unusable. Never label a truncated sample as complete.
+    recoverable = {"ConnectionClosedError", "ConnectionClosedOK", "event_memory_guard"}
+    stats["usable_partial"] = (not stats["ok"] and len(stats["errors"]) == 1
+                               and stats["errors"][0] in recoverable
+                               and elapsed >= min(120.0, seconds / 2)
+                               and bool(records))
     return records, stats
 
 
@@ -217,16 +226,25 @@ async def collect(cfg, token, connect=None):
                               cfg.get("snapshot", True), connect) for s in cfg["streams"]))
 
 
+def stream_publishable(records, stats):
+    """Allow a labeled partial snapshot, never an early or explicit provider failure."""
+    return bool(not stats.get("no_events") and
+                (stats.get("ok") or (stats.get("usable_partial") is True and records)))
+
+
 def publish(results, generated_at=None, output=OUTPUT, status_path=STATUS):
     statuses = [stats for _, stats in results]
-    # Partial success refreshes only the successful stream; preserve the other stream's LKG.
+    # A usable interrupted stream refreshes its valid positions but remains degraded.
+    # Unusable streams retain their last-known-good positions.
     previous = {}
     if output.exists():
         try:
             previous = json.loads(output.read_text())
         except (ValueError, OSError):
             pass
-    success = {s["id"] for s in statuses if s["ok"] and not s["no_events"]}
+    success = {stats["id"] for records, stats in results if stream_publishable(records, stats)}
+    degraded = {stats["id"] for records, stats in results
+                if stats["id"] in success and not stats["ok"]}
     static_cache = {c["mmsi"]: c for c in previous.get("contacts", []) if isinstance(c, dict) and c.get("mmsi")}
     rows = [c for c in previous.get("contacts", []) if c.get("stream_id") not in success]
     for records, stats in results:
@@ -253,8 +271,11 @@ def publish(results, generated_at=None, output=OUTPUT, status_path=STATUS):
             "attribution": "Open Waters; original source and station retained per position",
             "source_terms": "https://openwaters.io/api/ais/"})
     atomic_json_write(status_path, {"generated_at": generated_at or utc_now_iso(), "streams": statuses,
-        "ok": len(success) == 2, "partial": len(success) == 1, "retained_previous_on_failure": len(success) < 2})
-    return 0 if len(success) == 2 else 1
+        "ok": len(success) == 2 and not degraded,
+        "partial": bool(success) and (len(success) < 2 or bool(degraded)),
+        "published_streams": sorted(success), "degraded_streams": sorted(degraded),
+        "retained_previous_on_failure": len(success) < 2})
+    return 0 if len(success) == 2 and not degraded else 1
 
 
 def main():
