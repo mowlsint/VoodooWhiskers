@@ -1,0 +1,11 @@
+.trafficCoverageNotice,.coverageReopen{position:absolute;z-index:700;left:12px;border:1px solid #bd914c;background:rgba(10,23,32,.97);color:#f6ead6;border-radius:10px;box-shadow:0 4px 16px #0006;font:12px/1.45 system-ui,sans-serif}
+.trafficCoverageNotice{top:90px;width:min(360px,calc(100% - 24px));padding:13px 44px 13px 14px}
+.trafficCoverageNotice strong{display:block;font-size:13px;color:#ffe0a3}
+.trafficCoverageNotice p{margin:6px 0 0}
+.coverageClose{position:absolute;right:0;top:0;width:40px;height:44px;border:0;border-radius:8px;background:transparent;color:#fff;font-size:25px;cursor:pointer}
+.coverageReopen{bottom:42px;padding:8px 12px;cursor:pointer}
+.trafficCoverageNotice[hidden],.coverageReopen[hidden]{display:none}
+.coverageClose:focus-visible,.coverageReopen:focus-visible{outline:3px solid #69d8fb;outline-offset:2px}
+.trafficContextDot{width:5px;height:5px;background:#9bc7d8;opacity:.65;vertical-align:middle;margin-left:2px;margin-right:7px}
+.trafficContextCard #trafficContextStatus{padding:7px;border-left:2px solid #3b6075;background:#0b202c;font-size:11px;overflow-wrap:anywhere}
+@media(max-width:520px){.trafficCoverageNotice{top:94px;font-size:11px;padding-top:10px;padding-bottom:10px}.trafficCoverageNotice strong{font-size:12px}}

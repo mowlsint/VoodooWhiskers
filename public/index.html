@@ -6,7 +6,8 @@
   <meta name="description" content="Voodoo Whiskers maritime infrastructure, vessel context, historical AIS and delayed SAR detection map">
   <title>Voodoo Whiskers — Maritime Infrastructure Watch</title>
   <link rel="stylesheet" href="./assets/vendor/leaflet.css">
-  <link rel="stylesheet" href="./assets/infrastructure-watch.css?v=20261109-sources-retention">
+  <link rel="stylesheet" href="./assets/infrastructure-watch.css?v=20261110-traffic-context">
+  <link rel="stylesheet" href="./assets/traffic-context.css?v=20261110-traffic-context">
   <link rel="stylesheet" href="./assets/sar-layer.css">
   <link rel="stylesheet" href="./assets/common-snapshot-status.css">
   <style>
@@ -67,9 +68,15 @@
         <label class="control"><input type="checkbox" data-source="unknown" checked><i style="background:#9da6b1" class="dot"></i>Quelle nicht belegt</label>
         <label class="control"><input type="checkbox" id="showTracks">Alle verfügbaren Schiffsspuren</label><button type="button" id="clearTrack" class="smallButton">Einzelspurauswahl zurücksetzen</button><p id="trackStatus" role="status"></p><p>Ein Schiff bleibt über IMO/MMSI dieselbe Identität. Farbwechsel zeigen einen anderen Lieferweg. Über 12 Stunden Datenlücke, widersprüchliche Identitäten und unplausible Sprünge werden nicht verbunden.</p>
       </section>
+      <section class="card trafficContextCard">
+        <h2>Verkehrskontext</h2>
+        <label class="control"><input type="checkbox" id="showTrafficContext">Verkehrskontext anzeigen</label>
+        <p>Kleine Punkte in Quellenfarben; dichte Bereiche werden beim Herauszoomen zusammengefasst. Ältere Positionen erscheinen blasser. Nur die letzte empfangene Position, keine zusätzliche Schiffshistorie.</p>
+        <p id="trafficContextStatus" role="status">Ausgeblendet · wird erst beim Einschalten geladen.</p>
+      </section>
       <section class="card">
         <details><summary>VOI-Kategorien und Zusatzebenen</summary><div class="sectionHead"><h2>Vessel layers</h2><button type="button" class="smallButton" id="fitVessels">Fit</button></div>
-        <p class="timeHelp">Default vessel scope: all priority VOIs plus neutral tanker context. General traffic and small craft remain in the downloadable harmonized dataset but are not drawn on the map.</p>
+        <p class="timeHelp">Default vessel scope: all priority VOIs plus neutral tanker context. Optional background traffic is a separate, bounded latest-only context layer; it is not part of VOI history.</p>
         <label class="control"><input type="checkbox" data-layer="vessel_positions" checked> All priority VOIs at common snapshot / selected history</label>
         <label class="control"><input type="checkbox" data-layer="danish_history" disabled> Danish historical matched-VOI tracks</label>
         <label class="control"><input type="checkbox" data-layer="neutral_tanker_context" checked> Neutral tanker context</label>
@@ -117,7 +124,7 @@
       </section>
       <section class="card sourceCard">
         <h2>Sources and limits</h2>
-        <p>Displayed vessel scope: harmonized priority VOIs plus neutral tanker context. The full harmonized traffic product remains available for download but is not drawn by default. Historical supplement: Danish land-based AIS, delayed and limited to two observations per vessel in a known Voodoo category. Satellite supplement: delayed Global Fishing Watch Sentinel-1 SAR vessel-detection report cells plus bounded GFW AIS Vessel Presence cells from the corresponding historical hours. Infrastructure: EMODnet Human Activities and original providers.</p>
+        <p>Displayed vessel scope: harmonized priority VOIs plus neutral tanker context. Optional small background points show a capacity-limited selection of received traffic, not complete coverage. Historical supplement: Danish land-based AIS, delayed and limited to two observations per vessel in a known Voodoo category. Satellite supplement: delayed Global Fishing Watch Sentinel-1 SAR vessel-detection report cells plus bounded GFW AIS Vessel Presence cells from the corresponding historical hours. Infrastructure: EMODnet Human Activities and original providers.</p>
         <p>Coverage is mixed and not continuous. Older, repaired or delayed timestamps are visibly marked. SAR and historical GFW AIS coordinates are report-cell centres. The historical SAR–AIS mode automatically hides current vessel layers to prevent false time overlays.</p>
         <p><a href="https://globalfishingwatch.org" target="_blank" rel="noopener noreferrer">Powered by Global Fishing Watch.</a></p>
         <div class="generated" id="generatedAt">Generated: –</div>
@@ -126,7 +133,14 @@
     <section class="mapShell">
       <div class="aisDataAgeBanner" id="aisDataAgeBanner" role="status">AIS not live, Data age unknown</div>
       <div id="map" role="application" aria-label="Voodoo Whiskers maritime infrastructure map"></div>
+      <aside id="trafficCoverageNotice" class="trafficCoverageNotice" role="note" aria-label="Hinweis zur Verkehrsabdeckung">
+        <button type="button" id="closeCoverageNotice" class="coverageClose" aria-label="Abdeckungshinweis schließen">×</button>
+        <strong>Das Verkehrsbild kann unvollständig sein</strong>
+        <p>Aufgrund begrenzter Datenkapazitäten und Empfangsabdeckung wird vermutlich nicht der gesamte Schiffsverkehr angezeigt. Die Punkte zeigen empfangene Positionen mit ihrer jeweiligen Beobachtungszeit, keinen kontinuierlichen Livestream.</p>
+      </aside>
+      <button type="button" id="showCoverageNotice" class="coverageReopen" hidden>Abdeckungshinweis</button>
       <div class="mapLegend">
+        <div><span class="dot trafficContextDot"></span>Kleine Punkte: Verkehrskontext</div>
         <div><span class="dot" style="background:#4da3ff"></span>Open Waters</div><div><span class="dot" style="background:#39d3df"></span>Finnland</div><div><span class="dot" style="background:#61d29a"></span>Norwegen</div><div><span class="dot" style="background:#ffb44e"></span>Dänemark historisch</div><div><span class="dot" style="background:#c8a1ff"></span>GFW-Kontext</div><div>Magenta-Rand: False Flag</div>
 
 
@@ -147,7 +161,8 @@
   <script src="./assets/vendor/leaflet.js"></script>
   <script src="./assets/sar-map-hook.js"></script>
   <script src="./assets/vessel-model.js?v=20261109-sources-retention"></script>
-  <script src="./assets/infrastructure-watch.js?v=20261109-sources-retention"></script>
+  <script src="./assets/traffic-context.js?v=20261110-traffic-context"></script>
+  <script src="./assets/infrastructure-watch.js?v=20261110-traffic-context"></script>
   <script src="./assets/sar-layer.js?v=20261109-sources-retention"></script>
   <script src="./assets/vesselfinder-links.js"></script>
   <script src="./assets/common-snapshot-status.js"></script>

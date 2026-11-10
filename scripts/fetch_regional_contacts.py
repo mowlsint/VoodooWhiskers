@@ -283,7 +283,7 @@ def filter_contacts(contacts: Iterable[dict[str, Any]], provider: str) -> list[d
     return kept
 
 
-def fetch_fintraffic(session: requests.Session) -> tuple[dict[str, Any], dict[str, Any]]:
+def fetch_fintraffic(session: requests.Session, context_sink=None) -> tuple[dict[str, Any], dict[str, Any]]:
     locations_response = session.get(FINTRAFFIC_LOCATIONS_URL, timeout=(10, 45))
     locations_response.raise_for_status()
     vessels_response = session.get(FINTRAFFIC_VESSELS_URL, timeout=(10, 45))
@@ -300,6 +300,8 @@ def fetch_fintraffic(session: requests.Session) -> tuple[dict[str, Any], dict[st
         contact = normalize_fintraffic(record, metadata.get(mmsi, {}), fetched_at)
         if contact:
             normalized.append(contact)
+    if context_sink is not None:
+        context_sink("fintraffic", normalized)
     kept = filter_contacts(normalized, "fintraffic")
     payload = {
         "schema_version": "1.0.0",
@@ -317,7 +319,7 @@ def fetch_fintraffic(session: requests.Session) -> tuple[dict[str, Any], dict[st
     return payload, status
 
 
-def fetch_barentswatch(session: requests.Session, client_id: str, client_secret: str) -> tuple[dict[str, Any], dict[str, Any]]:
+def fetch_barentswatch(session: requests.Session, client_id: str, client_secret: str, context_sink=None) -> tuple[dict[str, Any], dict[str, Any]]:
     token_response = session.post(
         BARENTSWATCH_TOKEN_URL,
         data={
@@ -345,6 +347,8 @@ def fetch_barentswatch(session: requests.Session, client_id: str, client_secret:
     fetched_at = utc_now_iso()
     records = list(iter_records(response.json()))
     normalized = [contact for record in records if (contact := normalize_barentswatch(record, fetched_at))]
+    if context_sink is not None:
+        context_sink("barentswatch", normalized)
     kept = filter_contacts(normalized, "barentswatch")
     payload = {
         "schema_version": "1.0.0",
@@ -362,14 +366,14 @@ def fetch_barentswatch(session: requests.Session, client_id: str, client_secret:
     return payload, status
 
 
-def main() -> int:
+def main(context_sink=None) -> int:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     session = build_session()
     status: dict[str, Any] = {"generated_at": utc_now_iso(), "providers": {}}
     successful = 0
 
     try:
-        payload, provider_status = fetch_fintraffic(session)
+        payload, provider_status = fetch_fintraffic(session, context_sink=context_sink)
         atomic_json_write(FINTRAFFIC_OUTPUT, payload)
         status["providers"]["fintraffic"] = provider_status
         successful += 1
@@ -389,7 +393,7 @@ def main() -> int:
         print("BarentsWatch skipped: credentials are not configured.")
     else:
         try:
-            payload, provider_status = fetch_barentswatch(session, client_id, client_secret)
+            payload, provider_status = fetch_barentswatch(session, client_id, client_secret, context_sink=context_sink)
             atomic_json_write(BARENTSWATCH_OUTPUT, payload)
             status["providers"]["barentswatch"] = provider_status
             successful += 1
