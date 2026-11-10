@@ -1,64 +1,67 @@
 {
-  "generated_at": "2026-11-10T17:37:43+00:00",
+  "generated_at": "2026-11-10T19:25:00+00:00",
   "streams": [
     {
       "id": "stream_1",
-      "ok": false,
-      "events": 83141,
+      "ok": true,
+      "events": 91105,
       "duplicates": 0,
-      "invalid_positions": 89,
-      "older_or_replayed_events": 32166,
+      "invalid_positions": 19,
+      "older_or_replayed_events": 31669,
       "observed_rate_near_limit": true,
       "thinning_possible": true,
-      "errors": [
-        "ConnectionClosedError"
-      ],
-      "disconnects": 1,
+      "errors": [],
+      "disconnects": 0,
       "idle_gaps_over_30s": 0,
       "limits": {
         "rate": 50,
         "area": 400,
         "conns": 2
       },
-      "elapsed_seconds": 1032.88,
-      "messages_per_second": 80.49,
-      "max_live_events_per_receive_second": 104,
+      "elapsed_seconds": 1200.14,
+      "messages_per_second": 75.91,
+      "max_live_events_per_receive_second": 100,
       "rate_measurement_basis": "receive_second_buckets_excluding_pre_sample_provider_times",
       "no_events": false,
-      "tail_idle_seconds": 1.0,
+      "tail_idle_seconds": 0.1,
       "coverage_limit": "Reception-dependent sample; no traffic absence or full-coverage claim. Server thinning may be invisible.",
-      "contacts_before_filter": 15860
+      "contacts_before_filter": 15763,
+      "usable_partial": false
     },
     {
       "id": "stream_2",
-      "ok": false,
-      "events": 23737,
+      "ok": true,
+      "events": 26572,
       "duplicates": 0,
       "invalid_positions": 0,
-      "older_or_replayed_events": 2400,
-      "observed_rate_near_limit": false,
+      "older_or_replayed_events": 2358,
+      "observed_rate_near_limit": true,
       "thinning_possible": true,
-      "errors": [
-        "ConnectionClosedError"
-      ],
-      "disconnects": 1,
+      "errors": [],
+      "disconnects": 0,
       "idle_gaps_over_30s": 0,
       "limits": {
         "rate": 50,
         "area": 400,
         "conns": 2
       },
-      "elapsed_seconds": 1032.97,
-      "messages_per_second": 22.98,
-      "max_live_events_per_receive_second": 42,
+      "elapsed_seconds": 1200.27,
+      "messages_per_second": 22.14,
+      "max_live_events_per_receive_second": 48,
       "rate_measurement_basis": "receive_second_buckets_excluding_pre_sample_provider_times",
       "no_events": false,
       "tail_idle_seconds": 0.3,
       "coverage_limit": "Reception-dependent sample; no traffic absence or full-coverage claim. Server thinning may be invisible.",
-      "contacts_before_filter": 1165
+      "contacts_before_filter": 1156,
+      "usable_partial": false
     }
   ],
-  "ok": false,
+  "ok": true,
   "partial": false,
-  "retained_previous_on_failure": true
+  "published_streams": [
+    "stream_1",
+    "stream_2"
+  ],
+  "degraded_streams": [],
+  "retained_previous_on_failure": false
 }
