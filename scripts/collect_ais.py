@@ -17,10 +17,14 @@ async def run():
     # The regional worker finishes filtering/state updates before OW publishes its results.
     if token:
         results, _ = await asyncio.gather(ow.collect(cfg, token), asyncio.to_thread(regional.main, context_sink=context.add_source))
-        ow.publish(results)
-        successful = [(rows, status) for rows, status in results if status["ok"] and not status["no_events"]]
-        if successful:
-            context.add_source("openwaters", [row for rows, _ in successful for row in rows], partial=len(successful) < len(results))
+        publish_result = ow.publish(results)
+        if publish_result:
+            print("::warning::Open Waters collection degraded; safe partial AIS snapshots were retained where available. See data/ais_openwaters_fetch_status_latest.json.")
+        usable = [(rows, status) for rows, status in results if ow.stream_publishable(rows, status)]
+        if usable:
+            degraded = any(not status["ok"] for _, status in usable)
+            context.add_source("openwaters", [row for rows, _ in usable for row in rows],
+                               partial=degraded or len(usable) < len(results))
     else:
         regional.atomic_json_write(ow.STATUS, {"generated_at": regional.utc_now_iso(),
             "ok": False, "error": "OPENWATERS_TOKEN missing", "live_test_performed": False})
