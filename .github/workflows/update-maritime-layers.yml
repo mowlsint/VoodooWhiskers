@@ -166,9 +166,15 @@ jobs:
             exit 1
           fi
 
-          for path in data/gfw_historical_ais_latest.json data/watchlist_master.csv data/sanctions_sources data/sanctions_refresh_status_latest.json data/ais_contacts_openwaters_latest.json data/ais_openwaters_fetch_status_latest.json data/ais_contacts_fintraffic_latest.json data/ais_contacts_barentswatch_latest.json data/ais_regional_fetch_status_latest.json data/history data/maritime_common_snapshot_latest.json data/maritime_common_snapshot_status_latest.json public; do
+          for path in data/gfw_historical_ais_latest.json data/watchlist_master.csv data/sanctions_sources data/sanctions_refresh_status_latest.json data/ais_contacts_openwaters_latest.json data/ais_openwaters_fetch_status_latest.json data/ais_contacts_fintraffic_latest.json data/ais_contacts_barentswatch_latest.json data/ais_regional_fetch_status_latest.json data/russian_route_state.json data/russian_portcall_history.jsonl data/history data/maritime_common_snapshot_latest.json data/maritime_common_snapshot_status_latest.json public; do
             [ ! -e "$path" ] || git add -- "$path"
           done
+
+          if ! git diff --quiet; then
+            echo "::error::Tracked changes remain unstaged; refusing to hide or discard them."
+            git diff --name-only
+            exit 1
+          fi
 
           if git diff --cached --quiet; then
             echo "No maritime layer changes to commit."
