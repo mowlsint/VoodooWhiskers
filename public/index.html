@@ -70,16 +70,16 @@
       </section>
       <section class="card trafficContextCard">
         <h2>Traffic context</h2>
-        <label class="control"><input type="checkbox" id="showTrafficContext">Show traffic context</label>
+        <label class="control"><input type="checkbox" id="showTrafficContext">Add other received vessels · small context dots</label>
         <p>Small dots use source colours; dense areas are grouped when zoomed out. Older positions appear fainter. Latest received positions only, with no additional vessel history.</p>
         <p id="trafficContextStatus" role="status">Hidden · loaded only when enabled.</p>
       </section>
       <section class="card">
         <details><summary>VOI categories and additional layers</summary><div class="sectionHead"><h2>Vessel layers</h2><button type="button" class="smallButton" id="fitVessels">Fit</button></div>
-        <p class="timeHelp">Default vessel scope: all priority VOIs plus neutral tanker context. Optional background traffic is a separate, bounded latest-only context layer; it is not part of VOI history.</p>
-        <label class="control"><input type="checkbox" data-layer="vessel_positions" checked> All priority VOIs at common snapshot / selected history</label>
+        <p class="timeHelp">Default: shadow fleet, watchlisted vessels and other priority VOIs. Neutral tankers and background traffic are optional additions.</p>
+        <label class="control"><input type="checkbox" data-layer="vessel_positions" checked> Shadow fleet, watchlists &amp; other priority VOIs</label>
         <label class="control"><input type="checkbox" data-layer="danish_history" disabled> Danish historical matched-VOI tracks</label>
-        <label class="control"><input type="checkbox" data-layer="neutral_tanker_context" checked> Neutral tanker context</label>
+        <label class="control"><input type="checkbox" data-layer="neutral_tanker_context"> Add neutral tanker context</label>
         <label class="control"><input type="checkbox" data-layer="sanctions_shadowfleet"> Sanctions / shadow fleet</label>
         <label class="control"><input type="checkbox" data-layer="watchlist"> Watchlist</label>
         <label class="control"><input type="checkbox" data-layer="falseflag_interest"> False-flag interest</label>
@@ -88,7 +88,7 @@
         <label class="control"><input type="checkbox" data-layer="recent_russian_portcall_10d"> Recent Russian portcall (confirmed / unconfirmed)</label>
         <label class="control"><input type="checkbox" data-layer="behavioral_voi"> Behavioural VOI</label></details>
       </section>
-      <section class="card"><h2>GFW · historical context</h2><p><a href="./sar.html">Open protected SAR workbench ↗</a></p><label class="control"><input type="checkbox" data-layer="gfw_loitering" checked>Loitering events · purple rings</label><label class="control"><input type="checkbox" data-layer="gfw_presence">AIS presence grid · no individual identities</label><p id="gfwStatus" role="status"></p><div id="loiteringList" class="analysisList"></div><p>Events show the vessel, period and duration where supplied by the provider. Use the popup to search for SAR acquisitions from that period.</p></section>
+      <section class="card"><h2>GFW · optional historical context</h2><p><a href="./sar.html">Open protected SAR workbench ↗</a></p><label class="control"><input type="checkbox" data-layer="gfw_loitering">Add loitering events · purple rings</label><label class="control"><input type="checkbox" data-layer="gfw_presence">Add historical AIS grid · purple boxes</label><p><strong>What are the boxes?</strong> Each 0.01° cell reports historical AIS presence during the period in its popup. A box is not an individual ship, an exact position or a radar image. Use it only for traffic context.</p><p><strong>To investigate a vessel:</strong> enable loitering rings, open an event and choose “Search SAR acquisitions for this period”. The event shows identity, time and duration where supplied.</p><p id="gfwStatus" role="status"></p><div id="loiteringList" class="analysisList"></div></section>
       <section class="card sarCard"><details><summary>Legacy GFW SAR comparison</summary>
         <div class="sectionHead"><h2>Historical SAR–AIS comparison</h2><button type="button" class="smallButton" id="fitSar">Fit</button></div>
         <label class="control"><input type="checkbox" id="sarDetectionsToggle" disabled> Show synchronized historical SAR + AIS context</label>
@@ -114,7 +114,7 @@
       </section>
       <section class="card">
         <h2>Analysis</h2>
-        <label class="control"><input type="checkbox" data-layer="infrastructure_events" checked> Infrastructure review events</label>
+        <label class="control"><input type="checkbox" data-layer="infrastructure_events"> Add infrastructure review events</label>
         <div id="analysisList" class="analysisList"><div class="empty">No analysis loaded yet.</div></div>
       </section>
 
@@ -124,7 +124,7 @@
       </section>
       <section class="card sourceCard">
         <h2>Sources and limits</h2>
-        <p>Displayed vessel scope: harmonized priority VOIs plus neutral tanker context. Optional small background points show a capacity-limited selection of received traffic, not complete coverage. Historical supplement: Danish land-based AIS, delayed and limited to two observations per vessel in a known Voodoo category. Satellite supplement: delayed Global Fishing Watch Sentinel-1 SAR vessel-detection report cells plus bounded GFW AIS Vessel Presence cells from the corresponding historical hours. Infrastructure: EMODnet Human Activities and original providers.</p>
+        <p>Default vessel scope: harmonized priority VOIs, including shadow fleet and watchlists. Neutral tanker context and small background traffic points are optional. Background traffic is capacity-limited, not complete coverage. Historical supplement: Danish land-based AIS, delayed and limited to two observations per vessel in a known Voodoo category. Satellite supplement: delayed Global Fishing Watch Sentinel-1 SAR vessel-detection report cells plus bounded GFW AIS Vessel Presence cells from the corresponding historical hours. Infrastructure: EMODnet Human Activities and original providers.</p>
         <p>Coverage is mixed and not continuous. Older, repaired or delayed timestamps are visibly marked. SAR and historical GFW AIS coordinates are report-cell centres. The historical SAR–AIS mode automatically hides current vessel layers to prevent false time overlays.</p>
         <p><a href="https://globalfishingwatch.org" target="_blank" rel="noopener noreferrer">Powered by Global Fishing Watch.</a></p>
         <div class="generated" id="generatedAt">Generated: –</div>
@@ -162,7 +162,7 @@
   <script src="./assets/sar-map-hook.js"></script>
   <script src="./assets/vessel-model.js?v=20261110-en"></script>
   <script src="./assets/traffic-context.js?v=20261110-en"></script>
-  <script src="./assets/infrastructure-watch.js?v=20261110-en"></script>
+  <script src="./assets/infrastructure-watch.js?v=20261111-focus"></script>
   <script src="./assets/sar-layer.js?v=20261109-sources-retention"></script>
   <script src="./assets/vesselfinder-links.js"></script>
   <script src="./assets/common-snapshot-status.js"></script>

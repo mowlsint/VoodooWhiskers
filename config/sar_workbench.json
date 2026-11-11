@@ -12,8 +12,385 @@
   "land_archive_url": "https://naturalearth.s3.amazonaws.com/10m_physical/ne_10m_land.zip",
   "land_archive_sha256": "e547d749445eaa0964aba76738090ec88f5e63c4585122170f98c67a7ea922dc",
   "areas": [
-    {"id": "kadetrinne", "name": "Kadet Channel", "bbox": [11.95,54.48,12.25,54.66]},
-    {"id": "fehmarnbelt", "name": "Fehmarn Belt", "bbox": [11.05,54.50,11.30,54.67]},
-    {"id": "german_bight", "name": "German Bight · northwest of Heligoland", "bbox": [7.45,54.30,7.72,54.47]}
+    {
+      "id": "kadetrinne",
+      "name": "Kadet Channel",
+      "bbox": [
+        11.95,
+        54.48,
+        12.25,
+        54.66
+      ]
+    },
+    {
+      "id": "fehmarnbelt",
+      "name": "Fehmarn Belt",
+      "bbox": [
+        11.05,
+        54.5,
+        11.3,
+        54.67
+      ]
+    },
+    {
+      "id": "german_bight",
+      "name": "German Bight \u00b7 northwest of Heligoland",
+      "bbox": [
+        7.45,
+        54.3,
+        7.72,
+        54.47
+      ]
+    },
+    {
+      "id": "borkum_offshore",
+      "name": "North Sea \u00b7 offshore Borkum",
+      "bbox": [
+        6.14717,
+        53.910169,
+        6.45283,
+        54.089831
+      ]
+    },
+    {
+      "id": "elbe_approach",
+      "name": "North Sea \u00b7 Elbe approach",
+      "bbox": [
+        7.846728,
+        54.030169,
+        8.153272,
+        54.209831
+      ]
+    },
+    {
+      "id": "dogger_bank",
+      "name": "North Sea \u00b7 Dogger Bank",
+      "bbox": [
+        1.843384,
+        54.910169,
+        2.156616,
+        55.089831
+      ]
+    },
+    {
+      "id": "dutch_coast",
+      "name": "North Sea \u00b7 offshore IJmuiden",
+      "bbox": [
+        3.9521,
+        52.510169,
+        4.2479,
+        52.689831
+      ]
+    },
+    {
+      "id": "rotterdam_approach",
+      "name": "North Sea \u00b7 Rotterdam approach",
+      "bbox": [
+        3.35409,
+        51.910169,
+        3.64591,
+        52.089831
+      ]
+    },
+    {
+      "id": "dover",
+      "name": "Channel \u00b7 Dover Strait",
+      "bbox": [
+        1.257103,
+        50.960169,
+        1.542897,
+        51.139831
+      ]
+    },
+    {
+      "id": "wight",
+      "name": "Channel \u00b7 south of Isle of Wight",
+      "bbox": [
+        -1.340484,
+        50.160169,
+        -1.059516,
+        50.339831
+      ]
+    },
+    {
+      "id": "ushant",
+      "name": "Channel \u00b7 west of Ushant",
+      "bbox": [
+        -5.63557,
+        48.410169,
+        -5.36443,
+        48.589831
+      ]
+    },
+    {
+      "id": "irish_sea",
+      "name": "Irish Sea \u00b7 western approaches",
+      "bbox": [
+        -5.153198,
+        54.010169,
+        -4.846802,
+        54.189831
+      ]
+    },
+    {
+      "id": "hebrides",
+      "name": "Atlantic \u00b7 west of Hebrides",
+      "bbox": [
+        -7.870472,
+        58.110169,
+        -7.529528,
+        58.289831
+      ]
+    },
+    {
+      "id": "west_ireland",
+      "name": "Atlantic \u00b7 west of Ireland",
+      "bbox": [
+        -11.651022,
+        53.410169,
+        -11.348978,
+        53.589831
+      ]
+    },
+    {
+      "id": "faroe_approach",
+      "name": "Atlantic \u00b7 southwest of Faroe Islands",
+      "bbox": [
+        -7.18766,
+        61.310169,
+        -6.81234,
+        61.489831
+      ]
+    },
+    {
+      "id": "south_iceland",
+      "name": "Atlantic \u00b7 south of Iceland",
+      "bbox": [
+        -19.199236,
+        63.110169,
+        -18.800764,
+        63.289831
+      ]
+    },
+    {
+      "id": "skagerrak",
+      "name": "Skagerrak \u00b7 central waters",
+      "bbox": [
+        8.831422,
+        57.710169,
+        9.168578,
+        57.889831
+      ]
+    },
+    {
+      "id": "kattegat",
+      "name": "Kattegat \u00b7 central waters",
+      "bbox": [
+        11.636813,
+        56.510169,
+        11.963187,
+        56.689831
+      ]
+    },
+    {
+      "id": "great_belt",
+      "name": "Baltic approaches \u00b7 Great Belt",
+      "bbox": [
+        10.791803,
+        55.310169,
+        11.108197,
+        55.489831
+      ]
+    },
+    {
+      "id": "oresund",
+      "name": "Baltic approaches \u00b7 northern Oresund",
+      "bbox": [
+        12.539148,
+        55.960169,
+        12.860852,
+        56.139831
+      ]
+    },
+    {
+      "id": "arkona",
+      "name": "Baltic \u00b7 Arkona Basin",
+      "bbox": [
+        13.343967,
+        54.760169,
+        13.656033,
+        54.939831
+      ]
+    },
+    {
+      "id": "bornholm",
+      "name": "Baltic \u00b7 south of Bornholm",
+      "bbox": [
+        14.644545,
+        54.610169,
+        14.955455,
+        54.789831
+      ]
+    },
+    {
+      "id": "gdansk",
+      "name": "Baltic \u00b7 Gulf of Gdansk",
+      "bbox": [
+        18.944545,
+        54.610169,
+        19.255455,
+        54.789831
+      ]
+    },
+    {
+      "id": "gotland",
+      "name": "Baltic \u00b7 east of Gotland",
+      "bbox": [
+        19.333267,
+        57.310169,
+        19.666733,
+        57.489831
+      ]
+    },
+    {
+      "id": "gulf_riga",
+      "name": "Baltic \u00b7 Gulf of Riga",
+      "bbox": [
+        23.331888,
+        57.610169,
+        23.668112,
+        57.789831
+      ]
+    },
+    {
+      "id": "gulf_finland_west",
+      "name": "Baltic \u00b7 western Gulf of Finland",
+      "bbox": [
+        24.222215,
+        59.560169,
+        24.577785,
+        59.739831
+      ]
+    },
+    {
+      "id": "gulf_finland_east",
+      "name": "Baltic \u00b7 eastern Gulf of Finland",
+      "bbox": [
+        28.321416,
+        59.710169,
+        28.678584,
+        59.889831
+      ]
+    },
+    {
+      "id": "aland",
+      "name": "Baltic \u00b7 south of Aland",
+      "bbox": [
+        19.523006,
+        59.410169,
+        19.876994,
+        59.589831
+      ]
+    },
+    {
+      "id": "bothnian_sea",
+      "name": "Baltic \u00b7 Bothnian Sea",
+      "bbox": [
+        19.508655,
+        61.910169,
+        19.891345,
+        62.089831
+      ]
+    },
+    {
+      "id": "bothnian_bay",
+      "name": "Baltic \u00b7 Bothnian Bay",
+      "bbox": [
+        21.041719,
+        64.360169,
+        21.458281,
+        64.539831
+      ]
+    },
+    {
+      "id": "stavanger_offshore",
+      "name": "Norway \u00b7 offshore Stavanger",
+      "bbox": [
+        4.525584,
+        58.910169,
+        4.874416,
+        59.089831
+      ]
+    },
+    {
+      "id": "bergen_offshore",
+      "name": "Norway \u00b7 offshore Bergen",
+      "bbox": [
+        4.315867,
+        60.710169,
+        4.684133,
+        60.889831
+      ]
+    },
+    {
+      "id": "trondelag_offshore",
+      "name": "Norway \u00b7 offshore Trondelag",
+      "bbox": [
+        6.791338,
+        64.410169,
+        7.208662,
+        64.589831
+      ]
+    },
+    {
+      "id": "lofoten_offshore",
+      "name": "Norway \u00b7 west of Lofoten",
+      "bbox": [
+        11.758107,
+        68.110169,
+        12.241893,
+        68.289831
+      ]
+    },
+    {
+      "id": "tromso_offshore",
+      "name": "Norway \u00b7 northwest of Tromso",
+      "bbox": [
+        17.234162,
+        70.160169,
+        17.765838,
+        70.339831
+      ]
+    },
+    {
+      "id": "barents_west",
+      "name": "Barents Sea \u00b7 northern Norway approach",
+      "bbox": [
+        28.219814,
+        71.210169,
+        28.780186,
+        71.389831
+      ]
+    },
+    {
+      "id": "barents_north",
+      "name": "Barents Sea \u00b7 northern study area",
+      "bbox": [
+        31.163854,
+        74.410169,
+        31.836146,
+        74.589831
+      ]
+    },
+    {
+      "id": "svalbard_west",
+      "name": "Arctic \u00b7 west of Svalbard",
+      "bbox": [
+        10.064358,
+        78.010169,
+        10.935642,
+        78.189831
+      ]
+    }
   ]
 }

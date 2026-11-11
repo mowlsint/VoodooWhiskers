@@ -1,9 +1,11 @@
 import {encryptObject,decryptObject,validatePassword} from './sar-crypto.mjs?v=20261110-en';
-import {inspectBbox,normalizeScene,safeImage,stateText,STATES,eventFromHash} from './sar-workbench-core.mjs?v=20261110-en';
+import {inspectBbox,bboxAroundPoint,normalizeScene,safeImage,stateText,STATES,eventFromHash} from './sar-workbench-core.mjs?v=20261111-areas';
 import {readWorkspaceFile} from './sar-import.mjs?v=20261110-en';
+import {createGitHubClient,WORKFLOW_URL} from './sar-github.mjs?v=20261111-direct';
 
 const $=id=>document.getElementById(id),RAW='https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/main/public/data/sar/workbench.enc.json';
-const state={password:'',workspace:{v:1,jobs:[],analysis_ledger:{}},scenes:[],selected:null,currentJob:null,currentCandidate:null,map:null,mapLayers:null,bounds:null,config:null,event:null};
+const state={password:'',workspace:{v:1,jobs:[],analysis_ledger:{}},scenes:[],selected:null,currentJob:null,currentCandidate:null,map:null,mapLayers:null,bounds:null,config:null,event:null,pendingRequest:null,trackedRequestId:null,run:null,pollTimer:null,pollCount:0,pollGeneration:0,pickingArea:false};
+const github=createGitHubClient();
 const ERRORS={EVENT_PERIOD_OUTSIDE_RETENTION:'The event period is outside the last fourteen days. Open the loitering event again.',EVENT_PERIOD_INVALID:'The event period is invalid.',COPERNICUS_CREDENTIALS_MISSING:'Copernicus credentials are missing from GitHub Secrets.',NO_SUITABLE_SCENE:'No suitable acquisition fully covers the area in the selected period.',DAILY_ANALYSIS_LIMIT:'Three new image analyses have already been requested today. Existing image context can still be checked.',REQUEST_EXPIRED:'The request is older than 24 hours. Create a new request.',REQUEST_ALREADY_COMPLETED:'This request has already been processed.',DANISH_ARCHIVE_UNAVAILABLE:'The Danish daily archive is not yet available.',LAND_MASK_CHECKSUM:'The land mask file has changed. Processing has stopped for review.',NO_OPEN_WATER_PIXELS:'Land and the coastal buffer cover the entire area. Choose an area farther offshore.',PilotError:'The Copernicus response or image quality failed validation. Check the credentials and try another acquisition.',RASTER_GEOREFERENCE_MISMATCH:'The radar image georeference does not match the requested area. The image was discarded.'};
 
 function element(tag,text,className){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e;}
@@ -17,6 +19,7 @@ function applyEvent(){
   $('area').value='custom';for(const [i,id] of ['west','south','east','north'].entries())$(id).value=state.event.bbox[i];$('days').disabled=true;updateArea();
 }
 function updateArea(){
+  cancelMapPick();
   $('custom-bbox').hidden=$('area').value!=='custom';state.selected=null;$('analyse').disabled=true;
   $('selected-scene').textContent='Select a suitable radar acquisition first.';
   try{const box=bbox(),info=inspectBbox(box,state.config);status('area-summary',`${info.area.toFixed(1)} km² · ${info.widthPx} × ${info.heightPx} pixels at 10 m`);const archiveAllowed=box[0]>=3&&box[2]<=17&&box[1]>=53&&box[3]<=60;$('danish-ais').disabled=!archiveAllowed;if(!archiveAllowed)$('danish-ais').checked=false;renderSearchMap(box);}
@@ -37,11 +40,21 @@ function initMap(){
   if(state.map)return;
   if(!globalThis.L){status('workspace-status','Map unavailable. Search and analysis remain usable.',true);return;}
   state.map=L.map('sar-map',{zoomControl:true}).setView([54.6,12.1],8);
+  state.map.on('click',event=>{if(!state.pickingArea)return;try{const box=bboxAroundPoint(event.latlng.lat,event.latlng.lng,state.config);$('area').value='custom';for(const [i,id]of ['west','south','east','north'].entries())$(id).value=box[i];updateArea();}catch(err){status('area-summary',err.message,true);}});
   addBasemap(state.map);
   state.mapLayers=L.layerGroup().addTo(state.map);
 }
 function setBounds(box){state.bounds=box;if(state.map)state.map.fitBounds([[box[1],box[0]],[box[3],box[2]]],{padding:[20,20],maxZoom:12});}
 function renderSearchMap(box){initMap();if(!state.map)return;state.mapLayers.clearLayers();L.rectangle([[box[1],box[0]],[box[3],box[2]]],{color:'#e5b66e',weight:2,fillOpacity:.07}).addTo(state.mapLayers);if(state.selected?.footprint)L.geoJSON(state.selected.footprint,{style:{color:'#75b5d6',weight:1,fillOpacity:.025}}).addTo(state.mapLayers);setBounds(box);$('map-caption').textContent='Analysis area · acquisition catalog selection';}
+function cancelMapPick(){state.pickingArea=false;$('pick-area').setAttribute('aria-pressed','false');state.map?.getContainer().classList.remove('picking-area');}
+function pickArea(){
+  if(state.event){status('area-summary','Leave the loitering event time window before choosing another area.',true);return;}
+  initMap();if(!state.map)return;
+  if(state.pickingArea){cancelMapPick();return;}
+  state.pickingArea=true;$('pick-area').setAttribute('aria-pressed','true');state.map.getContainer().classList.add('picking-area');
+  state.map.fitBounds([[48,-25],[80,35]]);status('area-summary','Click the map to centre a 20 × 20 km analysis area. Pan or zoom to place it precisely.');
+  $('sar-map').scrollIntoView({block:'center',behavior:'smooth'});
+}
 
 async function unlock(event){
   event.preventDefault();const password=$('password').value;
@@ -50,15 +63,17 @@ async function unlock(event){
     if(workspace.v!==1||!Array.isArray(workspace.jobs))throw new Error('Invalid session.');
     state.password=password;state.workspace=workspace;$('password').value='';$('gate').hidden=true;$('workspace').hidden=false;$('lock').hidden=false;
     initMap();setTimeout(()=>state.map?.invalidateSize(),0);updateArea();renderJobs();applyEvent();
-    status('workspace-status',envelope?`Workspace opened · ${fmtDate(workspace.updated_at)}`:'No session has been opened yet. The first GitHub request verifies the password. Download the encrypted GitHub results artifact and load it using Open backup.');
+    status('workspace-status',envelope?`Workspace opened · ${fmtDate(workspace.updated_at)}`:'No results loaded. Existing results are saved as encrypted GitHub artifacts: use Latest results, then open the downloaded ZIP. The first processed request verifies this password.');
   }catch{status('unlock-status','Unable to open. Check the password and connection; stored data are not changed.',true);}
   finally{$('unlock-submit').disabled=false;}
 }
 function lock(){
+  stopPolling();github.disconnect();$('github-token').value='';$('github-connect').disabled=false;$('github-disconnect').hidden=true;$('latest-results').disabled=true;$('direct-start').disabled=true;$('github-run-panel').hidden=true;$('github-artifact-link').removeAttribute('href');$('github-run-link').removeAttribute('href');state.pendingRequest=null;state.trackedRequestId=null;state.run=null;cancelMapPick();status('github-status','Not connected. Manual GitHub steps remain available.');
   state.password='';state.workspace={v:1,jobs:[],analysis_ledger:{}};state.scenes=[];state.selected=null;state.currentJob=null;state.currentCandidate=null;
   state.map?.remove();state.map=null;state.mapLayers=null;state.bounds=null;
   for(const id of ['scene-list','candidate-rows','candidate-facts','result-metrics','job-select'])$(id).replaceChildren();
-  for(const id of ['candidate-id','candidate-title','candidate-description','selected-scene','result-note','workspace-status','catalog-status','request-envelope','review-note']){const e=$(id);if('value'in e)e.value='';else e.textContent='';}
+  for(const id of ['candidate-id','candidate-title','candidate-description','selected-scene','result-note','workspace-status','catalog-status','request-envelope','review-note','dispatch-summary','copy-status','github-run-status']){const e=$(id);if('value'in e)e.value='';else e.textContent='';}
+  $('area').value=state.config.areas[0].id;for(const [i,id]of ['west','south','east','north'].entries())$(id).value=state.config.areas[0].bbox[i];$('days').value='14';
   $('candidate-chip').removeAttribute('src');$('dispatch-dialog').close();$('workspace').hidden=true;$('gate').hidden=false;$('lock').hidden=true;
   $('password').value='';status('unlock-status','Workbench locked.');$('password').focus();
 }
@@ -85,15 +100,58 @@ async function search(){
 }
 
 async function dispatch(action,previous=null){
-  try{if(!state.password)throw new Error('Open the workbench first.');const box=previous?previous.request.bbox:bbox();inspectBbox(box,state.config);
+  try{if(!state.password)throw new Error('Open the workbench first.');if(state.run&&state.run.status!=='completed')throw new Error('A request is already being tracked. Check its status before starting another.');const box=previous?previous.request.bbox:bbox();inspectBbox(box,state.config);
     if(action==='analyse'&&!state.selected)throw new Error('Select a suitable acquisition first.');
     const request={v:1,id:crypto.randomUUID(),created_at:new Date().toISOString(),action,area_id:previous?previous.request.area_id:$('area').value,bbox:box,days:previous?previous.request.days:Number($('days').value),scene_id:previous?previous.scene.scene_id:state.selected?.scene_id||'latest',gfw_context:$('gfw-context').checked,danish_ais:$('danish-ais').checked};
     if(state.event&&!previous)Object.assign(request,{range_from:state.event.start,range_to:state.event.end,event_id:state.event.event_id});
     if(action==='refresh_context')request.gfw_context=true;
-    $('request-envelope').value=JSON.stringify(await encryptObject(request,state.password,'request'));
+    const generation=state.pollGeneration,envelope=await encryptObject(request,state.password,'request');if(!state.password||generation!==state.pollGeneration)return;
+    $('request-envelope').value=JSON.stringify(envelope);
+    state.pendingRequest=request;$('direct-start').disabled=!github.connected;$('dispatch-summary').textContent=`${areaLabel(request)} · ${box.map(n=>n.toFixed(4)).join(', ')} · ${action==='search'?'catalog metadata only':action==='refresh_context'?'saved candidates; no new radar image':fmtDate(state.selected.datetime)}`;
     $('dispatch-title').textContent=action==='search'?'Start catalog search on GitHub':action==='refresh_context'?'Recheck historical AIS context':'Analyze this acquisition on GitHub';
-    status('copy-status','');$('dispatch-dialog').showModal();
+    status('copy-status',github.connected?'Ready. Start workflow sends this encrypted request to GitHub.':'Nothing has started. Connect GitHub above for direct start, or follow the manual steps below.');$('dispatch-dialog').showModal();
   }catch(err){status('workspace-status',err.message,true);}
+}
+
+function stopPolling(){clearTimeout(state.pollTimer);state.pollTimer=null;state.pollGeneration++;}
+async function connectGitHub(){
+  const value=$('github-token').value;$('github-token').value='';$('github-connect').disabled=true;$('github-disconnect').hidden=true;$('latest-results').disabled=true;$('direct-start').disabled=true;status('github-status','Checking repository owner and workflow access …');
+  try{await github.connect(value);if(!state.password){github.disconnect();return;}$('github-disconnect').hidden=false;$('latest-results').disabled=false;$('direct-start').disabled=!state.pendingRequest;status('github-status','Connected for this tab. Direct start is available. Lock or reload disconnects GitHub.');}
+  catch(err){status('github-status',err.message,true);}finally{$('github-connect').disabled=false;}
+}
+async function showRun(run,generation){
+  if(generation!==state.pollGeneration||!state.password)return;
+  state.run=run;$('github-run-panel').hidden=false;$('github-run-link').href=`https://github.com/mowlsint/VoodooWhiskers/actions/runs/${run.id}`;
+  status('github-run-status',run.status==='completed'?`GitHub run finished: ${run.conclusion}. Loading the result download link …`:`GitHub run ${run.status.replaceAll('_',' ')}. You may keep this tab open; no additional request is started.`);
+  if(run.status!=='completed')return;
+  $('latest-results').disabled=!github.connected;
+  const link=await github.artifactLink(run.id);if(generation!==state.pollGeneration||!state.password)return;
+  $('github-artifact-link').hidden=!link;if(link)$('github-artifact-link').href=link;
+  status('github-run-status',link?`Run ${run.conclusion}. Download the encrypted results ZIP, then choose Open results ZIP here. Results do not load automatically from GitHub.`:`Run ${run.conclusion}. No unexpired result artifact was found in this run. Open the run for details.`,run.conclusion!=='success');
+}
+async function pollRun(requestId,generation){
+  if(generation!==state.pollGeneration||!state.password||!github.connected)return;
+  try{const run=state.run?.id?await github.run(state.run.id):await github.findRun(requestId);if(generation!==state.pollGeneration)return;
+    if(run){await showRun(run,generation);if(run.status==='completed')return;}
+    else status('github-run-status','GitHub accepted the request. Waiting for its run to appear …');
+    if(++state.pollCount<80)state.pollTimer=setTimeout(()=>pollRun(requestId,generation),15000);
+    else status('github-run-status','Status checking paused after 20 minutes. Open the run on GitHub; no request is repeated.');
+  }catch(err){if(generation===state.pollGeneration)status('github-run-status',err.message+' Open the workflow to check its status.',true);}
+}
+async function startDirect(){
+  if(!state.pendingRequest||!github.connected)return;
+  const request=state.pendingRequest,envelope=$('request-envelope').value;$('direct-start').disabled=true;
+  status('copy-status','Sending the encrypted request …');
+  try{await github.dispatch(envelope,request.id);if(!state.password)return;
+    state.pendingRequest=null;state.trackedRequestId=request.id;stopPolling();state.pollCount=0;state.run={status:'requested'};$('latest-results').disabled=true;$('github-artifact-link').hidden=true;$('github-run-link').href=WORKFLOW_URL;$('github-run-panel').hidden=false;
+    $('dispatch-dialog').close();status('github-run-status','GitHub accepted the request. Waiting for its run …');pollRun(request.id,state.pollGeneration);
+  }catch(err){if(state.password)status('copy-status',err.message,true);}
+}
+async function latestResults(){
+  if(state.run&&state.run.status!=='completed'){status('github-status','A request is still being tracked. Open its run before loading older results.');return;}
+  $('latest-results').disabled=true;stopPolling();const generation=state.pollGeneration;
+  try{const run=await github.latestRun();if(!run){status('github-status','No completed SAR run was found.');return;}await showRun(run,generation);}
+  catch(err){if(state.password)status('github-status',err.message,true);}finally{$('latest-results').disabled=!github.connected;}
 }
 
 function areaLabel(request){if(request?.area_id==='custom')return 'Custom area';return state.config?.areas.find(area=>area.id===request?.area_id)?.name||request?.area_name||'Custom area';}
@@ -158,6 +216,10 @@ function selectCandidate(feature,index){
 }
 function saveNote(){if(!state.currentJob||!state.currentCandidate)return;state.currentJob.analyst_review||={};state.currentJob.analyst_review[state.currentCandidate.properties.detection_id]={disposition:$('review-disposition').value,note:$('review-note').value.slice(0,2000),updated_at:new Date().toISOString()};}
 $('unlock-form').addEventListener('submit',unlock);$('lock').addEventListener('click',lock);
+$('pick-area').addEventListener('click',pickArea);document.addEventListener('keydown',event=>{if(event.key==='Escape')cancelMapPick();});
+$('github-connect').addEventListener('click',connectGitHub);$('direct-start').addEventListener('click',startDirect);$('latest-results').addEventListener('click',latestResults);$('open-run-result').addEventListener('click',()=>$('import-session').click());
+$('check-run-status').addEventListener('click',()=>{if(!github.connected){status('github-run-status','Connect GitHub for this tab, or open the run to check it.',true);return;}if(!state.trackedRequestId){latestResults();return;}stopPolling();state.pollCount=0;pollRun(state.trackedRequestId,state.pollGeneration);});
+$('github-disconnect').addEventListener('click',()=>{stopPolling();github.disconnect();$('github-token').value='';$('github-disconnect').hidden=true;$('latest-results').disabled=true;$('direct-start').disabled=true;status('github-status','GitHub disconnected. Any already started run continues; open GitHub to check it.');});
 $('show-password').addEventListener('click',()=>{const shown=$('password').type==='password';$('password').type=shown?'text':'password';$('show-password').textContent=shown?'Hide':'Show';$('show-password').setAttribute('aria-label',shown?'Hide password':'Show password');});
 $('area').addEventListener('change',updateArea);for(const id of ['west','south','east','north'])$(id).addEventListener('change',updateArea);
 $('search').addEventListener('click',search);$('analyse').addEventListener('click',()=>dispatch('analyse'));$('search-via-github').addEventListener('click',()=>dispatch('search'));
