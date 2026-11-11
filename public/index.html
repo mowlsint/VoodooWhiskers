@@ -88,7 +88,7 @@
         <label class="control"><input type="checkbox" data-layer="recent_russian_portcall_10d"> Recent Russian portcall (confirmed / unconfirmed)</label>
         <label class="control"><input type="checkbox" data-layer="behavioral_voi"> Behavioural VOI</label></details>
       </section>
-      <section class="card"><h2>GFW · optional historical context</h2><p><a href="./sar.html">Open protected SAR workbench ↗</a></p><label class="control"><input type="checkbox" data-layer="gfw_loitering">Add loitering events · purple rings</label><label class="control"><input type="checkbox" data-layer="gfw_presence">Add historical AIS grid · purple boxes</label><p><strong>What are the boxes?</strong> Each 0.01° cell reports historical AIS presence during the period in its popup. A box is not an individual ship, an exact position or a radar image. Use it only for traffic context.</p><p><strong>To investigate a vessel:</strong> enable loitering rings, open an event and choose “Search SAR acquisitions for this period”. The event shows identity, time and duration where supplied.</p><p id="gfwStatus" role="status"></p><div id="loiteringList" class="analysisList"></div></section>
+      <section class="card"><h2>GFW · optional historical context</h2><p><a href="./sar.html">Open protected SAR workbench ↗</a></p><label class="control"><input type="checkbox" data-layer="gfw_loitering">Add loitering events · purple rings</label><label class="control"><input type="checkbox" data-layer="gfw_presence">Add historical AIS grid · purple boxes</label><p><strong>Research a box:</strong> click it, or focus it and press Enter. Its popup shows the UTC interval, approximate coordinates and displayed cell bounds. Copy these to query another historical AIS source for possible vessels. The grid itself supplies no individual ship identity or radar image.</p><p><strong>To investigate a vessel:</strong> enable loitering rings, open an event and choose “Search SAR acquisitions for this period”. The event shows identity, time and duration where supplied.</p><p id="gfwStatus" role="status"></p><div id="loiteringList" class="analysisList"></div></section>
       <section class="card sarCard"><details><summary>Legacy GFW SAR comparison</summary>
         <div class="sectionHead"><h2>Historical SAR–AIS comparison</h2><button type="button" class="smallButton" id="fitSar">Fit</button></div>
         <label class="control"><input type="checkbox" id="sarDetectionsToggle" disabled> Show synchronized historical SAR + AIS context</label>
@@ -162,7 +162,8 @@
   <script src="./assets/sar-map-hook.js"></script>
   <script src="./assets/vessel-model.js?v=20261110-en"></script>
   <script src="./assets/traffic-context.js?v=20261110-en"></script>
-  <script src="./assets/infrastructure-watch.js?v=20261111-focus"></script>
+  <script src="./assets/gfw-grid.js?v=20261111-lookup"></script>
+  <script src="./assets/infrastructure-watch.js?v=20261111-gfw-lookup"></script>
   <script src="./assets/sar-layer.js?v=20261109-sources-retention"></script>
   <script src="./assets/vesselfinder-links.js"></script>
   <script src="./assets/common-snapshot-status.js"></script>
