@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-11T16:27:21+00:00",
+  "generated_at": "2026-11-11T20:26:57+00:00",
   "rows": 2017,
   "unique_identity_keys": 2017,
   "track_sanctions_rows": 2014,
@@ -9,25 +9,27 @@
   "test_or_example_rows": [],
   "policy": "No automatic deletion. Missing official confirmation should become source_status=source_missing/manual_watch_only, not deletion.",
   "official_refresh": {
-    "generated_at": "2026-11-11T16:07:16+00:00",
+    "generated_at": "2026-11-11T20:06:49+00:00",
     "sources": {
       "eu": {
         "ok": true,
-        "cache_hit": true,
-        "count": 733,
-        "checked_at": "2026-11-10T17:20:25+00:00"
+        "count": 729,
+        "checked_at": "2026-11-11T20:06:49+00:00",
+        "download_bytes": 177725,
+        "source_report_date": "24/07/2026",
+        "scope": "EU Russia Annex XLII and DPRK vessel designations published by DMA, distinguished by regime; not every EU financial sanctions regime"
       },
       "uk": {
         "ok": true,
-        "cache_hit": true,
+        "not_modified": true,
         "count": 907,
-        "checked_at": "2026-11-10T17:20:25+00:00"
+        "checked_at": "2026-11-11T20:06:49+00:00"
       },
       "ofac": {
         "ok": true,
-        "cache_hit": true,
+        "not_modified": true,
         "count": 1555,
-        "checked_at": "2026-11-10T17:20:25+00:00"
+        "checked_at": "2026-11-11T20:06:49+00:00"
       }
     },
     "added_imos": [],
