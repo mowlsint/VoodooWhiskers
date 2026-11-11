@@ -1,4 +1,11 @@
 export const STATES={MATCHED:'Plausible association',POSSIBLE_MATCH:'Possible association',AMBIGUOUS:'Ambiguous',UNMATCHED_IN_AVAILABLE_AIS:'No match in available AIS',NO_AIS_COVERAGE:'No AIS coverage'};
+export function bboxAroundPoint(lat,lon,cfg){
+  if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat<48||lat>80||lon< -25||lon>35)throw new Error('Choose a point within 25° W–35° E and 48–80° N.');
+  const side=Math.min(20,Math.sqrt(cfg.max_area_km2)*.99,cfg.max_dimension_px*cfg.pixel_spacing_m/1000*.99);
+  const dy=side/2/111.32,dx=dy/Math.cos(lat*Math.PI/180);
+  const box=[lon-dx,lat-dy,lon+dx,lat+dy].map(n=>Number(n.toFixed(6)));
+  inspectBbox(box,cfg);return box;
+}
 export function inspectBbox(bbox,cfg){
   if(!Array.isArray(bbox)||bbox.length!==4||bbox.some(v=>typeof v!=='number'||!Number.isFinite(v)))throw new Error('Enter four valid coordinates.');
   const [w,s,e,n]=bbox;

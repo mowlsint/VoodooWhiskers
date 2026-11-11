@@ -1,4 +1,5 @@
 name: SAR Workbench · encrypted request
+run-name: SAR request ${{ inputs.request_id || github.run_number }}
 
 on:
   workflow_dispatch:
@@ -7,6 +8,10 @@ on:
         description: Paste the encrypted request from the SAR workbench here
         type: string
         required: true
+      request_id:
+        description: Optional request reference for workbench status tracking
+        type: string
+        required: false
 
 permissions:
   contents: read
