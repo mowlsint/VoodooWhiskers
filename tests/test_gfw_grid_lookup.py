@@ -32,6 +32,25 @@ for(const change of [{latitude:null},{latitude:true},{latitude:100},{longitude:'
 assert.equal(grid.details(null),null);
 ''')
 
+    def test_age_is_measured_from_the_reported_interval_end(self):
+        self.node(r'''
+const assert=require('node:assert/strict'),grid=require('./public/assets/gfw-grid.js');
+const c=grid.details({latitude:54.6,longitude:12.1,interval_start:'2026-11-06T07:00:00+02:00',interval_end:'2026-11-06T08:00:00+02:00'});
+assert.equal(grid.age(c,Date.parse('2026-11-11T10:00:00Z')),'5 d 4 h ago');
+assert.equal(grid.age(c,c.end+2*3600000+3*60000),'2 h 3 min ago');
+assert.equal(grid.age(c,c.end+5*60000),'5 min ago');assert.equal(grid.age(c,c.end),'Less than 1 min ago');
+assert(grid.tooltip(c).includes('interval ended:'));
+''')
+
+    def test_future_or_unknown_intervals_do_not_look_fresh(self):
+        self.node(r'''
+const assert=require('node:assert/strict'),grid=require('./public/assets/gfw-grid.js');
+const c=grid.details({latitude:54.6,longitude:12.1,interval_start:'2026-11-06T05:00:00Z',interval_end:'2026-11-06T06:00:00Z'});
+assert.equal(grid.age(c,c.start-1),'Future interval — check timestamp');
+assert.equal(grid.age(c,c.start+1),'Reporting interval still open');
+assert.equal(grid.age(null),'Age unknown');assert.equal(grid.age(c,NaN),'Age unknown');
+''')
+
 
 if __name__ == '__main__':
     unittest.main()

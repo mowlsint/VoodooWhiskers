@@ -578,7 +578,7 @@
     const gridRecords=(state.gfwGrid?.records||[]).filter(c=>Date.parse(c.interval_end)>=cutoff&&Date.parse(c.interval_start)<=now),shownCells=gridRecords.slice(-300);
     for(const row of shownCells){
       const c=globalThis.GfwGrid.details(row);if(!c)continue;
-      const marker=L.rectangle([[c.bbox[1],c.bbox[0]],[c.bbox[3],c.bbox[2]]],{color:'#c8a1ff',weight:2,fillOpacity:.12,interactive:true}).bindTooltip(globalThis.GfwGrid.tooltip(c)).bindPopup(()=>globalThis.GfwGrid.popup(c),{maxWidth:450});
+      const marker=L.rectangle([[c.bbox[1],c.bbox[0]],[c.bbox[3],c.bbox[2]]],{color:'#c8a1ff',weight:2,fillOpacity:.12,interactive:true}).bindTooltip(()=>globalThis.GfwGrid.tooltip(c)).bindPopup(()=>globalThis.GfwGrid.popup(c),{maxWidth:450});
       marker.on('add',()=>{const target=marker.getElement();if(!target)return;target.setAttribute('tabindex','0');target.setAttribute('role','button');target.setAttribute('aria-label',globalThis.GfwGrid.tooltip(c));target.onkeydown=event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();marker.openPopup();}};});
       marker.addTo(cells);
     }
