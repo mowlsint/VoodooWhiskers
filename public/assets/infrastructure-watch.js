@@ -575,13 +575,17 @@
       const marker=L.circleMarker([point.lat,point.lon],{radius:9,color:'#c8a1ff',weight:3,fillColor:'#c8a1ff',fillOpacity:.12}).bindPopup(html,{maxWidth:420}).addTo(layers);
       if($('loiteringList').children.length<20){const button=document.createElement('button');button.className='loiteringItem';button.textContent=`${label} · ${e.start.slice(0,16).replace('T',' ')} UTC · ${duration.toFixed(1)} h`;button.addEventListener('click',()=>{state.map.setView([point.lat,point.lon],10);marker.openPopup();});$('loiteringList').append(button);}
     }
-    for(const c of (state.gfwGrid?.records||[]).filter(c=>Date.parse(c.interval_end)>=cutoff&&Date.parse(c.interval_start)<=now).slice(-300)){
-      const lat=Number(c.latitude),lon=Number(c.longitude);if(!Number.isFinite(lat)||!Number.isFinite(lon))continue;
-      L.rectangle([[lat-.005,lon-.005],[lat+.005,lon+.005]],{color:'#c8a1ff',weight:1,fillOpacity:.08}).bindPopup(`<strong>GFW · historical AIS presence</strong><p>${esc(c.interval_start)} to ${esc(c.interval_end)} UTC</p><p>This 0.01° grid cell is historical traffic context. It does not identify an individual ship and is not a radar image or exact vessel position.</p><p>For vessel-specific investigation, enable loitering rings and open an event to search SAR acquisitions for that period.</p>`).addTo(cells);
+    const gridRecords=(state.gfwGrid?.records||[]).filter(c=>Date.parse(c.interval_end)>=cutoff&&Date.parse(c.interval_start)<=now),shownCells=gridRecords.slice(-300);
+    for(const row of shownCells){
+      const c=globalThis.GfwGrid.details(row);if(!c)continue;
+      const marker=L.rectangle([[c.bbox[1],c.bbox[0]],[c.bbox[3],c.bbox[2]]],{color:'#c8a1ff',weight:2,fillOpacity:.12,interactive:true}).bindTooltip(()=>globalThis.GfwGrid.tooltip(c)).bindPopup(()=>globalThis.GfwGrid.popup(c),{maxWidth:450});
+      marker.on('add',()=>{const target=marker.getElement();if(!target)return;target.setAttribute('tabindex','0');target.setAttribute('role','button');target.setAttribute('aria-label',globalThis.GfwGrid.tooltip(c));target.onkeydown=event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();marker.openPopup();}};});
+      marker.addTo(cells);
     }
     for(const [id,layer] of [['gfw_loitering',layers],['gfw_presence',cells]]){state.layers[id]?.remove();state.layers[id]=layer;syncLayerVisibility(id);}
     $('loiteringList').hidden=!checkboxEnabled('gfw_loitering');
-    $('gfwStatus').textContent=(checkboxEnabled('gfw_loitering')||checkboxEnabled('gfw_presence')?'Historical context enabled. ':'Historical context hidden by default. ')+(state.gfwEvents?`${shown.length}/${events.length} loitering events available for display · up to 200 markers and 20 list entries. Powered by Global Fishing Watch · CC BY-NC 4.0.`:'GFW event data are missing; this is not a confirmed zero result.');
+    const gridStatus=state.gfwGrid?` Grid observation day: ${state.gfwGrid.observation_day||'not supplied'} UTC; retrieved ${state.gfwGrid.generated_at||'time unknown'}. ${shownCells.length}/${gridRecords.length} grid records selected for display. Click a box for its own UTC interval and coordinates.`:' AIS presence grid is unavailable.';
+    $('gfwStatus').textContent=(checkboxEnabled('gfw_loitering')||checkboxEnabled('gfw_presence')?'Historical context enabled. ':'Historical context hidden by default. ')+(state.gfwEvents?`${shown.length}/${events.length} loitering events available for display · up to 200 markers and 20 list entries. Powered by Global Fishing Watch · CC BY-NC 4.0.`:'GFW event data are missing; this is not a confirmed zero result.')+gridStatus;
   }
 
   async function loadSummary(){
