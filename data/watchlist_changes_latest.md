@@ -1,10 +1,10 @@
 # VOODOO WHISKERS Watchlist Audit
 
-Generated: 2026-11-12T16:27:54+00:00
+Generated: 2026-11-12T20:27:05+00:00
 
-Rows: 2017
-Unique keys: 2017
-Sanctions rows: 2014
+Rows: 2024
+Unique keys: 2024
+Sanctions rows: 2021
 Shadow-fleet rows: 682
 Duplicates: 0
 Missing identity rows: 0

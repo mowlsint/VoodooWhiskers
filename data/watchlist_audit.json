@@ -1,36 +1,48 @@
 {
-  "generated_at": "2026-11-12T16:27:54+00:00",
-  "rows": 2017,
-  "unique_identity_keys": 2017,
-  "track_sanctions_rows": 2014,
+  "generated_at": "2026-11-12T20:27:05+00:00",
+  "rows": 2024,
+  "unique_identity_keys": 2024,
+  "track_sanctions_rows": 2021,
   "track_shadowfleet_rows": 682,
   "duplicates": [],
   "missing_identity_rows": [],
   "test_or_example_rows": [],
   "policy": "No automatic deletion. Missing official confirmation should become source_status=source_missing/manual_watch_only, not deletion.",
   "official_refresh": {
-    "generated_at": "2026-11-12T16:07:47+00:00",
+    "generated_at": "2026-11-12T20:06:53+00:00",
     "sources": {
       "eu": {
         "ok": true,
-        "cache_hit": true,
-        "count": 733,
-        "checked_at": "2026-11-11T20:06:49+00:00"
+        "count": 729,
+        "checked_at": "2026-11-12T20:06:53+00:00",
+        "download_bytes": 177725,
+        "source_report_date": "24/07/2026",
+        "scope": "EU Russia Annex XLII and DPRK vessel designations published by DMA, distinguished by regime; not every EU financial sanctions regime"
       },
       "uk": {
         "ok": true,
-        "cache_hit": true,
-        "count": 907,
-        "checked_at": "2026-11-11T20:06:49+00:00"
+        "count": 693,
+        "checked_at": "2026-11-12T20:06:53+00:00",
+        "download_bytes": 50436751,
+        "source_report_date": "12-Nov-2026",
+        "unresolved_vessels_without_valid_imo": 1
       },
       "ofac": {
         "ok": true,
-        "cache_hit": true,
+        "not_modified": true,
         "count": 1555,
-        "checked_at": "2026-11-11T20:06:49+00:00"
+        "checked_at": "2026-11-12T20:06:53+00:00"
       }
     },
-    "added_imos": [],
+    "added_imos": [
+      "9321304",
+      "9402328",
+      "9460564",
+      "9958298",
+      "9958303",
+      "9958315",
+      "9958327"
+    ],
     "manual_review": [
       {
         "imo": "9894387",
