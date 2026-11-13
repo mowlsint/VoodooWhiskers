@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-12T04:44:48Z",
-  "observation_day": "2026-11-07",
+  "generated_at": "2026-11-13T04:44:32Z",
+  "observation_day": "2026-11-08",
   "scene_id": null,
   "query_regions": [
     {
@@ -105,24 +105,14 @@
       "kind": "presence_grid",
       "region_id": "german_bight_channel",
       "ok": true,
-      "rows": 136977,
+      "rows": 133753,
       "invalid_rows": 0
     },
     {
       "kind": "LOITERING",
       "region_id": "german_bight_channel",
-      "page": 1,
-      "ok": true,
-      "rows": 250,
-      "cap_applied": false
-    },
-    {
-      "kind": "LOITERING",
-      "region_id": "german_bight_channel",
-      "page": 2,
-      "ok": true,
-      "rows": 250,
-      "cap_applied": true
+      "ok": false,
+      "error": "ReadTimeout"
     },
     {
       "kind": "GAP",
@@ -136,7 +126,7 @@
       "kind": "presence_grid",
       "region_id": "north_sea_norway",
       "ok": true,
-      "rows": 76964,
+      "rows": 75850,
       "invalid_rows": 0
     },
     {
@@ -167,7 +157,7 @@
       "kind": "presence_grid",
       "region_id": "baltic_finland",
       "ok": true,
-      "rows": 91968,
+      "rows": 90902,
       "invalid_rows": 0
     },
     {
