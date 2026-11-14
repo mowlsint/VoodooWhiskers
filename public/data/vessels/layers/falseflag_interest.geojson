@@ -6,8 +6,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          2.938841666666667,
-          51.22489333333333
+          2.93885,
+          51.22488
         ]
       },
       "properties": {
@@ -17,51 +17,31 @@
         "destination": "OOSTENDE",
         "ship_type": 40,
         "mmsi": "518100214",
-        "latitude": 51.22489333333333,
-        "longitude": 2.938841666666667,
-        "last_seen_utc": "2026-11-14T00:30:57+00:00",
-        "retrieved_at": "2026-11-14T00:31:00+00:00",
+        "latitude": 51.22488,
+        "longitude": 2.93885,
+        "last_seen_utc": "2026-11-14T04:26:15+00:00",
+        "retrieved_at": "2026-11-14T04:26:32+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
         "sog": 0.0,
         "cog": 0.0,
-        "true_heading": 185,
+        "true_heading": 186,
         "navigational_status": 15,
         "source": "Open Waters",
         "source_provider": "openwaters",
-        "upstream_source": "aisstream",
-        "upstream_station": "aisstream",
+        "upstream_source": "aishub",
+        "upstream_station": "aishub",
         "synthesized": true,
         "message_type_last": "PositionReport",
         "stream_id": "stream_1",
         "positions": [
           {
             "mmsi": "518100214",
-            "latitude": 51.224889999999995,
-            "longitude": 2.9388216666666667,
-            "last_seen_utc": "2026-11-14T00:23:56+00:00",
-            "retrieved_at": "2026-11-14T00:24:12+00:00",
-            "position_timestamp_valid": true,
-            "position_timestamp_basis": "source_timestamp",
-            "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
-            "sog": 0.0,
-            "cog": 0.0,
-            "true_heading": 184,
-            "navigational_status": 15,
-            "source": "Open Waters",
-            "source_provider": "openwaters",
-            "upstream_source": "aishub",
-            "upstream_station": "aishub",
-            "synthesized": true,
-            "message_type_last": "PositionReport"
-          },
-          {
-            "mmsi": "518100214",
-            "latitude": 51.22489333333333,
-            "longitude": 2.938841666666667,
-            "last_seen_utc": "2026-11-14T00:30:57+00:00",
-            "retrieved_at": "2026-11-14T00:31:00+00:00",
+            "latitude": 51.22488,
+            "longitude": 2.9388733333333334,
+            "last_seen_utc": "2026-11-14T04:24:36+00:00",
+            "retrieved_at": "2026-11-14T04:24:39+00:00",
             "position_timestamp_valid": true,
             "position_timestamp_basis": "source_timestamp",
             "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
@@ -75,9 +55,29 @@
             "upstream_station": "aisstream",
             "synthesized": true,
             "message_type_last": "PositionReport"
+          },
+          {
+            "mmsi": "518100214",
+            "latitude": 51.22488,
+            "longitude": 2.93885,
+            "last_seen_utc": "2026-11-14T04:26:15+00:00",
+            "retrieved_at": "2026-11-14T04:26:32+00:00",
+            "position_timestamp_valid": true,
+            "position_timestamp_basis": "source_timestamp",
+            "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
+            "sog": 0.0,
+            "cog": 0.0,
+            "true_heading": 186,
+            "navigational_status": 15,
+            "source": "Open Waters",
+            "source_provider": "openwaters",
+            "upstream_source": "aishub",
+            "upstream_station": "aishub",
+            "synthesized": true,
+            "message_type_last": "PositionReport"
           }
         ],
-        "position_age_hours": 0.08,
+        "position_age_hours": 0.02,
         "position_stale": false,
         "sources": [
           "Open Waters"
@@ -155,9 +155,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">BLUE THISTLE</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>8605765</td></tr><tr><th>MMSI</th><td>518100214</td></tr><tr><th>Callsign</th><td>E5U3155</td></tr><tr><th>Destination</th><td>OOSTENDE</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 0.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:30:57+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8605765\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">BLUE THISTLE</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>8605765</td></tr><tr><th>MMSI</th><td>518100214</td></tr><tr><th>Callsign</th><td>E5U3155</td></tr><tr><th>Destination</th><td>OOSTENDE</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 0.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:30:57+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8605765\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">BLUE THISTLE</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>8605765</td></tr><tr><th>MMSI</th><td>518100214</td></tr><tr><th>Callsign</th><td>E5U3155</td></tr><tr><th>Destination</th><td>OOSTENDE</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 0.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:30:57+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8605765\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">BLUE THISTLE</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>8605765</td></tr><tr><th>MMSI</th><td>518100214</td></tr><tr><th>Callsign</th><td>E5U3155</td></tr><tr><th>Destination</th><td>OOSTENDE</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 0.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:26:15+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8605765\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">BLUE THISTLE</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>8605765</td></tr><tr><th>MMSI</th><td>518100214</td></tr><tr><th>Callsign</th><td>E5U3155</td></tr><tr><th>Destination</th><td>OOSTENDE</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 0.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:26:15+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8605765\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">BLUE THISTLE</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>8605765</td></tr><tr><th>MMSI</th><td>518100214</td></tr><tr><th>Callsign</th><td>E5U3155</td></tr><tr><th>Destination</th><td>OOSTENDE</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 0.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:26:15+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8605765\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
       }
     },
     {
@@ -185,8 +185,8 @@
         "source": "BarentsWatch / Norwegian Coastal Administration",
         "source_provider": "barentswatch",
         "message_type_last": "RegionalSnapshot",
-        "last_seen_utc": "2026-11-14T00:15:45+00:00",
-        "retrieved_at": "2026-11-14T00:15:57+00:00",
+        "last_seen_utc": "2026-11-14T04:07:15+00:00",
+        "retrieved_at": "2026-11-14T04:07:27+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "source_stream": "terra",
@@ -268,9 +268,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">CAPE RACE</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>5402198</td></tr><tr><th>MMSI</th><td>518100276</td></tr><tr><th>Callsign</th><td>E5U3212</td></tr><tr><th>Destination</th><td>TROMSO</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 231.9°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:15:45+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=5402198\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">CAPE RACE</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>5402198</td></tr><tr><th>MMSI</th><td>518100276</td></tr><tr><th>Callsign</th><td>E5U3212</td></tr><tr><th>Destination</th><td>TROMSO</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 231.9°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:15:45+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=5402198\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">CAPE RACE</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>5402198</td></tr><tr><th>MMSI</th><td>518100276</td></tr><tr><th>Callsign</th><td>E5U3212</td></tr><tr><th>Destination</th><td>TROMSO</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 231.9°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:15:45+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=5402198\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">CAPE RACE</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>5402198</td></tr><tr><th>MMSI</th><td>518100276</td></tr><tr><th>Callsign</th><td>E5U3212</td></tr><tr><th>Destination</th><td>TROMSO</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 231.9°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:07:15+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=5402198\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">CAPE RACE</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>5402198</td></tr><tr><th>MMSI</th><td>518100276</td></tr><tr><th>Callsign</th><td>E5U3212</td></tr><tr><th>Destination</th><td>TROMSO</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 231.9°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:07:15+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=5402198\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">CAPE RACE</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>5402198</td></tr><tr><th>MMSI</th><td>518100276</td></tr><tr><th>Callsign</th><td>E5U3212</td></tr><tr><th>Destination</th><td>TROMSO</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 231.9°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:07:15+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=5402198\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
       }
     },
     {
@@ -299,11 +299,11 @@
         "source_provider": "barentswatch",
         "message_type_last": "RegionalSnapshot",
         "last_seen_utc": "2026-11-13T11:26:44+00:00",
-        "retrieved_at": "2026-11-14T00:15:57+00:00",
+        "retrieved_at": "2026-11-14T04:07:27+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "source_stream": "terra",
-        "position_age_hours": 13.15,
+        "position_age_hours": 17.01,
         "position_stale": false,
         "sources": [
           "BarentsWatch / Norwegian Coastal Administration"
@@ -391,8 +391,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -1.3790266666666668,
-          50.913001666666666
+          -1.37901,
+          50.913064999999996
         ]
       },
       "properties": {
@@ -401,10 +401,10 @@
         "destination": "SAXON WHARF",
         "ship_type": 37,
         "mmsi": "518998922",
-        "latitude": 50.913001666666666,
-        "longitude": -1.3790266666666668,
-        "last_seen_utc": "2026-11-14T00:31:08+00:00",
-        "retrieved_at": "2026-11-14T00:34:22+00:00",
+        "latitude": 50.913064999999996,
+        "longitude": -1.37901,
+        "last_seen_utc": "2026-11-14T04:13:12+00:00",
+        "retrieved_at": "2026-11-14T04:16:41+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
@@ -422,10 +422,10 @@
         "positions": [
           {
             "mmsi": "518998922",
-            "latitude": 50.91300833333333,
-            "longitude": -1.3790233333333333,
-            "last_seen_utc": "2026-11-14T00:28:11+00:00",
-            "retrieved_at": "2026-11-14T00:29:22+00:00",
+            "latitude": 50.91306,
+            "longitude": -1.3789933333333333,
+            "last_seen_utc": "2026-11-14T04:04:08+00:00",
+            "retrieved_at": "2026-11-14T04:07:25+00:00",
             "position_timestamp_valid": true,
             "position_timestamp_basis": "source_timestamp",
             "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
@@ -442,10 +442,10 @@
           },
           {
             "mmsi": "518998922",
-            "latitude": 50.913001666666666,
-            "longitude": -1.3790266666666668,
-            "last_seen_utc": "2026-11-14T00:31:08+00:00",
-            "retrieved_at": "2026-11-14T00:34:22+00:00",
+            "latitude": 50.913064999999996,
+            "longitude": -1.37901,
+            "last_seen_utc": "2026-11-14T04:13:12+00:00",
+            "retrieved_at": "2026-11-14T04:16:41+00:00",
             "position_timestamp_valid": true,
             "position_timestamp_basis": "source_timestamp",
             "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
@@ -461,7 +461,7 @@
             "message_type_last": "PositionReport"
           }
         ],
-        "position_age_hours": 0.08,
+        "position_age_hours": 0.24,
         "position_stale": false,
         "sources": [
           "Open Waters"
@@ -540,9 +540,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SCOUT</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>—</td></tr><tr><th>MMSI</th><td>518998922</td></tr><tr><th>Callsign</th><td>E5U4902</td></tr><tr><th>Destination</th><td>SAXON WHARF</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:31:08+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=518998922\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SCOUT</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>—</td></tr><tr><th>MMSI</th><td>518998922</td></tr><tr><th>Callsign</th><td>E5U4902</td></tr><tr><th>Destination</th><td>SAXON WHARF</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:31:08+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=518998922\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SCOUT</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>—</td></tr><tr><th>MMSI</th><td>518998922</td></tr><tr><th>Callsign</th><td>E5U4902</td></tr><tr><th>Destination</th><td>SAXON WHARF</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:31:08+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=518998922\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SCOUT</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>—</td></tr><tr><th>MMSI</th><td>518998922</td></tr><tr><th>Callsign</th><td>E5U4902</td></tr><tr><th>Destination</th><td>SAXON WHARF</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:13:12+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=518998922\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SCOUT</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>—</td></tr><tr><th>MMSI</th><td>518998922</td></tr><tr><th>Callsign</th><td>E5U4902</td></tr><tr><th>Destination</th><td>SAXON WHARF</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:13:12+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=518998922\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SCOUT</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>—</td></tr><tr><th>MMSI</th><td>518998922</td></tr><tr><th>Callsign</th><td>E5U4902</td></tr><tr><th>Destination</th><td>SAXON WHARF</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:13:12+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=518998922\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
       }
     },
     {
@@ -571,11 +571,11 @@
         "source_provider": "barentswatch",
         "message_type_last": "RegionalSnapshot",
         "last_seen_utc": "2026-11-13T14:32:45+00:00",
-        "retrieved_at": "2026-11-14T00:15:57+00:00",
+        "retrieved_at": "2026-11-14T04:07:27+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "source_stream": "terra",
-        "position_age_hours": 10.05,
+        "position_age_hours": 13.91,
         "position_stale": false,
         "sources": [
           "BarentsWatch / Norwegian Coastal Administration"
@@ -684,11 +684,11 @@
         "source_provider": "barentswatch",
         "message_type_last": "RegionalSnapshot",
         "last_seen_utc": "2026-11-13T11:29:48+00:00",
-        "retrieved_at": "2026-11-14T00:15:57+00:00",
+        "retrieved_at": "2026-11-14T04:07:27+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "source_stream": "terra",
-        "position_age_hours": 13.1,
+        "position_age_hours": 16.96,
         "position_stale": false,
         "sources": [
           "BarentsWatch / Norwegian Coastal Administration"
@@ -797,11 +797,11 @@
         "source_provider": "barentswatch",
         "message_type_last": "RegionalSnapshot",
         "last_seen_utc": "2026-11-13T22:05:11+00:00",
-        "retrieved_at": "2026-11-14T00:15:57+00:00",
+        "retrieved_at": "2026-11-14T04:07:27+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "source_stream": "offshore",
-        "position_age_hours": 2.51,
+        "position_age_hours": 6.37,
         "position_stale": false,
         "sources": [
           "BarentsWatch / Norwegian Coastal Administration"
@@ -905,7 +905,7 @@
         "destination": "FOR ORDER",
         "ship_type": 80,
         "message_type_last": "PositionReport",
-        "position_age_hours": 4.0,
+        "position_age_hours": 7.86,
         "position_stale": false,
         "sources": [
           "Fintraffic Digitraffic",
@@ -914,13 +914,29 @@
         "vessel_identity": "imo:9323364",
         "identity_conflict": false,
         "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
+        "true_heading": 221,
+        "navigational_status": 1,
+        "longitude": 28.420986666666668,
+        "cog": 61.9,
+        "upstream_station": "digitraffic",
+        "sog": 0.9,
+        "source": "Open Waters",
+        "retrieved_at": "2026-11-14T04:07:27+00:00",
+        "last_seen_utc": "2026-11-13T20:35:57+00:00",
+        "latitude": 59.87079666666667,
+        "source_provider": "openwaters",
+        "position_timestamp_valid": true,
+        "position_timestamp_basis": "source_timestamp",
+        "synthesized": true,
+        "stream_id": "stream_1",
+        "upstream_source": "digitraffic",
         "positions": [
           {
             "mmsi": "613271812",
             "latitude": 59.87079666666667,
             "longitude": 28.420986666666668,
             "last_seen_utc": "2026-11-13T20:35:57+00:00",
-            "retrieved_at": "2026-11-14T00:15:57+00:00",
+            "retrieved_at": "2026-11-14T04:07:27+00:00",
             "position_timestamp_valid": true,
             "position_timestamp_basis": "source_timestamp",
             "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
@@ -936,22 +952,6 @@
             "message_type_last": "PositionReport"
           }
         ],
-        "retrieved_at": "2026-11-14T00:15:57+00:00",
-        "navigational_status": 1,
-        "source_provider": "openwaters",
-        "cog": 61.9,
-        "sog": 0.9,
-        "upstream_station": "digitraffic",
-        "source": "Open Waters",
-        "longitude": 28.420986666666668,
-        "true_heading": 221,
-        "last_seen_utc": "2026-11-13T20:35:57+00:00",
-        "stream_id": "stream_1",
-        "latitude": 59.87079666666667,
-        "position_timestamp_valid": true,
-        "position_timestamp_basis": "source_timestamp",
-        "upstream_source": "digitraffic",
-        "synthesized": true,
         "is_tanker_context_candidate": true,
         "tanker_context_zone_ids": "gulf_of_finland_ru_approaches",
         "tanker_context_zone_labels": "Gulf of Finland / Ust-Luga-Primorsk approaches",
@@ -1037,8 +1037,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -2.3824616666666665,
-          50.56566333333333
+          -2.382155,
+          50.56536666666667
         ]
       },
       "properties": {
@@ -1048,16 +1048,16 @@
         "destination": "EGPSD",
         "ship_type": 89,
         "mmsi": "613411302",
-        "latitude": 50.56566333333333,
-        "longitude": -2.3824616666666665,
-        "last_seen_utc": "2026-11-14T00:23:42+00:00",
-        "retrieved_at": "2026-11-14T00:24:51+00:00",
+        "latitude": 50.56536666666667,
+        "longitude": -2.382155,
+        "last_seen_utc": "2026-11-14T04:25:51+00:00",
+        "retrieved_at": "2026-11-14T04:27:11+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
         "sog": 0.0,
         "cog": 168.7,
-        "true_heading": 48,
+        "true_heading": 46,
         "navigational_status": 0,
         "source": "Open Waters",
         "source_provider": "openwaters",
@@ -1069,30 +1069,10 @@
         "positions": [
           {
             "mmsi": "613411302",
-            "latitude": 50.56572833333333,
-            "longitude": -2.382426666666667,
-            "last_seen_utc": "2026-11-14T00:14:31+00:00",
-            "retrieved_at": "2026-11-14T00:15:56+00:00",
-            "position_timestamp_valid": true,
-            "position_timestamp_basis": "source_timestamp",
-            "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
-            "sog": 0.0,
-            "cog": 168.7,
-            "true_heading": 49,
-            "navigational_status": 0,
-            "source": "Open Waters",
-            "source_provider": "openwaters",
-            "upstream_source": "aisstream",
-            "upstream_station": "aisstream",
-            "synthesized": true,
-            "message_type_last": "PositionReport"
-          },
-          {
-            "mmsi": "613411302",
-            "latitude": 50.56566333333333,
-            "longitude": -2.3824616666666665,
-            "last_seen_utc": "2026-11-14T00:23:42+00:00",
-            "retrieved_at": "2026-11-14T00:24:51+00:00",
+            "latitude": 50.56541333333333,
+            "longitude": -2.3822666666666668,
+            "last_seen_utc": "2026-11-14T04:10:52+00:00",
+            "retrieved_at": "2026-11-14T04:12:10+00:00",
             "position_timestamp_valid": true,
             "position_timestamp_basis": "source_timestamp",
             "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
@@ -1106,9 +1086,29 @@
             "upstream_station": "aishub",
             "synthesized": true,
             "message_type_last": "PositionReport"
+          },
+          {
+            "mmsi": "613411302",
+            "latitude": 50.56536666666667,
+            "longitude": -2.382155,
+            "last_seen_utc": "2026-11-14T04:25:51+00:00",
+            "retrieved_at": "2026-11-14T04:27:11+00:00",
+            "position_timestamp_valid": true,
+            "position_timestamp_basis": "source_timestamp",
+            "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
+            "sog": 0.0,
+            "cog": 168.7,
+            "true_heading": 46,
+            "navigational_status": 0,
+            "source": "Open Waters",
+            "source_provider": "openwaters",
+            "upstream_source": "aishub",
+            "upstream_station": "aishub",
+            "synthesized": true,
+            "message_type_last": "PositionReport"
           }
         ],
-        "position_age_hours": 0.2,
+        "position_age_hours": 0.03,
         "position_stale": false,
         "sources": [
           "Open Waters"
@@ -1190,9 +1190,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SMYRTOS</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9389100</td></tr><tr><th>MMSI</th><td>613411302</td></tr><tr><th>Callsign</th><td>TJMRO4</td></tr><tr><th>Destination</th><td>EGPSD</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 168.7°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:23:42+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;UK_RUS3133</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 20.07.2025; UK RUS3133 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 15/10/2025; source updated 16/10/2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9389100\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3133/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SMYRTOS</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9389100</td></tr><tr><th>MMSI</th><td>613411302</td></tr><tr><th>Callsign</th><td>TJMRO4</td></tr><tr><th>Destination</th><td>EGPSD</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 168.7°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:23:42+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;UK_RUS3133</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 20.07.2025; UK RUS3133 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 15/10/2025; source updated 16/10/2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9389100\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3133/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SMYRTOS</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9389100</td></tr><tr><th>MMSI</th><td>613411302</td></tr><tr><th>Callsign</th><td>TJMRO4</td></tr><tr><th>Destination</th><td>EGPSD</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 168.7°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:23:42+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;UK_RUS3133</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 20.07.2025; UK RUS3133 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 15/10/2025; source updated 16/10/2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9389100\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3133/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SMYRTOS</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9389100</td></tr><tr><th>MMSI</th><td>613411302</td></tr><tr><th>Callsign</th><td>TJMRO4</td></tr><tr><th>Destination</th><td>EGPSD</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 168.7°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:25:51+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;UK_RUS3133</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 20.07.2025; UK RUS3133 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 15/10/2025; source updated 16/10/2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9389100\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3133/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SMYRTOS</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9389100</td></tr><tr><th>MMSI</th><td>613411302</td></tr><tr><th>Callsign</th><td>TJMRO4</td></tr><tr><th>Destination</th><td>EGPSD</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 168.7°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:25:51+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;UK_RUS3133</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 20.07.2025; UK RUS3133 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 15/10/2025; source updated 16/10/2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9389100\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3133/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SMYRTOS</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9389100</td></tr><tr><th>MMSI</th><td>613411302</td></tr><tr><th>Callsign</th><td>TJMRO4</td></tr><tr><th>Destination</th><td>EGPSD</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 168.7°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:25:51+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;UK_RUS3133</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 20.07.2025; UK RUS3133 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 15/10/2025; source updated 16/10/2025</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9389100\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3133/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
       }
     },
     {
@@ -1221,7 +1221,7 @@
         "source_provider": "fintraffic",
         "message_type_last": "RegionalSnapshot",
         "last_seen_utc": "2026-11-13T18:37:00+00:00",
-        "retrieved_at": "2026-11-14T00:15:55+00:00",
+        "retrieved_at": "2026-11-14T04:07:24+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "to_russia_declared": true,
@@ -1230,7 +1230,7 @@
           "USTLUGA"
         ],
         "from_russia_confirmed": false,
-        "position_age_hours": 5.98,
+        "position_age_hours": 9.84,
         "position_stale": false,
         "sources": [
           "Fintraffic Digitraffic"
@@ -1320,6 +1320,171 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          2.2542666666666666,
+          59.02140166666666
+        ]
+      },
+      "properties": {
+        "mmsi": "613467601",
+        "imo": "9332028",
+        "callsign": "TJM6W",
+        "name": "GRIF",
+        "destination": "FOR ORDER",
+        "ship_type": 80,
+        "message_type_last": "PositionReport",
+        "source_stream": "offshore",
+        "position_age_hours": 0.05,
+        "position_stale": false,
+        "sources": [
+          "BarentsWatch / Norwegian Coastal Administration",
+          "Open Waters"
+        ],
+        "vessel_identity": "imo:9332028",
+        "identity_conflict": false,
+        "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
+        "true_heading": 96,
+        "navigational_status": 0,
+        "longitude": 2.2542666666666666,
+        "cog": 97.8,
+        "upstream_station": "barentswatch/offshore",
+        "sog": 11.3,
+        "source": "Open Waters",
+        "retrieved_at": "2026-11-14T04:24:21+00:00",
+        "last_seen_utc": "2026-11-14T04:24:20+00:00",
+        "latitude": 59.02140166666666,
+        "source_provider": "openwaters",
+        "position_timestamp_valid": true,
+        "position_timestamp_basis": "source_timestamp",
+        "synthesized": true,
+        "stream_id": "stream_1",
+        "upstream_source": "barentswatch",
+        "positions": [
+          {
+            "mmsi": "613467601",
+            "latitude": 59.021915,
+            "longitude": 2.2472616666666667,
+            "last_seen_utc": "2026-11-14T04:23:11+00:00",
+            "retrieved_at": "2026-11-14T04:23:11+00:00",
+            "position_timestamp_valid": true,
+            "position_timestamp_basis": "source_timestamp",
+            "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
+            "sog": 11.3,
+            "cog": 99.1,
+            "true_heading": 96,
+            "navigational_status": 0,
+            "source": "Open Waters",
+            "source_provider": "openwaters",
+            "upstream_source": "barentswatch",
+            "upstream_station": "barentswatch/offshore",
+            "synthesized": true,
+            "message_type_last": "PositionReport"
+          },
+          {
+            "mmsi": "613467601",
+            "latitude": 59.02140166666666,
+            "longitude": 2.2542666666666666,
+            "last_seen_utc": "2026-11-14T04:24:20+00:00",
+            "retrieved_at": "2026-11-14T04:24:21+00:00",
+            "position_timestamp_valid": true,
+            "position_timestamp_basis": "source_timestamp",
+            "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
+            "sog": 11.3,
+            "cog": 97.8,
+            "true_heading": 96,
+            "navigational_status": 0,
+            "source": "Open Waters",
+            "source_provider": "openwaters",
+            "upstream_source": "barentswatch",
+            "upstream_station": "barentswatch/offshore",
+            "synthesized": true,
+            "message_type_last": "PositionReport"
+          }
+        ],
+        "is_tanker_context_candidate": false,
+        "tanker_context_zone_ids": "",
+        "tanker_context_zone_labels": "",
+        "tanker_context_note": "",
+        "to_russia_declared": false,
+        "to_russia_declared_basis": "",
+        "to_russia_declared_port_hits": [],
+        "recent_russian_portcall_unconfirmed_10d": false,
+        "recent_russian_portcall_confirmed_10d": false,
+        "from_russia_confirmed": false,
+        "port_codes_seen": "",
+        "flag_detected": "Cameroon",
+        "flag_detected_source": "mmsi_mid:613",
+        "flag_iso_code": "CM",
+        "flag_risk_category": "B",
+        "flag_registry_status": "fraud_notice_or_historical_abuse",
+        "flag_risk_band": "soft",
+        "flag_risk_score": 70,
+        "flag_risk_reason": "IMO-Kommunikation/Reporting zu fraudulent registration oder missbräuchlicher Flaggen-/Register-Nutzung; Einzelfallprüfung nötig",
+        "flag_risk_source": "IMO / reporting",
+        "flag_risk_url": "https://www.imo.org/en/OurWork/Legal/Pages/Fraudulent-registration-and-fraudulent-registries-of-ships.aspx",
+        "flag_risk_last_verified": "2026-06-29",
+        "flag_watch_context": false,
+        "false_flag_candidate": true,
+        "false_flag_hard_watch": false,
+        "false_flag_hard_reasons": "official_or_manual_sanctions_watchlist_match;core_or_gateway_area",
+        "watch_matched_on": "imo",
+        "watch_name": "NIBLO",
+        "watch_imo": "9332028",
+        "watch_mmsi": "",
+        "watch_callsign": "",
+        "source_list": "EU_Annex_XLII;UK_RUS3351",
+        "source_url": "https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3351/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations",
+        "watch_priority": "high",
+        "notes": "EU Annex XLII: access/service restrictions; application 21.05.2025; UK RUS3351 (Russia): Shipping sanctions: (see 'Other information'); designated 24/02/2026; source updated 24/02/2026; Official listed names/aliases: GRIF",
+        "source_status": "confirmed_current",
+        "source_last_checked": "2026-11-14",
+        "sanctions_source_count": 2,
+        "sanctions_verification_status": "confirmed_in_refreshed_source",
+        "sanctioned": true,
+        "sanctions_listed_historical": true,
+        "shadow_fleet": true,
+        "false_flag": true,
+        "behavioral_voi": false,
+        "neutral_tanker_context": false,
+        "index_impact": "voi_context",
+        "voi_role": "voi_or_watchlist_context",
+        "categories": [
+          "falseflag_interest",
+          "sanctions_shadowfleet",
+          "watchlist"
+        ],
+        "primary_category": "falseflag_interest",
+        "layer_name": "falseflag_interest",
+        "layer_label": "False-flag candidate / interest",
+        "display_category": "False flag candidate",
+        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9332028",
+        "vesselfinder_label": "VesselFinder",
+        "marker-color": "#ff00c8",
+        "marker-symbol": "flag",
+        "marker-size": "medium",
+        "stroke": "#7a005f",
+        "stroke-width": 2,
+        "stroke-opacity": 0.95,
+        "fill": "#ff00c8",
+        "fillColor": "#ff00c8",
+        "fill-opacity": 0.82,
+        "color": "#ff00c8",
+        "_umap_options": {
+          "color": "#ff00c8",
+          "fillColor": "#ff00c8",
+          "weight": 2,
+          "opacity": 0.95,
+          "fillOpacity": 0.82
+        },
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">GRIF</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9332028</td></tr><tr><th>MMSI</th><td>613467601</td></tr><tr><th>Callsign</th><td>TJM6W</td></tr><tr><th>Destination</th><td>FOR ORDER</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>11.3 kn / 97.8°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:24:20+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;UK_RUS3351</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 21.05.2025; UK RUS3351 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 24/02/2026; source updated 24/02/2026; Official listed names/aliases: GRIF</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9332028\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3351/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">GRIF</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9332028</td></tr><tr><th>MMSI</th><td>613467601</td></tr><tr><th>Callsign</th><td>TJM6W</td></tr><tr><th>Destination</th><td>FOR ORDER</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>11.3 kn / 97.8°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:24:20+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;UK_RUS3351</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 21.05.2025; UK RUS3351 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 24/02/2026; source updated 24/02/2026; Official listed names/aliases: GRIF</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9332028\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3351/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">GRIF</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9332028</td></tr><tr><th>MMSI</th><td>613467601</td></tr><tr><th>Callsign</th><td>TJM6W</td></tr><tr><th>Destination</th><td>FOR ORDER</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>11.3 kn / 97.8°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:24:20+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;UK_RUS3351</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 21.05.2025; UK RUS3351 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 24/02/2026; source updated 24/02/2026; Official listed names/aliases: GRIF</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9332028\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3351/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           7.257533,
           57.275583
         ]
@@ -1341,11 +1506,11 @@
         "source_provider": "barentswatch",
         "message_type_last": "RegionalSnapshot",
         "last_seen_utc": "2026-11-13T20:12:57+00:00",
-        "retrieved_at": "2026-11-14T00:15:57+00:00",
+        "retrieved_at": "2026-11-14T04:07:27+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "source_stream": "terra",
-        "position_age_hours": 4.38,
+        "position_age_hours": 8.24,
         "position_stale": false,
         "sources": [
           "BarentsWatch / Norwegian Coastal Administration"
@@ -1433,8 +1598,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          13.051625,
-          55.33304333333333
+          13.051658333333334,
+          55.333753333333334
         ]
       },
       "properties": {
@@ -1444,16 +1609,16 @@
         "destination": "BALTIC SEA",
         "ship_type": 80,
         "mmsi": "613606102",
-        "latitude": 55.33304333333333,
-        "longitude": 13.051625,
-        "last_seen_utc": "2026-11-14T00:29:59+00:00",
-        "retrieved_at": "2026-11-14T00:30:04+00:00",
+        "latitude": 55.333753333333334,
+        "longitude": 13.051658333333334,
+        "last_seen_utc": "2026-11-14T04:23:59+00:00",
+        "retrieved_at": "2026-11-14T04:24:04+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
-        "sog": 0.1,
-        "cog": 152.0,
-        "true_heading": 291,
+        "sog": 0.3,
+        "cog": 176.1,
+        "true_heading": 262,
         "navigational_status": 1,
         "source": "Open Waters",
         "source_provider": "openwaters",
@@ -1465,16 +1630,16 @@
         "positions": [
           {
             "mmsi": "613606102",
-            "latitude": 55.333481666666664,
-            "longitude": 13.051593333333333,
-            "last_seen_utc": "2026-11-14T00:15:02+00:00",
-            "retrieved_at": "2026-11-14T00:15:57+00:00",
+            "latitude": 55.33406333333333,
+            "longitude": 13.051765,
+            "last_seen_utc": "2026-11-14T04:17:59+00:00",
+            "retrieved_at": "2026-11-14T04:18:02+00:00",
             "position_timestamp_valid": true,
             "position_timestamp_basis": "source_timestamp",
             "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
-            "sog": 0.6,
-            "cog": 8.8,
-            "true_heading": 296,
+            "sog": 0.3,
+            "cog": 7.6,
+            "true_heading": 265,
             "navigational_status": 1,
             "source": "Open Waters",
             "source_provider": "openwaters",
@@ -1485,16 +1650,16 @@
           },
           {
             "mmsi": "613606102",
-            "latitude": 55.33304333333333,
-            "longitude": 13.051625,
-            "last_seen_utc": "2026-11-14T00:29:59+00:00",
-            "retrieved_at": "2026-11-14T00:30:04+00:00",
+            "latitude": 55.333753333333334,
+            "longitude": 13.051658333333334,
+            "last_seen_utc": "2026-11-14T04:23:59+00:00",
+            "retrieved_at": "2026-11-14T04:24:04+00:00",
             "position_timestamp_valid": true,
             "position_timestamp_basis": "source_timestamp",
             "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
-            "sog": 0.1,
-            "cog": 152.0,
-            "true_heading": 291,
+            "sog": 0.3,
+            "cog": 176.1,
+            "true_heading": 262,
             "navigational_status": 1,
             "source": "Open Waters",
             "source_provider": "openwaters",
@@ -1504,7 +1669,7 @@
             "message_type_last": "PositionReport"
           }
         ],
-        "position_age_hours": 0.1,
+        "position_age_hours": 0.06,
         "position_stale": false,
         "sources": [
           "Open Waters"
@@ -1586,9 +1751,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">JIN HUI</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9430272</td></tr><tr><th>MMSI</th><td>613606102</td></tr><tr><th>Callsign</th><td>TJMQ69</td></tr><tr><th>Destination</th><td>BALTIC SEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.1 kn / 152.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:29:59+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;UK_RUS3403</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 19.12.2025; UK RUS3403 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 24/02/2026; source updated 24/02/2026</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9430272\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3403/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">JIN HUI</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9430272</td></tr><tr><th>MMSI</th><td>613606102</td></tr><tr><th>Callsign</th><td>TJMQ69</td></tr><tr><th>Destination</th><td>BALTIC SEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.1 kn / 152.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:29:59+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;UK_RUS3403</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 19.12.2025; UK RUS3403 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 24/02/2026; source updated 24/02/2026</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9430272\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3403/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">JIN HUI</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9430272</td></tr><tr><th>MMSI</th><td>613606102</td></tr><tr><th>Callsign</th><td>TJMQ69</td></tr><tr><th>Destination</th><td>BALTIC SEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.1 kn / 152.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:29:59+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;UK_RUS3403</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 19.12.2025; UK RUS3403 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 24/02/2026; source updated 24/02/2026</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9430272\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3403/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">JIN HUI</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9430272</td></tr><tr><th>MMSI</th><td>613606102</td></tr><tr><th>Callsign</th><td>TJMQ69</td></tr><tr><th>Destination</th><td>BALTIC SEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.3 kn / 176.1°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:23:59+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;UK_RUS3403</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 19.12.2025; UK RUS3403 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 24/02/2026; source updated 24/02/2026</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9430272\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3403/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">JIN HUI</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9430272</td></tr><tr><th>MMSI</th><td>613606102</td></tr><tr><th>Callsign</th><td>TJMQ69</td></tr><tr><th>Destination</th><td>BALTIC SEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.3 kn / 176.1°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:23:59+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;UK_RUS3403</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 19.12.2025; UK RUS3403 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 24/02/2026; source updated 24/02/2026</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9430272\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3403/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">JIN HUI</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9430272</td></tr><tr><th>MMSI</th><td>613606102</td></tr><tr><th>Callsign</th><td>TJMQ69</td></tr><tr><th>Destination</th><td>BALTIC SEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.3 kn / 176.1°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:23:59+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;UK_RUS3403</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 19.12.2025; UK RUS3403 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 24/02/2026; source updated 24/02/2026</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9430272\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3403/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
       }
     },
     {
@@ -1617,7 +1782,7 @@
         "source_provider": "fintraffic",
         "message_type_last": "RegionalSnapshot",
         "last_seen_utc": "2026-11-13T18:02:07+00:00",
-        "retrieved_at": "2026-11-14T00:15:55+00:00",
+        "retrieved_at": "2026-11-14T04:07:24+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "to_russia_declared": false,
@@ -1627,7 +1792,7 @@
         "recent_ru_portcall_started_at": "2026-11-10T17:20:30+00:00",
         "recent_ru_portcall_until": "2026-11-20T17:20:30+00:00",
         "from_russia_confirmed": false,
-        "position_age_hours": 6.56,
+        "position_age_hours": 10.42,
         "position_stale": false,
         "sources": [
           "Fintraffic Digitraffic"
@@ -1717,27 +1882,27 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          13.15332,
-          55.360789999999994
+          3.195596666666667,
+          51.33890666666667
         ]
       },
       "properties": {
-        "name": "CAFFA",
-        "callsign": "3X2107",
-        "imo": "9143611",
-        "destination": "SETRG",
-        "ship_type": 70,
-        "mmsi": "632001135",
-        "latitude": 55.360789999999994,
-        "longitude": 13.15332,
-        "last_seen_utc": "2026-11-14T00:07:40+00:00",
-        "retrieved_at": "2026-11-14T00:15:57+00:00",
+        "name": "ETHERA",
+        "callsign": "3X2122",
+        "imo": "9387279",
+        "destination": "FOR ORDERS",
+        "ship_type": 89,
+        "mmsi": "632001149",
+        "latitude": 51.33890666666667,
+        "longitude": 3.195596666666667,
+        "last_seen_utc": "2026-11-14T04:04:25+00:00",
+        "retrieved_at": "2026-11-14T04:07:26+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
         "sog": 0.0,
-        "cog": 44.8,
-        "true_heading": null,
+        "cog": 332.1,
+        "true_heading": 191,
         "navigational_status": 5,
         "source": "Open Waters",
         "source_provider": "openwaters",
@@ -1748,17 +1913,17 @@
         "stream_id": "stream_1",
         "positions": [
           {
-            "mmsi": "632001135",
-            "latitude": 55.360789999999994,
-            "longitude": 13.15332,
-            "last_seen_utc": "2026-11-14T00:07:40+00:00",
-            "retrieved_at": "2026-11-14T00:15:57+00:00",
+            "mmsi": "632001149",
+            "latitude": 51.33890666666667,
+            "longitude": 3.195596666666667,
+            "last_seen_utc": "2026-11-14T04:04:25+00:00",
+            "retrieved_at": "2026-11-14T04:07:26+00:00",
             "position_timestamp_valid": true,
             "position_timestamp_basis": "source_timestamp",
             "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
             "sog": 0.0,
-            "cog": 44.8,
-            "true_heading": null,
+            "cog": 332.1,
+            "true_heading": 191,
             "navigational_status": 5,
             "source": "Open Waters",
             "source_provider": "openwaters",
@@ -1768,167 +1933,7 @@
             "message_type_last": "PositionReport"
           }
         ],
-        "position_age_hours": 0.47,
-        "position_stale": false,
-        "sources": [
-          "Open Waters"
-        ],
-        "vessel_identity": "imo:9143611",
-        "identity_conflict": false,
-        "is_tanker_context_candidate": false,
-        "tanker_context_zone_ids": "",
-        "tanker_context_zone_labels": "",
-        "tanker_context_note": "",
-        "to_russia_declared": false,
-        "to_russia_declared_basis": "",
-        "to_russia_declared_port_hits": [],
-        "recent_russian_portcall_unconfirmed_10d": false,
-        "recent_russian_portcall_confirmed_10d": false,
-        "from_russia_confirmed": false,
-        "port_codes_seen": "",
-        "flag_detected": "Guinea",
-        "flag_detected_source": "mmsi_mid:632",
-        "flag_iso_code": "GN",
-        "flag_risk_category": "A",
-        "flag_registry_status": "no_intl_registry",
-        "flag_risk_band": "hard",
-        "flag_risk_score": 90,
-        "flag_risk_reason": "Flagge taucht in Berichten zu Staaten ohne entsprechendes internationales Register bzw. missbräuchlicher Nutzung auf",
-        "flag_risk_source": "IMO / reporting",
-        "flag_risk_url": "https://www.imo.org/en/mediacentre/Pages/WhatsNew-1704.aspx",
-        "flag_risk_last_verified": "2026-05-05",
-        "flag_watch_context": false,
-        "false_flag_candidate": true,
-        "false_flag_hard_watch": true,
-        "false_flag_hard_reasons": "hard_flag_registry_status;core_or_gateway_area",
-        "watch_matched_on": "",
-        "watch_name": "",
-        "watch_imo": "",
-        "watch_mmsi": "",
-        "watch_callsign": "",
-        "source_list": "",
-        "source_url": "",
-        "watch_priority": "",
-        "notes": "",
-        "source_status": "unmatched_live_context",
-        "source_last_checked": "",
-        "sanctions_source_count": 0,
-        "sanctioned": false,
-        "shadow_fleet": false,
-        "false_flag": true,
-        "behavioral_voi": false,
-        "neutral_tanker_context": false,
-        "index_impact": "voi_context",
-        "voi_role": "voi_or_watchlist_context",
-        "categories": [
-          "false_flag_watch",
-          "falseflag_interest"
-        ],
-        "primary_category": "falseflag_interest",
-        "layer_name": "falseflag_interest",
-        "layer_label": "False-flag candidate / interest",
-        "display_category": "False flag candidate",
-        "vesselfinder_url": "https://www.vesselfinder.com/vessels?name=9143611",
-        "vesselfinder_label": "VesselFinder",
-        "marker-color": "#ff00c8",
-        "marker-symbol": "flag",
-        "marker-size": "medium",
-        "stroke": "#7a005f",
-        "stroke-width": 2,
-        "stroke-opacity": 0.95,
-        "fill": "#ff00c8",
-        "fillColor": "#ff00c8",
-        "fill-opacity": 0.82,
-        "color": "#ff00c8",
-        "_umap_options": {
-          "color": "#ff00c8",
-          "fillColor": "#ff00c8",
-          "weight": 2,
-          "opacity": 0.95,
-          "fillOpacity": 0.82
-        },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">CAFFA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9143611</td></tr><tr><th>MMSI</th><td>632001135</td></tr><tr><th>Callsign</th><td>3X2107</td></tr><tr><th>Destination</th><td>SETRG</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 44.8°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:07:40+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">false_flag_watch</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9143611\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">CAFFA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9143611</td></tr><tr><th>MMSI</th><td>632001135</td></tr><tr><th>Callsign</th><td>3X2107</td></tr><tr><th>Destination</th><td>SETRG</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 44.8°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:07:40+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">false_flag_watch</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9143611\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">CAFFA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9143611</td></tr><tr><th>MMSI</th><td>632001135</td></tr><tr><th>Callsign</th><td>3X2107</td></tr><tr><th>Destination</th><td>SETRG</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 44.8°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:07:40+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">false_flag_watch</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9143611\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.195625,
-          51.33891833333333
-        ]
-      },
-      "properties": {
-        "name": "ETHERA",
-        "callsign": "3X2122",
-        "imo": "9387279",
-        "destination": "FOR ORDERS",
-        "ship_type": 89,
-        "mmsi": "632001149",
-        "latitude": 51.33891833333333,
-        "longitude": 3.195625,
-        "last_seen_utc": "2026-11-14T00:16:25+00:00",
-        "retrieved_at": "2026-11-14T00:16:28+00:00",
-        "position_timestamp_valid": true,
-        "position_timestamp_basis": "source_timestamp",
-        "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
-        "sog": 0.0,
-        "cog": 197.0,
-        "true_heading": 191,
-        "navigational_status": 5,
-        "source": "Open Waters",
-        "source_provider": "openwaters",
-        "upstream_source": "aisstream",
-        "upstream_station": "aisstream",
-        "synthesized": true,
-        "message_type_last": "PositionReport",
-        "stream_id": "stream_1",
-        "positions": [
-          {
-            "mmsi": "632001149",
-            "latitude": 51.338946666666665,
-            "longitude": 3.195613333333333,
-            "last_seen_utc": "2026-11-14T00:13:22+00:00",
-            "retrieved_at": "2026-11-14T00:15:56+00:00",
-            "position_timestamp_valid": true,
-            "position_timestamp_basis": "source_timestamp",
-            "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
-            "sog": 0.0,
-            "cog": 197.0,
-            "true_heading": 191,
-            "navigational_status": 5,
-            "source": "Open Waters",
-            "source_provider": "openwaters",
-            "upstream_source": "aisstream",
-            "upstream_station": "aisstream",
-            "synthesized": true,
-            "message_type_last": "PositionReport"
-          },
-          {
-            "mmsi": "632001149",
-            "latitude": 51.33891833333333,
-            "longitude": 3.195625,
-            "last_seen_utc": "2026-11-14T00:16:25+00:00",
-            "retrieved_at": "2026-11-14T00:16:28+00:00",
-            "position_timestamp_valid": true,
-            "position_timestamp_basis": "source_timestamp",
-            "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
-            "sog": 0.0,
-            "cog": 197.0,
-            "true_heading": 191,
-            "navigational_status": 5,
-            "source": "Open Waters",
-            "source_provider": "openwaters",
-            "upstream_source": "aisstream",
-            "upstream_station": "aisstream",
-            "synthesized": true,
-            "message_type_last": "PositionReport"
-          }
-        ],
-        "position_age_hours": 0.33,
+        "position_age_hours": 0.38,
         "position_stale": false,
         "sources": [
           "Open Waters"
@@ -2011,9 +2016,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">ETHERA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9387279</td></tr><tr><th>MMSI</th><td>632001149</td></tr><tr><th>Callsign</th><td>3X2122</td></tr><tr><th>Destination</th><td>FOR ORDERS</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 197.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:16:25+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;OFAC_SDN_54900;UK_RUS3336</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 24.10.2025; UK RUS3336 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 24/02/2026; source updated 24/02/2026; OFAC SDN 54900: directly listed vessel/property interest; programs IRAN-EO13902</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">false_flag_watch</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9387279\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://sanctionslist.ofac.treas.gov/Home/SdnList;https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.CSV;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3336/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">ETHERA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9387279</td></tr><tr><th>MMSI</th><td>632001149</td></tr><tr><th>Callsign</th><td>3X2122</td></tr><tr><th>Destination</th><td>FOR ORDERS</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 197.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:16:25+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;OFAC_SDN_54900;UK_RUS3336</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 24.10.2025; UK RUS3336 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 24/02/2026; source updated 24/02/2026; OFAC SDN 54900: directly listed vessel/property interest; programs IRAN-EO13902</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">false_flag_watch</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9387279\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://sanctionslist.ofac.treas.gov/Home/SdnList;https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.CSV;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3336/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">ETHERA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9387279</td></tr><tr><th>MMSI</th><td>632001149</td></tr><tr><th>Callsign</th><td>3X2122</td></tr><tr><th>Destination</th><td>FOR ORDERS</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 197.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:16:25+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;OFAC_SDN_54900;UK_RUS3336</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 24.10.2025; UK RUS3336 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 24/02/2026; source updated 24/02/2026; OFAC SDN 54900: directly listed vessel/property interest; programs IRAN-EO13902</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">false_flag_watch</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9387279\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://sanctionslist.ofac.treas.gov/Home/SdnList;https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.CSV;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3336/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">ETHERA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9387279</td></tr><tr><th>MMSI</th><td>632001149</td></tr><tr><th>Callsign</th><td>3X2122</td></tr><tr><th>Destination</th><td>FOR ORDERS</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 332.1°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:04:25+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;OFAC_SDN_54900;UK_RUS3336</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 24.10.2025; UK RUS3336 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 24/02/2026; source updated 24/02/2026; OFAC SDN 54900: directly listed vessel/property interest; programs IRAN-EO13902</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">false_flag_watch</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9387279\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://sanctionslist.ofac.treas.gov/Home/SdnList;https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.CSV;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3336/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">ETHERA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9387279</td></tr><tr><th>MMSI</th><td>632001149</td></tr><tr><th>Callsign</th><td>3X2122</td></tr><tr><th>Destination</th><td>FOR ORDERS</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 332.1°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:04:25+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;OFAC_SDN_54900;UK_RUS3336</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 24.10.2025; UK RUS3336 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 24/02/2026; source updated 24/02/2026; OFAC SDN 54900: directly listed vessel/property interest; programs IRAN-EO13902</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">false_flag_watch</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9387279\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://sanctionslist.ofac.treas.gov/Home/SdnList;https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.CSV;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3336/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">ETHERA</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>9387279</td></tr><tr><th>MMSI</th><td>632001149</td></tr><tr><th>Callsign</th><td>3X2122</td></tr><tr><th>Destination</th><td>FOR ORDERS</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 332.1°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:04:25+00:00</td></tr><tr><th>Watchlist</th><td>EU_Annex_XLII;OFAC_SDN_54900;UK_RUS3336</td></tr><tr><th>Notes</th><td>EU Annex XLII: access/service restrictions; application 24.10.2025; UK RUS3336 (Russia): Shipping sanctions: (see &#x27;Other information&#x27;); designated 24/02/2026; source updated 24/02/2026; OFAC SDN 54900: directly listed vessel/property interest; programs IRAN-EO13902</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">false_flag_watch</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">sanctions_shadowfleet</span> <span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">watchlist</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=9387279\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a> · <a href=\"https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv;https://sanctionslist.ofac.treas.gov/Home/SdnList;https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.CSV;https://search-uk-sanctions-list.service.gov.uk/designations/RUS3336/Ship;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/general-information/eu-vessel-designations;https://www.dma.dk/growth-and-framework-conditions/maritime-sanctions/sanctions-against-russia-and-belarus/eu-vessel-designations\" target=\"_blank\" rel=\"noopener noreferrer\">Source</a></div>\n</div>"
       }
     },
     {
@@ -2042,11 +2047,11 @@
         "source_provider": "barentswatch",
         "message_type_last": "RegionalSnapshot",
         "last_seen_utc": "2026-11-13T22:17:23+00:00",
-        "retrieved_at": "2026-11-14T00:15:57+00:00",
+        "retrieved_at": "2026-11-14T04:07:27+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "source_stream": "satellite",
-        "position_age_hours": 2.31,
+        "position_age_hours": 6.17,
         "position_stale": false,
         "sources": [
           "BarentsWatch / Norwegian Coastal Administration"
@@ -2134,8 +2139,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          20.99669,
-          56.52009666666667
+          20.996750000000002,
+          56.52011666666667
         ]
       },
       "properties": {
@@ -2145,37 +2150,37 @@
         "destination": "NL RTM",
         "ship_type": 80,
         "mmsi": "677034500",
-        "latitude": 56.52009666666667,
-        "longitude": 20.99669,
-        "last_seen_utc": "2026-11-14T00:11:48+00:00",
-        "retrieved_at": "2026-11-14T00:15:57+00:00",
+        "latitude": 56.52011666666667,
+        "longitude": 20.996750000000002,
+        "last_seen_utc": "2026-11-14T04:20:52+00:00",
+        "retrieved_at": "2026-11-14T04:20:55+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
         "sog": 0.0,
         "cog": null,
-        "true_heading": 56,
+        "true_heading": 57,
         "navigational_status": 5,
         "source": "Open Waters",
         "source_provider": "openwaters",
-        "upstream_source": "aishub",
-        "upstream_station": "aishub",
+        "upstream_source": "aisstream",
+        "upstream_station": "aisstream",
         "synthesized": true,
         "message_type_last": "PositionReport",
         "stream_id": "stream_1",
         "positions": [
           {
             "mmsi": "677034500",
-            "latitude": 56.52009666666667,
-            "longitude": 20.99669,
-            "last_seen_utc": "2026-11-14T00:11:48+00:00",
-            "retrieved_at": "2026-11-14T00:15:57+00:00",
+            "latitude": 56.52009833333333,
+            "longitude": 20.996761666666664,
+            "last_seen_utc": "2026-11-14T04:05:51+00:00",
+            "retrieved_at": "2026-11-14T04:07:27+00:00",
             "position_timestamp_valid": true,
             "position_timestamp_basis": "source_timestamp",
             "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
             "sog": 0.0,
             "cog": null,
-            "true_heading": 56,
+            "true_heading": 57,
             "navigational_status": 5,
             "source": "Open Waters",
             "source_provider": "openwaters",
@@ -2183,9 +2188,29 @@
             "upstream_station": "aishub",
             "synthesized": true,
             "message_type_last": "PositionReport"
+          },
+          {
+            "mmsi": "677034500",
+            "latitude": 56.52011666666667,
+            "longitude": 20.996750000000002,
+            "last_seen_utc": "2026-11-14T04:20:52+00:00",
+            "retrieved_at": "2026-11-14T04:20:55+00:00",
+            "position_timestamp_valid": true,
+            "position_timestamp_basis": "source_timestamp",
+            "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
+            "sog": 0.0,
+            "cog": null,
+            "true_heading": 57,
+            "navigational_status": 5,
+            "source": "Open Waters",
+            "source_provider": "openwaters",
+            "upstream_source": "aisstream",
+            "upstream_station": "aisstream",
+            "synthesized": true,
+            "message_type_last": "PositionReport"
           }
         ],
-        "position_age_hours": 0.4,
+        "position_age_hours": 0.11,
         "position_stale": false,
         "sources": [
           "Open Waters"
@@ -2263,9 +2288,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">ISLAND TRADER</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>8727836</td></tr><tr><th>MMSI</th><td>677034500</td></tr><tr><th>Callsign</th><td>5IM445</td></tr><tr><th>Destination</th><td>NL RTM</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:11:48+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8727836\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">ISLAND TRADER</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>8727836</td></tr><tr><th>MMSI</th><td>677034500</td></tr><tr><th>Callsign</th><td>5IM445</td></tr><tr><th>Destination</th><td>NL RTM</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:11:48+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8727836\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">ISLAND TRADER</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>8727836</td></tr><tr><th>MMSI</th><td>677034500</td></tr><tr><th>Callsign</th><td>5IM445</td></tr><tr><th>Destination</th><td>NL RTM</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-11-14T00:11:48+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8727836\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">ISLAND TRADER</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>8727836</td></tr><tr><th>MMSI</th><td>677034500</td></tr><tr><th>Callsign</th><td>5IM445</td></tr><tr><th>Destination</th><td>NL RTM</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:20:52+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8727836\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">ISLAND TRADER</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>8727836</td></tr><tr><th>MMSI</th><td>677034500</td></tr><tr><th>Callsign</th><td>5IM445</td></tr><tr><th>Destination</th><td>NL RTM</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:20:52+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8727836\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">ISLAND TRADER</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>8727836</td></tr><tr><th>MMSI</th><td>677034500</td></tr><tr><th>Callsign</th><td>5IM445</td></tr><tr><th>Destination</th><td>NL RTM</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-11-14T04:20:52+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=8727836\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
       }
     },
     {
@@ -2273,8 +2298,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          6.093333333333334,
-          68.35833333333333
+          15.120000000000001,
+          77.8
         ]
       },
       "properties": {
@@ -2282,29 +2307,77 @@
         "imo": "1085643",
         "callsign": "5IM596",
         "name": "SC 609",
-        "latitude": 68.35833333333333,
-        "longitude": 6.093333333333334,
         "destination": "MOFFA GUINEA",
         "ship_type": 70,
-        "navigational_status": 8,
-        "sog": 1.0,
-        "cog": 349.0,
-        "true_heading": null,
-        "source": "BarentsWatch / Norwegian Coastal Administration",
-        "source_provider": "barentswatch",
-        "message_type_last": "RegionalSnapshot",
-        "last_seen_utc": "2026-11-13T04:43:19+00:00",
-        "retrieved_at": "2026-11-14T00:15:57+00:00",
-        "position_timestamp_valid": true,
-        "position_timestamp_basis": "source_timestamp",
+        "message_type_last": "PositionReport",
         "source_stream": "satellite",
-        "position_age_hours": 19.88,
+        "position_age_hours": 1.59,
         "position_stale": false,
         "sources": [
-          "BarentsWatch / Norwegian Coastal Administration"
+          "BarentsWatch / Norwegian Coastal Administration",
+          "Open Waters"
         ],
         "vessel_identity": "imo:1085643",
         "identity_conflict": false,
+        "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
+        "true_heading": null,
+        "navigational_status": 8,
+        "longitude": 15.120000000000001,
+        "cog": 252.0,
+        "upstream_station": "barentswatch/satellite",
+        "sog": 0.0,
+        "source": "Open Waters",
+        "retrieved_at": "2026-11-14T04:18:43+00:00",
+        "last_seen_utc": "2026-11-14T02:52:14+00:00",
+        "latitude": 77.8,
+        "source_provider": "openwaters",
+        "position_timestamp_valid": true,
+        "position_timestamp_basis": "source_timestamp",
+        "synthesized": true,
+        "stream_id": "stream_2",
+        "upstream_source": "barentswatch",
+        "positions": [
+          {
+            "mmsi": "677049600",
+            "latitude": 77.795,
+            "longitude": 15.135,
+            "last_seen_utc": "2026-11-14T02:49:14+00:00",
+            "retrieved_at": "2026-11-14T04:17:47+00:00",
+            "position_timestamp_valid": true,
+            "position_timestamp_basis": "source_timestamp",
+            "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
+            "sog": 0.0,
+            "cog": null,
+            "true_heading": null,
+            "navigational_status": 8,
+            "source": "Open Waters",
+            "source_provider": "openwaters",
+            "upstream_source": "barentswatch",
+            "upstream_station": "barentswatch/satellite",
+            "synthesized": true,
+            "message_type_last": "PositionReport"
+          },
+          {
+            "mmsi": "677049600",
+            "latitude": 77.8,
+            "longitude": 15.120000000000001,
+            "last_seen_utc": "2026-11-14T02:52:14+00:00",
+            "retrieved_at": "2026-11-14T04:18:43+00:00",
+            "position_timestamp_valid": true,
+            "position_timestamp_basis": "source_timestamp",
+            "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
+            "sog": 0.0,
+            "cog": 252.0,
+            "true_heading": null,
+            "navigational_status": 8,
+            "source": "Open Waters",
+            "source_provider": "openwaters",
+            "upstream_source": "barentswatch",
+            "upstream_station": "barentswatch/satellite",
+            "synthesized": true,
+            "message_type_last": "PositionReport"
+          }
+        ],
         "is_tanker_context_candidate": false,
         "tanker_context_zone_ids": "",
         "tanker_context_zone_labels": "",
@@ -2376,9 +2449,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SC 609</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1085643</td></tr><tr><th>MMSI</th><td>677049600</td></tr><tr><th>Callsign</th><td>5IM596</td></tr><tr><th>Destination</th><td>MOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>1.0 kn / 349.0°</td></tr><tr><th>Last seen</th><td>2026-11-13T04:43:19+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1085643\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SC 609</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1085643</td></tr><tr><th>MMSI</th><td>677049600</td></tr><tr><th>Callsign</th><td>5IM596</td></tr><tr><th>Destination</th><td>MOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>1.0 kn / 349.0°</td></tr><tr><th>Last seen</th><td>2026-11-13T04:43:19+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1085643\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SC 609</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1085643</td></tr><tr><th>MMSI</th><td>677049600</td></tr><tr><th>Callsign</th><td>5IM596</td></tr><tr><th>Destination</th><td>MOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>1.0 kn / 349.0°</td></tr><tr><th>Last seen</th><td>2026-11-13T04:43:19+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1085643\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SC 609</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1085643</td></tr><tr><th>MMSI</th><td>677049600</td></tr><tr><th>Callsign</th><td>5IM596</td></tr><tr><th>Destination</th><td>MOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 252.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T02:52:14+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1085643\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SC 609</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1085643</td></tr><tr><th>MMSI</th><td>677049600</td></tr><tr><th>Callsign</th><td>5IM596</td></tr><tr><th>Destination</th><td>MOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 252.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T02:52:14+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1085643\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">SC 609</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1085643</td></tr><tr><th>MMSI</th><td>677049600</td></tr><tr><th>Callsign</th><td>5IM596</td></tr><tr><th>Destination</th><td>MOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 252.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T02:52:14+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1085643\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
       }
     },
     {
@@ -2407,11 +2480,11 @@
         "source_provider": "barentswatch",
         "message_type_last": "RegionalSnapshot",
         "last_seen_utc": "2026-11-13T18:57:30+00:00",
-        "retrieved_at": "2026-11-14T00:15:57+00:00",
+        "retrieved_at": "2026-11-14T04:07:27+00:00",
         "position_timestamp_valid": true,
         "position_timestamp_basis": "source_timestamp",
         "source_stream": "satellite",
-        "position_age_hours": 5.64,
+        "position_age_hours": 9.5,
         "position_stale": false,
         "sources": [
           "BarentsWatch / Norwegian Coastal Administration"
@@ -2499,8 +2572,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          7.071666666666667,
-          78.03
+          6.825,
+          76.11333166666667
         ]
       },
       "properties": {
@@ -2508,29 +2581,77 @@
         "imo": "1162001",
         "callsign": "5IM885",
         "name": "S C 612",
-        "latitude": 78.03,
-        "longitude": 7.071666666666667,
         "destination": "BOFFA GUINEA",
         "ship_type": 52,
-        "navigational_status": 0,
-        "sog": 0.0,
-        "cog": null,
-        "true_heading": null,
-        "source": "BarentsWatch / Norwegian Coastal Administration",
-        "source_provider": "barentswatch",
-        "message_type_last": "RegionalSnapshot",
-        "last_seen_utc": "2026-11-13T20:36:22+00:00",
-        "retrieved_at": "2026-11-14T00:15:57+00:00",
-        "position_timestamp_valid": true,
-        "position_timestamp_basis": "source_timestamp",
+        "message_type_last": "PositionReport",
         "source_stream": "satellite",
-        "position_age_hours": 3.99,
+        "position_age_hours": 1.57,
         "position_stale": false,
         "sources": [
-          "BarentsWatch / Norwegian Coastal Administration"
+          "BarentsWatch / Norwegian Coastal Administration",
+          "Open Waters"
         ],
         "vessel_identity": "imo:1162001",
         "identity_conflict": false,
+        "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
+        "true_heading": null,
+        "navigational_status": 0,
+        "longitude": 6.825,
+        "cog": 53.0,
+        "upstream_station": "barentswatch/satellite",
+        "sog": 0.0,
+        "source": "Open Waters",
+        "retrieved_at": "2026-11-14T04:19:00+00:00",
+        "last_seen_utc": "2026-11-14T02:53:11+00:00",
+        "latitude": 76.11333166666667,
+        "source_provider": "openwaters",
+        "position_timestamp_valid": true,
+        "position_timestamp_basis": "source_timestamp",
+        "synthesized": true,
+        "stream_id": "stream_2",
+        "upstream_source": "barentswatch",
+        "positions": [
+          {
+            "mmsi": "677078500",
+            "latitude": 76.095,
+            "longitude": 6.841666666666667,
+            "last_seen_utc": "2026-11-14T02:50:11+00:00",
+            "retrieved_at": "2026-11-14T04:18:04+00:00",
+            "position_timestamp_valid": true,
+            "position_timestamp_basis": "source_timestamp",
+            "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
+            "sog": 0.0,
+            "cog": null,
+            "true_heading": null,
+            "navigational_status": 0,
+            "source": "Open Waters",
+            "source_provider": "openwaters",
+            "upstream_source": "barentswatch",
+            "upstream_station": "barentswatch/satellite",
+            "synthesized": true,
+            "message_type_last": "PositionReport"
+          },
+          {
+            "mmsi": "677078500",
+            "latitude": 76.11333166666667,
+            "longitude": 6.825,
+            "last_seen_utc": "2026-11-14T02:53:11+00:00",
+            "retrieved_at": "2026-11-14T04:19:00+00:00",
+            "position_timestamp_valid": true,
+            "position_timestamp_basis": "source_timestamp",
+            "provider_timestamp_semantics": "source_time_within_30s_else_provider_receive_time",
+            "sog": 0.0,
+            "cog": 53.0,
+            "true_heading": null,
+            "navigational_status": 0,
+            "source": "Open Waters",
+            "source_provider": "openwaters",
+            "upstream_source": "barentswatch",
+            "upstream_station": "barentswatch/satellite",
+            "synthesized": true,
+            "message_type_last": "PositionReport"
+          }
+        ],
         "is_tanker_context_candidate": false,
         "tanker_context_zone_ids": "",
         "tanker_context_zone_labels": "",
@@ -2602,9 +2723,9 @@
           "opacity": 0.95,
           "fillOpacity": 0.82
         },
-        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S C 612</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1162001</td></tr><tr><th>MMSI</th><td>677078500</td></tr><tr><th>Callsign</th><td>5IM885</td></tr><tr><th>Destination</th><td>BOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-11-13T20:36:22+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1162001\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S C 612</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1162001</td></tr><tr><th>MMSI</th><td>677078500</td></tr><tr><th>Callsign</th><td>5IM885</td></tr><tr><th>Destination</th><td>BOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-11-13T20:36:22+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1162001\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
-        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S C 612</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1162001</td></tr><tr><th>MMSI</th><td>677078500</td></tr><tr><th>Callsign</th><td>5IM885</td></tr><tr><th>Destination</th><td>BOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / —°</td></tr><tr><th>Last seen</th><td>2026-11-13T20:36:22+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1162001\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
+        "popup_html": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S C 612</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1162001</td></tr><tr><th>MMSI</th><td>677078500</td></tr><tr><th>Callsign</th><td>5IM885</td></tr><tr><th>Destination</th><td>BOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 53.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T02:53:11+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1162001\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "popupContent": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S C 612</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1162001</td></tr><tr><th>MMSI</th><td>677078500</td></tr><tr><th>Callsign</th><td>5IM885</td></tr><tr><th>Destination</th><td>BOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 53.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T02:53:11+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1162001\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>",
+        "description": "<div class=\"mp-voi-popup\" style=\"font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;\">\n  <div style=\"font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;\">S C 612</div>\n  <div style=\"display:inline-block;margin:0 0 7px 0;padding:2px 7px;border-radius:999px;background:#ff00c8;color:#fff;font-size:11px;\">False flag candidate</div>\n  <table style=\"border-collapse:collapse;width:100%;margin:2px 0 6px 0;\">\n    <tr><th>Layer</th><td>False-flag candidate / interest</td></tr><tr><th>IMO</th><td>1162001</td></tr><tr><th>MMSI</th><td>677078500</td></tr><tr><th>Callsign</th><td>5IM885</td></tr><tr><th>Destination</th><td>BOFFA GUINEA</td></tr><tr><th>RU route state</th><td>—</td></tr><tr><th>RU evidence</th><td>—</td></tr><tr><th>SOG / COG</th><td>0.0 kn / 53.0°</td></tr><tr><th>Last seen</th><td>2026-11-14T02:53:11+00:00</td></tr><tr><th>Watchlist</th><td>—</td></tr><tr><th>Notes</th><td>—</td></tr>\n  </table>\n  <div style=\"margin:5px 0;\"><span style=\"display:inline-block;margin:2px 4px 2px 0;padding:2px 6px;border-radius:999px;background:#eef2f7;border:1px solid #cbd5e1;color:#1f2937;font-size:11px;\">falseflag_interest</span></div>\n  <div style=\"margin-top:6px;\"><a href=\"https://www.vesselfinder.com/vessels?name=1162001\" target=\"_blank\" rel=\"noopener noreferrer\">VesselFinder</a></div>\n</div>"
       }
     }
   ]
