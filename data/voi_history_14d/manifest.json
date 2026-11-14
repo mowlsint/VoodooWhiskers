@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0.0",
   "kind": "canonical_source_history",
-  "generated_at": "2026-11-14T04:27:29+00:00",
+  "generated_at": "2026-11-14T08:27:37+00:00",
   "retention_days": 14,
   "max_part_bytes": 20971520,
   "part_count": 6,
-  "total_rows": 9569,
-  "total_bytes": 22369645,
+  "total_rows": 10087,
+  "total_bytes": 23580067,
   "oldest": "2026-11-09T17:42:09+00:00",
-  "newest": "2026-11-14T04:27:24+00:00",
+  "newest": "2026-11-14T08:27:31+00:00",
   "complete_time_window": true,
   "parts": [
     {
@@ -60,9 +60,9 @@
       "href": "./voi-history-2026-11-13-part-001.jsonl",
       "date_utc": "2026-11-13",
       "part": 1,
-      "rows": 1968,
-      "bytes": 4608640,
-      "sha256": "ba22a8321f09177332ee34700d38ba89c791d3c77021926427940ab82e7b191e",
+      "rows": 1976,
+      "bytes": 4628627,
+      "sha256": "cf46874201d6db30cf020cbcb8791a44e08c2d9a28051c7becffb21ac19417c6",
       "oldest": "2026-11-13T00:00:15+00:00",
       "newest": "2026-11-13T23:59:42+00:00"
     },
@@ -71,20 +71,20 @@
       "href": "./voi-history-2026-11-14-part-001.jsonl",
       "date_utc": "2026-11-14",
       "part": 1,
-      "rows": 919,
-      "bytes": 2133255,
-      "sha256": "668d348a185b15065eb7b8675876a86e7c85daca938c4086ba95cd594532a5f1",
+      "rows": 1429,
+      "bytes": 3323690,
+      "sha256": "299e889c6b375e71d8125b42169342d2271f7bebfa0c91e948b778165063dc3b",
       "oldest": "2026-11-14T00:00:28+00:00",
-      "newest": "2026-11-14T04:27:24+00:00"
+      "newest": "2026-11-14T08:27:31+00:00"
     }
   ],
   "capacity": {
     "selection": "complete",
-    "total_rows": 9569,
-    "selected_rows": 9569,
-    "selected_bytes": 22369645,
-    "total_identities": 1151,
-    "covered_identities": 1151,
+    "total_rows": 10087,
+    "selected_rows": 10087,
+    "selected_bytes": 23580067,
+    "total_identities": 1166,
+    "covered_identities": 1166,
     "complete_time_window": true
   },
   "total_max_bytes": 47185920,
