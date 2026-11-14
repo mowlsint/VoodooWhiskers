@@ -38,7 +38,7 @@ def observed(row):
 def atomic_json(path,payload):
  path.parent.mkdir(parents=True,exist_ok=True)
  with tempfile.NamedTemporaryFile('w',encoding='utf-8',dir=path.parent,delete=False) as h:
-  json.dump(payload,h,ensure_ascii=False,indent=2);h.write('\n');tmp=h.name
+  json.dump(payload,h,ensure_ascii=False,separators=(',',':'));h.write('\n');tmp=h.name
  Path(tmp).replace(path)
 def regions():
  p=json.loads(REGION_PATH.read_text(encoding='utf-8'));out=[]

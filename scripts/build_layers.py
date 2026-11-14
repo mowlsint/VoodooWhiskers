@@ -693,7 +693,7 @@ def as_feature(contact, layer_name=""):
 def write_geojson(path, features):
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
-        json.dump({"type": "FeatureCollection", "features": features}, f, ensure_ascii=False, indent=2)
+        json.dump({"type": "FeatureCollection", "features": features}, f, ensure_ascii=False, separators=(",", ":"))
 
 
 def load_contacts():
@@ -1165,7 +1165,7 @@ def update_stats(snapshot_items, slot, tanker_cluster_stats=None):
         "tanker_cluster_zones": (tanker_cluster_stats or {}).get("total_tanker_context_zones", 0),
     }
     with open(STATS_PATH, "w", encoding="utf-8") as f:
-        json.dump(stats, f, ensure_ascii=False, indent=2)
+        json.dump(stats, f, ensure_ascii=False, separators=(",", ":"))
 
 
 def main():
@@ -1189,10 +1189,10 @@ def main():
     tanker_cluster_stats = build_tanker_cluster_stats(snapshot_items, total_contacts_seen=len(contacts))
 
     with open(TANKER_CLUSTER_STATS_PATH, "w", encoding="utf-8") as f:
-        json.dump(tanker_cluster_stats, f, ensure_ascii=False, indent=2)
+        json.dump(tanker_cluster_stats, f, ensure_ascii=False, separators=(",", ":"))
 
     with open(SNAPSHOT_PATH, "w", encoding="utf-8") as f:
-        json.dump({"generated_at": now_iso(), "slot": current_slot(), "total_contacts_seen": len(contacts), "total_voi": len(snapshot_items), "total_priority_voi": len([x for x in snapshot_items if "neutral_tanker_context" not in x.get("categories", [])]), "neutral_tanker_context_total": tanker_cluster_stats.get("neutral_tanker_context_total", 0), "tanker_context": tanker_cluster_stats, "items": snapshot_items}, f, ensure_ascii=False, indent=2)
+        json.dump({"generated_at": now_iso(), "slot": current_slot(), "total_contacts_seen": len(contacts), "total_voi": len(snapshot_items), "total_priority_voi": len([x for x in snapshot_items if "neutral_tanker_context" not in x.get("categories", [])]), "neutral_tanker_context_total": tanker_cluster_stats.get("neutral_tanker_context_total", 0), "tanker_context": tanker_cluster_stats, "items": snapshot_items}, f, ensure_ascii=False, separators=(",", ":"))
 
     layer_buckets = defaultdict(list)
     for item in snapshot_items:
