@@ -29,7 +29,8 @@ class MaritimePublishTests(unittest.TestCase):
         git(self.seed, 'config', 'user.email', 'test@example.invalid')
         source = WORKFLOW.read_text()
         step = source.split('      - name: Commit updated outputs', 1)[1]
-        self.script = textwrap.dedent(step.split('        run: |\n', 1)[1])
+        body = re.search(r'(?m)        run: \|\n((?:          .*\n|\n)*)', step)[1]
+        self.script = textwrap.dedent(body)
         self.required = re.search(r'required_outputs=\((.*?)\n\)', self.script, re.S)[1].split()
         # Exercise the retries without artificial twelve-second delays in the fixture.
         self.script = self.script.replace('sleep 12', 'sleep 0')
@@ -48,7 +49,7 @@ class MaritimePublishTests(unittest.TestCase):
             self.write(self.seed, name, 'before\n')
         # Storage policy itself is tested separately; here assert that the workflow invokes it.
         self.write(self.seed, 'scripts/repo_storage_guard.py',
-                   'from pathlib import Path\nPath(".storage-guard-ran").write_text("checked")\n')
+                   'import os\nfrom pathlib import Path\nPath(".storage-guard-ran").write_text("checked")\nraise SystemExit(int(os.environ.get("TEST_GUARD_STATUS", "0")))\n')
         git(self.seed, 'add', '.')
         git(self.seed, 'commit', '-m', 'fixture baseline')
         git(self.seed, 'remote', 'add', 'origin', str(self.origin))
@@ -96,6 +97,75 @@ class MaritimePublishTests(unittest.TestCase):
         self.assertIn('README.md', result.stdout)
         self.assertFalse((self.work / '.storage-guard-ran').exists())
         self.assertEqual(git(self.origin, 'show', 'main:README.md'), 'before')
+
+    def prepare_history(self):
+        self.prepare()
+        self.assert_published(self.publish())
+        self.first_publication = git(self.origin, 'rev-parse', 'main')
+        for name in ['public/data/vessels/voi_history_14d.jsonl',
+                     'public/data/vessels/voi_history_14d/manifest.json',
+                     'public/downloads/voi_history_14d_manifest.json']:
+            self.write(self.work, name, 'new history\n')
+
+    def publish_history(self, reject=False):
+        env = {**os.environ, 'GITHUB_REF_NAME': 'main', 'TEST_GUARD_STATUS': '1' if reject else '0'}
+        script = (ROOT / 'scripts/commit_public_history.sh').read_text().replace('sleep 12', 'sleep 0')
+        return subprocess.run(['bash', '-c', script], cwd=self.work, env=env,
+                              capture_output=True, text=True, timeout=20)
+
+    def test_public_history_uses_a_separate_commit_after_current_positions(self):
+        self.prepare_history()
+        result = self.publish_history()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(git(self.origin, 'rev-parse', 'main^'), self.first_publication)
+        self.assertEqual(git(self.origin, 'show', 'main:public/data/vessels/voi_history_14d.jsonl'), 'new history')
+        self.assertEqual(git(self.origin, 'show', 'main:data/voi_snapshot_latest.json'), 'new generated value')
+
+    def test_history_guard_failure_preserves_published_current_positions(self):
+        self.prepare_history()
+        result = self.publish_history(reject=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(git(self.origin, 'rev-parse', 'main'), self.first_publication)
+        self.assertEqual(git(self.origin, 'show', 'main:data/voi_snapshot_latest.json'), 'new generated value')
+
+    def test_history_rejects_unexpected_tracked_changes(self):
+        self.prepare_history()
+        self.write(self.work, 'README.md', 'unexpected history runner change\n')
+        result = self.publish_history()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(git(self.origin, 'rev-parse', 'main'), self.first_publication)
+        self.assertIn('README.md', result.stdout)
+
+    def test_history_requires_manifest_before_publication(self):
+        self.prepare_history()
+        (self.work / 'public/data/vessels/voi_history_14d/manifest.json').unlink()
+        result = self.publish_history()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('required public history output missing', result.stdout)
+        self.assertEqual(git(self.origin, 'rev-parse', 'main'), self.first_publication)
+
+    def test_history_push_failure_does_not_roll_back_current_positions(self):
+        self.prepare_history()
+        hook = self.origin / 'hooks/pre-receive'
+        hook.write_text('#!/bin/sh\nexit 1\n')
+        hook.chmod(0o755)
+        result = self.publish_history()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('earlier current-position publication remains available', result.stdout)
+        self.assertEqual(git(self.origin, 'rev-parse', 'main'), self.first_publication)
+        self.assertEqual(git(self.origin, 'show', 'main:data/voi_snapshot_latest.json'), 'new generated value')
+
+    def test_history_rebase_preserves_a_concurrent_source_commit(self):
+        self.prepare_history()
+        git(self.seed, 'pull', '--ff-only', 'origin', 'main')
+        self.write(self.seed, 'README.md', 'concurrent source change before history publication\n')
+        git(self.seed, 'add', 'README.md')
+        git(self.seed, 'commit', '-m', 'concurrent source change')
+        git(self.seed, 'push', 'origin', 'main')
+        result = self.publish_history()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(git(self.origin, 'show', 'main:README.md'), 'concurrent source change before history publication')
+        self.assertEqual(git(self.origin, 'show', 'main:public/data/vessels/voi_history_14d.jsonl'), 'new history')
 
 
 if __name__ == '__main__':

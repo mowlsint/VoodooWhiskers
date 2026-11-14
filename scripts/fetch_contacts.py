@@ -933,7 +933,7 @@ async def collect_stream(subscription: dict[str, Any], duration_seconds: int) ->
 def atomic_json_write(path: Path, payload: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as tmp:
-        json.dump(payload, tmp, ensure_ascii=False, indent=2)
+        json.dump(payload, tmp, ensure_ascii=False, separators=(",", ":"))
         tmp.write("\n")
         temp_name = tmp.name
     Path(temp_name).replace(path)

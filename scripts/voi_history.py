@@ -19,7 +19,8 @@ DEFAULT_POLICY = {
     "retention_days": 14,
     "source_total_max_bytes":45*1024*1024,
     "public_total_max_bytes":22*1024*1024,
-    "source_max_bytes": 45 * 1024 * 1024,
+    # Small legacy view; the canonical shards retain the separate 45 MiB budget.
+    "source_max_bytes": 8 * 1024 * 1024,
     "source_shard_max_bytes": 20 * 1024 * 1024,
     "source_shard_directory": "voi_history_14d",
     "public_max_bytes": 22 * 1024 * 1024,

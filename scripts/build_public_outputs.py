@@ -87,7 +87,7 @@ def atomic_text(path: Path, text: str) -> None:
 
 
 def atomic_json(path: Path, payload: Any) -> None:
-    atomic_text(path, json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
+    atomic_text(path, json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n")
 
 
 def parse_dt(value: Any) -> datetime | None:
