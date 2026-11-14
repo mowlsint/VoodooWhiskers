@@ -6,11 +6,12 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from voi_history import history_key, load_policy, validate_jsonl
+from voi_history import history_identity, history_key, load_policy, validate_jsonl
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,6 +31,39 @@ def jsonl_keys(path: Path) -> set[str]:
     return keys
 
 
+def validate_capacity(capacity: dict[str, Any], *, rows: int, size: int,
+                      identities: int, complete: bool) -> None:
+    """Accept sampling only with explicit, internally consistent capacity evidence."""
+    def count(name: str) -> int:
+        value = capacity.get(name)
+        if type(value) is not int or value < 0:
+            raise AssertionError(f"invalid capacity count: {name}")
+        return value
+
+    total = count('total_rows')
+    total_identities = count('total_identities')
+    if count('selected_rows') != rows or count('selected_bytes') != size:
+        raise AssertionError('capacity selected row/byte count mismatch')
+    if count('covered_identities') != identities:
+        raise AssertionError('capacity covered identity count mismatch')
+    if not rows <= total or not identities <= total_identities <= total:
+        raise AssertionError('capacity totals contradict selected data')
+    if count('dropped_rows') != total - rows:
+        raise AssertionError('capacity dropped row count mismatch')
+    if capacity.get('complete_time_window') is not complete or complete != (total == rows):
+        raise AssertionError('capacity completeness contradicts row counts')
+    expected_selection = 'complete' if complete else 'identity_balanced_temporal_sampling'
+    if capacity.get('selection') != expected_selection:
+        raise AssertionError('capacity selection contradicts completeness')
+    if complete and total_identities != identities:
+        raise AssertionError('complete history is missing identities')
+    if 'identity_coverage_percent' in capacity:
+        percent = capacity['identity_coverage_percent']
+        expected = round(100 * identities / total_identities, 2) if total_identities else 100.0
+        if type(percent) not in (int, float) or not math.isfinite(percent) or percent != expected:
+            raise AssertionError('capacity identity coverage percentage mismatch')
+
+
 def validate_shards(
     directory: Path,
     *,
@@ -38,6 +72,8 @@ def validate_shards(
     retention_days: int,
     future_tolerance_hours: int,
     now: datetime,
+    total_max_bytes: int,
+    capacity_key: str,
 ) -> tuple[dict[str, Any], set[str]]:
     manifest_path = directory / manifest_filename
     if not manifest_path.is_file():
@@ -52,12 +88,16 @@ def validate_shards(
         raise AssertionError(f"retention mismatch in {manifest_path}")
     if int(manifest.get("part_count", -1)) != len(parts):
         raise AssertionError(f"part count mismatch in {manifest_path}")
-    if manifest.get("complete_time_window") is not True:
-        raise AssertionError(f"full shard set is not marked complete: {manifest_path}")
+    complete = manifest.get('complete_time_window')
+    if type(complete) is not bool:
+        raise AssertionError(f"history completeness is not explicit: {manifest_path}")
+    if 'total_max_bytes' in manifest and manifest['total_max_bytes'] != total_max_bytes:
+        raise AssertionError(f"total byte policy mismatch: {manifest_path}")
 
     total_rows = 0
     total_bytes = 0
     all_keys: set[str] = set()
+    all_identities: set[str] = set()
     listed_names: set[str] = set()
     results = []
     for part in parts:
@@ -87,6 +127,10 @@ def validate_shards(
         if overlap:
             raise AssertionError(f"history keys occur in multiple shards: {sorted(overlap)[:3]}")
         all_keys.update(part_keys)
+        for line in payload.decode('utf-8').splitlines():
+            if line.strip():
+                row = json.loads(line)
+                all_identities.add(history_identity(row, history_key(row)))
         total_rows += result["rows"]
         total_bytes += len(payload)
         results.append(result)
@@ -98,11 +142,28 @@ def validate_shards(
         raise AssertionError(f"total shard row mismatch in {manifest_path}")
     if int(manifest.get("total_bytes") or 0) != total_bytes:
         raise AssertionError(f"total shard byte mismatch in {manifest_path}")
+    if total_bytes > total_max_bytes:
+        raise AssertionError(f"total shard bytes exceed policy: {manifest_path}")
+    capacity = manifest.get(capacity_key)
+    if capacity is None:
+        if not complete:
+            raise AssertionError(f"sampled history has no capacity metadata: {manifest_path}")
+    elif not isinstance(capacity, dict):
+        raise AssertionError(f"invalid history capacity metadata: {manifest_path}")
+    else:
+        # Complete selections produced by older/current builders omit dropped_rows.
+        evidence = dict(capacity)
+        if complete:
+            evidence.setdefault('dropped_rows', 0)
+        validate_capacity(evidence, rows=total_rows, size=total_bytes,
+                          identities=len(all_identities), complete=complete)
     return {
         "manifest": manifest_path.as_posix(),
         "parts": len(parts),
         "rows": total_rows,
         "bytes": total_bytes,
+        "complete_time_window": complete,
+        "capacity": capacity,
         "files": results,
     }, all_keys
 
@@ -133,6 +194,8 @@ def main() -> int:
             retention_days=policy["retention_days"],
             future_tolerance_hours=policy["future_tolerance_hours"],
             now=now,
+            total_max_bytes=policy['source_total_max_bytes'],
+            capacity_key='capacity',
         )
         if not jsonl_keys(legacy_path).issubset(shard_keys):
             raise AssertionError("legacy source history contains rows absent from canonical shards")
@@ -146,8 +209,13 @@ def main() -> int:
             raise AssertionError("source history status byte count is stale")
         if int(status.get("full_rows", -1)) != shard_result["rows"]:
             raise AssertionError("source history status full-row count is stale")
-        if status.get("complete_time_window") is not True:
-            raise AssertionError("canonical source history is not marked complete")
+        if status.get("complete_time_window") is not shard_result['complete_time_window']:
+            raise AssertionError("source history status completeness contradicts shards")
+        if int(status.get('full_bytes', -1)) != shard_result['bytes']:
+            raise AssertionError('source history status full-byte count is stale')
+        capacity = shard_result['capacity'] or {}
+        if int(status.get('dropped_for_size', 0)) != capacity.get('dropped_rows', 0):
+            raise AssertionError('source history status dropped-row count contradicts capacity')
         results.extend([legacy_result, shard_result])
 
     if not args.source_only:
@@ -166,6 +234,8 @@ def main() -> int:
             retention_days=policy["retention_days"],
             future_tolerance_hours=policy["future_tolerance_hours"],
             now=now,
+            total_max_bytes=policy['public_total_max_bytes'],
+            capacity_key='total_capacity',
         )
         compatibility_keys = jsonl_keys(compatibility_path)
         if not compatibility_keys.issubset(shard_keys):
@@ -177,12 +247,21 @@ def main() -> int:
             raise AssertionError("public compatibility row count is stale")
         if int(selection.get("selected_bytes", -1)) != compatibility_result["bytes"]:
             raise AssertionError("public compatibility byte count is stale")
+        if not manifest['complete_time_window'] and selection.get('complete_time_window') is not False:
+            raise AssertionError('public compatibility hides incomplete canonical history')
         download_manifest = ROOT / "public" / "downloads" / policy["download_manifest_filename"]
         if not download_manifest.is_file():
             raise AssertionError(f"download shard manifest missing: {download_manifest}")
         download_payload = json.loads(download_manifest.read_text(encoding="utf-8"))
         if int(download_payload.get("total_rows", -1)) != shard_result["rows"]:
             raise AssertionError("download shard manifest row count is stale")
+        for key in ('total_bytes', 'part_count', 'complete_time_window', 'total_capacity'):
+            if download_payload.get(key) != manifest.get(key):
+                raise AssertionError(f'download shard manifest mismatch: {key}')
+        def part_identity(part):
+            return {key: part.get(key) for key in ('filename', 'rows', 'bytes', 'sha256')}
+        if [part_identity(p) for p in download_payload.get('parts', [])] != [part_identity(p) for p in manifest['parts']]:
+            raise AssertionError('download shard manifest parts are stale')
         results.extend([compatibility_result, shard_result])
 
     print(json.dumps({"policy": policy, "validated": results}, ensure_ascii=False, indent=2))
