@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-14T10:31:36+00:00",
+  "generated_at": "2026-11-14T12:28:38+00:00",
   "source": "Voodoo Whiskers",
   "repository_public": true,
   "hosting_target": "Cloudflare Pages later",
@@ -39,7 +39,7 @@
       "description": "Anonymous hourly 0.01-degree cells; no vessel identities or live positions. Powered by Global Fishing Watch; CC BY-NC 4.0.",
       "href": "./gfw_presence_cells_latest.json",
       "filename": "gfw_presence_cells_latest.json",
-      "size_bytes": 5422268,
+      "size_bytes": 4195314,
       "media_type": "application/json"
     },
     {
@@ -49,7 +49,7 @@
       "description": "Provider failures, truncation and delayed context availability.",
       "href": "./gfw_context_status_latest.json",
       "filename": "gfw_context_status_latest.json",
-      "size_bytes": 3743,
+      "size_bytes": 1920,
       "media_type": "application/json"
     },
     {
@@ -59,7 +59,7 @@
       "description": "Filtered Open Waters and regional AIS observations with source timestamps and freshness metadata; reception-dependent sampled coverage.",
       "href": "./ais_contacts_latest.json",
       "filename": "ais_contacts_latest.json",
-      "size_bytes": 3285626,
+      "size_bytes": 2411559,
       "media_type": "application/json"
     },
     {
@@ -69,7 +69,7 @@
       "description": "Map-ready monitored AIS observations with provider provenance and data-quality fields.",
       "href": "./ais_contacts_latest.geojson",
       "filename": "ais_contacts_latest.geojson",
-      "size_bytes": 3618014,
+      "size_bytes": 2477051,
       "media_type": "application/geo+json"
     },
     {
@@ -79,7 +79,7 @@
       "description": "Latest two temporally distinct historical Danish AIS observations per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions.",
       "href": "./ais_dk_last_two_positions.json",
       "filename": "ais_dk_last_two_positions.json",
-      "size_bytes": 399882,
+      "size_bytes": 284602,
       "media_type": "application/json"
     },
     {
@@ -89,7 +89,7 @@
       "description": "Map-ready latest two historical Danish AIS observations and short connectors per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions.",
       "href": "./ais_dk_last_two_positions.geojson",
       "filename": "ais_dk_last_two_positions.geojson",
-      "size_bytes": 843645,
+      "size_bytes": 588228,
       "media_type": "application/geo+json"
     },
     {
@@ -99,7 +99,7 @@
       "description": "Source date, lag, row-quality counters and import health for the delayed Danish AIS supplement.",
       "href": "./ais_dk_import_status.json",
       "filename": "ais_dk_import_status.json",
-      "size_bytes": 2565,
+      "size_bytes": 2168,
       "media_type": "application/json"
     },
     {
@@ -169,7 +169,7 @@
       "description": "Machine-readable current priority VOI list.",
       "href": "./voi_list_latest.json",
       "filename": "voi_list_latest.json",
-      "size_bytes": 1743046,
+      "size_bytes": 1336729,
       "media_type": "application/json"
     },
     {
@@ -179,7 +179,7 @@
       "description": "Tabular current priority VOI list.",
       "href": "./voi_list_latest.csv",
       "filename": "voi_list_latest.csv",
-      "size_bytes": 164266,
+      "size_bytes": 164292,
       "media_type": "text/csv"
     },
     {
@@ -189,7 +189,7 @@
       "description": "Readable current priority VOI list.",
       "href": "./voi_list_latest.md",
       "filename": "voi_list_latest.md",
-      "size_bytes": 55418,
+      "size_bytes": 56121,
       "media_type": "text/markdown"
     },
     {
@@ -209,7 +209,7 @@
       "description": "Machine-readable review events and assessment metadata.",
       "href": "./infrastructure_watch_latest.json",
       "filename": "infrastructure_watch_latest.json",
-      "size_bytes": 79217,
+      "size_bytes": 57503,
       "media_type": "application/json"
     },
     {
@@ -219,7 +219,7 @@
       "description": "Tabular infrastructure proximity review events.",
       "href": "./infrastructure_watch_latest.csv",
       "filename": "infrastructure_watch_latest.csv",
-      "size_bytes": 17486,
+      "size_bytes": 17485,
       "media_type": "text/csv"
     },
     {
@@ -229,7 +229,7 @@
       "description": "Readable infrastructure proximity assessment.",
       "href": "./infrastructure_watch_latest.md",
       "filename": "infrastructure_watch_latest.md",
-      "size_bytes": 21035,
+      "size_bytes": 21036,
       "media_type": "text/markdown"
     },
     {
@@ -239,7 +239,7 @@
       "description": "Map-ready event points for GIS and Leaflet.",
       "href": "./infrastructure_watch_latest.geojson",
       "filename": "infrastructure_watch_latest.geojson",
-      "size_bytes": 92588,
+      "size_bytes": 62369,
       "media_type": "application/geo+json"
     }
   ]
