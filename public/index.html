@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="./assets/traffic-context.css?v=20261110-traffic-context">
   <link rel="stylesheet" href="./assets/sar-layer.css">
   <link rel="stylesheet" href="./assets/common-snapshot-status.css">
+  <link rel="stylesheet" href="./assets/local-projects.css?v=20261116">
   <style>
     .mapShell{position:relative}
     .aisDataAgeBanner{
@@ -60,13 +61,39 @@
         </div>
         <p class="timeHelp">Default view: the latest reliable AIS observation for each monitored vessel. Popups show the observation time and data age. Historical time windows and GFW context remain clearly separate.</p>
       </section>
-      <section class="card sourceControls"><h2>AIS sources & tracks</h2><label for="vesselSearch">Find a vessel</label><input id="vesselSearch" type="search" placeholder="Name, IMO or MMSI"><button id="resetOverview" class="smallButton" type="button">Clear overview</button><div id="vesselList" class="analysisList" aria-label="Matching vessels"></div><p>Fill colour indicates the delivery source; a magenta outline indicates false-flag context. Popups show the source, observation time and data age. Open Waters may relay regional feeds.</p>
+      <section class="card sourceControls"><h2>AIS sources & tracks</h2><label for="vesselSearch">Find a vessel in this time window</label><input id="vesselSearch" type="search" placeholder="Name, IMO, MMSI or callsign"><p>Choose a time window above, then select a result to jump to its latest position in that window. Press Enter to open the first result. Older observations are excluded.</p><button id="resetOverview" class="smallButton" type="button">Clear overview</button><div id="vesselList" class="analysisList" aria-label="Matching vessels" aria-live="polite"></div><p>Fill colour indicates the delivery source; a magenta outline indicates false-flag context. Popups show the source, observation time and data age. Open Waters may relay regional feeds.</p>
         <label class="control"><input type="checkbox" data-source="openwaters" checked><i style="background:#4da3ff" class="dot"></i>Open Waters</label>
         <label class="control"><input type="checkbox" data-source="fintraffic" checked><i style="background:#39d3df" class="dot"></i>Finland · Fintraffic</label>
         <label class="control"><input type="checkbox" data-source="barentswatch" checked><i style="background:#61d29a" class="dot"></i>Norway · BarentsWatch</label>
         <label class="control"><input type="checkbox" data-source="ais_dk_historical" checked><i style="background:#ffb44e" class="dot"></i>Denmark · historical</label>
         <label class="control"><input type="checkbox" data-source="unknown" checked><i style="background:#9da6b1" class="dot"></i>Source unknown</label>
         <label class="control"><input type="checkbox" id="showTracks">All available vessel tracks</label><button type="button" id="clearTrack" class="smallButton">Clear selected vessel track</button><p id="trackStatus" role="status"></p><p>IMO/MMSI links observations to the same vessel across sources. Colour changes indicate a different delivery source. Gaps over 12 hours, conflicting identities and implausible jumps are not connected.</p>
+      </section>
+      <section class="card localProjectCard">
+        <h2>Local vessel projects</h2>
+        <p>Imported AIS stays in this browser session. Download a project file to keep it. No account, upload or repository storage is used.</p>
+        <div class="localActions"><button type="button" id="localNewSession">New session</button><button type="button" id="localFitProjects">Fit local tracks</button></div>
+        <label for="localProjectFiles">Open project files · overlays can be combined</label><input id="localProjectFiles" type="file" accept=".json,.vwproject.json" multiple>
+        <label for="localActiveProject">Active project for new imports and download</label><select id="localActiveProject"></select>
+        <div id="localProjectList" aria-label="Visible local projects"></div>
+        <label for="localProjectName">Project name</label><input id="localProjectName" type="text" maxlength="180" placeholder="Session name">
+        <div class="localActions"><button type="button" id="localProjectRename">Rename</button><button type="button" id="localProjectSave">Download project</button><button type="button" id="localProjectRemove">Remove from session</button></div>
+        <details><summary>Import CSV or KML</summary>
+          <label for="localTrackFile">AIS observations or route file</label><input id="localTrackFile" type="file" accept=".csv,.kml">
+          <p>Optional identity fields fill missing values only. Names never merge vessels. Callsign-only links are made only when unambiguous.</p>
+          <label for="localDefault_mmsi">MMSI</label><input id="localDefault_mmsi" type="text" inputmode="numeric" maxlength="9" data-local-import-option>
+          <label for="localDefault_imo">IMO</label><input id="localDefault_imo" type="text" inputmode="numeric" maxlength="7" data-local-import-option>
+          <label for="localDefault_callsign">Callsign</label><input id="localDefault_callsign" type="text" maxlength="180" data-local-import-option>
+          <label for="localDefault_name">Vessel name</label><input id="localDefault_name" type="text" maxlength="180" data-local-import-option>
+          <label><input id="localAssumeUtc" type="checkbox" data-local-import-option> Timestamps without a timezone are UTC</label>
+          <p>CSV: latitude, longitude and time columns. KML: timestamped Points or gx:Track. LineStrings without per-point times remain undated routes.</p>
+          <div class="localActions"><button type="button" id="localImportPreview">Preview import</button><button type="button" id="localImportAdd" disabled>Add to active project</button></div>
+          <ul id="localImportIssues"></ul>
+        </details>
+        <label><input id="localShowUndated" type="checkbox"> Show undated routes separately · excluded from timed vessel search</label>
+        <p id="localProjectStatus" role="status">No local files loaded.</p><p id="localOverlayStatus" role="status"></p>
+        <details><summary id="localConflictSummary">Position conflicts</summary><p>Choose the accepted position when sources disagree. Unresolved positions stay separate and are not connected. Source data is retained in project files.</p><div id="localConflicts"></div></details>
+        <p><a href="https://github.com/mowlsint/VoodooWhiskers/blob/main/docs/operations/LOCAL_VESSEL_PROJECTS.md" target="_blank" rel="noopener noreferrer">Local project help ↗</a></p>
       </section>
       <section class="card trafficContextCard">
         <h2>Traffic context</h2>
@@ -163,7 +190,9 @@
   <script src="./assets/vessel-model.js?v=20261110-en"></script>
   <script src="./assets/traffic-context.js?v=20261110-en"></script>
   <script src="./assets/gfw-grid.js?v=20261111-hover-age"></script>
-  <script src="./assets/infrastructure-watch.js?v=20261111-gfw-hover-age"></script>
+  <script src="./assets/local-project-core.js?v=20261116"></script>
+  <script src="./assets/local-project-ui.js?v=20261116"></script>
+  <script src="./assets/infrastructure-watch.js?v=20261116-local-projects"></script>
   <script src="./assets/sar-layer.js?v=20261109-sources-retention"></script>
   <script src="./assets/vesselfinder-links.js"></script>
   <script src="./assets/common-snapshot-status.js"></script>

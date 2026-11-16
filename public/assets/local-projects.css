@@ -1,0 +1,11 @@
+.localProjectCard input:not([type=checkbox]),.localProjectCard select{box-sizing:border-box;width:100%;margin:4px 0 9px;padding:7px;border:1px solid #425767;border-radius:5px;background:#112330;color:#e8f2f7;font:inherit}
+.localProjectCard label{display:block;margin-top:7px;overflow-wrap:anywhere}
+.localProjectCard input[type=checkbox]{margin-right:6px}
+.localProjectCard select{max-width:100%;white-space:normal}
+.localProjectCard button{border:1px solid #536979;border-radius:5px;background:#193241;color:#f4f6df;padding:7px 9px;cursor:pointer}
+.localProjectCard button:disabled{opacity:.45;cursor:default}
+.localActions{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.localProjectCard details{margin:12px 0}.localProjectCard summary{cursor:pointer;color:#f2f27a}
+#localConflicts>div{border-top:1px solid #425767;padding-top:5px;margin-top:9px}
+#localProjectStatus,#localOverlayStatus,#localImportIssues{overflow-wrap:anywhere}
+.localProjectCard :focus-visible{outline:2px solid #fff078;outline-offset:2px}
