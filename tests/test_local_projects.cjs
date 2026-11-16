@@ -59,3 +59,44 @@ test('all project layers participate without mutating workflow or clipping saved
 test('gaps and implausible jumps are not joined and same-point duplicates create no zero-length lines',()=>{
  const p=project([point(1),point(1),point(14),point(14.1,{longitude:30})]);const m=C.reconcile([p],[],{now}).models[0];assert.equal(m.segments.length,0);assert.equal(m.gaps.length,2);
 });
+test('saved workflow context keeps an accepted workflow position reproducible after source expiry',()=>{
+ const period={start:new Date(now-502*3600000).toISOString(),end:new Date(now-499*3600000).toISOString()};
+ let p=project([point(500,{longitude:12})]);
+ const workflow=[point(500,{source_provider:'openwaters',position_is_exact:false,upstream_source:'Regional relay',private_endpoint:'must-not-copy'}),point(501),point(1),point(500,{imo:'9349291',mmsi:'273654321',callsign:'OTHER'})];
+ const original=JSON.stringify(workflow);p=C.withWorkflowContext(p,workflow,{period});
+ assert.equal(p.workflow_context.observations.length,2);assert.equal(C.count([p]),3);assert.equal(p.workflow_context.observations[0].observed_at,point(500).observed_at);
+ assert.equal(p.workflow_context.observations[0].position_is_exact,false);assert.equal(p.workflow_context.observations[0].source_provider,'openwaters');
+ assert.doesNotMatch(C.serialize(p),/must-not-copy/);assert.equal(JSON.stringify(workflow),original);
+ const conflict=C.reconcile([p],workflow,{period}).conflicts[0];const winner=conflict.alternatives.find(x=>x.origin==='workflow').id;
+ p.decisions[conflict.key]=winner;p.project_period=period;
+ const reopened=C.loadProject(C.serialize(p));const historical=C.reconcile([reopened],[],{period,now});
+ assert.equal(historical.conflicts[0].winner,winner);assert.ok(historical.models[0].points.some(x=>x.longitude===10&&x._saved_context));assert.ok(!historical.models[0].points.some(x=>x.longitude===12));
+ assert.equal(C.reconcile([reopened],[],{now,hours:24}).models.length,0);
+ assert.deepEqual(C.projectPeriod([reopened],{savedSelection:true}),period);
+});
+test('context capture accumulates without duplicate copies and live duplicates keep stable conflict IDs',()=>{
+ let p=project([point()]);const wf=[point(2,{source_provider:'fintraffic'})];
+ p=C.withWorkflowContext(p,wf,{now});const once=C.serialize(p);p=C.withWorkflowContext(p,wf,{now});assert.equal(C.serialize(p),once);
+ const m=C.reconcile([p],wf,{now});assert.equal(m.models[0].points.length,2);assert.equal(m.models[0].points.filter(x=>x.origin==='workflow').length,1);assert.equal(m.models[0].points.find(x=>x.origin==='workflow')._saved_context,undefined);
+ p=C.withWorkflowContext(p,[point(3)],{now});assert.equal(p.workflow_context.observations.length,2);
+});
+test('legacy V1 files migrate without inventing missing context and V2 validates context and dates',()=>{
+ const original=project([point()]);const legacy={...original,schema:C.LEGACY_SCHEMA};delete legacy.workflow_context;delete legacy.project_period;
+ const migrated=C.loadProject(JSON.stringify(legacy));assert.equal(migrated.schema,C.SCHEMA);assert.equal(migrated.id,original.id);assert.equal(migrated.workflow_context.observations.length,0);assert.equal(migrated.workflow_context.captured_at,null);
+ assert.throws(()=>C.loadProject(JSON.stringify({...original,workflow_context:null})),/context/);
+ assert.throws(()=>C.loadProject(JSON.stringify({...original,workflow_context:{...original.workflow_context,observations:[point()],captured_at:null}})),/context/);
+ assert.throws(()=>C.validatePeriod({start:point(1).observed_at,end:point(2).observed_at}),/later/);
+ assert.throws(()=>C.loadProject(JSON.stringify({...original,project_period:{start:'bad',end:'bad'}})));
+});
+test('project date ranges combine multiple sessions without weakening rolling windows',()=>{
+ const a=project([point(600)]),b=project([point(300,{mmsi:'273654321',imo:'9349291'})]);const period=C.projectPeriod([a,b]);
+ assert.equal(period.start,point(600).observed_at);assert.equal(period.end,point(300).observed_at);
+ assert.equal(C.reconcile([a,b],[],{period,now}).models.length,2);assert.equal(C.reconcile([a,b],[],{hours:48,now}).models.length,0);
+ const narrowed={start:point(601).observed_at,end:point(599).observed_at};assert.equal(C.reconcile([a,b],[],{period:narrowed,now}).models.length,1);
+});
+test('saved context retains ambiguous identity warnings after the conflicting upstream alias expires',()=>{
+ let p=project([point(1),point(2)]);
+ p=C.withWorkflowContext(p,[point(3),point(3,{imo:'9349291'})],{now});
+ const reopened=C.loadProject(C.serialize(p)),m=C.reconcile([reopened],[],{now});
+ assert.ok(reopened.workflow_context.observations.some(x=>x.identity_conflict));assert.ok(m.models[0].points.every(x=>x.identity_conflict));assert.equal(m.models[0].segments.length,0);
+});

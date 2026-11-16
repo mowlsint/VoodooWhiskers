@@ -4,13 +4,21 @@
   const Core=globalThis.LocalProjectCore,VM=globalThis.VesselModel,$=id=>document.getElementById(id);
   const COLORS=['#f2f27a','#ffafcc','#72efdd','#ffb86b','#b8a1ff','#a9e88b','#fa859a','#90d9ff'];
   const node=(tag,text)=>{const n=document.createElement(tag);if(text!=null)n.textContent=text;return n;};
-  function attach(map,{getWorkflowRows,getHours,isSar,onNeedHistory,onChange}){
-    let projects=[],active=null,preview=null,dirty=new Set(),model=null,layer=null,searchMarker=null,pending=false,searchTimer=null;
+  function attach(map,{getWorkflowRows,getHours,isSar,onNeedHistory,onChange,isProjectMode,onSelectProjectPeriod}){
+    let projects=[],active=null,preview=null,dirty=new Set(),model=null,layer=null,searchMarker=null,pending=false,searchTimer=null,appliedPeriod=null;
     const enabled=new Set();
     function status(text){$('localProjectStatus').textContent=text;}
     function selected(){return projects.find(p=>p.id===active);}
-    function windowOptions(){return {hours:getHours(),now:Date.now()};}
-    function workflow(){return getWorkflowRows().filter(p=>VM.coordinates(p)&&Number.isFinite(VM.observed(p)));}
+    function windowOptions(){return isProjectMode()?{period:appliedPeriod}:{hours:getHours(),now:Date.now()};}
+    function workflow(){return isProjectMode()?[]:getWorkflowRows().filter(p=>VM.coordinates(p)&&Number.isFinite(VM.observed(p)));}
+    function fillPeriod(period){if(period){$('localPeriodStart').value=period.start.replace(/Z$/,'');$('localPeriodEnd').value=period.end.replace(/Z$/,'');}}
+    function preparePeriod(){
+      clearTimeout(searchTimer);
+      if(!appliedPeriod){appliedPeriod=Core.projectPeriod(visibleProjects(),{savedSelection:true});fillPeriod(appliedPeriod);}
+      if(!appliedPeriod){status('No dated local project data available. Load a project or import timestamped observations first.');return false;}
+      return true;
+    }
+    function capture(project){return Core.withWorkflowContext(project,workflow(),windowOptions());}
     function hide(){if(layer){map.removeLayer(layer);layer=null;}if(searchMarker){map.removeLayer(searchMarker);searchMarker=null;}}
     function visibleProjects(){return projects.filter(p=>enabled.has(p.id));}
     function replaceProject(project){projects=projects.map(p=>p.id===project.id?project:p);dirty.add(project.id);}
@@ -21,7 +29,7 @@
     }
     function popup(p){
       const box=node('div'),title=node('strong',p.name||p.imo||p.mmsi||p.callsign||'Vessel');box.append(title);
-      for(const [label,value] of [['Origin',p.origin==='local'?`Local project: ${p.project_label}`:'Workflow observation'],['File',p.file_label],['IMO',p.imo],['MMSI',p.mmsi],['Callsign',p.callsign],['Observed UTC',p.observed_at||p.last_seen_utc],['Position',`${p.latitude}, ${p.longitude}`]])if(value)box.append(node('div',`${label}: ${value}`));
+      for(const [label,value] of [['Origin',p.origin==='local'?`Local project: ${p.project_label}`:p._saved_context?'Saved workflow context · local project file':'Workflow observation'],['Context captured UTC',p._context_saved_at],['File',p.file_label],['IMO',p.imo],['MMSI',p.mmsi],['Callsign',p.callsign],['Observed UTC',p.observed_at||p.last_seen_utc],['Position',`${p.latitude}, ${p.longitude}`]])if(value)box.append(node('div',`${label}: ${value}`));
       if(p.identity_conflict)box.append(node('div','Conflicting identity details; automatic track connections are blocked.'));
       if(p._local_conflict)box.append(node('div','Unresolved position conflict. No position has been selected as accepted.'));
       return box;
@@ -36,7 +44,7 @@
         for(const p of sample){total++;if(drawn>=5000)continue;drawn++;L.circleMarker([p.latitude,p.longitude],{radius:p===item.points.at(-1)?6:3,color:item.unresolved.has(p.id)?'#ff7043':p.origin==='local'?color(p):'#adc1ce',fillOpacity:.85,weight:2}).bindPopup(()=>popup({...p,_local_conflict:item.unresolved.has(p.id)})).addTo(layer);}
       }
       if($('localShowUndated').checked)for(const r of model.routes){total++;if(drawn>=5000)break;drawn++;const box=node('div',`${r.name||r.imo||r.mmsi||r.callsign} · ${r.project_label} · Undated imported route; not a timed position.`);L.polyline(r.coordinates.map(c=>[c[1],c[0]]),{color:color(r),weight:2,dashArray:'4 5'}).bindPopup(box).addTo(layer);}
-      $('localOverlayStatus').textContent=`${model.models.length} vessels in this time window · ${model.rows.filter(p=>p.origin==='local').length} imported observations · ${model.routes.length} undated routes.${total>5000?' Map display capped at 5,000 elements; project files retain all points.':''}`;
+      $('localOverlayStatus').textContent=`${model.models.length} vessels in this time window · ${model.rows.filter(p=>p.origin==='local').length} imported observations · ${model.rows.filter(p=>p._saved_context).length} saved workflow observations · ${model.routes.length} undated routes.${isProjectMode()?' Historical project period; live workflow positions are hidden.':''}${total>5000?' Map display capped at 5,000 elements; project files retain all points.':''}`;
     }
     function renderConflicts(){
       const root=$('localConflicts');root.replaceChildren();
@@ -45,12 +53,13 @@
       for(const conflict of model.conflicts.slice(0,50)){
         const box=node('div'),label=node('label',`${conflict.identity} · Conflicting position observations within five minutes`),choice=node('select');
         const first=node('option','Unresolved: keep positions separate');first.value='';choice.append(first);
-        for(const p of conflict.alternatives){const option=node('option',`${p.origin==='local'?p.project_label+' / '+p.file_label:'Workflow'} · ${p.observed_at||p.last_seen_utc} · ${Number(p.latitude).toFixed(5)}, ${Number(p.longitude).toFixed(5)}`);option.value=p.id;choice.append(option);}
+        for(const p of conflict.alternatives){const option=node('option',`${p.origin==='local'?p.project_label+' / '+p.file_label:p._saved_context?'Saved workflow context':'Workflow'} · ${p.observed_at||p.last_seen_utc} · ${Number(p.latitude).toFixed(5)}, ${Number(p.longitude).toFixed(5)}`);option.value=p.id;choice.append(option);}
         choice.value=conflict.winner||'';choice.setAttribute('aria-label','Choose the accepted position for '+conflict.identity);
         choice.addEventListener('change',()=>run(async()=>{
           // Store the same choice in every involved local project; contradictory loaded choices stay unresolved.
           const involved=new Set(conflict.alternatives.map(p=>p.project_id).filter(Boolean));
-          for(const p of projects)if(involved.has(p.id)){const decisions={...p.decisions};if(choice.value)decisions[conflict.key]=choice.value;else delete decisions[conflict.key];replaceProject({...p,decisions});}
+          const changes=projects.map(p=>{if(!involved.has(p.id))return p;const decisions={...p.decisions};if(choice.value)decisions[conflict.key]=choice.value;else delete decisions[conflict.key];return capture({...p,decisions});});
+          ensureCapacity(changes);for(const p of changes)if(involved.has(p.id))replaceProject(p);
           onChange();refreshControls();
         }));label.append(choice);box.append(label);root.append(box);
       }
@@ -62,7 +71,7 @@
       const p=selected();$('localProjectName').value=p?.label||'';
       $('localProjectSave').disabled=!p;$('localProjectRemove').disabled=!p;$('localProjectRename').disabled=!p;
       const list=$('localProjectList');list.replaceChildren();
-      for(const p of projects){const label=node('label'),box=node('input');label.style.borderLeft='4px solid '+COLORS[projects.indexOf(p)%COLORS.length];label.style.paddingLeft='5px';box.type='checkbox';box.checked=enabled.has(p.id);box.addEventListener('change',()=>{if(box.checked)enabled.add(p.id);else enabled.delete(p.id);onChange();});label.append(box,document.createTextNode(` ${p.label} · ${Core.count([p])} points${dirty.has(p.id)?' · unsaved':''}`));list.append(label);}
+      for(const p of projects){const label=node('label'),box=node('input');label.style.borderLeft='4px solid '+COLORS[projects.indexOf(p)%COLORS.length];label.style.paddingLeft='5px';box.type='checkbox';box.checked=enabled.has(p.id);box.addEventListener('change',()=>{if(box.checked)enabled.add(p.id);else enabled.delete(p.id);onChange();});label.append(box,document.createTextNode(` ${p.label} · ${Core.count([p])} points · ${p.workflow_context.observations.length} saved workflow${dirty.has(p.id)?' · unsaved':''}`));list.append(label);}
     }
     function matches(p,q){return [p.name,p.imo,p.mmsi,p.callsign].some(v=>String(v||'').toLowerCase().includes(q));}
     function renderSearch(){
@@ -76,12 +85,12 @@
         else candidates.push(latest);
       }
       const rows=workflow().filter(p=>!model?.managed.has(Core.fingerprint(p)));
-      for(const item of VM.track(rows,windowOptions()))if(item.points.some(p=>matches(p,q)))candidates.push(item.latest);
+      if(!isProjectMode())for(const item of VM.track(rows,windowOptions()))if(item.points.some(p=>matches(p,q)))candidates.push(item.latest);
       candidates.sort((a,b)=>VM.observed(b)-VM.observed(a));
       if(!candidates.length){root.append(node('p','No matching vessel observations in the selected time window.'));return;}
       root.append(node('p',`${candidates.length} matching position results in the selected time window${candidates.length>50?' · first 50 shown':''}`));
       for(const p of candidates.slice(0,50)){
-        const button=node('button',`${p.name||p.imo||p.mmsi||p.callsign} · ${p.observed_at||p.last_seen_utc} · ${p.origin==='local'?'Local project':'Workflow'}${p._local_conflict?' · Unresolved position':''}`);button.type='button';button.className='vesselListItem';
+        const button=node('button',`${p.name||p.imo||p.mmsi||p.callsign} · ${p.observed_at||p.last_seen_utc} · ${p.origin==='local'?'Local project':p._saved_context?'Saved workflow context':'Workflow'}${p._local_conflict?' · Unresolved position':''}`);button.type='button';button.className='vesselListItem';
         button.addEventListener('click',()=>{if(searchMarker)map.removeLayer(searchMarker);searchMarker=L.circleMarker([p.latitude,p.longitude],{radius:9,color:'#fff078',weight:3,fillOpacity:.3}).bindPopup(()=>popup(p)).addTo(map);map.setView([p.latitude,p.longitude],11);searchMarker.openPopup();});root.append(button);
       }
     }
@@ -96,14 +105,16 @@
     $('localActiveProject').addEventListener('change',()=>{active=$('localActiveProject').value;refreshControls();});
     $('localProjectRename').addEventListener('click',()=>run(async()=>{const p=selected();if(p){replaceProject({...p,label:$('localProjectName').value.trim().slice(0,180)||'Local session'});refreshControls();onChange();}}));
     $('localProjectSave').addEventListener('click',()=>run(async()=>{
-      const p=selected();if(!p)return;const content=Core.serialize(p),url=URL.createObjectURL(new Blob([content],{type:'application/json'})),a=node('a');a.href=url;a.download=(p.label.replace(/[^a-z0-9_-]/gi,'_')||'local-session')+'.vwproject.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);dirty.delete(p.id);refreshControls();status('Project download requested. Keep the downloaded file; this page has no automatic persistence.');
+      const p=selected();if(!p)return;const next=capture({...p,project_period:isProjectMode()?appliedPeriod:p.project_period});ensureCapacity(projects.map(x=>x.id===p.id?next:x));
+      const content=Core.serialize(next),url=URL.createObjectURL(new Blob([content],{type:'application/json'})),a=node('a');a.href=url;a.download=(p.label.replace(/[^a-z0-9_-]/gi,'_')||'local-session')+'.vwproject.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);replaceProject(next);dirty.delete(p.id);refreshControls();onChange();status(`Project download requested with ${next.workflow_context.observations.length} saved workflow observations. Keep the downloaded file; this page has no automatic persistence.`);
     }));
     $('localProjectRemove').addEventListener('click',()=>run(async()=>{const p=selected();if(!p||!confirm(`Remove ${p.label} from this page?${dirty.has(p.id)?' Unsaved changes will be lost.':''}`))return;projects=projects.filter(x=>x.id!==p.id);enabled.delete(p.id);dirty.delete(p.id);active=projects[0]?.id||null;refreshControls();onChange();}));
     $('localProjectFiles').addEventListener('change',event=>run(async()=>{
       const next=[...projects],loaded=[];
       try{for(const file of event.target.files){if(file.size>Core.MAX_PROJECT_BYTES)throw Error('Project exceeds 20 MiB');const p=Core.loadProject(await file.text());if(next.some(x=>x.id===p.id))throw Error('This project is already loaded. Remove it before loading another version.');next.push(p);loaded.push(p);}
         ensureCapacity(next);projects=next;for(const p of loaded)enabled.add(p.id);active=loaded.at(-1)?.id||active;
-        const historyReady=await onNeedHistory();refreshControls();onChange();status(`${loaded.length} project files loaded locally.${historyReady?'':' Workflow history unavailable; using loaded workflow positions.'}`);
+        if(!appliedPeriod)fillPeriod(Core.projectPeriod(visibleProjects(),{savedSelection:true}));
+        const historyReady=isProjectMode()?false:await onNeedHistory();refreshControls();onChange();status(`${loaded.length} project files loaded locally. Saved workflow context remains available from these files.${loaded.some(p=>!p.workflow_context.captured_at)?' A project has no saved workflow context; expired source observations cannot be restored.':''}${historyReady||isProjectMode()?'':' Current workflow history unavailable.'}`);
       }finally{event.target.value='';}
     }));
     $('localImportPreview').addEventListener('click',()=>run(async()=>{
@@ -118,17 +129,20 @@
     }));
     $('localImportAdd').addEventListener('click',()=>run(async()=>{
       if(!preview)return;if(!selected())addSession();const next=Core.addImport(selected(),preview.parsed,preview.label,preview.format);
-      const candidates=projects.map(p=>p.id===active?next:p);ensureCapacity(candidates);replaceProject(next);preview=null;const historyReady=await onNeedHistory();refreshControls();onChange();status('Imported into the active local project. Download the project to retain this session.'+(historyReady?'':' Workflow history unavailable; using loaded workflow positions.'));
+      const historyReady=isProjectMode()?false:await onNeedHistory(),captured=capture(next);
+      const candidates=projects.map(p=>p.id===active?captured:p);ensureCapacity(candidates);replaceProject(captured);preview=null;if(!appliedPeriod)fillPeriod(Core.projectPeriod(visibleProjects()));refreshControls();onChange();status('Imported into the active local project. Download the project to retain this session.'+(historyReady||isProjectMode()?'':' Current workflow history unavailable; saved context and loaded observations remain usable.'));
     }));
     $('localTrackFile').addEventListener('change',()=>{preview=null;$('localImportAdd').disabled=true;});
     for(const el of document.querySelectorAll('[data-local-import-option]'))el.addEventListener('input',()=>{preview=null;$('localImportAdd').disabled=true;});
     $('localShowUndated').addEventListener('change',onChange);
+    $('localApplyProjectPeriod').addEventListener('click',()=>run(async()=>{const period=Core.validatePeriod({start:$('localPeriodStart').value+'Z',end:$('localPeriodEnd').value+'Z'});appliedPeriod=period;await onSelectProjectPeriod();}));
+    $('localUseProjectDates').addEventListener('click',()=>run(async()=>{const period=Core.projectPeriod(visibleProjects());if(!period)throw Error('No dated observations in enabled projects');appliedPeriod=period;fillPeriod(period);await onSelectProjectPeriod();}));
     $('localFitProjects').addEventListener('click',()=>{if(layer?.getLayers().length){const bounds=L.featureGroup(layer.getLayers()).getBounds();if(bounds.isValid())map.fitBounds(bounds.pad(.1),{maxZoom:12});}});
-    $('vesselSearch').addEventListener('input',()=>{clearTimeout(searchTimer);if($('vesselSearch').value.trim())searchTimer=setTimeout(()=>onNeedHistory().then(onChange).catch(()=>status('Historical workflow positions unavailable; search uses the loaded observations.')),180);});
+    $('vesselSearch').addEventListener('input',()=>{clearTimeout(searchTimer);if($('vesselSearch').value.trim()&&!isProjectMode())searchTimer=setTimeout(()=>onNeedHistory().then(onChange).catch(()=>status('Historical workflow positions unavailable; search uses the loaded observations.')),180);});
     $('vesselSearch').addEventListener('keydown',event=>{if(event.key==='Enter'){$('vesselList').querySelector('button')?.click();event.preventDefault();}});
     addEventListener('beforeunload',event=>{if(dirty.size){event.preventDefault();event.returnValue='';}});
     refreshControls();
-    return {refresh,renderSearch,filterWorkflowRows:rows=>model?rows.filter(p=>!model.managed.has(Core.fingerprint(p))):rows};
+    return {refresh,renderSearch,preparePeriod,getPeriod:()=>appliedPeriod,filterWorkflowRows:rows=>model?rows.filter(p=>!model.managed.has(Core.fingerprint(p))):rows};
   }
   globalThis.LocalVesselProjects={attach};
 })();

@@ -1,7 +1,7 @@
 /* Local AIS projects. No network, storage, provider calls or generated-product writes. */
 (function(root,factory){const api=factory(root.VesselModel||(typeof require==='function'?require('./vessel-model.js'):null));if(typeof module==='object'&&module.exports)module.exports=api;else root.LocalProjectCore=api;})(globalThis,VM=>{
   'use strict';
-  const SCHEMA='VOODOO_LOCAL_PROJECT_V1',MAX_POINTS=50000,MAX_PROJECTS=8,MAX_FILE=10*1024*1024,MAX_PROJECT_BYTES=20*1024*1024;
+  const SCHEMA='VOODOO_LOCAL_PROJECT_V2',LEGACY_SCHEMA='VOODOO_LOCAL_PROJECT_V1',CONTEXT_SCHEMA='VOODOO_LOCAL_WORKFLOW_CONTEXT_V1',MAX_POINTS=50000,MAX_PROJECTS=8,MAX_FILE=10*1024*1024,MAX_PROJECT_BYTES=20*1024*1024;
   const clean=v=>String(v??'').trim().slice(0,180);
   const field=v=>String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
   const ALIASES={mmsi:['mmsi','maritimemobileserviceidentity'],imo:['imo','imonumber','imono'],callsign:['callsign','call','rufzeichen'],name:['name','shipname','vesselname','vessel','schiffsname'],latitude:['lat','latitude','breite','breitengrad'],longitude:['lon','lng','long','longitude','lange','langengrad'],observed_at:['timestamp','time','datetime','dateandtime','positiontime','positiontimestamp','timestamputc','datetimeutc','timeutc','observedat','lastseenutc'],date:['date','datum'],sog:['sog','speed','speedoverground'],cog:['cog','course','courseoverground']};
@@ -107,8 +107,48 @@
     }
     return {observations,routes,rejected,issues};
   }
-  function newProject(label='Local session'){return {schema:SCHEMA,id:id(),label:clean(label)||'Local session',created_at:new Date().toISOString(),imports:[],decisions:{}};}
-  function count(projects){return projects.reduce((sum,p)=>sum+p.imports.reduce((n,f)=>n+f.observations.length+f.routes.reduce((m,r)=>m+r.coordinates.length,0),0),0);}
+  function emptyContext(){return {schema:CONTEXT_SCHEMA,captured_at:null,scope:'matched_vessels_only',observations:[]};}
+  function newProject(label='Local session'){return {schema:SCHEMA,id:id(),label:clean(label)||'Local session',created_at:new Date().toISOString(),imports:[],decisions:{},workflow_context:emptyContext(),project_period:null};}
+  function count(projects){return projects.reduce((sum,p)=>sum+(p.workflow_context?.observations.length||0)+p.imports.reduce((n,f)=>n+f.observations.length+f.routes.reduce((m,r)=>m+r.coordinates.length,0),0),0);}
+  function validatePeriod(value){
+    if(!value||typeof value!=='object')throw Error('Choose a project start and end time');
+    const period={start:timestamp(value.start),end:timestamp(value.end)};
+    if(Date.parse(period.start)>Date.parse(period.end))throw Error('Project start must not be later than the end');
+    return period;
+  }
+  function projectPeriod(projects,{savedSelection=false}={}){
+    let min=Infinity,max=-Infinity;
+    for(const project of projects){
+      if(savedSelection&&project.project_period){const period=validatePeriod(project.project_period);min=Math.min(min,Date.parse(period.start));max=Math.max(max,Date.parse(period.end));continue;}
+      for(const row of [...project.imports.flatMap(f=>f.observations),...(project.workflow_context?.observations||[])]){const t=VM.observed(row);if(Number.isFinite(t)){min=Math.min(min,t);max=Math.max(max,t);}}
+    }
+    return Number.isFinite(min)?{start:new Date(min).toISOString(),end:new Date(max).toISOString()}:null;
+  }
+  function inWindow(row,{hours=336,now=Date.now(),period=null}={}){
+    const t=VM.observed(row);
+    return Number.isFinite(t)&&(period?t>=Date.parse(period.start)&&t<=Date.parse(period.end):t>=now-hours*3600000&&t<=now+300000);
+  }
+  function contextObservation(row){
+    const time=VM.observed(row);if(!Number.isFinite(time)||!VM.coordinates(row))throw Error('Invalid saved workflow observation');
+    // Preserve usable timestamps, source and accuracy semantics; never copy arbitrary provider fields or endpoints.
+    const p=observation({imo:VM.imo(row.imo),mmsi:VM.mmsi(row.mmsi),callsign:row.callsign,name:row.name,latitude:row.latitude,longitude:row.longitude,observed_at:new Date(time).toISOString()});
+    for(const key of ['sog','cog']){const n=Number(row[key]);if(row[key]!=null&&row[key]!==''&&Number.isFinite(n)&&n>=0&&n<=(key==='sog'?150:360))p[key]=n;}
+    p.source_provider=VM.source(row);
+    for(const key of ['position_timestamp_basis','upstream_source'])if(row[key]!=null)p[key]=clean(row[key]);
+    if(typeof row.position_is_exact==='boolean')p.position_is_exact=row.position_is_exact;
+    if(row.identity_conflict===true)p.identity_conflict=true;
+    return p;
+  }
+  function withWorkflowContext(project,workflow,options={}){
+    const context=project.workflow_context||emptyContext(),byId=new Map(context.observations.map(p=>[fingerprint(p),p]));
+    let added=false;
+    for(const row of indexed([project],workflow).rows)if(row.origin==='workflow'&&!row._saved_context&&inWindow(row,options)){
+      const p=contextObservation(row),key=fingerprint(p);if(!byId.has(key)){byId.set(key,p);added=true;}
+    }
+    const next={...project,workflow_context:{...context,captured_at:added?new Date().toISOString():context.captured_at,observations:[...byId.values()]}};
+    if(count([next])>MAX_POINTS)throw Error('Project including workflow context exceeds 50,000 points');
+    serialize(next);return next;
+  }
   function addImport(project,parsed,label,format){
     if(!parsed.observations.length&&!parsed.routes.length)throw Error('No usable observations or routes; review the import fields');
     const file={id:id(),label:clean(label),format,observations:parsed.observations,routes:parsed.routes};
@@ -119,8 +159,8 @@
   function loadProject(text){
     if(new TextEncoder().encode(text).length>MAX_PROJECT_BYTES)throw Error('Project exceeds 20 MiB');
     const raw=JSON.parse(text);
-    if(raw.schema!==SCHEMA||typeof raw.id!=='string'||!raw.id||raw.id.length>100||!Array.isArray(raw.imports)||raw.imports.length>500)throw Error('Unsupported project file');
-    const p={schema:SCHEMA,id:raw.id,label:clean(raw.label),created_at:timestamp(raw.created_at),imports:[],decisions:{}};
+    if(![SCHEMA,LEGACY_SCHEMA].includes(raw.schema)||typeof raw.id!=='string'||!raw.id||raw.id.length>100||!Array.isArray(raw.imports)||raw.imports.length>500)throw Error('Unsupported project file');
+    const p={schema:SCHEMA,id:raw.id,label:clean(raw.label),created_at:timestamp(raw.created_at),imports:[],decisions:{},workflow_context:emptyContext(),project_period:raw.project_period?validatePeriod(raw.project_period):null};
     const ids=new Set();
     for(const file of raw.imports){
       if(typeof file.id!=='string'||!file.id||file.id.length>100||ids.has(file.id)||!Array.isArray(file.observations)||file.observations.length>MAX_POINTS||!Array.isArray(file.routes))throw Error('Invalid project import');ids.add(file.id);
@@ -129,27 +169,37 @@
       p.imports.push(f);if(count([p])>MAX_POINTS)throw Error('Project exceeds 50,000 points');
     }
     if(raw.decisions&&typeof raw.decisions==='object'&&!Array.isArray(raw.decisions))for(const [key,value] of Object.entries(raw.decisions)){if(key.length<20000&&typeof value==='string'&&value.length<1000)p.decisions[key]=value;}
+    if(raw.workflow_context!=null){
+      const c=raw.workflow_context;
+      if(c.schema!==CONTEXT_SCHEMA||c.scope!=='matched_vessels_only'||!Array.isArray(c.observations)||c.observations.length>MAX_POINTS||c.observations.length&&!c.captured_at)throw Error('Invalid saved workflow context');
+      p.workflow_context={schema:CONTEXT_SCHEMA,scope:c.scope,captured_at:c.captured_at?timestamp(c.captured_at):null,observations:c.observations.map(contextObservation)};
+      if(count([p])>MAX_POINTS)throw Error('Project including workflow context exceeds 50,000 points');
+    }else if(raw.schema===SCHEMA)throw Error('Project workflow context is missing');
     return p;
   }
   function fingerprint(p){return JSON.stringify([VM.imo(p.imo),VM.mmsi(p.mmsi),clean(p.callsign).toUpperCase(),VM.observed(p),VM.coordinates(p)]);}
   function indexed(projects,workflow){
-    const rows=workflow.filter(p=>VM.coordinates(p)&&Number.isFinite(VM.observed(p))&&VM.source(p)!=='global_fishing_watch').map(p=>({...p,id:'workflow:'+fingerprint(p),origin:'workflow'}));
+    const saved=projects.flatMap(project=>(project.workflow_context?.observations||[]).map(p=>({...p,project_id:project.id,project_label:project.label,_saved_context:true,_context_saved_at:project.workflow_context.captured_at})));
+    // Prefer the live copy of an identical observation. Stable IDs keep saved conflict decisions usable offline.
+    const workflowRows=new Map([...saved,...workflow].filter(p=>VM.coordinates(p)&&Number.isFinite(VM.observed(p))&&VM.source(p)!=='global_fishing_watch').map(p=>[fingerprint(p),{...p,id:'workflow:'+fingerprint(p),origin:'workflow'}]));
+    const rows=[...workflowRows.values()];
     const routes=[];
     for(const project of projects)for(const f of project.imports){
       f.observations.forEach((p,n)=>rows.push({...p,id:JSON.stringify([project.id,f.id,n]),origin:'local',project_id:project.id,project_label:project.label,file_label:f.label}));
       f.routes.forEach(r=>routes.push({...r,project_id:project.id,project_label:project.label,file_label:f.label}));
     }
-    const mmsiImo=new Map();
+    const mmsiImo=new Map(),blockedMmsis=new Set(rows.filter(p=>p._saved_context&&p.identity_conflict).map(p=>VM.mmsi(p.mmsi)).filter(Boolean));
     for(const p of rows){const i=VM.imo(p.imo),m=VM.mmsi(p.mmsi);if(i&&m){if(!mmsiImo.has(m))mmsiImo.set(m,new Set());mmsiImo.get(m).add(i);}}
     function strong(p){const i=VM.imo(p.imo),m=VM.mmsi(p.mmsi),aliases=mmsiImo.get(m);return i?'imo:'+i:m?(aliases?.size===1?'imo:'+[...aliases][0]:'mmsi:'+m):'';}
     const calls=new Map();for(const p of rows){const c=clean(p.callsign).toUpperCase(),s=strong(p);if(c&&s){if(!calls.has(c))calls.set(c,new Set());calls.get(c).add(s);}}
-    function bind(p){const c=clean(p.callsign).toUpperCase(),aliases=calls.get(c);return {...p,identity:strong(p)||(aliases?.size===1?[...aliases][0]:'callsign:'+c),identity_conflict:Boolean(mmsiImo.get(VM.mmsi(p.mmsi))?.size>1||(!strong(p)&&aliases?.size>1))};}
-    const bound=rows.map(bind),localIdentities=new Set(bound.filter(p=>p.origin==='local').map(p=>p.identity));
-    return {rows:bound.filter(p=>localIdentities.has(p.identity)),routes:routes.map(bind),localIdentities};
+    function bind(p){const c=clean(p.callsign).toUpperCase(),aliases=calls.get(c);return {...p,identity:strong(p)||(aliases?.size===1?[...aliases][0]:'callsign:'+c),identity_conflict:Boolean(p._saved_context&&p.identity_conflict||blockedMmsis.has(VM.mmsi(p.mmsi))||mmsiImo.get(VM.mmsi(p.mmsi))?.size>1||(!strong(p)&&aliases?.size>1))};}
+    const bound=rows.map(bind),boundRoutes=routes.map(bind),localIdentities=new Set([...bound.filter(p=>p.origin==='local'),...boundRoutes].map(p=>p.identity));
+    return {rows:bound.filter(p=>localIdentities.has(p.identity)),routes:boundRoutes,localIdentities};
   }
-  function reconcile(projects,workflow,{hours=336,now=Date.now()}={}){
+  function reconcile(projects,workflow,{hours=336,now=Date.now(),period=null}={}){
+    if(period)period=validatePeriod(period);
     const data=indexed(projects,workflow),groups=new Map(),conflicts=[],managed=new Set();
-    data.rows=data.rows.filter(p=>VM.observed(p)>=now-hours*3600000&&VM.observed(p)<=now+300000);
+    data.rows=data.rows.filter(p=>inWindow(p,{hours,now,period}));
     for(const p of data.rows){if(!groups.has(p.identity))groups.set(p.identity,[]);groups.get(p.identity).push(p);if(p.origin==='workflow')managed.add(fingerprint(p));}
     const decisions=new Map();for(const project of projects)for(const [key,value] of Object.entries(project.decisions||{})){if(!decisions.has(key))decisions.set(key,new Set());decisions.get(key).add(value);}
     const models=[];let comparisons=0;
@@ -182,5 +232,5 @@
     }
     return {...data,models,conflicts,managed};
   }
-  return {SCHEMA,MAX_POINTS,MAX_PROJECTS,MAX_FILE,MAX_PROJECT_BYTES,parseCSV,parseKML,newProject,addImport,serialize,loadProject,count,reconcile,fingerprint,timestamp};
+  return {SCHEMA,LEGACY_SCHEMA,MAX_POINTS,MAX_PROJECTS,MAX_FILE,MAX_PROJECT_BYTES,parseCSV,parseKML,newProject,addImport,serialize,loadProject,count,reconcile,fingerprint,timestamp,withWorkflowContext,validatePeriod,projectPeriod};
 });
