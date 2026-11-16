@@ -151,6 +151,7 @@
 
   function renderAisDataAgeBanner(){
     const host=$('aisDataAgeBanner');if(!host)return;
+    if(state.timeMode==='project'){host.textContent='Local project period · saved/imported observations · live AIS hidden';return;}
     const rows=(state.data.vessel_positions?.features||[]).map(f=>f.properties||{});
     const times=rows.map(VM.observed).filter(Number.isFinite),latest=times.length?Math.max(...times):NaN;
     host.textContent=Number.isFinite(latest)?`AIS samples · latest observation ${VM.age({observed_at:new Date(latest).toISOString()})} · not a continuous stream`:'No reliable AIS observation time available';
@@ -339,6 +340,7 @@
   function syncLayerVisibility(id){
     const layer = state.layers[id];
     if (!layer || !state.map) return;
+    if(state.timeMode==='project'&&(isVesselLayer(id)||['gfw_loitering','gfw_presence','infrastructure_events'].includes(id))){state.map.removeLayer(layer);return;}
     const reference=['telecom_cables','power_cables','cable_landings','pipelines','wind_farms','offshore_energy'].includes(id);
     if (checkboxEnabled(id)&&(!reference||$('showInfrastructure').checked)) layer.addTo(state.map);
     else state.map.removeLayer(layer);
@@ -479,7 +481,7 @@
     // Source/search controls must not re-enable current AIS inside the historical SAR comparison.
     if($('sarDetectionsToggle')?.checked){$('trackStatus').textContent='Historical SAR comparison is active; current AIS layers remain hidden.';return;}
     const latest=state.timeMode==='latest',hours=TIME_HOURS[state.timeMode]||336;
-    const rawRows=latest?[...scopedRows(),...(state.trackRows||[])]:(state.trackRows||[]);
+    const rawRows=state.timeMode==='project'?[]:latest?[...scopedRows(),...(state.trackRows||[])]:(state.trackRows||[]);
     const rows=state.localProjects?.filterWorkflowRows(rawRows)||rawRows;
     const models=VM.track(rows,{hours}).sort((a,b)=>Number(b.identity===state.selectedIdentity)-Number(a.identity===state.selectedIdentity));const points=[],lines=[],historyPoints=[];let gaps=0,displayCap=false;
     for(const model of models){
@@ -555,19 +557,27 @@
   }
 
   async function applyTimeMode(mode){
+    if(mode==='project'&&!state.localProjects?.preparePeriod())return;
+    const leavingProject=state.timeMode==='project'&&mode!=='project';
+    if(mode==='project'&&$('sarDetectionsToggle')?.checked){$('sarDetectionsToggle').checked=false;$('sarDetectionsToggle').dispatchEvent(new Event('change'));}
     state.timeMode=mode;state.traffic?.render();updateTimeButtons(mode);renderAisDataAgeBanner();
+    for(const id of Object.keys(state.layers))syncLayerVisibility(id);
+    if(leavingProject)restoreProviderCategoryLayers();
     setControl('ais_contacts',{enabled:false,checked:false});replaceLayer('ais_contacts',EMPTY_FC());
     const danish=mode==='dk24';setControl('danish_history',{enabled:danish&&Boolean(state.data.danish_history?.features?.length),checked:danish});
     replaceLayer('danish_history',danish?state.data.danish_history:EMPTY_FC());
-    if(mode!=='latest'||$('showTracks').checked||state.selectedIdentity){
+    if(mode!=='project'&&(mode!=='latest'||$('showTracks').checked||state.selectedIdentity)){
       try{state.trackRows=await loadVoiHistory();}catch{$('trackStatus').textContent='History unavailable. No track added.';state.trackRows=[];}
     }
-    renderVesselView();const events=filterEvents(TIME_HOURS[mode]||null);replaceLayer('infrastructure_events',events);renderAnalysisList(events);
-    $('timeStatus').textContent=mode==='latest'?'Latest AIS observations':`${mode==='dk24'?'24 h + DK':mode} · historical observations`;
+    renderVesselView();const events=mode==='project'?EMPTY_FC():filterEvents(TIME_HOURS[mode]||null);replaceLayer('infrastructure_events',events);renderAnalysisList(events);
+    if(mode==='project')$('analysisList').textContent='Workflow review events are hidden in the local project period.';
+    const period=state.localProjects?.getPeriod();
+    $('timeStatus').textContent=mode==='project'?`Project period · ${period.start} — ${period.end}`:mode==='latest'?'Latest AIS observations':`${mode==='dk24'?'24 h + DK':mode} · historical observations`;
     renderGfw();
   }
 
   function renderGfw(){
+    if(state.timeMode==='project'){for(const id of ['gfw_loitering','gfw_presence'])state.layers[id]?.remove();$('loiteringList').hidden=true;$('gfwStatus').textContent='GFW workflow layers are hidden in the local project period.';return;}
     const layers=L.layerGroup(),cells=L.layerGroup(),now=Date.now(),cutoff=now-(TIME_HOURS[state.timeMode]||336)*3600000;
     const events=(state.gfwEvents?.events||[]).filter(e=>e.type==='LOITERING'&&Date.parse(e.end)>=cutoff).map(e=>({event:e,context:VM.eventContext(e,now)})).filter(e=>e.context).sort((a,b)=>Date.parse(b.event.end)-Date.parse(a.event.end));
     const shown=events.slice(0,200);$('loiteringList').replaceChildren();
@@ -645,6 +655,8 @@
     state.localProjects=globalThis.LocalVesselProjects?.attach(state.map,{
       getWorkflowRows:()=>[...scopedRows(),...(state.trackRows||[]),...(state.data.ais_contacts?.features||[]).filter(f=>f.geometry?.type==='Point').map(f=>({...f.properties,longitude:f.geometry.coordinates[0],latitude:f.geometry.coordinates[1]}))].filter(visibleSource),
       getHours:()=>TIME_HOURS[state.timeMode]||336,
+      isProjectMode:()=>state.timeMode==='project',
+      onSelectProjectPeriod:()=>applyTimeMode('project'),
       isSar:()=>Boolean($('sarDetectionsToggle')?.checked),
       onNeedHistory:async()=>{try{state.trackRows=await loadVoiHistory();return true;}catch{return false;}},
       onChange:renderVesselView

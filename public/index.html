@@ -58,6 +58,7 @@
           <button type="button" class="timeButton" data-time-mode="120h">120 h</button>
           <button type="button" class="timeButton" data-time-mode="14d">14 d</button>
           <button type="button" class="timeButton wide" data-time-mode="dk24">24 h + latest Danish historical</button>
+          <button type="button" class="timeButton wide" data-time-mode="project">Local project period</button>
         </div>
         <p class="timeHelp">Default view: the latest reliable AIS observation for each monitored vessel. Popups show the observation time and data age. Historical time windows and GFW context remain clearly separate.</p>
       </section>
@@ -76,6 +77,12 @@
         <label for="localProjectFiles">Open project files · overlays can be combined</label><input id="localProjectFiles" type="file" accept=".json,.vwproject.json" multiple>
         <label for="localActiveProject">Active project for new imports and download</label><select id="localActiveProject"></select>
         <div id="localProjectList" aria-label="Visible local projects"></div>
+        <details><summary>Historical project period · UTC</summary>
+          <p>Use saved/imported project observations beyond the rolling 14-day window. This view excludes live workflow positions. The normal 24 h / 48 h windows remain unchanged.</p>
+          <label for="localPeriodStart">Start UTC</label><input id="localPeriodStart" type="datetime-local" step="0.001">
+          <label for="localPeriodEnd">End UTC</label><input id="localPeriodEnd" type="datetime-local" step="0.001">
+          <div class="localActions"><button type="button" id="localApplyProjectPeriod">Apply project period</button><button type="button" id="localUseProjectDates">Use all enabled project dates</button></div>
+        </details>
         <label for="localProjectName">Project name</label><input id="localProjectName" type="text" maxlength="180" placeholder="Session name">
         <div class="localActions"><button type="button" id="localProjectRename">Rename</button><button type="button" id="localProjectSave">Download project</button><button type="button" id="localProjectRemove">Remove from session</button></div>
         <details><summary>Import CSV or KML</summary>
@@ -190,9 +197,9 @@
   <script src="./assets/vessel-model.js?v=20261110-en"></script>
   <script src="./assets/traffic-context.js?v=20261110-en"></script>
   <script src="./assets/gfw-grid.js?v=20261111-hover-age"></script>
-  <script src="./assets/local-project-core.js?v=20261116"></script>
-  <script src="./assets/local-project-ui.js?v=20261116"></script>
-  <script src="./assets/infrastructure-watch.js?v=20261116-local-projects"></script>
+  <script src="./assets/local-project-core.js?v=20261116-project-context"></script>
+  <script src="./assets/local-project-ui.js?v=20261116-project-context"></script>
+  <script src="./assets/infrastructure-watch.js?v=20261116-project-context"></script>
   <script src="./assets/sar-layer.js?v=20261109-sources-retention"></script>
   <script src="./assets/vesselfinder-links.js"></script>
   <script src="./assets/common-snapshot-status.js"></script>
