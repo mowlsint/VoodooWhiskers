@@ -125,7 +125,7 @@
         const age = now - Math.max(...group.rows.map(r=>Date.parse(r.observed_at)));
         const marker = L.circleMarker([group.latitude,group.longitude],{pane:'trafficContextPane',renderer,
           radius:clustered ? Math.min(3.5,2.5+Math.log2(group.rows.length)*.25) : 2.5,
-          color:vm.SOURCES[p.source_provider].color,fillColor:vm.SOURCES[p.source_provider].color,
+          color:'#8d9ca8',fillColor:'#8d9ca8',
           weight:clustered?1:0,opacity:.55,fillOpacity:age > 6*3600000 ? .2 : .5});
         if (clustered) marker.bindTooltip(`${group.rows.length} received contacts · ${vm.SOURCES[p.source_provider].label} · zoom in to see individual contacts`)
           .on('click',()=>map.fitBounds(L.latLngBounds(group.rows.map(r=>[r.latitude,r.longitude])).pad(.15),{maxZoom:Math.max(8,map.getZoom()+2)}));
