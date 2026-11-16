@@ -475,10 +475,12 @@
   }
   function renderVesselView(){
     state.traffic?.render();
+    state.localProjects?.refresh();
     // Source/search controls must not re-enable current AIS inside the historical SAR comparison.
     if($('sarDetectionsToggle')?.checked){$('trackStatus').textContent='Historical SAR comparison is active; current AIS layers remain hidden.';return;}
     const latest=state.timeMode==='latest',hours=TIME_HOURS[state.timeMode]||336;
-    const rows=latest?[...scopedRows(),...(state.trackRows||[])]:(state.trackRows||[]);
+    const rawRows=latest?[...scopedRows(),...(state.trackRows||[])]:(state.trackRows||[]);
+    const rows=state.localProjects?.filterWorkflowRows(rawRows)||rawRows;
     const models=VM.track(rows,{hours}).sort((a,b)=>Number(b.identity===state.selectedIdentity)-Number(a.identity===state.selectedIdentity));const points=[],lines=[],historyPoints=[];let gaps=0,displayCap=false;
     for(const model of models){
       if(latest&&!model.points.some(p=>p._current))continue;
@@ -508,6 +510,7 @@
       button.addEventListener('click',()=>{for(const id of ['vessel_positions','neutral_tanker_context'])state.layers[id]?.eachLayer?.(layer=>{if(layer.feature?.geometry?.type==='Point'&&layer.feature.properties.timeline_role!=='historical_point'&&layer.feature.properties.vessel_identity===p.vessel_identity){state.map.setView([feature.geometry.coordinates[1],feature.geometry.coordinates[0]],9);layer.openPopup();}});});$('vesselList').append(button);
     }
     $('trackStatus').textContent=`${visiblePoints.length} visible vessels · ${visibleLines.length} visible track segments · ${gaps} broken connections in available history. Lines connect observations; data gaps remain open.${displayCap?" Display limited to 3,000 track segments/points. Select one vessel.":""}`;
+    state.localProjects?.renderSearch();
   }
   function historyGeoJson(rows,hours){
     const models=VM.track(rows,{hours,maxPoints:120});return {type:'FeatureCollection',features:models.flatMap(m=>m.segments.map(seg=>({type:'Feature',geometry:{type:'LineString',coordinates:[VM.coordinates(seg.from),VM.coordinates(seg.to)]},properties:{...seg.to,timeline_role:'historical_track',vessel_identity:m.identity}})))};
@@ -639,6 +642,13 @@
     fetchJson('./assets/sar-basemap.geojson').then(data=>{L.geoJSON(data,{pane:'tilePane',interactive:false,style:{color:'#536776',weight:1,fillColor:'#263c49',fillOpacity:1}}).addTo(state.map);state.map.attributionControl.addAttribution('Natural Earth · orientation only, not a nautical chart');}).catch(()=>console.warn('Coastline overview unavailable'));
     state.map.fitBounds(MAP_BOUNDS);
     L.control.scale({imperial:false,nautical:true}).addTo(state.map);
+    state.localProjects=globalThis.LocalVesselProjects?.attach(state.map,{
+      getWorkflowRows:()=>[...scopedRows(),...(state.trackRows||[]),...(state.data.ais_contacts?.features||[]).filter(f=>f.geometry?.type==='Point').map(f=>({...f.properties,longitude:f.geometry.coordinates[0],latitude:f.geometry.coordinates[1]}))].filter(visibleSource),
+      getHours:()=>TIME_HOURS[state.timeMode]||336,
+      isSar:()=>Boolean($('sarDetectionsToggle')?.checked),
+      onNeedHistory:async()=>{try{state.trackRows=await loadVoiHistory();return true;}catch{return false;}},
+      onChange:renderVesselView
+    });
 
     document.querySelectorAll('input[data-layer]').forEach(input => input.addEventListener("change",()=>{syncLayerVisibility(input.dataset.layer);if(['vessel_positions','neutral_tanker_context'].includes(input.dataset.layer))renderVesselView();if(['gfw_loitering','gfw_presence'].includes(input.dataset.layer))renderGfw();}));
     document.querySelectorAll('button[data-time-mode]').forEach(button=>button.addEventListener("click",()=>applyTimeMode(button.dataset.timeMode)));
@@ -663,7 +673,7 @@
       loadStaticGeoLayer("recent_russian_portcall_10d",paths.recent_russian_portcall_10d),
       loadStaticGeoLayer("behavioral_voi",paths.behavioral_voi)
     ]);
-    $('sarDetectionsToggle')?.addEventListener('change',()=>{if(!$('sarDetectionsToggle').checked)setTimeout(renderVesselView,0);});
+    $('sarDetectionsToggle')?.addEventListener('change',()=>setTimeout(renderVesselView,0));
     $('vesselSearch').addEventListener('input',renderVesselView);
     $('showInfrastructure').addEventListener('change',()=>['telecom_cables','power_cables','cable_landings','pipelines','wind_farms','offshore_energy'].forEach(syncLayerVisibility));
     $('resetOverview').addEventListener('click',()=>{state.selectedIdentity=null;$('showTrafficContext').checked=false;$('showTracks').checked=false;$('vesselSearch').value='';$('showInfrastructure').checked=false;$('showInfrastructure').dispatchEvent(new Event('change'));const sar=$('sarDetectionsToggle');if(sar?.checked){sar.checked=false;sar.dispatchEvent(new Event('change'));}document.querySelectorAll('[data-source]').forEach(input=>input.checked=true);document.querySelectorAll('input[data-layer]').forEach(input=>{if(isVesselLayer(input.dataset.layer)||['gfw_loitering','gfw_presence','infrastructure_events'].includes(input.dataset.layer)){input.checked=input.dataset.layer==='vessel_positions';syncLayerVisibility(input.dataset.layer);}});applyTimeMode('latest');});
