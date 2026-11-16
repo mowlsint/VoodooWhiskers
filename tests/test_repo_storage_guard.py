@@ -121,6 +121,18 @@ class StorageGuardTests(unittest.TestCase):
         self.assertEqual(result['staged_blob_bytes'], 0)
         self.assertEqual(result['largest_staged_files'], [])
 
+    def test_route_products_count_without_changing_or_pruning_them(self):
+        self.stage('data/russian_route_state.json', b'x' * 110)
+        self.stage('data/russian_portcall_history.jsonl', b'y' * 95)
+        # Include existing files even when they are not in the pending commit.
+        self.git('reset', '-q')
+        before = {p: p.read_bytes() for p in (self.root / 'data').iterdir()}
+        code, result = self.run_guard()
+        self.assertEqual(result['active_vessel_bytes'], 205)
+        self.assertEqual(code, 1)
+        self.assertIn('Active vessel data budget exceeded', result['errors'])
+        self.assertEqual(before, {p: p.read_bytes() for p in before})
+
     def test_inspection_failure_blocks_without_leaking_exception(self):
         output = io.StringIO()
         with patch.object(guard, 'inspect_staged_details', side_effect=RuntimeError('private-detail')):

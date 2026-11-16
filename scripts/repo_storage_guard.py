@@ -82,6 +82,9 @@ def active_vessel_bytes(root=ROOT):
     files = {p for path in paths if path.exists() for p in path.rglob('*') if p.is_file()}
     files.update(p for pattern in ('voi*.json*', 'gfw*.json*', 'ais_contacts*.json*')
                  for p in (root / 'data').glob(pattern))
+    # Route context and its append-only event log are vessel products too.
+    files.update(p for name in ('russian_route_state.json', 'russian_portcall_history.jsonl')
+                 if (p := root / 'data' / name).is_file())
     return sum(p.stat().st_size for p in files)
 
 
