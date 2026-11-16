@@ -7,7 +7,7 @@ const {JSDOM}=require(process.env.VOODOO_TEST_DOM_MODULE||'jsdom');
 const root=path.resolve(__dirname,'..');
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 async function until(fn){for(let n=0;n<100;n++){if(fn())return;await wait(10);}throw Error('DOM condition timed out');}
-async function boot(t,{offline=false}={}){
+async function boot(t,{offline=false,prepareRows=()=>{}}={}){
  const dom=new JSDOM(fs.readFileSync(path.join(root,'public/index.html'),'utf8'),{url:'https://voodoo.example/',runScripts:'outside-only',pretendToBeVisual:true});
  const w=dom.window,now=Date.now(),requests=[],errors=[],downloads=[];t.after(()=>w.close());
  w.Date.now=()=>now;w.TextEncoder=TextEncoder;w.TextDecoder=TextDecoder;w.Blob=Blob;w.CSS={escape:v=>v};w.confirm=()=>true;
@@ -16,6 +16,7 @@ async function boot(t,{offline=false}={}){
  w.HTMLAnchorElement.prototype.click=function(){};
  const point=(name,mmsi,hours,lon,priority=false)=>({name,mmsi,latitude:55,longitude:lon,observed_at:new Date(now-hours*3600000).toISOString(),source_provider:'openwaters',known_voi_match:priority,categories:priority?['watchlist']:[]});
  const fresh=point('Current ship','273123456',1,10,true),old=point('Older ship','273654321',48,11),background=point('Other received ship','273987654',2,9);
+ prepareRows({fresh,old,background});
  const fc=rows=>({type:'FeatureCollection',features:rows.map(p=>({type:'Feature',geometry:{type:'Point',coordinates:[p.longitude,p.latitude]},properties:p}))});
  w.fetch=async(url,options={})=>{requests.push({url:String(url),method:options.method||'GET'});const p=new URL(String(url),w.location.href).pathname;let data;
   if(offline)return {ok:false,status:503,text:async()=>''};
@@ -30,7 +31,7 @@ async function boot(t,{offline=false}={}){
  w.console.error=(...args)=>errors.push(args.map(String).join(' '));
  w.console.warn=()=>{};
  let map;
- for(const asset of ['vendor/leaflet.js','sar-map-hook.js','vessel-model.js','traffic-context.js','gfw-grid.js','local-project-core.js','local-project-ui.js','infrastructure-watch.js']){
+ for(const asset of ['vendor/leaflet.js','sar-map-hook.js','vessel-model.js','vessel-categories.js','traffic-context.js','gfw-grid.js','local-project-core.js','local-project-ui.js','infrastructure-watch.js']){
   if(asset==='sar-map-hook.js'){const original=w.L.map;w.L.map=function(...args){map=original(...args);return map;};}
   w.eval(fs.readFileSync(path.join(root,'public/assets',asset),'utf8'));
  }
@@ -51,6 +52,30 @@ test('dashboard search excludes 48-hour-old ships in 24 h and jumps to the point
  await b.time('24h');assert.match(b.$('vesselList').textContent,/No matching/);
  b.input('vesselSearch','Other received');assert.match(b.$('vesselList').textContent,/Other received ship/);
  b.$('vesselSearch').dispatchEvent(new b.w.KeyboardEvent('keydown',{key:'Enter'}));assert.ok(Math.abs(b.getMap().getCenter().lng-9)<.02);
+ assert.deepEqual(b.errors,[]);
+});
+test('real map markers use category fill/ring across providers and pop-ups show every category and qualified Russia direction',async t=>{
+ const b=await boot(t,{prepareRows:({fresh,background})=>{
+  Object.assign(fresh,{sanctioned:true,shadow_fleet:true,destination:'RU ULU>NL RTM',source_provider:'fintraffic'});
+  Object.assign(background,{sanctioned:true,shadow_fleet:true,known_voi_match:true,categories:['watchlist'],destination:'NL RTM>RU ULU',source_provider:'barentswatch'});
+ }});
+ await until(()=>b.$('categoryHistoryStatus').textContent.startsWith('Voyage context uses'));
+ const markers=Object.values(b.getMap()._layers).filter(l=>l.feature?.geometry?.type==='Point'&&l.getPopup?.());
+ const from=markers.find(l=>l.feature.properties.mmsi==='273123456'),to=markers.find(l=>l.feature.properties.mmsi==='273987654');
+ assert.ok(from);assert.ok(to);assert.equal(from.options.fillColor,'#ef5959');assert.equal(from.options.color,'#ac83ff');
+ assert.equal(to.options.fillColor,from.options.fillColor);assert.equal(to.options.color,from.options.color);
+ from.openPopup();let content=from.getPopup().getElement();assert.match(content.textContent,/Sanctions-listed vessel/);assert.match(content.textContent,/Shadow-fleet list context/);assert.match(content.textContent,/Other VOI \/ watchlist/);assert.match(content.textContent,/Russia-related voyage/);assert.match(content.textContent,/← Likely coming from Russia/);assert.doesNotMatch(content.textContent,/→ Likely bound for Russia/);assert.match(content.textContent,/Fintraffic/);
+ to.openPopup();content=to.getPopup().getElement();assert.match(content.textContent,/→ Likely bound for Russia/);assert.doesNotMatch(content.textContent,/← Likely coming from Russia/);assert.match(content.textContent,/BarentsWatch/);
+ assert.ok(b.$('vesselCategoryLegend').textContent.includes('Russia-related voyage'));
+ assert.deepEqual(b.errors,[]);
+});
+test('a declared Russia destination enters the default category layer and untrusted voyage text remains plain text',async t=>{
+ const b=await boot(t,{prepareRows:({background})=>Object.assign(background,{mmsi:'257987654',destination:'RU ULU',source_provider:'barentswatch'})});
+ await until(()=>b.$('categoryHistoryStatus').textContent.startsWith('Voyage context uses'));
+ const marker=Object.values(b.getMap()._layers).find(l=>l.feature?.properties?.mmsi==='257987654'&&l.getPopup?.());
+ assert.ok(marker);assert.equal(marker.options.fillColor,'#ffa84d');marker.openPopup();assert.match(marker.getPopup().getElement().textContent,/→ Likely bound for Russia/);
+ const box=b.w.document.createElement('div');b.w.VesselCategories.appendPopup(box,{mmsi:'257987654',observed_at:new Date(b.now).toISOString(),destination:'RUSSIA <img src=x onerror=alert(1)>',categories:['<script>alert(1)</script>']});
+ assert.equal(box.querySelector('img,script'),null);assert.match(box.textContent,/<img/);assert.match(box.textContent,/direction unclear/);
  assert.deepEqual(b.errors,[]);
 });
 test('CSV preview, local merge, conflict choice, download and project overlay work through actual controls',async t=>{

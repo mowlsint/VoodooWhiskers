@@ -1,11 +1,11 @@
 /* Browser-only local projects and time-scoped vessel search. */
 (()=>{
   'use strict';
-  const Core=globalThis.LocalProjectCore,VM=globalThis.VesselModel,$=id=>document.getElementById(id);
+  const Core=globalThis.LocalProjectCore,VM=globalThis.VesselModel,VC=globalThis.VesselCategories,$=id=>document.getElementById(id);
   const COLORS=['#f2f27a','#ffafcc','#72efdd','#ffb86b','#b8a1ff','#a9e88b','#fa859a','#90d9ff'];
   const node=(tag,text)=>{const n=document.createElement(tag);if(text!=null)n.textContent=text;return n;};
   function attach(map,{getWorkflowRows,getHours,isSar,onNeedHistory,onChange,isProjectMode,onSelectProjectPeriod}){
-    let projects=[],active=null,preview=null,dirty=new Set(),model=null,layer=null,searchMarker=null,pending=false,searchTimer=null,appliedPeriod=null;
+    let projects=[],active=null,preview=null,dirty=new Set(),model=null,layer=null,searchMarker=null,pending=false,searchTimer=null,appliedPeriod=null,categoryIndex=null;
     const enabled=new Set();
     function status(text){$('localProjectStatus').textContent=text;}
     function selected(){return projects.find(p=>p.id===active);}
@@ -29,19 +29,19 @@
     }
     function popup(p){
       const box=node('div'),title=node('strong',p.name||p.imo||p.mmsi||p.callsign||'Vessel');box.append(title);
-      for(const [label,value] of [['Origin',p.origin==='local'?`Local project: ${p.project_label}`:p._saved_context?'Saved workflow context · local project file':'Workflow observation'],['Context captured UTC',p._context_saved_at],['File',p.file_label],['IMO',p.imo],['MMSI',p.mmsi],['Callsign',p.callsign],['Observed UTC',p.observed_at||p.last_seen_utc],['Position',`${p.latitude}, ${p.longitude}`]])if(value)box.append(node('div',`${label}: ${value}`));
+      for(const [label,value] of [['Origin',p.origin==='local'?`Local project: ${p.project_label}`:p._saved_context?'Saved workflow context · local project file':'Workflow observation'],['AIS source',p.origin==='local'?'Analyst-supplied import':VM.sourceLabel(p)],['Context captured UTC',p._context_saved_at],['File',p.file_label],['IMO',p.imo],['MMSI',p.mmsi],['Callsign',p.callsign],['Observed UTC',p.observed_at||p.last_seen_utc],['Position',`${p.latitude}, ${p.longitude}`]])if(value)box.append(node('div',`${label}: ${value}`));
       if(p.identity_conflict)box.append(node('div','Conflicting identity details; automatic track connections are blocked.'));
       if(p._local_conflict)box.append(node('div','Unresolved position conflict. No position has been selected as accepted.'));
-      return box;
+      VC.appendPopup(box,p,categoryIndex);return box;
     }
     function draw(){
       if(layer)map.removeLayer(layer);layer=L.layerGroup().addTo(map);
       let drawn=0,total=0;const color=p=>COLORS[Math.max(0,projects.findIndex(x=>x.id===p.project_id))%COLORS.length];
       for(const item of model.models){
-        for(const seg of item.segments){total++;if(drawn>=5000)continue;drawn++;L.polyline([[seg.a.latitude,seg.a.longitude],[seg.b.latitude,seg.b.longitude]],{color:seg.b.origin==='local'?color(seg.b):'#adc1ce',weight:2.5,opacity:.8}).addTo(layer);}
+        for(const seg of item.segments){total++;if(drawn>=5000)continue;drawn++;L.polyline([[seg.a.latitude,seg.a.longitude],[seg.b.latitude,seg.b.longitude]],{color:VC.describe(seg.b,categoryIndex).primary.color,weight:2.5,opacity:.8}).addTo(layer);}
         // A bounded map sample; all observations remain in the project file.
         const sample=item.points.length>300?item.points.filter((p,i)=>i%Math.ceil(item.points.length/300)===0||i===item.points.length-1||item.unresolved.has(p.id)):item.points;
-        for(const p of sample){total++;if(drawn>=5000)continue;drawn++;L.circleMarker([p.latitude,p.longitude],{radius:p===item.points.at(-1)?6:3,color:item.unresolved.has(p.id)?'#ff7043':p.origin==='local'?color(p):'#adc1ce',fillOpacity:.85,weight:2}).bindPopup(()=>popup({...p,_local_conflict:item.unresolved.has(p.id)})).addTo(layer);}
+        for(const p of sample){total++;if(drawn>=5000)continue;drawn++;L.circleMarker([p.latitude,p.longitude],{radius:p===item.points.at(-1)?6:3,...VC.describe(p,categoryIndex).style,dashArray:item.unresolved.has(p.id)?'2 2':null}).bindPopup(()=>popup({...p,_local_conflict:item.unresolved.has(p.id)})).addTo(layer);}
       }
       if($('localShowUndated').checked)for(const r of model.routes){total++;if(drawn>=5000)break;drawn++;const box=node('div',`${r.name||r.imo||r.mmsi||r.callsign} · ${r.project_label} · Undated imported route; not a timed position.`);L.polyline(r.coordinates.map(c=>[c[1],c[0]]),{color:color(r),weight:2,dashArray:'4 5'}).bindPopup(box).addTo(layer);}
       $('localOverlayStatus').textContent=`${model.models.length} vessels in this time window · ${model.rows.filter(p=>p.origin==='local').length} imported observations · ${model.rows.filter(p=>p._saved_context).length} saved workflow observations · ${model.routes.length} undated routes.${isProjectMode()?' Historical project period; live workflow positions are hidden.':''}${total>5000?' Map display capped at 5,000 elements; project files retain all points.':''}`;
@@ -91,14 +91,14 @@
       root.append(node('p',`${candidates.length} matching position results in the selected time window${candidates.length>50?' · first 50 shown':''}`));
       for(const p of candidates.slice(0,50)){
         const button=node('button',`${p.name||p.imo||p.mmsi||p.callsign} · ${p.observed_at||p.last_seen_utc} · ${p.origin==='local'?'Local project':p._saved_context?'Saved workflow context':'Workflow'}${p._local_conflict?' · Unresolved position':''}`);button.type='button';button.className='vesselListItem';
-        button.addEventListener('click',()=>{if(searchMarker)map.removeLayer(searchMarker);searchMarker=L.circleMarker([p.latitude,p.longitude],{radius:9,color:'#fff078',weight:3,fillOpacity:.3}).bindPopup(()=>popup(p)).addTo(map);map.setView([p.latitude,p.longitude],11);searchMarker.openPopup();});root.append(button);
+        button.style.borderLeftColor=VC.describe(p,categoryIndex).primary.color;button.addEventListener('click',()=>{if(searchMarker)map.removeLayer(searchMarker);searchMarker=L.circleMarker([p.latitude,p.longitude],{radius:9,...VC.describe(p,categoryIndex).style,fillOpacity:.5}).bindPopup(()=>popup(p)).addTo(map);map.setView([p.latitude,p.longitude],11);searchMarker.openPopup();});root.append(button);
       }
     }
     function refresh(){
       if(searchMarker){map.removeLayer(searchMarker);searchMarker=null;}
       model=null;
       if(isSar()){hide();$('localOverlayStatus').textContent='Local projects are hidden during historical SAR comparison.';renderSearch();return;}
-      try{model=Core.reconcile(visibleProjects(),workflow(),windowOptions());draw();renderConflicts();}
+      try{model=Core.reconcile(visibleProjects(),workflow(),windowOptions());categoryIndex=VC.index([...model.rows,...visibleProjects().flatMap(p=>p.workflow_context.observations),...workflow()]);draw();renderConflicts();}
       catch(e){hide();status('Local overlay unavailable: '+e.message);}
     }
     $('localNewSession').addEventListener('click',()=>run(addSession));

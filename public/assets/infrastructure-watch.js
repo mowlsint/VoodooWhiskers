@@ -3,6 +3,7 @@
 
   const $ = id => document.getElementById(id);
   const VM=globalThis.VesselModel;
+  const VC=globalThis.VesselCategories;
   const MAP_BOUNDS = L.latLngBounds([[50.0, -6.0], [72.5, 32.0]]);
   const EMPTY_FC = () => ({type:"FeatureCollection",features:[]});
   const TIME_HOURS = {"24h":24,"48h":48,"120h":120,"14d":24*14,dk24:24};
@@ -14,7 +15,7 @@
     timeMode:"latest",
     historyRows:null,
     historyPromise:null,
-    dynamicReady:false, selectedIdentity:null, trackRows:null, gfwEvents:null, gfwGrid:null
+    dynamicReady:false, selectedIdentity:null, trackRows:null, gfwEvents:null, gfwGrid:null, categoryIndex:null
   };
 
   const paths = {
@@ -116,7 +117,7 @@
   function isPriorityVoi(properties){
     const p = properties || {};
     if (p.is_priority_voi || p.known_voi_match || p.sanctioned || p.shadow_fleet || p.false_flag || p.behavioral_voi || p.from_russia_confirmed) return true;
-    return categoriesOf(p).some(category => DISPLAY_VOI_CATEGORIES.has(category));
+    return categoriesOf(p).some(category => DISPLAY_VOI_CATEGORIES.has(category))||VC.describe(p,state.categoryIndex).russia.related;
   }
 
   function providerId(p){return VM.source(p);}
@@ -174,7 +175,6 @@
 
   function vesselPopup(feature){
     const p = feature.properties || {};
-    const cats = categoriesOf(p).join(", ") || "none";
     const positionQuality = p.position_timestamp_valid === false || p.data_quality?.timestamp_repaired;
     const sourceUrls = String(p.source_url || "").split(/[;\s]+/).filter(v => /^https?:/i.test(v));
     const historical = p.timeline_role || p.historical;
@@ -187,9 +187,8 @@
         <b>Data age</b><span>${esc(VM.age(p))}</span>
         <b>Retrieved</b><span>${esc(p.retrieved_at||p.snapshot_generated_at||"not established")}</span>
         <b>Other delivery sources</b><span>${esc((p.observation_sources||[]).map(id=>VM.SOURCES[id]?.label||id).join(", ")||"–")}</span>
-        <b>Categories</b><span>${esc(cats)}</span>
         <b>Destination</b><span>${esc(p.destination || "–")}</span>
-        <b>RU portcall</b><span>${esc(russianPortcallLabel(p) || "–")}</span>
+        <b>RU route context</b><span>${esc(russianPortcallLabel(p) ? 'Retained source context; see voyage evidence below' : "–")}</span>
         <b>RU evidence</b><span>${esc(p.recent_ru_portcall_basis || p.to_russia_declared_basis || "–")}</span>
         <b>SOG / COG</b><span>${esc(p.sog ?? "–")} kn / ${esc(p.cog ?? "–")}°</span>
         ${p.from_observed_at?`<b>Track segment UTC</b><span>${esc(p.from_observed_at)} → ${esc(p.to_observed_at)}</span>`:""}
@@ -203,6 +202,7 @@
       ${(vesselFinderLink(p) || sourceUrls.length) ? `<div style="margin-top:7px">${[vesselFinderLink(p), ...sourceUrls.slice(0,3).map((url,i)=>`<a href="${esc(url)}" target="_blank" rel="noopener">Source ${i+1}</a>`)].filter(Boolean).join(" · ")}</div>` : ""}
       <div class="assessmentLimit">VOI/watchlist context is an analyst lead, not proof of hostile intent or unlawful activity.</div>`;
     const content=document.createElement('div');content.innerHTML=html;
+    VC.appendPopup(content,p,state.categoryIndex);
     const trackButton=content.querySelector('[data-track-id]');
     const activate=event=>{event.stopPropagation();if(trackButton.disabled)return;trackButton.disabled=true;selectVesselTrack(p.vessel_identity||identityKey(p)).finally(()=>{trackButton.disabled=false;});};
     trackButton?.addEventListener('click',activate);
@@ -212,7 +212,7 @@
   function danishPopup(feature){
     const p = feature.properties || {};
     const role = p.feature_role === "latest_historical_position" ? "Latest historical observation" : "Previous historical observation";
-    return `<div class="popupTitle">${esc(p.name || "Unknown vessel")}</div>
+    const box=document.createElement('div');box.innerHTML=`<div class="popupTitle">${esc(p.name || "Unknown vessel")}</div>
       <div class="popupMeta">
         <b>Role</b><span>${esc(role)}</span>
         <b>MMSI</b><span>${esc(p.mmsi || "–")}</span>
@@ -224,6 +224,7 @@
       </div>
       ${vesselFinderLink(p) ? `<div style="margin-top:7px">${vesselFinderLink(p)}</div>` : ""}
       <div class="historyWarn">Delayed historical data. Do not use this point as a current vessel position.</div>`;
+    VC.appendPopup(box,p,state.categoryIndex);return box;
   }
 
   function infrastructurePopup(feature, layerId){
@@ -266,15 +267,14 @@
         const geometryType = feature?.geometry?.type;
         const p = feature?.properties || {};
         if (layerId === "danish_history"){
-          return {color:"#ffd166",weight:2,opacity:.72,dashArray:"6 5"};
+          return {color:VC.describe(p,state.categoryIndex).primary.color,weight:2,opacity:.72,dashArray:"6 5"};
         }
         if (layerId === "vessel_positions" && geometryType === "LineString"){
-          const color = VM.SOURCES[providerId(p)].color;
+          const color = VC.describe(p,state.categoryIndex).primary.color;
           return {color,weight:1.5,opacity:.48};
         }
         if (isVessel){
-          const color = VM.SOURCES[providerId(p)].color;
-          return {color,fillColor:color,weight:1,fillOpacity:.82,radius:4};
+          return {...VC.describe(p,state.categoryIndex).style,radius:4};
         }
         if (layerId === "infrastructure_events"){
           const elevated = p.level === "elevated";
@@ -288,18 +288,15 @@
           const latest = p.feature_role === "latest_historical_position";
           return L.circleMarker(latlng,{
             radius:latest ? 5 : 3.5,
-            color:"#ffd166",
-            fillColor:latest ? "#ffd166" : "#071017",
-            weight:latest ? 1.5 : 2,
+            ...VC.describe(p,state.categoryIndex).style,
             fillOpacity:latest ? .92 : .45
           });
         }
         if (isVessel){
           const category = vesselCategory(p);
-          const color = VM.SOURCES[providerId(p)].color;
           const historical = Boolean(p.timeline_role);
           const radius = historical ? (p.timeline_role === "latest_in_window" ? 5 : 3) : category === "neutral_tanker_context" ? 3 : category === "falseflag_interest" ? 5 : 4;
-          return L.circleMarker(latlng,{radius,color:(p.false_flag||["falseflag_interest","false_flag_watch"].includes(category))?"#ff00c8":color,fillColor:color,weight:p.false_flag?2.5:1.5,fillOpacity:historical ? .68 : .82});
+          return L.circleMarker(latlng,{radius,...VC.describe(p,state.categoryIndex).style,fillOpacity:historical ? .68 : .82});
         }
         const style = layerId === "infrastructure_events" && p.level === "elevated"
           ? {...styles.infrastructure_events,color:"#ff4d5f",fillColor:"#ff4d5f"}
@@ -476,6 +473,8 @@
     }catch{$('trackStatus').textContent='Vessel history could not be loaded. Latest positions remain visible.';}
   }
   function renderVesselView(){
+    const allFeatures=[...(state.data.vessel_positions?.features||[]),...(state.data.ais_contacts?.features||[]),...(state.data.neutral_tanker_context?.features||[])];
+    state.categoryIndex=VC.index([...allFeatures.filter(f=>f.geometry?.type==='Point').map(f=>({...f.properties,longitude:f.geometry.coordinates[0],latitude:f.geometry.coordinates[1]})),...(state.trackRows||[])]);
     state.traffic?.render();
     state.localProjects?.refresh();
     // Source/search controls must not re-enable current AIS inside the historical SAR comparison.
@@ -508,7 +507,7 @@
     const visiblePoints=points.filter(f=>checkboxEnabled(f.properties.is_priority_voi?'vessel_positions':'neutral_tanker_context'));
     const visibleLines=lines.filter(f=>checkboxEnabled(f.properties.is_priority_voi?'vessel_positions':'neutral_tanker_context'));
     for(const feature of visiblePoints.slice(0,25)){
-      const p=feature.properties,button=document.createElement('button');button.className='vesselListItem';button.style.borderLeftColor=VM.SOURCES[VM.source(p)].color;button.textContent=`AIS: ${p.name||p.imo||p.mmsi||'Identity unknown'} · ${VM.sourceLabel(p)} · ${VM.age(p)}`;
+      const p=feature.properties,button=document.createElement('button'),view=VC.describe(p,state.categoryIndex);button.className='vesselListItem';button.style.borderLeftColor=view.primary.color;button.textContent=`AIS: ${p.name||p.imo||p.mmsi||'Identity unknown'} · ${view.primary.label} · ${VM.age(p)}`;
       button.addEventListener('click',()=>{for(const id of ['vessel_positions','neutral_tanker_context'])state.layers[id]?.eachLayer?.(layer=>{if(layer.feature?.geometry?.type==='Point'&&layer.feature.properties.timeline_role!=='historical_point'&&layer.feature.properties.vessel_identity===p.vessel_identity){state.map.setView([feature.geometry.coordinates[1],feature.geometry.coordinates[0]],9);layer.openPopup();}});});$('vesselList').append(button);
     }
     $('trackStatus').textContent=`${visiblePoints.length} visible vessels · ${visibleLines.length} visible track segments · ${gaps} broken connections in available history. Lines connect observations; data gaps remain open.${displayCap?" Display limited to 3,000 track segments/points. Select one vessel.":""}`;
@@ -652,6 +651,7 @@
     fetchJson('./assets/sar-basemap.geojson').then(data=>{L.geoJSON(data,{pane:'tilePane',interactive:false,style:{color:'#536776',weight:1,fillColor:'#263c49',fillOpacity:1}}).addTo(state.map);state.map.attributionControl.addAttribution('Natural Earth · orientation only, not a nautical chart');}).catch(()=>console.warn('Coastline overview unavailable'));
     state.map.fitBounds(MAP_BOUNDS);
     L.control.scale({imperial:false,nautical:true}).addTo(state.map);
+    for(const category of VC.DEFINITIONS){const row=document.createElement('div'),dot=document.createElement('span');dot.className='dot';dot.style.background=category.color;row.append(dot,document.createTextNode(category.label));$('vesselCategoryLegend').append(row);}
     state.localProjects=globalThis.LocalVesselProjects?.attach(state.map,{
       getWorkflowRows:()=>[...scopedRows(),...(state.trackRows||[]),...(state.data.ais_contacts?.features||[]).filter(f=>f.geometry?.type==='Point').map(f=>({...f.properties,longitude:f.geometry.coordinates[0],latitude:f.geometry.coordinates[1]}))].filter(visibleSource),
       getHours:()=>TIME_HOURS[state.timeMode]||336,
@@ -696,6 +696,9 @@
     await loadDynamicData();
     await applyTimeMode("latest");
     await Promise.all([loadSummary(),loadDownloads()]);
+    $('categoryHistoryStatus').textContent='Loading available voyage-text history; categories initially use loaded records.';
+    try{state.trackRows=await loadVoiHistory();renderVesselView();$('categoryHistoryStatus').textContent='Voyage context uses available retained observations; coverage is sampled and may contain gaps.';}
+    catch{$('categoryHistoryStatus').textContent='Voyage history unavailable; categories use loaded records. This is not evidence of no earlier Russia reference.';}
   }
 
   init().catch(error => {

@@ -137,6 +137,10 @@
     for(const key of ['position_timestamp_basis','upstream_source'])if(row[key]!=null)p[key]=clean(row[key]);
     if(typeof row.position_is_exact==='boolean')p.position_is_exact=row.position_is_exact;
     if(row.identity_conflict===true)p.identity_conflict=true;
+    // Keep display evidence in the local file; no generated/shared product is changed.
+    for(const key of ['sanctioned','shadow_fleet','false_flag','false_flag_candidate','false_flag_hard_watch','known_voi_match','behavioral_voi','neutral_tanker_context','sanctions_listed_historical','to_russia_declared','from_russia_confirmed','recent_russian_portcall_confirmed_10d','recent_russian_portcall_unconfirmed_10d'])if(typeof row[key]==='boolean')p[key]=row[key];
+    if(Array.isArray(row.categories))p.categories=row.categories.slice(0,20).map(clean);
+    for(const key of ['destination','last_port_name','last_port_unlocode','last_ru_port','last_ru_port_unlocode','last_ru_port_date','port_codes_seen','source_list','source_status','source_last_checked','sanctions_verification_status','recent_ru_portcall_confidence','recent_ru_portcall_basis','recent_ru_portcall_started_at','recent_ru_portcall_until'])if(row[key]!=null)p[key]=clean(row[key]);
     return p;
   }
   function withWorkflowContext(project,workflow,options={}){
