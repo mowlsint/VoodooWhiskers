@@ -1,0 +1,431 @@
+{
+  "schema": "VOODOO_AIRCRAFT_REGISTRY_CANDIDATES_V1",
+  "status": "research_seed_not_operational_watchlist",
+  "updated_at": "2026-11-16",
+  "complete": false,
+  "identity_mapping_required_before_collection": true,
+  "sources": {
+    "NL_COASTGUARD": {
+      "url": "https://kustwacht.nl/eenheden/kustwachtvliegtuig/",
+      "description": "Official agency page identifies PH-CGD and PH-CGE and the contracted maritime surveillance role."
+    },
+    "BE_MUMM": {
+      "url": "https://www.naturalsciences.be/de/wissenschaft/archives/2023/30-years-of-belgian-north-sea-aerial-surveillance",
+      "description": "Institute page identifies OO-MMM and marine pollution surveillance; current registration/operator status still needs a fresh registry cross-check."
+    },
+    "BE_MUMM_RECENT": {
+      "url": "https://www.naturalsciences.be/en/science/news/north-sea-aerial-surveillance-in-2025",
+      "description": "Recent programme activity, not a live transponder identity mapping."
+    },
+    "UK_NPAS": {
+      "url": "https://www.npas.police.uk/news/arrival-first-two-new-npas-aircraft-marks-start-fleet-modernisation",
+      "description": "Official page identifies G-NPAA and G-NPAS in a training/modification programme; do not label them operational patrol aircraft automatically."
+    },
+    "SE_COASTGUARD": {
+      "url": "https://www.kustbevakningen.se/om-oss/fartyg-flyg-och-andra-enheter/501-503-serien/",
+      "description": "Official maritime patrol fleet role; KBV numbers are not assumed to be civil registrations or ICAO24 identifiers."
+    },
+    "SE_SAR": {
+      "url": "https://www-n.sjofartsverket.se/en/search-and-rescue/helicopter-operations/",
+      "description": "Swedish Maritime Administration maritime and aeronautical rescue helicopter role."
+    },
+    "NO_AIR_FORCE": {
+      "url": "https://www.forsvaret.no/en/organisation/air-force",
+      "description": "Official military and SAR operator context. Older equipment descriptions require current airframe verification."
+    },
+    "FI_BORDER_GUARD": {
+      "url": "https://valtioneuvosto.fi/en/-/44957406/sierra-nevada-corporation-to-deliver-finnish-border-guard-s-new-aircraft",
+      "description": "Official programme replacing Dornier aircraft with Challenger 650 aircraft. Planned service dates are not evidence of actual operational entry."
+    },
+    "DE_OIL": {
+      "url": "https://www.bundeswehr.de/de/organisation/ausruestung-baainbw/aktuelles/erstes-oelaufklaerungsflugzeug-do-de-228-lm-modernisiert-5447426",
+      "description": "Official maritime pollution surveillance role, not a live ICAO24 mapping."
+    },
+    "EMSA_RPAS": {
+      "url": "https://www.emsa.europa.eu/we-do/surveillance/rpas.html",
+      "description": "Official RPAS maritime surveillance, pollution and emissions monitoring role. ADS-B visibility must be checked per aircraft."
+    },
+    "EMSA_DEPLOYMENT": {
+      "url": "https://emsa.europa.eu/newsroom/press-releases/item/5209-emsa-rpas-deployment-in-the-north-sea-with-the-royal-danish-navy.html",
+      "description": "Dated 2024 contractor deployment evidence. Does not establish a current deployment or that every contractor aircraft serves EMSA."
+    },
+    "NATO_AWACS": {
+      "url": "https://nato.int/en/what-we-do/deterrence-and-defence/awacs-natos-eyes-in-the-sky",
+      "description": "NATO-owned AWACS role, distinct from national aircraft operating under NATO command."
+    },
+    "NATO_RPAS": {
+      "url": "https://nisrf.nato.int/home/newsroom/news-2026/nisrf-supports-allied-maritime-operations-during-northern-viking-2026.aspx",
+      "description": "Official NATO RQ-4D maritime exercise role in 2026; no inferred current mission."
+    },
+    "NL_SAR": {
+      "url": "https://www.bristowgroup.com/services/netherlands-search-and-rescue",
+      "description": "Operator page establishes contracted Netherlands Coastguard SAR service."
+    },
+    "HELISERVICE": {
+      "url": "https://jobs.heliservice.de/de",
+      "description": "Operator's own description of wind-farm/vessel transport. Does not establish an authority or rescue mission for an individual flight."
+    }
+  },
+  "operator_profiles": [
+    {
+      "id": "de_oil_surveillance",
+      "name": "German maritime pollution surveillance",
+      "country_codes": [
+        "DE"
+      ],
+      "roles": [
+        "military_maritime_patrol",
+        "pollution_monitoring"
+      ],
+      "source_ids": [
+        "DE_OIL"
+      ],
+      "selection_ready": false,
+      "identity_mapping_complete": false,
+      "note": "Resolve current airframe identifiers from official/public registry evidence."
+    },
+    {
+      "id": "nl_coastguard",
+      "name": "Netherlands Coastguard and contracted surveillance operator",
+      "country_codes": [
+        "NL"
+      ],
+      "roles": [
+        "coast_guard",
+        "customs_border_guard",
+        "pollution_monitoring"
+      ],
+      "source_ids": [
+        "NL_COASTGUARD"
+      ],
+      "selection_ready": false,
+      "identity_mapping_complete": false,
+      "note": "Preserve aircraft owner, operator and commissioning authority as separate fields."
+    },
+    {
+      "id": "be_mumm",
+      "name": "Belgian Coast Guard / Institute of Natural Sciences",
+      "country_codes": [
+        "BE"
+      ],
+      "roles": [
+        "coast_guard",
+        "pollution_monitoring",
+        "emissions_monitoring"
+      ],
+      "source_ids": [
+        "BE_MUMM",
+        "BE_MUMM_RECENT"
+      ],
+      "selection_ready": false,
+      "identity_mapping_complete": false,
+      "note": "Refresh registration validity before automatic inclusion."
+    },
+    {
+      "id": "uk_npas",
+      "name": "National Police Air Service",
+      "country_codes": [
+        "GB"
+      ],
+      "roles": [
+        "police"
+      ],
+      "source_ids": [
+        "UK_NPAS"
+      ],
+      "selection_ready": false,
+      "identity_mapping_complete": false,
+      "note": "Training and modification airframes must not imply current police tasking."
+    },
+    {
+      "id": "se_coastguard",
+      "name": "Swedish Coast Guard",
+      "country_codes": [
+        "SE"
+      ],
+      "roles": [
+        "coast_guard",
+        "pollution_monitoring"
+      ],
+      "source_ids": [
+        "SE_COASTGUARD"
+      ],
+      "selection_ready": false,
+      "identity_mapping_complete": false,
+      "note": "Resolve registration/ICAO24; do not use KBV fleet numbers as transponder identifiers."
+    },
+    {
+      "id": "se_sar",
+      "name": "Swedish Maritime Administration",
+      "country_codes": [
+        "SE"
+      ],
+      "roles": [
+        "search_and_rescue"
+      ],
+      "source_ids": [
+        "SE_SAR"
+      ],
+      "selection_ready": false,
+      "identity_mapping_complete": false,
+      "note": "Maritime proximity supplies context; operator role does not prove an active rescue."
+    },
+    {
+      "id": "no_air_force",
+      "name": "Royal Norwegian Air Force",
+      "country_codes": [
+        "NO"
+      ],
+      "roles": [
+        "military_maritime_patrol",
+        "military_other",
+        "search_and_rescue"
+      ],
+      "source_ids": [
+        "NO_AIR_FORCE"
+      ],
+      "selection_ready": false,
+      "identity_mapping_complete": false,
+      "note": "Verify current airframe service status; do not copy obsolete type inventories."
+    },
+    {
+      "id": "fi_border_guard",
+      "name": "Finnish Border Guard",
+      "country_codes": [
+        "FI"
+      ],
+      "roles": [
+        "coast_guard",
+        "customs_border_guard",
+        "search_and_rescue"
+      ],
+      "source_ids": [
+        "FI_BORDER_GUARD"
+      ],
+      "selection_ready": false,
+      "identity_mapping_complete": false,
+      "note": "Check Dornier/Challenger transition against current registry evidence."
+    },
+    {
+      "id": "emsa_rpas",
+      "name": "EMSA RPAS and specifically documented contractor airframes",
+      "country_codes": [],
+      "roles": [
+        "rpas",
+        "pollution_monitoring",
+        "emissions_monitoring",
+        "coast_guard"
+      ],
+      "source_ids": [
+        "EMSA_RPAS",
+        "EMSA_DEPLOYMENT"
+      ],
+      "selection_ready": false,
+      "identity_mapping_complete": false,
+      "note": "Time-bound contracts/deployments; never label every Schiebel or contractor aircraft as EMSA."
+    },
+    {
+      "id": "nato_awacs",
+      "name": "NATO-owned AWACS",
+      "country_codes": [],
+      "roles": [
+        "nato_owned",
+        "military_isr"
+      ],
+      "source_ids": [
+        "NATO_AWACS"
+      ],
+      "selection_ready": false,
+      "identity_mapping_complete": false,
+      "note": "Keep NATO ownership distinct from national allied airframes."
+    },
+    {
+      "id": "nato_rpas",
+      "name": "NATO ISR Force RPAS",
+      "country_codes": [],
+      "roles": [
+        "nato_owned",
+        "rpas",
+        "military_isr"
+      ],
+      "source_ids": [
+        "NATO_RPAS"
+      ],
+      "selection_ready": false,
+      "identity_mapping_complete": false,
+      "note": "Public broadcast availability and current identity need individual checks."
+    },
+    {
+      "id": "nl_sar",
+      "name": "Bristow Netherlands Coastguard SAR",
+      "country_codes": [
+        "NL"
+      ],
+      "roles": [
+        "search_and_rescue"
+      ],
+      "source_ids": [
+        "NL_SAR"
+      ],
+      "selection_ready": false,
+      "identity_mapping_complete": false,
+      "note": "Resolve contracted SAR airframes individually."
+    },
+    {
+      "id": "offshore_transport",
+      "name": "HeliService offshore transport",
+      "country_codes": [
+        "DE",
+        "GB"
+      ],
+      "roles": [
+        "offshore_transport"
+      ],
+      "source_ids": [
+        "HELISERVICE"
+      ],
+      "selection_ready": false,
+      "identity_mapping_complete": false,
+      "note": "Optional civil context, disabled by default; no automatic authority/suspicion label."
+    }
+  ],
+  "airframe_candidates": [
+    {
+      "id": "nl_ph_cgd",
+      "registration": "PH-CGD",
+      "icao24": null,
+      "profile_id": "nl_coastguard",
+      "source_ids": [
+        "NL_COASTGUARD"
+      ],
+      "identity_mapping_status": "unresolved",
+      "current_readiness": "not_established",
+      "automatic_selection": false,
+      "last_identity_verified_at": null
+    },
+    {
+      "id": "nl_ph_cge",
+      "registration": "PH-CGE",
+      "icao24": null,
+      "profile_id": "nl_coastguard",
+      "source_ids": [
+        "NL_COASTGUARD"
+      ],
+      "identity_mapping_status": "unresolved",
+      "current_readiness": "not_established",
+      "automatic_selection": false,
+      "last_identity_verified_at": null
+    },
+    {
+      "id": "be_oo_mmm",
+      "registration": "OO-MMM",
+      "icao24": null,
+      "profile_id": "be_mumm",
+      "source_ids": [
+        "BE_MUMM",
+        "BE_MUMM_RECENT"
+      ],
+      "identity_mapping_status": "unresolved",
+      "current_readiness": "not_established",
+      "automatic_selection": false,
+      "last_identity_verified_at": null
+    },
+    {
+      "id": "uk_g_npaa",
+      "registration": "G-NPAA",
+      "icao24": null,
+      "profile_id": "uk_npas",
+      "source_ids": [
+        "UK_NPAS"
+      ],
+      "identity_mapping_status": "unresolved",
+      "current_readiness": "training_or_modification_programme",
+      "automatic_selection": false,
+      "last_identity_verified_at": null
+    },
+    {
+      "id": "uk_g_npas",
+      "registration": "G-NPAS",
+      "icao24": null,
+      "profile_id": "uk_npas",
+      "source_ids": [
+        "UK_NPAS"
+      ],
+      "identity_mapping_status": "unresolved",
+      "current_readiness": "training_or_modification_programme",
+      "automatic_selection": false,
+      "last_identity_verified_at": null
+    }
+  ],
+  "required_airframe_fields": [
+    "icao24",
+    "registration",
+    "operator",
+    "commissioning_authority",
+    "country",
+    "roles",
+    "identity_source_url",
+    "role_source_url",
+    "valid_from",
+    "valid_until_or_review_after",
+    "last_verified_at",
+    "verification_status"
+  ],
+  "coverage_backlog": [
+    {
+      "scope": "All core countries",
+      "tasks": [
+        "national police and coastal police aviation",
+        "coastguard/customs/border guard",
+        "maritime patrol and military reconnaissance",
+        "maritime rescue and relevant HEMS"
+      ]
+    },
+    {
+      "scope": "NATO and visiting allied states",
+      "tasks": [
+        "NATO-owned aircraft",
+        "national allied aircraft, including US and Canada, in selected maritime regions",
+        "military helicopters and relevant support aircraft without presuming mission intent"
+      ]
+    },
+    {
+      "scope": "Russian and other foreign-state aircraft",
+      "tasks": [
+        "individually verified state/military identities in selected regions",
+        "do not select or infer military status from nationality alone"
+      ]
+    },
+    {
+      "scope": "EMSA and Frontex",
+      "tasks": [
+        "contracted airframes and validity dates",
+        "RPAS broadcast/coverage validation",
+        "distinguish deploying agency from private owner/operator"
+      ]
+    },
+    {
+      "scope": "Environmental monitoring",
+      "tasks": [
+        "oil-spill surveillance",
+        "ship-emissions/sniffer aircraft",
+        "national and contracted fleets beyond the initial DE/NL/BE profiles"
+      ]
+    },
+    {
+      "scope": "Offshore helicopters",
+      "tasks": [
+        "dedicated offshore SAR",
+        "selected platform/wind-farm support airframes",
+        "keep routine transport separate from government and rescue activity"
+      ]
+    },
+    {
+      "scope": "Black Sea and configured chokepoints",
+      "tasks": [
+        "regional authority and military registers",
+        "apply region-specific activation and source-coverage checks"
+      ]
+    }
+  ]
+}
