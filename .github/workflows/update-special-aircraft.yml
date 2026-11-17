@@ -1,0 +1,43 @@
+name: Update special aircraft context
+
+on:
+  schedule:
+    # Owner-approved nominal ten-minute sampling, offset from AIS collection starts.
+    - cron: '7,17,27,37,47,57 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: voodoo-special-aircraft-main
+  cancel-in-progress: false
+
+jobs:
+  aircraft-context:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1, Node 24
+        with:
+          ref: main
+          fetch-depth: 1
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0, Node 24
+        with:
+          python-version: '3.11'
+      - name: Validate aircraft configuration without provider calls
+        run: python scripts/collect_special_aircraft.py
+      - name: Sample selected aircraft and enforce retention and storage limits
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python scripts/collect_special_aircraft.py --fetch
+      - name: Publish aircraft files only
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          python scripts/publish_special_aircraft.py

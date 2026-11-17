@@ -6,11 +6,11 @@ Aircraft have a dedicated aircraft-symbol marker and a separate result list. Pop
 
 ## Current availability
 
-This PR supplies the presentation consumer, static registry and offline checks. The curated selection is maintained in `config/special_aircraft_registry.json`; see `docs/research/SPECIAL_AIRCRAFT_REGISTRY_REVIEW_20261117.md` for evidence, selection decisions and remaining coverage gaps. An aircraft's `enabled: true` means selected for the future collector. It does not start collection or establish a current mission. There is no provisional-assignment display tier.
+The presentation uses the curated selection in `config/special_aircraft_registry.json`; see `docs/research/SPECIAL_AIRCRAFT_REGISTRY_REVIEW_20261117.md` for evidence, selection decisions and remaining coverage gaps. An aircraft's `enabled: true` selects it; the registry's separate top-level `collection_enabled` switch controls the scheduled collector. Neither flag establishes a current mission. There is no provisional-assignment display tier.
 
-No production position dataset or collector is included. Source/API retrieval, publication terms and measured collection/storage budgets remain to be validated. With no generated aircraft file, the enabled control reports unavailable data rather than a healthy zero result. Do not publish a synthetic empty file to conceal missing collection.
+The isolated collector/workflow is documented in `SPECIAL_AIRCRAFT_WORKFLOW.md`. It is scheduled only after owner merge onto main, with at most two list-based API batches, explicit source states, retention and both working-set/Git-growth budgets. No generated position file is included in the source PR. Before the first scheduled publication, the enabled control reports unavailable data rather than a healthy zero result. Do not publish a synthetic empty file to conceal missing collection.
 
-The planned producer contract below is new and isolated; existing vessel, SAR, manifest and Magic Paws schemas are unchanged. A later collector must be reviewed and tested against this consumer before aircraft collection is described as integrated.
+The producer contract below is isolated; existing vessel, SAR, manifest and Magic Paws schemas are unchanged. Local fixture/live API tests cover producer-to-consumer compatibility; a successful GitHub-hosted scheduled run still needs observation after merge.
 
 ## Consumer contract
 
@@ -35,6 +35,8 @@ Supported roles extend the earlier planning vocabulary: `police`, `coast_guard`,
 Optional display fields: `registration`, `callsign`, `aircraft_type`, `operator`, `commissioning_authority`, `country`, `source`, `position_source`, `position_timestamp_basis`, `identity_source_url`, `role_source_url`, `identity_verified_at` (legacy field name, labelled Registry reviewed), `identity_review_note` (English), numeric `altitude_ft`, `ground_speed_kn` and `track_deg`. External strings are inserted as text, including evidence URLs. No external aircraft-lookup request is made. The static registry and its research notes are not automatically fetched by the dashboard.
 
 Every pop-up says: “Independently verify whether this is an authority or military aircraft and what its flight activity or flight pattern represents.” It also identifies the possible inclusion of specialist civil aircraft and explains the limits of sampled positions. This notice does not replace exclusion of known identity contradictions or invalid positions.
+
+Pop-ups also offer a Flightradar24 registration/serial history link or manual search fallback, and an adsb.lol trace link for the observation's UTC day/ICAO24. Seven-day FR24 history, longer-plan limits and incomplete military coverage are explained in English. Opening a link is a user action; no external history lookup happens on layer enable. adsb.lol positions show ODbL attribution.
 
 ## Time and analytical limits
 
