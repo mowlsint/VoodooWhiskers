@@ -15,7 +15,7 @@
     timeMode:"latest",
     historyRows:null,
     historyPromise:null,
-    dynamicReady:false, selectedIdentity:null, trackRows:null, gfwEvents:null, gfwGrid:null, categoryIndex:null
+    dynamicReady:false, selectedIdentity:null, trackRows:null, gfwEvents:null, gfwGrid:null, categoryIndex:null, aircraft:null
   };
 
   const paths = {
@@ -476,6 +476,7 @@
     const allFeatures=[...(state.data.vessel_positions?.features||[]),...(state.data.ais_contacts?.features||[]),...(state.data.neutral_tanker_context?.features||[])];
     state.categoryIndex=VC.index([...allFeatures.filter(f=>f.geometry?.type==='Point').map(f=>({...f.properties,longitude:f.geometry.coordinates[0],latitude:f.geometry.coordinates[1]})),...(state.trackRows||[])]);
     state.traffic?.render();
+    state.aircraft?.render();
     state.localProjects?.refresh();
     // Source/search controls must not re-enable current AIS inside the historical SAR comparison.
     if($('sarDetectionsToggle')?.checked){$('trackStatus').textContent='Historical SAR comparison is active; current AIS layers remain hidden.';return;}
@@ -648,6 +649,7 @@
   async function init(){
     state.map = L.map("map",{zoomControl:true,minZoom:3,maxZoom:18,worldCopyJump:true});
     state.traffic = globalThis.TrafficContext.attach(state.map,()=>({timeMode:state.timeMode,monitoredRows:scopedRows()}));
+    state.aircraft=globalThis.SpecialAircraft.attach(state.map,()=>({mode:state.timeMode,hours:TIME_HOURS[state.timeMode]||336,isSar:Boolean($('sarDetectionsToggle')?.checked)}));
     fetchJson('./assets/sar-basemap.geojson').then(data=>{L.geoJSON(data,{pane:'tilePane',interactive:false,style:{color:'#536776',weight:1,fillColor:'#263c49',fillOpacity:1}}).addTo(state.map);state.map.attributionControl.addAttribution('Natural Earth · orientation only, not a nautical chart');}).catch(()=>console.warn('Coastline overview unavailable'));
     state.map.fitBounds(MAP_BOUNDS);
     L.control.scale({imperial:false,nautical:true}).addTo(state.map);
@@ -688,7 +690,7 @@
     $('sarDetectionsToggle')?.addEventListener('change',()=>setTimeout(renderVesselView,0));
     $('vesselSearch').addEventListener('input',renderVesselView);
     $('showInfrastructure').addEventListener('change',()=>['telecom_cables','power_cables','cable_landings','pipelines','wind_farms','offshore_energy'].forEach(syncLayerVisibility));
-    $('resetOverview').addEventListener('click',()=>{state.selectedIdentity=null;$('showTrafficContext').checked=false;$('showTracks').checked=false;$('vesselSearch').value='';$('showInfrastructure').checked=false;$('showInfrastructure').dispatchEvent(new Event('change'));const sar=$('sarDetectionsToggle');if(sar?.checked){sar.checked=false;sar.dispatchEvent(new Event('change'));}document.querySelectorAll('[data-source]').forEach(input=>input.checked=true);document.querySelectorAll('input[data-layer]').forEach(input=>{if(isVesselLayer(input.dataset.layer)||['gfw_loitering','gfw_presence','infrastructure_events'].includes(input.dataset.layer)){input.checked=input.dataset.layer==='vessel_positions';syncLayerVisibility(input.dataset.layer);}});applyTimeMode('latest');});
+    $('resetOverview').addEventListener('click',()=>{state.selectedIdentity=null;$('showTrafficContext').checked=false;$('showSpecialAircraft').checked=false;$('showOffshoreAircraft').checked=false;$('showTracks').checked=false;$('vesselSearch').value='';$('showInfrastructure').checked=false;$('showInfrastructure').dispatchEvent(new Event('change'));const sar=$('sarDetectionsToggle');if(sar?.checked){sar.checked=false;sar.dispatchEvent(new Event('change'));}document.querySelectorAll('[data-source]').forEach(input=>input.checked=true);document.querySelectorAll('input[data-layer]').forEach(input=>{if(isVesselLayer(input.dataset.layer)||['gfw_loitering','gfw_presence','infrastructure_events'].includes(input.dataset.layer)){input.checked=input.dataset.layer==='vessel_positions';syncLayerVisibility(input.dataset.layer);}});applyTimeMode('latest');});
     document.querySelectorAll('[data-source]').forEach(input=>input.addEventListener('change',renderVesselView));
     $('showTracks').addEventListener('change',()=>applyTimeMode(state.timeMode));
     $('clearTrack').addEventListener('click',()=>{state.selectedIdentity=null;renderVesselView();});
@@ -706,4 +708,5 @@
     $("dataStatus").textContent = "Initialisation failed";
   });
 })();
+
 
