@@ -4,6 +4,14 @@ const A=require('../public/assets/special-aircraft.js');
 const now=Date.parse('2026-11-17T06:00:00Z');
 const row=(hours=0,extra={})=>({icao24:'abc123',latitude:55,longitude:10,observed_at:new Date(now-hours*3600000).toISOString(),selection_status:'verified_registry',position_timestamp_valid:true,roles:['police'],...extra});
 const pack=(items=[],extra={})=>({kind:'selected_aircraft_context',schema_version:'1.0.0',context_only:true,coverage_complete:false,status:'fresh',generated_at:new Date(now).toISOString(),items,...extra});
+test('research links use registration and the observed UTC day; untrusted URLs cannot enter hrefs',()=>{
+ const links=A.researchLinks({registration:'D-HVBA',icao24:'3e0a2e',observed_at:'2026-11-16T23:59:00Z'});
+ assert.equal(links[0].href,'https://www.flightradar24.com/data/aircraft/d-hvba');
+ assert.equal(links[1].href,'https://globe.adsb.lol/?icao=3e0a2e&showTrace=2026-11-16');
+ assert.match(A.researchLinks({registration:'63+01'})[0].href,/63%2B01$/);
+ const bad=A.researchLinks({registration:'javascript:alert(1)',icao24:'abc123&evil=1',observed_at:'invalid'});
+ assert.equal(bad.length,1);assert.equal(bad[0].href,'https://www.flightradar24.com/data/aircraft');
+});
 test('only registry-selected, explicitly timed positions with a known role enter the aircraft view',()=>{
  const good=row(0,{roles:['police','rpas','unknown','police']});
  const raw=pack([good,row(0,{icao24:'~abc123'}),row(0,{selection_status:'candidate'}),row(0,{position_timestamp_valid:false}),row(0,{latitude:null}),row(0,{longitude:Infinity}),row(0,{roles:['unknown']}),row(0,{identity_conflict:true})]);
@@ -28,6 +36,7 @@ test('routine offshore transport is optional civil context; offshore rescue rema
  assert.equal(A.visible(p,{now}).length,1);assert.equal(A.visible(p,{now,includeOffshore:true}).length,2);assert.equal(A.colour(p.items[0]),'#a5b2bd');assert.notEqual(A.colour(p.items[1]),'#a5b2bd');
 });
 test('valid zero, partial, stale, missing and error products remain distinct',()=>{
+ assert.equal(A.decode(pack([],{status:'error',collection_code:'daily_version_budget'}),now).collection_code,'daily_version_budget');
  for(const state of ['valid_zero','partial','stale','unavailable','error'])assert.equal(A.decode(pack([],{status:state}),now).status,state);
  for(const state of ['unavailable','error'])assert.equal(A.visible(A.decode(pack([row()],{status:state}),now),{now}).length,0);
  assert.throws(()=>A.decode(pack([row()],{status:'valid_zero'}),now),/Zero-result/);assert.throws(()=>A.decode(null,now),/Invalid/);assert.throws(()=>A.decode(pack([],{coverage_complete:true}),now),/Invalid/);

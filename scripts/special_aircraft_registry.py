@@ -22,7 +22,7 @@ def validate_registry(registry):
             raise ValueError(message)
 
     require(registry.get('schema') == 'VOODOO_SPECIAL_AIRCRAFT_REGISTRY_V1', 'Unsupported registry schema')
-    require(registry.get('collection_enabled') is False, 'Registry must not activate collection')
+    require(type(registry.get('collection_enabled')) is bool, 'Collection switch must be boolean')
     require(registry.get('complete') is False, 'Registry must not claim complete coverage')
     policy = registry.get('selection_policy', {})
     require(policy.get('independent_user_verification_required') is True, 'Independent verification notice required')

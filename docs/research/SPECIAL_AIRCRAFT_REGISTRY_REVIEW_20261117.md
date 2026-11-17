@@ -1,5 +1,7 @@
 # Special aircraft registry review — 2026-11-17
 
+Implementation update: the selection review below records the registry-only stage. The later owner-authorized workflow now controls collection through the top-level registry switch; current operation, limits and activation are described in `docs/operations/SPECIAL_AIRCRAFT_WORKFLOW.md`. Individual selection/evidence decisions remain unchanged.
+
 The owner-approved selection now uses `enabled: true` for suitably evidenced authority, military or specialist maritime aircraft. A single published registration/ICAO24 mapping may suffice when it is consistent with the aircraft/operator context. A second database remains desirable, rather than a mandatory selection gate. Good role suitability does not supply a missing hex code. Callsign/type alone, known identity conflicts and obsolete registrations do not qualify.
 
 The map has one selected-aircraft tier, with an explicit independent-verification notice in every pop-up. It does not display a provisional-assignment label. Selection is a research decision, not official identity verification, proof of live ADS-B reception or current tasking. `collection_enabled` remains false. No Actions workflow, schedule, provider call, secret or permission is added or changed.

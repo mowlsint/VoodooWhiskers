@@ -1,0 +1,25 @@
+{
+  "schema": "VOODOO_AIRCRAFT_COLLECTION_V1",
+  "provider": "adsb.lol",
+  "poll_interval_seconds": 600,
+  "batch_size": 64,
+  "max_batches_per_poll": 2,
+  "retention_days": 14,
+  "max_total_bytes": 31457280,
+  "max_history_bytes": 28311552,
+  "max_latest_bytes": 1048576,
+  "max_registry_status_bytes": 1048576,
+  "max_staged_path_bytes_per_utc_day": 4194304,
+  "max_response_bytes": 2097152,
+  "max_position_age_seconds": 300,
+  "regions": [
+    {"name": "North Sea", "bbox": [-4, 50, 10, 62]},
+    {"name": "Baltic Sea", "bbox": [9, 53, 32, 66]},
+    {"name": "English Channel", "bbox": [-8, 48, 3, 52]},
+    {"name": "Adjoining North Atlantic", "bbox": [-35, 48, -4, 68]},
+    {"name": "Nordic seas", "bbox": [-20, 60, 35, 80]},
+    {"name": "Black Sea", "bbox": [27, 40, 42, 48]},
+    {"name": "Strait of Hormuz context", "bbox": [48, 22, 60, 29]}
+  ],
+  "note": "Broad context boxes include land and coastal approaches; a point in a box does not establish maritime tasking. No discovery, military-wide query, trace download or paid API."
+}

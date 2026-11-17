@@ -87,8 +87,8 @@ class RegistryTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'boolean'):
             REGISTRY.validate_registry(data)
         data = copy.deepcopy(self.data)
-        data['collection_enabled'] = True
-        with self.assertRaisesRegex(ValueError, 'activate collection'):
+        data['collection_enabled'] = 'true'
+        with self.assertRaisesRegex(ValueError, 'Collection switch'):
             REGISTRY.validate_registry(data)
 
     def test_oversize_registry_is_rejected_before_json_decode(self):
