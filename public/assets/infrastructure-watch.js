@@ -583,7 +583,7 @@
     const shown=events.slice(0,200);$('loiteringList').replaceChildren();
     for(const {event:e,context:c} of shown){
       const point=e.position,vessel=e.vessel||{},label=vessel.name||c.mmsi||'Identity not published',duration=(Date.parse(e.end)-Date.parse(e.start))/3600000;
-      const sar='./sar.html#event='+encodeURIComponent(JSON.stringify(c)),vf=VM.vesselFinder({imo:c.imo,mmsi:c.mmsi});
+      const request='./sar.html#event='+encodeURIComponent(JSON.stringify(c)),sar=globalThis.SatelliteImages?.workbenchUrl(request)||request,vf=VM.vesselFinder({imo:c.imo,mmsi:c.mmsi});
       const html=`<div class="popupTitle">GFW Loitering · ${esc(label)}</div><div class="popupMeta"><b>MMSI / GFW-ID</b><span>${esc(c.mmsi||vessel.id||'unavailable')}</span><b>Start UTC</b><span>${esc(e.start)}</span><b>End UTC</b><span>${esc(e.end)}</span><b>Duration</b><span>${duration.toFixed(1)} h</span><b>Source</b><span>Global Fishing Watch · historical</span></div><p>Provider-reported event; reference position rather than a complete track. Loitering does not establish unlawful activity.</p><a href="${esc(sar)}" target="_blank" rel="noopener noreferrer">Search SAR acquisitions for this period ↗</a>${vf?`<p><a href="${esc(vf)}" target="_blank" rel="noopener noreferrer">VesselFinder ↗</a></p>`:''}${c.period_clipped?'<p>Search period limited to the available last 14 days.</p>':''}`;
       const marker=L.circleMarker([point.lat,point.lon],{radius:9,color:'#c8a1ff',weight:3,fillColor:'#c8a1ff',fillOpacity:.12}).bindPopup(html,{maxWidth:420}).addTo(layers);
       if($('loiteringList').children.length<20){const button=document.createElement('button');button.className='loiteringItem';button.textContent=`${label} · ${e.start.slice(0,16).replace('T',' ')} UTC · ${duration.toFixed(1)} h`;button.addEventListener('click',()=>{state.map.setView([point.lat,point.lon],10);marker.openPopup();});$('loiteringList').append(button);}
@@ -650,6 +650,7 @@
     state.map = L.map("map",{zoomControl:true,minZoom:3,maxZoom:18,worldCopyJump:true});
     state.traffic = globalThis.TrafficContext.attach(state.map,()=>({timeMode:state.timeMode,monitoredRows:scopedRows()}));
     state.aircraft=globalThis.SpecialAircraft.attach(state.map,()=>({mode:state.timeMode,hours:TIME_HOURS[state.timeMode]||336,isSar:Boolean($('sarDetectionsToggle')?.checked)}));
+    try{state.satellite=globalThis.SatelliteImages?.attach(state.map);}catch{const status=$('satelliteStatus');if(status)status.textContent='Satellite controls unavailable. Vessel data remain usable; reload or use the SAR workbench.';}
     fetchJson('./assets/sar-basemap.geojson').then(data=>{L.geoJSON(data,{pane:'tilePane',interactive:false,style:{color:'#536776',weight:1,fillColor:'#263c49',fillOpacity:1}}).addTo(state.map);state.map.attributionControl.addAttribution('Natural Earth · orientation only, not a nautical chart');}).catch(()=>console.warn('Coastline overview unavailable'));
     state.map.fitBounds(MAP_BOUNDS);
     L.control.scale({imperial:false,nautical:true}).addTo(state.map);
@@ -690,7 +691,7 @@
     $('sarDetectionsToggle')?.addEventListener('change',()=>setTimeout(renderVesselView,0));
     $('vesselSearch').addEventListener('input',renderVesselView);
     $('showInfrastructure').addEventListener('change',()=>['telecom_cables','power_cables','cable_landings','pipelines','wind_farms','offshore_energy'].forEach(syncLayerVisibility));
-    $('resetOverview').addEventListener('click',()=>{state.selectedIdentity=null;$('showTrafficContext').checked=false;$('showSpecialAircraft').checked=false;$('showOffshoreAircraft').checked=false;$('showTracks').checked=false;$('vesselSearch').value='';$('showInfrastructure').checked=false;$('showInfrastructure').dispatchEvent(new Event('change'));const sar=$('sarDetectionsToggle');if(sar?.checked){sar.checked=false;sar.dispatchEvent(new Event('change'));}document.querySelectorAll('[data-source]').forEach(input=>input.checked=true);document.querySelectorAll('input[data-layer]').forEach(input=>{if(isVesselLayer(input.dataset.layer)||['gfw_loitering','gfw_presence','infrastructure_events'].includes(input.dataset.layer)){input.checked=input.dataset.layer==='vessel_positions';syncLayerVisibility(input.dataset.layer);}});applyTimeMode('latest');});
+    $('resetOverview').addEventListener('click',()=>{state.satellite?.resetVisibility();state.selectedIdentity=null;$('showTrafficContext').checked=false;$('showSpecialAircraft').checked=false;$('showOffshoreAircraft').checked=false;$('showTracks').checked=false;$('vesselSearch').value='';$('showInfrastructure').checked=false;$('showInfrastructure').dispatchEvent(new Event('change'));const sar=$('sarDetectionsToggle');if(sar?.checked){sar.checked=false;sar.dispatchEvent(new Event('change'));}document.querySelectorAll('[data-source]').forEach(input=>input.checked=true);document.querySelectorAll('input[data-layer]').forEach(input=>{if(isVesselLayer(input.dataset.layer)||['gfw_loitering','gfw_presence','infrastructure_events'].includes(input.dataset.layer)){input.checked=input.dataset.layer==='vessel_positions';syncLayerVisibility(input.dataset.layer);}});applyTimeMode('latest');});
     document.querySelectorAll('[data-source]').forEach(input=>input.addEventListener('change',renderVesselView));
     $('showTracks').addEventListener('change',()=>applyTimeMode(state.timeMode));
     $('clearTrack').addEventListener('click',()=>{state.selectedIdentity=null;renderVesselView();});
@@ -708,5 +709,6 @@
     $("dataStatus").textContent = "Initialisation failed";
   });
 })();
+
 
 

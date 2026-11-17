@@ -7,13 +7,14 @@ const {JSDOM}=require(process.env.VOODOO_TEST_DOM_MODULE||'jsdom');
 const root=path.resolve(__dirname,'..');
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 async function until(fn){for(let n=0;n<100;n++){if(fn())return;await wait(10);}throw Error('DOM condition timed out');}
-async function boot(t,{offline=false,prepareRows=()=>{},aircraftResponse=null}={}){
+async function boot(t,{offline=false,prepareRows=()=>{},aircraftResponse=null,satelliteChannel=false}={}){
  const dom=new JSDOM(fs.readFileSync(path.join(root,'public/index.html'),'utf8'),{url:'https://voodoo.example/',runScripts:'outside-only',pretendToBeVisual:true});
  const w=dom.window,now=Date.now(),requests=[],errors=[],downloads=[];t.after(()=>w.close());
  w.Date.now=()=>now;w.TextEncoder=TextEncoder;w.TextDecoder=TextDecoder;w.Blob=Blob;w.CSS={escape:v=>v};w.confirm=()=>true;
  w.SVGSVGElement.prototype.createSVGRect=()=>({});
  w.URL.createObjectURL=b=>{downloads.push(b);return 'blob:local-test';};w.URL.revokeObjectURL=()=>{};
  w.HTMLAnchorElement.prototype.click=function(){};
+ const satelliteChannels=[];if(satelliteChannel)w.BroadcastChannel=class{constructor(name){this.name=name;this.messages=[];satelliteChannels.push(this);}postMessage(value){this.messages.push(value);}close(){this.closed=true;}};
  const point=(name,mmsi,hours,lon,priority=false)=>({name,mmsi,latitude:55,longitude:lon,observed_at:new Date(now-hours*3600000).toISOString(),source_provider:'openwaters',known_voi_match:priority,categories:priority?['watchlist']:[]});
  const fresh=point('Current ship','273123456',1,10,true),old=point('Older ship','273654321',48,11),background=point('Other received ship','273987654',2,9);
  prepareRows({fresh,old,background});
@@ -32,7 +33,7 @@ async function boot(t,{offline=false,prepareRows=()=>{},aircraftResponse=null}={
  w.console.error=(...args)=>errors.push(args.map(String).join(' '));
  w.console.warn=()=>{};
  let map;
- for(const asset of ['vendor/leaflet.js','sar-map-hook.js','vessel-model.js','vessel-categories.js','traffic-context.js','gfw-grid.js','local-project-core.js','local-project-ui.js','special-aircraft.js','infrastructure-watch.js']){
+ for(const asset of ['vendor/leaflet.js','sar-map-hook.js','vessel-model.js','vessel-categories.js','traffic-context.js','gfw-grid.js','local-project-core.js','local-project-ui.js','special-aircraft.js','satellite-images.js','infrastructure-watch.js']){
   if(asset==='sar-map-hook.js'){const original=w.L.map;w.L.map=function(...args){map=original(...args);return map;};}
   w.eval(fs.readFileSync(path.join(root,'public/assets',asset),'utf8'));
  }
@@ -42,7 +43,7 @@ async function boot(t,{offline=false,prepareRows=()=>{},aircraftResponse=null}={
  function fileInput(id,files){Object.defineProperty($(id),'files',{value:files,configurable:true});}
  function input(id,value){$(id).value=value;$(id).dispatchEvent(new w.Event('input',{bubbles:true}));}
  async function time(mode){w.document.querySelector(`[data-time-mode="${mode}"]`).click();await until(()=>$('timeStatus').textContent.startsWith(mode==='latest'?'Latest':mode));}
- return {w,now,$,input,fileInput,time,requests,errors,downloads,getMap:()=>map};
+ return {w,now,$,input,fileInput,time,requests,errors,downloads,satelliteChannels,getMap:()=>map};
 }
 test('dashboard search excludes 48-hour-old ships in 24 h and jumps to the point inside the chosen window',async t=>{
  const b=await boot(t);await b.time('24h');b.input('vesselSearch','Older ship');await wait(230);
@@ -54,6 +55,38 @@ test('dashboard search excludes 48-hour-old ships in 24 h and jumps to the point
  b.input('vesselSearch','Other received');assert.match(b.$('vesselList').textContent,/Other received ship/);
  b.$('vesselSearch').dispatchEvent(new b.w.KeyboardEvent('keydown',{key:'Enter'}));assert.ok(Math.abs(b.getMap().getCenter().lng-9)<.02);
  assert.deepEqual(b.errors,[]);
+});
+
+const satellitePng='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jN1sAAAAASUVORK5CYII=';
+const satelliteJob=(name='LOCAL_TEST')=>({state:'ready',request:{bbox:[11.9,54.5,12,54.6],area_name:'Test area <img onerror=alert(1)>'},scene:{scene_id:name,datetime:'2026-11-10T12:00:00Z'},images:{preview_is_derived:true,quicklook:satellitePng}});
+function receiveSatellite(b,job=satelliteJob()){
+ const id=b.w.crypto.randomUUID(),channel=b.satelliteChannels[0];channel.onmessage({data:{type:'offer',id}});channel.onmessage({data:{type:'image',id,image:b.w.SatelliteImages.normalizeImage(job)}});return channel;
+}
+test('SAR opens in a separate tab and the floating image controls do not request data on startup',async t=>{
+ const b=await boot(t);const links=[...b.w.document.querySelectorAll('a')].filter(a=>a.href.includes('/sar.html'));
+ assert.ok(links.length>=3);for(const a of links){assert.equal(a.target,'_blank');assert.ok(a.rel.includes('noopener'));assert.match(new URL(a.href).searchParams.get('satellite_session'),/^[a-f0-9-]{36}$/);}
+ assert.equal(b.$('satellitePanel').hidden,true);b.$('satelliteOpen').click();assert.equal(b.$('satellitePanel').hidden,false);assert.equal(b.$('satelliteOpen').getAttribute('aria-expanded'),'true');b.$('satelliteClose').click();assert.equal(b.$('satellitePanel').hidden,true);
+ assert.ok(!b.requests.some(r=>/workbench|satellite|image|crypto/.test(r.url)));assert.deepEqual(b.errors,[]);
+});
+test('received preview has independent footprint/image controls, opacity, safe metadata and local downloads',async t=>{
+ const b=await boot(t,{satelliteChannel:true}),baseline=b.requests.length;receiveSatellite(b);
+ const layers=()=>Object.values(b.getMap()._layers),foot=()=>layers().filter(l=>l.options?.satelliteFootprint),images=()=>layers().filter(l=>l.options?.satellitePreview);
+ assert.equal(b.$('satellitePanel').hidden,false);assert.equal(foot().length,1);assert.equal(images().length,0);assert.equal(b.$('satelliteSelect').options.length,1);assert.equal(b.$('satelliteDetails').querySelector('img'),null);assert.match(b.$('satelliteDetails').textContent,/<img/);
+ b.$('satelliteImage').checked=true;b.$('satelliteImage').dispatchEvent(new b.w.Event('change'));assert.equal(images().length,1);assert.equal(images()[0].getBounds().getSouthWest().lat,54.5);
+ b.$('satelliteFootprint').checked=false;b.$('satelliteFootprint').dispatchEvent(new b.w.Event('change'));assert.equal(foot().length,0);assert.equal(images().length,1);
+ b.input('satelliteOpacity','0.35');assert.equal(images()[0].options.opacity,.35);
+ b.$('satelliteDownload').click();b.$('satelliteGeojson').click();assert.equal(b.downloads.length,2);assert.equal(b.downloads[0].type,'image/png');assert.equal(JSON.parse(await b.downloads[1].text()).features[0].properties.raw_geotiff_available,false);
+ b.$('satelliteClose').click();assert.equal(images().length,1);b.$('satelliteOpen').click();b.$('resetOverview').click();assert.equal(images().length,0);assert.equal(foot().length,0);assert.equal(b.$('satelliteSelect').options.length,1);
+ b.input('vesselSearch','Current ship');assert.match(b.$('vesselList').textContent,/Current ship/);assert.equal(b.requests.length,baseline);assert.deepEqual(b.errors,[]);
+});
+test('clear/lock rejects a delayed handoff and invalid local files leave existing images intact',async t=>{
+ const b=await boot(t,{satelliteChannel:true});receiveSatellite(b);const channel=b.satelliteChannels[0],id=b.w.crypto.randomUUID();channel.onmessage({data:{type:'offer',id}});
+ b.$('satelliteClear').click();channel.onmessage({data:{type:'image',id,image:b.w.SatelliteImages.normalizeImage(satelliteJob())}});assert.equal(b.$('satelliteSelect').options.length,0);
+ receiveSatellite(b);b.fileInput('satelliteFile',[{size:25*1024*1024}]);b.$('satellitePassword').value='test-only-local-password';b.$('satelliteLoad').click();await until(()=>b.$('satelliteLoad').disabled===false);assert.match(b.$('satelliteStatus').textContent,/24 MiB/);assert.equal(b.$('satellitePassword').value,'');assert.equal(b.$('satelliteSelect').options.length,1);
+ b.$('satelliteRemove').click();assert.equal(b.$('satelliteControls').hidden,true);assert.equal(b.$('satelliteSelect').options.length,0);
+});
+test('the main map enforces a six-image memory limit without discarding loaded previews',async t=>{
+ const b=await boot(t,{satelliteChannel:true});for(let n=0;n<6;n++)receiveSatellite(b,satelliteJob('LOCAL_'+n));assert.equal(b.$('satelliteSelect').options.length,6);receiveSatellite(b,satelliteJob('LOCAL_7'));assert.equal(b.$('satelliteSelect').options.length,6);assert.match(b.$('satelliteStatus').textContent,/six images/);b.$('satelliteClear').click();assert.equal(b.$('satelliteSelect').options.length,0);
 });
 test('real map markers use category fill/ring across providers and pop-ups show every category and qualified Russia direction',async t=>{
  const b=await boot(t,{prepareRows:({fresh,background})=>{

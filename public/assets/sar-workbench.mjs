@@ -2,10 +2,12 @@ import {encryptObject,decryptObject,validatePassword} from './sar-crypto.mjs?v=2
 import {inspectBbox,bboxAroundPoint,normalizeScene,safeImage,stateText,STATES,eventFromHash} from './sar-workbench-core.mjs?v=20261111-areas';
 import {readWorkspaceFile} from './sar-import.mjs?v=20261110-en';
 import {createGitHubClient,WORKFLOW_URL} from './sar-github.mjs?v=20261111-direct';
+import './satellite-images.js?v=20261117-satellite';
 
 const $=id=>document.getElementById(id),RAW='https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/main/public/data/sar/workbench.enc.json';
 const state={password:'',workspace:{v:1,jobs:[],analysis_ledger:{}},scenes:[],selected:null,currentJob:null,currentCandidate:null,map:null,mapLayers:null,bounds:null,config:null,event:null,pendingRequest:null,trackedRequestId:null,run:null,pollTimer:null,pollCount:0,pollGeneration:0,pickingArea:false};
 const github=createGitHubClient();
+const imageSender=globalThis.SatelliteImages.createSender({onStatus:message=>status('main-map-status',message)});
 const ERRORS={EVENT_PERIOD_OUTSIDE_RETENTION:'The event period is outside the last fourteen days. Open the loitering event again.',EVENT_PERIOD_INVALID:'The event period is invalid.',COPERNICUS_CREDENTIALS_MISSING:'Copernicus credentials are missing from GitHub Secrets.',NO_SUITABLE_SCENE:'No suitable acquisition fully covers the area in the selected period.',DAILY_ANALYSIS_LIMIT:'Three new image analyses have already been requested today. Existing image context can still be checked.',REQUEST_EXPIRED:'The request is older than 24 hours. Create a new request.',REQUEST_ALREADY_COMPLETED:'This request has already been processed.',DANISH_ARCHIVE_UNAVAILABLE:'The Danish daily archive is not yet available.',LAND_MASK_CHECKSUM:'The land mask file has changed. Processing has stopped for review.',NO_OPEN_WATER_PIXELS:'Land and the coastal buffer cover the entire area. Choose an area farther offshore.',PilotError:'The Copernicus response or image quality failed validation. Check the credentials and try another acquisition.',RASTER_GEOREFERENCE_MISMATCH:'The radar image georeference does not match the requested area. The image was discarded.'};
 
 function element(tag,text,className){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e;}
@@ -68,6 +70,7 @@ async function unlock(event){
   finally{$('unlock-submit').disabled=false;}
 }
 function lock(){
+  imageSender.cancel();$('show-on-main-map').disabled=true;$('new-main-map').hidden=true;status('main-map-status','');
   stopPolling();github.disconnect();$('github-token').value='';$('github-connect').disabled=false;$('github-disconnect').hidden=true;$('latest-results').disabled=true;$('direct-start').disabled=true;$('github-run-panel').hidden=true;$('github-artifact-link').removeAttribute('href');$('github-run-link').removeAttribute('href');state.pendingRequest=null;state.trackedRequestId=null;state.run=null;cancelMapPick();status('github-status','Not connected. Manual GitHub steps remain available.');
   state.password='';state.workspace={v:1,jobs:[],analysis_ledger:{}};state.scenes=[];state.selected=null;state.currentJob=null;state.currentCandidate=null;
   state.map?.remove();state.map=null;state.mapLayers=null;state.bounds=null;
@@ -163,6 +166,7 @@ function renderJobs(preferred){
   renderJob();
 }
 function renderJob(){
+  imageSender.cancel();$('show-on-main-map').disabled=true;$('new-main-map').hidden=true;status('main-map-status','');
   const job=state.workspace.jobs.find(j=>j.request_id===$('job-select').value);state.currentJob=job||null;state.currentCandidate=null;
   $('candidate-rows').replaceChildren();$('result-metrics').replaceChildren();$('candidate-detail').hidden=true;$('candidate-chip').removeAttribute('src');$('candidate-review').hidden=true;$('context-refresh').hidden=true;$('download-geojson').disabled=true;
   $('empty-results').hidden=Boolean(job);status('result-note','');
@@ -186,6 +190,7 @@ function renderJob(){
     row.append(name,statusCell,element('td',`${props.detection_method?.profile_count||0}/3 profiles${props.detection_method?.vh_cfar_corroborated?' · VH corroborated':' · VV only'}`));row.addEventListener('click',()=>selectCandidate(feature,i));$('candidate-rows').append(row);
   }
   renderResultMap(job,features);
+  try{globalThis.SatelliteImages.normalizeImage(job);$('show-on-main-map').disabled=false;}catch{}
 }
 
 function renderResultMap(job,features){
@@ -227,10 +232,14 @@ $('context-refresh').addEventListener('click',()=>dispatch('refresh_context',sta
 $('fit-map').addEventListener('click',()=>{if(state.bounds)setBounds(state.bounds);});$('review-disposition').addEventListener('change',saveNote);$('review-note').addEventListener('input',saveNote);
 $('close-dispatch').addEventListener('click',()=>$('dispatch-dialog').close());$('copy-request').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('request-envelope').value);status('copy-status','Request copied. Open GitHub and paste it into encrypted_request.');}catch{$('request-envelope').focus();$('request-envelope').select();status('copy-status','Copy the selected request with Ctrl+C.');}});
 $('download-geojson').addEventListener('click',()=>{if(state.currentJob?.context)download('sar-candidates.geojson',state.currentJob.context,'application/geo+json');});
+$('show-on-main-map').addEventListener('click',()=>{try{imageSender.send(state.currentJob);$('new-main-map').hidden=false;}catch(err){status('main-map-status',err.message,true);}});
+$('new-main-map').addEventListener('click',()=>{try{imageSender.send(state.currentJob,{newMap:true});}catch(err){status('main-map-status',err.message,true);}});
+window.addEventListener('pagehide',()=>imageSender.dispose(),{once:true});
 $('export-session').addEventListener('click',async()=>{try{download('sar-session-encrypted.json',await encryptObject(state.workspace,state.password,'workspace'));}catch{status('workspace-status','The backup could not be created.',true);}});
 $('import-session').addEventListener('change',async e=>{try{const file=e.target.files[0];if(!file)return;if(file.size>24*1024*1024)throw new Error();const data=await decryptObject(await readWorkspaceFile(file),state.password,'workspace');if(data.v!==1||!Array.isArray(data.jobs))throw new Error();for(const job of data.jobs){const local=state.workspace.jobs.find(j=>j.request_id===job.request_id)||state.workspace.jobs.find(j=>j.scene?.scene_id===job.scene?.scene_id&&JSON.stringify(j.request?.bbox)===JSON.stringify(job.request?.bbox));if(local?.analyst_review)job.analyst_review=local.analyst_review;}state.workspace=data;renderJobs();status('workspace-status','Encrypted session opened.');}catch{status('workspace-status','The backup could not be opened with this password.',true);}finally{e.target.value='';}});
 
 try{state.config=await readJson('./assets/sar-workbench-config.json');for(const area of state.config.areas){const option=element('option',area.name);option.value=area.id;$('area').append(option);}const custom=element('option','Choose a custom area');custom.value='custom';$('area').append(custom);}catch{status('unlock-status','Configuration could not be loaded. Reload the page.',true);$('unlock-submit').disabled=true;}
 
 state.event=eventFromHash(location.hash,state.config);
-$('clear-event').addEventListener('click',()=>{state.event=null;$('event-context').hidden=true;$('days').disabled=false;history.replaceState(null,'',location.pathname);});
+$('clear-event').addEventListener('click',()=>{state.event=null;$('event-context').hidden=true;$('days').disabled=false;history.replaceState(null,'',location.pathname+location.search);});
+
