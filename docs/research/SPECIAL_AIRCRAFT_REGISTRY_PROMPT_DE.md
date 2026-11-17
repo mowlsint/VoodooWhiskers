@@ -28,12 +28,13 @@ Arbeitsweise:
 7. Kennzeichne ADS-B-Sichtbarkeit als „nachgewiesen“, „nicht nachgewiesen“ oder „unbekannt“, mit Datum und Quelle. Ein bekannter Drohnentyp ist kein Beleg, dass seine Position öffentlich abrufbar ist.
 8. Bei fehlender ICAO24 bleibt die Maschine ein Recherchekandidat. Erfinde keine Kennungen. Prüfe widersprüchliche Zuordnungen; führe sie nicht automatisch zusammen.
 9. Trenne bekannte Rolle und beobachteten Einsatzzweck. Rettungskapazität beweist keinen Rettungseinsatz; Ölüberwachungsrolle keinen Ölunfall; Routine-Offshore-Transport ist ziviler Kontext. Aus Zehn-Minuten-Positionen dürfen kleine Kreise oder eine Überwachung bestimmter Schiffe nicht als gesichert abgeleitet werden.
+10. Auswahlentscheidung des Auftraggebers: Gut belegte oder gut geeignete konkrete Maschinen mit einer belegten, widerspruchsfreien ICAO24 dürfen `enabled: true` erhalten. Ein einzelner nachvollziehbarer Datenbankanbieter kann dafür ausreichen; ein zweiter ist erwünscht, aber keine Pflicht. Fehlende individuelle ADS-B-Positionsnachweise allein sperren die Watchlist-Auswahl nicht. Fehlende Kennungen, echte Identitätskonflikte und ersetzte Registrierungen bleiben ausgeschlossen. `enabled` startet keine Erfassung. Keine Darstellung als „vorläufig zugeordnet“: Im englischen Pop-up soll zur eigenen Prüfung der Behörden-/Militärzuordnung und des Flugmusters aufgefordert werden. Quellenqualität und Unsicherheiten trotzdem erhalten.
 
 Gewünschtes Ergebnis:
 A. Länder-/Betreibermatrix mit Kategorien, Musterfamilien, Quellen und Abdeckungslücken.
 B. Typenkatalog mit genauer Variante, typischen belegten Aufgaben und Betreiberstaaten.
 C. Maschinenliste als Tabelle sowie importierbare CSV- und JSON-Fassung. Je Maschine möglichst:
-Land; Organisation; Eigentümer; Betreiber; auftraggebende Behörde; Rollen; genauer Typ/Variante; zivile Registrierung; militärische Kennung; ICAO24; belegte Rufzeichenbeispiele; aktueller Dienststatus; Vertrags-/Zuordnungsgültigkeit; Identitätsquelle; Rollenquelle; Quelldatum; Prüfdatum; Identitäts-Verlässlichkeitsstufe; Rollen-Verlässlichkeitsstufe; ADS-B-Sichtbarkeitsstatus; Konflikte/offene Fragen; automatische Auswahl zulässig ja/nein.
+Land; Organisation; Eigentümer; Betreiber; auftraggebende Behörde; Rollen; genauer Typ/Variante; zivile Registrierung; militärische Kennung; ICAO24; belegte Rufzeichenbeispiele; aktueller Dienststatus; Vertrags-/Zuordnungsgültigkeit; Identitätsquelle; Rollenquelle; Quelldatum; Prüfdatum; Identitäts-Verlässlichkeitsstufe; Rollen-Verlässlichkeitsstufe; ADS-B-Sichtbarkeitsstatus; Konflikte/offene Fragen; `enabled` als boolesches true/false; Begründung der Auswahl oder des Ausschlusses.
 D. Separate Kandidatenliste für unvollständige oder widersprüchliche Identitäten.
 E. Qualitätsbericht mit Zahl der konkreten Maschinen, Zahl verifizierter ICAO24-Zuordnungen, Länder-/Rollenabdeckung und den wichtigsten Lücken.
 

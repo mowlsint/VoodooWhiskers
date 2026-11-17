@@ -148,7 +148,7 @@ test('explicit UTC project ranges narrow multiple old overlays and rolling searc
 });
 
 const aircraftFixture=now=>({kind:'selected_aircraft_context',schema_version:'1.0.0',context_only:true,coverage_complete:false,status:'fresh',generated_at:new Date(now).toISOString(),items:[
- {icao24:'abc123',registration:'EXAMPLE-TEST',operator:'<img src=x onerror=alert(1)>',source:'Example provider',latitude:55,longitude:12,observed_at:new Date(now-600000).toISOString(),position_timestamp_valid:true,selection_status:'verified_registry',roles:['police','rpas']},
+ {icao24:'abc123',registration:'EXAMPLE-TEST',operator:'<img src=x onerror=alert(1)>',source:'Example provider',identity_review_note:'Single-provider identity mapping <img src=x>',latitude:55,longitude:12,observed_at:new Date(now-600000).toISOString(),position_timestamp_valid:true,selection_status:'registry_selected',roles:['police','rpas']},
  {icao24:'def456',registration:'OLD-TEST',latitude:55,longitude:13,observed_at:new Date(now-48*3600000).toISOString(),position_timestamp_valid:true,selection_status:'verified_registry',roles:['coast_guard']},
  {icao24:'fed321',registration:'CIVIL-TEST',latitude:55,longitude:14,observed_at:new Date(now-600000).toISOString(),position_timestamp_valid:true,selection_status:'verified_registry',roles:['offshore_transport']}
 ]});
@@ -162,6 +162,7 @@ test('special aircraft control is exposed and usable, defaults off and missing d
 test('aircraft symbols, role/source pop-ups, offshore control and time windows use actual controls',async t=>{
  const b=await boot(t,{aircraftResponse:aircraftFixture});toggleAircraft(b);await until(()=>b.$('specialAircraftStatus').textContent.includes('displayed'));
  assert.equal(aircraftMarkers(b).length,1);b.$('specialAircraftList').querySelector('button').click();const popup=aircraftMarkers(b)[0].getPopup().getElement();assert.match(popup.textContent,/Police, RPAS/);assert.match(popup.textContent,/Example provider/);assert.match(popup.textContent,/<img/);assert.equal(popup.querySelector('img'),null);assert.match(aircraftMarkers(b)[0].getElement().textContent,/✈/);
+ assert.match(popup.textContent,/Independently verify whether this is an authority or military aircraft/);assert.match(popup.textContent,/flight activity or flight pattern/);assert.match(popup.textContent,/Specialist civil aircraft/);assert.match(popup.textContent,/Single-provider identity mapping/);assert.doesNotMatch(popup.textContent,/provisional/i);
  b.$('showOffshoreAircraft').checked=true;b.$('showOffshoreAircraft').dispatchEvent(new b.w.Event('change'));assert.equal(aircraftMarkers(b).length,2);
  await b.time('24h');assert.equal(aircraftMarkers(b).length,2);assert.doesNotMatch(b.$('specialAircraftList').textContent,/OLD-TEST/);await b.time('48h');assert.equal(aircraftMarkers(b).length,3);await b.time('24h');assert.equal(aircraftMarkers(b).length,2);
  b.$('resetOverview').click();await until(()=>b.$('timeStatus').textContent.startsWith('Latest'));assert.equal(b.$('showSpecialAircraft').checked,false);assert.equal(aircraftMarkers(b).length,0);assert.deepEqual(b.errors,[]);

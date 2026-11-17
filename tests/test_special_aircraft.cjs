@@ -4,10 +4,16 @@ const A=require('../public/assets/special-aircraft.js');
 const now=Date.parse('2026-11-17T06:00:00Z');
 const row=(hours=0,extra={})=>({icao24:'abc123',latitude:55,longitude:10,observed_at:new Date(now-hours*3600000).toISOString(),selection_status:'verified_registry',position_timestamp_valid:true,roles:['police'],...extra});
 const pack=(items=[],extra={})=>({kind:'selected_aircraft_context',schema_version:'1.0.0',context_only:true,coverage_complete:false,status:'fresh',generated_at:new Date(now).toISOString(),items,...extra});
-test('only verified, explicitly timed positions with a known role enter the aircraft view',()=>{
+test('only registry-selected, explicitly timed positions with a known role enter the aircraft view',()=>{
  const good=row(0,{roles:['police','rpas','unknown','police']});
  const raw=pack([good,row(0,{icao24:'~abc123'}),row(0,{selection_status:'candidate'}),row(0,{position_timestamp_valid:false}),row(0,{latitude:null}),row(0,{longitude:Infinity}),row(0,{roles:['unknown']}),row(0,{identity_conflict:true})]);
  const result=A.decode(raw,now);assert.equal(result.items.length,1);assert.equal(result.excluded,7);assert.deepEqual(result.items[0].roles,['police','rpas']);assert.equal(good.roles.length,4);
+});
+test('owner-selected registry identities are accepted without claiming official identity verification',()=>{
+ const p=A.decode(pack([row(0,{selection_status:'registry_selected',roles:['maritime_surveillance','sar_support'],identity_review_note:'Single-provider identity mapping; independently check.'})]),now);
+ assert.equal(p.items.length,1);assert.deepEqual(p.items[0].roles,['maritime_surveillance','sar_support']);assert.match(p.items[0].identity_review_note,/Single-provider/);
+ assert.equal(A.decode(pack([row(0,{selection_status:'registry_selected',identity_conflict:true})]),now).items.length,0);
+ assert.equal(A.colour(p.items[0]),'#9edff6'); // Civil SAR-support capability does not become a rescue event.
 });
 test('duplicate position times are deduplicated and conflicting coordinates at one timestamp are withheld',()=>{
  assert.equal(A.decode(pack([row(),row()]),now).items.length,1);
