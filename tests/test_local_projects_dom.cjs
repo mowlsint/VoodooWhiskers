@@ -7,7 +7,7 @@ const {JSDOM}=require(process.env.VOODOO_TEST_DOM_MODULE||'jsdom');
 const root=path.resolve(__dirname,'..');
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 async function until(fn){for(let n=0;n<100;n++){if(fn())return;await wait(10);}throw Error('DOM condition timed out');}
-async function boot(t,{offline=false,prepareRows=()=>{}}={}){
+async function boot(t,{offline=false,prepareRows=()=>{},aircraftResponse=null}={}){
  const dom=new JSDOM(fs.readFileSync(path.join(root,'public/index.html'),'utf8'),{url:'https://voodoo.example/',runScripts:'outside-only',pretendToBeVisual:true});
  const w=dom.window,now=Date.now(),requests=[],errors=[],downloads=[];t.after(()=>w.close());
  w.Date.now=()=>now;w.TextEncoder=TextEncoder;w.TextDecoder=TextDecoder;w.Blob=Blob;w.CSS={escape:v=>v};w.confirm=()=>true;
@@ -19,6 +19,7 @@ async function boot(t,{offline=false,prepareRows=()=>{}}={}){
  prepareRows({fresh,old,background});
  const fc=rows=>({type:'FeatureCollection',features:rows.map(p=>({type:'Feature',geometry:{type:'Point',coordinates:[p.longitude,p.latitude]},properties:p}))});
  w.fetch=async(url,options={})=>{requests.push({url:String(url),method:options.method||'GET'});const p=new URL(String(url),w.location.href).pathname;let data;
+  if(p.endsWith('aircraft_latest.json')){if(!aircraftResponse)return {ok:false,status:404,text:async()=>''};data=typeof aircraftResponse==='function'?aircraftResponse(now):aircraftResponse;return {ok:true,status:200,text:async()=>JSON.stringify(data)};}
   if(offline)return {ok:false,status:503,text:async()=>''};
   if(p.endsWith('ais_contacts_latest.geojson'))data=fc([fresh,old,background]);
   else if(p.endsWith('vessel_positions_latest.geojson'))data=fc([fresh]);
@@ -31,7 +32,7 @@ async function boot(t,{offline=false,prepareRows=()=>{}}={}){
  w.console.error=(...args)=>errors.push(args.map(String).join(' '));
  w.console.warn=()=>{};
  let map;
- for(const asset of ['vendor/leaflet.js','sar-map-hook.js','vessel-model.js','vessel-categories.js','traffic-context.js','gfw-grid.js','local-project-core.js','local-project-ui.js','infrastructure-watch.js']){
+ for(const asset of ['vendor/leaflet.js','sar-map-hook.js','vessel-model.js','vessel-categories.js','traffic-context.js','gfw-grid.js','local-project-core.js','local-project-ui.js','special-aircraft.js','infrastructure-watch.js']){
   if(asset==='sar-map-hook.js'){const original=w.L.map;w.L.map=function(...args){map=original(...args);return map;};}
   w.eval(fs.readFileSync(path.join(root,'public/assets',asset),'utf8'));
  }
@@ -144,4 +145,37 @@ test('explicit UTC project ranges narrow multiple old overlays and rolling searc
  const status=b.$('timeStatus').textContent;b.input('localPeriodStart','');b.$('localApplyProjectPeriod').click();await wait(10);assert.equal(b.$('timeStatus').textContent,status);
  await b.time('48h');assert.match(b.$('vesselList').textContent,/No matching/);b.input('vesselSearch','Current ship');assert.match(b.$('vesselList').textContent,/Current ship/);
  assert.deepEqual(b.errors,[]);
+});
+
+const aircraftFixture=now=>({kind:'selected_aircraft_context',schema_version:'1.0.0',context_only:true,coverage_complete:false,status:'fresh',generated_at:new Date(now).toISOString(),items:[
+ {icao24:'abc123',registration:'EXAMPLE-TEST',operator:'<img src=x onerror=alert(1)>',source:'Example provider',identity_review_note:'Single-provider identity mapping <img src=x>',latitude:55,longitude:12,observed_at:new Date(now-600000).toISOString(),position_timestamp_valid:true,selection_status:'registry_selected',roles:['police','rpas']},
+ {icao24:'def456',registration:'OLD-TEST',latitude:55,longitude:13,observed_at:new Date(now-48*3600000).toISOString(),position_timestamp_valid:true,selection_status:'verified_registry',roles:['coast_guard']},
+ {icao24:'fed321',registration:'CIVIL-TEST',latitude:55,longitude:14,observed_at:new Date(now-600000).toISOString(),position_timestamp_valid:true,selection_status:'verified_registry',roles:['offshore_transport']}
+]});
+const aircraftMarkers=b=>Object.values(b.getMap()._layers).filter(l=>l.options?.specialAircraft);
+function toggleAircraft(b,value=true){b.$('showSpecialAircraft').checked=value;b.$('showSpecialAircraft').dispatchEvent(new b.w.Event('change'));}
+test('special aircraft control is exposed and usable, defaults off and missing data never breaks vessel search',async t=>{
+ const b=await boot(t);assert.equal(b.$('showSpecialAircraft').checked,false);assert.equal(b.$('showSpecialAircraft').disabled,false);assert.equal(b.$('showSpecialAircraft').closest('details'),null);assert.equal(b.requests.filter(r=>r.url.includes('aircraft_latest')).length,0);
+ toggleAircraft(b);await until(()=>b.$('specialAircraftStatus').textContent.includes('unavailable'));assert.equal(aircraftMarkers(b).length,0);assert.match(b.$('specialAircraftStatus').textContent,/not a zero result/);
+ b.input('vesselSearch','Current ship');assert.match(b.$('vesselList').textContent,/Current ship/);toggleAircraft(b,false);assert.match(b.$('specialAircraftStatus').textContent,/Off/);assert.deepEqual(b.errors,[]);
+});
+test('aircraft symbols, role/source pop-ups, offshore control and time windows use actual controls',async t=>{
+ const b=await boot(t,{aircraftResponse:aircraftFixture});toggleAircraft(b);await until(()=>b.$('specialAircraftStatus').textContent.includes('displayed'));
+ assert.equal(aircraftMarkers(b).length,1);b.$('specialAircraftList').querySelector('button').click();const popup=aircraftMarkers(b)[0].getPopup().getElement();assert.match(popup.textContent,/Police, RPAS/);assert.match(popup.textContent,/Example provider/);assert.match(popup.textContent,/<img/);assert.equal(popup.querySelector('img'),null);assert.match(aircraftMarkers(b)[0].getElement().textContent,/✈/);
+ assert.match(popup.textContent,/Independently verify whether this is an authority or military aircraft/);assert.match(popup.textContent,/flight activity or flight pattern/);assert.match(popup.textContent,/Specialist civil aircraft/);assert.match(popup.textContent,/Single-provider identity mapping/);assert.doesNotMatch(popup.textContent,/provisional/i);
+ b.$('showOffshoreAircraft').checked=true;b.$('showOffshoreAircraft').dispatchEvent(new b.w.Event('change'));assert.equal(aircraftMarkers(b).length,2);
+ await b.time('24h');assert.equal(aircraftMarkers(b).length,2);assert.doesNotMatch(b.$('specialAircraftList').textContent,/OLD-TEST/);await b.time('48h');assert.equal(aircraftMarkers(b).length,3);await b.time('24h');assert.equal(aircraftMarkers(b).length,2);
+ b.$('resetOverview').click();await until(()=>b.$('timeStatus').textContent.startsWith('Latest'));assert.equal(b.$('showSpecialAircraft').checked,false);assert.equal(aircraftMarkers(b).length,0);assert.deepEqual(b.errors,[]);
+});
+test('aircraft stay hidden during SAR comparison even when loading completes after the mode switch',async t=>{
+ const b=await boot(t,{aircraftResponse:aircraftFixture});toggleAircraft(b);b.$('sarDetectionsToggle').checked=true;b.$('sarDetectionsToggle').dispatchEvent(new b.w.Event('change'));await until(()=>b.$('specialAircraftStatus').textContent.includes('hidden during'));await wait(20);assert.equal(aircraftMarkers(b).length,0);
+ b.$('sarDetectionsToggle').checked=false;b.$('sarDetectionsToggle').dispatchEvent(new b.w.Event('change'));await until(()=>aircraftMarkers(b).length===1);assert.deepEqual(b.errors,[]);
+});
+test('live aircraft are hidden in historical local project mode and return when leaving it',async t=>{
+ const b=await boot(t,{aircraftResponse:aircraftFixture}),C=b.w.LocalProjectCore;toggleAircraft(b);await until(()=>aircraftMarkers(b).length===1);
+ const text=C.serialize(C.addImport(C.newProject('Aircraft isolation test'),{observations:[{mmsi:'273123456',name:'Historical ship',latitude:55,longitude:10,observed_at:new Date(b.now-500*3600000).toISOString()}],routes:[]},'example.csv','csv'));
+ b.fileInput('localProjectFiles',[{name:'test.vwproject.json',size:text.length,text:async()=>text}]);b.$('localProjectFiles').dispatchEvent(new b.w.Event('change'));await until(()=>b.$('localProjectList').querySelectorAll('input').length===1);b.$('localUseProjectDates').click();await until(()=>b.$('timeStatus').textContent.startsWith('Project period'));assert.equal(aircraftMarkers(b).length,0);assert.match(b.$('specialAircraftStatus').textContent,/hidden during/);await b.time('24h');assert.equal(aircraftMarkers(b).length,1);assert.deepEqual(b.errors,[]);
+});
+test('enabling aircraft inside SAR mode reports the hidden state and does not start a fetch',async t=>{
+ const b=await boot(t,{aircraftResponse:aircraftFixture});b.$('sarDetectionsToggle').checked=true;b.$('sarDetectionsToggle').dispatchEvent(new b.w.Event('change'));await wait(20);toggleAircraft(b);await wait(20);assert.match(b.$('specialAircraftStatus').textContent,/hidden during/);assert.equal(b.requests.filter(r=>r.url.includes('aircraft_latest')).length,0);assert.equal(aircraftMarkers(b).length,0);
 });

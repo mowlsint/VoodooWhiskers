@@ -6,7 +6,7 @@
   <meta name="description" content="Voodoo Whiskers maritime infrastructure, vessel context, historical AIS and delayed SAR detection map">
   <title>Voodoo Whiskers — Maritime Infrastructure Watch</title>
   <link rel="stylesheet" href="./assets/vendor/leaflet.css">
-  <link rel="stylesheet" href="./assets/infrastructure-watch.css?v=20261116-categories">
+  <link rel="stylesheet" href="./assets/infrastructure-watch.css?v=20261117-aircraft">
   <link rel="stylesheet" href="./assets/traffic-context.css?v=20261110-traffic-context">
   <link rel="stylesheet" href="./assets/sar-layer.css">
   <link rel="stylesheet" href="./assets/common-snapshot-status.css">
@@ -61,6 +61,15 @@
           <button type="button" class="timeButton wide" data-time-mode="project">Local project period</button>
         </div>
         <p class="timeHelp">Default view: the latest reliable AIS observation for each monitored vessel. Popups show the observation time and data age. Historical time windows and GFW context remain clearly separate.</p>
+      </section>
+      <section class="card specialAircraftCard" aria-labelledby="specialAircraftHeading">
+        <h2 id="specialAircraftHeading">✈ Special aircraft</h2>
+        <label class="control specialAircraftToggle"><input type="checkbox" id="showSpecialAircraft">Show special aircraft</label>
+        <p>Selected police, coastguard, military/NATO, pollution-monitoring, RPAS and rescue aircraft. Ten-minute samples show activity and broad routes; small flight patterns may be missed.</p>
+        <label class="control"><input type="checkbox" id="showOffshoreAircraft">Include routine offshore transport · civil context</label>
+        <p id="specialAircraftStatus" role="status" aria-live="polite">Off · aircraft data are loaded only when enabled.</p>
+        <button type="button" id="refreshSpecialAircraft" class="smallButton" hidden>Refresh aircraft data</button>
+        <div id="specialAircraftList" class="analysisList" aria-label="Selected aircraft in this time window"></div>
       </section>
       <section class="card sourceControls"><h2>Vessel categories & tracks</h2><label for="vesselSearch">Find a vessel in this time window</label><input id="vesselSearch" type="search" placeholder="Name, IMO, MMSI or callsign"><p>Choose a time window above, then select a result to jump to its latest position in that window. Press Enter to open the first result. Older observations are excluded.</p><button id="resetOverview" class="smallButton" type="button">Clear overview</button><div id="vesselList" class="analysisList" aria-label="Matching vessels" aria-live="polite"></div><p>Fill colour shows the main vessel category. A ring shows the next category where applicable. All categories, evidence, AIS sources and observation times are listed in the pop-up. Category priority is a display rule, not a severity score.</p>
         <p id="categoryHistoryStatus" role="status"></p>
@@ -200,10 +209,12 @@
   <script src="./assets/gfw-grid.js?v=20261111-hover-age"></script>
   <script src="./assets/local-project-core.js?v=20261116-categories"></script>
   <script src="./assets/local-project-ui.js?v=20261116-categories"></script>
-  <script src="./assets/infrastructure-watch.js?v=20261116-categories"></script>
+  <script src="./assets/special-aircraft.js?v=20261117-aircraft-registry"></script>
+  <script src="./assets/infrastructure-watch.js?v=20261117-aircraft"></script>
   <script src="./assets/sar-layer.js?v=20261109-sources-retention"></script>
   <script src="./assets/vesselfinder-links.js"></script>
   <script src="./assets/common-snapshot-status.js"></script>
 </body>
 </html>
+
 
