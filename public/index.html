@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="./assets/sar-layer.css">
   <link rel="stylesheet" href="./assets/common-snapshot-status.css">
   <link rel="stylesheet" href="./assets/local-projects.css?v=20261116">
+  <link rel="stylesheet" href="./assets/satellite-images.css?v=20261117-satellite">
   <style>
     .mapShell{position:relative}
     .aisDataAgeBanner{
@@ -30,7 +31,7 @@
       <p>AIS vessel context, VOI time layers, time-aligned historical SAR–AIS comparison and public maritime infrastructure reference data.</p>
     </div>
     <div class="statusCluster">
-      <a class="statusPill" href="./sar.html">Open protected SAR workbench →</a>
+      <a class="statusPill" href="./sar.html" target="_blank" rel="noopener noreferrer">Open protected SAR workbench ↗</a>
       <span class="statusPill" id="dataStatus">Loading data</span>
       <span class="statusPill neutral">Score integration: shadow only</span>
     </div>
@@ -133,7 +134,7 @@
         <label class="control"><input type="checkbox" data-layer="recent_russian_portcall_10d"> Retained Russia route hints · not verified port visits</label>
         <label class="control"><input type="checkbox" data-layer="behavioral_voi"> Behavioural VOI</label></details>
       </section>
-      <section class="card"><h2>GFW · optional historical context</h2><p><a href="./sar.html">Open protected SAR workbench ↗</a></p><label class="control"><input type="checkbox" data-layer="gfw_loitering">Add loitering events · purple rings</label><label class="control"><input type="checkbox" data-layer="gfw_presence">Add historical AIS grid · purple boxes</label><p><strong>Research a box:</strong> click it, or focus it and press Enter. Its popup shows the UTC interval, approximate coordinates and displayed cell bounds. Copy these to query another historical AIS source for possible vessels. The grid itself supplies no individual ship identity or radar image.</p><p><strong>To investigate a vessel:</strong> enable loitering rings, open an event and choose “Search SAR acquisitions for this period”. The event shows identity, time and duration where supplied.</p><p id="gfwStatus" role="status"></p><div id="loiteringList" class="analysisList"></div></section>
+      <section class="card"><h2>GFW · optional historical context</h2><p><a href="./sar.html" target="_blank" rel="noopener noreferrer">Open protected SAR workbench ↗</a></p><label class="control"><input type="checkbox" data-layer="gfw_loitering">Add loitering events · purple rings</label><label class="control"><input type="checkbox" data-layer="gfw_presence">Add historical AIS grid · purple boxes</label><p><strong>Research a box:</strong> click it, or focus it and press Enter. Its popup shows the UTC interval, approximate coordinates and displayed cell bounds. Copy these to query another historical AIS source for possible vessels. The grid itself supplies no individual ship identity or radar image.</p><p><strong>To investigate a vessel:</strong> enable loitering rings, open an event and choose “Search SAR acquisitions for this period”. The event shows identity, time and duration where supplied.</p><p id="gfwStatus" role="status"></p><div id="loiteringList" class="analysisList"></div></section>
       <section class="card sarCard"><details><summary>Legacy GFW SAR comparison</summary>
         <div class="sectionHead"><h2>Historical SAR–AIS comparison</h2><button type="button" class="smallButton" id="fitSar">Fit</button></div>
         <label class="control"><input type="checkbox" id="sarDetectionsToggle" disabled> Show synchronized historical SAR + AIS context</label>
@@ -178,6 +179,28 @@
     <section class="mapShell">
       <div class="aisDataAgeBanner" id="aisDataAgeBanner" role="status">AIS not live, Data age unknown</div>
       <div id="map" role="application" aria-label="Voodoo Whiskers maritime infrastructure map"></div>
+      <button type="button" id="satelliteOpen" class="satelliteOpen" aria-controls="satellitePanel" aria-expanded="false">Satellite images</button>
+      <section id="satellitePanel" class="satellitePanel" role="dialog" aria-modal="false" aria-labelledby="satelliteTitle" hidden>
+        <header id="satelliteHandle" tabindex="0" aria-label="Move satellite window: drag or use arrow keys"><h2 id="satelliteTitle">Satellite images</h2><button id="satelliteClose" type="button" aria-label="Close satellite window">×</button></header>
+        <div class="satelliteBody">
+          <p id="satelliteStatus" role="status" aria-live="polite">No images loaded. Send a completed preview from the SAR workbench, or open an encrypted result file below.</p>
+          <label for="satelliteSelect">Loaded image</label><select id="satelliteSelect" aria-label="Loaded satellite image"></select>
+          <div id="satelliteControls" hidden>
+            <p id="satelliteDetails"></p>
+            <label><input id="satelliteFootprint" type="checkbox"> Show processed image footprint</label>
+            <label><input id="satelliteImage" type="checkbox"> Show SAR image preview</label>
+            <label for="satelliteOpacity">Image opacity</label><input id="satelliteOpacity" type="range" min="0.1" max="1" step="0.05" value="0.7">
+            <div class="satelliteActions"><button id="satelliteFit" type="button">Fit image area</button><button id="satelliteDownload" type="button">Download PNG</button><button id="satelliteGeojson" type="button">Download footprint</button><button id="satelliteRemove" type="button">Remove image</button></div>
+            <p class="satelliteWarning">Historical image · vessel dots keep their own observation times. An overlay does not establish that a vessel was present at acquisition time.</p>
+          </div>
+          <details><summary>Open encrypted results on this device</summary>
+            <label for="satelliteFile">Results ZIP or encrypted session</label><input id="satelliteFile" type="file" accept=".zip,.json,application/zip,application/json">
+            <label for="satellitePassword">Workspace password</label><input id="satellitePassword" type="password" autocomplete="off" maxlength="128">
+            <div class="satelliteActions"><button id="satelliteLoad" type="button">Open local file</button></div><p>The file is decrypted locally. Nothing is uploaded. Closing this window keeps your chosen overlays; clearing images removes them from this map tab.</p>
+          </details>
+          <div class="satelliteActions"><a href="./sar.html" target="_blank" rel="noopener noreferrer">Open SAR workbench ↗</a><button id="satelliteClear" type="button">Clear images / lock</button></div>
+        </div>
+      </section>
       <aside id="trafficCoverageNotice" class="trafficCoverageNotice" role="note" aria-label="Traffic coverage notice">
         <button type="button" id="closeCoverageNotice" class="coverageClose" aria-label="Close coverage notice">×</button>
         <strong>The traffic picture may be incomplete</strong>
@@ -210,11 +233,13 @@
   <script src="./assets/local-project-core.js?v=20261116-categories"></script>
   <script src="./assets/local-project-ui.js?v=20261116-categories"></script>
   <script src="./assets/special-aircraft.js?v=20261117-aircraft-workflow"></script>
-  <script src="./assets/infrastructure-watch.js?v=20261117-aircraft"></script>
+  <script src="./assets/satellite-images.js?v=20261117-satellite"></script>
+  <script src="./assets/infrastructure-watch.js?v=20261117-satellite"></script>
   <script src="./assets/sar-layer.js?v=20261109-sources-retention"></script>
   <script src="./assets/vesselfinder-links.js"></script>
   <script src="./assets/common-snapshot-status.js"></script>
 </body>
 </html>
+
 
 
