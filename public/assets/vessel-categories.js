@@ -75,10 +75,9 @@
     const legacy=active&&(!negated(current.raw)||evidence.length>0)&&(truth(p.recent_russian_portcall_unconfirmed_10d)||truth(p.recent_russian_portcall_confirmed_10d)||truth(p.from_russia_confirmed)||cats(p).includes('recent_russian_portcall_10d'));
     const suppliedPreviousPort=active&&(truth(p.from_russia_confirmed)||truth(p.recent_russian_portcall_confirmed_10d))&&/^(observed_port_field|persisted_observed_port_field|manual_recent_russian_portcall_input|voi_history_confirmed_portcall)$/.test(text(p.recent_ru_portcall_basis));
     if(suppliedPreviousPort&&!port)evidence.unshift({raw:text(p.port_codes_seen)||'Russian previous-port indication supplied by the producer',from:true,to:false,basis:'Retained previous-port evidence; not an independently verified visit',observed_at:p.last_ru_port_date||null,source:VM.sourceLabel(p)});
-    const declared=truth(p.to_russia_declared)&&!current.raw;
-    const latestText=preceding.find(row=>text(row.destination)),direction=current.raw?current:latestText?parseVoyage(latestText.destination):current;
+    const declared=truth(p.to_russia_declared);
+    const direction=current;
     let from=direction.from||Boolean(port)||suppliedPreviousPort,to=direction.to;
-    if(!current.raw&&!latestText&&declared&&!from)to=true;
     const related=current.related||evidence.length>0||legacy||declared;
     const labels=[];if(from)labels.push('← Likely coming from Russia');if(to)labels.push('→ Likely bound for Russia');if(related&&!labels.length)labels.push('Russia-related — direction unclear');
     return {related:Boolean(related),from,to,labels,evidence,legacy,basis:legacy?text(p.recent_ru_portcall_basis):'',limit:'AIS declarations/positions are indications, not a verified port visit. Times below identify the accompanying observation or supplied port-date field, not necessarily a fresh transmission of the voyage text.'};

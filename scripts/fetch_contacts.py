@@ -259,32 +259,95 @@ def parse_optional_datetime(value: Any) -> datetime | None:
     return parsed.astimezone(timezone.utc)
 
 
+def route_identity_alias(value: Any) -> str:
+    raw = clean_str(value)
+    kind, separator, identifier = raw.partition(":")
+    if not separator:
+        return ""
+    identifier = digits(identifier)
+    if kind == "imo" and len(identifier) == 7:
+        return f"imo:{identifier}"
+    if kind == "mmsi" and len(identifier) == 9 and identifier != "000000000":
+        return f"mmsi:{identifier}"
+    return ""
+
+
 def route_identity_candidates(contact: dict[str, Any]) -> list[str]:
     candidates: list[str] = []
     imo = digits(contact.get("imo"))
     mmsi = digits(contact.get("mmsi"))
-    callsign = norm_text(contact.get("callsign"))
-    name = norm_text(contact.get("name"))
     if len(imo) == 7:
         candidates.append(f"imo:{imo}")
-    if len(mmsi) == 9:
+    if len(mmsi) == 9 and mmsi != "000000000":
         candidates.append(f"mmsi:{mmsi}")
-    if callsign:
-        candidates.append(f"callsign:{callsign}")
-    if name:
-        candidates.append(f"name:{name}")
     return candidates
 
 
 def load_russian_route_state() -> dict[str, Any]:
+    empty = {"schema_version": "2.0.0", "vessels": {}}
     if not RUSSIAN_ROUTE_STATE_PATH.exists():
-        return {"schema_version": "1.0.0", "vessels": {}}
+        return empty
     try:
         payload = json.loads(RUSSIAN_ROUTE_STATE_PATH.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
-        return {"schema_version": "1.0.0", "vessels": {}}
+        return empty
     if not isinstance(payload, dict) or not isinstance(payload.get("vessels"), dict):
-        return {"schema_version": "1.0.0", "vessels": {}}
+        return empty
+
+    # Migrate legacy state without allowing names/callsigns to join vessels.
+    # Entries with multiple IMO or MMSI identities are ambiguous and cannot be
+    # safely carried forward from the old alias-based matching policy.
+    candidates: list[tuple[str, dict[str, Any], set[str]]] = []
+    for old_key, raw_entry in payload["vessels"].items():
+        if not isinstance(raw_entry, dict):
+            continue
+        raw_aliases = raw_entry.get("identity_aliases")
+        if not isinstance(raw_aliases, list):
+            raw_aliases = []
+        identity_aliases = {
+            alias
+            for alias in (
+                route_identity_alias(old_key),
+                *(route_identity_alias(value) for value in raw_aliases),
+            )
+            if alias
+        }
+        imo = digits(raw_entry.get("imo"))
+        mmsi = digits(raw_entry.get("mmsi"))
+        if len(imo) == 7:
+            identity_aliases.add(f"imo:{imo}")
+        if len(mmsi) == 9 and mmsi != "000000000":
+            identity_aliases.add(f"mmsi:{mmsi}")
+
+        imo_aliases = {alias for alias in identity_aliases if alias.startswith("imo:")}
+        mmsi_aliases = {alias for alias in identity_aliases if alias.startswith("mmsi:")}
+        if len(imo_aliases) > 1 or len(mmsi_aliases) > 1:
+            continue
+        canonical = next(iter(imo_aliases or mmsi_aliases), "")
+        if not canonical:
+            continue
+        entry = dict(raw_entry)
+        entry["identity_key"] = canonical
+        entry["identity_aliases"] = sorted(identity_aliases)
+        candidates.append((canonical, entry, identity_aliases))
+
+    owners: dict[str, set[str]] = {}
+    canonical_counts: dict[str, int] = {}
+    for canonical, _, identity_aliases in candidates:
+        canonical_counts[canonical] = canonical_counts.get(canonical, 0) + 1
+        for alias in identity_aliases:
+            owners.setdefault(alias, set()).add(canonical)
+    ambiguous = {canonical for canonical, count in canonical_counts.items() if count > 1}
+    for keys in owners.values():
+        if len(keys) > 1:
+            ambiguous.update(keys)
+
+    payload["vessels"] = {
+        canonical: entry
+        for canonical, entry, _ in candidates
+        if canonical not in ambiguous
+    }
+    payload["schema_version"] = "2.0.0"
     return payload
 
 
@@ -317,10 +380,10 @@ def apply_russian_route_state(
     provider: str,
     observed_at: datetime | None = None,
 ) -> list[dict[str, Any]]:
-    """Annotate destination declarations and bounded post-declaration portcall leads.
+    """Track Russian destination declarations using IMO or MMSI identity only.
 
     A Russian AIS destination is an intention only and never confirms a portcall.
-    A non-empty later destination change starts a 10-day unconfirmed portcall lead.
+    A non-empty later destination change starts a 10-day unconfirmed context lead.
     Explicit port fields create the separate confirmed state.
     """
     now = (observed_at or datetime.now(timezone.utc)).astimezone(timezone.utc).replace(microsecond=0)
@@ -329,9 +392,13 @@ def apply_russian_route_state(
     vessels = state.setdefault("vessels", {})
     aliases: dict[str, str] = {}
     for key, entry in vessels.items():
-        aliases[key] = key
-        for alias in entry.get("identity_aliases") or []:
-            aliases[clean_str(alias)] = key
+        key_alias = route_identity_alias(key)
+        if key_alias:
+            aliases[key_alias] = key
+        for raw_alias in entry.get("identity_aliases") or []:
+            alias = route_identity_alias(raw_alias)
+            if alias:
+                aliases[alias] = key
 
     events: list[dict[str, Any]] = []
     annotated: list[dict[str, Any]] = []
@@ -341,14 +408,54 @@ def apply_russian_route_state(
         if not candidates:
             annotated.append(contact)
             continue
-        state_key = next((aliases[candidate] for candidate in candidates if candidate in aliases), candidates[0])
+
+        incoming_imo = digits(contact.get("imo"))
+        identity_conflict = False
+        state_key = None
+        for candidate in candidates:
+            matched_key = aliases.get(candidate)
+            if not matched_key:
+                continue
+            matched_entry = vessels.get(matched_key) or {}
+            stored_imo = digits(matched_entry.get("imo"))
+            if len(incoming_imo) == 7 and len(stored_imo) == 7 and incoming_imo != stored_imo:
+                identity_conflict = True
+                continue
+            state_key = matched_key
+            break
+        if state_key is None:
+            # Candidates are ordered by IMO, then MMSI; no name/callsign fallback.
+            state_key = candidates[0]
+
         entry = dict(vessels.get(state_key) or {})
-        identity_aliases = sorted(set(entry.get("identity_aliases") or []) | set(candidates))
+        current_imo = digits(contact.get("imo"))
+        current_mmsi = digits(contact.get("mmsi"))
+        stored_imo = digits(entry.get("imo"))
+        stored_mmsi = digits(entry.get("mmsi"))
+        resolved_imo = current_imo if len(current_imo) == 7 else stored_imo if len(stored_imo) == 7 else ""
+        resolved_mmsi = current_mmsi if len(current_mmsi) == 9 and current_mmsi != "000000000" else stored_mmsi if len(stored_mmsi) == 9 and stored_mmsi != "000000000" else ""
+
+        if resolved_mmsi:
+            mmsi_alias = f"mmsi:{resolved_mmsi}"
+            mmsi_owner = aliases.get(mmsi_alias)
+            if mmsi_owner and mmsi_owner != state_key:
+                identity_conflict = True
+                resolved_mmsi = stored_mmsi if aliases.get(f"mmsi:{stored_mmsi}") == state_key else ""
+
+        identity_aliases = []
+        if resolved_imo:
+            identity_aliases.append(f"imo:{resolved_imo}")
+        if resolved_mmsi:
+            identity_aliases.append(f"mmsi:{resolved_mmsi}")
+        identity_aliases = sorted(set(identity_aliases))
+        if identity_conflict:
+            contact["russian_route_identity_conflict"] = True
+
         entry.update({
             "identity_key": state_key,
             "identity_aliases": identity_aliases,
-            "imo": digits(contact.get("imo")) or entry.get("imo") or "",
-            "mmsi": digits(contact.get("mmsi")) or entry.get("mmsi") or "",
+            "imo": resolved_imo,
+            "mmsi": resolved_mmsi,
             "callsign": clean_str(contact.get("callsign")) or entry.get("callsign") or "",
             "name": clean_str(contact.get("name")) or entry.get("name") or "",
             "last_seen_at": clean_str(contact.get("last_seen_utc")) or now_iso,
@@ -487,11 +594,12 @@ def apply_russian_route_state(
         if (parse_optional_datetime(entry.get("updated_at")) or now) >= retention_cutoff
     }
     state.update({
-        "schema_version": "1.0.0",
+        "schema_version": "2.0.0",
         "updated_at": now_iso,
         "policy": {
+            "identity": "Exact IMO, or exact MMSI when IMO is unavailable; name and callsign are never identity keys.",
             "to_russia_declared": "Current AIS destination declaration only; excluded from map unless another VOI category applies.",
-            "recent_russian_portcall_unconfirmed_10d": "Destination changed after a Russian declaration; 10-day lead without portcall confirmation.",
+            "recent_russian_portcall_unconfirmed_10d": "A later non-empty destination after a Russian declaration; unconfirmed context only, not evidence of a port call.",
             "recent_russian_portcall_confirmed_10d": "Explicit observed port field or later manual evidence; 10-day confirmed context.",
         },
     })
