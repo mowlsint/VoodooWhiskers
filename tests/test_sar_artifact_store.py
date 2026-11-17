@@ -62,7 +62,7 @@ def run_record(run_id, *, status="completed", conclusion="success",
 
 def artifact(artifact_id, age_minutes, *, run_id=None, name="github-pages",
              branch="main", repository_id=1135880899, head_repository_id=1135880899,
-             with_created=True):
+             with_created=True, expired=False):
     created = datetime(2026, 11, 17, 18, 0, tzinfo=timezone.utc) - timedelta(
         minutes=age_minutes
     )
@@ -70,7 +70,7 @@ def artifact(artifact_id, age_minutes, *, run_id=None, name="github-pages",
         "id": artifact_id,
         "name": name,
         "size_in_bytes": 1024,
-        "expired": False,
+        "expired": expired,
         "workflow_run": {
             "id": run_id if run_id is not None else artifact_id,
             "repository_id": repository_id,
@@ -97,6 +97,8 @@ class ArtifactStoreTests(unittest.TestCase):
             artifact(108, 7),
             artifact(109, 8, with_created=False),
             artifact(110, 9, name="sar-workbench-encrypted"),
+            artifact(111, 10, head_repository_id=42),
+            artifact(112, 11, expired=True),
         ]
         runs = [
             run_record(101),
@@ -108,6 +110,8 @@ class ArtifactStoreTests(unittest.TestCase):
             run_record(107, path="other/workflow.yml"),
             run_record(108, branch="feature"),
             run_record(110),
+            run_record(111),
+            run_record(112),
             # Artifact 109 deliberately has no matching workflow run.
         ]
         session = FakeSession(runs)
