@@ -1,15 +1,15 @@
 {
   "schema_version": "1.0.0",
   "kind": "canonical_source_history",
-  "generated_at": "2026-11-17T08:28:49+00:00",
+  "generated_at": "2026-11-17T12:29:26+00:00",
   "retention_days": 14,
   "max_part_bytes": 20971520,
   "part_count": 9,
-  "total_rows": 19755,
-  "total_bytes": 46200829,
+  "total_rows": 20170,
+  "total_bytes": 47185378,
   "oldest": "2026-11-09T17:42:09+00:00",
-  "newest": "2026-11-17T08:28:44+00:00",
-  "complete_time_window": true,
+  "newest": "2026-11-17T12:29:20+00:00",
+  "complete_time_window": false,
   "parts": [
     {
       "filename": "voi-history-2026-11-09-part-001.jsonl",
@@ -93,9 +93,9 @@
       "href": "./voi-history-2026-11-16-part-001.jsonl",
       "date_utc": "2026-11-16",
       "part": 1,
-      "rows": 3221,
-      "bytes": 7530848,
-      "sha256": "f286d52d58bf5bb25b5bc707101c01cb9eaa94216911ce3562b47d2bb712f22e",
+      "rows": 3198,
+      "bytes": 7475188,
+      "sha256": "b20dc96c4496f6350f31c95c32302235577e91d9efefce8fbbd6dd22054f0d87",
       "oldest": "2026-11-16T00:00:19+00:00",
       "newest": "2026-11-16T23:59:25+00:00"
     },
@@ -104,21 +104,23 @@
       "href": "./voi-history-2026-11-17-part-001.jsonl",
       "date_utc": "2026-11-17",
       "part": 1,
-      "rows": 1459,
-      "bytes": 3426872,
-      "sha256": "d0fa316f435a40d59f5c51d34a6cf9a44161081cc86f664870352dcf914c65d7",
+      "rows": 1897,
+      "bytes": 4467081,
+      "sha256": "f48af436493fe7c35158e8f1640d51d55e5e3d802a86c5ae4280b27f8181eeb9",
       "oldest": "2026-11-17T00:01:39+00:00",
-      "newest": "2026-11-17T08:28:44+00:00"
+      "newest": "2026-11-17T12:29:20+00:00"
     }
   ],
   "capacity": {
-    "selection": "complete",
-    "total_rows": 19755,
-    "selected_rows": 19755,
-    "selected_bytes": 46200829,
-    "total_identities": 1522,
-    "covered_identities": 1522,
-    "complete_time_window": true
+    "selection": "identity_balanced_temporal_sampling",
+    "total_rows": 20284,
+    "selected_rows": 20170,
+    "selected_bytes": 47185378,
+    "dropped_rows": 114,
+    "total_identities": 1538,
+    "covered_identities": 1538,
+    "identity_coverage_percent": 100.0,
+    "complete_time_window": false
   },
   "total_max_bytes": 47185920,
   "legacy_compatibility_file": "voi_history.jsonl",
