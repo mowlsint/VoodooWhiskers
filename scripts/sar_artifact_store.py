@@ -20,6 +20,25 @@ PATH=ROOT/'public/data/sar/workbench.enc.json'
 NAME='sar-workbench-encrypted'
 MAX_BYTES=24*1024*1024
 BUDGET=96*1024*1024
+PAGES_NAME='github-pages'
+PAGES_WORKFLOW_NAME='pages build and deployment'
+PAGES_WORKFLOW_PATH='dynamic/pages/pages-build-deployment'
+ARTIFACT_SAFETY_LIMIT=400*1024*1024
+MAX_RUN_PAGES=10
+MIB=1024*1024
+
+
+class ArtifactStorageBudgetExceeded(ValueError):pass
+
+
+def projected_repository_artifact_bytes(items):
+    return sum(int(a.get('size_in_bytes',0)) for a in items if not a.get('expired') and a.get('name')!=NAME)+MAX_BYTES
+
+
+def ensure_repository_artifact_budget(projected_bytes,context):
+    if projected_bytes>ARTIFACT_SAFETY_LIMIT:
+        projected_mib=projected_bytes/MIB
+        raise ArtifactStorageBudgetExceeded(f'Artifact storage budget exceeded: projected repository artifacts including the SAR reserve total {projected_mib:.1f} MiB; the safety limit is 400 MiB. {context}')
 
 
 def envelope(data):
@@ -49,6 +68,46 @@ class Store:
             r=self.http.get(self.base+'/actions/artifacts',headers=self.headers,params={'per_page':100,'page':page},timeout=(10,45));r.raise_for_status();pack=r.json();items=pack['artifacts'];all_items.extend(items)
             if len(items)<100:return all_items
         raise ValueError('Artifact inventory exceeds safe bound')
+
+    def workflow_runs(self,run_ids):
+        pending={int(run_id) for run_id in run_ids}
+        found={}
+        if not pending:return found
+        for page in range(1,MAX_RUN_PAGES+1):
+            r=self.http.get(self.base+'/actions/runs',headers=self.headers,params={'per_page':100,'page':page},timeout=(10,45));r.raise_for_status();runs=r.json()['workflow_runs']
+            for run in runs:
+                if run.get('id') is not None and int(run['id']) in pending:found[int(run['id'])]=run
+            if pending.issubset(found) or len(runs)<100:break
+        return found
+
+    @staticmethod
+    def safe_id(value):
+        try:return int(value)
+        except (TypeError,ValueError):return None
+
+    @classmethod
+    def safe_pages_artifact(cls,artifact,run):
+        metadata=artifact.get('workflow_run') or {}
+        artifact_run_id=cls.safe_id(metadata.get('id'));run_id=cls.safe_id(run.get('id'))
+        repository_id=cls.safe_id(metadata.get('repository_id'));head_repository_id=cls.safe_id(metadata.get('head_repository_id'))
+        return (artifact_run_id is not None and artifact_run_id==run_id and repository_id is not None and repository_id==head_repository_id and metadata.get('head_branch')=='main' and run.get('name')==PAGES_WORKFLOW_NAME and run.get('path')==PAGES_WORKFLOW_PATH and run.get('status')=='completed' and run.get('conclusion')=='success' and run.get('head_branch')=='main' and (not metadata.get('head_sha') or run.get('head_sha')==metadata.get('head_sha')))
+
+    def prune_old_pages_artifacts(self,items):
+        pages=[a for a in items if a.get('name')==PAGES_NAME and not a.get('expired')]
+        newest=sorted([a for a in pages if a.get('created_at')],key=lambda a:a['created_at'],reverse=True)
+        protected={str(a['id']) for a in pages if not a.get('created_at') or a.get('id') is None}
+        protected.update(str(a['id']) for a in newest[:3] if a.get('id') is not None)
+        candidates=[a for a in reversed(newest[3:]) if str(a.get('id')) not in protected]
+        run_ids={self.safe_id((a.get('workflow_run') or {}).get('id')) for a in candidates}
+        run_ids.discard(None);runs=self.workflow_runs(run_ids);removed=[]
+        for a in candidates:
+            artifact_id=self.safe_id(a.get('id'));metadata=a.get('workflow_run') or {};run_id=self.safe_id(metadata.get('id'))
+            run=runs.get(run_id) if run_id is not None else None
+            if artifact_id is None or not run or not self.safe_pages_artifact(a,run):continue
+            r=self.http.delete(self.base+f'/actions/artifacts/{artifact_id}',headers=self.headers,timeout=(10,45))
+            if r.status_code==404:removed.append(artifact_id);continue
+            r.raise_for_status();removed.append(artifact_id)
+        return removed
 
     def managed(self,items):
         return sorted([a for a in items if a.get('name')==NAME and not a.get('expired') and a.get('workflow_run',{}).get('head_branch')=='main'],key=lambda a:a['created_at'],reverse=True)
@@ -80,7 +139,7 @@ class Store:
         if total+pending_bytes+65536>BUDGET:raise ValueError('SAR artifact budget reached')
         # A repository-wide guard is conservative. Account usage in other repos remains outside this tool's scope.
         others=sum(int(a.get('size_in_bytes',0)) for a in items if not a.get('expired') and a['id'] not in removed)
-        if others+pending_bytes+65536>400*1024*1024:raise ValueError('Repository artifact safety budget reached')
+        ensure_repository_artifact_budget(others+pending_bytes+65536,'The encrypted SAR state was not saved.')
         return removed
 
 
@@ -89,7 +148,11 @@ def main():
     try:
         store=Store(os.environ.get('GITHUB_REPOSITORY',''),os.environ.get('SAR_ARTIFACT_TOKEN',''));items=store.artifacts()
         if args.action=='restore':
-            if sum(int(a.get('size_in_bytes',0)) for a in items if not a.get('expired') and a.get('name')!=NAME)+MAX_BYTES>400*1024*1024:raise ValueError('Artifact space unavailable')
+            removed=store.prune_old_pages_artifacts(items)
+            if removed:print(f'Removed {len(removed)} eligible older Pages build artifact(s).')
+            # Re-read after pruning to include concurrent uploads and verify the remaining budget.
+            items=store.artifacts()
+            ensure_repository_artifact_budget(projected_repository_artifact_bytes(items),'SAR processing was not started.')
             store.restore(items)
             digest=hashlib.sha256(PATH.read_bytes()).hexdigest() if PATH.exists() else 'none'
             if os.environ.get('GITHUB_ENV'):
@@ -99,8 +162,10 @@ def main():
             if changed:store.reserve(items,len(content))
             if os.environ.get('GITHUB_OUTPUT'):
                 with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('changed='+str(changed).lower()+'\n')
+    except ArtifactStorageBudgetExceeded as exc:
+        print(f'::error title=Artifact storage budget exceeded::{exc}');return 1
     except Exception:
-        print('SAR-Artefaktspeicher konnte nicht sicher gelesen oder begrenzt werden. Keine Git-Ausweichablage.');return 1
+        print('SAR artifact storage could not be safely read or bounded. No Git fallback.');return 1
     print('Verschlüsselte SAR-Ablage vorbereitet.');return 0
 
 if __name__=='__main__':raise SystemExit(main())
