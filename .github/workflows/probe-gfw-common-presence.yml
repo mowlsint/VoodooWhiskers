@@ -1,8 +1,8 @@
 name: Probe GFW common AIS presence
 
 on:
-  # Delayed historical presence and events need one refresh per UTC day.
-  # Stagger after the 04:00 AIS window; shared concurrency serializes writes.
+  # Refresh the delayed historical presence grid daily.
+  # Event pagination runs separately to keep this probe bounded.
   schedule:
     - cron: "40 4 * * *"
   workflow_dispatch:
@@ -40,7 +40,7 @@ jobs:
           GFW_TOKEN: ${{ secrets.GFW_TOKEN }}
         run: |
           set -euo pipefail
-          python scripts/fetch_gfw_context.py
+          python scripts/fetch_gfw_context.py --presence-only
 
       - name: Archive current regional and Danish snapshots
         run: |
