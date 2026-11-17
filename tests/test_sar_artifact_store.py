@@ -95,10 +95,11 @@ class ArtifactStoreTests(unittest.TestCase):
             artifact(106, 5),
             artifact(107, 6),
             artifact(108, 7),
-            artifact(109, 8, with_created=False),
+            artifact(109, 8),  # Missing run metadata is preserved.
             artifact(110, 9, name="sar-workbench-encrypted"),
             artifact(111, 10, head_repository_id=42),
             artifact(112, 11, expired=True),
+            artifact(113, 12, with_created=False),
         ]
         runs = [
             run_record(101),
@@ -112,6 +113,7 @@ class ArtifactStoreTests(unittest.TestCase):
             run_record(110),
             run_record(111),
             run_record(112),
+            run_record(113),
             # Artifact 109 deliberately has no matching workflow run.
         ]
         session = FakeSession(runs)
