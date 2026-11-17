@@ -13,6 +13,8 @@ Der Arbeitsplatz verarbeitet einen kleinen Ausschnitt einer vorhandenen Sentinel
 
 Der Workflow bleibt ausschließlich manuell und auf `main` sowie den Repository-Inhaber beschränkt. Die optionale `request_id` dient dazu, den zugehörigen Lauf eindeutig wiederzufinden. Zeitpläne, Workflow-Rechte, Secrets und Benachrichtigungsziele werden nicht geändert.
 
+Vor der Wiederherstellung löscht der SAR-Workflow nur ältere, nicht abgelaufene `github-pages`-Artefakte, deren Metadaten einen erfolgreichen, abgeschlossenen Pages-Lauf dieses Repositories auf `main` bestätigen. Die drei neuesten Pages-Artefakte bleiben erhalten. Artefakte laufender, fehlgeschlagener, abgebrochener oder nicht eindeutig zuordenbarer Läufe werden nicht gelöscht. Die Bereinigung betrifft ausschließlich alte Actions-Downloadpakete; veröffentlichte Pages-Inhalte und Dateien in `public/` bleiben unberührt. Reicht die Bereinigung nicht aus, meldet der Lauf `Artifact storage budget exceeded` und stoppt vor dem SAR-Abruf.
+
 ## Bedienung
 
 1. **Gebiet wählen:** 38 kleine Gebietsvorlagen für Nord-/Ostsee, Meerengen, britische und norwegische Gewässer, Nordatlantik und Arktis. Es sind Orientierungsgebiete, keine flächendeckende Überwachung der genannten Meeresräume. **Choose a 20 × 20 km area on the map** erlaubt einen beliebigen Mittelpunkt innerhalb 25° W–35° E und 48–80° N. Alternativ **Choose a custom area** und vier Koordinaten eingeben. **Escape** beendet den Karten-Auswahlmodus. Für ein anderes Gebiet den geladenen Loitering-Zeitraum zunächst verlassen.
