@@ -25,19 +25,19 @@ A combined `sanctions_shadowfleet` category alone does not establish which statu
 
 Both directions use the same orange voyage category:
 
-- `→ Likely bound for Russia`: a Russian destination declaration, including the destination side of a two-ended route.
+- `→ Likely bound for Russia`: the current non-empty AIS destination explicitly identifies a Russian port, including the destination side of a two-ended route.
 - `← Likely coming from Russia`: a Russian departure side or a supplied previous-port indication.
 - `Russia-related — direction unclear`: retained or ambiguous evidence without an adequate current direction.
 
 `RU ULU>NL RTM` supplies a Russian departure indication; `NL RTM>RU ULU` supplies a Russian destination indication. Both arrows can appear for a Russia-to-Russia declaration. Multi-leg/unclear strings remain unclear. Explicit FROM/TO text and the curated Russian port names/codes are supported. Negated link disclaimers are not voyage evidence. The client port aliases are taken from `data/ports_ru_enhanced_aliases.csv`; ambiguous three-letter aliases are omitted. Update the client reference and its tests when curating additional ports.
 
-An earlier Russian destination followed by a non-Russian destination is retained context, **not proof that the vessel visited or departed Russia**. Existing producer `to_russia_declared` and portcall flags remain unchanged for downstream compatibility; the dashboard interprets original route text before legacy flags. In particular, it does not repeat the producer's whole-string destination match as a bound-for-Russia claim when the Russian text is on the departure side. This change does not repair or reinterpret Magic Paws' producer fields.
+An earlier Russian destination followed by a non-Russian destination is retained context, **not proof that the vessel visited or departed Russia**. The dashboard never derives a direction from an older destination or a persisted `to_russia_declared` flag when the current destination is empty. Previous declarations remain visible as dated evidence and, where appropriate, direction-unclear context. Russian route-state continuity uses exact IMO, or exact MMSI when IMO is unavailable; names and callsigns never join route histories. Legacy state entries with multiple conflicting IMO/MMSI identities are discarded during migration. Producer field names remain unchanged for downstream compatibility.
 
 Evidence includes the original voyage text, source and accompanying observation time, or an explicitly supplied previous-port date. An observation timestamp need not be the time of a fresh static voyage-text transmission. A position or declaration is not an independently verified port visit. No percentages, geofencing, GPS-based port confirmation or new visit detection are introduced.
 
 ## History and operational limits
 
-The client uses at most ten days of available preceding observations relative to each displayed point. Future observations never backfill the classification of an older point. History joins use IMO/MMSI with conflict protection; matching names alone never joins vessels.
+The client uses at most ten days of available preceding observations relative to each displayed point for evidence and context. Future observations never backfill the classification of an older point. Historical destinations can support Russia-related context, but only the point's current destination can set a direction arrow. History joins use IMO/MMSI with conflict protection; matching names or callsigns alone never join vessels.
 
 The existing bounded `voi_history_14d.jsonl` is loaded once in the background after the initial map appears and reused for tracks/time windows. This adds one existing public-file download on initial page load (currently capped at 22 MiB), not an extra provider request or workflow. Until it arrives, colours use loaded records. On failure, current records remain visible and a status message explains that history is unavailable. This must not be read as no earlier Russia reference. Available history is sampled and may have gaps; a fourteen-day retention ceiling does not guarantee fourteen complete days for every vessel. The ten-day display lookback does not change retention.
 
