@@ -733,7 +733,7 @@ def main() -> int:
     atomic_json(DOWNLOAD_DIR / "ais_contacts_latest.geojson", ais_geojson)
 
     # Delayed context remains separate from current AIS and is validated before publishing.
-    for filename in ("gfw_presence_cells_latest.json", "gfw_events_latest.json", "gfw_context_status_latest.json"):
+    for filename in ("gfw_presence_cells_latest.json", "gfw_events_latest.json", "gfw_context_status_latest.json", "gfw_events_status_latest.json"):
         src = DATA / filename
         if src.exists():
             content = json.loads(src.read_text(encoding="utf-8"))
@@ -741,8 +741,8 @@ def main() -> int:
                 raise ValueError(f"Invalid historical GFW product: {filename}")
             if src.stat().st_size > 25*1024*1024:
                 raise ValueError(f"Oversized GFW context product: {filename}")
-            if filename!='gfw_context_status_latest.json':
-                content=bound_gfw(content,'events' if 'events' in filename else 'presence')
+            if filename in ('gfw_presence_cells_latest.json', 'gfw_events_latest.json'):
+                content=bound_gfw(content,'events' if filename=='gfw_events_latest.json' else 'presence')
                 atomic_json(src,content)
             atomic_json(VESSEL_DIR / filename, content)
             atomic_json(DOWNLOAD_DIR / filename, content)

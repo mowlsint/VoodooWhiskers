@@ -15,7 +15,7 @@
     timeMode:"latest",
     historyRows:null,
     historyPromise:null,
-    dynamicReady:false, selectedIdentity:null, trackRows:null, gfwEvents:null, gfwGrid:null, categoryIndex:null, aircraft:null
+    dynamicReady:false, selectedIdentity:null, trackRows:null, gfwEvents:null, gfwGrid:null, gfwEventStatus:null, categoryIndex:null, aircraft:null
   };
 
   const paths = {
@@ -46,6 +46,7 @@
     infrastructureSummary:"./data/analysis/infrastructure_summary_latest.json",
     downloads:"./downloads/manifest.json",
     gfwEvents:"./data/vessels/gfw_events_latest.json",
+    gfwEventStatus:"./data/vessels/gfw_events_status_latest.json",
     gfwGrid:"./data/vessels/gfw_presence_cells_latest.json"
   };
 
@@ -597,8 +598,39 @@
     }
     for(const [id,layer] of [['gfw_loitering',layers],['gfw_presence',cells]]){state.layers[id]?.remove();state.layers[id]=layer;syncLayerVisibility(id);}
     $('loiteringList').hidden=!checkboxEnabled('gfw_loitering');
-    const gridStatus=state.gfwGrid?` Grid observation day: ${state.gfwGrid.observation_day||'not supplied'} UTC; retrieved ${state.gfwGrid.generated_at||'time unknown'}. ${shownCells.length}/${gridRecords.length} grid records selected for display. Click a box for its own UTC interval and coordinates.`:' AIS presence grid is unavailable.';
-    $('gfwStatus').textContent=(checkboxEnabled('gfw_loitering')||checkboxEnabled('gfw_presence')?'Historical context enabled. ':'Historical context hidden by default. ')+(state.gfwEvents?`${shown.length}/${events.length} loitering events available for display · up to 200 markers and 20 list entries. Powered by Global Fishing Watch · CC BY-NC 4.0.`:'GFW event data are missing; this is not a confirmed zero result.')+gridStatus;
+    const gridStatus=state.gfwGrid?(" Grid observation day: "+(state.gfwGrid.observation_day||"not supplied")+" UTC; retrieved "+(state.gfwGrid.generated_at||"time unknown")+". "+shownCells.length+"/"+gridRecords.length+" grid records selected for display. Click a box for its own UTC interval and coordinates."):" AIS presence grid is unavailable.";
+    const eventRows=state.gfwEvents?.events||[];
+    const loiteringRows=eventRows.filter(event=>event.type==="LOITERING"&&Date.parse(event.end)>=cutoff&&Date.parse(event.start)<=now);
+    const eventCoverage=state.gfwEventStatus;
+    const range=eventCoverage?.coverage_start_date&&eventCoverage?.coverage_end_date_exclusive
+      ?(" "+eventCoverage.coverage_start_date+" to "+eventCoverage.coverage_end_date_exclusive+" UTC (end exclusive)."):"";
+    const queryStart=eventCoverage?.coverage_start_date?Date.parse(eventCoverage.coverage_start_date+"T00:00:00Z"):NaN;
+    const queryEnd=eventCoverage?.coverage_end_date_exclusive?Date.parse(eventCoverage.coverage_end_date_exclusive+"T00:00:00Z"):NaN;
+    const queryOverlap=Number.isFinite(queryStart)&&Number.isFinite(queryEnd)&&queryStart<now&&queryEnd>cutoff;
+    const windowCovered=queryOverlap&&cutoff>=queryStart&&now<=queryEnd;
+    const delayDays=Number(eventCoverage?.provider_delay_days)||0;
+    let eventMessage;
+    if(eventCoverage?.coverage_complete===true&&state.gfwEvents?.coverage_complete===true){
+      if(!queryOverlap&&Number.isFinite(queryEnd)&&queryEnd<=cutoff){
+        eventMessage="Selected time window is newer than GFW's "+delayDays+"-day data delay; no zero result can be inferred."+range;
+      }else{
+        const countMessage=loiteringRows.length
+          ?loiteringRows.length+" loitering events in the queried overlap; "+shown.length+" rendered after display checks."
+          :"no loitering events in the queried overlap.";
+        eventMessage="GFW query completed for provider-available dates:"+range+" "+countMessage;
+        if(!windowCovered)eventMessage+=" The selected window includes dates outside this query range; GFW data are delayed by about "+delayDays+" days, so those dates are not a confirmed zero.";
+      }
+    }else if(eventCoverage?.status==="storage_limited"){
+      eventMessage="GFW query completed, but the 4 MiB output limit removed events; coverage is partial."+range+" Showing "+loiteringRows.length+" retained loitering events, "+shown.length+" rendered.";
+    }else if(eventCoverage){
+      const updated=eventCoverage.generated_at?(" Status checked "+eventCoverage.generated_at+"."):"";
+      eventMessage="GFW event coverage is incomplete; this is not a confirmed zero result."+range+updated+" "+(state.gfwEvents?("Showing retained data: "+loiteringRows.length+" loitering events, "+shown.length+" rendered."):"No event product is available.");
+    }else{
+      eventMessage=state.gfwEvents
+        ?("GFW event coverage status is unavailable; zero cannot be confirmed. "+loiteringRows.length+" loitering events are in the loaded product.")
+        :"GFW event data and coverage status are missing; this is not a confirmed zero result.";
+    }
+    $("gfwStatus").textContent=(checkboxEnabled("gfw_loitering")||checkboxEnabled("gfw_presence")?"Historical context enabled. ":"Historical context hidden by default.")+eventMessage+" Up to 200 markers and 20 list entries. Powered by Global Fishing Watch · CC BY-NC 4.0."+gridStatus;
   }
 
   async function loadSummary(){
@@ -640,8 +672,12 @@
     state.data.danish_status=danishStatus;
     state.data.common_snapshot=commonSnapshot;
     state.data.common_status=commonStatus;
-    const [gfwEvents,gfwGrid]=await Promise.all([fetchJson(paths.gfwEvents).catch(()=>null),fetchJson(paths.gfwGrid).catch(()=>null)]);
-    state.gfwEvents=gfwEvents;state.gfwGrid=gfwGrid;
+    const [gfwEvents,gfwGrid,gfwEventStatus]=await Promise.all([
+      fetchJson(paths.gfwEvents).catch(()=>null),
+      fetchJson(paths.gfwGrid).catch(()=>null),
+      fetchJson(paths.gfwEventStatus).catch(()=>null)
+    ]);
+    state.gfwEvents=gfwEvents;state.gfwGrid=gfwGrid;state.gfwEventStatus=gfwEventStatus;
     state.dynamicReady=true;
     renderAisDataAgeBanner();
   }
