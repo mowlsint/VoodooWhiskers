@@ -143,6 +143,10 @@ jobs:
             [ ! -e "$path" ] || git add -- "$path"
           done
 
+          # build_layers.py removes this obsolete combined layer after splitting sanctions and shadow fleet.
+          # Stage the intentional deletion so the runtime-data guard sees a clean worktree.
+          git add -u -- data/sanctions_shadowfleet.geojson
+
           python scripts/runtime_data_store.py ensure-no-unstaged
 
           if git diff --cached --quiet; then
