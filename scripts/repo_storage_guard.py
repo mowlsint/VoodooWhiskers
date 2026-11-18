@@ -70,8 +70,9 @@ def check(policy, repository_bytes, pending_bytes, active_bytes):
 
 def repository_size_bytes(repo):
     headers = {'Accept': 'application/vnd.github+json'}
-    if os.environ.get('GITHUB_TOKEN'):
-        headers['Authorization'] = 'Bearer ' + os.environ['GITHUB_TOKEN']
+    token = os.environ.get('GITHUB_TOKEN') or os.environ.get('GH_TOKEN')
+    if token:
+        headers['Authorization'] = 'Bearer ' + token
     with urlopen(Request('https://api.github.com/repos/' + repo, headers=headers), timeout=30) as response:
         return int(json.load(response)['size']) * 1024
 
