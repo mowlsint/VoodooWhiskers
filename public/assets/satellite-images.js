@@ -13,28 +13,49 @@
     if(width<1||height<1||width>1200||height>1200)throw Error('Preview dimensions exceed the image budget.');
     return {width,height};
   }
+  function validFootprint(geometry,bbox){
+    const polygons=geometry?.type==='Polygon'?[geometry.coordinates]:geometry?.type==='MultiPolygon'?geometry.coordinates:[];
+    if(!polygons.length||polygons.length>20)return false;
+    let count=0;
+    for(const polygon of polygons){if(!Array.isArray(polygon)||!polygon.length)return false;for(const ring of polygon){
+      if(!Array.isArray(ring)||ring.length<4)return false;count+=ring.length;if(count>12000)return false;
+      for(const point of ring)if(!Array.isArray(point)||point.length<2||!Number.isFinite(point[0])||!Number.isFinite(point[1])||point[0]<-180||point[0]>180||point[1]<-85||point[1]>85)return false;
+    }}
+    const points=polygons.flat(2),xs=points.map(p=>p[0]),ys=points.map(p=>p[1]);
+    const actual=[Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)];
+    return actual.every((n,i)=>Math.abs(n-bbox[i])<0.02);
+  }
   function normalizeImage(job,now=Date.now()){
-    if(!job||job.state!=='ready'||job.is_fixture===true||job.images?.preview_is_derived!==true)throw Error('Choose a completed, real SAR image analysis.');
-    const box=job.request?.bbox,acquired=Date.parse(job.scene?.datetime),scene=text(job.scene?.scene_id);
+    const isOverview=job?.scene_preview_only===true;
+    if(!job||job.state!=='ready'||job.is_fixture===true||job.images?.preview_is_derived!==true)throw Error('Choose a completed, real SAR image preview.');
+    const box=isOverview?job.scene_preview_bbox:job.request?.bbox,acquired=Date.parse(job.scene?.datetime),scene=text(job.scene?.scene_id);
     if(!scene||!Number.isFinite(acquired)||acquired>now+300000||!Array.isArray(box)||box.length!==4||box.some(n=>typeof n!=='number'||!Number.isFinite(n)))throw Error('The image identity, time or footprint is invalid.');
     const [w,s,e,n]=box,width=(e-w)*111320*Math.cos((s+n)/2*Math.PI/180),height=(n-s)*111320;
-    if(!(w>=-180&&w<e&&e<=180&&s>=-85&&s<n&&n<=85)||width>25001||height>25001||width*height>500e6)throw Error('The processed image footprint exceeds the bounded SAR area.');
+    if(!(w>=-180&&w<e&&e<=180&&s>=-85&&s<n&&n<=85))throw Error('The image footprint is invalid.');
+    if(isOverview){
+      if(width>400000||height>400000||width*height>120000e6||!validFootprint(job.scene_footprint,box))throw Error('The full-scene preview footprint exceeds its bounded map area.');
+    }else if(width>25001||height>25001||width*height>500e6)throw Error('The processed image footprint exceeds the bounded SAR area.');
     for(const metadata of [job.candidates?.metadata,job.context?.metadata]){
       if(metadata?.aoi_bbox_wgs84&&JSON.stringify(metadata.aoi_bbox_wgs84)!==JSON.stringify(box))throw Error('The image and processed-area georeference disagree.');
     }
-    const image=job.images.quicklook,dimensions=pngInfo(image),at=new Date(acquired).toISOString();
-    // Explicit allowlist: passwords, access tokens, candidates and analyst notes never cross tabs.
-    return {v:1,id:scene+'|'+box.join(',')+'|'+at,scene_id:scene,acquired_at:at,
-      area_name:text(job.request.area_name)||'Processed SAR area',bbox:box.slice(),image,...dimensions};
+    const image=isOverview?job.images.scene_preview:job.images.quicklook,dimensions=pngInfo(image),at=new Date(acquired).toISOString();
+    return {v:1,id:scene+'|'+box.join(',')+'|'+at,image_kind:isOverview?'full_scene_context_overview':'detailed_aoi',
+      scene_id:scene,acquired_at:at,area_name:isOverview?'Sentinel-1 full scene':text(job.request.area_name)||'Processed SAR area',
+      bbox:box.slice(),source_footprint:isOverview?job.scene_footprint:null,
+      meters_per_pixel:isOverview?job.preview_meters_per_pixel:null,image,...dimensions};
   }
+
   function fromTransfer(value,now=Date.now()){
     if(!value||value.v!==1)throw Error('Unknown image handoff.');
-    return normalizeImage({state:'ready',request:{bbox:value.bbox,area_name:value.area_name},scene:{scene_id:value.scene_id,datetime:value.acquired_at},images:{quicklook:value.image,preview_is_derived:true}},now);
+    const overview=value.image_kind==='full_scene_context_overview';
+    return normalizeImage(overview?{state:'ready',scene_preview_only:true,scene_preview_bbox:value.bbox,scene_footprint:value.source_footprint,preview_meters_per_pixel:value.meters_per_pixel,
+      scene:{scene_id:value.scene_id,datetime:value.acquired_at},images:{scene_preview:value.image,preview_is_derived:true}}:
+      {state:'ready',request:{bbox:value.bbox,area_name:value.area_name},scene:{scene_id:value.scene_id,datetime:value.acquired_at},images:{quicklook:value.image,preview_is_derived:true}},now);
   }
   function footprint(record){
-    const [w,s,e,n]=record.bbox;
-    return {type:'FeatureCollection',features:[{type:'Feature',geometry:{type:'Polygon',coordinates:[[[w,s],[e,s],[e,n],[w,n],[w,s]]]},
-      properties:{scene_id:record.scene_id,acquired_at:record.acquired_at,area_name:record.area_name,image_type:'derived Sentinel-1 VV preview',width:record.width,height:record.height,raw_geotiff_available:false}}]};
+    const [w,s,e,n]=record.bbox,geometry=record.source_footprint||{type:'Polygon',coordinates:[[[w,s],[e,s],[e,n],[w,n],[w,s]]]};
+    return {type:'FeatureCollection',features:[{type:'Feature',geometry,
+      properties:{scene_id:record.scene_id,acquired_at:record.acquired_at,area_name:record.area_name,image_type:record.image_kind||'detailed_aoi',width:record.width,height:record.height,meters_per_pixel:record.meters_per_pixel,raw_geotiff_available:false}}]};
   }
   function filename(record,extension){return ('SAR-'+record.acquired_at.slice(0,19).replace(/[^0-9T]/g,'')+'-'+record.scene_id).replace(/[^a-zA-Z0-9_-]/g,'_').slice(0,150)+'.'+extension;}
   async function openWorkspace(file,password,dependencies){
@@ -84,18 +105,20 @@
       for(const record of records.values()){
         const [w,s,e,n]=record.bbox,bounds=[[s,w],[n,e]];
         if(record.showImage)L.imageOverlay(record.image,bounds,{opacity:record.opacity,interactive:false,satellitePreview:true}).on('error',()=>notice('The PNG preview could not be displayed. The footprint and other map layers remain available.')).addTo(layer);
-        if(record.showFootprint)L.rectangle(bounds,{color:'#e5b66e',weight:2,fillOpacity:0,satelliteFootprint:true}).bindTooltip('Processed SAR image area · '+record.acquired_at).addTo(layer);
+        if(record.showFootprint)L.geoJSON(footprint(record),{style:{color:'#e5b66e',weight:2,fillOpacity:0},satelliteFootprint:true}).bindTooltip(record.image_kind==='full_scene_context_overview'?'Sentinel-1 scene footprint · '+record.acquired_at:'Processed SAR image area · '+record.acquired_at).addTo(layer);
       }
     }
     function controls(){
       const record=selectedRecord();$('satelliteControls').hidden=!record;
       if(!record)return;
       $('satelliteFootprint').checked=record.showFootprint;$('satelliteImage').checked=record.showImage;$('satelliteOpacity').value=String(record.opacity);
-      $('satelliteDetails').textContent=record.area_name+' · '+record.acquired_at+' · '+record.width+' × '+record.height+' px · derived SAR preview, not the raw GeoTIFF.';
+      const scale=Number.isFinite(record.meters_per_pixel)?' · about '+Math.round(record.meters_per_pixel)+' m/pixel':'';
+      const kind=record.image_kind==='full_scene_context_overview'?'full-scene overview, not vessel-scale detail':'derived SAR preview';
+      $('satelliteDetails').textContent=record.area_name+' · '+record.acquired_at+' · '+record.width+' × '+record.height+' px'+scale+' · '+kind+', not the raw GeoTIFF.';
     }
     function add(values,fromTab=false){
       if(new Set([...records.keys(),...values.map(r=>r.id)]).size>MAX_IMAGES)throw Error('At most six images can be held in this tab. Remove an image first.');
-      for(const value of values){const previous=records.get(value.id);records.set(value.id,{...value,showFootprint:previous?.showFootprint??fromTab,showImage:previous?.showImage??false,opacity:previous?.opacity??.7});}
+      for(const value of values){const previous=records.get(value.id);records.set(value.id,{...value,showFootprint:previous?.showFootprint??fromTab,showImage:previous?.showImage??(fromTab&&value.image_kind==='full_scene_context_overview'),opacity:previous?.opacity??.7});}
       selected=values[0].id;select.replaceChildren();
       for(const record of records.values()){const option=document.createElement('option');option.value=record.id;option.textContent=record.area_name+' · '+record.acquired_at;select.append(option);}select.value=selected;controls();draw();show();
       notice('Image ready. Footprint and preview can be switched independently. Files and decrypted images stay in this tab.');

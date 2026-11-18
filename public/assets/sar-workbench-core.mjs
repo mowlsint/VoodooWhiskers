@@ -17,6 +17,11 @@ export function inspectBbox(bbox,cfg){
 }
 function inRing([x,y],ring){let inside=false;for(let i=0;i+1<ring.length;i++){const [x1,y1]=ring[i],[x2,y2]=ring[i+1];if((y1>y)!==(y2>y)&&x<(x2-x1)*(y-y1)/(y2-y1)+x1)inside=!inside;}return inside;}
 export function contains(geometry,point){const polygons=geometry?.type==='Polygon'?[geometry.coordinates]:geometry?.type==='MultiPolygon'?geometry.coordinates:[];return polygons.some(p=>p?.length&&inRing(point,p[0])&&!p.slice(1).some(h=>inRing(point,h)));}
+export function geometryBbox(geometry){
+  const bounds=[Infinity,Infinity,-Infinity,-Infinity];let found=false;
+  const visit=value=>{if(!Array.isArray(value))return;if(value.length>=2&&Number.isFinite(value[0])&&Number.isFinite(value[1])){bounds[0]=Math.min(bounds[0],value[0]);bounds[1]=Math.min(bounds[1],value[1]);bounds[2]=Math.max(bounds[2],value[0]);bounds[3]=Math.max(bounds[3],value[1]);found=true;return;}for(const item of value)visit(item);};
+  visit(geometry?.coordinates);return found?bounds:null;
+}
 export function normalizeScene(feature,bbox,now=Date.now()){
   const p=feature?.properties||{},id=String(feature?.id||'');
   if(!/^S1[A-D]_IW_GRDH_1SDV_[A-Za-z0-9_]{35,120}$/.test(id)||p['sar:instrument_mode']!=='IW'||!['VV','VH'].every(v=>(p['sar:polarizations']||[]).includes(v)))return null;
@@ -24,8 +29,8 @@ export function normalizeScene(feature,bbox,now=Date.now()){
   if(!Number.isFinite(time))return null;
   const stamp=id.match(/_(\d{8}T\d{6})_/),compact=new Date(time).toISOString().replace(/[-:]/g,'').slice(0,15);
   if(!stamp||stamp[1]!==compact)return null;
-  const [w,s,e,n]=bbox,covers=[[w,s],[w,n],[e,s],[e,n],[(w+e)/2,(s+n)/2]].every(pt=>contains(feature.geometry,pt));
-  return {item_id:id,scene_id:id.replace(/_COG$/,''),datetime:dt,platform:p.platform||id.slice(0,3),orbit_direction:p['sat:orbit_state'],footprint:feature.geometry,covers_aoi:covers,processable:covers&&['ascending','descending'].includes(p['sat:orbit_state']),gfw_delay_elapsed:now-time>=5*86400000};
+  const [w,s,e,n]=bbox,orbit=p['sat:orbit_state'],coversPoint=contains(feature.geometry,[(w+e)/2,(s+n)/2]),covers=[[w,s],[w,n],[e,s],[e,n],[(w+e)/2,(s+n)/2]].every(pt=>contains(feature.geometry,pt));
+  return {item_id:id,scene_id:id.replace(/_COG$/,''),datetime:dt,platform:p.platform||id.slice(0,3),orbit_direction:orbit,footprint:feature.geometry,bbox:geometryBbox(feature.geometry),covers_point:coversPoint,previewable:coversPoint&&['ascending','descending'].includes(orbit),covers_aoi:covers,processable:covers&&['ascending','descending'].includes(orbit),gfw_delay_elapsed:now-time>=5*86400000};
 }
 export function safeImage(value){return typeof value==='string'&&value.length<3*1024*1024&&/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(value)?value:'';}
 export function stateText(state){return STATES[state]||'Not yet reviewed';}

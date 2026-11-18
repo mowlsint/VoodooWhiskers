@@ -1,14 +1,14 @@
 import {encryptObject,decryptObject,validatePassword} from './sar-crypto.mjs?v=20261110-en';
-import {inspectBbox,bboxAroundPoint,normalizeScene,safeImage,stateText,STATES,eventFromHash} from './sar-workbench-core.mjs?v=20261111-areas';
+import {inspectBbox,bboxAroundPoint,normalizeScene,safeImage,stateText,STATES,eventFromHash} from './sar-workbench-core.mjs?v=20261118-scene-preview';
 import {readWorkspaceFile} from './sar-import.mjs?v=20261110-en';
 import {createGitHubClient,WORKFLOW_URL} from './sar-github.mjs?v=20261111-direct';
-import './satellite-images.js?v=20261117-satellite';
+import './satellite-images.js?v=20261118-scene-preview';
 
 const $=id=>document.getElementById(id),RAW='https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/main/public/data/sar/workbench.enc.json';
-const state={password:'',workspace:{v:1,jobs:[],analysis_ledger:{}},scenes:[],selected:null,currentJob:null,currentCandidate:null,map:null,mapLayers:null,bounds:null,config:null,event:null,pendingRequest:null,trackedRequestId:null,run:null,pollTimer:null,pollCount:0,pollGeneration:0,pickingArea:false};
+const state={password:'',workspace:{v:1,jobs:[],analysis_ledger:{}},scenes:[],selected:null,currentJob:null,currentCandidate:null,map:null,mapLayers:null,bounds:null,config:null,event:null,pendingRequest:null,trackedRequestId:null,autoSentRequestId:null,run:null,pollTimer:null,pollCount:0,pollGeneration:0,pickingArea:false};
 const github=createGitHubClient();
 const imageSender=globalThis.SatelliteImages.createSender({onStatus:message=>status('main-map-status',message)});
-const ERRORS={EVENT_PERIOD_OUTSIDE_RETENTION:'The event period is outside the last fourteen days. Open the loitering event again.',EVENT_PERIOD_INVALID:'The event period is invalid.',COPERNICUS_CREDENTIALS_MISSING:'Copernicus credentials are missing from GitHub Secrets.',NO_SUITABLE_SCENE:'No suitable acquisition fully covers the area in the selected period.',DAILY_ANALYSIS_LIMIT:'Three new image analyses have already been requested today. Existing image context can still be checked.',REQUEST_EXPIRED:'The request is older than 24 hours. Create a new request.',REQUEST_ALREADY_COMPLETED:'This request has already been processed.',DANISH_ARCHIVE_UNAVAILABLE:'The Danish daily archive is not yet available.',LAND_MASK_CHECKSUM:'The land mask file has changed. Processing has stopped for review.',NO_OPEN_WATER_PIXELS:'Land and the coastal buffer cover the entire area. Choose an area farther offshore.',PilotError:'The Copernicus response or image quality failed validation. Check the credentials and try another acquisition.',RASTER_GEOREFERENCE_MISMATCH:'The radar image georeference does not match the requested area. The image was discarded.'};
+const ERRORS={SCENE_PREVIEW_EXCEEDS_BOUNDS:'This Sentinel-1 scene is larger than the bounded map-image limit. Choose another acquisition or a nearer area.',SCENE_PREVIEW_PNG_TOO_LARGE:'The scene preview could not be reduced to the map-image size limit. Choose another acquisition.',SCENE_PREVIEW_NO_VALID_PIXELS:'The selected scene contains no usable image pixels for this overview.',SCENE_PREVIEW_STRETCH:'The selected scene could not be rendered as a contextual overview.',SCENE_PREVIEW_GEOREFERENCE_MISMATCH:'The scene image georeference did not match the selected footprint. The image was discarded.',EVENT_PERIOD_OUTSIDE_RETENTION:'The event period is outside the last fourteen days. Open the loitering event again.',EVENT_PERIOD_INVALID:'The event period is invalid.',COPERNICUS_CREDENTIALS_MISSING:'Copernicus credentials are missing from GitHub Secrets.',NO_SUITABLE_SCENE:'No suitable acquisition covers the selected point or, for detail analysis, the full outlined area.',DAILY_ANALYSIS_LIMIT:'Three new image-processing requests have already been made today. Existing image context can still be checked.',REQUEST_EXPIRED:'The request is older than 24 hours. Create a new request.',REQUEST_ALREADY_COMPLETED:'This request has already been processed.',DANISH_ARCHIVE_UNAVAILABLE:'The Danish daily archive is not yet available.',LAND_MASK_CHECKSUM:'The land mask file has changed. Processing has stopped for review.',NO_OPEN_WATER_PIXELS:'Land and the coastal buffer cover the entire area. Choose an area farther offshore.',PilotError:'The Copernicus response or image quality failed validation. Check the credentials and try another acquisition.',RASTER_GEOREFERENCE_MISMATCH:'The radar image georeference does not match the requested area. The image was discarded.'};
 
 function element(tag,text,className){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e;}
 function status(id,text,error=false){$(id).textContent=text;$(id).classList.toggle('error',error);}
@@ -22,7 +22,7 @@ function applyEvent(){
 }
 function updateArea(){
   cancelMapPick();
-  $('custom-bbox').hidden=$('area').value!=='custom';state.selected=null;$('analyse').disabled=true;
+  $('custom-bbox').hidden=$('area').value!=='custom';state.selected=null;$('analyse').disabled=true;$('preview-scene').disabled=true;
   $('selected-scene').textContent='Select a suitable radar acquisition first.';
   try{const box=bbox(),info=inspectBbox(box,state.config);status('area-summary',`${info.area.toFixed(1)} km² · ${info.widthPx} × ${info.heightPx} pixels at 10 m`);const archiveAllowed=box[0]>=3&&box[2]<=17&&box[1]>=53&&box[3]<=60;$('danish-ais').disabled=!archiveAllowed;if(!archiveAllowed)$('danish-ais').checked=false;renderSearchMap(box);}
   catch(err){status('area-summary',err.message,true);}
@@ -47,14 +47,14 @@ function initMap(){
   state.mapLayers=L.layerGroup().addTo(state.map);
 }
 function setBounds(box){state.bounds=box;if(state.map)state.map.fitBounds([[box[1],box[0]],[box[3],box[2]]],{padding:[20,20],maxZoom:12});}
-function renderSearchMap(box){initMap();if(!state.map)return;state.mapLayers.clearLayers();L.rectangle([[box[1],box[0]],[box[3],box[2]]],{color:'#e5b66e',weight:2,fillOpacity:.07}).addTo(state.mapLayers);if(state.selected?.footprint)L.geoJSON(state.selected.footprint,{style:{color:'#75b5d6',weight:1,fillOpacity:.025}}).addTo(state.mapLayers);setBounds(box);$('map-caption').textContent='Analysis area · acquisition catalog selection';}
+function renderSearchMap(box){initMap();if(!state.map)return;state.mapLayers.clearLayers();L.rectangle([[box[1],box[0]],[box[3],box[2]]],{color:'#e5b66e',weight:2,fillOpacity:.05}).addTo(state.mapLayers);L.circleMarker([(box[1]+box[3])/2,(box[0]+box[2])/2],{radius:5,color:'#0a1420',weight:2,fillColor:'#e5b66e',fillOpacity:1}).bindTooltip('Selected search location').addTo(state.mapLayers);if(state.selected?.footprint){L.geoJSON(state.selected.footprint,{style:{color:'#75b5d6',weight:2,fillOpacity:.05}}).addTo(state.mapLayers);setBounds(state.selected.bbox||box);$('map-caption').textContent='Selected Sentinel-1 footprint · point marked in gold';}else{setBounds(box);$('map-caption').textContent='Selected search location · small detail area outlined';}}
 function cancelMapPick(){state.pickingArea=false;$('pick-area').setAttribute('aria-pressed','false');state.map?.getContainer().classList.remove('picking-area');}
 function pickArea(){
   if(state.event){status('area-summary','Leave the loitering event time window before choosing another area.',true);return;}
   initMap();if(!state.map)return;
   if(state.pickingArea){cancelMapPick();return;}
   state.pickingArea=true;$('pick-area').setAttribute('aria-pressed','true');state.map.getContainer().classList.add('picking-area');
-  state.map.fitBounds([[48,-25],[80,35]]);status('area-summary','Click the map to centre a 20 × 20 km analysis area. Pan or zoom to place it precisely.');
+  state.map.fitBounds([[48,-25],[80,35]]);status('area-summary','Click the location you want to check. The small outlined area is used for optional detail analysis; acquisition search checks the clicked point.');
   $('sar-map').scrollIntoView({block:'center',behavior:'smooth'});
 }
 
@@ -72,7 +72,7 @@ async function unlock(event){
 function lock(){
   imageSender.cancel();$('show-on-main-map').disabled=true;$('new-main-map').hidden=true;status('main-map-status','');
   stopPolling();github.disconnect();$('github-token').value='';$('github-connect').disabled=false;$('github-disconnect').hidden=true;$('latest-results').disabled=true;$('direct-start').disabled=true;$('github-run-panel').hidden=true;$('github-artifact-link').removeAttribute('href');$('github-run-link').removeAttribute('href');state.pendingRequest=null;state.trackedRequestId=null;state.run=null;cancelMapPick();status('github-status','Not connected. Manual GitHub steps remain available.');
-  state.password='';state.workspace={v:1,jobs:[],analysis_ledger:{}};state.scenes=[];state.selected=null;state.currentJob=null;state.currentCandidate=null;
+  state.password='';state.workspace={v:1,jobs:[],analysis_ledger:{}};state.autoSentRequestId=null;state.scenes=[];state.selected=null;state.currentJob=null;state.currentCandidate=null;
   state.map?.remove();state.map=null;state.mapLayers=null;state.bounds=null;
   for(const id of ['scene-list','candidate-rows','candidate-facts','result-metrics','job-select'])$(id).replaceChildren();
   for(const id of ['candidate-id','candidate-title','candidate-description','selected-scene','result-note','workspace-status','catalog-status','request-envelope','review-note','dispatch-summary','copy-status','github-run-status']){const e=$(id);if('value'in e)e.value='';else e.textContent='';}
@@ -83,9 +83,9 @@ function lock(){
 
 function showScenes(){
   $('scene-list').replaceChildren();
-  for(const scene of state.scenes){const button=element('button',undefined,'scene-choice');button.type='button';button.disabled=!scene.processable;button.setAttribute('aria-pressed',String(state.selected?.scene_id===scene.scene_id));
-    button.append(element('strong',fmtDate(scene.datetime)),element('span',scene.gfw_delay_elapsed?'GFW delay elapsed':'recent','scene-age'),element('small',`${scene.platform.toUpperCase()} · ${scene.orbit_direction==='ascending'?'ascending':'descending'} · ${scene.processable?'Area covered':'Area not fully suitable'}`));
-    button.addEventListener('click',()=>{state.selected=scene;showScenes();$('selected-scene').textContent=`${fmtDate(scene.datetime)} · ${scene.platform.toUpperCase()} · VV / VH`;$('analyse').disabled=false;renderSearchMap(bbox());});
+  for(const scene of state.scenes){const button=element('button',undefined,'scene-choice');button.type='button';button.disabled=!scene.previewable;button.setAttribute('aria-pressed',String(state.selected?.scene_id===scene.scene_id));
+    button.append(element('strong',fmtDate(scene.datetime)),element('span',scene.gfw_delay_elapsed?'GFW delay elapsed':'recent','scene-age'),element('small',`${scene.platform.toUpperCase()} · ${scene.orbit_direction==='ascending'?'ascending':'descending'} · ${scene.previewable?'Covers selected point':'Selected point not covered'} · ${scene.processable?'small area also covered':'small area extends outside scene'}`));
+    button.addEventListener('click',()=>{state.selected=scene;showScenes();$('selected-scene').textContent=`${fmtDate(scene.datetime)} · ${scene.platform.toUpperCase()} · clicked point covered · scene footprint outlined on map`;$('preview-scene').disabled=false;$('analyse').disabled=!scene.processable;renderSearchMap(bbox());});
     $('scene-list').append(button);
   }
 }
@@ -96,22 +96,24 @@ async function search(){
     const payload=await readJson(url);if(!Array.isArray(payload?.features))throw new Error('The catalog did not return a usable response.');
     state.scenes=payload.features.map(f=>normalizeScene(f,box)).filter(s=>s&&Date.parse(s.datetime)>=+start&&Date.parse(s.datetime)<=+end).sort((a,b)=>Date.parse(b.datetime)-Date.parse(a.datetime));
     state.scenes=[...new Map(state.scenes.map(s=>[s.scene_id,s])).values()];state.selected=null;$('analyse').disabled=true;showScenes();
-    const suitable=state.scenes.filter(s=>s.processable).length,truncated=(payload.links||[]).some(l=>l.rel==='next');
-    status('catalog-status',state.scenes.length?`${state.scenes.length} acquisitions · ${suitable} suitable.${truncated?' Display limited; shorten the period if needed.':''}`:'No suitable acquisition found in this period. Extend the period or move the area.');
+    const suitable=state.scenes.filter(s=>s.previewable).length,truncated=(payload.links||[]).some(l=>l.rel==='next');
+    status('catalog-status',state.scenes.length?`${state.scenes.length} acquisitions intersect the selected area · ${suitable} cover the clicked point.${truncated?' Display limited; shorten the period if needed.':''}`:'No acquisition covers the selected point in this period. Extend the period or move the point.');
   }catch(err){status('catalog-status',`${err.message} Alternatively, request the catalog search through GitHub.`,true);$('search-via-github').hidden=false;}
   finally{$('search').disabled=false;}
 }
 
 async function dispatch(action,previous=null){
   try{if(!state.password)throw new Error('Open the workbench first.');if(state.run&&state.run.status!=='completed')throw new Error('A request is already being tracked. Check its status before starting another.');const box=previous?previous.request.bbox:bbox();inspectBbox(box,state.config);
-    if(action==='analyse'&&!state.selected)throw new Error('Select a suitable acquisition first.');
-    const request={v:1,id:crypto.randomUUID(),created_at:new Date().toISOString(),action,area_id:previous?previous.request.area_id:$('area').value,bbox:box,days:previous?previous.request.days:Number($('days').value),scene_id:previous?previous.scene.scene_id:state.selected?.scene_id||'latest',gfw_context:$('gfw-context').checked,danish_ais:$('danish-ais').checked};
+    if(['analyse','scene_preview'].includes(action)&&!state.selected)throw new Error('Select an acquisition that covers the clicked point first.');
+    if(action==='analyse'&&!state.selected.processable)throw new Error('This acquisition covers the point but not the whole small detail area. Choose a scene that covers the area, or prepare its full-scene map image.');
+    if(action==='scene_preview'&&!state.selected.previewable)throw new Error('The selected acquisition does not cover the clicked point.');
+    const request={v:1,id:crypto.randomUUID(),created_at:new Date().toISOString(),action,area_id:previous?previous.request.area_id:$('area').value,bbox:box,days:previous?previous.request.days:Number($('days').value),scene_id:previous?previous.scene.scene_id:state.selected?.scene_id||'latest',gfw_context:action==='analyse'&&$('gfw-context').checked,danish_ais:action==='analyse'&&$('danish-ais').checked};
     if(state.event&&!previous)Object.assign(request,{range_from:state.event.start,range_to:state.event.end,event_id:state.event.event_id});
     if(action==='refresh_context')request.gfw_context=true;
     const generation=state.pollGeneration,envelope=await encryptObject(request,state.password,'request');if(!state.password||generation!==state.pollGeneration)return;
     $('request-envelope').value=JSON.stringify(envelope);
-    state.pendingRequest=request;$('direct-start').disabled=!github.connected;$('dispatch-summary').textContent=`${areaLabel(request)} · ${box.map(n=>n.toFixed(4)).join(', ')} · ${action==='search'?'catalog metadata only':action==='refresh_context'?'saved candidates; no new radar image':fmtDate(state.selected.datetime)}`;
-    $('dispatch-title').textContent=action==='search'?'Start catalog search on GitHub':action==='refresh_context'?'Recheck historical AIS context':'Analyze this acquisition on GitHub';
+    state.pendingRequest=request;$('direct-start').disabled=!github.connected;$('dispatch-summary').textContent=`${areaLabel(request)} · ${box.map(n=>n.toFixed(4)).join(', ')} · ${action==='search'?'catalog metadata only':action==='refresh_context'?'saved candidates; no new radar image':action==='scene_preview'?`${fmtDate(state.selected.datetime)} · bounded full-scene map overview`:fmtDate(state.selected.datetime)}`;
+    $('dispatch-title').textContent=action==='search'?'Start catalog search on GitHub':action==='refresh_context'?'Recheck historical AIS context':action==='scene_preview'?'Prepare this Sentinel-1 scene map image':'Analyze this acquisition on GitHub';
     status('copy-status',github.connected?'Ready. Start workflow sends this encrypted request to GitHub.':'Nothing has started. Connect GitHub above for direct start, or follow the manual steps below.');$('dispatch-dialog').showModal();
   }catch(err){status('workspace-status',err.message,true);}
 }
@@ -160,7 +162,7 @@ async function latestResults(){
 function areaLabel(request){if(request?.area_id==='custom')return 'Custom area';return state.config?.areas.find(area=>area.id===request?.area_id)?.name||request?.area_name||'Custom area';}
 function renderJobs(preferred){
   const select=$('job-select');select.replaceChildren();
-  for(const job of state.workspace.jobs){const title=`${areaLabel(job.request)} · ${fmtDate(job.scene?.datetime||job.created_at)} · ${job.state==='ready'?'Analysis':job.state==='catalog_ready'?'Catalog':'Error'}`;const option=element('option',title);option.value=job.request_id;select.append(option);}
+  for(const job of state.workspace.jobs){const kind=job.scene_preview_only?'Full-scene map image':job.state==='ready'?'Detail analysis':job.state==='catalog_ready'?'Catalog':'Error';const title=`${areaLabel(job.request)} · ${fmtDate(job.scene?.datetime||job.created_at)} · ${kind}`;const option=element('option',title);option.value=job.request_id;select.append(option);}
   if(!select.options.length){const option=element('option','No saved analysis yet');option.value='';select.append(option);}
   if(preferred&&[...select.options].some(o=>o.value===preferred))select.value=preferred;
   renderJob();
@@ -175,6 +177,12 @@ function renderJob(){
   if(job.state==='error'){status('result-note',ERRORS[job.error_code]||`The request could not be completed (${job.error_code||'unknown error'}). Previous results are preserved.`,true);return;}
   if(job.state==='catalog_ready'){
     $('area').value=job.request.area_id;for(const [i,id] of ['west','south','east','north'].entries())$(id).value=job.request.bbox[i];$('days').value=String(job.request.days);updateArea();state.scenes=job.catalog.scenes;state.selected=null;showScenes();status('result-note',`Catalog search complete. ${job.catalog.scenes.length} acquisitions found; select one on the left.`);return;
+  }
+  if(job.scene_preview_only){
+    status('result-note',`${fmtDate(job.scene.datetime)} · full-scene contextual overview · about ${Math.round(job.preview_meters_per_pixel)} m/pixel. This image shows acquisition coverage and broad surface patterns; it is not vessel-scale detail.`);
+    renderResultMap(job,[]);try{globalThis.SatelliteImages.normalizeImage(job);$('show-on-main-map').disabled=false;
+      if((job.request_id===state.trackedRequestId||job.request_id===state.pendingRequest?.id)&&state.autoSentRequestId!==job.request_id){state.autoSentRequestId=job.request_id;imageSender.send(job);$('new-main-map').hidden=false;}
+    }catch(err){if(job.request_id===state.trackedRequestId||job.request_id===state.pendingRequest?.id)status('main-map-status',`The preview is ready here, but automatic map transfer failed: ${err.message}`,true);}return;
   }
   const features=job.context?.features||[];if(!Array.isArray(features))return;
   $('context-refresh').hidden=false;$('download-geojson').disabled=false;
@@ -194,16 +202,17 @@ function renderJob(){
 }
 
 function renderResultMap(job,features){
-  initMap();if(!state.map)return;state.mapLayers.clearLayers();const box=job.request.bbox;
-  const preview=safeImage(job.images?.quicklook);if(preview)L.imageOverlay(preview,[[box[1],box[0]],[box[3],box[2]]],{opacity:.95}).addTo(state.mapLayers);
-  L.rectangle([[box[1],box[0]],[box[3],box[2]]],{color:'#d9e4ea',weight:1,fillOpacity:0}).addTo(state.mapLayers);
+  initMap();if(!state.map)return;state.mapLayers.clearLayers();const overview=job.scene_preview_only===true,box=overview?job.scene_preview_bbox:job.request.bbox;
+  const preview=safeImage(overview?job.images?.scene_preview:job.images?.quicklook);if(preview)L.imageOverlay(preview,[[box[1],box[0]],[box[3],box[2]]],{opacity:.95}).addTo(state.mapLayers);
+  if(overview&&job.scene_footprint)L.geoJSON(job.scene_footprint,{style:{color:'#d9e4ea',weight:1,fillOpacity:0}}).addTo(state.mapLayers);
+  else L.rectangle([[box[1],box[0]],[box[3],box[2]]],{color:'#d9e4ea',weight:1,fillOpacity:0}).addTo(state.mapLayers);
   for(const [i,f] of features.entries()){
     const c=f.geometry?.coordinates,p=f.properties||{};if(!Array.isArray(c)||!c.every(Number.isFinite))continue;
     const color={MATCHED:'#8ac6ae',POSSIBLE_MATCH:'#e5b66e',AMBIGUOUS:'#c5a5dd',UNMATCHED_IN_AVAILABLE_AIS:'#f19786',NO_AIS_COVERAGE:'#75b5d6'}[p.ais_match_status]||'#dbe5ec';
     const marker=L.circleMarker([c[1],c[0]],{radius:7,color:'#0a1420',weight:2,fillColor:color,fillOpacity:1}).addTo(state.mapLayers);
     marker.bindTooltip(element('span',`Candidate ${String(i+1).padStart(2,'0')} · ${stateText(p.ais_match_status)}`));marker.on('click',()=>selectCandidate(f,i));
   }
-  setBounds(box);$('map-caption').textContent=`SAR preview · ${fmtDate(job.scene.datetime)} · unreviewed candidates`;
+  setBounds(box);$('map-caption').textContent=overview?`Sentinel-1 full-scene overview · ${fmtDate(job.scene.datetime)} · contextual, not vessel-scale detail`:`SAR preview · ${fmtDate(job.scene.datetime)} · unreviewed candidates`;
 }
 function selectCandidate(feature,index){
   const props=feature.properties||{},job=state.currentJob;state.currentCandidate=feature;
@@ -227,7 +236,7 @@ $('check-run-status').addEventListener('click',()=>{if(!github.connected){status
 $('github-disconnect').addEventListener('click',()=>{stopPolling();github.disconnect();$('github-token').value='';$('github-disconnect').hidden=true;$('latest-results').disabled=true;$('direct-start').disabled=true;status('github-status','GitHub disconnected. Any already started run continues; open GitHub to check it.');});
 $('show-password').addEventListener('click',()=>{const shown=$('password').type==='password';$('password').type=shown?'text':'password';$('show-password').textContent=shown?'Hide':'Show';$('show-password').setAttribute('aria-label',shown?'Hide password':'Show password');});
 $('area').addEventListener('change',updateArea);for(const id of ['west','south','east','north'])$(id).addEventListener('change',updateArea);
-$('search').addEventListener('click',search);$('analyse').addEventListener('click',()=>dispatch('analyse'));$('search-via-github').addEventListener('click',()=>dispatch('search'));
+$('search').addEventListener('click',search);$('preview-scene').addEventListener('click',()=>dispatch('scene_preview'));$('analyse').addEventListener('click',()=>dispatch('analyse'));$('search-via-github').addEventListener('click',()=>dispatch('search'));
 $('context-refresh').addEventListener('click',()=>dispatch('refresh_context',state.currentJob));$('refresh').addEventListener('click',()=>{window.open('https://github.com/mowlsint/VoodooWhiskers/actions/workflows/sar-workbench.yml','_blank','noopener,noreferrer');status('workspace-status','Open the completed run → download the sar-workbench-encrypted artifact → use Open backup here. The ZIP file can be opened directly.');});$('job-select').addEventListener('change',renderJob);
 $('fit-map').addEventListener('click',()=>{if(state.bounds)setBounds(state.bounds);});$('review-disposition').addEventListener('change',saveNote);$('review-note').addEventListener('input',saveNote);
 $('close-dispatch').addEventListener('click',()=>$('dispatch-dialog').close());$('copy-request').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('request-envelope').value);status('copy-status','Request copied. Open GitHub and paste it into encrypted_request.');}catch{$('request-envelope').focus();$('request-envelope').select();status('copy-status','Copy the selected request with Ctrl+C.');}});
