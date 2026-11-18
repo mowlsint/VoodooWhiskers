@@ -1,8 +1,10 @@
 (() => {
   "use strict";
 
+  const LIVE_DATA_BASE = "https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/runtime-data/public/";
   const fetchJson = async (url) => {
-    const response = await fetch(`${url}?t=${Date.now()}`, {cache: "no-store"});
+    const source = url.startsWith("./data/") ? new URL(url.slice(2), LIVE_DATA_BASE).href : url;
+    const response = await fetch(`${source}?t=${Date.now()}`, {cache: "no-store"});
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     return response.json();
   };
