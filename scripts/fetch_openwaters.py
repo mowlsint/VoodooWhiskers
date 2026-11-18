@@ -16,6 +16,7 @@ from fetch_regional_contacts import (
     atomic_json_write, filter_contacts, normalize_timestamp, normalize_sog,
     normalize_cog, normalize_heading, utc_now_iso,
 )
+from vessel_dimensions import length_meters
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "config/openwaters.json"
@@ -104,6 +105,9 @@ def static_fields(event):
     out = {key: fields[name] for key, name in mapping.items() if fields.get(name) not in (None, "", 0)}
     if fields.get("ShipType"):
         out["ship_type"] = fields["ShipType"]
+    length = length_meters(fields)
+    if length is not None:
+        out["length_m"] = length
     return out
 
 

@@ -37,14 +37,19 @@
     function draw(){
       if(layer)map.removeLayer(layer);layer=L.layerGroup().addTo(map);
       let drawn=0,total=0;const color=p=>COLORS[Math.max(0,projects.findIndex(x=>x.id===p.project_id))%COLORS.length];
-      for(const item of model.models){
+      const showSmall=$('showSmallVessels')?.checked===true;
+      const visibleModels=model.models.filter(item=>{
+        const known=[...item.points].reverse().find(p=>Number.isFinite(VM.lengthMeters(p)));
+        return showSmall||!known||!VM.isUnderLength(known,VM.SMALL_VESSEL_THRESHOLD_M);
+      });
+      for(const item of visibleModels){
         for(const seg of item.segments){total++;if(drawn>=5000)continue;drawn++;L.polyline([[seg.a.latitude,seg.a.longitude],[seg.b.latitude,seg.b.longitude]],{color:VC.describe(seg.b,categoryIndex).primary.color,weight:2.5,opacity:.8}).addTo(layer);}
         // A bounded map sample; all observations remain in the project file.
         const sample=item.points.length>300?item.points.filter((p,i)=>i%Math.ceil(item.points.length/300)===0||i===item.points.length-1||item.unresolved.has(p.id)):item.points;
         for(const p of sample){total++;if(drawn>=5000)continue;drawn++;L.circleMarker([p.latitude,p.longitude],{radius:p===item.points.at(-1)?6:3,...VC.describe(p,categoryIndex).style,dashArray:item.unresolved.has(p.id)?'2 2':null}).bindPopup(()=>popup({...p,_local_conflict:item.unresolved.has(p.id)})).addTo(layer);}
       }
       if($('localShowUndated').checked)for(const r of model.routes){total++;if(drawn>=5000)break;drawn++;const box=node('div',`${r.name||r.imo||r.mmsi||r.callsign} · ${r.project_label} · Undated imported route; not a timed position.`);L.polyline(r.coordinates.map(c=>[c[1],c[0]]),{color:color(r),weight:2,dashArray:'4 5'}).bindPopup(box).addTo(layer);}
-      $('localOverlayStatus').textContent=`${model.models.length} vessels in this time window · ${model.rows.filter(p=>p.origin==='local').length} imported observations · ${model.rows.filter(p=>p._saved_context).length} saved workflow observations · ${model.routes.length} undated routes.${isProjectMode()?' Historical project period; live workflow positions are hidden.':''}${total>5000?' Map display capped at 5,000 elements; project files retain all points.':''}`;
+      $('localOverlayStatus').textContent=`${visibleModels.length} vessels in this time window · ${model.rows.filter(p=>p.origin==='local').length} imported observations · ${model.rows.filter(p=>p._saved_context).length} saved workflow observations · ${model.routes.length} undated routes.${model.models.length-visibleModels.length?' '+(model.models.length-visibleModels.length)+' vessels with known AIS length below 17 m hidden.':''}${isProjectMode()?' Historical project period; live workflow positions are hidden.':''}${total>5000?' Map display capped at 5,000 elements; project files retain all points.':''}`;
     }
     function renderConflicts(){
       const root=$('localConflicts');root.replaceChildren();

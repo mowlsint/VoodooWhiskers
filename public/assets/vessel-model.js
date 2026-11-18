@@ -2,7 +2,26 @@
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.VesselModel=api;})(globalThis,()=>{
   'use strict';
   const SOURCES={openwaters:{label:'Open Waters',color:'#4da3ff'},fintraffic:{label:'Finland · Fintraffic',color:'#39d3df'},barentswatch:{label:'Norway · BarentsWatch',color:'#61d29a'},ais_dk_historical:{label:'Denmark · historical AIS',color:'#ffb44e'},global_fishing_watch:{label:'GFW · historical context',color:'#c8a1ff'},unknown:{label:'Source unknown',color:'#9da6b1'}};
+  const SMALL_VESSEL_THRESHOLD_M=17;
   const digits=v=>String(v??'').replace(/\D/g,'');
+  function lengthMeters(p={}){
+    const directKeys=['length_m','vessel_length_m','ship_length_m','loa_m','length_meters','length_metres','lengthMeters','lengthMetres'];
+    for(const key of directKeys){
+      const raw=p?.[key];if(raw==null||raw===''||typeof raw==='boolean')continue;
+      const n=Number(raw);if(Number.isFinite(n)&&n>0&&n<=1000)return n;
+    }
+    const aKeys=['A','a','dimension_a','DimensionA','to_bow','toBow','bow'];
+    const bKeys=['B','b','dimension_b','DimensionB','to_stern','toStern','stern'];
+    const dimensions=[p?.Dimension,p?.dimension,p?.dimensions].filter(v=>v&&typeof v==='object');
+    dimensions.push(p);
+    for(const d of dimensions){
+      const av=aKeys.map(k=>d?.[k]).find(v=>v!=null&&v!==''),bv=bKeys.map(k=>d?.[k]).find(v=>v!=null&&v!=='');
+      const a=Number(av),b=Number(bv);
+      if(Number.isFinite(a)&&Number.isFinite(b)&&a>0&&b>0&&a+b<=1000)return a+b;
+    }
+    return NaN;
+  }
+  function isUnderLength(p,threshold=SMALL_VESSEL_THRESHOLD_M){const n=lengthMeters(p);return Number.isFinite(n)&&n<threshold;}
   function imo(v){const s=digits(v);return /^\d{7}$/.test(s)&&[...s.slice(0,6)].reduce((n,c,i)=>n+Number(c)*(7-i),0)%10===Number(s[6])?s:'';}
   function mmsi(v){const s=digits(v);return /^\d{9}$/.test(s)&&s!=='000000000'?s:'';}
   function source(p={}){
@@ -56,5 +75,5 @@
     const vessel=event.vessel||{};
     return {v:1,event_id:String(event.id||'').slice(0,160),name:String(vessel.name||'Unknown vessel').slice(0,120),mmsi:mmsi(vessel.mmsi||vessel.ssvid),imo:imo(vessel.imo),start:new Date(Math.max(start,now-14*86400000)).toISOString(),end:new Date(Math.min(end,now)).toISOString(),bbox:[Math.max(-25,lon-dx),Math.max(48,lat-dy),Math.min(35,lon+dx),Math.min(80,lat+dy)],source:'global_fishing_watch',period_clipped:start<now-14*86400000||end>now};
   }
-  return {SOURCES,imo,mmsi,source,sourceLabel,observed,age,groups,coordinates,distance,track,vesselFinder,eventContext};
+  return {SOURCES,SMALL_VESSEL_THRESHOLD_M,lengthMeters,isUnderLength,imo,mmsi,source,sourceLabel,observed,age,groups,coordinates,distance,track,vesselFinder,eventContext};
 });

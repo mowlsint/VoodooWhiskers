@@ -10,6 +10,7 @@ from pathlib import Path
 from threading import Lock
 
 from vessel_identity import resolve, valid_imo, valid_mmsi
+from vessel_dimensions import length_meters
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "public/data/vessels/traffic_context_latest.json"
@@ -18,7 +19,7 @@ MAX_CONTACTS = 10_000
 MAX_AGE_HOURS = 24
 PROVIDERS = ("openwaters", "fintraffic", "barentswatch")
 COLUMNS = ["mmsi", "imo", "latitude", "longitude", "observed_at", "source_provider",
-           "upstream_source", "position_timestamp_basis"]
+           "upstream_source", "position_timestamp_basis", "length_m"]
 
 
 def utc(value=None):
@@ -50,7 +51,8 @@ def compact(row, provider, now):
             "latitude": round(lat, 6), "longitude": round(lon, 6),
             "observed_at": t.isoformat(), "source_provider": provider,
             "upstream_source": str(row.get("upstream_source") or "")[:64] if provider == "openwaters" else "",
-            "position_timestamp_basis": str(row.get("position_timestamp_basis") or "provider_timestamp")[:64]}
+            "position_timestamp_basis": str(row.get("position_timestamp_basis") or "provider_timestamp")[:64],
+            "length_m": length_meters(row)}
 
 
 def balanced(rows, limit):
@@ -122,7 +124,7 @@ class TrafficContext:
                 grouped[key] = row
         ordered = balanced(grouped.values(), max_contacts)
         sources_limited = any(s.get("source_cap_applied") for s in self.status.values())
-        payload = {"schema_version": "1.0.0", "kind": "sampled_traffic_context",
+        payload = {"schema_version": "1.1.0", "kind": "sampled_traffic_context",
                    "generated_at": now.isoformat(), "expires_at": (now + timedelta(hours=MAX_AGE_HOURS)).isoformat(),
                    "max_age_hours": MAX_AGE_HOURS, "coverage_complete": False, "context_only": True,
                    "position_timestamp_valid": True, "max_contacts": MAX_CONTACTS, "max_bytes": MAX_BYTES,
