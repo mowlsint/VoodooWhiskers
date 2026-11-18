@@ -1,6 +1,7 @@
 (() => {
   "use strict";
 
+  const LIVE_DATA_BASE = "https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/runtime-data/public/";
   const paths = {
     context: "./data/vessels/sar_ais_context_latest.geojson",
     status: "./data/vessels/sar_import_status.json",
@@ -61,7 +62,8 @@
   }
 
   async function fetchJson(path) {
-    const response = await fetch(`${path}${path.includes("?") ? "&" : "?"}t=${Date.now()}`, { cache: "no-store" });
+    const source = path.startsWith("./data/") ? new URL(path.slice(2), LIVE_DATA_BASE).href : path;
+    const response = await fetch(`${source}${source.includes("?") ? "&" : "?"}t=${Date.now()}`, { cache: "no-store" });
     if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
     return response.json();
   }

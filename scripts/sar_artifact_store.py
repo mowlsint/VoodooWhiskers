@@ -164,8 +164,13 @@ def main():
                 with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('changed='+str(changed).lower()+'\n')
     except ArtifactStorageBudgetExceeded as exc:
         print(f'::error title=Artifact storage budget exceeded::{exc}');return 1
-    except Exception:
-        print('SAR artifact storage could not be safely read or bounded. No Git fallback.');return 1
+    except Exception as exc:
+        # Keep response bodies, URLs and credentials out of logs; identify a bounded API failure.
+        response=getattr(exc,'response',None)
+        status=getattr(response,'status_code',None)
+        detail=f'HTTP {status}' if isinstance(status,int) else type(exc).__name__
+        print(f'::error title=SAR artifact storage operation failed::Could not safely read, prune, or bound GitHub Actions artifacts ({detail}). No Git fallback; SAR processing did not start.')
+        return 1
     print('Verschlüsselte SAR-Ablage vorbereitet.');return 0
 
 if __name__=='__main__':raise SystemExit(main())

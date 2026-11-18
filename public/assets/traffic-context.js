@@ -6,6 +6,7 @@
 })(globalThis, () => {
   'use strict';
   const MAX_BYTES = 1024 * 1024, MAX_CONTACTS = 10000, MAX_AGE = 24 * 3600000;
+  const LIVE_DATA_BASE = 'https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/runtime-data/public/';
   const SOURCES = new Set(['openwaters', 'fintraffic', 'barentswatch']);
   const COLUMNS = ['mmsi','imo','latitude','longitude','observed_at','source_provider','upstream_source','position_timestamp_basis'];
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -61,7 +62,8 @@
   }
 
   async function fetchPack(url) {
-    const response = await fetch(url, {cache:'no-store', signal:AbortSignal.timeout(15000)});
+    const source = url.startsWith('./data/') ? new URL(url.slice(2), LIVE_DATA_BASE).href : url;
+    const response = await fetch(source, {cache:'no-store', signal:AbortSignal.timeout(15000)});
     if (!response.ok) throw new Error('Traffic data unavailable');
     const reader = response.body.getReader(), chunks = []; let size = 0;
     try {

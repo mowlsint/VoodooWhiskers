@@ -24,6 +24,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Restore latest bounded live data
+        run: python scripts/runtime_data_store.py restore
+
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
@@ -159,17 +162,8 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Update category-filtered Danish historical AIS"
-          for attempt in 1 2 3; do
-            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
-              exit 0
-            fi
-            git rebase --abort || true
-            [ "$attempt" -lt 3 ] && sleep 12
-          done
-          echo "::error::Failed to push Danish historical AIS update after 3 attempts."
-          exit 1
-
+          GH_TOKEN="${{ github.token }}" python scripts/repo_storage_guard.py
+          python scripts/runtime_data_store.py publish "Update category-filtered Danish historical AIS"
       - name: Remove all temporary Danish AIS raw files
         if: always()
         run: |

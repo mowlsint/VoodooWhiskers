@@ -16,7 +16,19 @@ def inspect_staged_details(root=ROOT):
         'git', 'diff', '--cached', '--name-only', '--diff-filter=ACMR', '-z'
     ], cwd=root).decode().split('\0')
     entries, unique, errors = [], {}, []
+    runtime_base = os.environ.get('RUNTIME_DATA_BASE')
     for name in filter(None, names):
+        # Restoring runtime-data into the job workspace makes the main checkout
+        # look changed. Count only blobs that differ from that restored baseline.
+        if runtime_base and name.startswith(('data/', 'public/data/', 'public/downloads/')):
+            current = subprocess.run(['git', 'rev-parse', ':' + name], cwd=root,
+                                     stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+            baseline = subprocess.run(['git', 'rev-parse', runtime_base + ':' + name], cwd=root,
+                                      stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+            current_oid = current.stdout.decode().strip() if current.returncode == 0 else None
+            baseline_oid = baseline.stdout.decode().strip() if baseline.returncode == 0 else None
+            if current_oid == baseline_oid:
+                continue
         low = name.lower()
         if (name == 'public/data/sar/workbench.enc.json'
                 or low.startswith(('data/raw/', 'tmp/aisdk/'))

@@ -24,6 +24,9 @@ jobs:
         with:
           ref: main
           fetch-depth: 1
+      - name: Restore latest bounded live data
+        run: python scripts/runtime_data_store.py restore
+
       - name: Set up Python
         uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0, Node 24
         with:
