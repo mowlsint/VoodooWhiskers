@@ -2,7 +2,6 @@
 """Restore and publish bounded live data without adding each update to main history."""
 import os
 import subprocess
-import sys
 import tempfile
 from pathlib import Path
 
@@ -143,10 +142,13 @@ def publish(message):
             set_base(latest)
             print("Runtime data branch already contains these products.")
             return
+        # A parentless snapshot prevents this high-churn branch from retaining
+        # old data commits. The explicit lease protects concurrent publishers.
         commit = git("-c", "user.name=github-actions[bot]",
                      "-c", "user.email=41898282+github-actions[bot]@users.noreply.github.com",
-                     "commit-tree", tree, "-p", latest, "-m", message).stdout.decode().strip()
-        pushed = git("push", "origin", f"{commit}:refs/heads/{BRANCH}", check=False)
+                     "commit-tree", tree, "-m", message).stdout.decode().strip()
+        pushed = git("push", f"--force-with-lease=refs/heads/{BRANCH}:{latest}",
+                     "origin", f"{commit}:refs/heads/{BRANCH}", check=False)
         if pushed.returncode == 0:
             set_base(commit)
             print(f"Published {len(changes)} changed live data file(s) to {BRANCH} ({commit[:12]}).")
