@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 
 from collect_special_aircraft import INPUTS, ROOT, read_json, validate_policy
 from repo_storage_guard import active_vessel_bytes, check, repository_size_bytes
@@ -62,45 +63,31 @@ def publish(root=ROOT, size_reader=repository_size_bytes, push=True):
         raise ValueError('Production aircraft writes require main')
     if not (root / PREFIX).exists():
         return 'no_aircraft_output'
-    changed = git(root, 'ls-files', '--modified', '--others', '--exclude-standard').splitlines()
     staged = git(root, 'diff', '--cached', '--name-only').splitlines()
-    if any(not p.startswith(PREFIX) for p in changed + staged):
-        raise ValueError('Unrelated changes refused by aircraft publisher')
+    if any(not p.startswith(PREFIX) for p in staged):
+        raise ValueError('Unrelated staged changes refused by aircraft publisher')
     git(root, 'add', '-A', '--', 'public/data/aircraft')
     paths = git(root, 'diff', '--cached', '--name-only').splitlines()
     if not paths:
         return 'no_changes'
+    from runtime_data_store import ensure_no_unstaged
+    ensure_no_unstaged()
     validate_outputs(root)
     policy = read_json(root / 'config/storage_policy.json')
     pending = sum(int(git(root, 'cat-file', '-s', ':' + p))
                   for p in git(root, 'diff', '--cached', '--name-only', '--diff-filter=ACMR').splitlines())
     remote = size_reader('mowlsint/VoodooWhiskers')
     check(policy, remote, pending, active_vessel_bytes(root))
-    git(root, 'commit', '-m', 'Update bounded special aircraft observations')
+    latest = validate_outputs(root)
+    if remote >= policy['warning_bytes'] and latest.get('collection_code') != 'repository_warning_budget':
+        raise ValueError('Repository reached warning budget; aircraft publication paused')
     if not push:
+        git(root, 'commit', '-m', 'Update bounded special aircraft observations')
         return 'local_commit_only'
-    for _ in range(3):
-        try:
-            git(root, 'fetch', '--deepen=1', 'origin', 'main')
-            git(root, 'rebase', 'FETCH_HEAD')
-            latest = validate_outputs(root)
-            paths = git(root, 'diff', 'FETCH_HEAD', 'HEAD', '--name-only').splitlines()
-            if any(not p.startswith(PREFIX) for p in paths):
-                raise ValueError('Unrelated rebased writes refused')
-            added = git(root, 'diff', 'FETCH_HEAD', 'HEAD', '--name-only', '--diff-filter=ACMR').splitlines()
-            pending = sum(int(git(root, 'cat-file', '-s', 'HEAD:' + p)) for p in added)
-            remote = size_reader('mowlsint/VoodooWhiskers')
-            check(policy, remote, pending, active_vessel_bytes(root))
-            if remote >= policy['warning_bytes'] and latest.get('collection_code') != 'repository_warning_budget':
-                raise ValueError('Repository reached warning budget; aircraft publication paused')
-            git(root, 'push', 'origin', 'HEAD:main')
-            return 'published'
-        except subprocess.CalledProcessError:
-            try:
-                git(root, 'rebase', '--abort')
-            except subprocess.CalledProcessError:
-                pass
-    raise ValueError('Aircraft push failed after bounded retries; existing remote products preserved')
+    subprocess.run([sys.executable, str(root / 'scripts/runtime_data_store.py'),
+                    'publish', 'Update bounded special aircraft observations'],
+                   cwd=root, check=True, env=os.environ.copy())
+    return 'published'
 
 
 def main():
