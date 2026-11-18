@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Restore and publish bounded live data without adding each update to main history."""
 import os
+import sys
 import subprocess
 import tempfile
 from pathlib import Path
