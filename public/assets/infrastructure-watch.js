@@ -190,6 +190,7 @@
 
   function vesselPopup(feature){
     const p = feature.properties || {};
+    const length = VM.lengthMeters(p);
     const positionQuality = p.position_timestamp_valid === false || p.data_quality?.timestamp_repaired;
     const sourceUrls = String(p.source_url || "").split(/[;\s]+/).filter(v => /^https?:/i.test(v));
     const historical = p.timeline_role || p.historical;
@@ -197,7 +198,7 @@
       <div class="popupMeta">
         <b>MMSI</b><span>${esc(p.mmsi || "–")}</span>
         <b>IMO</b><span>${esc(p.imo || "–")}</span>
-        ${Number.isFinite(VM.lengthMeters(p))?'<b>AIS-reported length</b><span>'+VM.lengthMeters(p).toFixed(1)+' m</span>':''}
+        ${Number.isFinite(length)?'<b>AIS-reported length</b><span>'+length.toFixed(1)+' m</span>':''}
         <b>Observed</b><span>${esc(p.observed_at || p.last_seen_utc || "–")}</span>
         <b>AIS source</b><span>${esc(aisSourceLabel(p))}</span>
         <b>Data age</b><span>${esc(VM.age(p))}</span>
@@ -274,7 +275,7 @@
 
   function smallVesselsShown(){return $('showSmallVessels')?.checked===true;}
 
-function createGeoLayer(layerId, data){
+  function createGeoLayer(layerId, data){
     const isVessel = isVesselLayer(layerId);
     const layer = L.geoJSON(data || EMPTY_FC(), {
       filter(feature){
