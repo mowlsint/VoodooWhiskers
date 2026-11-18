@@ -454,7 +454,8 @@ def run_task(request,cfg,workspace,search=None,detector=None,matcher=None,histor
     ledger[date_key]=ledger.get(date_key,0)+1
     if request['action']=='scene_preview':
         image,preview=(previewer or acquire_scene_preview)(request,scene,cfg,client_id,client_secret)
-        return {**job,'state':'ready','scene_preview_only':True,'scene_preview_bbox':preview['bbox'],
+        preview_job={key:value for key,value in job.items() if key!='catalog'}
+        return {**preview_job,'state':'ready','scene_preview_only':True,'scene_preview_bbox':preview['bbox'],
             'scene_footprint':scene['footprint'],'preview_meters_per_pixel':preview['meters_per_pixel'],
             'scene_preview_dimensions':[preview['width_px'],preview['height_px']],
             'scene_preview_metadata':{'valid_fraction':preview['valid_fraction'],'stretch_db':preview['stretch_db'],
