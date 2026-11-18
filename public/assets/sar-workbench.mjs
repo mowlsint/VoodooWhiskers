@@ -4,7 +4,7 @@ import {readWorkspaceFile} from './sar-import.mjs?v=20261110-en';
 import {createGitHubClient,WORKFLOW_URL} from './sar-github.mjs?v=20261111-direct';
 import './satellite-images.js?v=20261117-satellite';
 
-const $=id=>document.getElementById(id),RAW='https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/runtime-data/public/data/sar/workbench.enc.json';
+const $=id=>document.getElementById(id),RAW='https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/main/public/data/sar/workbench.enc.json';
 const state={password:'',workspace:{v:1,jobs:[],analysis_ledger:{}},scenes:[],selected:null,currentJob:null,currentCandidate:null,map:null,mapLayers:null,bounds:null,config:null,event:null,pendingRequest:null,trackedRequestId:null,run:null,pollTimer:null,pollCount:0,pollGeneration:0,pickingArea:false};
 const github=createGitHubClient();
 const imageSender=globalThis.SatelliteImages.createSender({onStatus:message=>status('main-map-status',message)});
@@ -32,7 +32,7 @@ function updateArea(){
 async function readJson(url){const r=await fetch(url,{cache:'no-store',referrerPolicy:'no-referrer'});if(r.status===404)return null;if(!r.ok)throw new Error('The data could not be loaded.');const length=Number(r.headers.get('Content-Length'));if(length>24*1024*1024)throw new Error('The file exceeds the permitted size.');const text=await r.text();if(text.length>24*1024*1024)throw new Error('The file is too large.');return JSON.parse(text);}
 async function getEnvelope(){
   try{const latest=await readJson(`${RAW}?t=${Date.now()}`);if(latest)return latest;}catch{}
-  return readJson(`${RAW}?t=${Date.now()}`);
+  return readJson(`./data/sar/workbench.enc.json?t=${Date.now()}`);
 }
 async function addBasemap(map){
   try{const coast=await readJson('./assets/sar-basemap.geojson');if(state.map!==map)return;L.geoJSON(coast,{interactive:false,pane:'tilePane',style:{color:'#536776',weight:1,fillColor:'#263c49',fillOpacity:1}}).addTo(map);map.attributionControl.addAttribution('Natural Earth · orientation only, not a nautical chart');}
