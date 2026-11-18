@@ -2,6 +2,7 @@
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.SpecialAircraft=api;})(globalThis,()=>{
   'use strict';
   const MAX_BYTES=1048576,MAX_ITEMS=5000,DAY=86400000,LATEST_AGE=30*60000;
+  const LIVE_DATA_BASE='https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/runtime-data/public/';
   const ROLES={police:'Police',coast_guard:'Coastguard',customs_border_guard:'Customs / border guard',military_maritime_patrol:'Military maritime patrol',military_isr:'Military ISR',military_other:'Military context',nato_owned:'NATO-owned',maritime_surveillance:'Maritime surveillance',sar_support:'SAR support',environmental_monitoring:'Environmental monitoring',fisheries_monitoring:'Fisheries monitoring',pollution_monitoring:'Pollution monitoring',emissions_monitoring:'Emissions monitoring',rpas:'RPAS / drone',search_and_rescue:'Search and rescue',hems_maritime_context:'HEMS with maritime context',offshore_sar:'Offshore SAR',offshore_transport:'Civil offshore transport'};
   const STATES=new Set(['fresh','valid_zero','partial','stale','unavailable','error']);
   const clean=v=>String(v??'').trim().slice(0,300);
@@ -53,7 +54,8 @@
   async function fetchProduct(url){
     const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),10000);
     try{
-      const res=await fetch(url,{cache:'no-store',signal:controller.signal});if(!res.ok)throw Error('Aircraft product unavailable');
+      const source=url.startsWith('./data/')?new URL(url.slice(2),LIVE_DATA_BASE).href:url;
+      const res=await fetch(source,{cache:'no-store',signal:controller.signal});if(!res.ok)throw Error('Aircraft product unavailable');
       if(Number(res.headers?.get?.('content-length'))>MAX_BYTES)throw Error('Aircraft product exceeds budget');
       let body;
       if(res.body?.getReader){const reader=res.body.getReader(),chunks=[];let size=0;try{for(;;){const {done,value}=await reader.read();if(done)break;size+=value.byteLength;if(size>MAX_BYTES)throw Error('Aircraft product exceeds budget');chunks.push(value);}}finally{await reader.cancel().catch(()=>{});}const bytes=new Uint8Array(size);let offset=0;for(const c of chunks){bytes.set(c,offset);offset+=c.byteLength;}body=new TextDecoder('utf-8',{fatal:true}).decode(bytes);}
