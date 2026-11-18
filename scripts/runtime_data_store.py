@@ -13,8 +13,14 @@ BASE_ENV = "RUNTIME_DATA_BASE"
 
 
 def git(*args, env=None, check=True):
-    return subprocess.run(["git", *args], cwd=ROOT, env=env, check=check,
-                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    command = ["git", *args]
+    result = subprocess.run(command, cwd=ROOT, env=env, check=False,
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if check and result.returncode:
+        stderr = result.stderr.decode("utf-8", "replace").strip()
+        detail = f": {stderr}" if stderr else ""
+        raise RuntimeError(f"{' '.join(command)} exited {result.returncode}{detail}")
+    return result
 
 
 def set_base(sha):
@@ -40,7 +46,7 @@ def tree_entries(revision):
 
 def restore():
     git("fetch", "--no-tags", "origin",
-        f"refs/heads/{BRANCH}:refs/remotes/origin/{BRANCH}")
+        f"+refs/heads/{BRANCH}:refs/remotes/origin/{BRANCH}")
     base = git("rev-parse", f"refs/remotes/origin/{BRANCH}").stdout.decode().strip()
     git("checkout", base, "--", "data", "public/data", "public/downloads")
     # Keep main's index clean. Workflows stage only their declared outputs.
@@ -116,7 +122,7 @@ def publish(message):
         print("No live data changes to publish.")
     for attempt in range(1, 6):
         git("fetch", "--no-tags", "origin",
-            f"refs/heads/{BRANCH}:refs/remotes/origin/{BRANCH}")
+            f"+refs/heads/{BRANCH}:refs/remotes/origin/{BRANCH}")
         latest = git("rev-parse", f"refs/remotes/origin/{BRANCH}").stdout.decode().strip()
         temp_name, temp_index = tempfile.mkstemp(prefix="runtime-index-")
         os.close(temp_name)
@@ -175,7 +181,7 @@ def main():
         else:
             publish(" ".join(sys.argv[2:]) or "Update bounded runtime data")
     except Exception as exc:
-        print(f"::error::Runtime data storage operation failed: {type(exc).__name__}. No data was published.")
+        print(f"::error::Runtime data storage operation failed: {type(exc).__name__}: {exc}. No data was published.")
         raise SystemExit(1)
 
 
