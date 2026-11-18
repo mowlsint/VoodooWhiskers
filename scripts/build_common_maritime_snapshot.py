@@ -102,20 +102,28 @@ def classification_index():
   if not key:return
   cur=idx.setdefault(key,{'categories':set()});cats=props.get('categories') if isinstance(props.get('categories'),list) else []
   cur['categories'].update(str(c) for c in cats if str(c).strip())
-  for k in ('is_priority_voi','known_voi_match','sanctioned','shadow_fleet','false_flag','behavioral_voi','from_russia_confirmed','recent_russian_portcall_confirmed_10d','recent_russian_portcall_unconfirmed_10d','to_russia_declared','neutral_tanker_context'):
+  for k in ('is_priority_voi','known_voi_match','sanctioned','sanctions_review_required','shadow_fleet','false_flag','behavioral_voi','from_russia_confirmed','recent_russian_portcall_confirmed_10d','recent_russian_portcall_unconfirmed_10d','to_russia_declared','neutral_tanker_context'):
    cur[k]=bool(cur.get(k) or props.get(k) is True or truthy(props.get(k)))
+  for k in ('sanctions_verification_status','sanctions_current_status','false_flag_claimed_flag','false_flag_status','false_flag_evidence_tier','false_flag_evidence_summary','false_flag_source_primary','false_flag_source_url','false_flag_additional_sources','false_flag_event_date','false_flag_record_last_checked','false_flag_current_status'):
+   if props.get(k) not in (None,''):
+    cur[k]=props[k]
  watch=DATA/'watchlist_master.csv'
  if watch.exists():
   with watch.open('r',encoding='utf-8-sig',newline='') as h:
    for row in csv.DictReader(h):
     cats=[]
-    for col,cat in [('track_sanctions','sanctions_shadowfleet'),('track_shadowfleet','shadowfleet'),('track_falseflag','falseflag_interest'),('track_behavior','behavioral_voi'),('track_russian_mmsi','russian_mmsi')]:
+    sanctions_confirmed=truthy(row.get('track_sanctions')) and row.get('sanctions_verification_status')=='confirmed_in_refreshed_source'
+    sanctions_review=truthy(row.get('track_sanctions')) and not sanctions_confirmed
+    if sanctions_confirmed:cats.append('sanctions')
+    if sanctions_review:cats.append('sanctions_review')
+    if truthy(row.get('track_shadowfleet')):cats.append('shadow_fleet')
+    for col,cat in [('track_behavior','behavioral_voi'),('track_russian_mmsi','russian_mmsi')]:
      if truthy(row.get(col)):cats.append(cat)
-    props={'categories':cats+['watchlist'],'is_priority_voi':True,'known_voi_match':True,'sanctioned':truthy(row.get('track_sanctions')),'shadow_fleet':truthy(row.get('track_shadowfleet')),'false_flag':truthy(row.get('track_falseflag')),'behavioral_voi':truthy(row.get('track_behavior'))}
+    props={'categories':cats+['watchlist'],'is_priority_voi':True,'known_voi_match':True,'sanctioned':sanctions_confirmed,'sanctions_review_required':sanctions_review,'sanctions_verification_status':row.get('sanctions_verification_status') or ('manual_review_required' if sanctions_review else 'not_applicable'),'sanctions_current_status':'confirmed_active' if sanctions_confirmed else ('manual_review_required' if sanctions_review else 'not_tracked_as_sanctioned'),'shadow_fleet':truthy(row.get('track_shadowfleet')),'false_flag':False,'behavioral_voi':truthy(row.get('track_behavior'))}
     imo=digits(row.get('imo'));mmsi=digits(row.get('mmsi'))
     if len(imo)==7:merge(f'imo:{imo}',props)
     if len(mmsi)==9:merge(f'mmsi:{mmsi}',props)
- for name in ('voi_snapshot_latest.json','watchlist_live.geojson','sanctions_shadowfleet.geojson','russian_mmsi.geojson','falseflag_interest.geojson','false_flag_watch.geojson','behavioral_voi.geojson','recent_russian_portcall_10d.geojson','neutral_tanker_context.geojson'):
+ for name in ('voi_snapshot_latest.json','watchlist_live.geojson','sanctions.geojson','shadow_fleet.geojson','sanctions_review.geojson','russian_mmsi.geojson','falseflag_interest.geojson','false_flag_watch.geojson','behavioral_voi.geojson','recent_russian_portcall_10d.geojson','neutral_tanker_context.geojson'):
   p=read_json(DATA/name)
   if not p:continue
   items=p.get('contacts') or p.get('features') or []
@@ -123,13 +131,17 @@ def classification_index():
    props=item.get('properties') if isinstance(item,dict) and isinstance(item.get('properties'),dict) else item
    if not isinstance(props,dict):continue
    props=dict(props);implied={
-    'watchlist_live.geojson':'watchlist','sanctions_shadowfleet.geojson':'sanctions_shadowfleet','russian_mmsi.geojson':'russian_mmsi',
+    'watchlist_live.geojson':'watchlist','sanctions.geojson':'sanctions','shadow_fleet.geojson':'shadow_fleet','sanctions_review.geojson':'sanctions_review','russian_mmsi.geojson':'russian_mmsi',
     'falseflag_interest.geojson':'falseflag_interest','false_flag_watch.geojson':'false_flag_watch','behavioral_voi.geojson':'behavioral_voi',
     'recent_russian_portcall_10d.geojson':'recent_russian_portcall_10d','neutral_tanker_context.geojson':'neutral_tanker_context'}.get(name)
    if implied:props['categories']=list(props.get('categories') or [])+[implied]
    if implied=='neutral_tanker_context':props['neutral_tanker_context']=True
-   if implied=='sanctions_shadowfleet':
-    props.setdefault('sanctioned',props.get('sanctions_verification_status')!='manual_review_required')
+   if implied=='sanctions':
+    props['sanctioned']=props.get('sanctions_verification_status')=='confirmed_in_refreshed_source'
+    props['sanctions_review_required']=False
+   if implied=='sanctions_review':
+    props['sanctioned']=False;props['sanctions_review_required']=True
+   if implied=='shadow_fleet':props['shadow_fleet']=True
    if implied in {'falseflag_interest','false_flag_watch'}:props['false_flag']=True
    if implied=='behavioral_voi':props['behavioral_voi']=True
    if implied=='watchlist':props['known_voi_match']=True;props['is_priority_voi']=True
@@ -142,8 +154,19 @@ def classification_index():
 def enrich(rows,snapshot):
  idx=classification_index();out=[]
  for r in rows:
-  c=dict(r);cl=idx.get(ident(c),{});cats=sorted(set((c.get('categories') or [])+(cl.get('categories') or [])))
-  c.update({k:cl.get(k,c.get(k,False)) for k in ('is_priority_voi','known_voi_match','sanctioned','shadow_fleet','false_flag','behavioral_voi','from_russia_confirmed','recent_russian_portcall_confirmed_10d','recent_russian_portcall_unconfirmed_10d','to_russia_declared','neutral_tanker_context')});c['categories']=cats;c['snapshot_at']=iso(snapshot);out.append(c)
+  c=dict(r);cl=idx.get(ident(c),{})
+  controlled={'sanctions','sanctions_review','sanctions_shadowfleet','shadow_fleet','shadowfleet','falseflag_interest','false_flag_watch'}
+  base_categories=set(c.get('categories') or [])
+  current_categories=set(cl.get('categories') or [])
+  cats=sorted((base_categories|current_categories)-controlled | (current_categories&controlled))
+  c.update({k:cl.get(k,c.get(k,False)) for k in ('is_priority_voi','known_voi_match','behavioral_voi','from_russia_confirmed','recent_russian_portcall_confirmed_10d','recent_russian_portcall_unconfirmed_10d','to_russia_declared','neutral_tanker_context')})
+  for k in ('sanctioned','sanctions_review_required','shadow_fleet','false_flag'):
+   c[k]=bool(cl.get(k,False))
+  c['sanctions_verification_status']=cl.get('sanctions_verification_status','not_applicable')
+  c['sanctions_current_status']=cl.get('sanctions_current_status','not_tracked_as_sanctioned')
+  for k in ('false_flag_claimed_flag','false_flag_status','false_flag_evidence_tier','false_flag_evidence_summary','false_flag_source_primary','false_flag_source_url','false_flag_additional_sources','false_flag_event_date','false_flag_record_last_checked','false_flag_current_status'):
+   c[k]=cl.get(k,'')
+  c['categories']=cats;c['snapshot_at']=iso(snapshot);out.append(c)
  return out
 def coverage_ready(provider,snapshot,coverages,cfg):
  max_age=float((cfg.get('source_max_age_at_snapshot_hours') or {}).get(provider,12));future=float((cfg.get('coverage_future_tolerance_hours') or {}).get(provider,0))
