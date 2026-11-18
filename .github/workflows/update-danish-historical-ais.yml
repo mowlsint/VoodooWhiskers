@@ -162,6 +162,7 @@ jobs:
             exit 0
           fi
 
+          GH_TOKEN="${{ github.token }}" python scripts/repo_storage_guard.py
           python scripts/runtime_data_store.py publish "Update category-filtered Danish historical AIS"
       - name: Remove all temporary Danish AIS raw files
         if: always()
