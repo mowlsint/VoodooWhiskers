@@ -55,8 +55,9 @@ def ensure_no_unstaged():
         raise ValueError("Runtime data baseline is missing")
     baseline = tree_entries(base)
     names = git("diff", "--name-only", "-z").stdout.split(b"\0")
+    untracked = git("ls-files", "--others", "--exclude-standard", "-z").stdout.split(b"\0")
     unexpected = []
-    for raw_name in filter(None, names):
+    for raw_name in filter(None, names + untracked):
         name = raw_name.decode("utf-8", "surrogateescape")
         if not name.startswith(PREFIXES):
             unexpected.append(name)
