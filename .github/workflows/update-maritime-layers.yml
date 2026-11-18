@@ -24,6 +24,9 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Restore latest bounded live data
+        run: python scripts/runtime_data_store.py restore
+
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
@@ -137,11 +140,7 @@ jobs:
             [ ! -e "$path" ] || git add -- "$path"
           done
 
-          if ! git diff --quiet; then
-            echo "::error::Tracked changes remain unstaged; refusing to hide or discard them."
-            git diff --name-only
-            exit 1
-          fi
+          python scripts/runtime_data_store.py ensure-no-unstaged
 
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -193,31 +192,10 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
 
-          git commit -m "Update maritime layers"
-
-          for i in 1 2 3; do
-            echo "Push attempt ${i}/3..."
-
-            if git fetch --deepen=1 origin main && git rebase FETCH_HEAD && git push origin HEAD:main; then
-              echo "Push succeeded."
-              exit 0
-            fi
-
-            echo "Push attempt ${i}/3 failed."
-            git rebase --abort || true
-
-            if [ "$i" -lt 3 ]; then
-              echo "Waiting before retry..."
-              sleep 12
-            fi
-          done
-
-          echo "ERROR: Push failed after 3 attempts."
-          send_push_failure_ntfy
-          exit 1
-
-      # Current positions have already passed the guard and reached main.
-      # A history failure cannot roll back that successful publication.
+          if ! python scripts/runtime_data_store.py publish "Update maritime layers"; then
+            send_push_failure_ntfy
+            exit 1
+          fi
       - name: Build and validate public history after publishing current positions
         run: |
           set -euo pipefail
