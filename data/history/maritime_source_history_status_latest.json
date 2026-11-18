@@ -1,72 +1,72 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-17T20:26:24Z",
+  "generated_at": "2026-11-18T00:37:02Z",
   "retention_days": 14,
   "max_bytes": 23068672,
   "position_history_path": "data/history/maritime_source_history_21d.jsonl",
   "coverage_history_path": "data/history/maritime_source_coverage_21d.jsonl",
-  "position_records": 30852,
-  "coverage_records": 128,
-  "records_added_from_current_snapshots": 2214,
+  "position_records": 30972,
+  "coverage_records": 131,
+  "records_added_from_current_snapshots": 2173,
   "dropped_old_or_invalid": 242,
-  "dropped_for_size": 1623,
+  "dropped_for_size": 1630,
   "provider_counts": {
-    "openwaters": 26469,
-    "fintraffic": 3137,
-    "barentswatch": 1246
+    "openwaters": 26675,
+    "fintraffic": 3058,
+    "barentswatch": 1239
   },
   "provider_position_ranges": {
     "openwaters": {
-      "min": "2026-11-15T12:23:06Z",
-      "max": "2026-11-17T20:26:20Z"
+      "min": "2026-11-15T16:06:47Z",
+      "max": "2026-11-18T00:36:59Z"
     },
     "fintraffic": {
-      "min": "2026-11-15T12:29:26Z",
-      "max": "2026-11-17T20:04:45Z"
+      "min": "2026-11-15T16:07:26Z",
+      "max": "2026-11-18T00:15:57Z"
     },
     "barentswatch": {
-      "min": "2026-11-15T12:32:43Z",
-      "max": "2026-11-17T20:06:21Z"
+      "min": "2026-11-15T16:09:43Z",
+      "max": "2026-11-18T00:17:00Z"
     }
   },
   "provider_coverage_ranges": {
     "fintraffic": {
       "min": "2026-11-10T17:20:30Z",
-      "max": "2026-11-17T20:06:21Z"
+      "max": "2026-11-18T00:16:59Z"
     },
     "barentswatch": {
       "min": "2026-11-10T17:20:32Z",
-      "max": "2026-11-17T20:06:24Z"
+      "max": "2026-11-18T00:17:02Z"
     },
     "openwaters": {
       "min": "2026-11-10T19:25:00Z",
-      "max": "2026-11-17T20:26:23Z"
+      "max": "2026-11-18T00:37:01Z"
     }
   },
   "sources": {
     "openwaters": {
       "ok": true,
       "path": "data/ais_contacts_openwaters_latest.json",
-      "source_generated_at": "2026-11-17T20:26:23+00:00",
-      "coverage_at": "2026-11-17T20:26:23Z",
+      "source_generated_at": "2026-11-18T00:37:01+00:00",
+      "coverage_at": "2026-11-18T00:37:01Z",
       "coverage_basis": "generated_at",
-      "records_seen": 1566
+      "records_seen": 1534
     },
     "fintraffic": {
       "ok": true,
       "path": "data/ais_contacts_fintraffic_latest.json",
-      "source_generated_at": "2026-11-17T20:06:21+00:00",
-      "coverage_at": "2026-11-17T20:06:21Z",
+      "source_generated_at": "2026-11-18T00:16:59+00:00",
+      "coverage_at": "2026-11-18T00:16:59Z",
       "coverage_basis": "generated_at",
-      "records_seen": 314
+      "records_seen": 301
     },
     "barentswatch": {
       "ok": true,
       "path": "data/ais_contacts_barentswatch_latest.json",
-      "source_generated_at": "2026-11-17T20:06:24+00:00",
-      "coverage_at": "2026-11-17T20:06:24Z",
+      "source_generated_at": "2026-11-18T00:17:02+00:00",
+      "coverage_at": "2026-11-18T00:17:02Z",
       "coverage_basis": "generated_at",
-      "records_seen": 92
+      "records_seen": 96
     },
     "ais_dk_historical": {
       "ok": true,
