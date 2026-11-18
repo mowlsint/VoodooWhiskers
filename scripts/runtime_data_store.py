@@ -126,7 +126,7 @@ def publish(message):
             git("read-tree", latest, env=index_env)
             for name, entry in changes.items():
                 if entry is None:
-                    git("update-index", "--force-remove", "--", name, env=index_env)
+                    git("update-index", "--force-remove", name, env=index_env)
                 else:
                     mode, oid = entry
                     git("update-index", "--add", "--cacheinfo", f"{mode},{oid},{name}",
@@ -138,12 +138,16 @@ def publish(message):
             except FileNotFoundError:
                 pass
         latest_tree = git("rev-parse", f"{latest}^{{tree}}").stdout.decode().strip()
-        if tree == latest_tree:
+        same_tree = tree == latest_tree
+        parents = git("rev-list", "--parents", "-n", "1", latest).stdout.decode().split()
+        if same_tree and len(parents) == 1:
             set_base(latest)
             print("Runtime data branch already contains these products.")
             return
         # A parentless snapshot prevents this high-churn branch from retaining
         # old data commits. The explicit lease protects concurrent publishers.
+        # Also compact the initial seed on the first publisher, even if its tree
+        # is unchanged, so the data branch stops reaching main's full history.
         commit = git("-c", "user.name=github-actions[bot]",
                      "-c", "user.email=41898282+github-actions[bot]@users.noreply.github.com",
                      "commit-tree", tree, "-m", message).stdout.decode().strip()
@@ -151,7 +155,8 @@ def publish(message):
                      "origin", f"{commit}:refs/heads/{BRANCH}", check=False)
         if pushed.returncode == 0:
             set_base(commit)
-            print(f"Published {len(changes)} changed live data file(s) to {BRANCH} ({commit[:12]}).")
+            result = f"Published {len(changes)} changed live data file(s)" if changes else "Compacted the initial runtime data seed"
+            print(f"{result} to {BRANCH} ({commit[:12]}).")
             return
         if attempt == 5:
             raise ValueError("Runtime data branch changed concurrently; publication failed after five retries")
