@@ -4,7 +4,7 @@ import {readWorkspaceFile} from './sar-import.mjs?v=20261110-en';
 import {createGitHubClient,WORKFLOW_URL} from './sar-github.mjs?v=20261111-direct';
 import './satellite-images.js?v=20261117-satellite';
 
-const $=id=>document.getElementById(id),RAW='https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/main/public/data/sar/workbench.enc.json';
+const $=id=>document.getElementById(id),RAW='https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/runtime-data/public/data/sar/workbench.enc.json';
 const state={password:'',workspace:{v:1,jobs:[],analysis_ledger:{}},scenes:[],selected:null,currentJob:null,currentCandidate:null,map:null,mapLayers:null,bounds:null,config:null,event:null,pendingRequest:null,trackedRequestId:null,run:null,pollTimer:null,pollCount:0,pollGeneration:0,pickingArea:false};
 const github=createGitHubClient();
 const imageSender=globalThis.SatelliteImages.createSender({onStatus:message=>status('main-map-status',message)});
