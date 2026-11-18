@@ -15,7 +15,7 @@
     timeMode:"latest",
     historyRows:null,
     historyPromise:null,
-    dynamicReady:false, selectedIdentity:null, trackRows:null, gfwEvents:null, gfwGrid:null, gfwEventStatus:null, categoryIndex:null, aircraft:null, lastMapClick:null
+    dynamicReady:false, selectedIdentity:null, trackRows:null, gfwEvents:null, gfwGrid:null, gfwEventStatus:null, categoryIndex:null, aircraft:null, lastMapClick:null, aisDataAgeNoticeDismissed:false
   };
 
   const paths = {
@@ -170,11 +170,11 @@
   }
 
   function renderAisDataAgeBanner(){
-    const host=$('aisDataAgeBanner');if(!host)return;
-    if(state.timeMode==='project'){host.textContent='Local project period · saved/imported observations · live AIS hidden';return;}
+    const host=$('aisDataAgeBanner'),text=$('aisDataAgeText');if(!host||!text||state.aisDataAgeNoticeDismissed)return;
+    if(state.timeMode==='project'){text.textContent='Local project period · saved/imported observations · live AIS hidden';return;}
     const rows=(state.data.vessel_positions?.features||[]).map(f=>f.properties||{});
     const times=rows.map(VM.observed).filter(Number.isFinite),latest=times.length?Math.max(...times):NaN;
-    host.textContent=Number.isFinite(latest)?`AIS samples · latest observation ${VM.age({observed_at:new Date(latest).toISOString()})} · not a continuous stream`:'No reliable AIS observation time available';
+    text.textContent=Number.isFinite(latest)?`AIS samples · latest observation ${VM.age({observed_at:new Date(latest).toISOString()})} · not a continuous stream`:'No reliable AIS observation time available';
   }
 
   function vesselFinderUrl(p){return VM.vesselFinder(p);}
@@ -733,6 +733,7 @@
 
   async function init(){
     state.map = L.map("map",{zoomControl:true,minZoom:3,maxZoom:18,worldCopyJump:true});
+    $('aisDataAgeDismiss').addEventListener('click',()=>{state.aisDataAgeNoticeDismissed=true;$('aisDataAgeBanner').hidden=true;});
     installCoordinateReadout(state.map);
     state.traffic = globalThis.TrafficContext.attach(state.map,()=>({timeMode:state.timeMode,monitoredRows:scopedRows()}));
     state.aircraft=globalThis.SpecialAircraft.attach(state.map,()=>({mode:state.timeMode,hours:TIME_HOURS[state.timeMode]||336,isSar:Boolean($('sarDetectionsToggle')?.checked)}));
