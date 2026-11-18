@@ -19,25 +19,11 @@ done
 for path in public/data public/downloads data/gfw_presence_cells_latest.json data/gfw_events_latest.json; do
   [ ! -e "$path" ] || git add -- "$path"
 done
-if ! git diff --quiet; then
-  echo "::error::Tracked changes remain unstaged; refusing to hide or discard them."
-  git diff --name-only
-  exit 1
-fi
+python scripts/runtime_data_store.py ensure-no-unstaged
 if git diff --cached --quiet; then
   echo "No public history changes to commit."
   exit 0
 fi
 
 python scripts/repo_storage_guard.py
-git commit -m "Update bounded public VOI history after current positions"
-for attempt in 1 2 3; do
-  if git fetch --deepen=1 origin main && git rebase FETCH_HEAD && git push origin HEAD:main; then
-    echo "Public history push succeeded."
-    exit 0
-  fi
-  git rebase --abort 2>/dev/null || true
-  if [ "$attempt" -lt 3 ]; then sleep 12; fi
-done
-echo "::error::Public history push failed; the earlier current-position publication remains available."
-exit 1
+python scripts/runtime_data_store.py publish "Update bounded public VOI history after current positions"
