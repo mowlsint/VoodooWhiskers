@@ -88,6 +88,7 @@ jobs:
 
       - name: Commit updated outputs
         env:
+          GH_TOKEN: ${{ github.token }}
           NTFY_ENABLED: ${{ secrets.NTFY_ENABLED }}
           NTFY_URL: ${{ secrets.NTFY_URL }}
           NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
