@@ -40,7 +40,9 @@ AIS_DK_PATH = DATA / "ais_contacts_aisdk_historical_latest.json"
 AIS_DK_STATUS_PATH = DATA / "ais_dk_import_status_latest.json"
 ALLOWED_DANISH_PUBLIC_CATEGORIES = {
     "watchlist",
-    "sanctions_shadowfleet",
+    "sanctions",
+    "shadow_fleet",
+    "sanctions_review",
     "russian_mmsi",
     "falseflag_interest",
     "false_flag_watch",
@@ -51,7 +53,9 @@ ALLOWED_DANISH_PUBLIC_CATEGORIES = {
 CATEGORY_LAYERS = [
     "russian_mmsi.geojson",
     "watchlist_live.geojson",
-    "sanctions_shadowfleet.geojson",
+    "sanctions.geojson",
+    "shadow_fleet.geojson",
+    "sanctions_review.geojson",
     "falseflag_interest.geojson",
     "false_flag_watch.geojson",
     "behavioral_voi.geojson",
@@ -62,7 +66,9 @@ CATEGORY_LAYERS = [
 PRIORITY_CATEGORIES = {
     "falseflag_interest",
     "false_flag_watch",
-    "sanctions_shadowfleet",
+    "sanctions",
+    "shadow_fleet",
+    "sanctions_review",
     "watchlist",
     "russian_mmsi",
     "recent_russian_portcall_10d",
@@ -218,6 +224,9 @@ def write_csv(path: Path, rows: list[dict[str, Any]], fields: list[str]) -> None
 
 def copy_category_layers() -> list[dict[str, Any]]:
     LAYER_DIR.mkdir(parents=True, exist_ok=True)
+    legacy_layer = LAYER_DIR / "sanctions_shadowfleet.geojson"
+    if legacy_layer.exists():
+        legacy_layer.unlink()
     result = []
     for filename in CATEGORY_LAYERS:
         src = DATA / filename
