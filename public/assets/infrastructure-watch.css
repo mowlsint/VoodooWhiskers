@@ -27,3 +27,11 @@ body{overflow:hidden}.topbar{height:104px;display:flex;justify-content:space-bet
 
 
 .specialAircraftCard{border-color:#55879b}.specialAircraftCard h2{color:#b9e9fc}.specialAircraftToggle{font-weight:800}.specialAircraftResult{display:block;text-align:left;width:100%;background:#102331;color:#e9f4fa;border:1px solid #55879b;border-radius:6px;padding:7px;cursor:pointer;font:inherit;font-size:11px}.specialAircraftIcon{color:#9edff6;background:#0b202c;border:1px solid currentColor;border-radius:50%;text-align:center;line-height:22px;font-size:18px}
+
+.mapCoordinateReadout{position:absolute;z-index:650;left:12px;top:82px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 8px;max-width:min(430px,calc(100% - 24px));padding:8px 10px;border:1px solid rgba(167,193,207,.52);border-radius:9px;background:rgba(7,16,23,.91);color:#e9f1f5;font:600 11px/1.3 system-ui,sans-serif;box-shadow:0 3px 12px rgba(0,0,0,.28);pointer-events:auto}
+.mapCoordinateReadout .mapCoordinateCursor,.mapCoordinateReadout .mapCoordinateClicked{overflow-wrap:anywhere}
+.mapCoordinateReadout .mapCoordinateCursor{grid-column:1/-1;color:#bcd2dc}
+.mapCoordinateReadout button{grid-column:2;grid-row:2;padding:4px 7px;border:1px solid #7895a5;border-radius:6px;background:#18303c;color:#fff;font:inherit;cursor:pointer}
+.mapCoordinateReadout button:disabled{opacity:.5;cursor:not-allowed}
+.mapCoordinateReadout .mapCoordinateStatus{grid-column:1/-1;min-height:1em;color:#ffdc83;font-size:10px}
+@media(max-width:760px){.mapCoordinateReadout{top:78px;left:8px;max-width:calc(100% - 16px);padding:6px 8px;font-size:10px}}
