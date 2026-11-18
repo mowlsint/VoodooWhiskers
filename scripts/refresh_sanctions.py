@@ -202,7 +202,15 @@ def merge_watchlist(rows, snapshots, checked_at):
     review=[]
     for row in rows:
         imo=valid_imo(row.get("imo"))
-        if not imo:continue
+        if not imo:
+            # No name-only sanction match: retain the curated entry but surface it
+            # as unresolved instead of silently treating a stale status as current.
+            tracked=str(row.get("track_sanctions", "")).strip().lower() in {"1", "true", "yes", "y"}
+            if tracked:
+                row["sanctions_verification_status"]="manual_review_required"
+                row["source_status"]="manual_review_required"
+                review.append({"imo":"","name":row.get("name"),"reason":"no valid IMO; cannot verify against refreshed supported vessel designations"})
+            continue
         if imo in verified: continue
         tags=row.get("source_list","")
         claimed={k for k, prefix in [("eu","EU_Annex_XLII"),("uk","UK_"),("ofac","OFAC_SDN_")] if prefix in tags}
