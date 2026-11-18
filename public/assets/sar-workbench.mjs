@@ -32,7 +32,7 @@ function updateArea(){
 async function readJson(url){const r=await fetch(url,{cache:'no-store',referrerPolicy:'no-referrer'});if(r.status===404)return null;if(!r.ok)throw new Error('The data could not be loaded.');const length=Number(r.headers.get('Content-Length'));if(length>24*1024*1024)throw new Error('The file exceeds the permitted size.');const text=await r.text();if(text.length>24*1024*1024)throw new Error('The file is too large.');return JSON.parse(text);}
 async function getEnvelope(){
   try{const latest=await readJson(`${RAW}?t=${Date.now()}`);if(latest)return latest;}catch{}
-  return readJson(`./data/sar/workbench.enc.json?t=${Date.now()}`);
+  return readJson(`${RAW}?t=${Date.now()}`);
 }
 async function addBasemap(map){
   try{const coast=await readJson('./assets/sar-basemap.geojson');if(state.map!==map)return;L.geoJSON(coast,{interactive:false,pane:'tilePane',style:{color:'#536776',weight:1,fillColor:'#263c49',fillOpacity:1}}).addTo(map);map.attributionControl.addAttribution('Natural Earth · orientation only, not a nautical chart');}
