@@ -16,6 +16,7 @@ PORTS_RU_PATH = DATA_DIR / "ports_ru.csv"
 PORTS_RU_ALIASES_PATH = DATA_DIR / "ports_ru_enhanced_aliases.csv"
 FLAG_RISK_PATH = DATA_DIR / "flag_risk_reference.csv"
 RECENT_RU_INPUT_PATH = DATA_DIR / "recent_russian_portcall_input.csv"
+FALSE_FLAG_WATCHLIST_PATH = DATA_DIR / "false_flag_watchlist.csv"
 
 RECENT_RUSSIAN_PORTCALL_DAYS = 10
 TANKER_CLUSTER_STATS_PATH = DATA_DIR / "tanker_cluster_stats.json"
@@ -45,7 +46,9 @@ POLISH_PORT_NAMES = {"GDANSK", "GDYNIA"}
 LAYER_FILES = {
     "russian_mmsi": DATA_DIR / "russian_mmsi.geojson",
     "watchlist": DATA_DIR / "watchlist_live.geojson",
-    "sanctions_shadowfleet": DATA_DIR / "sanctions_shadowfleet.geojson",
+    "sanctions": DATA_DIR / "sanctions.geojson",
+    "shadow_fleet": DATA_DIR / "shadow_fleet.geojson",
+    "sanctions_review": DATA_DIR / "sanctions_review.geojson",
     "falseflag_interest": DATA_DIR / "falseflag_interest.geojson",
     "false_flag_watch": DATA_DIR / "false_flag_watch.geojson",
     "behavioral_voi": DATA_DIR / "behavioral_voi.geojson",
@@ -100,14 +103,32 @@ HARD_REGISTRY_STATUSES = {"no_intl_registry", "fraudulent_registry", "fraud_noti
 # not look identical in uMap / Leaflet viewers. Coordinates stay untouched; only
 # feature properties and popup text are enriched per output layer.
 LAYER_STYLE = {
-    "sanctions_shadowfleet": {
-        "label": "Sanctions / shadow fleet",
-        "short_label": "Shadow fleet",
-        "marker_color": "#7a1f1f",
-        "stroke_color": "#3b0b0b",
+    "sanctions": {
+        "label": "Confirmed sanctions designations",
+        "short_label": "Sanctions-listed",
+        "marker_color": "#d73027",
+        "stroke_color": "#7f0000",
         "marker_symbol": "danger",
         "marker_size": "medium",
         "category_rank": 100,
+    },
+    "shadow_fleet": {
+        "label": "Shadow-fleet watchlist",
+        "short_label": "Shadow fleet",
+        "marker_color": "#7b61c9",
+        "stroke_color": "#493284",
+        "marker_symbol": "ship",
+        "marker_size": "medium",
+        "category_rank": 90,
+    },
+    "sanctions_review": {
+        "label": "Sanctions entry needs review",
+        "short_label": "Sanctions review",
+        "marker_color": "#b59a35",
+        "stroke_color": "#77651f",
+        "marker_symbol": "question",
+        "marker_size": "medium",
+        "category_rank": 55,
     },
     "russian_mmsi": {
         "label": "Russian MMSI",
@@ -308,6 +329,19 @@ def load_watchlist(path=WATCHLIST_PATH):
     return rows, index
 
 
+def load_false_flag_watchlist(path=FALSE_FLAG_WATCHLIST_PATH):
+    rows = load_csv_rows(path)
+    index = {"imo": {}, "mmsi": {}}
+    for row in rows:
+        imo = norm_digits(row.get("imo"))
+        mmsi = norm_digits(row.get("mmsi"))
+        if imo:
+            index["imo"][imo] = row
+        if mmsi:
+            index["mmsi"][mmsi] = row
+    return index
+
+
 def get_any(d, *keys):
     for k in keys:
         if k in d and clean_str(d.get(k)):
@@ -329,6 +363,19 @@ def match_watchlist(contact, index):
     # Deliberately no pure-name match here: AIS names such as ATLAS, SIRIUS, MARIA, CAPELLA
     # create too many false positives. Use IMO/MMSI/callsign or add the vessel explicitly.
     return None, None
+
+
+def match_false_flag_record(contact, index, matched_row=None):
+    imo = norm_digits(get_any(contact, "imo", "IMO", "ImoNumber"))
+    mmsi = norm_digits(get_any(contact, "mmsi", "MMSI", "UserID"))
+    if matched_row:
+        imo = imo or norm_digits(matched_row.get("imo"))
+        mmsi = mmsi or norm_digits(matched_row.get("mmsi"))
+    if imo and imo in index.get("imo", {}):
+        return index["imo"][imo]
+    if mmsi and mmsi in index.get("mmsi", {}):
+        return index["mmsi"][mmsi]
+    return None
 
 
 def load_russian_ports(path=PORTS_RU_PATH):
@@ -534,29 +581,6 @@ def is_gateway_or_core_area(contact):
             (41.0 <= lat <= 47.5 and 26.0 <= lon <= 42.5))
 
 
-def has_hard_falseflag_corrob(merged, matched_row=None, from_russia_confirmed=False):
-    reasons = []
-    flag_band = clean_str(merged.get("flag_risk_band"))
-    registry_status = clean_str(merged.get("flag_registry_status"))
-    if flag_band == "hard" or registry_status in HARD_REGISTRY_STATUSES:
-        reasons.append("hard_flag_registry_status")
-    if matched_row:
-        if to_bool(matched_row.get("track_sanctions")) or to_bool(matched_row.get("track_shadowfleet")):
-            reasons.append("official_or_manual_sanctions_watchlist_match")
-        if to_bool(matched_row.get("track_falseflag")):
-            reasons.append("manual_falseflag_watchlist_match")
-    if from_russia_confirmed:
-        reasons.append("recent_or_current_russian_port_context")
-    if is_gateway_or_core_area(merged):
-        reasons.append("core_or_gateway_area")
-    if clean_str(merged.get("imo")) in {"", "—", "-"} and norm_digits(merged.get("mmsi")):
-        reasons.append("missing_imo_current_ais")
-    # Hard false-flag now needs the hard registry signal plus at least one corroborating factor,
-    # or a manual false-flag watchlist match.
-    hard = ("manual_falseflag_watchlist_match" in reasons) or ("hard_flag_registry_status" in reasons and len(reasons) >= 2)
-    return hard, reasons
-
-
 def build_vesselfinder_url(name="", imo="", mmsi=""):
     """
     Robust VesselFinder handoff link. The search endpoint is preferred because it
@@ -620,8 +644,16 @@ def build_popup_html(props, layer_name=""):
         html_row("SOG / COG", f"{display_value(props.get('sog'))} kn / {display_value(props.get('cog'))}°"),
         html_row("Last seen", props.get("last_seen_utc")),
         html_row("Watchlist", props.get("source_list")),
+        html_row("Sanctions status", props.get("sanctions_current_status")),
+        html_row("False-flag claim", props.get("false_flag_claimed_flag")),
+        html_row("False-flag status", props.get("false_flag_status")),
+        html_row("Current flag status", props.get("false_flag_current_status")),
+        html_row("False-flag evidence", props.get("false_flag_evidence_summary")),
         html_row("Notes", props.get("notes")),
     ]
+    false_flag_source = link_html("False-flag source", props.get("false_flag_source_url"))
+    if false_flag_source:
+        links = " · ".join([x for x in [links, false_flag_source] if x])
     return f"""
 <div class="mp-voi-popup" style="font-family:Inter,Arial,sans-serif;font-size:12px;line-height:1.35;min-width:230px;max-width:340px;">
   <div style="font-weight:700;font-size:15px;margin-bottom:3px;color:#111827;">{html_escape(name)}</div>
@@ -758,9 +790,11 @@ def tanker_zone_labels(contact):
     return [z["label"] for z in tanker_context_zone_hits(contact)]
 
 
-def classify_contact(contact, watch_index, russian_ports, flag_ref):
+def classify_contact(contact, watch_index, russian_ports, flag_ref, falseflag_index=None):
     merged = dict(contact)
     matched_row, matched_on = match_watchlist(contact, watch_index)
+    falseflag_index = falseflag_index or {"imo": {}, "mmsi": {}}
+    false_flag_record = match_false_flag_record(contact, falseflag_index, matched_row)
     categories = set()
     neutral_tanker_zones = tanker_context_zone_hits(contact)
     if neutral_tanker_zones:
@@ -816,23 +850,38 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref):
     flag_risk = assess_flag_risk(contact, flag_ref)
     if flag_risk:
         merged.update(flag_risk)
-        is_context_only = flag_risk.get("flag_risk_band") == "context"
-        merged["flag_watch_context"] = is_context_only
-        merged["false_flag_candidate"] = not is_context_only
-        if not is_context_only:
-            categories.add("falseflag_interest")
-        # Hardened v6.2: hard false-flag watch requires corroboration beyond a risky MID/flag alone.
-        # This prevents every Cameroon/Gabon/Comoros/etc. MMSI from becoming a hard watch.
-        hard_ff, hard_ff_reasons = has_hard_falseflag_corrob(merged, matched_row=None, from_russia_confirmed=from_russia_confirmed)
-        merged["false_flag_hard_watch"] = hard_ff
-        merged["false_flag_hard_reasons"] = ";".join(hard_ff_reasons)
-        if hard_ff:
-            categories.add("false_flag_watch")
+        # Flag/MMSI risk belongs to registry context. It is not proof that this ship
+        # used a false flag; ship-specific sourced evidence is loaded separately below.
+        merged["flag_watch_context"] = True
     else:
-        merged.setdefault("false_flag_candidate", False)
-        merged.setdefault("flag_watch_context", False)
+        merged["flag_watch_context"] = False
         for key in ["flag_detected", "flag_detected_source", "flag_iso_code", "flag_risk_category", "flag_registry_status", "flag_risk_band", "flag_risk_score", "flag_risk_reason", "flag_risk_source", "flag_risk_url", "flag_risk_last_verified"]:
             merged.setdefault(key, "")
+
+    merged["false_flag"] = bool(false_flag_record)
+    merged["false_flag_candidate"] = bool(false_flag_record)
+    merged["false_flag_hard_watch"] = False
+    merged["false_flag_hard_reasons"] = ""
+    if false_flag_record:
+        merged["false_flag_claimed_flag"] = clean_str(false_flag_record.get("flag_claim"))
+        merged["false_flag_status"] = clean_str(false_flag_record.get("claim_status"))
+        merged["false_flag_evidence_tier"] = clean_str(false_flag_record.get("evidence_tier"))
+        merged["false_flag_evidence_summary"] = clean_str(false_flag_record.get("evidence_summary"))
+        merged["false_flag_source_primary"] = clean_str(false_flag_record.get("source_primary"))
+        merged["false_flag_source_url"] = clean_str(false_flag_record.get("source_url"))
+        merged["false_flag_additional_sources"] = clean_str(false_flag_record.get("additional_sources"))
+        merged["false_flag_event_date"] = clean_str(false_flag_record.get("record_or_event_date"))
+        merged["false_flag_record_last_checked"] = clean_str(false_flag_record.get("last_checked"))
+        merged["false_flag_current_status"] = clean_str(false_flag_record.get("current_status"))
+        watch_tier = clean_str(false_flag_record.get("watch_tier"))
+        merged["false_flag_hard_watch"] = watch_tier in {"confirmed", "official"}
+        merged["false_flag_hard_reasons"] = clean_str(false_flag_record.get("evidence_tier"))
+        categories.add("falseflag_interest")
+        if merged["false_flag_hard_watch"]:
+            categories.add("false_flag_watch")
+    else:
+        for key in ["false_flag_claimed_flag", "false_flag_status", "false_flag_evidence_tier", "false_flag_evidence_summary", "false_flag_source_primary", "false_flag_source_url", "false_flag_additional_sources", "false_flag_event_date", "false_flag_record_last_checked", "false_flag_current_status"]:
+            merged[key] = ""
 
     if matched_row:
         categories.add("watchlist")
@@ -856,23 +905,23 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref):
         track_russian_mmsi = to_bool(matched_row.get("track_russian_mmsi"))
 
         verification = clean_str(matched_row.get("sanctions_verification_status"))
-        merged["sanctions_verification_status"] = verification or "legacy_curated_source"
-        merged["sanctioned"] = track_sanctions and verification != "manual_review_required"
+        sanctions_confirmed = track_sanctions and verification == "confirmed_in_refreshed_source"
+        sanctions_review = track_sanctions and not sanctions_confirmed
+        merged["sanctions_verification_status"] = verification or ("manual_review_required" if sanctions_review else "not_applicable")
+        merged["sanctions_current_status"] = "confirmed_active" if sanctions_confirmed else ("manual_review_required" if sanctions_review else "not_tracked_as_sanctioned")
+        merged["sanctions_review_required"] = sanctions_review
+        merged["sanctioned"] = sanctions_confirmed
         merged["sanctions_listed_historical"] = track_sanctions
         merged["shadow_fleet"] = track_shadowfleet
-        merged["false_flag"] = track_falseflag or bool(flag_risk and flag_risk.get("flag_risk_band") != "context")
+        merged["false_flag"] = bool(false_flag_record)
         merged["behavioral_voi"] = track_behavior
 
-        if track_sanctions or track_shadowfleet:
-            categories.add("sanctions_shadowfleet")
-        if track_falseflag:
-            categories.add("falseflag_interest")
-            # Manual watchlist flagging is intentionally broad; hard/soft remains in flag_risk_band if known.
-        hard_ff, hard_ff_reasons = has_hard_falseflag_corrob(merged, matched_row=matched_row, from_russia_confirmed=from_russia_confirmed)
-        merged["false_flag_hard_watch"] = hard_ff
-        merged["false_flag_hard_reasons"] = ";".join(hard_ff_reasons)
-        if hard_ff:
-            categories.add("false_flag_watch")
+        if sanctions_confirmed:
+            categories.add("sanctions")
+        if track_shadowfleet:
+            categories.add("shadow_fleet")
+        if sanctions_review:
+            categories.add("sanctions_review")
         if track_behavior:
             categories.add("behavioral_voi")
         if track_russian_mmsi and mmsi.startswith("273"):
@@ -890,9 +939,12 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref):
         merged.setdefault("source_status", "unmatched_live_context")
         merged.setdefault("source_last_checked", "")
         merged.setdefault("sanctions_source_count", 0)
-        merged.setdefault("sanctioned", False)
-        merged.setdefault("shadow_fleet", False)
-        merged["false_flag"] = bool(flag_risk and flag_risk.get("flag_risk_band") != "context")
+        merged["sanctions_current_status"] = "not_tracked_as_sanctioned"
+        merged["sanctions_review_required"] = False
+        merged["sanctioned"] = False
+        merged["shadow_fleet"] = False
+        merged["false_flag"] = bool(false_flag_record)
+        merged["false_flag_hard_watch"] = bool(false_flag_record and clean_str(false_flag_record.get("watch_tier")) in {"confirmed", "official"})
         merged.setdefault("behavioral_voi", False)
 
     if neutral_tanker_zones and not categories and not to_russia_declared:
@@ -949,7 +1001,7 @@ def update_history(snapshot_items, slot):
     )
 
 
-def build_recent_ru_input_items(russian_ports, flag_ref):
+def build_recent_ru_input_items(russian_ports, flag_ref, watch_index, falseflag_index):
     cutoff = datetime.now(timezone.utc) - timedelta(days=RECENT_RUSSIAN_PORTCALL_DAYS)
     items = []
     for row in load_csv_rows(RECENT_RU_INPUT_PATH):
@@ -967,26 +1019,15 @@ def build_recent_ru_input_items(russian_ports, flag_ref):
         item["recent_ru_portcall_confidence"] = "confirmed"
         item["recent_ru_portcall_basis"] = "manual_recent_russian_portcall_input"
         item["categories"] = ["recent_russian_portcall_10d"]
-        flag_risk = assess_flag_risk(item, flag_ref)
-        if flag_risk:
-            item.update(flag_risk)
-            is_context_only = flag_risk.get("flag_risk_band") == "context"
-            item["flag_watch_context"] = is_context_only
-            item["false_flag_candidate"] = not is_context_only
-            item["false_flag"] = not is_context_only
-            if not is_context_only:
-                item["categories"].append("falseflag_interest")
-            hard_ff, hard_ff_reasons = has_hard_falseflag_corrob(item, matched_row=None, from_russia_confirmed=True)
-            item["false_flag_hard_watch"] = hard_ff
-            item["false_flag_hard_reasons"] = ";".join(hard_ff_reasons)
-            if hard_ff:
-                item["categories"].append("false_flag_watch")
-        item["categories"] = sorted(set(item["categories"]))
-        items.append(item)
+        classified = classify_contact(item, watch_index, russian_ports, flag_ref, falseflag_index)
+        classified["recent_ru_portcall_confidence"] = "confirmed"
+        classified["recent_ru_portcall_basis"] = "manual_recent_russian_portcall_input"
+        classified["categories"] = sorted(set(classified.get("categories", [])) | {"recent_russian_portcall_10d"})
+        items.append(classified)
     return items
 
 
-def build_recent_ru_history_items(current_items):
+def build_recent_ru_history_items(current_items, watch_index, russian_ports, flag_ref, falseflag_index):
     cutoff = datetime.now(timezone.utc) - timedelta(days=RECENT_RUSSIAN_PORTCALL_DAYS)
     items = []
     for row in read_history_rows(max_age_days=RECENT_RUSSIAN_PORTCALL_DAYS):
@@ -1008,10 +1049,11 @@ def build_recent_ru_history_items(current_items):
                 break
         if not dt or dt < cutoff:
             continue
-        item = dict(row)
-        cats = set(item.get("categories") or [])
-        cats.add("recent_russian_portcall_10d")
-        item["categories"] = sorted(cats)
+        history_row = dict(row)
+        history_row["from_russia_confirmed"] = confirmed
+        history_row["recent_russian_portcall_confirmed_10d"] = confirmed
+        history_row["recent_russian_portcall_unconfirmed_10d"] = unconfirmed and not confirmed
+        item = classify_contact(history_row, watch_index, russian_ports, flag_ref, falseflag_index)
         item["from_russia_confirmed"] = confirmed
         item["recent_russian_portcall_confirmed_10d"] = confirmed
         item["recent_russian_portcall_unconfirmed_10d"] = unconfirmed and not confirmed
@@ -1020,6 +1062,7 @@ def build_recent_ru_history_items(current_items):
             "recent_ru_portcall_basis",
             "voi_history_confirmed_portcall" if confirmed else "voi_history_unconfirmed_post_destination_change",
         )
+        item["categories"] = sorted(set(item.get("categories", [])) | {"recent_russian_portcall_10d"})
         items.append(item)
 
     for row in current_items:
@@ -1171,16 +1214,17 @@ def update_stats(snapshot_items, slot, tanker_cluster_stats=None):
 def main():
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     _, watch_index = load_watchlist()
+    falseflag_index = load_false_flag_watchlist()
     russian_ports = load_russian_ports()
     flag_ref = load_flag_risk()
     contacts = load_contacts()
 
-    classified = [classify_contact(c, watch_index, russian_ports, flag_ref) for c in contacts]
+    classified = [classify_contact(c, watch_index, russian_ports, flag_ref, falseflag_index) for c in contacts]
     snapshot_items = [c for c in classified if c.get("categories")]
 
     recent_ru_items = merge_unique_items(
-        build_recent_ru_history_items(snapshot_items),
-        build_recent_ru_input_items(russian_ports, flag_ref),
+        build_recent_ru_history_items(snapshot_items, watch_index, russian_ports, flag_ref, falseflag_index),
+        build_recent_ru_input_items(russian_ports, flag_ref, watch_index, falseflag_index),
     )
 
     # Include recent Russian-portcall items in snapshot if they were not already live VOIs.
@@ -1204,6 +1248,12 @@ def main():
 
     for layer_name, path in LAYER_FILES.items():
         write_geojson(path, layer_buckets.get(layer_name, []))
+
+    # Remove the retired combined category so stale sanctions/shadow-fleet
+    # classifications cannot survive a successful layer rebuild.
+    legacy_combined_layer = DATA_DIR / "sanctions_shadowfleet.geojson"
+    if legacy_combined_layer.exists():
+        legacy_combined_layer.unlink()
 
     slot = current_slot()
     update_history(snapshot_items, slot)
