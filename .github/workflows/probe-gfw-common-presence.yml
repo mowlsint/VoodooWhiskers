@@ -24,6 +24,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Restore latest bounded live data
+        run: python scripts/runtime_data_store.py restore
+
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
@@ -95,13 +98,4 @@ jobs:
             exit 0
           fi
           python scripts/repo_storage_guard.py
-          git commit -m "Add harmonized maritime common snapshot"
-          for attempt in 1 2 3; do
-            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
-              exit 0
-            fi
-            git rebase --abort || true
-            [ "$attempt" -lt 3 ] && sleep 12
-          done
-          exit 1
-
+          python scripts/runtime_data_store.py publish "Add harmonized maritime common snapshot"
