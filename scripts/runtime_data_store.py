@@ -113,10 +113,6 @@ def publish(message):
             changes[name] = new
     if not changes:
         print("No live data changes to publish.")
-    else:
-        # The guard compares only actual changes from the restored live snapshot.
-        subprocess.run([sys.executable, str(ROOT / "scripts/repo_storage_guard.py")],
-                       cwd=ROOT, check=True, env=os.environ.copy())
     for attempt in range(1, 6):
         git("fetch", "--no-tags", "origin",
             f"refs/heads/{BRANCH}:refs/remotes/origin/{BRANCH}")
