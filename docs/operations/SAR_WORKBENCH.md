@@ -2,7 +2,15 @@
 
 Stand: 11. November 2026. Einstieg: `public/sar.html`, verlinkt von der Voodoo-Startseite. Die Oberfläche ist Englisch.
 
-Der Arbeitsplatz verarbeitet einen kleinen Ausschnitt einer vorhandenen Sentinel-1-Aufnahme, sucht Radarkandidaten mit drei CFAR-Profilen und vergleicht sie mit zeitlich passenden historischen AIS-Beobachtungen. Vorschauen, Kandidaten und Auftragsdetails werden verschlüsselt als GitHub-Artefakt gespeichert. Ungeprüfte Kandidaten werden nicht in Magic Paws veröffentlicht.
+Der Arbeitsplatz bietet zwei getrennte Verarbeitungen. Ein punktbasierter Katalogtreffer zeigt die tatsächliche Sentinel-1-Szenengeometrie auf der Karte. Die vollständige Szene kann als begrenztes, gröberes Kontextbild (maximal 1.200 px je Seite, 2 MiB PNG) verarbeitet und anschließend an die Hauptkarte übertragen werden. Das Bild ist nicht für die Identifizierung einzelner Schiffe geeignet; das Roh-GeoTIFF wird temporär gehalten und verworfen. Optional bleibt die bisherige Detailanalyse eines kleinen AOI mit CFAR und historischem AIS-Kontext bestehen. Vorschauen, Kandidaten und Auftragsdetails werden verschlüsselt als GitHub-Artefakt gespeichert. Ungeprüfte Kandidaten werden nicht in Magic Paws veröffentlicht.
+
+## Szenenbild und Abdeckung
+
+Die Suche wird durch den Mittelpunkt des gewählten Suchbereichs bestimmt. Eine Szene ist für das Szenenbild auswählbar, wenn ihr Footprint diesen Punkt enthält. Die Karte zeigt danach den vollständigen STAC-Footprint und markiert den Suchpunkt. Dadurch ist die konkrete Abdeckung vor dem Start sichtbar.
+
+Ein ausgewähltes Szenenbild nutzt die volle Szenen-Bounding-Box; der Prozess erzeugt eine transparente, Web-Mercator-ausgerichtete VV-Übersicht mit höchstens 1.200 Pixeln pro Seite und höchstens 2 MiB. Die Pixelauflösung wird im Ergebnis mitgeführt. Das Bild ist für geografischen Überblick gedacht, nicht für Schiffsidentifikation. Eine Sentinel-1-Szene deckt nur ihren eigenen Footprint ab; eine lange Route oder ein ganzes Seegebiet erfordert mehrere passende Szenen.
+
+Die bisherige Detailanalyse bleibt eine separate Aktion: Sie erfordert weiterhin die vollständige Abdeckung des kleinen AOI und verarbeitet das Radarbild mit 10-m-Abstand und optionalem AIS-Kontext. Beide Bildverarbeitungen zählen gemeinsam auf die vorhandene Grenze von drei Anfragen pro Tag.
 
 ## Einrichtung
 

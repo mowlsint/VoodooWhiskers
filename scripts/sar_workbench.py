@@ -50,7 +50,7 @@ def validate_request(raw,cfg,now=None):
     if not isinstance(raw,dict) or raw.get('v')!=1:raise WorkbenchError('REQUEST_VERSION')
     if set(raw)-{'v','id','created_at','action','area_id','bbox','days','scene_id','gfw_context','danish_ais','range_from','range_to','event_id'}:raise WorkbenchError('REQUEST_FIELDS')
     action=raw.get('action')
-    if action not in {'search','analyse','refresh_context'}:raise WorkbenchError('REQUEST_ACTION')
+    if action not in {'search','analyse','scene_preview','refresh_context'}:raise WorkbenchError('REQUEST_ACTION')
     identifier=str(raw.get('id',''))
     if not re.fullmatch(r'[a-f0-9-]{32,36}',identifier):raise WorkbenchError('REQUEST_ID')
     try:created=catalog.parse_utc(raw.get('created_at'),'request time')
@@ -102,6 +102,18 @@ def geometry_contains(geometry,point):
     return any(p and point_in_ring(point,p[0]) and not any(point_in_ring(point,h) for h in p[1:]) for p in polygons)
 
 
+def geometry_bbox(geometry):
+    points=[]
+    def visit(value):
+        if not isinstance(value,list):return
+        if len(value)>=2 and isinstance(value[0],(int,float)) and isinstance(value[1],(int,float)) and math.isfinite(value[0]) and math.isfinite(value[1]):
+            points.append((float(value[0]),float(value[1])));return
+        for item in value:visit(item)
+    visit((geometry or {}).get('coordinates'))
+    if not points:raise WorkbenchError('SCENE_FOOTPRINT_INVALID')
+    return [min(p[0] for p in points),min(p[1] for p in points),max(p[0] for p in points),max(p[1] for p in points)]
+
+
 def normalize_scene(feature,bbox):
     props=feature.get('properties') or {}
     item_id=str(feature.get('id',''))
@@ -111,13 +123,16 @@ def normalize_scene(feature,bbox):
     normalized=catalog.normalize_scene_id(item_id)
     stamp=re.search(r'_(\d{8}T\d{6})_',normalized)
     if not stamp or stamp[1]!=acquired.strftime('%Y%m%dT%H%M%S'):return None
-    west,south,east,north=bbox
-    covers=all(geometry_contains(feature.get('geometry') or {},p) for p in [(west,south),(west,north),(east,south),(east,north),((west+east)/2,(south+north)/2)])
-    orbit=props.get('sat:orbit_state')
+    west,south,east,north=bbox;geometry=feature.get('geometry') or {};center=((west+east)/2,(south+north)/2)
+    covers=all(geometry_contains(geometry,p) for p in [(west,south),(west,north),(east,south),(east,north),center])
+    covers_point=geometry_contains(geometry,center);orbit=props.get('sat:orbit_state')
+    try:scene_bbox=geometry_bbox(geometry)
+    except WorkbenchError:return None
     return {'item_id':item_id,'scene_id':normalized,'datetime':iso(acquired),
             'end_datetime':props.get('end_datetime') or iso(acquired+timedelta(seconds=30)),
             'platform':props.get('platform') or normalized[:3],'orbit_direction':orbit,
-            'bbox':feature.get('bbox'),'footprint':feature.get('geometry'),
+            'bbox':scene_bbox,'footprint':geometry,
+            'covers_point':covers_point,'previewable':covers_point and orbit in {'ascending','descending'},
             'covers_aoi':covers,'processable':covers and orbit in {'ascending','descending'},
             'gfw_delay_elapsed':(utc()-acquired).total_seconds()>=5*86400,
             'source_url':f'https://stac.dataspace.copernicus.eu/v1/collections/sentinel-1-grd/items/{item_id}'}
@@ -272,6 +287,97 @@ def acquire_and_detect(request,scene,cfg,client_id,client_secret,binary_session=
     return payload,images
 
 
+
+def scene_preview_png(array,bbox,max_side=1200,maximum_bytes=2*1024*1024):
+    import numpy as np
+    from PIL import Image
+    west,south,east,north=map(float,bbox)
+    if not(-180<=west<east<=180 and -85<=south<north<=85):raise WorkbenchError('SCENE_PREVIEW_BBOX_INVALID')
+    radius=6378137.0
+    x_span=radius*math.radians(east-west)
+    y_north=radius*math.log(math.tan(math.pi/4+math.radians(north)/2))
+    y_south=radius*math.log(math.tan(math.pi/4+math.radians(south)/2))
+    y_span=y_north-y_south
+    ground_width=x_span*math.cos(math.radians((south+north)/2))
+    ground_height=radius*math.radians(north-south)
+    if max(ground_width,ground_height)>400000 or ground_width*ground_height/1e6>120000:
+        raise WorkbenchError('SCENE_PREVIEW_EXCEEDS_BOUNDS')
+    max_extent=max(x_span,y_span)
+    width=max(1,int(math.ceil(max_side*x_span/max_extent)))
+    height=max(1,int(math.ceil(max_side*y_span/max_extent)))
+    valid=(array[:,:,2]>=.5)&np.isfinite(array[:,:,0])&(array[:,:,0]>0)
+    if not valid.any():raise WorkbenchError('SCENE_PREVIEW_NO_VALID_PIXELS')
+    db=10*np.log10(array[:,:,0][valid])
+    low,high=np.percentile(db,[1,99.8])
+    if not math.isfinite(float(low)) or not math.isfinite(float(high)) or high<=low:
+        raise WorkbenchError('SCENE_PREVIEW_STRETCH')
+    source=np.zeros(valid.shape,dtype='uint8')
+    source[valid]=np.rint(np.clip((db-low)/(high-low),0,1)*254).astype('uint8')+1
+    target_y=y_north-(np.arange(height,dtype='float64')+.5)*(y_span/height)
+    target_lat=2*np.arctan(np.exp(target_y/radius))-math.pi/2
+    source_rows=np.rint((north-target_lat)/(north-south)*(source.shape[0]-1)).astype(int)
+    source_rows=np.clip(source_rows,0,source.shape[0]-1)
+    projected=np.take(source,source_rows,axis=0)
+    palette=[0,0,0]+[channel for value in range(255) for channel in (value,value,value)]
+    for side in (max_side,1050,900,750,600,480,360,256):
+        factor=min(1.0,side/max(width,height))
+        out_width=max(1,int(round(width*factor)));out_height=max(1,int(round(height*factor)))
+        rows=np.rint(np.linspace(0,height-1,out_height)).astype(int)
+        cols=np.rint(np.linspace(0,width-1,out_width)).astype(int)
+        pixels=projected[rows][:,cols]
+        image=Image.fromarray(pixels,mode='P');image.putpalette(palette);image.info['transparency']=0
+        output=io.BytesIO();image.save(output,format='PNG',optimize=True)
+        if output.tell()<=maximum_bytes:
+            return ('data:image/png;base64,'+base64.b64encode(output.getvalue()).decode('ascii'),
+                    {'bbox':[west,south,east,north],'width_px':out_width,'height_px':out_height,
+                     'meters_per_pixel':round(max(x_span/out_width,y_span/out_height),1),
+                     'valid_fraction':round(float(valid.mean()),6),'stretch_db':[float(low),float(high)]})
+    raise WorkbenchError('SCENE_PREVIEW_PNG_TOO_LARGE')
+
+
+def acquire_scene_preview(request,scene,cfg,client_id,client_secret,binary_session=None):
+    bbox=scene.get('bbox')
+    if not isinstance(bbox,list) or len(bbox)!=4:raise WorkbenchError('SCENE_PREVIEW_BBOX_INVALID')
+    west,south,east,north=map(float,bbox)
+    if not all(math.isfinite(v) for v in (west,south,east,north)) or not(-180<=west<east<=180 and -85<=south<north<=85):
+        raise WorkbenchError('SCENE_PREVIEW_BBOX_INVALID')
+    radius=6378137.0
+    x_span=radius*math.radians(east-west)
+    y_north=radius*math.log(math.tan(math.pi/4+math.radians(north)/2))
+    y_south=radius*math.log(math.tan(math.pi/4+math.radians(south)/2))
+    y_span=y_north-y_south
+    physical_width=x_span*math.cos(math.radians((south+north)/2));physical_height=radius*math.radians(north-south)
+    if max(physical_width,physical_height)>400000 or physical_width*physical_height/1e6>120000:
+        raise WorkbenchError('SCENE_PREVIEW_EXCEEDS_BOUNDS')
+    maximum=max(x_span,y_span)
+    width=max(1,int(math.ceil(1200*x_span/maximum)));height=max(1,int(math.ceil(1200*y_span/maximum)))
+    overview_request={**request,'bbox':bbox,'width_px':width,'height_px':height,
+                      'approx_width_m':physical_width,'approx_height_m':physical_height}
+    _,chip_cfg,pilot=dynamic_configs(overview_request,scene)
+    chip_cfg['request']['minimum_valid_fraction']=0.05
+    http=binary_session or chip.BinarySession()
+    token,_=catalog.request_access_token(http,client_id,client_secret)
+    search=catalog.safe_post(http,catalog.SENTINEL_HUB_CATALOG_URL,'scene confirmation',
+        headers={'Authorization':f'Bearer {token}'},json=chip.build_catalog_search(pilot))
+    _,confirmation=cfar._scene_selection(search,pilot)
+    raw,headers=chip.request_process_chip(http,token,chip.build_process_request(chip_cfg,pilot),
+        int(chip_cfg['request']['maximum_response_bytes']))
+    with tempfile.TemporaryDirectory(prefix='mowlsint-sar-overview-') as td:
+        path=Path(td)/'temporary-overview.tiff';path.write_bytes(raw);del raw
+        array,validation=cfar._load_normalized_raster(path,chip_cfg)
+        scale=validation['geotiff'].get('model_pixel_scale')
+        tie=validation['geotiff'].get('model_tiepoint')
+        if not scale or not tie or len(scale)<2 or len(tie)<6:raise WorkbenchError('SCENE_PREVIEW_GEOREFERENCE_UNSUPPORTED')
+        expected=[(east-west)/width,(north-south)/height,west,north]
+        actual=[scale[0],scale[1],tie[3]-tie[0]*scale[0],tie[4]+tie[1]*scale[1]]
+        if any(not math.isclose(a,b,rel_tol=1e-5,abs_tol=1e-7) for a,b in zip(actual,expected)):
+            raise WorkbenchError('SCENE_PREVIEW_GEOREFERENCE_MISMATCH')
+        image,preview=scene_preview_png(array,bbox)
+    return image,{**preview,'scene_confirmation':confirmation,
+        'processing_units_estimate':chip.processing_unit_estimate(chip_cfg),
+        'process_api_reported_processing_units':headers.get('x-processingunits-spent')}
+
+
 def fetch_context(request,scene):
     if not request.get('gfw_context'):return {},{},'not_requested'
     acquired=catalog.parse_utc(scene['datetime'],'scene time')
@@ -321,7 +427,7 @@ def context_or_partial(candidates,request,scene,history,matcher=None):
         return result,queue
 
 
-def run_task(request,cfg,workspace,search=None,detector=None,matcher=None,history=None):
+def run_task(request,cfg,workspace,search=None,detector=None,matcher=None,history=None,previewer=None):
     now=utc();ledger=workspace.setdefault('analysis_ledger',{})
     jobs=workspace.setdefault('jobs',[])
     if any(j.get('request_id')==request['id'] for j in jobs):raise WorkbenchError('REQUEST_ALREADY_COMPLETED')
@@ -336,14 +442,29 @@ def run_task(request,cfg,workspace,search=None,detector=None,matcher=None,histor
     found=(search or search_scenes)(request,cfg)
     job['catalog']=found
     if request['action']=='search':return {**job,'state':'catalog_ready','processing_performed':False}
-    scene=next((s for s in found['scenes'] if s['processable'] and (request['scene_id']=='latest' or request['scene_id'] in {s['scene_id'],s['item_id']})),None)
+    predicate='previewable' if request['action']=='scene_preview' else 'processable'
+    scene=next((s for s in found['scenes'] if s.get(predicate) and (request['scene_id']=='latest' or request['scene_id'] in {s['scene_id'],s['item_id']})),None)
     if scene is None:raise WorkbenchError('NO_SUITABLE_SCENE')
     job['scene']=scene
     date_key=now.date().isoformat()
     if ledger.get(date_key,0)>=cfg['max_analyses_per_day']:raise WorkbenchError('DAILY_ANALYSIS_LIMIT')
-    if detector is None and not (os.environ.get('CDSE_SH_CLIENT_ID') and os.environ.get('CDSE_SH_CLIENT_SECRET')):raise WorkbenchError('COPERNICUS_CREDENTIALS_MISSING')
+    client_id=os.environ.get('CDSE_SH_CLIENT_ID','');client_secret=os.environ.get('CDSE_SH_CLIENT_SECRET','')
+    provider_not_injected=previewer is None if request['action']=='scene_preview' else detector is None
+    if provider_not_injected and not (client_id and client_secret):raise WorkbenchError('COPERNICUS_CREDENTIALS_MISSING')
     ledger[date_key]=ledger.get(date_key,0)+1
-    candidates,images=(detector or acquire_and_detect)(request,scene,cfg,os.environ.get('CDSE_SH_CLIENT_ID',''),os.environ.get('CDSE_SH_CLIENT_SECRET',''))
+    if request['action']=='scene_preview':
+        image,preview=(previewer or acquire_scene_preview)(request,scene,cfg,client_id,client_secret)
+        preview_job={key:value for key,value in job.items() if key!='catalog'}
+        return {**preview_job,'state':'ready','scene_preview_only':True,'scene_preview_bbox':preview['bbox'],
+            'scene_footprint':scene['footprint'],'preview_meters_per_pixel':preview['meters_per_pixel'],
+            'scene_preview_dimensions':[preview['width_px'],preview['height_px']],
+            'scene_preview_metadata':{'valid_fraction':preview['valid_fraction'],'stretch_db':preview['stretch_db'],
+                'scene_confirmation':preview['scene_confirmation'],'processing_units_estimate':preview['processing_units_estimate'],
+                'process_api_reported_processing_units':preview['process_api_reported_processing_units'],
+                'raw_geotiff_retained':False,'vessel_scale_detail':False},
+            'images':{'scene_preview':image,'preview_is_derived':True,'image_kind':'full_scene_context_overview'},
+            'processing_performed':True}
+    candidates,images=(detector or acquire_and_detect)(request,scene,cfg,client_id,client_secret)
     result,queue=context_or_partial(candidates,request,scene,history if history is not None else read_history(),matcher)
     return {**job,'state':'ready','candidates':candidates,'context':result,'queue':queue,'images':images,'processing_performed':True}
 
