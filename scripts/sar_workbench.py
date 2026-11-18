@@ -339,15 +339,18 @@ def acquire_scene_preview(request,scene,cfg,client_id,client_secret,binary_sessi
     bbox=scene.get('bbox')
     if not isinstance(bbox,list) or len(bbox)!=4:raise WorkbenchError('SCENE_PREVIEW_BBOX_INVALID')
     west,south,east,north=map(float,bbox)
-    if not all(math.isfinite(v) for v in (west,south,east,north)):raise WorkbenchError('SCENE_PREVIEW_BBOX_INVALID')
+    if not all(math.isfinite(v) for v in (west,south,east,north)) or not(-180<=west<east<=180 and -85<=south<north<=85):
+        raise WorkbenchError('SCENE_PREVIEW_BBOX_INVALID')
     radius=6378137.0
     x_span=radius*math.radians(east-west)
     y_north=radius*math.log(math.tan(math.pi/4+math.radians(north)/2))
     y_south=radius*math.log(math.tan(math.pi/4+math.radians(south)/2))
     y_span=y_north-y_south
+    physical_width=x_span*math.cos(math.radians((south+north)/2));physical_height=radius*math.radians(north-south)
+    if max(physical_width,physical_height)>400000 or physical_width*physical_height/1e6>120000:
+        raise WorkbenchError('SCENE_PREVIEW_EXCEEDS_BOUNDS')
     maximum=max(x_span,y_span)
     width=max(1,int(math.ceil(1200*x_span/maximum)));height=max(1,int(math.ceil(1200*y_span/maximum)))
-    physical_width=x_span*math.cos(math.radians((south+north)/2));physical_height=radius*math.radians(north-south)
     overview_request={**request,'bbox':bbox,'width_px':width,'height_px':height,
                       'approx_width_m':physical_width,'approx_height_m':physical_height}
     _,chip_cfg,pilot=dynamic_configs(overview_request,scene)

@@ -6,9 +6,9 @@ The SAR workbench opens in a separate tab (`target="_blank"`). The main map's **
 
 A completed full-scene overview is transferred automatically when its encrypted result ZIP is opened in the linked workbench. If no map tab is linked, the handoff opens a new main-map tab. Full-scene overviews are shown by default after this handoff; the exact scene footprint remains an independent toggle. The SAR image is a bounded contextual preview, not vessel-scale detail.
 
-1. Open the SAR workbench from the main map. Unlock the workspace and select a completed real image analysis.
-2. Choose **Show image on main map**, then return to the original map tab. Only the selected preview and its scene/time/processed-area metadata are transferred. A full-scene overview also carries its bounded STAC footprint and approximate pixel scale. Passwords, GitHub tokens, candidates and analyst notes are not transferred.
-3. If the original map tab was closed, choose **Open a new map tab and send image**. Allow that user-initiated tab to open. If browser tab messaging is unavailable, save the encrypted session and use the local-file option below.
+1. Start from the SAR workbench opened from the main map, unlock the workspace, then open the completed encrypted results ZIP.
+2. A full-scene overview is sent to the linked map automatically and shown there. If you prefer, use **Show image on main map** to resend the selected preview. Only the selected preview and its scene/time/processed-area metadata are transferred. A full-scene overview also carries its bounded STAC footprint and approximate pixel scale. Passwords, GitHub tokens, candidates and analyst notes are not transferred.
+3. If no map tab is linked, the handoff opens a new map tab. If browser tab messaging is unavailable, use **Open a new map tab and send image**, or save the encrypted session and use the local-file option below.
 4. Alternatively, open **Satellite images → Open encrypted results** on the main map, select the existing encrypted result ZIP or session JSON and enter the workspace password. Decryption happens locally; the file is not uploaded.
 
 Use **Show processed image footprint** and **Show SAR image preview** independently. A transferred preview initially shows only its footprint; local imports initially show neither overlay. Choose an image in the selector to control its visibility and opacity. **Fit image area** moves the map only when requested.
