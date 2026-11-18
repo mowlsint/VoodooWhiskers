@@ -29,7 +29,9 @@
     commonSnapshot:"./data/vessels/maritime_common_snapshot_latest.geojson",
     commonStatus:"./data/vessels/maritime_common_snapshot_status.json",
     neutral_tanker_context:"./data/vessels/layers/neutral_tanker_context.geojson",
-    sanctions_shadowfleet:"./data/vessels/layers/sanctions_shadowfleet.geojson",
+    sanctions:"./data/vessels/layers/sanctions.geojson",
+    shadow_fleet:"./data/vessels/layers/shadow_fleet.geojson",
+    sanctions_review:"./data/vessels/layers/sanctions_review.geojson",
     watchlist:"./data/vessels/layers/watchlist_live.geojson",
     falseflag_interest:"./data/vessels/layers/falseflag_interest.geojson",
     false_flag_watch:"./data/vessels/layers/false_flag_watch.geojson",
@@ -63,7 +65,9 @@
   const vesselColors = {
     falseflag_interest:"#ff00c8",
     false_flag_watch:"#ff8c42",
-    sanctions_shadowfleet:"#ff4d5f",
+    sanctions:"#ff4d5f",
+    shadow_fleet:"#9b7ce5",
+    sanctions_review:"#d7c879",
     watchlist:"#ff4d5f",
     russian_mmsi:"#6da8ff",
     recent_russian_portcall_10d:"#f4d03f",
@@ -118,20 +122,20 @@
 
   function vesselCategory(properties){
     const categories = categoriesOf(properties);
-    for (const key of ["falseflag_interest","false_flag_watch","sanctions_shadowfleet","watchlist","russian_mmsi","recent_russian_portcall_10d","behavioral_voi","neutral_tanker_context"]){
+    for (const key of ["false_flag_watch","falseflag_interest","sanctions","shadow_fleet","sanctions_review","watchlist","russian_mmsi","recent_russian_portcall_10d","behavioral_voi","neutral_tanker_context"]){
       if (categories.includes(key)) return key;
     }
     return properties?.is_priority_voi ? "watchlist" : "neutral_tanker_context";
   }
 
   const DISPLAY_VOI_CATEGORIES = new Set([
-    "watchlist","sanctions_shadowfleet","shadowfleet","russian_mmsi",
+    "watchlist","sanctions","shadow_fleet","sanctions_review","shadowfleet","russian_mmsi",
     "falseflag_interest","false_flag_watch","behavioral_voi","recent_russian_portcall_10d"
   ]);
 
   function isPriorityVoi(properties){
     const p = properties || {};
-    if (p.is_priority_voi || p.known_voi_match || p.sanctioned || p.shadow_fleet || p.false_flag || p.behavioral_voi || p.from_russia_confirmed) return true;
+    if (p.is_priority_voi || p.known_voi_match || p.sanctioned || p.shadow_fleet || p.sanctions_review_required || p.false_flag || p.behavioral_voi || p.from_russia_confirmed) return true;
     return categoriesOf(p).some(category => DISPLAY_VOI_CATEGORIES.has(category))||VC.describe(p,state.categoryIndex).russia.related;
   }
 
@@ -270,7 +274,7 @@
   }
 
   function isVesselLayer(layerId){
-    return ["ais_contacts","vessel_positions","danish_history","neutral_tanker_context","sanctions_shadowfleet","watchlist","falseflag_interest","false_flag_watch","russian_mmsi","recent_russian_portcall_10d","behavioral_voi"].includes(layerId);
+    return ["ais_contacts","vessel_positions","danish_history","neutral_tanker_context","sanctions","shadow_fleet","sanctions_review","watchlist","falseflag_interest","false_flag_watch","russian_mmsi","recent_russian_portcall_10d","behavioral_voi"].includes(layerId);
   }
 
   function smallVesselsShown(){return $('showSmallVessels')?.checked===true;}
@@ -540,14 +544,16 @@
     const models=VM.track(rows,{hours,maxPoints:120});return {type:'FeatureCollection',features:models.flatMap(m=>m.segments.map(seg=>({type:'Feature',geometry:{type:'LineString',coordinates:[VM.coordinates(seg.from),VM.coordinates(seg.to)]},properties:{...seg.to,timeline_role:'historical_track',vessel_identity:m.identity}})))};
   }
 
-  const COMMON_CATEGORY_LAYERS=["neutral_tanker_context","sanctions_shadowfleet","watchlist","falseflag_interest","false_flag_watch","russian_mmsi","recent_russian_portcall_10d","behavioral_voi"];
+  const COMMON_CATEGORY_LAYERS=["neutral_tanker_context","sanctions","shadow_fleet","sanctions_review","watchlist","falseflag_interest","false_flag_watch","russian_mmsi","recent_russian_portcall_10d","behavioral_voi"];
   function commonSubset(layerId){
     const source=state.data.common_snapshot || EMPTY_FC();
     const features=(source.features || []).filter(feature=>{
       const p=feature?.properties || {};const cats=categoriesOf(p);
       if(layerId==="vessel_positions") return isPriorityVoi(p);
       if(layerId==="neutral_tanker_context") return Boolean((p.neutral_tanker_context || cats.includes("neutral_tanker_context")) && !isPriorityVoi(p));
-      if(layerId==="sanctions_shadowfleet") return Boolean(p.sanctioned || p.shadow_fleet || cats.includes("sanctions_shadowfleet") || cats.includes("shadowfleet"));
+      if(layerId==="sanctions") return Boolean(p.sanctioned || cats.includes("sanctions"));
+      if(layerId==="shadow_fleet") return Boolean(p.shadow_fleet || cats.includes("shadow_fleet") || cats.includes("shadowfleet"));
+      if(layerId==="sanctions_review") return Boolean(p.sanctions_review_required || cats.includes("sanctions_review") || (cats.includes("sanctions_shadowfleet") && !p.sanctioned && !p.shadow_fleet));
       if(layerId==="watchlist") return Boolean(p.known_voi_match || cats.includes("watchlist"));
       if(layerId==="falseflag_interest") return Boolean(p.false_flag || cats.includes("falseflag_interest"));
       if(layerId==="false_flag_watch") return cats.includes("false_flag_watch");
@@ -724,7 +730,7 @@
 
     document.querySelectorAll('input[data-layer]').forEach(input => input.addEventListener("change",()=>{syncLayerVisibility(input.dataset.layer);if(['vessel_positions','neutral_tanker_context'].includes(input.dataset.layer))renderVesselView();if(['gfw_loitering','gfw_presence'].includes(input.dataset.layer))renderGfw();}));
     document.querySelectorAll('button[data-time-mode]').forEach(button=>button.addEventListener("click",()=>applyTimeMode(button.dataset.timeMode)));
-    $("fitVessels").addEventListener("click",()=>fit(["ais_contacts","vessel_positions","danish_history","sanctions_shadowfleet","watchlist","falseflag_interest","false_flag_watch","russian_mmsi","recent_russian_portcall_10d","behavioral_voi","neutral_tanker_context"]));
+    $("fitVessels").addEventListener("click",()=>fit(["ais_contacts","vessel_positions","danish_history","sanctions","shadow_fleet","sanctions_review","watchlist","falseflag_interest","false_flag_watch","russian_mmsi","recent_russian_portcall_10d","behavioral_voi","neutral_tanker_context"]));
     $("fitInfrastructure").addEventListener("click",()=>fit(["telecom_cables","power_cables","cable_landings","pipelines","wind_farms","offshore_energy"]));
 
     await Promise.all([
@@ -737,7 +743,9 @@
     ]);
     await Promise.all([
       loadStaticGeoLayer("neutral_tanker_context",paths.neutral_tanker_context),
-      loadStaticGeoLayer("sanctions_shadowfleet",paths.sanctions_shadowfleet),
+      loadStaticGeoLayer("sanctions",paths.sanctions),
+      loadStaticGeoLayer("shadow_fleet",paths.shadow_fleet),
+      loadStaticGeoLayer("sanctions_review",paths.sanctions_review),
       loadStaticGeoLayer("watchlist",paths.watchlist),
       loadStaticGeoLayer("falseflag_interest",paths.falseflag_interest),
       loadStaticGeoLayer("false_flag_watch",paths.false_flag_watch),
@@ -753,7 +761,7 @@
     $('showTracks').addEventListener('change',()=>applyTimeMode(state.timeMode));
     $('showSmallVessels').addEventListener('change',()=>{
       renderVesselView();
-      for(const id of ['danish_history','sanctions_shadowfleet','watchlist','falseflag_interest','false_flag_watch','russian_mmsi','recent_russian_portcall_10d','behavioral_voi']){
+      for(const id of ['danish_history','sanctions','shadow_fleet','sanctions_review','watchlist','falseflag_interest','false_flag_watch','russian_mmsi','recent_russian_portcall_10d','behavioral_voi']){
         if(state.data[id])replaceLayer(id,state.data[id]);
       }
     });
