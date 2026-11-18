@@ -8,13 +8,16 @@
   const MAX_BYTES = 1024 * 1024, MAX_CONTACTS = 10000, MAX_AGE = 24 * 3600000;
   const LIVE_DATA_BASE = 'https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/runtime-data/public/';
   const SOURCES = new Set(['openwaters', 'fintraffic', 'barentswatch']);
-  const COLUMNS = ['mmsi','imo','latitude','longitude','observed_at','source_provider','upstream_source','position_timestamp_basis'];
+  const LEGACY_COLUMNS = ['mmsi','imo','latitude','longitude','observed_at','source_provider','upstream_source','position_timestamp_basis'];
+  const COLUMNS = [...LEGACY_COLUMNS,'length_m'];
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   function decode(pack, now = Date.now()) {
-    if (!pack || pack.kind !== 'sampled_traffic_context' || pack.schema_version !== '1.0.0' ||
+    const columns = pack?.schema_version === '1.0.0' ? LEGACY_COLUMNS :
+      pack?.schema_version === '1.1.0' ? COLUMNS : null;
+    if (!pack || pack.kind !== 'sampled_traffic_context' || !columns ||
         pack.coverage_complete !== false || pack.context_only !== true || pack.position_timestamp_valid !== true ||
-        JSON.stringify(pack.columns) !== JSON.stringify(COLUMNS) || !Array.isArray(pack.contacts) || pack.contacts.length > MAX_CONTACTS) {
+        JSON.stringify(pack.columns) !== JSON.stringify(columns) || !Array.isArray(pack.contacts) || pack.contacts.length > MAX_CONTACTS) {
       throw new Error('Invalid or oversized traffic product');
     }
     const generated = Date.parse(pack.generated_at), expires = Date.parse(pack.expires_at);
@@ -24,8 +27,9 @@
     }
     const rows = [];
     for (const tuple of pack.contacts) {
-      if (!Array.isArray(tuple) || tuple.length !== COLUMNS.length) continue;
-      const p = Object.fromEntries(COLUMNS.map((name, i) => [name, tuple[i]]));
+      if (!Array.isArray(tuple) || tuple.length !== columns.length) continue;
+      const p = Object.fromEntries(columns.map((name, i) => [name, tuple[i]]));
+      if (!('length_m' in p)) p.length_m = null;
       const time = Date.parse(p.observed_at);
       if (!/^\d{9}$/.test(p.mmsi) || p.mmsi === '000000000' || !SOURCES.has(p.source_provider) ||
           typeof p.latitude !== 'number' || typeof p.longitude !== 'number' ||
@@ -80,10 +84,11 @@
   }
 
   function popup(p, vm) {
-    const link = vm.vesselFinder(p);
+    const link = vm.vesselFinder(p), length = vm.lengthMeters(p);
     return `<div class="popupTitle">Traffic context · ${esc(p.mmsi)}</div><div class="popupMeta">` +
       `<b>Source</b><span>${esc(vm.sourceLabel(p))}</span><b>IMO</b><span>${esc(vm.imo(p.imo)||'unknown')}</span>` +
       `<b>Observation UTC</b><span>${esc(p.observed_at)}</span><b>Data age</b><span>${esc(vm.age(p))}</span>` +
+      (Number.isFinite(length) ? `<b>AIS-reported length</b><span>${length.toFixed(1)} m</span>` : '') +
       `</div><p>Latest received position, not continuous live tracking. Traffic context only; no history is stored.</p>` +
       (link ? `<a href="${esc(link)}" target="_blank" rel="noopener noreferrer">VesselFinder ↗</a>` : '');
   }
@@ -115,9 +120,11 @@
       if (error || !pack) { closeContextPopup(); status.textContent = error || 'Traffic context has not been loaded.'; return; }
       try { rows = decode(pack); } catch (e) { closeContextPopup(); status.textContent = e.message + '; no background points shown.'; return; }
       const now = Date.now(), query = $('vesselSearch').value.trim();
+      const showSmall = $('showSmallVessels')?.checked === true;
       const allowed = visibleRows(rows,getView().monitoredRows,vm,now).filter(p => {
         const source = document.querySelector(`[data-source="${p.source_provider}"]`);
-        return (!source || source.checked) && (!query || [p.mmsi,p.imo].some(s=>String(s).includes(query)));
+        return (showSmall || !vm.isUnderLength(p,vm.SMALL_VESSEL_THRESHOLD_M)) &&
+          (!source || source.checked) && (!query || [p.mmsi,p.imo].some(s=>String(s).includes(query)));
       });
       if (contextPopup && !allowed.some(p=>p.mmsi===popupMmsi)) closeContextPopup();
       const view = allowed.filter(p => map.getBounds().pad(.1).contains([p.latitude,p.longitude]));

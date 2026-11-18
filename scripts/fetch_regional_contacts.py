@@ -35,6 +35,7 @@ from fetch_contacts import (
     load_russian_port_terms,
     load_watchlist_index,
 )
+from vessel_dimensions import length_meters
 
 DATA_DIR = Path("data")
 FINTRAFFIC_OUTPUT = DATA_DIR / "ais_contacts_fintraffic_latest.json"
@@ -205,7 +206,7 @@ def normalize_fintraffic(location_record: dict[str, Any], metadata: dict[str, An
     observed_at, timestamp_valid, timestamp_basis = normalize_timestamp(
         first_value(props, "timestampExternal", "time", "msgtime"), fetched_at
     )
-    return {
+    contact = {
         "mmsi": mmsi,
         "imo": clean_str(first_value(metadata, "imo", "imoNumber", "IMO")),
         "callsign": clean_str(first_value(metadata, "callSign", "callsign", "CallSign")),
@@ -226,6 +227,10 @@ def normalize_fintraffic(location_record: dict[str, Any], metadata: dict[str, An
         "position_timestamp_valid": timestamp_valid,
         "position_timestamp_basis": timestamp_basis,
     }
+    length = length_meters(metadata, props)
+    if length is not None:
+        contact["length_m"] = length
+    return contact
 
 
 def normalize_barentswatch(record: dict[str, Any], fetched_at: str) -> dict[str, Any] | None:
@@ -262,6 +267,9 @@ def normalize_barentswatch(record: dict[str, Any], fetched_at: str) -> dict[str,
         "position_timestamp_valid": timestamp_valid,
         "position_timestamp_basis": timestamp_basis,
     }
+    length = length_meters(props)
+    if length is not None:
+        contact["length_m"] = length
     stream = first_value(props, "stream", "sourceStream")
     if stream not in (None, ""):
         contact["source_stream"] = stream

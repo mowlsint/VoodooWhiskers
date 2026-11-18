@@ -37,6 +37,8 @@ import websockets
 from cryptography import x509
 from cryptography.x509.oid import NameOID
 
+from vessel_dimensions import length_meters
+
 DATA_DIR = Path("data")
 WATCHLIST_PATH = DATA_DIR / "watchlist_master.csv"
 FLAG_RISK_PATH = DATA_DIR / "flag_risk_reference.csv"
@@ -694,6 +696,7 @@ def extract_contact(msg: dict[str, Any]) -> dict[str, Any]:
         "longitude": "",
         "destination": "",
         "ship_type": "",
+        "length_m": "",
         "navigational_status": "",
         "sog": "",
         "cog": "",
@@ -752,6 +755,9 @@ def extract_contact(msg: dict[str, Any]) -> dict[str, Any]:
             out["callsign"] = clean_str(report_b.get("CallSign"))
         if report_b.get("ShipType") is not None:
             out["ship_type"] = report_b.get("ShipType")
+    length = length_meters(body, body.get("ReportA"), body.get("ReportB"))
+    if length is not None:
+        out["length_m"] = length
     return out
 
 

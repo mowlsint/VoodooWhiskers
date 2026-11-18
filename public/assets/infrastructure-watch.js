@@ -197,6 +197,7 @@
       <div class="popupMeta">
         <b>MMSI</b><span>${esc(p.mmsi || "–")}</span>
         <b>IMO</b><span>${esc(p.imo || "–")}</span>
+        ${Number.isFinite(VM.lengthMeters(p))?'<b>AIS-reported length</b><span>'+VM.lengthMeters(p).toFixed(1)+' m</span>':''}
         <b>Observed</b><span>${esc(p.observed_at || p.last_seen_utc || "–")}</span>
         <b>AIS source</b><span>${esc(aisSourceLabel(p))}</span>
         <b>Data age</b><span>${esc(VM.age(p))}</span>
@@ -271,10 +272,13 @@
     return ["ais_contacts","vessel_positions","danish_history","neutral_tanker_context","sanctions_shadowfleet","watchlist","falseflag_interest","false_flag_watch","russian_mmsi","recent_russian_portcall_10d","behavioral_voi"].includes(layerId);
   }
 
-  function createGeoLayer(layerId, data){
+  function smallVesselsShown(){return $('showSmallVessels')?.checked===true;}
+
+function createGeoLayer(layerId, data){
     const isVessel = isVesselLayer(layerId);
     const layer = L.geoJSON(data || EMPTY_FC(), {
       filter(feature){
+        if (isVessel && !smallVesselsShown() && VM.isUnderLength(feature?.properties || {},VM.SMALL_VESSEL_THRESHOLD_M)) return false;
         if (layerId === "vessel_positions" && !feature?.properties?.timeline_role) return Boolean(feature?.properties?.is_priority_voi);
         return true;
       },
@@ -498,10 +502,12 @@
     const latest=state.timeMode==='latest',hours=TIME_HOURS[state.timeMode]||336;
     const rawRows=state.timeMode==='project'?[]:latest?[...scopedRows(),...(state.trackRows||[])]:(state.trackRows||[]);
     const rows=state.localProjects?.filterWorkflowRows(rawRows)||rawRows;
-    const models=VM.track(rows,{hours}).sort((a,b)=>Number(b.identity===state.selectedIdentity)-Number(a.identity===state.selectedIdentity));const points=[],lines=[],historyPoints=[];let gaps=0,displayCap=false;
+    const models=VM.track(rows,{hours}).sort((a,b)=>Number(b.identity===state.selectedIdentity)-Number(a.identity===state.selectedIdentity));const points=[],lines=[],historyPoints=[];let gaps=0,displayCap=false,hiddenSmall=0;
     for(const model of models){
       if(latest&&!model.points.some(p=>p._current))continue;
       const query=$('vesselSearch').value.trim().toLowerCase();if(query&&!model.points.some(p=>[p.name,p.imo,p.mmsi].join(' ').toLowerCase().includes(query)))continue;
+      const lengthRecord=[...model.points].reverse().find(p=>Number.isFinite(VM.lengthMeters(p)));
+      if(!smallVesselsShown()&&lengthRecord&&VM.isUnderLength(lengthRecord,VM.SMALL_VESSEL_THRESHOLD_M)){hiddenSmall++;continue;}
       const selected=state.selectedIdentity===model.identity,showTrack=$('showTracks').checked||selected;
       const latestPoint=model.latest;if(!latestPoint)continue;
       const priority=model.points.some(isPriorityVoi);
@@ -526,7 +532,7 @@
       const p=feature.properties,button=document.createElement('button'),view=VC.describe(p,state.categoryIndex);button.className='vesselListItem';button.style.borderLeftColor=view.primary.color;button.textContent=`AIS: ${p.name||p.imo||p.mmsi||'Identity unknown'} · ${view.primary.label} · ${VM.age(p)}`;
       button.addEventListener('click',()=>{for(const id of ['vessel_positions','neutral_tanker_context'])state.layers[id]?.eachLayer?.(layer=>{if(layer.feature?.geometry?.type==='Point'&&layer.feature.properties.timeline_role!=='historical_point'&&layer.feature.properties.vessel_identity===p.vessel_identity){state.map.setView([feature.geometry.coordinates[1],feature.geometry.coordinates[0]],9);layer.openPopup();}});});$('vesselList').append(button);
     }
-    $('trackStatus').textContent=`${visiblePoints.length} visible vessels · ${visibleLines.length} visible track segments · ${gaps} broken connections in available history. Lines connect observations; data gaps remain open.${displayCap?" Display limited to 3,000 track segments/points. Select one vessel.":""}`;
+    $('trackStatus').textContent=`${visiblePoints.length} visible vessels · ${visibleLines.length} visible track segments · ${gaps} broken connections in available history. Lines connect observations; data gaps remain open.${hiddenSmall ? ' ' + hiddenSmall + ' vessels with known AIS length below 17 m hidden.' : ''}${displayCap?" Display limited to 3,000 track segments/points. Select one vessel.":""}`;
     state.localProjects?.renderSearch();
   }
   function historyGeoJson(rows,hours){
@@ -741,9 +747,15 @@
     $('sarDetectionsToggle')?.addEventListener('change',()=>setTimeout(renderVesselView,0));
     $('vesselSearch').addEventListener('input',renderVesselView);
     $('showInfrastructure').addEventListener('change',()=>['telecom_cables','power_cables','cable_landings','pipelines','wind_farms','offshore_energy'].forEach(syncLayerVisibility));
-    $('resetOverview').addEventListener('click',()=>{state.satellite?.resetVisibility();state.selectedIdentity=null;$('showTrafficContext').checked=false;$('showSpecialAircraft').checked=false;$('showOffshoreAircraft').checked=false;$('showTracks').checked=false;$('vesselSearch').value='';$('showInfrastructure').checked=false;$('showInfrastructure').dispatchEvent(new Event('change'));const sar=$('sarDetectionsToggle');if(sar?.checked){sar.checked=false;sar.dispatchEvent(new Event('change'));}document.querySelectorAll('[data-source]').forEach(input=>input.checked=true);document.querySelectorAll('input[data-layer]').forEach(input=>{if(isVesselLayer(input.dataset.layer)||['gfw_loitering','gfw_presence','infrastructure_events'].includes(input.dataset.layer)){input.checked=input.dataset.layer==='vessel_positions';syncLayerVisibility(input.dataset.layer);}});applyTimeMode('latest');});
+    $('resetOverview').addEventListener('click',()=>{state.satellite?.resetVisibility();state.selectedIdentity=null;$('showSmallVessels').checked=false;$('showSmallVessels').dispatchEvent(new Event('change'));$('showTrafficContext').checked=false;$('showSpecialAircraft').checked=false;$('showOffshoreAircraft').checked=false;$('showTracks').checked=false;$('vesselSearch').value='';$('showInfrastructure').checked=false;$('showInfrastructure').dispatchEvent(new Event('change'));const sar=$('sarDetectionsToggle');if(sar?.checked){sar.checked=false;sar.dispatchEvent(new Event('change'));}document.querySelectorAll('[data-source]').forEach(input=>input.checked=true);document.querySelectorAll('input[data-layer]').forEach(input=>{if(isVesselLayer(input.dataset.layer)||['gfw_loitering','gfw_presence','infrastructure_events'].includes(input.dataset.layer)){input.checked=input.dataset.layer==='vessel_positions';syncLayerVisibility(input.dataset.layer);}});applyTimeMode('latest');});
     document.querySelectorAll('[data-source]').forEach(input=>input.addEventListener('change',renderVesselView));
     $('showTracks').addEventListener('change',()=>applyTimeMode(state.timeMode));
+    $('showSmallVessels').addEventListener('change',()=>{
+      renderVesselView();
+      for(const id of ['danish_history','sanctions_shadowfleet','watchlist','falseflag_interest','false_flag_watch','russian_mmsi','recent_russian_portcall_10d','behavioral_voi']){
+        if(state.data[id])replaceLayer(id,state.data[id]);
+      }
+    });
     $('clearTrack').addEventListener('click',()=>{state.selectedIdentity=null;renderVesselView();});
 
     await loadDynamicData();

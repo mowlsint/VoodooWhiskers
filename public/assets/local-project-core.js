@@ -30,6 +30,7 @@
   function observation(row,defaults={},utc=false){
     const p={...identity(row,defaults),latitude:number(row.latitude),longitude:number(row.longitude),observed_at:timestamp(row.observed_at,utc)};
     if(!VM.coordinates(p))throw Error('Coordinate outside latitude/longitude range');
+    const length=VM.lengthMeters(row);if(Number.isFinite(length))p.length_m=length;
     for(const key of ['sog','cog'])if(row[key]!=null&&String(row[key]).trim()!==''){const n=number(row[key]);if(n<0||n>(key==='sog'?150:360))throw Error('Invalid '+key);p[key]=n;}
     return p;
   }
