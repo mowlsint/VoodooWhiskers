@@ -5,7 +5,7 @@ import {createGitHubClient,WORKFLOW_URL} from './sar-github.mjs?v=20261111-direc
 import './satellite-images.js?v=20261118-scene-preview';
 
 const $=id=>document.getElementById(id),RAW='https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/main/public/data/sar/workbench.enc.json';
-const state={password:'',workspace:{v:1,jobs:[],analysis_ledger:{}},scenes:[],selected:null,currentJob:null,currentCandidate:null,map:null,mapLayers:null,bounds:null,config:null,event:null,pendingRequest:null,trackedRequestId:null,autoSentRequestId:null,run:null,pollTimer:null,pollCount:0,pollGeneration:0,pickingArea:false};
+const state={password:'',workspace:{v:1,jobs:[],analysis_ledger:{}},scenes:[],selected:null,currentJob:null,currentCandidate:null,map:null,mapLayers:null,bounds:null,config:null,event:null,pendingRequest:null,trackedRequestId:null,autoSentRequestId:null,run:null,pollTimer:null,pollCount:0,pollGeneration:0,pickingArea:false,centeredPoint:null};
 const github=createGitHubClient();
 const imageSender=globalThis.SatelliteImages.createSender({onStatus:message=>status('main-map-status',message)});
 const ERRORS={SCENE_PREVIEW_EXCEEDS_BOUNDS:'This Sentinel-1 scene is larger than the bounded map-image limit. Choose another acquisition or a nearer area.',SCENE_PREVIEW_PNG_TOO_LARGE:'The scene preview could not be reduced to the map-image size limit. Choose another acquisition.',SCENE_PREVIEW_NO_VALID_PIXELS:'The selected scene contains no usable image pixels for this overview.',SCENE_PREVIEW_STRETCH:'The selected scene could not be rendered as a contextual overview.',SCENE_PREVIEW_GEOREFERENCE_MISMATCH:'The scene image georeference did not match the selected footprint. The image was discarded.',EVENT_PERIOD_OUTSIDE_RETENTION:'The event period is outside the last fourteen days. Open the loitering event again.',EVENT_PERIOD_INVALID:'The event period is invalid.',COPERNICUS_CREDENTIALS_MISSING:'Copernicus credentials are missing from GitHub Secrets.',NO_SUITABLE_SCENE:'No suitable acquisition covers the selected point or, for detail analysis, the full outlined area.',DAILY_ANALYSIS_LIMIT:'Three new image-processing requests have already been made today. Existing image context can still be checked.',REQUEST_EXPIRED:'The request is older than 24 hours. Create a new request.',REQUEST_ALREADY_COMPLETED:'This request has already been processed.',DANISH_ARCHIVE_UNAVAILABLE:'The Danish daily archive is not yet available.',LAND_MASK_CHECKSUM:'The land mask file has changed. Processing has stopped for review.',NO_OPEN_WATER_PIXELS:'Land and the coastal buffer cover the entire area. Choose an area farther offshore.',PilotError:'The Copernicus response or image quality failed validation. Check the credentials and try another acquisition.',RASTER_GEOREFERENCE_MISMATCH:'The radar image georeference does not match the requested area. The image was discarded.'};
@@ -14,18 +14,51 @@ function element(tag,text,className){const e=document.createElement(tag);if(text
 function status(id,text,error=false){$(id).textContent=text;$(id).classList.toggle('error',error);}
 function fmtDate(value){const d=new Date(value);return Number.isFinite(+d)?new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'UTC'}).format(d)+' UTC':'Time unknown';}
 function download(name,payload,type='application/json'){const url=URL.createObjectURL(new Blob([typeof payload==='string'?payload:JSON.stringify(payload,null,2)],{type}));const link=element('a');link.href=url;link.download=name;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-function bbox(){return $('area').value==='custom'?['west','south','east','north'].map(id=>Number($(id).value)):state.config.areas.find(a=>a.id===$('area').value).bbox.slice();}
+function tileSize(){return Number($('tile-size').value)||20;}
+function bbox(){
+  if($('area').value==='custom'){
+    if(state.centeredPoint)return bboxAroundPoint(state.centeredPoint.lat,state.centeredPoint.lon,state.config,tileSize());
+    return ['west','south','east','north'].map(id=>Number($(id).value));
+  }
+  return state.config.areas.find(a=>a.id===$('area').value).bbox.slice();
+}
+function applyPoint(lat,lon){
+  if(state.event)throw new Error('Leave the loitering event time window before choosing another area.');
+  const box=bboxAroundPoint(lat,lon,state.config,tileSize());
+  state.centeredPoint={lat,lon};$('area').value='custom';
+  $('point-coordinates').value=`${lat.toFixed(5)}, ${lon.toFixed(5)}`;
+  for(const [i,id] of ['west','south','east','north'].entries())$(id).value=box[i];
+  updateArea();
+}
+function useEnteredPoint(){
+  const parts=$('point-coordinates').value.trim().split(/[\s,;]+/).filter(Boolean);
+  if(parts.length!==2||parts.some(value=>!Number.isFinite(Number(value)))){
+    status('area-summary','Enter latitude, longitude in decimal degrees, for example 54.50000, 12.30000.',true);return;
+  }
+  try{applyPoint(Number(parts[0]),Number(parts[1]));}
+  catch(err){status('area-summary',err.message,true);}
+}
+function formatCoordinate(value){return Number(value).toFixed(6);}
+
 function applyEvent(){
   if(!state.event)return;
-  $('event-context').hidden=false;$('event-description').textContent=`GFW loitering: ${state.event.name||state.event.mmsi||'Identity unknown'} · ${fmtDate(state.event.start)} to ${fmtDate(state.event.end)}. Search the 10 × 10 km area around the event reference position; this is not the complete observed track area.`;
-  $('area').value='custom';for(const [i,id] of ['west','south','east','north'].entries())$(id).value=state.event.bbox[i];$('days').disabled=true;updateArea();
+  $('event-context').hidden=false;$('point-coordinates').value='';$('event-description').textContent=`GFW loitering: ${state.event.name||state.event.mmsi||'Identity unknown'} · ${fmtDate(state.event.start)} to ${fmtDate(state.event.end)}. Search the 10 × 10 km area around the event reference position; this is not the complete observed track area.`;
+  state.centeredPoint=null;$('area').value='custom';for(const [i,id] of ['west','south','east','north'].entries())$(id).value=state.event.bbox[i];$('days').disabled=true;updateArea();
 }
 function updateArea(){
   cancelMapPick();
   $('custom-bbox').hidden=$('area').value!=='custom';state.selected=null;$('analyse').disabled=true;$('preview-scene').disabled=true;
   $('selected-scene').textContent='Select a suitable radar acquisition first.';
-  try{const box=bbox(),info=inspectBbox(box,state.config);status('area-summary',`${info.area.toFixed(1)} km² · ${info.widthPx} × ${info.heightPx} pixels at 10 m`);const archiveAllowed=box[0]>=3&&box[2]<=17&&box[1]>=53&&box[3]<=60;$('danish-ais').disabled=!archiveAllowed;if(!archiveAllowed)$('danish-ais').checked=false;renderSearchMap(box);}
-  catch(err){status('area-summary',err.message,true);}
+  try{
+    const box=bbox(),info=inspectBbox(box,state.config),[west,south,east,north]=box;
+    if(state.centeredPoint&&$('area').value==='custom')for(const [i,id] of ['west','south','east','north'].entries())$(id).value=box[i];
+    const widthKm=(east-west)*111.32*Math.cos((south+north)/2*Math.PI/180),heightKm=(north-south)*111.32;
+    const center=state.centeredPoint&&$('area').value==='custom'?`Center ${state.centeredPoint.lat.toFixed(5)}, ${state.centeredPoint.lon.toFixed(5)} · `:'';
+    const bounds=`W/S/E/N ${formatCoordinate(west)}, ${formatCoordinate(south)}, ${formatCoordinate(east)}, ${formatCoordinate(north)}`;
+    status('area-summary',`${center}${widthKm.toFixed(2)} × ${heightKm.toFixed(2)} km · ${info.widthPx} × ${info.heightPx} pixels at 10 m · ${bounds}`);
+    $('copy-tile-bounds').disabled=false;const archiveAllowed=west>=3&&east<=17&&south>=53&&north<=60;$('danish-ais').disabled=!archiveAllowed;if(!archiveAllowed)$('danish-ais').checked=false;renderSearchMap(box);
+  }
+  catch(err){status('area-summary',err.message,true);$('copy-tile-bounds').disabled=true;}
   $('scene-list').replaceChildren();state.scenes=[];status('catalog-status','');
 }
 
@@ -42,7 +75,7 @@ function initMap(){
   if(state.map)return;
   if(!globalThis.L){status('workspace-status','Map unavailable. Search and analysis remain usable.',true);return;}
   state.map=L.map('sar-map',{zoomControl:true}).setView([54.6,12.1],8);
-  state.map.on('click',event=>{if(!state.pickingArea)return;try{const box=bboxAroundPoint(event.latlng.lat,event.latlng.lng,state.config);$('area').value='custom';for(const [i,id]of ['west','south','east','north'].entries())$(id).value=box[i];updateArea();}catch(err){status('area-summary',err.message,true);}});
+  state.map.on('click',event=>{if(!state.pickingArea)return;try{applyPoint(event.latlng.lat,event.latlng.lng);}catch(err){status('area-summary',err.message,true);}});
   addBasemap(state.map);
   state.mapLayers=L.layerGroup().addTo(state.map);
 }
@@ -54,7 +87,7 @@ function pickArea(){
   initMap();if(!state.map)return;
   if(state.pickingArea){cancelMapPick();return;}
   state.pickingArea=true;$('pick-area').setAttribute('aria-pressed','true');state.map.getContainer().classList.add('picking-area');
-  state.map.fitBounds([[48,-25],[80,35]]);status('area-summary','Click the location you want to check. The small outlined area is used for optional detail analysis; acquisition search checks the clicked point.');
+  state.map.fitBounds([[48,-25],[80,35]]);status('area-summary',`Click the centre of the ${tileSize()} × ${tileSize()} km detail tile. The outline will show its full bounds.`);
   $('sar-map').scrollIntoView({block:'center',behavior:'smooth'});
 }
 
@@ -235,7 +268,15 @@ $('github-connect').addEventListener('click',connectGitHub);$('direct-start').ad
 $('check-run-status').addEventListener('click',()=>{if(!github.connected){status('github-run-status','Connect GitHub for this tab, or open the run to check it.',true);return;}if(!state.trackedRequestId){latestResults();return;}stopPolling();state.pollCount=0;pollRun(state.trackedRequestId,state.pollGeneration);});
 $('github-disconnect').addEventListener('click',()=>{stopPolling();github.disconnect();$('github-token').value='';$('github-disconnect').hidden=true;$('latest-results').disabled=true;$('direct-start').disabled=true;status('github-status','GitHub disconnected. Any already started run continues; open GitHub to check it.');});
 $('show-password').addEventListener('click',()=>{const shown=$('password').type==='password';$('password').type=shown?'text':'password';$('show-password').textContent=shown?'Hide':'Show';$('show-password').setAttribute('aria-label',shown?'Hide password':'Show password');});
-$('area').addEventListener('change',updateArea);for(const id of ['west','south','east','north'])$(id).addEventListener('change',updateArea);
+$('area').addEventListener('change',updateArea);
+$('tile-size').addEventListener('change',()=>{if(state.centeredPoint&&$('area').value==='custom')updateArea();});
+$('point-coordinates').addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();useEnteredPoint();}});
+$('use-coordinates').addEventListener('click',useEnteredPoint);
+$('copy-tile-bounds').addEventListener('click',async()=>{
+  try{const [west,south,east,north]=bbox();await navigator.clipboard.writeText([west,south,east,north].map(formatCoordinate).join(', '));status('tile-copy-status','Copied west, south, east, north bounds.');}
+  catch{status('tile-copy-status','Copy unavailable. Read the W/S/E/N bounds above.',true);}
+});
+for(const id of ['west','south','east','north'])$(id).addEventListener('change',()=>{state.centeredPoint=null;updateArea();});
 $('search').addEventListener('click',search);$('preview-scene').addEventListener('click',()=>dispatch('scene_preview'));$('analyse').addEventListener('click',()=>dispatch('analyse'));$('search-via-github').addEventListener('click',()=>dispatch('search'));
 $('context-refresh').addEventListener('click',()=>dispatch('refresh_context',state.currentJob));$('refresh').addEventListener('click',()=>{window.open('https://github.com/mowlsint/VoodooWhiskers/actions/workflows/sar-workbench.yml','_blank','noopener,noreferrer');status('workspace-status','Open the completed run → download the sar-workbench-encrypted artifact → use Open backup here. The ZIP file can be opened directly.');});$('job-select').addEventListener('change',renderJob);
 $('fit-map').addEventListener('click',()=>{if(state.bounds)setBounds(state.bounds);});$('review-disposition').addEventListener('change',saveNote);$('review-note').addEventListener('input',saveNote);

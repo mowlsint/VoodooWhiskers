@@ -1,7 +1,8 @@
 export const STATES={MATCHED:'Plausible association',POSSIBLE_MATCH:'Possible association',AMBIGUOUS:'Ambiguous',UNMATCHED_IN_AVAILABLE_AIS:'No match in available AIS',NO_AIS_COVERAGE:'No AIS coverage'};
-export function bboxAroundPoint(lat,lon,cfg){
+export function bboxAroundPoint(lat,lon,cfg,sideKm=20){
   if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat<48||lat>80||lon< -25||lon>35)throw new Error('Choose a point within 25° W–35° E and 48–80° N.');
-  const side=Math.min(20,Math.sqrt(cfg.max_area_km2)*.99,cfg.max_dimension_px*cfg.pixel_spacing_m/1000*.99);
+  if(![10,20].includes(sideKm))throw new Error('Choose a 10 km or 20 km detail tile.');
+  const side=Math.min(sideKm,Math.sqrt(cfg.max_area_km2),cfg.max_dimension_px*cfg.pixel_spacing_m/1000);
   const dy=side/2/111.32,dx=dy/Math.cos(lat*Math.PI/180);
   const box=[lon-dx,lat-dy,lon+dx,lat+dy].map(n=>Number(n.toFixed(6)));
   inspectBbox(box,cfg);return box;

@@ -15,7 +15,7 @@
     timeMode:"latest",
     historyRows:null,
     historyPromise:null,
-    dynamicReady:false, selectedIdentity:null, trackRows:null, gfwEvents:null, gfwGrid:null, gfwEventStatus:null, categoryIndex:null, aircraft:null
+    dynamicReady:false, selectedIdentity:null, trackRows:null, gfwEvents:null, gfwGrid:null, gfwEventStatus:null, categoryIndex:null, aircraft:null, lastMapClick:null
   };
 
   const paths = {
@@ -709,8 +709,31 @@
     renderAisDataAgeBanner();
   }
 
+
+  function formatLatLon(lat,lon){
+    return `${Math.abs(lat).toFixed(5)}° ${lat<0?'S':'N'}, ${Math.abs(lon).toFixed(5)}° ${lon<0?'W':'E'}`;
+  }
+  function installCoordinateReadout(map){
+    const host=map.getContainer().parentElement,panel=document.createElement('div');let lastClick=null;
+    panel.className='mapCoordinateReadout';panel.setAttribute('aria-label','Map coordinates');
+    const cursor=document.createElement('span');cursor.className='mapCoordinateCursor';cursor.textContent='Move the pointer over the map · WGS84';
+    const clicked=document.createElement('span');clicked.className='mapCoordinateClicked';clicked.textContent='Click a point to save coordinates';
+    const copy=document.createElement('button');copy.type='button';copy.textContent='Copy point';copy.disabled=true;copy.setAttribute('aria-label','Copy last clicked map coordinates');
+    const status=document.createElement('span');status.className='mapCoordinateStatus';status.setAttribute('aria-live','polite');
+    panel.append(cursor,clicked,copy,status);host.append(panel);
+    map.on('mousemove',event=>{cursor.textContent='Cursor · '+formatLatLon(event.latlng.lat,event.latlng.lng);});
+    map.on('click',event=>{lastClick={lat:event.latlng.lat,lon:event.latlng.lng};clicked.textContent='Last click · '+formatLatLon(lastClick.lat,lastClick.lon);copy.disabled=false;status.textContent='';});
+    copy.addEventListener('click',async event=>{
+      event.stopPropagation();if(!lastClick)return;
+      const value=`${lastClick.lat.toFixed(5)}, ${lastClick.lon.toFixed(5)}`;
+      try{await navigator.clipboard.writeText(value);status.textContent='Copied lat, lon.';}
+      catch{status.textContent='Copy unavailable. Coordinates: '+value;}
+    });
+  }
+
   async function init(){
     state.map = L.map("map",{zoomControl:true,minZoom:3,maxZoom:18,worldCopyJump:true});
+    installCoordinateReadout(state.map);
     state.traffic = globalThis.TrafficContext.attach(state.map,()=>({timeMode:state.timeMode,monitoredRows:scopedRows()}));
     state.aircraft=globalThis.SpecialAircraft.attach(state.map,()=>({mode:state.timeMode,hours:TIME_HOURS[state.timeMode]||336,isSar:Boolean($('sarDetectionsToggle')?.checked)}));
     try{state.satellite=globalThis.SatelliteImages?.attach(state.map);}catch{const status=$('satelliteStatus');if(status)status.textContent='Satellite controls unavailable. Vessel data remain usable; reload or use the SAR workbench.';}
