@@ -205,5 +205,7 @@ jobs:
           python scripts/test_voi_history_retention.py --public-only
 
       - name: Commit public history within its own storage budget
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: bash scripts/commit_public_history.sh
 
