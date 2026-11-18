@@ -75,9 +75,23 @@
     return String(value ?? "").replace(/[&<>'"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
   }
 
+  const LIVE_DATA_BASE = "https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/runtime-data/public/";
+  function liveDataUrl(url){
+    try{
+      const parsed = new URL(url, window.location.href);
+      if(parsed.origin !== window.location.origin) return url;
+      const match = parsed.pathname.match(/\/(data|downloads)\/(.+)$/);
+      if(!match) return url;
+      const target = new URL(match[1] + "/" + match[2], LIVE_DATA_BASE);
+      target.search = parsed.search;
+      return target.href;
+    }catch(_error){return url;}
+  }
+
   async function fetchText(url){
-    const sep = url.includes("?") ? "&" : "?";
-    const response = await fetch(`${url}${sep}t=${Date.now()}`, {cache:"no-store",signal:AbortSignal.timeout(30000)});
+    const sourceUrl = liveDataUrl(url);
+    const sep = sourceUrl.includes("?") ? "&" : "?";
+    const response = await fetch(`${sourceUrl}${sep}t=${Date.now()}`, {cache:"no-store",signal:AbortSignal.timeout(30000)});
     if (!response.ok) throw new Error(`HTTP ${response.status} for ${url}`);
     return response.text();
   }
