@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-18T04:44:44+00:00",
+  "generated_at": "2026-11-18T05:17:49+00:00",
   "source": "Voodoo Whiskers",
   "repository_public": true,
   "hosting_target": "Cloudflare Pages later",
@@ -40,6 +40,26 @@
       "href": "./gfw_presence_cells_latest.json",
       "filename": "gfw_presence_cells_latest.json",
       "size_bytes": 4195535,
+      "media_type": "application/json"
+    },
+    {
+      "id": "gfw_events_latest",
+      "label": "GFW loitering and AIS-gap context",
+      "group": "ais_history",
+      "description": "Delayed provider behavior events for analyst review; no automatic intent finding. Powered by Global Fishing Watch; CC BY-NC 4.0.",
+      "href": "./gfw_events_latest.json",
+      "filename": "gfw_events_latest.json",
+      "size_bytes": 4069794,
+      "media_type": "application/json"
+    },
+    {
+      "id": "gfw_events_status_latest",
+      "label": "GFW event query coverage status",
+      "group": "ais_history",
+      "description": "Coverage, pagination, provider delay and storage status for the latest delayed event query.",
+      "href": "./gfw_events_status_latest.json",
+      "filename": "gfw_events_status_latest.json",
+      "size_bytes": 6593,
       "media_type": "application/json"
     },
     {
