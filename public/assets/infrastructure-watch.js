@@ -203,7 +203,7 @@
   }
   function sarPointLink(feature){
     if(feature?.geometry?.type!=='Point'||!Array.isArray(feature.geometry.coordinates))return '';
-    const [lon,lat]=feature.geometry.coordinates,p=feature.properties||{},time=VM.observed(p),referenceTime=Number.isFinite(time)?new Date(time).toISOString():'',url=sarPointUrl(lat,lon,p,referenceTime);
+    const [lon,lat]=feature.geometry.coordinates,p=feature.properties||{},timeReliable=p.position_timestamp_valid!==false&&!p.data_quality?.timestamp_repaired,time=VM.observed(p),referenceTime=timeReliable&&Number.isFinite(time)?new Date(time).toISOString():'',url=sarPointUrl(lat,lon,p,referenceTime);
     if(!url)return '';
     const timeNote=referenceTime?'<small>Search centered on '+esc(referenceTime.replace('T',' ').slice(0,16))+' UTC. The selected Sentinel acquisition sets the analysis time.</small>':
       (p.position_timestamp_valid===false||p.data_quality?.timestamp_repaired)?'<small>Timestamp unreliable; only the position is transferred.</small>':'';
