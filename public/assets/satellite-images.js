@@ -118,10 +118,14 @@
     }
     function add(values,fromTab=false){
       if(new Set([...records.keys(),...values.map(r=>r.id)]).size>MAX_IMAGES)throw Error('At most six images can be held in this tab. Remove an image first.');
-      for(const value of values){const previous=records.get(value.id);records.set(value.id,{...value,showFootprint:previous?.showFootprint??fromTab,showImage:previous?.showImage??(fromTab&&value.image_kind==='full_scene_context_overview'),opacity:previous?.opacity??.7});}
+      for(const [index,value] of values.entries()){
+        const previous=records.get(value.id),showByDefault=fromTab?value.image_kind==='full_scene_context_overview':index===0;
+        records.set(value.id,{...value,showFootprint:previous?.showFootprint??(fromTab||index===0),showImage:previous?.showImage??showByDefault,opacity:previous?.opacity??.7});
+      }
       selected=values[0].id;select.replaceChildren();
       for(const record of records.values()){const option=document.createElement('option');option.value=record.id;option.textContent=record.area_name+' · '+record.acquired_at;select.append(option);}select.value=selected;controls();draw();show();
-      notice('Image ready. Footprint and preview can be switched independently. Files and decrypted images stay in this tab.');
+      if(!fromTab){const r=selectedRecord();if(r){const [w,s,e,n]=r.bbox;map.fitBounds([[s,w],[n,e]],{maxZoom:13,padding:[25,25]});}}
+      notice(fromTab?'Image received from the SAR workbench. The preview and footprint can be switched independently.':'Encrypted result opened locally. The selected preview and footprint are displayed; nothing was uploaded.');
     }
     function save(name,body,type){const url=URL.createObjectURL(new Blob([body],{type})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
     open.addEventListener('click',()=>{if(panel.hidden)show();else{panel.hidden=true;open.setAttribute('aria-expanded','false');}});

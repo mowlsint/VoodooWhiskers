@@ -48,7 +48,7 @@ def load_config():return json.loads(CONFIG.read_text(encoding='utf-8'))
 def validate_request(raw,cfg,now=None):
     now=now or utc()
     if not isinstance(raw,dict) or raw.get('v')!=1:raise WorkbenchError('REQUEST_VERSION')
-    if set(raw)-{'v','id','created_at','action','area_id','bbox','days','scene_id','gfw_context','danish_ais','range_from','range_to','event_id'}:raise WorkbenchError('REQUEST_FIELDS')
+    if set(raw)-{'v','id','created_at','action','area_id','bbox','days','scene_id','gfw_context','danish_ais','range_from','range_to','event_id','point_reference'}:raise WorkbenchError('REQUEST_FIELDS')
     action=raw.get('action')
     if action not in {'search','analyse','scene_preview','refresh_context'}:raise WorkbenchError('REQUEST_ACTION')
     identifier=str(raw.get('id',''))
@@ -80,12 +80,27 @@ def validate_request(raw,cfg,now=None):
     for key in ('gfw_context','danish_ais'):
         if key in raw and not isinstance(raw[key],bool):raise WorkbenchError('REQUEST_BOOLEAN')
     if raw.get('danish_ais') and not (3<=west<east<=17 and 53<=south<north<=60):raise WorkbenchError('DANISH_AIS_OUTSIDE_REGION')
+    point=raw.get('point_reference')
+    if point is not None:
+        if not isinstance(point,dict) or set(point)-{'lat','lon','observed_at','mmsi','imo'}:raise WorkbenchError('REQUEST_POINT_INVALID')
+        lat,lon=point.get('lat'),point.get('lon')
+        if isinstance(lat,bool) or not isinstance(lat,(int,float)) or not math.isfinite(lat) or isinstance(lon,bool) or not isinstance(lon,(int,float)) or not math.isfinite(lon):raise WorkbenchError('REQUEST_POINT_INVALID')
+        if not(48<=lat<=80 and -25<=lon<=35 and west<=lon<=east and south<=lat<=north):raise WorkbenchError('REQUEST_POINT_OUTSIDE_BBOX')
+        if 'mmsi' in point and not re.fullmatch(r'\d{9}',str(point['mmsi'])):raise WorkbenchError('REQUEST_POINT_ID_INVALID')
+        if 'imo' in point and not re.fullmatch(r'\d{7}',str(point['imo'])):raise WorkbenchError('REQUEST_POINT_ID_INVALID')
+        if 'observed_at' in point:
+            try:observed=catalog.parse_utc(point['observed_at'],'AIS point time')
+            except Exception as exc:raise WorkbenchError('REQUEST_POINT_TIME_INVALID') from exc
+            if not now-timedelta(days=14,minutes=5)<=observed<=now+timedelta(minutes=5):raise WorkbenchError('REQUEST_POINT_TIME_OUTSIDE_RETENTION')
     if any(key in raw for key in ('range_from','range_to','event_id')):
         try:
             begin=catalog.parse_utc(raw['range_from'],'period start');end=catalog.parse_utc(raw['range_to'],'period end')
         except Exception as exc:raise WorkbenchError('EVENT_PERIOD_INVALID') from exc
         if not now-timedelta(days=14,minutes=5)<=begin<=end<=now+timedelta(minutes=5):raise WorkbenchError('EVENT_PERIOD_OUTSIDE_RETENTION')
-        if not isinstance(raw.get('event_id'),str) or not 1<=len(raw['event_id'])<=160:raise WorkbenchError('EVENT_ID_INVALID')
+        if 'event_id' in raw:
+            if not isinstance(raw.get('event_id'),str) or not 1<=len(raw['event_id'])<=160:raise WorkbenchError('EVENT_ID_INVALID')
+        elif not isinstance(point,dict) or not point.get('observed_at'):
+            raise WorkbenchError('REQUEST_PERIOD_REFERENCE_REQUIRED')
     return {**raw,'action':action,'area_id':area_id,'area_name':name,'bbox':bbox,'days':days,'scene_id':scene_id,
             'width_px':width,'height_px':height,'area_km2':round(area,2),'approx_width_m':width_m,'approx_height_m':height_m}
 

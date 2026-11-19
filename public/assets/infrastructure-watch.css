@@ -31,8 +31,10 @@ body{overflow:hidden}.topbar{height:104px;display:flex;justify-content:space-bet
 .mapCoordinateReadout{position:absolute;z-index:650;left:12px;top:82px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 8px;max-width:min(430px,calc(100% - 24px));padding:8px 10px;border:1px solid rgba(167,193,207,.52);border-radius:9px;background:rgba(7,16,23,.91);color:#e9f1f5;font:600 11px/1.3 system-ui,sans-serif;box-shadow:0 3px 12px rgba(0,0,0,.28);pointer-events:auto}
 .mapCoordinateReadout .mapCoordinateCursor,.mapCoordinateReadout .mapCoordinateClicked{overflow-wrap:anywhere}
 .mapCoordinateReadout .mapCoordinateCursor{grid-column:1/-1;color:#bcd2dc}
-.mapCoordinateReadout button{grid-column:2;grid-row:2;padding:4px 7px;border:1px solid #7895a5;border-radius:6px;background:#18303c;color:#fff;font:inherit;cursor:pointer}
-.mapCoordinateReadout button:disabled{opacity:.5;cursor:not-allowed}
+.mapCoordinateReadout button,.mapCoordinateReadout .mapCoordinateAnalyze{grid-column:2;padding:4px 7px;border:1px solid #7895a5;border-radius:6px;background:#18303c;color:#fff;font:inherit;cursor:pointer;text-decoration:none;text-align:center}
+.mapCoordinateReadout button{grid-row:2}
+.mapCoordinateReadout .mapCoordinateAnalyze{grid-row:3}
+.mapCoordinateReadout button:disabled,.mapCoordinateReadout .mapCoordinateAnalyze[aria-disabled="true"]{opacity:.5;cursor:not-allowed;pointer-events:none}
 .mapCoordinateReadout .mapCoordinateStatus{grid-column:1/-1;min-height:1em;color:#ffdc83;font-size:10px}
 @media(max-width:760px){.mapCoordinateReadout{top:78px;left:8px;max-width:calc(100% - 16px);padding:6px 8px;font-size:10px}}
 
@@ -43,3 +45,5 @@ body{overflow:hidden}.topbar{height:104px;display:flex;justify-content:space-bet
 .mapLegend[open] .mapLegendContent{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px 12px;margin-top:7px;padding-top:7px;border-top:1px solid var(--stroke)}
 @media(max-width:520px){.mapLegend[open] .mapLegendContent{grid-template-columns:1fr}}
 @media(max-width:1100px){.topbar{gap:10px;padding:10px 14px}.topbar h1{font-size:22px}.topbar p{display:none}.statusCluster{gap:5px}.statusCluster .statusPill{padding:5px 7px;font-size:10px}}
+
+.sarPointAction{margin:8px 0;padding:7px 9px;background:#102735;border-left:3px solid #75b5d6;border-radius:4px}.sarPointAction a{font-weight:700}.sarPointAction small{display:block;margin-top:4px;color:#b9ccd6;font-size:10px}
