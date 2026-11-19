@@ -192,6 +192,24 @@
     return sourceText.includes("fintraffic") || sourceText.includes("barentswatch") || sourceText.includes("norwegian coastal administration");
   }
 
+  function sarPointUrl(lat,lon,properties={},referenceTime=''){
+    if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat<48||lat>80||lon< -25||lon>35||!globalThis.SatelliteImages?.workbenchUrl)return '';
+    const point={v:1,lat,lon},time=Date.parse(referenceTime||'');
+    if(Number.isFinite(time)&&time>=Date.now()-14*86400000-300000&&time<=Date.now()+300000)point.observed_at=new Date(time).toISOString();
+    const mmsi=VM.mmsi(properties.mmsi),imo=VM.imo(properties.imo);
+    if(mmsi)point.mmsi=mmsi;if(imo)point.imo=imo;
+    try{const url=new URL(globalThis.SatelliteImages.workbenchUrl('./sar.html'),location.href);url.hash='point='+encodeURIComponent(JSON.stringify(point));return url.href;}
+    catch{return '';}
+  }
+  function sarPointLink(feature){
+    if(feature?.geometry?.type!=='Point'||!Array.isArray(feature.geometry.coordinates))return '';
+    const [lon,lat]=feature.geometry.coordinates,p=feature.properties||{},time=VM.observed(p),referenceTime=Number.isFinite(time)?new Date(time).toISOString():'',url=sarPointUrl(lat,lon,p,referenceTime);
+    if(!url)return '';
+    const timeNote=referenceTime?'<small>Search centered on '+esc(referenceTime.replace('T',' ').slice(0,16))+' UTC. The selected Sentinel acquisition sets the analysis time.</small>':
+      (p.position_timestamp_valid===false||p.data_quality?.timestamp_repaired)?'<small>Timestamp unreliable; only the position is transferred.</small>':'';
+    return '<div class="sarPointAction"><a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">Analyze this AIS position in Sentinel-1 ↗</a>'+timeNote+'</div>';
+  }
+
   function vesselPopup(feature){
     const p = feature.properties || {};
     const length = VM.lengthMeters(p);
@@ -217,6 +235,7 @@
         <b>Watch source</b><span>${esc(p.source_list || "–")}</span>
       </div>
       <button type="button" class="trackPopupButton" data-track-id="${esc(p.vessel_identity||identityKey(p))}">Show this vessel’s track</button>
+      ${sarPointLink(feature)}
       ${p.identity_conflict ? `<div class="qualityWarn">Conflicting IMO/MMSI details: tracks are not linked automatically.</div>` : ""}
       ${historical ? `<div class="historyWarn">Historical point inside the selected time window. It is not necessarily the vessel's current position.</div>` : ""}
       ${positionQuality ? `<div class="qualityWarn">Timestamp was repaired from the snapshot/history slot. Do not use it for precise dwell or gap calculations.</div>` : ""}
@@ -243,6 +262,7 @@
         <b>Destination</b><span>${esc(p.destination || "–")}</span>
         <b>Source</b><span>Historical fallback data (DK)</span>
       </div>
+      ${sarPointLink(feature)}
       ${vesselFinderLink(p) ? `<div style="margin-top:7px">${vesselFinderLink(p)}</div>` : ""}
       <div class="historyWarn">Delayed historical data. Do not use this point as a current vessel position.</div>`;
     VC.appendPopup(box,p,state.categoryIndex);return box;
@@ -719,10 +739,16 @@
     const cursor=document.createElement('span');cursor.className='mapCoordinateCursor';cursor.textContent='Move the pointer over the map · WGS84';
     const clicked=document.createElement('span');clicked.className='mapCoordinateClicked';clicked.textContent='Click a point to save coordinates';
     const copy=document.createElement('button');copy.type='button';copy.textContent='Copy point';copy.disabled=true;copy.setAttribute('aria-label','Copy last clicked map coordinates');
+    const analyze=document.createElement('a');analyze.className='mapCoordinateAnalyze';analyze.textContent='Analyze this point';analyze.target='_blank';analyze.rel='noopener noreferrer';analyze.setAttribute('aria-disabled','true');
     const status=document.createElement('span');status.className='mapCoordinateStatus';status.setAttribute('aria-live','polite');
-    panel.append(cursor,clicked,copy,status);host.append(panel);
+    panel.append(cursor,clicked,copy,analyze,status);host.append(panel);
     map.on('mousemove',event=>{cursor.textContent='Cursor · '+formatLatLon(event.latlng.lat,event.latlng.lng);});
-    map.on('click',event=>{lastClick={lat:event.latlng.lat,lon:event.latlng.lng};clicked.textContent='Last click · '+formatLatLon(lastClick.lat,lastClick.lon);copy.disabled=false;status.textContent='';});
+    map.on('click',event=>{
+      lastClick={lat:event.latlng.lat,lon:event.latlng.lng};clicked.textContent='Last click · '+formatLatLon(lastClick.lat,lastClick.lon);copy.disabled=false;status.textContent='';
+      const url=sarPointUrl(lastClick.lat,lastClick.lon);
+      if(url){analyze.href=url;analyze.removeAttribute('aria-disabled');}
+      else{analyze.removeAttribute('href');analyze.setAttribute('aria-disabled','true');status.textContent='Sentinel-1 analysis is available within 25° W–35° E and 48–80° N.';}
+    });
     copy.addEventListener('click',async event=>{
       event.stopPropagation();if(!lastClick)return;
       const value=`${lastClick.lat.toFixed(5)}, ${lastClick.lon.toFixed(5)}`;

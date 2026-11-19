@@ -1,11 +1,11 @@
 import {encryptObject,decryptObject,validatePassword} from './sar-crypto.mjs?v=20261110-en';
-import {inspectBbox,bboxAroundPoint,normalizeScene,safeImage,stateText,STATES,eventFromHash} from './sar-workbench-core.mjs?v=20261118-scene-preview';
+import {inspectBbox,bboxAroundPoint,normalizeScene,safeImage,stateText,STATES,eventFromHash,pointFromHash} from './sar-workbench-core.mjs?v=20261119-map-point-analysis';
 import {readWorkspaceFile} from './sar-import.mjs?v=20261110-en';
 import {createGitHubClient,WORKFLOW_URL} from './sar-github.mjs?v=20261111-direct';
-import './satellite-images.js?v=20261118-scene-preview';
+import './satellite-images.js?v=20261119-simple-sar-load';
 
 const $=id=>document.getElementById(id),RAW='https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/main/public/data/sar/workbench.enc.json';
-const state={password:'',workspace:{v:1,jobs:[],analysis_ledger:{}},scenes:[],selected:null,currentJob:null,currentCandidate:null,map:null,mapLayers:null,bounds:null,config:null,event:null,pendingRequest:null,trackedRequestId:null,autoSentRequestId:null,run:null,pollTimer:null,pollCount:0,pollGeneration:0,pickingArea:false,centeredPoint:null};
+const state={password:'',workspace:{v:1,jobs:[],analysis_ledger:{}},scenes:[],selected:null,currentJob:null,currentCandidate:null,map:null,mapLayers:null,bounds:null,config:null,event:null,mapPoint:null,pendingRequest:null,trackedRequestId:null,autoSentRequestId:null,run:null,pollTimer:null,pollCount:0,pollGeneration:0,pickingArea:false,centeredPoint:null};
 const github=createGitHubClient();
 const imageSender=globalThis.SatelliteImages.createSender({onStatus:message=>status('main-map-status',message)});
 const ERRORS={SCENE_PREVIEW_EXCEEDS_BOUNDS:'This Sentinel-1 scene is larger than the bounded map-image limit. Choose another acquisition or a nearer area.',SCENE_PREVIEW_PNG_TOO_LARGE:'The scene preview could not be reduced to the map-image size limit. Choose another acquisition.',SCENE_PREVIEW_NO_VALID_PIXELS:'The selected scene contains no usable image pixels for this overview.',SCENE_PREVIEW_STRETCH:'The selected scene could not be rendered as a contextual overview.',SCENE_PREVIEW_GEOREFERENCE_MISMATCH:'The scene image georeference did not match the selected footprint. The image was discarded.',EVENT_PERIOD_OUTSIDE_RETENTION:'The event period is outside the last fourteen days. Open the loitering event again.',EVENT_PERIOD_INVALID:'The event period is invalid.',COPERNICUS_CREDENTIALS_MISSING:'Copernicus credentials are missing from GitHub Secrets.',NO_SUITABLE_SCENE:'No suitable acquisition covers the selected point or, for detail analysis, the full outlined area.',DAILY_ANALYSIS_LIMIT:'Three new image-processing requests have already been made today. Existing image context can still be checked.',REQUEST_EXPIRED:'The request is older than 24 hours. Create a new request.',REQUEST_ALREADY_COMPLETED:'This request has already been processed.',DANISH_ARCHIVE_UNAVAILABLE:'The Danish daily archive is not yet available.',LAND_MASK_CHECKSUM:'The land mask file has changed. Processing has stopped for review.',NO_OPEN_WATER_PIXELS:'Land and the coastal buffer cover the entire area. Choose an area farther offshore.',PilotError:'The Copernicus response or image quality failed validation. Check the credentials and try another acquisition.',RASTER_GEOREFERENCE_MISMATCH:'The radar image georeference does not match the requested area. The image was discarded.'};
@@ -44,6 +44,20 @@ function applyEvent(){
   if(!state.event)return;
   $('event-context').hidden=false;$('point-coordinates').value='';$('event-description').textContent=`GFW loitering: ${state.event.name||state.event.mmsi||'Identity unknown'} · ${fmtDate(state.event.start)} to ${fmtDate(state.event.end)}. Search the 10 × 10 km area around the event reference position; this is not the complete observed track area.`;
   state.centeredPoint=null;$('area').value='custom';for(const [i,id] of ['west','south','east','north'].entries())$(id).value=state.event.bbox[i];$('days').disabled=true;updateArea();
+}
+function applyMapPoint(){
+  if(!state.mapPoint)return;
+  const p=state.mapPoint,identity=[p.mmsi?'MMSI '+p.mmsi:'',p.imo?'IMO '+p.imo:''].filter(Boolean).join(' · ');
+  $('map-point-context').hidden=false;
+  $('map-point-description').textContent=`Selected location ${p.lat.toFixed(5)}, ${p.lon.toFixed(5)}${identity?' · '+identity:''}${p.observed_at?' · AIS point observed '+fmtDate(p.observed_at):' · no AIS observation time supplied'}.`;
+  if(p.observed_at){$('days-label').textContent='Acquisition window around the AIS point';$('days-hint').textContent='The selected window is centered on the AIS observation and limited to the latest 14 days. The exact Sentinel acquisition time determines the radar analysis.';}
+  applyPoint(p.lat,p.lon);
+}
+function catalogWindow(){
+  if(state.event)return {start:new Date(state.event.start),end:new Date(state.event.end)};
+  const now=Date.now(),span=Number($('days').value)*86400000,anchor=Date.parse(state.mapPoint?.observed_at||'');
+  if(!Number.isFinite(anchor)){const end=new Date(now);return {start:new Date(now-span),end};}
+  return {start:new Date(Math.max(anchor-span/2,now-14*86400000)),end:new Date(Math.min(anchor+span/2,now))};
 }
 function updateArea(){
   cancelMapPick();
@@ -97,7 +111,7 @@ async function unlock(event){
     const workspace=envelope?await decryptObject(envelope,password,'workspace'):{v:1,jobs:[],analysis_ledger:{}};
     if(workspace.v!==1||!Array.isArray(workspace.jobs))throw new Error('Invalid session.');
     state.password=password;state.workspace=workspace;$('password').value='';$('gate').hidden=true;$('workspace').hidden=false;$('lock').hidden=false;
-    initMap();setTimeout(()=>state.map?.invalidateSize(),0);updateArea();renderJobs();applyEvent();
+    initMap();setTimeout(()=>state.map?.invalidateSize(),0);updateArea();renderJobs();applyEvent();applyMapPoint();
     status('workspace-status',envelope?`Workspace opened · ${fmtDate(workspace.updated_at)}`:'No results loaded. Existing results are saved as encrypted GitHub artifacts: use Latest results, then open the downloaded ZIP. The first processed request verifies this password.');
   }catch{status('unlock-status','Unable to open. Check the password and connection; stored data are not changed.',true);}
   finally{$('unlock-submit').disabled=false;}
@@ -124,7 +138,7 @@ function showScenes(){
 }
 async function search(){
   $('search').disabled=true;status('catalog-status','Searching the Copernicus catalog …');$('search-via-github').hidden=true;
-  try{const box=bbox();inspectBbox(box,state.config);const end=state.event?new Date(state.event.end):new Date(),start=state.event?new Date(state.event.start):new Date(+end-Number($('days').value)*86400000);
+  try{const box=bbox();inspectBbox(box,state.config);const {start,end}=catalogWindow();
     const url=new URL('https://stac.dataspace.copernicus.eu/v1/collections/sentinel-1-grd/items');url.search=new URLSearchParams({bbox:box.join(','),datetime:`${start.toISOString()}/${end.toISOString()}`,limit:'40'});
     const payload=await readJson(url);if(!Array.isArray(payload?.features))throw new Error('The catalog did not return a usable response.');
     state.scenes=payload.features.map(f=>normalizeScene(f,box)).filter(s=>s&&Date.parse(s.datetime)>=+start&&Date.parse(s.datetime)<=+end).sort((a,b)=>Date.parse(b.datetime)-Date.parse(a.datetime));
@@ -142,6 +156,7 @@ async function dispatch(action,previous=null){
     if(action==='scene_preview'&&!state.selected.previewable)throw new Error('The selected acquisition does not cover the clicked point.');
     const request={v:1,id:crypto.randomUUID(),created_at:new Date().toISOString(),action,area_id:previous?previous.request.area_id:$('area').value,bbox:box,days:previous?previous.request.days:Number($('days').value),scene_id:previous?previous.scene.scene_id:state.selected?.scene_id||'latest',gfw_context:action==='analyse'&&$('gfw-context').checked,danish_ais:action==='analyse'&&$('danish-ais').checked};
     if(state.event&&!previous)Object.assign(request,{range_from:state.event.start,range_to:state.event.end,event_id:state.event.event_id});
+    if(state.mapPoint&&!previous){request.point_reference={lat:state.mapPoint.lat,lon:state.mapPoint.lon,...(state.mapPoint.observed_at?{observed_at:state.mapPoint.observed_at}:{}),...(state.mapPoint.mmsi?{mmsi:state.mapPoint.mmsi}:{}),...(state.mapPoint.imo?{imo:state.mapPoint.imo}:{})};if(state.mapPoint.observed_at){const window=catalogWindow();request.range_from=window.start.toISOString();request.range_to=window.end.toISOString();}}
     if(action==='refresh_context')request.gfw_context=true;
     const generation=state.pollGeneration,envelope=await encryptObject(request,state.password,'request');if(!state.password||generation!==state.pollGeneration)return;
     $('request-envelope').value=JSON.stringify(envelope);
@@ -291,5 +306,7 @@ $('import-session').addEventListener('change',async e=>{try{const file=e.target.
 try{state.config=await readJson('./assets/sar-workbench-config.json');for(const area of state.config.areas){const option=element('option',area.name);option.value=area.id;$('area').append(option);}const custom=element('option','Choose a custom area');custom.value='custom';$('area').append(custom);}catch{status('unlock-status','Configuration could not be loaded. Reload the page.',true);$('unlock-submit').disabled=true;}
 
 state.event=eventFromHash(location.hash,state.config);
+state.mapPoint=pointFromHash(location.hash);
 $('clear-event').addEventListener('click',()=>{state.event=null;$('event-context').hidden=true;$('days').disabled=false;history.replaceState(null,'',location.pathname+location.search);});
+$('clear-map-point').addEventListener('click',()=>{state.mapPoint=null;$('map-point-context').hidden=true;$('days-label').textContent='Acquisitions from the last';$('days-hint').textContent='Choose an acquisition date to see its actual footprint on the map. All acquisition times are UTC. Sentinel-1 IW VV/VH scenes are supported.';history.replaceState(null,'',location.pathname+location.search);});
 

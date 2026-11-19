@@ -36,6 +36,17 @@ export function normalizeScene(feature,bbox,now=Date.now()){
 export function safeImage(value){return typeof value==='string'&&value.length<3*1024*1024&&/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(value)?value:'';}
 export function stateText(state){return STATES[state]||'Not yet reviewed';}
 
+export function pointFromHash(hash,now=Date.now()){
+  if(!hash.startsWith('#point=')||hash.length>1800)return null;
+  try{
+    const p=JSON.parse(decodeURIComponent(hash.slice(7))),lat=p?.lat,lon=p?.lon;
+    if(p?.v!==1||typeof lat!=='number'||!Number.isFinite(lat)||typeof lon!=='number'||!Number.isFinite(lon)||lat<48||lat>80||lon< -25||lon>35)return null;
+    let observed_at='';
+    if(p.observed_at!==undefined){if(typeof p.observed_at!=='string')return null;const time=Date.parse(p.observed_at);if(!Number.isFinite(time)||time<now-14*86400000-300000||time>now+300000)return null;observed_at=new Date(time).toISOString();}
+    return {lat,lon,observed_at,mmsi:typeof p.mmsi==='string'&&/^\d{9}$/.test(p.mmsi)?p.mmsi:'',imo:typeof p.imo==='string'&&/^\d{7}$/.test(p.imo)?p.imo:''};
+  }catch{return null;}
+}
+
 export function eventFromHash(hash,cfg,now=Date.now()){
   if(!hash.startsWith('#event=')||hash.length>3000)return null;
   try{const e=JSON.parse(decodeURIComponent(hash.slice(7)));inspectBbox(e.bbox,cfg);const start=Date.parse(e.start),end=Date.parse(e.end);

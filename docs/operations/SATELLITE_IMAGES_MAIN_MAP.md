@@ -2,16 +2,18 @@
 
 The SAR workbench opens in a separate tab (`target="_blank"`). The main map's **Satellite images** button opens a movable, non-modal window. Drag its header or use the arrow keys while the header has focus. Closing the window keeps the selected overlays visible; **Reset overview** hides them without discarding the loaded images.
 
-## Open a completed image
+## Open an image from a manual GitHub workflow
 
-A completed full-scene overview is transferred automatically when its encrypted result ZIP is opened in the linked workbench. If no map tab is linked, the handoff opens a new main-map tab. Full-scene overviews are shown by default after this handoff; the exact scene footprint remains an independent toggle. The SAR image is a bounded contextual preview, not vessel-scale detail.
+1. Open the completed **SAR Workbench · encrypted request** run in GitHub Actions.
+2. In the run summary, under **Artifacts**, click **sar-workbench-encrypted**. It is produced by the **Save encrypted state for at most fourteen days** step and downloads as a ZIP.
+3. On the main map, open **Satellite images → Load a result from GitHub Actions**. Select the ZIP directly; **do not extract it**.
+4. Enter the workspace password and click **Open result ZIP and show image**.
 
-1. Start from the SAR workbench opened from the main map, unlock the workspace, then open the completed encrypted results ZIP.
-2. A full-scene overview is sent to the linked map automatically and shown there. If you prefer, use **Show image on main map** to resend the selected preview. Only the selected preview and its scene/time/processed-area metadata are transferred. A full-scene overview also carries its bounded STAC footprint and approximate pixel scale. Passwords, GitHub tokens, candidates and analyst notes are not transferred.
-3. If no map tab is linked, the handoff opens a new map tab. If browser tab messaging is unavailable, use **Open a new map tab and send image**, or save the encrypted session and use the local-file option below.
-4. Alternatively, open **Satellite images → Open encrypted results** on the main map, select the existing encrypted result ZIP or session JSON and enter the workspace password. Decryption happens locally; the file is not uploaded.
+The browser decrypts the ZIP locally. The file and decrypted image are not uploaded. The first image is displayed and the map fits its area automatically. Use the image selector if the workspace contains more than one completed preview.
 
-Use **Show processed image footprint** and **Show SAR image preview** independently. A transferred preview initially shows only its footprint; local imports initially show neither overlay. Choose an image in the selector to control its visibility and opacity. **Fit image area** moves the map only when requested.
+A completed full-scene overview can also be transferred automatically when its encrypted results ZIP is opened in the linked workbench. If no map tab is linked, the handoff opens a new main-map tab. Full-scene overviews are contextual previews, not vessel-scale detail. Only the selected preview and its scene/time/processed-area metadata are transferred. Passwords, GitHub tokens, candidates and analyst notes are not transferred.
+
+Use **Show processed image footprint** and **Show SAR image preview** independently to change visibility. **Fit image area** remains available to refit the map to the selected image.
 
 **Download PNG** saves the existing derived Sentinel-1 VV quicklook. **Download footprint** saves a GeoJSON polygon with the acquisition time, scene identifier and preview dimensions. This polygon describes the processed request area, not the entire satellite acquisition footprint. The quicklook is limited to 1,200 pixels per side and 2 MiB. The processing pipeline deletes the temporary raw GeoTIFF; this feature cannot download it or reconstruct a full-resolution scene.
 
