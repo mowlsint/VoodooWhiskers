@@ -16,6 +16,7 @@ import math
 import os
 import re
 import tempfile
+import time
 import uuid
 import zipfile
 from datetime import datetime, timedelta, timezone
@@ -163,13 +164,32 @@ def read_response(response,maximum):
     return b''.join(chunks)
 
 
+def fetch_catalog_payload(session,params):
+    retryable_status={500,502,503,504}
+    for attempt in range(2):
+        retry_delay=3
+        try:
+            with session.get(CATALOG_ITEMS,params=params,timeout=(10,90),stream=True) as response:
+                if response.status_code in retryable_status:
+                    if attempt==1:raise WorkbenchError('COPERNICUS_CATALOG_UNAVAILABLE')
+                else:
+                    try:response.raise_for_status()
+                    except requests.HTTPError as exc:raise WorkbenchError('COPERNICUS_CATALOG_HTTP') from exc
+                    return json.loads(read_response(response,3*1024*1024))
+        except requests.Timeout as exc:
+            if attempt==1:raise WorkbenchError('COPERNICUS_CATALOG_TIMEOUT') from exc
+        except requests.ConnectionError as exc:
+            if attempt==1:raise WorkbenchError('COPERNICUS_CATALOG_NETWORK') from exc
+        time.sleep(retry_delay)
+    raise WorkbenchError('COPERNICUS_CATALOG_UNAVAILABLE')
+
+
 def search_scenes(request,cfg,session=None,now=None):
     now=now or utc();session=session or requests.Session()
     begin=catalog.parse_utc(request['range_from'],'period start') if request.get('range_from') else now-timedelta(days=request['days'])
     end=catalog.parse_utc(request['range_to'],'period end') if request.get('range_to') else now
     params={'bbox':','.join(map(str,request['bbox'])),'datetime':f'{iso(begin)}/{iso(end)}','limit':cfg['max_catalog_scenes']}
-    with session.get(CATALOG_ITEMS,params=params,timeout=(10,45),stream=True) as response:
-        payload=json.loads(read_response(response,3*1024*1024))
+    payload=fetch_catalog_payload(session,params)
     if not isinstance(payload.get('features'),list):raise WorkbenchError('CATALOG_SCHEMA')
     scenes=[]
     for f in payload['features']:

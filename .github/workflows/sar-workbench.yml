@@ -70,5 +70,5 @@ jobs:
       - name: Report processing status
         if: ${{ steps.sar.outcome == 'failure' }}
         run: |
-          echo "::error::Request not completed. Check the password/secret or open the encrypted error details in the SAR workbench."
+          echo "::error::SAR request not completed. Open the encrypted error details in the SAR workbench for the specific cause; check credentials only if the details report an authentication error."
           exit 1
