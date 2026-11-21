@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-19T12:09:30Z",
+  "status": "ok",
+  "phase": "account_and_catalog_test",
+  "provider": "copernicus_data_space_ecosystem",
+  "pilot_id": "kadetrinne-s1c-20260816",
+  "pilot_name": "Kadetrinne open-water Sentinel-1C pilot",
+  "collection": "sentinel-1-grd",
+  "aoi": {
+    "name": "Kadetrinne open water east of Fehmarn",
+    "bbox_wgs84": [
+      11.95,
+      54.48,
+      12.25,
+      54.66
+    ],
+    "approx_width_m": 19338,
+    "approx_height_m": 20015,
+    "description": "Technical calibration area chosen to reduce immediate land and harbour clutter while retaining commercial traffic and matching Danish historical AIS availability. It is not a legal or jurisdictional boundary."
+  },
+  "configured_time_range": {
+    "from": "2026-08-16T05:23:30Z",
+    "to": "2026-08-16T05:25:00Z"
+  },
+  "processing_plan": {
+    "sensor": "Sentinel-1",
+    "product_level": "Level-1 GRD",
+    "acquisition_mode": "IW",
+    "polarizations": [
+      "VV",
+      "VH"
+    ],
+    "resolution_m": 10,
+    "expected_width_px": 1934,
+    "expected_height_px": 2002,
+    "maximum_process_api_dimension_px": 2500,
+    "orthorectification_planned": true,
+    "raw_product_download_planned": false
+  },
+  "oauth": {
+    "oauth_client_credentials_valid": true,
+    "access_token_received": true,
+    "token_type": "Bearer",
+    "expires_in_seconds": 1800,
+    "client_id_or_secret_persisted": false,
+    "access_token_persisted": false
+  },
+  "catalogues": {
+    "cdse_public_stac": {
+      "endpoint": "https://stac.dataspace.copernicus.eu/v1/search",
+      "authenticated": false,
+      "query_returned_features": 1,
+      "configured_scene_found_once": true
+    },
+    "sentinel_hub": {
+      "endpoint": "https://sh.dataspace.copernicus.eu/catalog/v1/search",
+      "authenticated": true,
+      "query_returned_features": 1,
+      "configured_scene_found_once": true,
+      "process_api_endpoint_for_next_phase": "https://sh.dataspace.copernicus.eu/process/v1"
+    }
+  },
+  "selected_scene": {
+    "item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG",
+    "collection": "sentinel-1-grd",
+    "start_datetime": "2026-08-16T05:24:02.550681Z",
+    "end_datetime": "2026-08-16T05:24:27.548225Z",
+    "platform": "sentinel-1c",
+    "instrument_mode": "IW",
+    "polarizations": [
+      "VV",
+      "VH"
+    ],
+    "orbit_state": "descending",
+    "absolute_orbit": 9016,
+    "relative_orbit": 168,
+    "processing_level": "L1",
+    "product_type": "IW_GRDH_1S",
+    "pixel_spacing_range_m": 10.0,
+    "pixel_spacing_azimuth_m": 10.0,
+    "product_size_bytes": 1060448403,
+    "asset_sizes_bytes": {
+      "Product": 1060457659,
+      "vv": 590854769,
+      "vh": 461512012,
+      "safe_manifest": 25828
+    },
+    "bbox": [
+      10.525232,
+      53.270245,
+      15.022603,
+      55.182976
+    ]
+  },
+  "raw_download_performed": false,
+  "raster_download_performed": false,
+  "ais_download_performed": false,
+  "large_products_persisted": false,
+  "public_layer_modified": false,
+  "gfw_products_modified": false,
+  "magic_paws_modified": false,
+  "current_ais_must_not_be_overlaid": true,
+  "assessment_limit": "Catalogue availability proves access to one Sentinel-1 acquisition only. It does not constitute a vessel detection, an AIS comparison, or evidence of intentional AIS disablement, unlawful activity, attribution, or hostile intent.",
+  "next_phase": "single_scene_process_api_chip_download",
+  "errors": []
+}

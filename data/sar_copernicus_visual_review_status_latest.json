@@ -1,0 +1,213 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-19T17:33:16Z",
+  "status": "ok",
+  "phase": "single_scene_visual_confirmation_evidence",
+  "provider": "copernicus_data_space_ecosystem",
+  "pilot_id": "kadetrinne-s1c-20260816",
+  "scene": {
+    "normalized_scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+    "acquisition_time_utc": "2026-08-16T05:24:02Z"
+  },
+  "inputs": {
+    "phase4_context_path": "data/sar_copernicus_ais_context_latest.geojson",
+    "phase5_queue_path": "data/sar_copernicus_review_queue_latest.json",
+    "phase5_objects_path": "data/sar_copernicus_review_objects_latest.geojson",
+    "phase4_context_sha256": "10776ef457aae76d79a19eebfd888a0de9800150a29e994cafebb1a6685d617b",
+    "phase5_queue_sha256": "7c8eab89dea0b3389338d14608db0a520bbc4ff16b51df0b594524d21c3175f6",
+    "phase5_objects_sha256": "22e172a6082dfc459b6cc74a43d186d8bdd96327b224a856ae4b2d5142863288",
+    "exact_accepted_hashes_verified": true,
+    "phase4_outputs_modified": false,
+    "phase5_outputs_modified": false,
+    "current_ais_files_read": false
+  },
+  "oauth": {
+    "oauth_client_credentials_valid": true,
+    "access_token_received": true,
+    "token_type": "Bearer",
+    "expires_in_seconds": 1800,
+    "client_id_or_secret_persisted": false,
+    "access_token_persisted": false
+  },
+  "catalogue_confirmation": {
+    "endpoint": "https://sh.dataspace.copernicus.eu/catalog/v1/search",
+    "authenticated": true,
+    "returned_features": 1,
+    "exact_scene_found_once": true,
+    "single_scene_guard_passed": true
+  },
+  "selected_scene": {
+    "catalogue_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+    "matched_scene_identifier": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+    "normalized_scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+    "datetime": "2026-08-16T05:24:02Z"
+  },
+  "network_access_performed": true,
+  "sar_download_performed": true,
+  "ais_download_performed": false,
+  "historical_ais_only": true,
+  "current_ais_used": false,
+  "current_ais_overlaid": false,
+  "raster_response_bytes": 24863390,
+  "raster_sha256": "9bb682e4089998d887df5e5bcb0121fc4ef7bd6574e79fce567167e280281289",
+  "raster_validation": {
+    "shape": [
+      2002,
+      1934,
+      3
+    ],
+    "dtype": "float32",
+    "axes_reported_by_tifffile": "YXS",
+    "page_count": 1,
+    "byte_order": ">",
+    "bands": [
+      "VV",
+      "VH",
+      "dataMask"
+    ],
+    "band_units": [
+      "LINEAR_POWER",
+      "LINEAR_POWER",
+      "DN"
+    ],
+    "valid_pixels": 3871868,
+    "total_pixels": 3871868,
+    "valid_fraction": 1.0,
+    "data_mask_min": 1.0,
+    "data_mask_max": 1.0,
+    "geotiff": {
+      "spatial_transform_present": true,
+      "geo_key_directory_present": true,
+      "model_pixel_scale": [
+        0.0001551189,
+        8.99101e-05,
+        0.0
+      ],
+      "model_tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        11.95,
+        54.66,
+        0.0
+      ],
+      "model_transformation_present": false
+    },
+    "band_statistics": {
+      "VV": {
+        "valid_samples": 3871868,
+        "positive_samples": 3871189,
+        "linear_power": {
+          "min": 0.0,
+          "max": 44.349193573,
+          "mean": 0.0261379778,
+          "stddev": 0.0823968202,
+          "p50": 0.0211598268,
+          "p90": 0.043178618,
+          "p95": 0.0534298187,
+          "p99": 0.1122685473,
+          "p99_9": 0.2991003683
+        },
+        "decibels": {
+          "min": -60.826915741,
+          "max": 16.4688587189,
+          "mean": -16.8907032013,
+          "p50": -16.7444190979,
+          "p90": -13.6472129822,
+          "p95": -12.7220481873,
+          "p99": -9.4959614182,
+          "p99_9": -5.2416851997
+        }
+      },
+      "VH": {
+        "valid_samples": 3871868,
+        "positive_samples": 1973825,
+        "linear_power": {
+          "min": 0.0,
+          "max": 2.8748950958,
+          "mean": 0.0011399856,
+          "stddev": 0.00718656,
+          "p50": 2.49752e-05,
+          "p90": 0.0018204031,
+          "p95": 0.0027746799,
+          "p99": 0.0252165496,
+          "p99_9": 0.0669495641
+        },
+        "decibels": {
+          "min": -95.7554473877,
+          "max": 4.5862202644,
+          "mean": -31.4988327026,
+          "p50": -31.0187110901,
+          "p90": -25.6194267273,
+          "p95": -23.1935119629,
+          "p99": -14.1832736969,
+          "p99_9": -10.964327179
+        }
+      }
+    }
+  },
+  "temporary_raster_written": true,
+  "temporary_raster_deleted": true,
+  "raster_persisted": false,
+  "raster_artifact_uploaded": false,
+  "rendering": {
+    "clean_unmarked_panels_created": true,
+    "separate_overlay_panels_created": true,
+    "native_pixel_scale_preserved": true,
+    "review_object_count": 4,
+    "pixel_scale": {
+      "x_m_per_pixel": 10.0103,
+      "y_m_per_pixel": 9.9919,
+      "mean_m_per_pixel": 10.0011,
+      "approximate_only": true
+    },
+    "global_display_stretch_db": {
+      "vv": {
+        "low_db": -24.5561,
+        "high_db": -5.2417
+      },
+      "vh": {
+        "low_db": -48.9397,
+        "high_db": -10.9643
+      }
+    }
+  },
+  "outputs": {
+    "review_sheet_png": {
+      "path": "data/sar_copernicus_visual_review_sheet_latest.png",
+      "bytes": 1072189,
+      "sha256": "9b3f5a38d50f05f90296ec5e76470ead2bc51ff29f020efa4a1a6453bfaeb54d",
+      "review_object_count": 4,
+      "derived_review_visual_only": true,
+      "public_layer": false
+    },
+    "review_manifest_json": {
+      "path": "data/sar_copernicus_visual_review_manifest_latest.json",
+      "bytes": 14782,
+      "sha256": "ee0c1f5efb22c7c9a2b5fd907ac3dcb93864f2f4d090d602edfd945c1cbd7ec0",
+      "review_object_count": 4,
+      "analyst_decision_recorded": false,
+      "public_layer": false
+    }
+  },
+  "review_queue_modified": false,
+  "review_objects_modified": false,
+  "analyst_decision_recorded": false,
+  "visual_confirmation_completed_automatically": false,
+  "visual_confirmation_complete_count": 0,
+  "final_disposition_count": 0,
+  "downstream_eligible_count": 0,
+  "automatic_final_disposition": false,
+  "public_layer_modified": false,
+  "existing_ais_products_modified": false,
+  "gfw_products_modified": false,
+  "magic_paws_modified": false,
+  "hybrid_index_modified": false,
+  "dark_vessel_claim": false,
+  "sar_candidates_classified_as_vessels": false,
+  "production_ready": false,
+  "assessment_limit": "Phase 5.1 supplies native-resolution visual-review evidence only. Historical AIS names and positions are association hypotheses at the fixed SAR acquisition time, not SAR-derived vessel identities. No current AIS is read, no analyst decision is recorded, and no object becomes downstream eligible in this phase.",
+  "next_phase": "manual_analyst_decision_from_phase_5_1_evidence_before_phase_6",
+  "errors": [],
+  "process_api_reported_processing_units": 39.38667923371031
+}

@@ -1,0 +1,20 @@
+VOODOO WHISKERS – VOI HISTORY 20-DAY PATCH VALIDATION
+Date: 2026-08-16
+
+PASS  Python syntax compilation for all changed/new Python files
+PASS  Synthetic migration test: expired/malformed/missing/future rows rejected
+PASS  Synthetic migration test: duplicate history keys collapsed
+PASS  Synthetic migration test: size guard retains complete newest JSONL rows
+PASS  Source integration test: build_layers.py rewrites and validates bounded history
+PASS  Public integration test: 20-day selection excludes a 27-day-old record
+PASS  Public integration test: public history metadata reports max_age_days = 20
+PASS  Infrastructure analysis reads the backward-compatible public history path
+PASS  Public manifest build completes after the migration
+PASS  All four supplied GitHub Actions workflow YAML files parse successfully
+
+Policy:
+  retention_days       20
+  source_max_bytes     47185920 (45 MiB)
+  public_max_bytes     41943040 (40 MiB)
+  public_filename      voi_history_14d.jsonl (legacy compatibility name)
+

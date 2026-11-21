@@ -1,0 +1,266 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-11-21T12:29:24+00:00",
+  "source": "Voodoo Whiskers",
+  "repository_public": true,
+  "hosting_target": "Cloudflare Pages later",
+  "assessment_limit": "VOI, SAR and proximity products support analyst review and do not establish hostile intent, attribution or unlawful activity.",
+  "groups": [
+    {
+      "id": "ais",
+      "label": "AIS"
+    },
+    {
+      "id": "ais_history",
+      "label": "Historical AIS supplements"
+    },
+    {
+      "id": "sar",
+      "label": "SAR satellite detection cells"
+    },
+    {
+      "id": "voi",
+      "label": "VOI lists"
+    },
+    {
+      "id": "voi_history",
+      "label": "VOI history"
+    },
+    {
+      "id": "infrastructure",
+      "label": "Critical Infrastructure Watch"
+    }
+  ],
+  "products": [
+    {
+      "id": "gfw_presence_cells_latest",
+      "label": "GFW historical AIS presence grid",
+      "group": "ais_history",
+      "description": "Anonymous hourly 0.01-degree cells; no vessel identities or live positions. Powered by Global Fishing Watch; CC BY-NC 4.0.",
+      "href": "./gfw_presence_cells_latest.json",
+      "filename": "gfw_presence_cells_latest.json",
+      "size_bytes": 4195308,
+      "media_type": "application/json"
+    },
+    {
+      "id": "gfw_events_latest",
+      "label": "GFW loitering and AIS-gap context",
+      "group": "ais_history",
+      "description": "Delayed provider behavior events for analyst review; no automatic intent finding. Powered by Global Fishing Watch; CC BY-NC 4.0.",
+      "href": "./gfw_events_latest.json",
+      "filename": "gfw_events_latest.json",
+      "size_bytes": 4069825,
+      "media_type": "application/json"
+    },
+    {
+      "id": "gfw_events_status_latest",
+      "label": "GFW event query coverage status",
+      "group": "ais_history",
+      "description": "Coverage, pagination, provider delay and storage status for the latest delayed event query.",
+      "href": "./gfw_events_status_latest.json",
+      "filename": "gfw_events_status_latest.json",
+      "size_bytes": 6315,
+      "media_type": "application/json"
+    },
+    {
+      "id": "gfw_context_status_latest",
+      "label": "GFW context query status",
+      "group": "ais_history",
+      "description": "Provider failures, truncation and delayed context availability.",
+      "href": "./gfw_context_status_latest.json",
+      "filename": "gfw_context_status_latest.json",
+      "size_bytes": 1022,
+      "media_type": "application/json"
+    },
+    {
+      "id": "ais_contacts_latest",
+      "label": "Current monitored AIS contacts — JSON",
+      "group": "ais",
+      "description": "Filtered Open Waters and regional AIS observations with source timestamps and freshness metadata; reception-dependent sampled coverage.",
+      "href": "./ais_contacts_latest.json",
+      "filename": "ais_contacts_latest.json",
+      "size_bytes": 2153430,
+      "media_type": "application/json"
+    },
+    {
+      "id": "ais_contacts_latest",
+      "label": "Current monitored AIS contacts — GeoJSON",
+      "group": "ais",
+      "description": "Map-ready monitored AIS observations with provider provenance and data-quality fields.",
+      "href": "./ais_contacts_latest.geojson",
+      "filename": "ais_contacts_latest.geojson",
+      "size_bytes": 2212933,
+      "media_type": "application/geo+json"
+    },
+    {
+      "id": "ais_dk_last_two_positions",
+      "label": "Danish historical AIS — latest two observations — JSON",
+      "group": "ais_history",
+      "description": "Latest two temporally distinct historical Danish AIS observations per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions.",
+      "href": "./ais_dk_last_two_positions.json",
+      "filename": "ais_dk_last_two_positions.json",
+      "size_bytes": 283138,
+      "media_type": "application/json"
+    },
+    {
+      "id": "ais_dk_last_two_positions",
+      "label": "Danish historical AIS — latest two observations — GeoJSON",
+      "group": "ais_history",
+      "description": "Map-ready latest two historical Danish AIS observations and short connectors per vessel matched to a known Voodoo watchlist/VOI category. Delayed data; not current vessel positions.",
+      "href": "./ais_dk_last_two_positions.geojson",
+      "filename": "ais_dk_last_two_positions.geojson",
+      "size_bytes": 584388,
+      "media_type": "application/geo+json"
+    },
+    {
+      "id": "ais_dk_import_status",
+      "label": "Danish historical AIS — import status",
+      "group": "ais_history",
+      "description": "Source date, lag, row-quality counters and import health for the delayed Danish AIS supplement.",
+      "href": "./ais_dk_import_status.json",
+      "filename": "ais_dk_import_status.json",
+      "size_bytes": 2168,
+      "media_type": "application/json"
+    },
+    {
+      "id": "maritime_common_snapshot_latest",
+      "label": "Harmonized common maritime snapshot — JSON",
+      "group": "ais_history",
+      "description": "Canonical delayed vessel snapshot at the newest common source watermark. Includes real observation times and source-health metadata.",
+      "href": "./maritime_common_snapshot_latest.json",
+      "filename": "maritime_common_snapshot_latest.json",
+      "size_bytes": 2093,
+      "media_type": "application/json"
+    },
+    {
+      "id": "maritime_common_snapshot_latest",
+      "label": "Harmonized common maritime snapshot — GeoJSON",
+      "group": "ais_history",
+      "description": "Map-ready canonical vessel positions selected at the newest common source watermark.",
+      "href": "./maritime_common_snapshot_latest.geojson",
+      "filename": "maritime_common_snapshot_latest.geojson",
+      "size_bytes": 1776,
+      "media_type": "application/geo+json"
+    },
+    {
+      "id": "maritime_common_snapshot_status",
+      "label": "Harmonized common maritime snapshot — status",
+      "group": "ais_history",
+      "description": "Snapshot ID, observation watermark, generation time, mandatory-source coverage and green/orange/red status.",
+      "href": "./maritime_common_snapshot_status.json",
+      "filename": "maritime_common_snapshot_status.json",
+      "size_bytes": 2341,
+      "media_type": "application/json"
+    },
+    {
+      "id": "sar_detections_latest",
+      "label": "SAR vessel-detection cells — GeoJSON",
+      "group": "sar",
+      "description": "Delayed Global Fishing Watch Sentinel-1 SAR report cells for broad North Sea and Baltic query regions. Coordinates are 0.01-degree grid-cell centres, not exact or current vessel positions.",
+      "href": "./sar_detections_latest.geojson",
+      "filename": "sar_detections_latest.geojson",
+      "size_bytes": 1440,
+      "media_type": "application/geo+json"
+    },
+    {
+      "id": "sar_ais_context_latest",
+      "label": "Time-aligned historical SAR–AIS comparison — GeoJSON",
+      "group": "sar",
+      "description": "Delayed SAR cells, bounded GFW AIS Vessel Presence cells from corresponding historical hours, and same-identity connectors. Current AIS must not be overlaid; cell centres are not exact positions and connectors are not tracks.",
+      "href": "./sar_ais_context_latest.geojson",
+      "filename": "sar_ais_context_latest.geojson",
+      "size_bytes": 1645,
+      "media_type": "application/geo+json"
+    },
+    {
+      "id": "sar_import_status",
+      "label": "SAR and historical AIS comparison status",
+      "group": "sar",
+      "description": "Query dates, identity-scope limits, time-aligned correlation counters, errors and data limitations for the delayed Global Fishing Watch SAR–AIS comparison.",
+      "href": "./sar_import_status.json",
+      "filename": "sar_import_status.json",
+      "size_bytes": 3177,
+      "media_type": "application/json"
+    },
+    {
+      "id": "voi_list_latest",
+      "label": "VOI list — JSON",
+      "group": "voi",
+      "description": "Machine-readable current priority VOI list.",
+      "href": "./voi_list_latest.json",
+      "filename": "voi_list_latest.json",
+      "size_bytes": 2019391,
+      "media_type": "application/json"
+    },
+    {
+      "id": "voi_list_latest",
+      "label": "VOI list — CSV",
+      "group": "voi",
+      "description": "Tabular current priority VOI list.",
+      "href": "./voi_list_latest.csv",
+      "filename": "voi_list_latest.csv",
+      "size_bytes": 226291,
+      "media_type": "text/csv"
+    },
+    {
+      "id": "voi_list_latest",
+      "label": "VOI list — Markdown",
+      "group": "voi",
+      "description": "Readable current priority VOI list.",
+      "href": "./voi_list_latest.md",
+      "filename": "voi_list_latest.md",
+      "size_bytes": 81010,
+      "media_type": "text/markdown"
+    },
+    {
+      "id": "voi_history_14d_manifest",
+      "label": "Bounded 14-day VOI history — shard manifest",
+      "group": "voi_history",
+      "description": "Index of retained observations from at most fourteen days, bounded by total byte limits. Capacity metadata reports sampling.",
+      "href": "./voi_history_14d_manifest.json",
+      "filename": "voi_history_14d_manifest.json",
+      "size_bytes": 5795,
+      "media_type": "application/json"
+    },
+    {
+      "id": "infrastructure_watch_latest",
+      "label": "Infrastructure Watch — JSON",
+      "group": "infrastructure",
+      "description": "Machine-readable review events and assessment metadata.",
+      "href": "./infrastructure_watch_latest.json",
+      "filename": "infrastructure_watch_latest.json",
+      "size_bytes": 37997,
+      "media_type": "application/json"
+    },
+    {
+      "id": "infrastructure_watch_latest",
+      "label": "Infrastructure Watch — CSV",
+      "group": "infrastructure",
+      "description": "Tabular infrastructure proximity review events.",
+      "href": "./infrastructure_watch_latest.csv",
+      "filename": "infrastructure_watch_latest.csv",
+      "size_bytes": 11459,
+      "media_type": "text/csv"
+    },
+    {
+      "id": "infrastructure_watch_latest",
+      "label": "Infrastructure Watch — Markdown",
+      "group": "infrastructure",
+      "description": "Readable infrastructure proximity assessment.",
+      "href": "./infrastructure_watch_latest.md",
+      "filename": "infrastructure_watch_latest.md",
+      "size_bytes": 13838,
+      "media_type": "text/markdown"
+    },
+    {
+      "id": "infrastructure_watch_latest",
+      "label": "Infrastructure Watch — GeoJSON",
+      "group": "infrastructure",
+      "description": "Map-ready event points for GIS and Leaflet.",
+      "href": "./infrastructure_watch_latest.geojson",
+      "filename": "infrastructure_watch_latest.geojson",
+      "size_bytes": 41182,
+      "media_type": "application/geo+json"
+    }
+  ]
+}

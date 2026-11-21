@@ -1,0 +1,1314 @@
+{
+  "type": "FeatureCollection",
+  "name": "Voodoo Whiskers Phase 4 SAR candidates with historical AIS context",
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-19T16:30:45Z",
+  "metadata": {
+    "phase": "single_scene_historical_ais_match",
+    "pilot_id": "kadetrinne-s1c-20260816",
+    "scene": {
+      "normalized_scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+      "acquisition_time_utc": "2026-08-16T05:24:02Z"
+    },
+    "source_candidate_sha256": "220a9720f6a8b7a6816e6cacafb5f27ea4bf864d6ea032d132813095896b0f5c",
+    "source_candidate_count": 6,
+    "historical_ais_source": {
+      "provider": "ais_dk_historical",
+      "url": "http://aisdata.ais.dk/aisdk-2026-08-16.zip",
+      "filename": "aisdk-2026-08-16.zip",
+      "date": "2026-08-16",
+      "timestamp_timezone_assumption": "UTC"
+    },
+    "scene_acquisition_time_utc": "2026-08-16T05:24:02Z",
+    "coverage_assessment": {
+      "status": "AVAILABLE_AIS_ACTIVITY_OBSERVED",
+      "sufficient_for_available_ais_comparison": true,
+      "assessment_basis": "Observed Class A/B transmissions in the local archive window; this indicates usable available data but does not prove complete AIS reception",
+      "does_not_prove_complete_reception": true,
+      "window_start_utc": "2026-08-16T04:54:02Z",
+      "window_end_utc": "2026-08-16T05:54:02Z",
+      "local_padding_nm": 10.0,
+      "coverage_bbox_wgs84": [
+        11.6624989,
+        54.3133333,
+        12.5375011,
+        54.8266667
+      ],
+      "bin_minutes": 10,
+      "total_bins": 6,
+      "occupied_bins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "occupied_bin_count": 6,
+      "distinct_valid_messages": 12565,
+      "distinct_mmsi": 68,
+      "first_local_observation_utc": "2026-08-16T04:54:02Z",
+      "last_local_observation_utc": "2026-08-16T05:54:02Z",
+      "thresholds": {
+        "minimum_occupied_bins": 5,
+        "minimum_distinct_mmsi": 3,
+        "minimum_valid_messages": 30
+      },
+      "messages_by_bin": {
+        "0": 1980,
+        "1": 2074,
+        "2": 2169,
+        "3": 2224,
+        "4": 1910,
+        "5": 2208
+      }
+    },
+    "match_counts": {
+      "AMBIGUOUS": 4,
+      "MATCHED": 1,
+      "NO_AIS_COVERAGE": 0,
+      "POSSIBLE_MATCH": 1,
+      "UNMATCHED_IN_AVAILABLE_AIS": 0
+    },
+    "allowed_match_states": [
+      "AMBIGUOUS",
+      "MATCHED",
+      "NO_AIS_COVERAGE",
+      "POSSIBLE_MATCH",
+      "UNMATCHED_IN_AVAILABLE_AIS"
+    ],
+    "parameters_are_experimental": true,
+    "current_ais_used": false,
+    "current_ais_overlaid": false,
+    "dark_vessel_claim": false,
+    "candidate_is_not_vessel_classification": true,
+    "public_layer": false,
+    "method_note": "AIS tracks are projected to the fixed Sentinel-1 acquisition time. The pilot uses a candidate-specific dynamic core radius with a 500 m floor and rejects forced assignments beyond 2 km. These are calibration hypotheses, not production thresholds.",
+    "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "SARCAND-20260816T052402Z-0001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.2470677,
+          54.5483816
+        ]
+      },
+      "properties": {
+        "feature_kind": "SAR_CANDIDATE",
+        "candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+        "review_status": "unreviewed",
+        "analyst_disposition": null,
+        "classification": "UNCLASSIFIED_BRIGHT_RETURN",
+        "candidate_is_not_vessel_classification": true,
+        "human_visual_review_required": true,
+        "downstream_eligible": false,
+        "scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+        "catalogue_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+        "acquisition_time": "2026-08-16T05:24:02Z",
+        "platform": "Sentinel-1C",
+        "instrument_mode": "IW",
+        "product_level": "GRD Level-1",
+        "polarizations": [
+          "VV",
+          "VH"
+        ],
+        "detection_method": {
+          "algorithm": "CA_CFAR",
+          "implementation_version": "0.1.0-prototype",
+          "primary_band": "VV",
+          "detected_by_profiles": [
+            "strict_wide",
+            "balanced",
+            "exploratory_local"
+          ],
+          "profile_count": 3,
+          "parameter_consensus": "ALL_PROFILES",
+          "profile_max_threshold_excess_db": {
+            "strict_wide": 11.0094,
+            "balanced": 10.5393,
+            "exploratory_local": 9.1454
+          },
+          "vh_role": "corroboration_only",
+          "vh_cfar_corroborated": true,
+          "vh_max_threshold_excess_db": 6.5933
+        },
+        "signature_measurements": {
+          "vv_peak_linear_power": 44.34919357,
+          "vv_peak_db": 16.4689,
+          "vh_at_vv_peak_linear_power": 0.94486278,
+          "vh_at_vv_peak_db": -0.2463,
+          "primary_seed_pixel_count": 27,
+          "seed_bbox_pixels": {
+            "row_min": 1236,
+            "row_max": 1244,
+            "column_min": 1913,
+            "column_max": 1916
+          },
+          "approximate_axis_aligned_signature_span_m": {
+            "x": 40.0,
+            "y": 89.98
+          },
+          "span_is_not_vessel_length": true
+        },
+        "spatial_quality": {
+          "open_water_aoi_reviewed": true,
+          "coastline_mask_integrated": true,
+          "land_mask_source": "Natural Earth 1:10m land v5.1.1",
+          "land_buffer_radius_px": 100,
+          "common_cfar_border_excluded": true,
+          "quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED",
+            "VH_CFAR_CORROBORATED"
+          ]
+        },
+        "infrastructure_context": {
+          "reference_available": true,
+          "found_within_search_radius": true,
+          "search_radius_nm": 10.0,
+          "review_radius_nm": 1.0,
+          "near_infrastructure_reference": false,
+          "nearest_type": "power_cable",
+          "nearest_reference_id": "pcablesbshcontis.4",
+          "nearest_name": "pcablesbshcontis.4",
+          "nearest_distance_nm": 4.1147,
+          "source": "local EMODnet reference snapshot"
+        },
+        "ais_context_status": "AMBIGUOUS",
+        "ais_match_status": "AMBIGUOUS",
+        "current_ais_overlaid": false,
+        "dark_vessel_claim": false,
+        "assessment_limit": "Experimental CFAR bright-return groups are not vessel classifications. No AIS data was retrieved or overlaid, no claim about a so-called dark vessel is made, and every candidate requires visual analyst review before any later use.",
+        "detection_id": "SARCAND-20260816T052402Z-0001",
+        "centroid_pixel": {
+          "row": 1240.945,
+          "column": 1914.596
+        },
+        "previous_ais_context_status": "NOT_CHECKED",
+        "historical_ais_context": {
+          "status": "AMBIGUOUS",
+          "source_provider": "ais_dk_historical",
+          "source_archive_date": "2026-08-16",
+          "scene_acquisition_time_utc": "2026-08-16T05:24:02Z",
+          "time_window_minutes": {
+            "before": 30,
+            "after": 30
+          },
+          "matching_method": "projected_position_dynamic_radius_pilot",
+          "parameters_are_experimental": true,
+          "coverage_sufficient_for_available_ais_comparison": true,
+          "plausible_alternative_count": 1,
+          "plausible_alternatives_truncated": false,
+          "plausible_alternatives": [
+            {
+              "mmsi": "314115000",
+              "imo": "9276597",
+              "name": "LUNA PELAGOS",
+              "callsign": "8PPC",
+              "ship_type_label": "Tanker",
+              "reported_length_m": 243.0,
+              "projected_position": {
+                "longitude": 12.2470215,
+                "latitude": 54.5483214,
+                "time_utc": "2026-08-16T05:24:02Z"
+              },
+              "distance_to_sar_candidate_m": 7.3,
+              "within_dynamic_radius": true,
+              "within_maximum_plausible_distance": true,
+              "dynamic_radius": {
+                "minimum_radius_m": 500.0,
+                "movement_uncertainty_m": 1.73,
+                "projection_method_penalty_m": 0.0,
+                "candidate_extent_allowance_m": 49.24,
+                "maximum_plausible_distance_m": 2000.0,
+                "resulting_dynamic_radius_m": 550.97,
+                "experimental_formula": "clamp(minimum, maximum, minimum + 0.1*projected_motion_capped + method_penalty + half_candidate_diagonal_capped)"
+              },
+              "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+              "projection_quality": "HIGH",
+              "nearest_observation_gap_seconds": 3,
+              "bracket_span_seconds": 11,
+              "motion_distance_from_nearest_observation_m": 17.32,
+              "effective_sog_knots": 11.23,
+              "effective_cog_degrees": 200.82,
+              "input_observations": [
+                {
+                  "observed_at": "2026-08-16T05:23:59+00:00",
+                  "latitude": 54.548467,
+                  "longitude": 12.247117,
+                  "sog_knots": 9.4,
+                  "cog_degrees": 199.0,
+                  "true_heading_degrees": 201,
+                  "navigational_status": "Under way using engine"
+                },
+                {
+                  "observed_at": "2026-08-16T05:24:10+00:00",
+                  "latitude": 54.547933,
+                  "longitude": 12.246767,
+                  "sog_knots": 9.6,
+                  "cog_degrees": 200.0,
+                  "true_heading_degrees": 201,
+                  "navigational_status": "Under way using engine"
+                }
+              ],
+              "limitations": [
+                "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+              ]
+            }
+          ],
+          "selected_match": null,
+          "ambiguity_reasons": [
+            "ONE_AIS_VESSEL_PLAUSIBLE_FOR_MULTIPLE_SAR_CANDIDATES"
+          ],
+          "candidate_competition": {
+            "314115000": [
+              "SARCAND-20260816T052402Z-0001",
+              "SARCAND-20260816T052402Z-0004"
+            ]
+          },
+          "current_ais_used": false,
+          "dark_vessel_claim": false,
+          "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SARCAND-20260816T052402Z-0002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.2278267,
+          54.5200815
+        ]
+      },
+      "properties": {
+        "feature_kind": "SAR_CANDIDATE",
+        "candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+        "review_status": "unreviewed",
+        "analyst_disposition": null,
+        "classification": "UNCLASSIFIED_BRIGHT_RETURN",
+        "candidate_is_not_vessel_classification": true,
+        "human_visual_review_required": true,
+        "downstream_eligible": false,
+        "scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+        "catalogue_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+        "acquisition_time": "2026-08-16T05:24:02Z",
+        "platform": "Sentinel-1C",
+        "instrument_mode": "IW",
+        "product_level": "GRD Level-1",
+        "polarizations": [
+          "VV",
+          "VH"
+        ],
+        "detection_method": {
+          "algorithm": "CA_CFAR",
+          "implementation_version": "0.1.0-prototype",
+          "primary_band": "VV",
+          "detected_by_profiles": [
+            "strict_wide",
+            "balanced",
+            "exploratory_local"
+          ],
+          "profile_count": 3,
+          "parameter_consensus": "ALL_PROFILES",
+          "profile_max_threshold_excess_db": {
+            "strict_wide": 8.9687,
+            "balanced": 8.3598,
+            "exploratory_local": 6.7513
+          },
+          "vh_role": "corroboration_only",
+          "vh_cfar_corroborated": true,
+          "vh_max_threshold_excess_db": 5.0285
+        },
+        "signature_measurements": {
+          "vv_peak_linear_power": 34.53529739,
+          "vv_peak_db": 15.3826,
+          "vh_at_vv_peak_linear_power": 1.18122315,
+          "vh_at_vv_peak_db": 0.7233,
+          "primary_seed_pixel_count": 27,
+          "seed_bbox_pixels": {
+            "row_min": 1551,
+            "row_max": 1560,
+            "column_min": 1788,
+            "column_max": 1792
+          },
+          "approximate_axis_aligned_signature_span_m": {
+            "x": 49.99,
+            "y": 99.98
+          },
+          "span_is_not_vessel_length": true
+        },
+        "spatial_quality": {
+          "open_water_aoi_reviewed": true,
+          "coastline_mask_integrated": true,
+          "land_mask_source": "Natural Earth 1:10m land v5.1.1",
+          "land_buffer_radius_px": 100,
+          "common_cfar_border_excluded": true,
+          "quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED",
+            "VH_CFAR_CORROBORATED"
+          ]
+        },
+        "infrastructure_context": {
+          "reference_available": true,
+          "found_within_search_radius": true,
+          "search_radius_nm": 10.0,
+          "review_radius_nm": 1.0,
+          "near_infrastructure_reference": false,
+          "nearest_type": "power_cable",
+          "nearest_reference_id": "pcablesbshcontis.4",
+          "nearest_name": "pcablesbshcontis.4",
+          "nearest_distance_nm": 3.8225,
+          "source": "local EMODnet reference snapshot"
+        },
+        "ais_context_status": "AMBIGUOUS",
+        "ais_match_status": "AMBIGUOUS",
+        "current_ais_overlaid": false,
+        "dark_vessel_claim": false,
+        "assessment_limit": "Experimental CFAR bright-return groups are not vessel classifications. No AIS data was retrieved or overlaid, no claim about a so-called dark vessel is made, and every candidate requires visual analyst review before any later use.",
+        "detection_id": "SARCAND-20260816T052402Z-0002",
+        "centroid_pixel": {
+          "row": 1555.704,
+          "column": 1790.556
+        },
+        "previous_ais_context_status": "NOT_CHECKED",
+        "historical_ais_context": {
+          "status": "AMBIGUOUS",
+          "source_provider": "ais_dk_historical",
+          "source_archive_date": "2026-08-16",
+          "scene_acquisition_time_utc": "2026-08-16T05:24:02Z",
+          "time_window_minutes": {
+            "before": 30,
+            "after": 30
+          },
+          "matching_method": "projected_position_dynamic_radius_pilot",
+          "parameters_are_experimental": true,
+          "coverage_sufficient_for_available_ais_comparison": true,
+          "plausible_alternative_count": 1,
+          "plausible_alternatives_truncated": false,
+          "plausible_alternatives": [
+            {
+              "mmsi": "352005354",
+              "imo": "9389071",
+              "name": "TANGO 2",
+              "callsign": "3E8640",
+              "ship_type_label": "Tanker",
+              "reported_length_m": 244.0,
+              "projected_position": {
+                "longitude": 12.2276844,
+                "latitude": 54.5200869,
+                "time_utc": "2026-08-16T05:24:02Z"
+              },
+              "distance_to_sar_candidate_m": 9.2,
+              "within_dynamic_radius": true,
+              "within_maximum_plausible_distance": true,
+              "dynamic_radius": {
+                "minimum_radius_m": 500.0,
+                "movement_uncertainty_m": 2.08,
+                "projection_method_penalty_m": 0.0,
+                "candidate_extent_allowance_m": 55.89,
+                "maximum_plausible_distance_m": 2000.0,
+                "resulting_dynamic_radius_m": 557.97,
+                "experimental_formula": "clamp(minimum, maximum, minimum + 0.1*projected_motion_capped + method_penalty + half_candidate_diagonal_capped)"
+              },
+              "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+              "projection_quality": "HIGH",
+              "nearest_observation_gap_seconds": 4,
+              "bracket_span_seconds": 11,
+              "motion_distance_from_nearest_observation_m": 20.84,
+              "effective_sog_knots": 10.13,
+              "effective_cog_degrees": 197.36,
+              "input_observations": [
+                {
+                  "observed_at": "2026-08-16T05:23:55+00:00",
+                  "latitude": 54.5204,
+                  "longitude": 12.227853,
+                  "sog_knots": 10.0,
+                  "cog_degrees": 198.1,
+                  "true_heading_degrees": 199,
+                  "navigational_status": "Constrained by her draught"
+                },
+                {
+                  "observed_at": "2026-08-16T05:24:06+00:00",
+                  "latitude": 54.519908,
+                  "longitude": 12.227588,
+                  "sog_knots": 10.0,
+                  "cog_degrees": 197.4,
+                  "true_heading_degrees": 199,
+                  "navigational_status": "Constrained by her draught"
+                }
+              ],
+              "limitations": [
+                "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+              ]
+            }
+          ],
+          "selected_match": null,
+          "ambiguity_reasons": [
+            "ONE_AIS_VESSEL_PLAUSIBLE_FOR_MULTIPLE_SAR_CANDIDATES"
+          ],
+          "candidate_competition": {
+            "352005354": [
+              "SARCAND-20260816T052402Z-0002",
+              "SARCAND-20260816T052402Z-0006"
+            ]
+          },
+          "current_ais_used": false,
+          "dark_vessel_claim": false,
+          "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SARCAND-20260816T052402Z-0003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.9568227,
+          54.4844232
+        ]
+      },
+      "properties": {
+        "feature_kind": "SAR_CANDIDATE",
+        "candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+        "review_status": "unreviewed",
+        "analyst_disposition": null,
+        "classification": "UNCLASSIFIED_BRIGHT_RETURN",
+        "candidate_is_not_vessel_classification": true,
+        "human_visual_review_required": true,
+        "downstream_eligible": false,
+        "scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+        "catalogue_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+        "acquisition_time": "2026-08-16T05:24:02Z",
+        "platform": "Sentinel-1C",
+        "instrument_mode": "IW",
+        "product_level": "GRD Level-1",
+        "polarizations": [
+          "VV",
+          "VH"
+        ],
+        "detection_method": {
+          "algorithm": "CA_CFAR",
+          "implementation_version": "0.1.0-prototype",
+          "primary_band": "VV",
+          "detected_by_profiles": [
+            "strict_wide",
+            "balanced",
+            "exploratory_local"
+          ],
+          "profile_count": 3,
+          "parameter_consensus": "ALL_PROFILES",
+          "profile_max_threshold_excess_db": {
+            "strict_wide": 7.5308,
+            "balanced": 7.1268,
+            "exploratory_local": 6.4471
+          },
+          "vh_role": "corroboration_only",
+          "vh_cfar_corroborated": true,
+          "vh_max_threshold_excess_db": 9.6539
+        },
+        "signature_measurements": {
+          "vv_peak_linear_power": 28.70009041,
+          "vv_peak_db": 14.5788,
+          "vh_at_vv_peak_linear_power": 1.38549519,
+          "vh_at_vv_peak_db": 1.4161,
+          "primary_seed_pixel_count": 36,
+          "seed_bbox_pixels": {
+            "row_min": 1944,
+            "row_max": 1959,
+            "column_min": 41,
+            "column_max": 46
+          },
+          "approximate_axis_aligned_signature_span_m": {
+            "x": 59.99,
+            "y": 159.96
+          },
+          "span_is_not_vessel_length": true
+        },
+        "spatial_quality": {
+          "open_water_aoi_reviewed": true,
+          "coastline_mask_integrated": true,
+          "land_mask_source": "Natural Earth 1:10m land v5.1.1",
+          "land_buffer_radius_px": 100,
+          "common_cfar_border_excluded": true,
+          "quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED",
+            "VH_CFAR_CORROBORATED"
+          ]
+        },
+        "infrastructure_context": {
+          "reference_available": true,
+          "found_within_search_radius": true,
+          "search_radius_nm": 10.0,
+          "review_radius_nm": 1.0,
+          "near_infrastructure_reference": false,
+          "nearest_type": "wind_farm",
+          "nearest_reference_id": "windfarms.13",
+          "nearest_name": "Guldborgsund Syd",
+          "nearest_distance_nm": 2.9688,
+          "source": "local EMODnet reference snapshot"
+        },
+        "ais_context_status": "MATCHED",
+        "ais_match_status": "MATCHED",
+        "current_ais_overlaid": false,
+        "dark_vessel_claim": false,
+        "assessment_limit": "Experimental CFAR bright-return groups are not vessel classifications. No AIS data was retrieved or overlaid, no claim about a so-called dark vessel is made, and every candidate requires visual analyst review before any later use.",
+        "detection_id": "SARCAND-20260816T052402Z-0003",
+        "centroid_pixel": {
+          "row": 1952.304,
+          "column": 43.484
+        },
+        "previous_ais_context_status": "NOT_CHECKED",
+        "historical_ais_context": {
+          "status": "MATCHED",
+          "source_provider": "ais_dk_historical",
+          "source_archive_date": "2026-08-16",
+          "scene_acquisition_time_utc": "2026-08-16T05:24:02Z",
+          "time_window_minutes": {
+            "before": 30,
+            "after": 30
+          },
+          "matching_method": "projected_position_dynamic_radius_pilot",
+          "parameters_are_experimental": true,
+          "coverage_sufficient_for_available_ais_comparison": true,
+          "plausible_alternative_count": 1,
+          "plausible_alternatives_truncated": false,
+          "plausible_alternatives": [
+            {
+              "mmsi": "211727510",
+              "imo": "9587855",
+              "name": "BERLIN",
+              "callsign": "DKDF2",
+              "ship_type_label": "Passenger",
+              "reported_length_m": 170.0,
+              "projected_position": {
+                "longitude": 11.9559113,
+                "latitude": 54.4822503,
+                "time_utc": "2026-08-16T05:24:02Z"
+              },
+              "distance_to_sar_candidate_m": 248.7,
+              "within_dynamic_radius": true,
+              "within_maximum_plausible_distance": true,
+              "dynamic_radius": {
+                "minimum_radius_m": 500.0,
+                "movement_uncertainty_m": 1.53,
+                "projection_method_penalty_m": 0.0,
+                "candidate_extent_allowance_m": 85.42,
+                "maximum_plausible_distance_m": 2000.0,
+                "resulting_dynamic_radius_m": 586.95,
+                "experimental_formula": "clamp(minimum, maximum, minimum + 0.1*projected_motion_capped + method_penalty + half_candidate_diagonal_capped)"
+              },
+              "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+              "projection_quality": "HIGH",
+              "nearest_observation_gap_seconds": 2,
+              "bracket_span_seconds": 6,
+              "motion_distance_from_nearest_observation_m": 15.26,
+              "effective_sog_knots": 14.83,
+              "effective_cog_degrees": 346.37,
+              "input_observations": [
+                {
+                  "observed_at": "2026-08-16T05:24:00+00:00",
+                  "latitude": 54.482117,
+                  "longitude": 11.955967,
+                  "sog_knots": 14.8,
+                  "cog_degrees": 346.0,
+                  "true_heading_degrees": 345,
+                  "navigational_status": "Under way using engine"
+                },
+                {
+                  "observed_at": "2026-08-16T05:24:06+00:00",
+                  "latitude": 54.482517,
+                  "longitude": 11.9558,
+                  "sog_knots": 14.7,
+                  "cog_degrees": 345.9,
+                  "true_heading_degrees": 345,
+                  "navigational_status": "Under way using engine"
+                }
+              ],
+              "limitations": [
+                "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+              ]
+            }
+          ],
+          "selected_match": {
+            "mmsi": "211727510",
+            "imo": "9587855",
+            "name": "BERLIN",
+            "callsign": "DKDF2",
+            "ship_type_label": "Passenger",
+            "reported_length_m": 170.0,
+            "projected_position": {
+              "longitude": 11.9559113,
+              "latitude": 54.4822503,
+              "time_utc": "2026-08-16T05:24:02Z"
+            },
+            "distance_to_sar_candidate_m": 248.7,
+            "within_dynamic_radius": true,
+            "within_maximum_plausible_distance": true,
+            "dynamic_radius": {
+              "minimum_radius_m": 500.0,
+              "movement_uncertainty_m": 1.53,
+              "projection_method_penalty_m": 0.0,
+              "candidate_extent_allowance_m": 85.42,
+              "maximum_plausible_distance_m": 2000.0,
+              "resulting_dynamic_radius_m": 586.95,
+              "experimental_formula": "clamp(minimum, maximum, minimum + 0.1*projected_motion_capped + method_penalty + half_candidate_diagonal_capped)"
+            },
+            "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+            "projection_quality": "HIGH",
+            "nearest_observation_gap_seconds": 2,
+            "bracket_span_seconds": 6,
+            "motion_distance_from_nearest_observation_m": 15.26,
+            "effective_sog_knots": 14.83,
+            "effective_cog_degrees": 346.37,
+            "input_observations": [
+              {
+                "observed_at": "2026-08-16T05:24:00+00:00",
+                "latitude": 54.482117,
+                "longitude": 11.955967,
+                "sog_knots": 14.8,
+                "cog_degrees": 346.0,
+                "true_heading_degrees": 345,
+                "navigational_status": "Under way using engine"
+              },
+              {
+                "observed_at": "2026-08-16T05:24:06+00:00",
+                "latitude": 54.482517,
+                "longitude": 11.9558,
+                "sog_knots": 14.7,
+                "cog_degrees": 345.9,
+                "true_heading_degrees": 345,
+                "navigational_status": "Under way using engine"
+              }
+            ],
+            "limitations": [
+              "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+            ]
+          },
+          "ambiguity_reasons": [],
+          "candidate_competition": {},
+          "current_ais_used": false,
+          "dark_vessel_claim": false,
+          "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SARCAND-20260816T052402Z-0004",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.2455447,
+          54.5466323
+        ]
+      },
+      "properties": {
+        "feature_kind": "SAR_CANDIDATE",
+        "candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+        "review_status": "unreviewed",
+        "analyst_disposition": null,
+        "classification": "UNCLASSIFIED_BRIGHT_RETURN",
+        "candidate_is_not_vessel_classification": true,
+        "human_visual_review_required": true,
+        "downstream_eligible": false,
+        "scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+        "catalogue_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+        "acquisition_time": "2026-08-16T05:24:02Z",
+        "platform": "Sentinel-1C",
+        "instrument_mode": "IW",
+        "product_level": "GRD Level-1",
+        "polarizations": [
+          "VV",
+          "VH"
+        ],
+        "detection_method": {
+          "algorithm": "CA_CFAR",
+          "implementation_version": "0.1.0-prototype",
+          "primary_band": "VV",
+          "detected_by_profiles": [
+            "strict_wide",
+            "balanced",
+            "exploratory_local"
+          ],
+          "profile_count": 3,
+          "parameter_consensus": "ALL_PROFILES",
+          "profile_max_threshold_excess_db": {
+            "strict_wide": 2.584,
+            "balanced": 2.5848,
+            "exploratory_local": 2.0699
+          },
+          "vh_role": "corroboration_only",
+          "vh_cfar_corroborated": false,
+          "vh_max_threshold_excess_db": null
+        },
+        "signature_measurements": {
+          "vv_peak_linear_power": 4.5122323,
+          "vv_peak_db": 6.5439,
+          "vh_at_vv_peak_linear_power": 0.22843421,
+          "vh_at_vv_peak_db": -6.4124,
+          "primary_seed_pixel_count": 5,
+          "seed_bbox_pixels": {
+            "row_min": 1259,
+            "row_max": 1262,
+            "column_min": 1904,
+            "column_max": 1905
+          },
+          "approximate_axis_aligned_signature_span_m": {
+            "x": 20.0,
+            "y": 39.99
+          },
+          "span_is_not_vessel_length": true
+        },
+        "spatial_quality": {
+          "open_water_aoi_reviewed": true,
+          "coastline_mask_integrated": true,
+          "land_mask_source": "Natural Earth 1:10m land v5.1.1",
+          "land_buffer_radius_px": 100,
+          "common_cfar_border_excluded": true,
+          "quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED"
+          ]
+        },
+        "infrastructure_context": {
+          "reference_available": true,
+          "found_within_search_radius": true,
+          "search_radius_nm": 10.0,
+          "review_radius_nm": 1.0,
+          "near_infrastructure_reference": false,
+          "nearest_type": "power_cable",
+          "nearest_reference_id": "pcablesbshcontis.4",
+          "nearest_name": "pcablesbshcontis.4",
+          "nearest_distance_nm": 4.1066,
+          "source": "local EMODnet reference snapshot"
+        },
+        "ais_context_status": "AMBIGUOUS",
+        "ais_match_status": "AMBIGUOUS",
+        "current_ais_overlaid": false,
+        "dark_vessel_claim": false,
+        "assessment_limit": "Experimental CFAR bright-return groups are not vessel classifications. No AIS data was retrieved or overlaid, no claim about a so-called dark vessel is made, and every candidate requires visual analyst review before any later use.",
+        "detection_id": "SARCAND-20260816T052402Z-0004",
+        "centroid_pixel": {
+          "row": 1260.4,
+          "column": 1904.778
+        },
+        "previous_ais_context_status": "NOT_CHECKED",
+        "historical_ais_context": {
+          "status": "AMBIGUOUS",
+          "source_provider": "ais_dk_historical",
+          "source_archive_date": "2026-08-16",
+          "scene_acquisition_time_utc": "2026-08-16T05:24:02Z",
+          "time_window_minutes": {
+            "before": 30,
+            "after": 30
+          },
+          "matching_method": "projected_position_dynamic_radius_pilot",
+          "parameters_are_experimental": true,
+          "coverage_sufficient_for_available_ais_comparison": true,
+          "plausible_alternative_count": 1,
+          "plausible_alternatives_truncated": false,
+          "plausible_alternatives": [
+            {
+              "mmsi": "314115000",
+              "imo": "9276597",
+              "name": "LUNA PELAGOS",
+              "callsign": "8PPC",
+              "ship_type_label": "Tanker",
+              "reported_length_m": 243.0,
+              "projected_position": {
+                "longitude": 12.2470215,
+                "latitude": 54.5483214,
+                "time_utc": "2026-08-16T05:24:02Z"
+              },
+              "distance_to_sar_candidate_m": 210.6,
+              "within_dynamic_radius": true,
+              "within_maximum_plausible_distance": true,
+              "dynamic_radius": {
+                "minimum_radius_m": 500.0,
+                "movement_uncertainty_m": 1.73,
+                "projection_method_penalty_m": 0.0,
+                "candidate_extent_allowance_m": 22.36,
+                "maximum_plausible_distance_m": 2000.0,
+                "resulting_dynamic_radius_m": 524.09,
+                "experimental_formula": "clamp(minimum, maximum, minimum + 0.1*projected_motion_capped + method_penalty + half_candidate_diagonal_capped)"
+              },
+              "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+              "projection_quality": "HIGH",
+              "nearest_observation_gap_seconds": 3,
+              "bracket_span_seconds": 11,
+              "motion_distance_from_nearest_observation_m": 17.32,
+              "effective_sog_knots": 11.23,
+              "effective_cog_degrees": 200.82,
+              "input_observations": [
+                {
+                  "observed_at": "2026-08-16T05:23:59+00:00",
+                  "latitude": 54.548467,
+                  "longitude": 12.247117,
+                  "sog_knots": 9.4,
+                  "cog_degrees": 199.0,
+                  "true_heading_degrees": 201,
+                  "navigational_status": "Under way using engine"
+                },
+                {
+                  "observed_at": "2026-08-16T05:24:10+00:00",
+                  "latitude": 54.547933,
+                  "longitude": 12.246767,
+                  "sog_knots": 9.6,
+                  "cog_degrees": 200.0,
+                  "true_heading_degrees": 201,
+                  "navigational_status": "Under way using engine"
+                }
+              ],
+              "limitations": [
+                "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+              ]
+            }
+          ],
+          "selected_match": null,
+          "ambiguity_reasons": [
+            "ONE_AIS_VESSEL_PLAUSIBLE_FOR_MULTIPLE_SAR_CANDIDATES"
+          ],
+          "candidate_competition": {
+            "314115000": [
+              "SARCAND-20260816T052402Z-0001",
+              "SARCAND-20260816T052402Z-0004"
+            ]
+          },
+          "current_ais_used": false,
+          "dark_vessel_claim": false,
+          "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SARCAND-20260816T052402Z-0005",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.1302557,
+          54.5668575
+        ]
+      },
+      "properties": {
+        "feature_kind": "SAR_CANDIDATE",
+        "candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+        "review_status": "unreviewed",
+        "analyst_disposition": null,
+        "classification": "UNCLASSIFIED_BRIGHT_RETURN",
+        "candidate_is_not_vessel_classification": true,
+        "human_visual_review_required": true,
+        "downstream_eligible": false,
+        "scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+        "catalogue_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+        "acquisition_time": "2026-08-16T05:24:02Z",
+        "platform": "Sentinel-1C",
+        "instrument_mode": "IW",
+        "product_level": "GRD Level-1",
+        "polarizations": [
+          "VV",
+          "VH"
+        ],
+        "detection_method": {
+          "algorithm": "CA_CFAR",
+          "implementation_version": "0.1.0-prototype",
+          "primary_band": "VV",
+          "detected_by_profiles": [
+            "balanced",
+            "exploratory_local"
+          ],
+          "profile_count": 2,
+          "parameter_consensus": "MULTI_PROFILE",
+          "profile_max_threshold_excess_db": {
+            "balanced": 0.361,
+            "exploratory_local": 1.0906
+          },
+          "vh_role": "corroboration_only",
+          "vh_cfar_corroborated": true,
+          "vh_max_threshold_excess_db": 7.3242
+        },
+        "signature_measurements": {
+          "vv_peak_linear_power": 0.37844133,
+          "vv_peak_db": -4.22,
+          "vh_at_vv_peak_linear_power": 0.04130418,
+          "vh_at_vv_peak_db": -13.8401,
+          "primary_seed_pixel_count": 2,
+          "seed_bbox_pixels": {
+            "row_min": 1035,
+            "row_max": 1036,
+            "column_min": 1161,
+            "column_max": 1162
+          },
+          "approximate_axis_aligned_signature_span_m": {
+            "x": 20.0,
+            "y": 20.0
+          },
+          "span_is_not_vessel_length": true
+        },
+        "spatial_quality": {
+          "open_water_aoi_reviewed": true,
+          "coastline_mask_integrated": true,
+          "land_mask_source": "Natural Earth 1:10m land v5.1.1",
+          "land_buffer_radius_px": 100,
+          "common_cfar_border_excluded": true,
+          "quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED",
+            "VH_CFAR_CORROBORATED"
+          ]
+        },
+        "infrastructure_context": {
+          "reference_available": true,
+          "found_within_search_radius": true,
+          "search_radius_nm": 10.0,
+          "review_radius_nm": 1.0,
+          "near_infrastructure_reference": false,
+          "nearest_type": "wind_farm",
+          "nearest_reference_id": "windfarms.13",
+          "nearest_name": "Guldborgsund Syd",
+          "nearest_distance_nm": 5.3586,
+          "source": "local EMODnet reference snapshot"
+        },
+        "ais_context_status": "POSSIBLE_MATCH",
+        "ais_match_status": "POSSIBLE_MATCH",
+        "current_ais_overlaid": false,
+        "dark_vessel_claim": false,
+        "assessment_limit": "Experimental CFAR bright-return groups are not vessel classifications. No AIS data was retrieved or overlaid, no claim about a so-called dark vessel is made, and every candidate requires visual analyst review before any later use.",
+        "detection_id": "SARCAND-20260816T052402Z-0005",
+        "centroid_pixel": {
+          "row": 1035.452,
+          "column": 1161.548
+        },
+        "previous_ais_context_status": "NOT_CHECKED",
+        "historical_ais_context": {
+          "status": "POSSIBLE_MATCH",
+          "source_provider": "ais_dk_historical",
+          "source_archive_date": "2026-08-16",
+          "scene_acquisition_time_utc": "2026-08-16T05:24:02Z",
+          "time_window_minutes": {
+            "before": 30,
+            "after": 30
+          },
+          "matching_method": "projected_position_dynamic_radius_pilot",
+          "parameters_are_experimental": true,
+          "coverage_sufficient_for_available_ais_comparison": true,
+          "plausible_alternative_count": 1,
+          "plausible_alternatives_truncated": false,
+          "plausible_alternatives": [
+            {
+              "mmsi": "219022256",
+              "imo": "9812030",
+              "name": "DANPILOT ALFA",
+              "callsign": "OXEB2",
+              "ship_type_label": "Pilot",
+              "reported_length_m": 20.0,
+              "projected_position": {
+                "longitude": 12.1298723,
+                "latitude": 54.560182,
+                "time_utc": "2026-08-16T05:24:02Z"
+              },
+              "distance_to_sar_candidate_m": 742.7,
+              "within_dynamic_radius": false,
+              "within_maximum_plausible_distance": true,
+              "dynamic_radius": {
+                "minimum_radius_m": 500.0,
+                "movement_uncertainty_m": 2.06,
+                "projection_method_penalty_m": 0.0,
+                "candidate_extent_allowance_m": 14.14,
+                "maximum_plausible_distance_m": 2000.0,
+                "resulting_dynamic_radius_m": 516.2,
+                "experimental_formula": "clamp(minimum, maximum, minimum + 0.1*projected_motion_capped + method_penalty + half_candidate_diagonal_capped)"
+              },
+              "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+              "projection_quality": "HIGH",
+              "nearest_observation_gap_seconds": 2,
+              "bracket_span_seconds": 6,
+              "motion_distance_from_nearest_observation_m": 20.6,
+              "effective_sog_knots": 20.02,
+              "effective_cog_degrees": 260.68,
+              "input_observations": [
+                {
+                  "observed_at": "2026-08-16T05:23:58+00:00",
+                  "latitude": 54.560242,
+                  "longitude": 12.130503,
+                  "sog_knots": 20.2,
+                  "cog_degrees": 258.8,
+                  "true_heading_degrees": 263,
+                  "navigational_status": "Under way using engine"
+                },
+                {
+                  "observed_at": "2026-08-16T05:24:04+00:00",
+                  "latitude": 54.560152,
+                  "longitude": 12.129557,
+                  "sog_knots": 20.1,
+                  "cog_degrees": 259.8,
+                  "true_heading_degrees": 261,
+                  "navigational_status": "Under way using engine"
+                }
+              ],
+              "limitations": [
+                "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+              ]
+            }
+          ],
+          "selected_match": {
+            "mmsi": "219022256",
+            "imo": "9812030",
+            "name": "DANPILOT ALFA",
+            "callsign": "OXEB2",
+            "ship_type_label": "Pilot",
+            "reported_length_m": 20.0,
+            "projected_position": {
+              "longitude": 12.1298723,
+              "latitude": 54.560182,
+              "time_utc": "2026-08-16T05:24:02Z"
+            },
+            "distance_to_sar_candidate_m": 742.7,
+            "within_dynamic_radius": false,
+            "within_maximum_plausible_distance": true,
+            "dynamic_radius": {
+              "minimum_radius_m": 500.0,
+              "movement_uncertainty_m": 2.06,
+              "projection_method_penalty_m": 0.0,
+              "candidate_extent_allowance_m": 14.14,
+              "maximum_plausible_distance_m": 2000.0,
+              "resulting_dynamic_radius_m": 516.2,
+              "experimental_formula": "clamp(minimum, maximum, minimum + 0.1*projected_motion_capped + method_penalty + half_candidate_diagonal_capped)"
+            },
+            "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+            "projection_quality": "HIGH",
+            "nearest_observation_gap_seconds": 2,
+            "bracket_span_seconds": 6,
+            "motion_distance_from_nearest_observation_m": 20.6,
+            "effective_sog_knots": 20.02,
+            "effective_cog_degrees": 260.68,
+            "input_observations": [
+              {
+                "observed_at": "2026-08-16T05:23:58+00:00",
+                "latitude": 54.560242,
+                "longitude": 12.130503,
+                "sog_knots": 20.2,
+                "cog_degrees": 258.8,
+                "true_heading_degrees": 263,
+                "navigational_status": "Under way using engine"
+              },
+              {
+                "observed_at": "2026-08-16T05:24:04+00:00",
+                "latitude": 54.560152,
+                "longitude": 12.129557,
+                "sog_knots": 20.1,
+                "cog_degrees": 259.8,
+                "true_heading_degrees": 261,
+                "navigational_status": "Under way using engine"
+              }
+            ],
+            "limitations": [
+              "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+            ]
+          },
+          "ambiguity_reasons": [],
+          "candidate_competition": {},
+          "current_ais_used": false,
+          "dark_vessel_claim": false,
+          "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SARCAND-20260816T052402Z-0006",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.226891,
+          54.5183467
+        ]
+      },
+      "properties": {
+        "feature_kind": "SAR_CANDIDATE",
+        "candidate_status": "UNREVIEWED_SAR_CANDIDATE",
+        "review_status": "unreviewed",
+        "analyst_disposition": null,
+        "classification": "UNCLASSIFIED_BRIGHT_RETURN",
+        "candidate_is_not_vessel_classification": true,
+        "human_visual_review_required": true,
+        "downstream_eligible": false,
+        "scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+        "catalogue_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+        "acquisition_time": "2026-08-16T05:24:02Z",
+        "platform": "Sentinel-1C",
+        "instrument_mode": "IW",
+        "product_level": "GRD Level-1",
+        "polarizations": [
+          "VV",
+          "VH"
+        ],
+        "detection_method": {
+          "algorithm": "CA_CFAR",
+          "implementation_version": "0.1.0-prototype",
+          "primary_band": "VV",
+          "detected_by_profiles": [
+            "balanced",
+            "exploratory_local"
+          ],
+          "profile_count": 2,
+          "parameter_consensus": "MULTI_PROFILE",
+          "profile_max_threshold_excess_db": {
+            "balanced": 0.6976,
+            "exploratory_local": 0.4354
+          },
+          "vh_role": "corroboration_only",
+          "vh_cfar_corroborated": true,
+          "vh_max_threshold_excess_db": 3.558
+        },
+        "signature_measurements": {
+          "vv_peak_linear_power": 3.88961577,
+          "vv_peak_db": 5.8991,
+          "vh_at_vv_peak_linear_power": 0.63086998,
+          "vh_at_vv_peak_db": -2.0006,
+          "primary_seed_pixel_count": 2,
+          "seed_bbox_pixels": {
+            "row_min": 1575,
+            "row_max": 1575,
+            "column_min": 1784,
+            "column_max": 1785
+          },
+          "approximate_axis_aligned_signature_span_m": {
+            "x": 20.0,
+            "y": 10.0
+          },
+          "span_is_not_vessel_length": true
+        },
+        "spatial_quality": {
+          "open_water_aoi_reviewed": true,
+          "coastline_mask_integrated": true,
+          "land_mask_source": "Natural Earth 1:10m land v5.1.1",
+          "land_buffer_radius_px": 100,
+          "common_cfar_border_excluded": true,
+          "quality_flags": [
+            "COARSE_LAND_MASK_APPLIED",
+            "LAND_MASK_GENERALIZATION_REVIEW_REQUIRED",
+            "VH_CFAR_CORROBORATED"
+          ]
+        },
+        "infrastructure_context": {
+          "reference_available": true,
+          "found_within_search_radius": true,
+          "search_radius_nm": 10.0,
+          "review_radius_nm": 1.0,
+          "near_infrastructure_reference": false,
+          "nearest_type": "power_cable",
+          "nearest_reference_id": "pcablesbshcontis.4",
+          "nearest_name": "pcablesbshcontis.4",
+          "nearest_distance_nm": 3.7973,
+          "source": "local EMODnet reference snapshot"
+        },
+        "ais_context_status": "AMBIGUOUS",
+        "ais_match_status": "AMBIGUOUS",
+        "current_ais_overlaid": false,
+        "dark_vessel_claim": false,
+        "assessment_limit": "Experimental CFAR bright-return groups are not vessel classifications. No AIS data was retrieved or overlaid, no claim about a so-called dark vessel is made, and every candidate requires visual analyst review before any later use.",
+        "detection_id": "SARCAND-20260816T052402Z-0006",
+        "centroid_pixel": {
+          "row": 1575.0,
+          "column": 1784.524
+        },
+        "previous_ais_context_status": "NOT_CHECKED",
+        "historical_ais_context": {
+          "status": "AMBIGUOUS",
+          "source_provider": "ais_dk_historical",
+          "source_archive_date": "2026-08-16",
+          "scene_acquisition_time_utc": "2026-08-16T05:24:02Z",
+          "time_window_minutes": {
+            "before": 30,
+            "after": 30
+          },
+          "matching_method": "projected_position_dynamic_radius_pilot",
+          "parameters_are_experimental": true,
+          "coverage_sufficient_for_available_ais_comparison": true,
+          "plausible_alternative_count": 1,
+          "plausible_alternatives_truncated": false,
+          "plausible_alternatives": [
+            {
+              "mmsi": "352005354",
+              "imo": "9389071",
+              "name": "TANGO 2",
+              "callsign": "3E8640",
+              "ship_type_label": "Tanker",
+              "reported_length_m": 244.0,
+              "projected_position": {
+                "longitude": 12.2276844,
+                "latitude": 54.5200869,
+                "time_utc": "2026-08-16T05:24:02Z"
+              },
+              "distance_to_sar_candidate_m": 200.2,
+              "within_dynamic_radius": true,
+              "within_maximum_plausible_distance": true,
+              "dynamic_radius": {
+                "minimum_radius_m": 500.0,
+                "movement_uncertainty_m": 2.08,
+                "projection_method_penalty_m": 0.0,
+                "candidate_extent_allowance_m": 11.18,
+                "maximum_plausible_distance_m": 2000.0,
+                "resulting_dynamic_radius_m": 513.26,
+                "experimental_formula": "clamp(minimum, maximum, minimum + 0.1*projected_motion_capped + method_penalty + half_candidate_diagonal_capped)"
+              },
+              "projection_method": "LINEAR_INTERPOLATION_BRACKETED",
+              "projection_quality": "HIGH",
+              "nearest_observation_gap_seconds": 4,
+              "bracket_span_seconds": 11,
+              "motion_distance_from_nearest_observation_m": 20.84,
+              "effective_sog_knots": 10.13,
+              "effective_cog_degrees": 197.36,
+              "input_observations": [
+                {
+                  "observed_at": "2026-08-16T05:23:55+00:00",
+                  "latitude": 54.5204,
+                  "longitude": 12.227853,
+                  "sog_knots": 10.0,
+                  "cog_degrees": 198.1,
+                  "true_heading_degrees": 199,
+                  "navigational_status": "Constrained by her draught"
+                },
+                {
+                  "observed_at": "2026-08-16T05:24:06+00:00",
+                  "latitude": 54.519908,
+                  "longitude": 12.227588,
+                  "sog_knots": 10.0,
+                  "cog_degrees": 197.4,
+                  "true_heading_degrees": 199,
+                  "navigational_status": "Constrained by her draught"
+                }
+              ],
+              "limitations": [
+                "SAR_AZIMUTH_DOPPLER_SHIFT_NOT_CORRECTED"
+              ]
+            }
+          ],
+          "selected_match": null,
+          "ambiguity_reasons": [
+            "ONE_AIS_VESSEL_PLAUSIBLE_FOR_MULTIPLE_SAR_CANDIDATES"
+          ],
+          "candidate_competition": {
+            "352005354": [
+              "SARCAND-20260816T052402Z-0002",
+              "SARCAND-20260816T052402Z-0006"
+            ]
+          },
+          "current_ais_used": false,
+          "dark_vessel_claim": false,
+          "assessment_limit": "This is an experimental comparison with a reception-dependent historical AIS archive. A missing match is not proof that AIS was disabled, and neither a match nor an unmatched SAR return establishes vessel identity, conduct, legality or intent."
+        }
+      }
+    }
+  ]
+}

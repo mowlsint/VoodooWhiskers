@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "pilot_id": "kadetrinne-s1c-20260816",
+  "name": "Kadetrinne open-water Sentinel-1C pilot",
+  "description": "Small open-water pilot area selected for the first authenticated Copernicus catalogue and later single-scene SAR processing test.",
+  "collection": "sentinel-1-grd",
+  "expected_cdse_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG",
+  "expected_sentinel_hub_product_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+  "time_range": {
+    "from": "2026-08-16T05:23:30Z",
+    "to": "2026-08-16T05:25:00Z"
+  },
+  "aoi": {
+    "name": "Kadetrinne open water east of Fehmarn",
+    "bbox_wgs84": [
+      11.95,
+      54.48,
+      12.25,
+      54.66
+    ],
+    "approx_width_m": 19338,
+    "approx_height_m": 20015,
+    "description": "Technical calibration area chosen to reduce immediate land and harbour clutter while retaining commercial traffic and matching Danish historical AIS availability. It is not a legal or jurisdictional boundary."
+  },
+  "processing_plan": {
+    "sensor": "Sentinel-1",
+    "product_level": "Level-1 GRD",
+    "acquisition_mode": "IW",
+    "polarizations": [
+      "VV",
+      "VH"
+    ],
+    "resolution_m": 10,
+    "expected_width_px": 1934,
+    "expected_height_px": 2002,
+    "maximum_process_api_dimension_px": 2500,
+    "orthorectification_planned": true,
+    "raw_product_download_planned": false
+  },
+  "guardrails": {
+    "manual_workflow_only": true,
+    "raw_download_performed_in_phase_1": false,
+    "publish_public_layer_in_phase_1": false,
+    "modify_magic_paws_in_phase_1": false,
+    "modify_gfw_products_in_phase_1": false,
+    "current_ais_must_not_be_overlaid": true
+  }
+}

@@ -1,0 +1,40 @@
+name: Review archived AIS and GFW context for SAR candidates
+
+on:
+  workflow_dispatch:
+    inputs:
+      fetch_delayed_gfw_context:
+        description: Fetch bounded GFW context for the stored scene acquisition day and AOI
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  historical-context:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Install existing HTTP dependency used by shared AIS modules
+        run: pip install "requests>=2.32,<3"
+      - name: Optionally fetch GFW for the actual scene time and footprint
+        if: ${{ inputs.fetch_delayed_gfw_context == true }}
+        env:
+          GFW_TOKEN: ${{ secrets.GFW_TOKEN }}
+        run: python scripts/fetch_gfw_context.py --candidates data/sar_copernicus_cfar_candidates_latest.geojson
+      - name: Compare stored candidates at their acquisition time
+        run: python scripts/copernicus_historical_context.py
+      - name: Save bounded analyst review outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: sar-historical-context-review
+          path: |
+            data/sar_historical_context_latest.geojson
+            data/sar_historical_review_queue_latest.json
+          retention-days: 3
+          if-no-files-found: error

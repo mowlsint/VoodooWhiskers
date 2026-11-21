@@ -1,0 +1,208 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-19T12:29:52Z",
+  "status": "ok",
+  "phase": "single_scene_process_api_chip",
+  "provider": "copernicus_data_space_ecosystem",
+  "pilot_id": "kadetrinne-s1c-20260816",
+  "pilot_name": "Kadetrinne open-water Sentinel-1C pilot",
+  "expected_scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG",
+  "aoi": {
+    "name": "Kadetrinne open water east of Fehmarn",
+    "bbox_wgs84": [
+      11.95,
+      54.48,
+      12.25,
+      54.66
+    ],
+    "approx_width_m": 19338,
+    "approx_height_m": 20015,
+    "description": "Technical calibration area chosen to reduce immediate land and harbour clutter while retaining commercial traffic and matching Danish historical AIS availability. It is not a legal or jurisdictional boundary."
+  },
+  "configured_time_range": {
+    "from": "2026-08-16T05:23:30Z",
+    "to": "2026-08-16T05:25:00Z"
+  },
+  "request_summary": {
+    "endpoint": "https://sh.dataspace.copernicus.eu/process/v1",
+    "crs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+    "width_px": 1934,
+    "height_px": 2002,
+    "bands": [
+      "VV",
+      "VH",
+      "dataMask"
+    ],
+    "band_units": [
+      "LINEAR_POWER",
+      "LINEAR_POWER",
+      "DN"
+    ],
+    "sample_type": "FLOAT32",
+    "format": "image/tiff",
+    "data_filter": {
+      "resolution": "HIGH",
+      "acquisition_mode": "IW",
+      "polarization": "DV",
+      "orbit_direction": "DESCENDING",
+      "mosaicking_order": "mostRecent"
+    },
+    "processing": {
+      "back_coeff": "GAMMA0_ELLIPSOID",
+      "orthorectify": true,
+      "dem_instance": "COPERNICUS_30",
+      "speckle_filter": "NONE",
+      "radiometric_terrain_correction": false
+    },
+    "evalscript_sha256": "7edaf5887ad5f775fd64033110d225d5f2eac93210a4432b7eb78d86f6e870dd"
+  },
+  "processing_unit_estimate": {
+    "estimated_processing_units": 39.387,
+    "factors": {
+      "output_pixels_vs_512_square": 14.770004,
+      "two_chargeable_bands_vs_three": 0.666667,
+      "float32_tiff": 2.0,
+      "one_data_sample": 1.0,
+      "orthorectification": 2.0,
+      "speckle_filter": 1.0,
+      "radiometric_terrain_correction": 1.0
+    },
+    "estimate_only": true
+  },
+  "oauth": {
+    "oauth_client_credentials_valid": true,
+    "access_token_received": true,
+    "token_type": "Bearer",
+    "expires_in_seconds": 1800,
+    "client_id_or_secret_persisted": false,
+    "access_token_persisted": false
+  },
+  "catalogue_confirmation": {
+    "endpoint": "https://sh.dataspace.copernicus.eu/catalog/v1/search",
+    "authenticated": true,
+    "returned_features": 1,
+    "exact_scene_found_once": true,
+    "single_scene_guard_passed": true
+  },
+  "selected_scene": {
+    "catalogue_item_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+    "matched_scene_identifier": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E_COG.SAFE",
+    "normalized_scene_id": "S1C_IW_GRDH_1SDV_20260816T052402_20260816T052427_009016_011E61_438E",
+    "datetime": "2026-08-16T05:24:02Z"
+  },
+  "raster_download_performed": true,
+  "raster_response_bytes": 24863390,
+  "raster_sha256": "9bb682e4089998d887df5e5bcb0121fc4ef7bd6574e79fce567167e280281289",
+  "process_api_content_type": "image/tiff",
+  "process_api_reported_processing_units": 39.38667923371031,
+  "temporary_raster_written": true,
+  "temporary_raster_deleted": true,
+  "raster_persisted": false,
+  "raster_artifact_uploaded": false,
+  "raster_validation": {
+    "shape": [
+      2002,
+      1934,
+      3
+    ],
+    "dtype": "float32",
+    "axes_reported_by_tifffile": "YXS",
+    "page_count": 1,
+    "byte_order": ">",
+    "bands": [
+      "VV",
+      "VH",
+      "dataMask"
+    ],
+    "band_units": [
+      "LINEAR_POWER",
+      "LINEAR_POWER",
+      "DN"
+    ],
+    "valid_pixels": 3871868,
+    "total_pixels": 3871868,
+    "valid_fraction": 1.0,
+    "data_mask_min": 1.0,
+    "data_mask_max": 1.0,
+    "geotiff": {
+      "spatial_transform_present": true,
+      "geo_key_directory_present": true,
+      "model_pixel_scale": [
+        0.0001551189,
+        8.99101e-05,
+        0.0
+      ],
+      "model_tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        11.95,
+        54.66,
+        0.0
+      ],
+      "model_transformation_present": false
+    },
+    "band_statistics": {
+      "VV": {
+        "valid_samples": 3871868,
+        "positive_samples": 3871189,
+        "linear_power": {
+          "min": 0.0,
+          "max": 44.349193573,
+          "mean": 0.0261379778,
+          "stddev": 0.0823968202,
+          "p50": 0.0211598268,
+          "p90": 0.043178618,
+          "p95": 0.0534298187,
+          "p99": 0.1122685473,
+          "p99_9": 0.2991003683
+        },
+        "decibels": {
+          "min": -60.8269119263,
+          "max": 16.4688568115,
+          "mean": -16.8907032013,
+          "p50": -16.7444190979,
+          "p90": -13.6472120285,
+          "p95": -12.7220468521,
+          "p99": -9.4959605789,
+          "p99_9": -5.2416847229
+        }
+      },
+      "VH": {
+        "valid_samples": 3871868,
+        "positive_samples": 1973825,
+        "linear_power": {
+          "min": 0.0,
+          "max": 2.8748950958,
+          "mean": 0.0011399856,
+          "stddev": 0.00718656,
+          "p50": 2.49752e-05,
+          "p90": 0.0018204031,
+          "p95": 0.0027746799,
+          "p99": 0.0252165496,
+          "p99_9": 0.0669495641
+        },
+        "decibels": {
+          "min": -95.7554321289,
+          "max": 4.5862197876,
+          "mean": -31.4988307953,
+          "p50": -31.0187110901,
+          "p90": -25.6194255829,
+          "p95": -23.1935081482,
+          "p99": -14.1832732391,
+          "p99_9": -10.9643270111
+        }
+      }
+    }
+  },
+  "raw_product_download_performed": false,
+  "ais_download_performed": false,
+  "detection_performed": false,
+  "public_layer_modified": false,
+  "gfw_products_modified": false,
+  "magic_paws_modified": false,
+  "current_ais_must_not_be_overlaid": true,
+  "assessment_limit": "This phase validates one temporary Sentinel-1 raster only. It does not perform vessel detection, AIS matching, or assessment of identity, intent, legality, or AIS disablement.",
+  "next_phase": "single_scene_cfar_candidate_extraction",
+  "errors": []
+}
