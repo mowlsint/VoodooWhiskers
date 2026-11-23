@@ -64,19 +64,19 @@ class RussiaVoyagePolicyTests(unittest.TestCase):
                             recent_russian_portcall_unconfirmed_10d=True,
                             recent_russian_portcall_confirmed_10d=True,
                             recent_ru_portcall_basis="destination_changed_after_russian_destination")
-        row = classify_contact(stale, empty_watch, PORTS, empty_flags, {"imo": {}, "mmsi": {}})
+        row = classify_contact(stale, empty_watch, PORTS, empty_flags, {"imo": {}, "mmsi": {}}, now=NOW)
         self.assertFalse(row["from_russia_confirmed"])
         self.assertFalse(row["to_russia_declared"])
         self.assertFalse(row["recent_russian_portcall_unconfirmed_10d"])
         self.assertNotIn("russia_voyage", row["categories"])
         self.assertNotIn("recent_russian_portcall_10d", row["categories"])
         active = classify_contact(self.source(destination="RU ULU"), empty_watch,
-                                  PORTS, empty_flags, {"imo": {}, "mmsi": {}})
+                                  PORTS, empty_flags, {"imo": {}, "mmsi": {}}, now=NOW)
         self.assertIn("russia_voyage", active["categories"])
         self.assertEqual(active["russia_voyage_type"], "current_declared_russian_destination")
         visit = classify_contact(self.source(destination="NL RTM",
                                     last_ru_port_date=at(days=5), last_ru_port="Ust-Luga"),
-                                 empty_watch, PORTS, empty_flags, {"imo": {}, "mmsi": {}})
+                                 empty_watch, PORTS, empty_flags, {"imo": {}, "mmsi": {}}, now=NOW)
         self.assertIn("recent_russian_portcall_10d", visit["categories"])
         self.assertIn("russia_voyage", visit["categories"])
 
