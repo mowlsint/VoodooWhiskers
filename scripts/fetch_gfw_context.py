@@ -204,7 +204,7 @@ def fetch_daily_events(session, selected_regions, now):
             "attribution": ATTRIBUTION,
             "license": "CC BY-NC 4.0",
             "queries": queries,
-        }, "events", max_bytes=4 * 1024 * 1024 - 128 * 1024)
+        }, "events", max_bytes=12 * 1024 * 1024 - 128 * 1024)
         size_limited = bool(product.get("cap_applied"))
         product["coverage_complete"] = not size_limited
         product["status"] = "storage_limited" if size_limited else "complete"
@@ -227,6 +227,8 @@ def fetch_daily_events(session, selected_regions, now):
         "coverage_start_date": start_date.isoformat(),
         "coverage_end_date_exclusive": end_date.isoformat(),
         "provider_delay_days": 4,
+        "canonical_shard_manifest": "./gfw_events_14d/manifest.json",
+        "canonical_max_event_bytes": 12 * 1024 * 1024,
         "expected_query_count": expected_queries,
         "completed_query_count": len(completed_queries),
         "query_count": len(queries),
@@ -248,7 +250,7 @@ def fetch_daily_events(session, selected_regions, now):
         "message": (
             "All GFW event queries completed."
             if coverage_complete else
-            "All queries completed, but the 4 MiB output bound removed some events."
+            "All queries completed, but the 12 MiB canonical event budget removed some events."
             if size_limited else
             "Event coverage is incomplete; the last complete product was preserved when available."
         ),
