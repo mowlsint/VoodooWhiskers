@@ -5,7 +5,9 @@ Unique blob volume is informational. Budgets still count every staged path in fu
 import json
 import os
 import subprocess
+import time
 from pathlib import Path
+from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -80,13 +82,37 @@ def check(policy, repository_bytes, pending_bytes, active_bytes):
         raise ValueError(errors[0])
 
 
+class RepositorySizeLookupError(RuntimeError):
+    """Error identifier safe to include in workflow diagnostics (never raw API text)."""
+
+
 def repository_size_bytes(repo):
     headers = {'Accept': 'application/vnd.github+json'}
     token = os.environ.get('GITHUB_TOKEN') or os.environ.get('GH_TOKEN')
     if token:
         headers['Authorization'] = 'Bearer ' + token
-    with urlopen(Request('https://api.github.com/repos/' + repo, headers=headers), timeout=30) as response:
-        return int(json.load(response)['size']) * 1024
+    request = Request('https://api.github.com/repos/' + repo, headers=headers)
+    for attempt in range(3):
+        try:
+            with urlopen(request, timeout=20) as response:
+                payload = json.load(response)
+            size = payload.get('size') if isinstance(payload, dict) else None
+            if type(size) is not int or size < 0:
+                raise RepositorySizeLookupError('invalid_size_response')
+            return size * 1024
+        except HTTPError as exc:
+            status = exc.code
+            rate_limited = status == 403 and (
+                (exc.headers or {}).get('X-RateLimit-Remaining') == '0'
+                or (exc.headers or {}).get('Retry-After') is not None
+            )
+            if not (status in {429, 500, 502, 503, 504} or rate_limited) or attempt == 2:
+                raise RepositorySizeLookupError(f'http_{status}') from None
+        except (URLError, TimeoutError):
+            if attempt == 2:
+                raise RepositorySizeLookupError('transport_error') from None
+        # Small bounded delay; do not hold up the GFW publishing window.
+        time.sleep(2 ** attempt)
 
 
 def active_vessel_bytes(root=ROOT):
@@ -116,9 +142,14 @@ def main(root=ROOT):
         report['active_vessel_headroom_bytes'] = policy['active_vessel_products_bytes'] - active
         try:
             remote = repository_size_bytes(os.environ.get('GITHUB_REPOSITORY', 'mowlsint/VoodooWhiskers'))
-        except Exception:
-            # No response bodies, credentials or exception URLs enter diagnostics.
+        except RepositorySizeLookupError as exc:
             remote = None
+            report['repository_size_lookup_failure'] = str(exc)
+            report['errors'].append('Repository size unavailable; refusing commit')
+        except Exception:
+            # Do not expose response bodies, credentials or exception URLs.
+            remote = None
+            report['repository_size_lookup_failure'] = 'unexpected_error'
             report['errors'].append('Repository size unavailable; refusing commit')
         report['remote_repository_bytes'] = remote
         report['repository_size_basis'] = 'github_reported_size_kib_estimate'
