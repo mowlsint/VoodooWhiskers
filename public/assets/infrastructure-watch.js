@@ -136,7 +136,7 @@
 
   function isPriorityVoi(properties){
     const p = properties || {};
-    if (p.is_priority_voi || p.known_voi_match || p.sanctioned || p.shadow_fleet || p.sanctions_review_required || p.false_flag || p.behavioral_voi || p.from_russia_confirmed) return true;
+    if (p.is_priority_voi || p.known_voi_match || p.sanctioned || p.shadow_fleet || p.sanctions_review_required || p.false_flag || p.behavioral_voi) return true;
     return categoriesOf(p).some(category => DISPLAY_VOI_CATEGORIES.has(category))||VC.describe(p,state.categoryIndex).russia.related;
   }
 
@@ -144,9 +144,9 @@
   function aisSourceLabel(p){return VM.sourceLabel(p);}
   function russianPortcallLabel(properties){
     const p = properties || {};
-    if (p.recent_russian_portcall_confirmed_10d || p.from_russia_confirmed) return "confirmed";
-    if (p.recent_russian_portcall_unconfirmed_10d) return "unconfirmed";
-    if (p.to_russia_declared) return "declared destination only — not a confirmed portcall";
+    const evidence = VC.describe(p,state.categoryIndex).russia;
+    if (evidence.from) return "dated Russian port record (last 10 days)";
+    if (evidence.to) return "recent declared Russian destination (not a confirmed portcall)";
     return "";
   }
 
@@ -579,7 +579,7 @@
       if(layerId==="falseflag_interest") return Boolean(p.false_flag || cats.includes("falseflag_interest"));
       if(layerId==="false_flag_watch") return cats.includes("false_flag_watch");
       if(layerId==="russian_mmsi") return cats.includes("russian_mmsi") || String(p.mmsi || "").startsWith("273");
-      if(layerId==="recent_russian_portcall_10d") return Boolean(p.from_russia_confirmed || cats.includes("recent_russian_portcall_10d"));
+      if(layerId==="recent_russian_portcall_10d") return VC.describe(p,state.categoryIndex).russia.from;
       if(layerId==="behavioral_voi") return Boolean(p.behavioral_voi || cats.includes("behavioral_voi"));
       return false;
     });
@@ -823,8 +823,8 @@
     await loadDynamicData();
     await applyTimeMode("latest");
     await Promise.all([loadSummary(),loadDownloads()]);
-    $('categoryHistoryStatus').textContent='Loading available voyage-text history; categories initially use loaded records.';
-    try{state.trackRows=await loadVoiHistory();renderVesselView();$('categoryHistoryStatus').textContent='Voyage context uses available retained observations; coverage is sampled and may contain gaps.';}
+    $('categoryHistoryStatus').textContent='Russia voyage markers require a dated port visit or recent explicit destination; older route text is ignored.';
+    try{state.trackRows=await loadVoiHistory();renderVesselView();$('categoryHistoryStatus').textContent='Historical observations may add dated port evidence; Russia voyage direction is never inferred from vague or old destination text.';}
     catch{$('categoryHistoryStatus').textContent='Voyage history unavailable; categories use loaded records. This is not evidence of no earlier Russia reference.';}
   }
 
