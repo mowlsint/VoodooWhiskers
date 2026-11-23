@@ -47,7 +47,8 @@ def main() -> int:
     products = []
     specs = [
         ("gfw_presence_cells_latest.json", "GFW historical AIS presence grid", "ais_history", "Anonymous hourly 0.01-degree cells; no vessel identities or live positions. Powered by Global Fishing Watch; CC BY-NC 4.0."),
-        ("gfw_events_latest.json", "GFW loitering and AIS-gap context", "ais_history", "Delayed provider behavior events for analyst review; no automatic intent finding. Powered by Global Fishing Watch; CC BY-NC 4.0."),
+        ("gfw_events_latest.json", "GFW loitering and AIS-gap preview", "ais_history", "Single-file compatibility preview, possibly sampled. For complete retained event coverage use the 14-day shard manifest. Global Fishing Watch; CC BY-NC 4.0."),
+        ("gfw_events_14d_manifest.json", "GFW loitering and AIS-gap — full 14-day shard index", "ais_history", "Manifest listing every retained historical event shard with counts, size and checksums. Global Fishing Watch; CC BY-NC 4.0."),
         ("gfw_events_status_latest.json", "GFW event query coverage status", "ais_history", "Coverage, pagination, provider delay and storage status for the latest delayed event query."),
         ("gfw_context_status_latest.json", "GFW context query status", "ais_history", "Provider failures, truncation and delayed context availability."),
         ("ais_contacts_latest.json", "Current monitored AIS contacts — JSON", "ais", "Filtered Open Waters and regional AIS observations with source timestamps and freshness metadata; reception-dependent sampled coverage."),
@@ -109,6 +110,7 @@ def main() -> int:
         "sar_historical_ais_context": "./data/vessels/sar_ais_context_latest.geojson",
         "sar_status": "./data/vessels/sar_import_status.json",
         "gfw_events": "./data/vessels/gfw_events_latest.json",
+        "gfw_events_full_manifest": "./data/vessels/gfw_events_14d/manifest.json",
         "gfw_events_status": "./data/vessels/gfw_events_status_latest.json",
         "emodnet": "./data/reference/emodnet/manifest.json",
         "infrastructure_events": "./data/analysis/infrastructure_events_latest.json",
