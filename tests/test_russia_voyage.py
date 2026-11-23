@@ -5,6 +5,7 @@ import unittest
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from russia_voyage import classify, destination_target
+from build_layers import classify_contact
 
 NOW = datetime(2026, 11, 23, 7, tzinfo=timezone.utc)
 PORTS = {"codes": {"RUULU", "RUKGD", "RUMMK"},
@@ -54,6 +55,30 @@ class RussiaVoyagePolicyTests(unittest.TestCase):
                                last_ru_port_date=at(days=11)),PORTS,NOW)["visit"])
         self.assertFalse(classify(self.source(last_port_name="Rotterdam",
                                last_ru_port_date=at(days=1)),PORTS,NOW)["visit"])
+
+    def test_pipeline_does_not_promote_unconfirmed_russia_context(self):
+        empty_watch = {"imo": {}, "mmsi": {}, "callsign": {}, "name": {}}
+        empty_flags = {"by_name": {}, "by_iso": {}, "by_mid": {}}
+        stale = self.source(destination="NL RTM",
+                            to_russia_declared=True, from_russia_confirmed=True,
+                            recent_russian_portcall_unconfirmed_10d=True,
+                            recent_russian_portcall_confirmed_10d=True,
+                            recent_ru_portcall_basis="destination_changed_after_russian_destination")
+        row = classify_contact(stale, empty_watch, PORTS, empty_flags, {"imo": {}, "mmsi": {}})
+        self.assertFalse(row["from_russia_confirmed"])
+        self.assertFalse(row["to_russia_declared"])
+        self.assertFalse(row["recent_russian_portcall_unconfirmed_10d"])
+        self.assertNotIn("russia_voyage", row["categories"])
+        self.assertNotIn("recent_russian_portcall_10d", row["categories"])
+        active = classify_contact(self.source(destination="RU ULU"), empty_watch,
+                                  PORTS, empty_flags, {"imo": {}, "mmsi": {}})
+        self.assertIn("russia_voyage", active["categories"])
+        self.assertEqual(active["russia_voyage_type"], "current_declared_russian_destination")
+        visit = classify_contact(self.source(destination="NL RTM",
+                                    last_ru_port_date=at(days=5), last_ru_port="Ust-Luga"),
+                                 empty_watch, PORTS, empty_flags, {"imo": {}, "mmsi": {}})
+        self.assertIn("recent_russian_portcall_10d", visit["categories"])
+        self.assertIn("russia_voyage", visit["categories"])
 
     def test_unreliable_position_never_proves_a_current_destination(self):
         self.assertFalse(classify(self.source(destination="RU ULU",
