@@ -1,0 +1,32 @@
+name: Verify strict Russia-voyage evidence
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/verify-russia-voyage.yml"
+      - "scripts/russia_voyage.py"
+      - "scripts/build_layers.py"
+      - "scripts/build_public_outputs.py"
+      - "tests/test_russia_voyage.py"
+      - "tests/test_vessel_categories.cjs"
+      - "public/assets/vessel-categories.js"
+      - "public/assets/infrastructure-watch.js"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Strict Russia voyage policy and layer classification
+        run: python -m unittest discover -s tests -p test_russia_voyage.py -v
+      - name: Map category and historical evidence regression
+        run: node --test tests/test_vessel_categories.cjs
