@@ -86,6 +86,33 @@ jobs:
           set -euo pipefail
           python scripts/build_layers.py
 
+      - name: Audit dated Russia voyage classifications before publication
+        run: |
+          python - <<'PY'
+          import json, sys
+          from pathlib import Path
+          sys.path.insert(0, 'scripts')
+          from build_layers import load_russian_ports
+          from russia_voyage import classify
+          ports = load_russian_ports()
+          items = json.loads(Path('data/voi_snapshot_latest.json').read_text())['items']
+          visits = destinations = rejected = 0
+          for item in items:
+              categories = set(item.get('categories') or [])
+              evidence = classify(item, ports)
+              if 'russia_voyage' in categories:
+                  if not (evidence['visit'] or evidence['bound']):
+                      rejected += 1
+                  visits += bool(evidence['visit'])
+                  destinations += bool(evidence['bound'])
+              if 'recent_russian_portcall_10d' in categories and not evidence['visit']:
+                  rejected += 1
+          print(f'Russia voyage audit: {visits} dated visits, '
+                f'{destinations} current declared destinations, {rejected} rejected categories')
+          if rejected:
+              raise SystemExit('Invalid Russian-voyage classification; refusing publication')
+          PY
+
       - name: Validate bounded 14-day VOI history
         run: |
           set -euo pipefail
