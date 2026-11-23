@@ -8,6 +8,15 @@ on:
       - ".github/workflows/update-gfw-loitering-events.yml"
       - "scripts/repo_storage_guard.py"
       - "tests/test_repo_storage_guard.py"
+      - "scripts/fetch_gfw_context.py"
+      - "scripts/build_public_outputs.py"
+      - "scripts/build_public_manifest.py"
+      - "scripts/gfw_event_shards.py"
+      - "tests/test_gfw_event_shards.py"
+      - "tests/test_gfw_event_shards.cjs"
+      - "public/assets/gfw-events.js"
+      - "public/assets/infrastructure-watch.js"
+      - "public/index.html"
   # Run after the daily AIS and presence windows; event pagination is isolated from AIS ingestion.
   schedule:
     - cron: "10 5 * * *"
@@ -47,6 +56,11 @@ jobs:
       - name: Verify storage-guard regression tests
         run: python -m unittest discover -s tests -p test_repo_storage_guard.py -v
 
+      - name: Verify complete GFW event shards and map loader
+        run: |
+          python -m unittest discover -s tests -p test_gfw_event_shards.py -v
+          node tests/test_gfw_event_shards.cjs
+
       - name: Fetch delayed GFW Loitering and AIS-gap events
         env:
           GFW_TOKEN: ${{ secrets.GFW_TOKEN }}
@@ -74,6 +88,7 @@ jobs:
             public/data/vessels/gfw_events_latest.json
             public/data/vessels/gfw_events_status_latest.json
             public/downloads/gfw_events_latest.json
+            public/downloads/gfw_events_14d_manifest.json
             public/downloads/gfw_events_status_latest.json
             public/data/manifest.json
             public/downloads/manifest.json
@@ -81,6 +96,10 @@ jobs:
           for file in "${files[@]}"; do
             [ -e "$file" ] && git add "$file"
           done
+          # Stage new and removed shard parts; never leave stale parts in runtime-data.
+          if [ -d public/data/vessels/gfw_events_14d ]; then
+            git add -A -- public/data/vessels/gfw_events_14d
+          fi
           if git diff --cached --quiet; then
             echo "No GFW event product changes."
             exit 0
