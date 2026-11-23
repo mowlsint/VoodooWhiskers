@@ -73,6 +73,7 @@ PRIORITY_CATEGORIES = {
     "watchlist",
     "russian_mmsi",
     "recent_russian_portcall_10d",
+    "russia_voyage",
     "behavioral_voi",
 }
 
