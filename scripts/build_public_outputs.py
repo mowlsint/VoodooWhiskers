@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from data_retention import bound_gfw
+from gfw_event_shards import write_event_shards
 from vessel_identity import resolve as resolve_vessel_rows
 from voi_history import (
     history_jsonl_paths,
@@ -750,9 +751,26 @@ def main() -> int:
                 raise ValueError(f"Invalid historical GFW product: {filename}")
             if src.stat().st_size > 25*1024*1024:
                 raise ValueError(f"Oversized GFW context product: {filename}")
-            if filename in ('gfw_presence_cells_latest.json', 'gfw_events_latest.json'):
-                content=bound_gfw(content,'events' if filename=='gfw_events_latest.json' else 'presence')
-                atomic_json(src,content)
+            if filename == "gfw_events_latest.json":
+                # The source is the complete bounded 14-day dataset. The old
+                # single-file product remains a small backward-compatible preview.
+                # Never shrink the canonical source to fit that preview.
+                full = write_event_shards(content, VESSEL_DIR / "gfw_events_14d", atomic_json)
+                download_index = json.loads(json.dumps(full))
+                download_index["kind"] = "gfw_events_14d_download_index"
+                download_index["canonical_manifest_href"] = "../data/vessels/gfw_events_14d/manifest.json"
+                for part in download_index["parts"]:
+                    part["href"] = "../data/vessels/gfw_events_14d/" + part["filename"]
+                atomic_json(DOWNLOAD_DIR / "gfw_events_14d_manifest.json", download_index)
+                content = bound_gfw(content, "events", max_bytes=4 * 1024 * 1024 - 128 * 1024)
+                content["coverage_complete"] = full["coverage_complete"] and not content["cap_applied"]
+                content["status"] = ("compatibility_limited" if content["cap_applied"]
+                                     else full["status"])
+                content["canonical_shard_manifest"] = "./gfw_events_14d/manifest.json"
+                content["canonical_event_count"] = full["event_count"]
+            elif filename == "gfw_presence_cells_latest.json":
+                content = bound_gfw(content, "presence")
+                atomic_json(src, content)
             atomic_json(VESSEL_DIR / filename, content)
             atomic_json(DOWNLOAD_DIR / filename, content)
 
