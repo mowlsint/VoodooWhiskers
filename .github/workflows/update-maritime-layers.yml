@@ -1,6 +1,17 @@
 name: Update maritime layers
 
 on:
+  # Publish corrected categories immediately when the classification policy changes.
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/update-maritime-layers.yml"
+      - "scripts/russia_voyage.py"
+      - "scripts/build_layers.py"
+      - "scripts/build_public_outputs.py"
+      - "public/assets/vessel-categories.js"
+      - "tests/test_russia_voyage.py"
+      - "tests/test_vessel_categories.cjs"
   # Owner-authorized collection windows; all cron times are UTC.
   schedule:
     - cron: "0 0,4,8,12,16,20 * * *"
@@ -38,6 +49,11 @@ jobs:
         run: |
           set -euo pipefail
           pip install -r requirements-ais.txt
+
+      - name: Validate strict Russian-voyage evidence and browser display
+        run: |
+          python -m unittest discover -s tests -p test_russia_voyage.py -v
+          node --test tests/test_vessel_categories.cjs
 
       - name: Check AIS collector imports without provider calls
         run: |
