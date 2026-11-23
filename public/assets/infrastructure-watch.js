@@ -130,7 +130,7 @@
   }
 
   const DISPLAY_VOI_CATEGORIES = new Set([
-    "watchlist","sanctions","shadow_fleet","sanctions_review","shadowfleet","russian_mmsi",
+    "watchlist","sanctions","shadow_fleet","sanctions_review","shadowfleet",
     "falseflag_interest","false_flag_watch","behavioral_voi","recent_russian_portcall_10d"
   ]);
 
