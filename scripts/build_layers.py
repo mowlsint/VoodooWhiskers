@@ -791,7 +791,7 @@ def tanker_zone_labels(contact):
     return [z["label"] for z in tanker_context_zone_hits(contact)]
 
 
-def classify_contact(contact, watch_index, russian_ports, flag_ref, falseflag_index=None):
+def classify_contact(contact, watch_index, russian_ports, flag_ref, falseflag_index=None, *, now=None):
     merged = dict(contact)
     matched_row, matched_on = match_watchlist(contact, watch_index)
     falseflag_index = falseflag_index or {"imo": {}, "mmsi": {}}
@@ -816,7 +816,7 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref, falseflag_in
     # Rebuild Russia voyage evidence from dated fields on THIS observation.
     # Never promote persisted declarations, expired port flags, a destination
     # change, or a vague/free-text "Russia" mention into this category.
-    ru = classify_russia_voyage(contact, russian_ports)
+    ru = classify_russia_voyage(contact, russian_ports, now=now)
     from_russia_confirmed = ru["visit"]
     to_russia_declared = ru["bound"]
     merged["to_russia_declared"] = to_russia_declared
