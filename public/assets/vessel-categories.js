@@ -12,40 +12,40 @@
     {id:'behavioral_voi',label:'Behavioural VOI',color:'#29c8b9'},
     {id:'watchlist',label:'Other VOI / watchlist',color:'#62a6ff'},
     {id:'sanctions_review',label:'Sanctions status needs review · not confirmed',color:'#d7c879'},
-    {id:'russia_voyage',label:'Russia-related voyage',color:'#ffa84d'},
+    {id:'russia_voyage',label:'Recent Russian port visit / current declared destination',color:'#ffa84d'},
     {id:'russian_mmsi',label:'Russian MMSI context — not a voyage finding',color:'#a5b2bd'},
     {id:'neutral_tanker_context',label:'Neutral tanker context',color:'#8d9ca8'},
     {id:'other',label:'Other monitored vessel',color:'#8d9ca8'}
   ];
   const FLAGS=['sanctioned','shadow_fleet','false_flag','false_flag_candidate','false_flag_hard_watch','sanctions_review_required','known_voi_match','behavioral_voi','neutral_tanker_context','sanctions_listed_historical','to_russia_declared','from_russia_confirmed','recent_russian_portcall_confirmed_10d','recent_russian_portcall_unconfirmed_10d'];
-  const META=[...FLAGS,'categories','source_list','source_url','source_status','source_last_checked','sanctions_verification_status','sanctions_current_status','false_flag_claimed_flag','false_flag_status','false_flag_evidence_tier','false_flag_evidence_summary','false_flag_source_primary','false_flag_source_url','false_flag_additional_sources','false_flag_event_date','false_flag_record_last_checked','false_flag_current_status','recent_ru_portcall_confidence','recent_ru_portcall_basis','recent_ru_portcall_started_at','recent_ru_portcall_until'];
+  const META=[...FLAGS,'categories','source_list','source_url','source_status','source_last_checked','sanctions_verification_status','sanctions_current_status','false_flag_claimed_flag','false_flag_status','false_flag_evidence_tier','false_flag_evidence_summary','false_flag_source_primary','false_flag_source_url','false_flag_additional_sources','false_flag_event_date','false_flag_record_last_checked','false_flag_current_status','recent_ru_portcall_confidence','recent_ru_portcall_basis','recent_ru_portcall_started_at','recent_ru_portcall_until','russia_voyage_type','russia_visit_at','russia_destination_at','russia_visit_port','russia_destination_port'];
   const cats=p=>Array.isArray(p.categories)?p.categories.map(String):text(p.categories).split(/[;,]/).map(s=>s.trim()).filter(Boolean);
   const normalize=v=>text(v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]+/g,' ').trim();
   const PLACE_NAMES=new Set(PORTS.flatMap(p=>[p.name,p.code,...p.aliases]).map(normalize));
-  const MENTION_NAMES=[...PLACE_NAMES].filter(n=>n.length>=4);
-  const negated=v=>/\bNO (?:RUSSIAN?|RUSSIA|RUS)(?: |$)|\bNO (?:LINK|CONNECTION) (?:TO |WITH )?RUSSIA\b/.test(normalize(v));
+  const normalizePort=v=>normalize(v).replace(/ /g,'');
+  const PLACE_KEYS=new Set(PORTS.flatMap(p=>[p.name,p.code,...p.aliases]).map(normalizePort).filter(v=>v.length>=4));
   function russianPlace(value){
-    const n=normalize(value),compact=n.replace(/ /g,'');
-    if(/\bRU\s?[A-Z0-9]{3}\b/.test(n)||n==='RU'||n==='RUS'||n==='RUSSIA')return true;
-    return PLACE_NAMES.has(compact)||PLACE_NAMES.has(n);
-  }
-  function mention(value){
-    const n=normalize(value);
-    if(negated(n))return false;
-    return /\bRU\s?[A-Z0-9]{3}\b|\bRUSSIA\b|\bRUSSIAN\b/.test(n)||MENTION_NAMES.some(a=>(' '+n+' ').includes(' '+a+' '));
+    const n=normalizePort(value);
+    return n.length>=4&&PLACE_KEYS.has(n);
   }
   function parseVoyage(value){
-    const raw=text(value),parts=raw.replace(/→|->|=>/g,'>').split('>').map(s=>s.trim());
-    if(parts.length===2&&parts.every(Boolean)&&!/[<>]/.test(parts.join(''))){
-      const from=russianPlace(parts[0]),to=russianPlace(parts[1]);
-      return {raw,from,to,related:from||to||mention(raw),explicit_route:true,basis:'AIS departure > destination declaration'};
+    const raw=text(value),norm=raw.replace(/\\s*(?:→|->|=>)\\s*/g,'>');
+    const parts=norm.split('>').map(s=>s.trim());
+    let from=false,to=false,explicit_route=false;
+    if(parts.length===2&&parts.every(Boolean)){
+      from=russianPlace(parts[0]);to=russianPlace(parts[1]);explicit_route=true;
+    }else if(parts.length>1){return {raw,from:false,to:false,related:false,explicit_route:false,basis:'Ambiguous multi-leg voyage'};}
+    else{
+      const route=norm.match(/^FROM\\s+(.+?)\\s+TO\\s+(.+)$/i);
+      if(route){from=russianPlace(route[1]);to=russianPlace(route[2]);explicit_route=true;}
+      else if(/^FROM\\s+/i.test(norm)){from=russianPlace(norm.replace(/^FROM\\s+/i,''));explicit_route=true;}
+      else {const target=norm.match(/^TO\\s+(.+)$/i);to=russianPlace(target?target[1]:norm);}
     }
-    if(parts.length>1||/[<>]/.test(raw))return {raw,from:false,to:false,related:mention(raw),explicit_route:false,basis:'Ambiguous/multi-leg AIS voyage text'};
-    const origin=raw.match(/^FROM\s+(.+?)(?:\s+TO\s+(.+))?$/i),target=raw.match(/^TO\s+(.+)$/i);
-    if(origin)return {raw,from:russianPlace(origin[1]),to:origin[2]?russianPlace(origin[2]):false,related:mention(raw),explicit_route:true,basis:'Explicit FROM/TO voyage text'};
-    if(target)return {raw,from:false,to:russianPlace(target[1]),related:mention(raw),explicit_route:false,basis:'Explicit TO voyage text'};
-    return {raw,from:false,to:russianPlace(raw),related:mention(raw),explicit_route:false,basis:'AIS destination-field declaration'};
+    return {raw,from,to,related:from||to,explicit_route,
+      basis:explicit_route?'Explicit AIS FROM/TO text':'Explicit AIS destination'};
   }
+  const validTime=(ms,now,maxAge)=>Number.isFinite(ms)&&ms>=now-maxAge&&ms<=now+300000;
+  const pickPort=(p,keys)=>keys.map(k=>p[k]).find(russianPlace);
   const hasMetadata=p=>cats(p).length||['sanctioned','shadow_fleet','sanctions_review_required','known_voi_match','false_flag','false_flag_hard_watch','false_flag_evidence_summary'].some(k=>Object.hasOwn(p,k));
   function index(rows){
     const groups=VM.groups(rows.filter(p=>VM.coordinates(p)&&Number.isFinite(VM.observed(p)))),byKey=new Map(),aliases=new Map();
@@ -65,22 +65,35 @@
     return {...out,...p};
   }
   function russia(p,history=[]){
-    const current=parseVoyage(p.destination),at=VM.observed(p),evidence=[],preceding=boundedRows(p,history).slice().sort((a,b)=>VM.observed(b)-VM.observed(a));
-    const add=(row,parsed,basis)=>{if(parsed.related)evidence.push({raw:parsed.raw,from:parsed.from,to:parsed.to,basis:basis||parsed.basis,observed_at:Number.isFinite(VM.observed(row))?new Date(VM.observed(row)).toISOString():null,source:VM.sourceLabel(row)});};
-    add(p,current);
-    for(const row of preceding){if(evidence.length>=12)break;const parsed=parseVoyage(row.destination);if(parsed.related&&!evidence.some(e=>e.raw===parsed.raw&&e.from===parsed.from&&e.to===parsed.to))add(row,parsed,'Earlier '+parsed.basis);}
-    const port=[p.last_port_name,p.last_port_unlocode,p.last_ru_port,p.last_ru_port_unlocode].map(text).find(russianPlace);
-    if(port)evidence.unshift({raw:port,from:true,to:false,basis:'Provider/manual previous-port field; visit date requires separate evidence',observed_at:p.last_ru_port_date||null,source:VM.sourceLabel(p)});
-    const until=Date.parse(p.recent_ru_portcall_until),active=!Number.isFinite(until)||!Number.isFinite(at)||until>=at;
-    const legacy=active&&(!negated(current.raw)||evidence.length>0)&&(truth(p.recent_russian_portcall_unconfirmed_10d)||truth(p.recent_russian_portcall_confirmed_10d)||truth(p.from_russia_confirmed)||cats(p).includes('recent_russian_portcall_10d'));
-    const suppliedPreviousPort=active&&(truth(p.from_russia_confirmed)||truth(p.recent_russian_portcall_confirmed_10d))&&/^(observed_port_field|persisted_observed_port_field|manual_recent_russian_portcall_input|voi_history_confirmed_portcall)$/.test(text(p.recent_ru_portcall_basis));
-    if(suppliedPreviousPort&&!port)evidence.unshift({raw:text(p.port_codes_seen)||'Russian previous-port indication supplied by the producer',from:true,to:false,basis:'Retained previous-port evidence; not an independently verified visit',observed_at:p.last_ru_port_date||null,source:VM.sourceLabel(p)});
-    const declared=truth(p.to_russia_declared);
-    const direction=current;
-    let from=direction.from||Boolean(port)||suppliedPreviousPort,to=direction.to;
-    const related=current.related||evidence.length>0||legacy||declared;
-    const labels=[];if(from)labels.push('← Likely coming from Russia');if(to)labels.push('→ Likely bound for Russia');if(related&&!labels.length)labels.push('Russia-related — direction unclear');
-    return {related:Boolean(related),from,to,labels,evidence,legacy,basis:legacy?text(p.recent_ru_portcall_basis):'',limit:'AIS declarations/positions are indications, not a verified port visit. Times below identify the accompanying observation or supplied port-date field, not necessarily a fresh transmission of the voyage text.'};
+    const now=Date.now(),at=VM.observed(p),evidence=[];
+    // A historical voyage text, a Russian MMSI, a remembered destination
+    // change and "from Russia" without a dated port visit are NEVER proof.
+    const source=VM.sourceLabel(p);
+    const visitCandidates=[p,...boundedRows(p,history)];
+    let visit=null;
+    for(const row of visitCandidates){
+      const port=pickPort(row,['russia_visit_port','last_ru_port_unlocode','last_ru_port',
+        'last_port_unlocode','last_port_name','port_unlocode','port_name']);
+      const when=Date.parse(row.russia_visit_at||row.last_ru_port_date||
+        row.last_port_date||row.port_observed_at||row.port_call_at||'');
+      const sample=VM.observed(row);
+      if(!port||!validTime(when,now,DAYS*86400000))continue;
+      if(Number.isFinite(sample)&&when>sample+300000)continue;
+      if(!visit||when>visit.when)visit={port,when,row};
+    }
+    if(visit){
+      evidence.push({raw:visit.port,from:true,to:false,basis:'Dated Russian port record (reported, not independently verified)',
+        observed_at:new Date(visit.when).toISOString(),source:VM.sourceLabel(visit.row)});
+    }
+    const destination=parseVoyage(p.destination||p.Destination||p.destination_unlocode||p.next_port);
+    const to=destination.to&&validTime(at,now,72*3600000);
+    if(to)evidence.push({raw:destination.raw,from:false,to:true,basis:'Current AIS destination declaration',
+      observed_at:new Date(at).toISOString(),source});
+    const from=Boolean(visit),related=from||to,labels=[];
+    if(from)labels.push('← Dated Russian port visit · last 10 days');
+    if(to)labels.push('→ Declared destination: Russian port · AIS observation within 72 h');
+    return {related,from,to,labels,evidence,legacy:false,basis:'',
+      limit:'A dated reported port field is not independent proof of a port call. An AIS destination is a declaration, not confirmation of vessel movement. Older or unclear Russia references are not promoted.'};
   }
   function describe(input,context=null){
     const history=Array.isArray(context)?context:context?.lookup(input)||[],p=enrich(input,history),set=new Set(cats(p)),ru=russia(p,history),ids=new Set();
@@ -96,7 +109,7 @@
     if(truth(p.neutral_tanker_context)||set.has('neutral_tanker_context'))ids.add('neutral_tanker_context');
     if(!ids.size&&truth(p.is_priority_voi))ids.add('watchlist');
     const categories=DEFINITIONS.filter(c=>ids.has(c.id));
-    for(const raw of set)if(!['watchlist','watchlist_live','sanctions','shadow_fleet','sanctions_review','sanctions_shadowfleet','shadowfleet','false_flag_watch','falseflag_interest','behavioral_voi','recent_russian_portcall_10d','russian_mmsi','neutral_tanker_context'].includes(raw))categories.push({id:'extra:'+raw,label:text(raw).replace(/_/g,' '),color:'#62a6ff'});
+    for(const raw of set)if(!['watchlist','watchlist_live','sanctions','shadow_fleet','sanctions_review','sanctions_shadowfleet','shadowfleet','false_flag_watch','falseflag_interest','behavioral_voi','recent_russian_portcall_10d','russia_voyage','russian_mmsi','neutral_tanker_context'].includes(raw))categories.push({id:'extra:'+raw,label:text(raw).replace(/_/g,' '),color:'#62a6ff'});
     if(!categories.length)categories.push(DEFINITIONS.at(-1));
     const primary=categories[0],secondary=categories.length>1?categories[1]:null;
     return {properties:p,categories,primary,secondary,russia:ru,style:{fillColor:primary.color,color:secondary?.color||primary.color,weight:secondary?3:1.5,fillOpacity:.85}};
