@@ -1,6 +1,13 @@
 name: Update GFW loitering events
 
 on:
+  # Also verify/publish after targeted workflow or guard changes.
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/update-gfw-loitering-events.yml"
+      - "scripts/repo_storage_guard.py"
+      - "tests/test_repo_storage_guard.py"
   # Run after the daily AIS and presence windows; event pagination is isolated from AIS ingestion.
   schedule:
     - cron: "10 5 * * *"
@@ -37,6 +44,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install "requests>=2.32,<3"
 
+      - name: Verify storage-guard regression tests
+        run: python -m unittest discover -s tests -p test_repo_storage_guard.py -v
+
       - name: Fetch delayed GFW Loitering and AIS-gap events
         env:
           GFW_TOKEN: ${{ secrets.GFW_TOKEN }}
@@ -52,6 +62,8 @@ jobs:
           python -c 'import json; from pathlib import Path; p=json.loads(Path("data/gfw_events_status_latest.json").read_text()); assert p.get("historical") is True'
 
       - name: Commit event products
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
