@@ -127,8 +127,8 @@
       </section>
       <section class="card">
         <details><summary>VOI categories and additional layers</summary><div class="sectionHead"><h2>Vessel layers</h2><button type="button" class="smallButton" id="fitVessels">Fit</button></div>
-        <p class="timeHelp">Default: shadow fleet, watchlisted vessels, other priority VOIs and Russia voyage indications. Neutral tankers and background traffic are optional additions.</p>
-        <label class="control"><input type="checkbox" data-layer="vessel_positions" checked> Categorised vessels · sanctions, shadow fleet, VOIs &amp; Russia voyage context</label>
+        <p class="timeHelp">Default: shadow fleet, watchlisted vessels, other priority VOIs and evidence-based Russia voyages (dated port visit within 10 days, or an explicitly declared Russian destination observed within 72 hours). Neutral tankers and background traffic are optional additions.</p>
+        <label class="control"><input type="checkbox" data-layer="vessel_positions" checked> Categorised vessels · sanctions, shadow fleet, VOIs &amp; evidenced Russia voyages</label>
         <label class="control"><input type="checkbox" data-layer="danish_history" disabled> Danish historical matched-VOI tracks</label>
         <label class="control"><input type="checkbox" data-layer="neutral_tanker_context"> Add neutral tanker context</label>
         <label class="control"><input type="checkbox" data-layer="sanctions"> Sanctions confirmed in refreshed authority data</label>
@@ -137,8 +137,8 @@
         <label class="control"><input type="checkbox" data-layer="watchlist"> Watchlist</label>
         <label class="control"><input type="checkbox" data-layer="falseflag_interest"> False-flag interest · sourced lead</label>
         <label class="control"><input type="checkbox" data-layer="false_flag_watch"> False-flag watch · official ship-specific record</label>
-        <label class="control"><input type="checkbox" data-layer="russian_mmsi"> Russian MMSI</label>
-        <label class="control"><input type="checkbox" data-layer="recent_russian_portcall_10d"> Retained Russia route hints · not verified port visits</label>
+        <label class="control"><input type="checkbox" data-layer="russian_mmsi"> Russian MMSI · flag context only, not a Russia voyage</label>
+        <label class="control"><input type="checkbox" data-layer="recent_russian_portcall_10d"> Dated Russian port reports · last 10 days (not independently verified)</label>
         <label class="control"><input type="checkbox" data-layer="behavioral_voi"> Behavioural VOI</label></details>
       </section>
       <section class="card"><h2>GFW · optional historical context</h2><p><a href="./sar.html" target="_blank" rel="noopener noreferrer">Open protected SAR workbench ↗</a></p><label class="control"><input type="checkbox" data-layer="gfw_loitering">Add loitering events · purple rings</label><label class="control"><input type="checkbox" data-layer="gfw_presence">Add historical AIS grid · purple boxes</label><p><strong>Research a box:</strong> click it, or focus it and press Enter. Its popup shows the UTC interval, approximate coordinates and displayed cell bounds. Copy these to query another historical AIS source for possible vessels. The grid itself supplies no individual ship identity or radar image.</p><p><strong>To investigate a vessel:</strong> enable loitering rings, open an event and choose “Search SAR acquisitions for this period”. The event shows identity, time and duration where supplied.</p><p id="gfwStatus" role="status"></p><div id="loiteringList" class="analysisList"></div></section>
