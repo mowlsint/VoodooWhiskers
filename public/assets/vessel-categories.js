@@ -29,17 +29,17 @@
     return n.length>=4&&PLACE_KEYS.has(n);
   }
   function parseVoyage(value){
-    const raw=text(value),norm=raw.replace(/\\s*(?:→|->|=>)\\s*/g,'>');
+    const raw=text(value),norm=raw.replace(/\s*(?:→|->|=>)\s*/g,'>');
     const parts=norm.split('>').map(s=>s.trim());
     let from=false,to=false,explicit_route=false;
     if(parts.length===2&&parts.every(Boolean)){
       from=russianPlace(parts[0]);to=russianPlace(parts[1]);explicit_route=true;
     }else if(parts.length>1){return {raw,from:false,to:false,related:false,explicit_route:false,basis:'Ambiguous multi-leg voyage'};}
     else{
-      const route=norm.match(/^FROM\\s+(.+?)\\s+TO\\s+(.+)$/i);
+      const route=norm.match(/^FROM\s+(.+?)\s+TO\s+(.+)$/i);
       if(route){from=russianPlace(route[1]);to=russianPlace(route[2]);explicit_route=true;}
-      else if(/^FROM\\s+/i.test(norm)){from=russianPlace(norm.replace(/^FROM\\s+/i,''));explicit_route=true;}
-      else {const target=norm.match(/^TO\\s+(.+)$/i);to=russianPlace(target?target[1]:norm);}
+      else if(/^FROM\s+/i.test(norm)){from=russianPlace(norm.replace(/^FROM\s+/i,''));explicit_route=true;}
+      else {const target=norm.match(/^TO\s+(.+)$/i);to=russianPlace(target?target[1]:norm);}
     }
     return {raw,from,to,related:from||to,explicit_route,
       basis:explicit_route?'Explicit AIS FROM/TO text':'Explicit AIS destination'};
