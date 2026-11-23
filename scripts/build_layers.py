@@ -9,6 +9,7 @@ from pathlib import Path
 from urllib.parse import quote_plus
 
 from voi_history import compact_source_history, load_policy as load_history_policy, retained_rows
+from russia_voyage import classify as classify_russia_voyage
 
 DATA_DIR = Path("data")
 WATCHLIST_PATH = DATA_DIR / "watchlist_master.csv"
@@ -812,40 +813,38 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref, falseflag_in
     if mmsi.startswith("273"):
         categories.add("russian_mmsi")
 
-    destination_declared_by_text, destination_hits = extract_destination_port_hits(contact, russian_ports)
-    observed_port_confirmed, observed_port_hits = confirm_russian_port(contact, russian_ports)
-    to_russia_declared = bool(contact.get("to_russia_declared") or destination_declared_by_text)
-    recent_unconfirmed = bool(contact.get("recent_russian_portcall_unconfirmed_10d"))
-    from_russia_confirmed = bool(
-        contact.get("recent_russian_portcall_confirmed_10d")
-        or (contact.get("from_russia_confirmed") and observed_port_confirmed)
-        or observed_port_confirmed
-    )
+    # Rebuild Russia voyage evidence from dated fields on THIS observation.
+    # Never promote persisted declarations, expired port flags, a destination
+    # change, or a vague/free-text "Russia" mention into this category.
+    ru = classify_russia_voyage(contact, russian_ports)
+    from_russia_confirmed = ru["visit"]
+    to_russia_declared = ru["bound"]
     merged["to_russia_declared"] = to_russia_declared
-    merged["to_russia_declared_basis"] = (
-        clean_str(contact.get("to_russia_declared_basis"))
-        or ("current_ais_destination" if destination_declared_by_text else "")
-    )
-    declared_hits_raw = contact.get("to_russia_declared_port_hits") or []
-    declared_hits = declared_hits_raw if isinstance(declared_hits_raw, list) else split_tokens(declared_hits_raw)
-    merged["to_russia_declared_port_hits"] = sorted(set(declared_hits + destination_hits))
-    merged["recent_russian_portcall_unconfirmed_10d"] = recent_unconfirmed
+    merged["to_russia_declared_basis"] = "recent_explicit_ais_destination" if to_russia_declared else ""
+    merged["to_russia_declared_port_hits"] = [ru["destination_port"]] if to_russia_declared else []
+    merged["recent_russian_portcall_unconfirmed_10d"] = False
     merged["recent_russian_portcall_confirmed_10d"] = from_russia_confirmed
     merged["from_russia_confirmed"] = from_russia_confirmed
-    merged["port_codes_seen"] = ";".join(observed_port_hits)
+    merged["russia_voyage_type"] = (
+        "dated_russian_port_visit" if from_russia_confirmed else
+        "current_declared_russian_destination" if to_russia_declared else ""
+    )
+    merged["russia_visit_at"] = ru["visit_at"] or ""
+    merged["russia_destination_at"] = ru["destination_at"] or ""
+    merged["russia_visit_port"] = ru["visit_port"] or ""
+    merged["russia_destination_port"] = ru["destination_port"] or ""
+    merged["port_codes_seen"] = ru["visit_port"] or ""
+    merged["recent_ru_portcall_until"] = (
+        (parse_dt(ru["visit_at"]) + timedelta(days=RECENT_RUSSIAN_PORTCALL_DAYS)).isoformat()
+        if from_russia_confirmed else ""
+    )
+    merged["recent_ru_portcall_started_at"] = ru["visit_at"] or ""
+    merged["recent_ru_portcall_basis"] = "dated_russian_port_field" if from_russia_confirmed else ""
+    merged["recent_ru_portcall_confidence"] = "dated_report" if from_russia_confirmed else ""
     if from_russia_confirmed:
         categories.add("recent_russian_portcall_10d")
-        merged["recent_ru_portcall_confidence"] = "confirmed"
-        merged["recent_ru_portcall_basis"] = clean_str(contact.get("recent_ru_portcall_basis")) or "observed_port_field"
-    elif recent_unconfirmed:
-        categories.add("recent_russian_portcall_10d")
-        merged["recent_ru_portcall_confidence"] = "unconfirmed"
-        merged["recent_ru_portcall_basis"] = clean_str(contact.get("recent_ru_portcall_basis")) or "destination_changed_after_russian_destination"
-    elif to_russia_declared:
-        # Intention-only state: retained in the route database but deliberately
-        # not promoted to a map category by itself.
-        merged["recent_ru_portcall_confidence"] = "declared_destination_only"
-        merged["to_russia_declared_index_impact"] = "none"
+    if from_russia_confirmed or to_russia_declared:
+        categories.add("russia_voyage")
 
     flag_risk = assess_flag_risk(contact, flag_ref)
     if flag_risk:
@@ -1011,72 +1010,30 @@ def build_recent_ru_input_items(russian_ports, flag_ref, watch_index, falseflag_
         item = dict(row)
         item["latitude"] = row.get("lat") or row.get("latitude")
         item["longitude"] = row.get("lon") or row.get("longitude")
-        item["from_russia_confirmed"] = True
-        item["recent_russian_portcall_confirmed_10d"] = True
-        item["recent_russian_portcall_unconfirmed_10d"] = False
-        item["to_russia_declared"] = False
-        item["port_codes_seen"] = norm_port_code(row.get("last_ru_port_unlocode")) or norm_key(row.get("last_ru_port"))
-        item["recent_ru_portcall_confidence"] = "confirmed"
-        item["recent_ru_portcall_basis"] = "manual_recent_russian_portcall_input"
-        item["categories"] = ["recent_russian_portcall_10d"]
+        # A manual row is not automatically confirmed: both port identity
+        # and dated visit must pass the same strict classifier as provider data.
         classified = classify_contact(item, watch_index, russian_ports, flag_ref, falseflag_index)
-        classified["recent_ru_portcall_confidence"] = "confirmed"
-        classified["recent_ru_portcall_basis"] = "manual_recent_russian_portcall_input"
-        classified["categories"] = sorted(set(classified.get("categories", [])) | {"recent_russian_portcall_10d"})
-        items.append(classified)
+        if classified.get("from_russia_confirmed"):
+            items.append(classified)
     return items
 
 
 def build_recent_ru_history_items(current_items, watch_index, russian_ports, flag_ref, falseflag_index):
-    cutoff = datetime.now(timezone.utc) - timedelta(days=RECENT_RUSSIAN_PORTCALL_DAYS)
+    """Retain only dated Russian port reports, never stale destination-change flags."""
     items = []
     for row in read_history_rows(max_age_days=RECENT_RUSSIAN_PORTCALL_DAYS):
-        basis = clean_str(row.get("recent_ru_portcall_basis"))
-        confirmed = bool(
-            row.get("recent_russian_portcall_confirmed_10d")
-            or (row.get("from_russia_confirmed") and basis in {
-                "manual_recent_russian_portcall_input",
-                "observed_port_field",
-            })
-        )
-        unconfirmed = bool(row.get("recent_russian_portcall_unconfirmed_10d"))
-        if not confirmed and not unconfirmed:
+        # No history-row generated_at/slot substitute for a true port visit date.
+        if not parse_dt(row.get("last_ru_port_date") or row.get("last_port_date")
+                        or row.get("port_observed_at") or row.get("port_call_at")):
             continue
-        dt = None
-        for key in ("last_seen_utc", "last_ru_port_date", "generated_at", "slot"):
-            dt = parse_dt(row.get(key))
-            if dt:
-                break
-        if not dt or dt < cutoff:
-            continue
-        history_row = dict(row)
-        history_row["from_russia_confirmed"] = confirmed
-        history_row["recent_russian_portcall_confirmed_10d"] = confirmed
-        history_row["recent_russian_portcall_unconfirmed_10d"] = unconfirmed and not confirmed
-        item = classify_contact(history_row, watch_index, russian_ports, flag_ref, falseflag_index)
-        item["from_russia_confirmed"] = confirmed
-        item["recent_russian_portcall_confirmed_10d"] = confirmed
-        item["recent_russian_portcall_unconfirmed_10d"] = unconfirmed and not confirmed
-        item["recent_ru_portcall_confidence"] = "confirmed" if confirmed else "unconfirmed"
-        item.setdefault(
-            "recent_ru_portcall_basis",
-            "voi_history_confirmed_portcall" if confirmed else "voi_history_unconfirmed_post_destination_change",
-        )
-        item["categories"] = sorted(set(item.get("categories", [])) | {"recent_russian_portcall_10d"})
-        items.append(item)
-
-    for row in current_items:
-        if row.get("recent_russian_portcall_confirmed_10d") or row.get("recent_russian_portcall_unconfirmed_10d"):
-            item = dict(row)
-            cats = set(item.get("categories") or [])
-            cats.add("recent_russian_portcall_10d")
-            item["categories"] = sorted(cats)
-            item.setdefault(
-                "recent_ru_portcall_basis",
-                "observed_port_field" if item.get("recent_russian_portcall_confirmed_10d") else "destination_changed_after_russian_destination",
-            )
+        item = classify_contact(row, watch_index, russian_ports, flag_ref, falseflag_index)
+        if item.get("from_russia_confirmed"):
             items.append(item)
-    return items
+    for row in current_items:
+        if row.get("from_russia_confirmed"):
+            items.append(row)
+    return merge_unique_items(items)
+
 
 
 def merge_unique_items(*groups):
