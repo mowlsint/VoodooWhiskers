@@ -48,6 +48,7 @@
     infrastructureSummary:"./data/analysis/infrastructure_summary_latest.json",
     downloads:"./downloads/manifest.json",
     gfwEvents:"./data/vessels/gfw_events_latest.json",
+    gfwEventsFull:"./data/vessels/gfw_events_14d/manifest.json",
     gfwEventStatus:"./data/vessels/gfw_events_status_latest.json",
     gfwGrid:"./data/vessels/gfw_presence_cells_latest.json"
   };
@@ -657,7 +658,9 @@
     const windowCovered=queryOverlap&&cutoff>=queryStart&&now<=queryEnd;
     const delayDays=Number(eventCoverage?.provider_delay_days)||0;
     let eventMessage;
-    if(eventCoverage?.coverage_complete===true&&state.gfwEvents?.coverage_complete===true){
+    if(state.gfwEvents?.shard_load_error){
+      eventMessage="Full GFW event shards could not be verified; showing the partial compatibility preview. Coverage is not confirmed."+range;
+    }else if(eventCoverage?.coverage_complete===true&&state.gfwEvents?.coverage_complete===true){
       if(!queryOverlap&&Number.isFinite(queryEnd)&&queryEnd<=cutoff){
         eventMessage="Selected time window is newer than GFW's "+delayDays+"-day data delay; no zero result can be inferred."+range;
       }else{
@@ -668,7 +671,7 @@
         if(!windowCovered)eventMessage+=" The selected window includes dates outside this query range; GFW data are delayed by about "+delayDays+" days, so those dates are not a confirmed zero.";
       }
     }else if(eventCoverage?.status==="storage_limited"){
-      eventMessage="GFW query completed, but the 4 MiB output limit removed events; coverage is partial."+range+" Showing "+loiteringRows.length+" retained loitering events, "+shown.length+" rendered.";
+      eventMessage="GFW query completed, but the 12 MiB canonical storage budget removed events; coverage is partial."+range+" Showing "+loiteringRows.length+" retained loitering events, "+shown.length+" rendered.";
     }else if(eventCoverage){
       const updated=eventCoverage.generated_at?(" Status checked "+eventCoverage.generated_at+"."):"";
       eventMessage="GFW event coverage is incomplete; this is not a confirmed zero result."+range+updated+" "+(state.gfwEvents?("Showing retained data: "+loiteringRows.length+" loitering events, "+shown.length+" rendered."):"No event product is available.");
@@ -720,7 +723,7 @@
     state.data.common_snapshot=commonSnapshot;
     state.data.common_status=commonStatus;
     const [gfwEvents,gfwGrid,gfwEventStatus]=await Promise.all([
-      fetchJson(paths.gfwEvents).catch(()=>null),
+      globalThis.GfwEventShards.load(fetchJson,paths.gfwEventsFull,paths.gfwEvents),
       fetchJson(paths.gfwGrid).catch(()=>null),
       fetchJson(paths.gfwEventStatus).catch(()=>null)
     ]);
