@@ -3,11 +3,13 @@ import contextlib
 import importlib.util
 import io
 import json
+import os
 import subprocess
 import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
+from urllib.error import HTTPError, URLError
 
 SPEC = importlib.util.spec_from_file_location(
     'repo_storage_guard', Path(__file__).resolve().parents[1] / 'scripts/repo_storage_guard.py')
@@ -114,6 +116,52 @@ class StorageGuardTests(unittest.TestCase):
         self.assertIn('Repository size unavailable; refusing commit', result['errors'])
         self.assertIn('New data exceeds push safety budget', result['errors'])
         self.assertNotIn('private-detail', output.getvalue())
+
+    def test_authenticated_repo_size_retries_transient_503(self):
+        error = HTTPError('https://api.github.com/repos/example/project', 503,
+                          'unavailable', {}, None)
+        with patch.dict(os.environ, {'GITHUB_TOKEN': 'workflow-token'}):
+            with patch.object(guard, 'urlopen', side_effect=[
+                    error, io.BytesIO(b'{"size":123}')]) as opener:
+                with patch.object(guard.time, 'sleep') as sleeper:
+                    self.assertEqual(guard.repository_size_bytes('example/project'), 123 * 1024)
+        self.assertEqual(opener.call_count, 2)
+        self.assertEqual(opener.call_args.args[0].get_header('Authorization'),
+                         'Bearer workflow-token')
+        sleeper.assert_called_once_with(1)
+
+    def test_repo_size_retries_rate_limited_403_only(self):
+        rate_limit = HTTPError('https://api.github.com/repos/example/project', 403,
+                               'rate limit', {'X-RateLimit-Remaining': '0'}, None)
+        with patch.object(guard, 'urlopen', side_effect=[
+                rate_limit, io.BytesIO(b'{"size":8}')]) as opener:
+            with patch.object(guard.time, 'sleep'):
+                self.assertEqual(guard.repository_size_bytes('example/project'), 8192)
+        self.assertEqual(opener.call_count, 2)
+
+    def test_repo_size_401_is_not_retried_and_safe(self):
+        error = HTTPError('https://api.github.com/repos/example/project', 401,
+                          'do not leak details', {}, None)
+        with patch.object(guard, 'urlopen', side_effect=error) as opener:
+            with patch.object(guard.time, 'sleep') as sleeper:
+                with self.assertRaisesRegex(guard.RepositorySizeLookupError, 'http_401'):
+                    guard.repository_size_bytes('example/project')
+        opener.assert_called_once()
+        sleeper.assert_not_called()
+
+    def test_repo_size_transport_exhaustion_is_bounded_and_safe(self):
+        with patch.object(guard, 'urlopen', side_effect=URLError('private-detail')) as opener:
+            with patch.object(guard.time, 'sleep') as sleeper:
+                with self.assertRaisesRegex(guard.RepositorySizeLookupError, 'transport_error'):
+                    guard.repository_size_bytes('example/project')
+        self.assertEqual(opener.call_count, 3)
+        self.assertEqual(sleeper.call_count, 2)
+
+    def test_invalid_repository_response_is_not_assumed_to_be_zero(self):
+        with patch.object(guard, 'urlopen', return_value=io.BytesIO(b'{"message":"not a repo"}')):
+            with self.assertRaisesRegex(guard.RepositorySizeLookupError,
+                                        'invalid_size_response'):
+                guard.repository_size_bytes('example/project')
 
     def test_empty_index(self):
         code, result = self.run_guard()
