@@ -10,8 +10,17 @@ def main():
     catalog=build()
     now=datetime.now(timezone.utc)
     sources=[]
-    for item in catalog["programmes"]:
+    # Curated programme pages are checked daily; rotate existing primary role sources
+    # across a seven-day cycle. No aircraft tracker queries.
+    registry=json.loads((ROOT/"config/special_aircraft_registry.json").read_text())
+    primary=sorted((s for s in registry["sources"] if s["source_class"].startswith("primary_")),key=lambda s:s["url"])
+    offset=now.date().toordinal()%7
+    targets=list(catalog["programmes"])+[dict(name=s["title"],url=s["url"]) for i,s in enumerate(primary) if i%7==offset]
+    seen=set()
+    for item in targets:
         url=item["url"]
+        if url in seen:continue
+        seen.add(url)
         try:
             with urlopen(Request(url,headers={"User-Agent":"VoodooWhiskers registry source audit"}),timeout=15) as response:
                 raw=response.read(2*1024*1024+1)

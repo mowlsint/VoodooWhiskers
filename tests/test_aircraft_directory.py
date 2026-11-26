@@ -5,10 +5,12 @@ from aircraft_directory import build
 class DirectoryTests(unittest.TestCase):
     def test_inventory(self):
         d=build()
-        self.assertEqual(len(d["aircraft"]),211)
-        self.assertEqual(sum(r["selected"] for r in d["aircraft"]),105)
-        self.assertEqual(sum(o["records"] for o in d["organisations"]),211)
-        self.assertEqual(sum(not r["selected"] for r in d["aircraft"]),106)
+        from special_aircraft_registry import load_registry
+        registry,selected=load_registry()
+        self.assertEqual(len(d["aircraft"]),len(registry["aircraft"]))
+        self.assertEqual(sum(r["selected"] for r in d["aircraft"]),len(selected))
+        self.assertEqual(sum(o["records"] for o in d["organisations"]),len(registry["aircraft"]))
+        self.assertEqual(sum(not r["selected"] for r in d["aircraft"]),len(registry["aircraft"])-len(selected))
     def test_no_mission_or_new_selection(self):
         d=build()
         self.assertFalse(d["complete"])
