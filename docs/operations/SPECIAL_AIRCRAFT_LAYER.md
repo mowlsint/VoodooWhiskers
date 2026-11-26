@@ -73,3 +73,6 @@ The optional Special Aircraft control now displays the last received position pe
 
 ## English presentation
 Aircraft organisation, operator, commissioning authority and aircraft-type display values use English terminology. Original source URLs, proper names and research notes remain unchanged where needed for evidence. The flag-risk reference issue summaries are also English. A narrow exact-value translation fallback covers existing cached aircraft and flag metadata.
+
+## Optional sampled aircraft track overlay
+The same 24-hour product now includes bounded dashed connectors between existing observations, with a maximum 15-minute gap, plausible speed and no dateline jumps. No new provider requests, no automatic vessel-aircraft association. Both map overlays can be enabled simultaneously. Track connectors are capped at 8 KiB per product and omitted before collection would exceed its existing daily budget. The status identifies truncation. No interpolated position or verified encounter is implied.

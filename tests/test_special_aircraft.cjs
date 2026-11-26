@@ -66,3 +66,5 @@ test('rolling last known positions survive zero and failed polls and expire afte
  }
  assert.equal(A.ageOpacity(row(2),now),.72);assert.equal(A.ageOpacity(row(10),now),.42);
 });
+
+test('aircraft track segments reject long gaps and implausible jumps',()=>{const t=now/1000-1800;const pack={rolling_24h:{as_of:new Date(now).toISOString(),track_segments:[['abc123',t,55,10,t+600,55.1,10],['abc123',t,55,10,t+1000,55.1,10],['abc123',t,55,10,t+600,75,10]]}};assert.equal(A.trackSegments(pack,now).length,1);});

@@ -117,6 +117,10 @@ class CollectionTests(unittest.TestCase):
         rows=self.latest()['rolling_24h']['items']
         self.assertEqual(len(rows),1)
         self.assertEqual(rows[0][1],NOW+599)
+        tracks=self.latest()['rolling_24h']['track_segments']
+        self.assertEqual(len(tracks),1)
+        self.assertEqual(tracks[0][1],NOW-1)
+        self.assertEqual(tracks[0][4],NOW+599)
 
     def test_network_latency_does_not_make_a_real_provider_position_future_dated(self):
         def fetch(batch, limit):

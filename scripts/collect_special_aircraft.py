@@ -191,7 +191,7 @@ ROLLING_FIELDS = ['icao24','observed_unix_seconds','latitude','longitude','altit
                   'roles','country','operator','aircraft_type','commissioning_authority','identity_verified_at']
 def rolling_aircraft_24h(files, observations, selected, policy, now):
     """Last received position per currently selected identity; no additional provider calls."""
-    latest, conflicts = {}, set()
+    latest, conflicts, samples = {}, set(), {}
     def accept(row):
         if not isinstance(row,list) or len(row)!=10:
             return
@@ -208,8 +208,16 @@ def rolling_aircraft_24h(files, observations, selected, policy, now):
             return
         if source not in ('adsb','mlat','tisb'):
             return
-        old=latest.get(hx)
         key=(hx,t)
+        point=[int(t),round(lat,5),round(lon,5)]
+        previous_point=samples.get(key)
+        if previous_point is not None and previous_point!=point:
+            conflicts.add(key);samples.pop(key,None)
+            if latest.get(hx,[None,None])[1]==t:latest.pop(hx,None)
+            return
+        if key in conflicts:return
+        samples[key]=point
+        old=latest.get(hx)
         if key in conflicts:
             return
         if old and old[1]>t:
@@ -234,8 +242,33 @@ def rolling_aircraft_24h(files, observations, selected, policy, now):
         t=int(datetime.fromisoformat(r['observed_at'].replace('Z','+00:00')).timestamp())
         accept([r['icao24'],t,r['latitude'],r['longitude'],r.get('altitude_ft'),
                 r.get('ground_speed_kn'),r.get('track_deg'),r['position_source'],r['registration'],r['callsign']])
+    # Compact optional track segments. Retain the newest connected pair for each
+    # identity first, then distribute older pairs round-robin. Never bridge gaps.
+    tracks={}
+    for (hx,t),point in sorted(samples.items()):
+        if (hx,t) not in conflicts and hx in latest:tracks.setdefault(hx,[]).append(point)
+    pairs={}
+    for hx,points in tracks.items():
+        valid=[]
+        for a,b in zip(points,points[1:]):
+            dt=b[0]-a[0]
+            if not 0<dt<=900 or abs(b[2]-a[2])>=180:continue
+            rad=math.pi/180
+            hav=math.sin((b[1]-a[1])*rad/2)**2+math.cos(a[1]*rad)*math.cos(b[1]*rad)*math.sin((b[2]-a[2])*rad/2)**2
+            nm=3440.1*2*math.asin(math.sqrt(min(1,hav)))
+            if nm*3600/dt<=750:valid.append([hx,*a,*b])
+        if valid:pairs[hx]=valid[::-1]
+    total=sum(map(len,pairs.values()));segments=[];size=0
+    while pairs:
+        for hx in list(sorted(pairs)):
+            row=pairs[hx].pop(0);n=len(encoded(row))+1
+            if size+n>8192:
+                pairs.clear();break
+            segments.append(row);size+=n
+            if not pairs[hx]:del pairs[hx]
     return dict(schema='VOODOO_AIRCRAFT_ROLLING_24H_V1',as_of=iso(now),fields=ROLLING_FIELDS,
-                items=sorted(latest.values(),key=lambda r:r[0]),coverage_complete=False)
+                items=sorted(latest.values(),key=lambda r:r[0]),coverage_complete=False,
+                track_segments=segments,track_segments_total=total,track_segments_truncated=len(segments)<total)
 
 def collect(root=ROOT, now=None, fetcher=fetch_batch, repository_bytes=None):
     live_clock = now is None
@@ -360,6 +393,12 @@ def collect(root=ROOT, now=None, fetcher=fetch_batch, repository_bytes=None):
         raise ValueError('Aircraft latest budget exceeded')
     if metadata_bytes + len(writes[status_path]) > policy['max_registry_status_bytes']:
         raise ValueError('Aircraft registry/status budget exceeded')
+    # Keep optional track lines within the existing daily limit; omit them first if needed.
+    if used + sum(len(b) for b in writes.values()) > policy['max_staged_path_bytes_per_utc_day'] - pause_reserve:
+        rolling=pack.get('rolling_24h',{})
+        rolling['track_segments']=[]
+        rolling['track_segments_truncated']=bool(rolling.get('track_segments_total'))
+        writes[out / 'aircraft_latest.json']=encoded(pack)
     # Count full changed paths, never assume compression. Reserve a small status-only pause at the daily cap.
     changed = lambda: {p: b for p, b in writes.items() if not p.exists() or p.read_bytes() != b}
     for _ in range(4):

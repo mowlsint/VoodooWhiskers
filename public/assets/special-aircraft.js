@@ -19,6 +19,18 @@
       return [{...p,observed_at:new Date(t).toISOString(),position_timestamp_valid:true,selection_status:'registry_selected',source:'adsb.lol',position_timestamp_basis:'provider_now_ms_minus_seen_pos_seconds'}];
     });
   }
+  function trackSegments(pack,now=Date.now()){
+    const rolling=pack.rolling_24h, raw=rolling?.track_segments;
+    if(!Array.isArray(raw)||raw.length>500)return [];
+    const asOf=Date.parse(rolling.as_of)/1000,end=Math.min(asOf,now/1000),start=now/1000-86400;
+    return raw.filter(r=>{
+      if(!Array.isArray(r)||r.length!==7)return false;
+      const [h,t1,y1,x1,t2,y2,x2]=r,dt=t2-t1;
+      if(!/^[a-f0-9]{6}$/.test(h)||![t1,y1,x1,t2,y2,x2].every(Number.isFinite)||t1<start||t2>end||dt<=0||dt>900||Math.abs(y1)>90||Math.abs(y2)>90||Math.abs(x1)>180||Math.abs(x2)>180||Math.abs(x2-x1)>=180)return false;
+      const rad=Math.PI/180,hav=Math.sin((y2-y1)*rad/2)**2+Math.cos(y1*rad)*Math.cos(y2*rad)*Math.sin((x2-x1)*rad/2)**2;
+      return 3440.1*2*Math.asin(Math.sqrt(Math.min(1,hav)))*3600/dt<=750;
+    });
+  }
   function decode(pack,now=Date.now()){
     if(!pack||pack.kind!=='selected_aircraft_context'||pack.schema_version!=='1.0.0'||pack.context_only!==true||pack.coverage_complete!==false||!STATES.has(pack.status)||!Array.isArray(pack.items)||pack.items.length>MAX_ITEMS)throw Error('Invalid aircraft product');
     const generated=Date.parse(pack.generated_at);
@@ -45,7 +57,7 @@
       for(const key of ['altitude_ft','ground_speed_kn','track_deg'])if(typeof row[key]==='number'&&Number.isFinite(row[key]))p[key]=row[key];
       unique.set(hex+':'+at,p);
     }
-    return {status:pack.status,collection_code:clean(pack.collection_code),generated_at:new Date(generated).toISOString(),items:[...unique.values()],hasRolling,rolling_as_of:hasRolling?pack.rolling_24h.as_of:null,excluded,input_count:rawRows.length};
+    return {status:pack.status,collection_code:clean(pack.collection_code),generated_at:new Date(generated).toISOString(),items:[...unique.values()],hasRolling,rolling_as_of:hasRolling?pack.rolling_24h.as_of:null,excluded,input_count:rawRows.length,tracks:hasRolling?trackSegments(pack,now):[],tracksTruncated:!!pack.rolling_24h?.track_segments_truncated,tracksAvailable:Array.isArray(pack.rolling_24h?.track_segments)};
   }
   function visible(product,{mode='latest',hours=24,includeOffshore=false,now=Date.now()}={}){
     if(!product||mode==='project'||(['unavailable','error'].includes(product.status)&&!product.hasRolling)||['collection_disabled','empty_selection'].includes(product.collection_code))return [];
@@ -67,7 +79,7 @@
     const box=doc.createElement('div'),title=doc.createElement('strong');title.textContent=p.registration||p.callsign||p.icao24;box.append(title);
     const fields=[['ICAO24',p.icao24],['Registration',p.registration],['Callsign',p.callsign],['Aircraft type',p.aircraft_type],['Operator',p.operator],['Commissioning authority',p.commissioning_authority],['Country',p.country],['Roles',p.roles.map(r=>ROLES[r]).join(', ')],['Last known position UTC',p.observed_at],['Observation age',ageLabel(p)],['Altitude',p.altitude_ft==null?'':p.altitude_ft+' ft'],['Ground speed',p.ground_speed_kn==null?'':p.ground_speed_kn+' kn'],['Track',p.track_deg==null?'':p.track_deg+'°'],['Source',p.source||'Not supplied'],['Position source',p.position_source],['Time basis',p.position_timestamp_basis],['Registry reviewed',p.identity_verified_at],['Identity evidence',p.identity_source_url],['Role evidence',p.role_source_url],['Identity review note',p.identity_review_note]];
     for(const [label,value] of fields)if(value){const line=doc.createElement('div');line.textContent=label+': '+value;box.append(line);}
-    const note=doc.createElement('p');note.textContent='Independently verify whether this is an authority or military aircraft and what its flight activity or flight pattern represents. Specialist civil aircraft may also be included. Sampled positions and operator/role labels do not establish the current mission, a rescue, pollution or surveillance of a vessel. No flight path is inferred between samples.';box.append(note);
+    const note=doc.createElement('p');note.textContent='Independently verify whether this is an authority or military aircraft and what its flight activity or flight pattern represents. Specialist civil aircraft may also be included. Sampled positions and operator/role labels do not establish the current mission, a rescue, pollution or surveillance of a vessel. Dashed track segments connect received samples only; the true intervening flight path is unknown.';box.append(note);
     for(const link of researchLinks(p)){const line=doc.createElement('div'),a=doc.createElement('a');a.textContent=link.label;a.href=link.href;a.target='_blank';a.rel='noopener noreferrer';a.referrerPolicy='no-referrer';line.append(a);box.append(line);}
     const help=doc.createElement('p');help.textContent='Use the registration or ICAO24 above to search and select a flight/date. FR24 documents 7 days of free history; older history may require a subscription. Coverage of authority/military aircraft and historical tracks is not guaranteed. External sites are contacted only when you open a link.';box.append(help);
     if(p.source==='adsb.lol'){const credit=doc.createElement('a');credit.href='https://opendatacommons.org/licenses/odbl/1-0/';credit.textContent='Aircraft position data: adsb.lol · ODbL 1.0';credit.target='_blank';credit.rel='noopener noreferrer';box.append(credit);}return box;
@@ -87,6 +99,7 @@
   function attach(map,getView){
     const $=id=>document.getElementById(id),toggle=$('showSpecialAircraft'),offshore=$('showOffshoreAircraft'),status=$('specialAircraftStatus'),list=$('specialAircraftList'),refresh=$('refreshSpecialAircraft');
     const layer=L.layerGroup().addTo(map);let product=null,loading=null,error='';
+    const trackToggle=$('showAircraftTracks');
     const blocked=()=>{const v=getView();return v.isSar||v.mode==='project';};
     function render(){
       layer.clearLayers();list.replaceChildren();refresh.hidden=!toggle.checked;
@@ -100,6 +113,15 @@
       if(product.status==='valid_zero'&&!product.hasRolling){status.textContent=(stale?'Stale zero-result product':'Valid zero result in the selected feed')+' · product UTC '+product.generated_at+'. This does not establish absence of aircraft.';return;}
       const prefix=error?'Refresh failed; showing last received observations':loading?'Refreshing; showing last received observations':product.status==='valid_zero'?'Last poll returned no positions': ['unavailable','error'].includes(product.status)?'Source unavailable or paused · retained observations only':stale?'Stale aircraft product':product.status==='partial'?'Partial aircraft data':'Selected aircraft observations';
       status.textContent=`${prefix} · ${rows.length} displayed · product UTC ${product.generated_at}.${product.excluded?' '+product.excluded+' unusable/conflicting records excluded.':''}${!rows.length?' No usable selected positions in this time window.':''} Last known position per aircraft within 24 h; older markers fade. Not current flight locations.${product.hasRolling?'':' Rolling history not yet published; showing available legacy samples only.'}`;
+      if(trackToggle?.checked){
+        const byHex=new Map(rows.map(p=>[p.icao24,p])),now=Date.now()/1000,cutoff=now-86400;let count=0;
+        for(const [hex,t1,lat1,lon1,t2,lat2,lon2] of product.tracks||[]){
+          const p=byHex.get(hex);if(!p||t1<cutoff||t2>now)continue;
+          const note=document.createElement('div');note.textContent=(p.registration||hex)+' · '+new Date(t1*1000).toISOString()+' → '+new Date(t2*1000).toISOString()+' · sampled positions, not a measured flight path.';
+          L.polyline([[lat1,lon1],[lat2,lon2]],{color:colour(p),weight:2,opacity:.8,dashArray:'5 6'}).bindPopup(note).addTo(layer);count++;
+        }
+        status.textContent+=' · '+count+' aircraft track segments'+(product.tracksTruncated?' (bounded subset)':product.tracksAvailable?'':' (track product not yet available)')+'. Spatial overlap alone does not establish a simultaneous encounter.';
+      }
       for(const p of rows){
         const icon=L.divIcon({className:'specialAircraftIcon',html:'<span aria-hidden="true">✈</span>',iconSize:[22,22],iconAnchor:[11,11]});
         const marker=L.marker([p.latitude,p.longitude],{icon,opacity:Math.min(stale?.65:1,ageOpacity(p)),specialAircraft:true,title:p.registration||p.callsign||p.icao24}).bindPopup(()=>popup(p,document),{maxWidth:430});
@@ -113,9 +135,9 @@
       error='';loading=fetchProduct('./data/aircraft/aircraft_latest.json');refresh.disabled=true;render();
       try{product=await loading;}catch{error='unavailable';}finally{loading=null;refresh.disabled=false;render();}
     }
-    toggle.addEventListener('change',()=>{render();if(toggle.checked&&!product)load();});offshore.addEventListener('change',render);$('aircraftRoleFilter')?.addEventListener('change',render);refresh.addEventListener('click',load);render();
+    toggle.addEventListener('change',()=>{render();if(toggle.checked&&!product)load();});offshore.addEventListener('change',render);$('aircraftRoleFilter')?.addEventListener('change',render);refresh.addEventListener('click',load);trackToggle?.addEventListener('change',render);render();
     if(typeof window!=='undefined')window.setInterval(()=>{if(toggle.checked&&!blocked())render();},60000);
     return {render};
   }
-  return {MAX_BYTES,ROLES,decode,visible,colour,ageLabel,ageOpacity,researchLinks,popup,fetchProduct,attach};
+  return {MAX_BYTES,ROLES,decode,trackSegments,visible,colour,ageLabel,ageOpacity,researchLinks,popup,fetchProduct,attach};
 });
