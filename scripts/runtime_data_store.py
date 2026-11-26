@@ -9,6 +9,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BRANCH = os.environ.get("RUNTIME_DATA_BRANCH", "runtime-data")
 PREFIXES = ("data/", "public/data/", "public/downloads/")
+# The source checkout owns these curated inputs used by the public builders.
+CURATED_FLAG_INPUTS = ("data/false_flag_watchlist.csv", "data/flag_risk_reference.csv")
 BASE_ENV = "RUNTIME_DATA_BASE"
 
 
@@ -48,9 +50,10 @@ def restore():
     git("fetch", "--no-tags", "origin",
         f"+refs/heads/{BRANCH}:refs/remotes/origin/{BRANCH}")
     base = git("rev-parse", f"refs/remotes/origin/{BRANCH}").stdout.decode().strip()
-    git("checkout", base, "--", "data", "public/data", "public/downloads")
+    paths = (*PREFIXES, *(f":(exclude,literal){path}" for path in CURATED_FLAG_INPUTS))
+    git("checkout", base, "--", *paths)
     # Keep main's index clean. Workflows stage only their declared outputs.
-    git("reset", "--quiet", "HEAD", "--", "data", "public/data", "public/downloads")
+    git("reset", "--quiet", "HEAD", "--", *paths)
     set_base(base)
     print(f"Restored live data snapshot {base[:12]} from {BRANCH}.")
 
