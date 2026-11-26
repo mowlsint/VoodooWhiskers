@@ -792,9 +792,14 @@ def main() -> int:
         "items": voi_rows,
     }
     atomic_json(DOWNLOAD_DIR / "voi_list_latest.json", voi_product)
+    from flag_integrity import publish_catalog
+    publish_catalog(ROOT)
     fields = [
         "name", "imo", "mmsi", "callsign", "flag_detected", "flag_iso_code", "categories", "watch_priority",
         "sanctioned", "shadow_fleet", "false_flag", "from_russia_confirmed",
+        "false_flag_temporal_status", "false_flag_claimed_flag", "false_flag_evidence_tier",
+        "false_flag_event_date", "false_flag_current_status", "false_flag_source_url",
+        "false_flag_evidence_summary", "false_flag_record_last_checked", "flag_registry_review_class",
         "recent_russian_portcall_confirmed_10d", "recent_russian_portcall_unconfirmed_10d",
         "recent_ru_portcall_confidence", "recent_ru_portcall_basis", "destination", "latitude", "longitude",
         "sog", "cog", "observed_at", "position_timestamp_basis", "source", "source_list", "source_url", "notes",

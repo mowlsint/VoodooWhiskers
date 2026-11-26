@@ -18,7 +18,7 @@
     {id:'other',label:'Other monitored vessel',color:'#8d9ca8'}
   ];
   const FLAGS=['sanctioned','shadow_fleet','false_flag','false_flag_candidate','false_flag_hard_watch','sanctions_review_required','known_voi_match','behavioral_voi','neutral_tanker_context','sanctions_listed_historical','to_russia_declared','from_russia_confirmed','recent_russian_portcall_confirmed_10d','recent_russian_portcall_unconfirmed_10d'];
-  const META=[...FLAGS,'categories','source_list','source_url','source_status','source_last_checked','sanctions_verification_status','sanctions_current_status','false_flag_claimed_flag','false_flag_status','false_flag_evidence_tier','false_flag_evidence_summary','false_flag_source_primary','false_flag_source_url','false_flag_additional_sources','false_flag_event_date','false_flag_record_last_checked','false_flag_current_status','recent_ru_portcall_confidence','recent_ru_portcall_basis','recent_ru_portcall_started_at','recent_ru_portcall_until','russia_voyage_type','russia_visit_at','russia_destination_at','russia_visit_port','russia_destination_port'];
+  const META=[...FLAGS,'categories','source_list','source_url','source_status','source_last_checked','sanctions_verification_status','sanctions_current_status','false_flag_claimed_flag','false_flag_status','false_flag_evidence_tier','false_flag_evidence_summary','false_flag_source_primary','false_flag_source_url','false_flag_additional_sources','false_flag_event_date','false_flag_record_last_checked','false_flag_current_status','false_flag_temporal_status','flag_watch_context','flag_detected','flag_risk_reason','flag_registry_review_class','recent_ru_portcall_confidence','recent_ru_portcall_basis','recent_ru_portcall_started_at','recent_ru_portcall_until','russia_voyage_type','russia_visit_at','russia_destination_at','russia_visit_port','russia_destination_port'];
   const cats=p=>Array.isArray(p.categories)?p.categories.map(String):text(p.categories).split(/[;,]/).map(s=>s.trim()).filter(Boolean);
   const normalize=v=>text(v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]+/g,' ').trim();
   const PLACE_NAMES=new Set(PORTS.flatMap(p=>[p.name,p.code,...p.aliases]).map(normalize));
@@ -122,10 +122,12 @@
       for(const label of view.russia.labels){const line=doc.createElement('strong');line.textContent=label;box.append(line);}
       for(const e of view.russia.evidence){const line=doc.createElement('div');line.textContent=`${e.basis}: ${e.raw} · ${e.observed_at||'time not established'} · ${e.source}`;box.append(line);}
       if(view.russia.legacy){const line=doc.createElement('div');line.textContent='Retained route context: '+(view.russia.basis||'basis not established')+'. A destination change is not proof of departure from Russia.';box.append(line);}
-      if(view.properties.false_flag_evidence_summary){const line=doc.createElement('div');line.textContent='False-flag evidence: '+text(view.properties.false_flag_evidence_summary);box.append(line);}
-      if(view.properties.false_flag_status){const line=doc.createElement('div');line.textContent='False-flag status: '+text(view.properties.false_flag_status)+' · recorded '+text(view.properties.false_flag_event_date||'date unavailable')+'. Current flag: '+text(view.properties.false_flag_current_status||'not reverified')+'.';box.append(line);}
       const limit=doc.createElement('p');limit.textContent=view.russia.limit;box.append(limit);
     }
+      if(view.properties.false_flag_evidence_summary){const line=doc.createElement('div');line.textContent='False-flag evidence: '+text(view.properties.false_flag_evidence_summary);box.append(line);}
+      if(view.properties.false_flag_status){const line=doc.createElement('div');line.textContent='False-flag status: '+text(view.properties.false_flag_status)+' · recorded '+text(view.properties.false_flag_event_date||'date unavailable')+'. Current flag: '+text(view.properties.false_flag_current_status||'not reverified')+'.';box.append(line);}
+    if(view.properties.false_flag_temporal_status){const line=doc.createElement('div');line.textContent='Temporal status: '+text(view.properties.false_flag_temporal_status);box.append(line);}
+    if(view.properties.flag_watch_context){const line=doc.createElement('div');line.textContent='Registry context only: '+text(view.properties.flag_detected)+' · '+text(view.properties.flag_risk_reason);box.append(line);}
     parent.append(box);return view;
   }
   return {DEFINITIONS,PORTS,META,DAYS,parseVoyage,index,describe,appendPopup,russia};

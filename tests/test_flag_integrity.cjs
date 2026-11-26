@@ -1,0 +1,4 @@
+const test=require("node:test"),assert=require("node:assert/strict"),F=require("../public/assets/flag-integrity.js"),data=require("../public/downloads/flag_integrity.json");
+test("current and historical cases remain separate",()=>{assert.equal(F.tier(data.vessels.find(r=>r.imo==="9266841")),"current_confirmed");assert.equal(F.tier(data.vessels.find(r=>r.imo==="9353125")),"historical");});
+test("official MID assignments and shared MID",()=>{for(const [mid,iso] of [["650","MZ"],["655","MW"],["649","ML"],["629","GM"],["611","BW"]])assert.equal(F.registry({mmsi:mid+"000001"},data.jurisdictions).hits[0].iso_code,iso);const a=F.registry({mmsi:"306000001"},data.jurisdictions);assert.equal(a.ambiguous,true);assert.equal(a.hits.length,2);});
+test("registry-only flag is never a ship record",()=>{assert.equal(F.registry({mmsi:"679000001"},data.jurisdictions).basis,"MMSI MID only");assert.equal(F.registry({mmsi:"003060001"},data.jurisdictions),null);});

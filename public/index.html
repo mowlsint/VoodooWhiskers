@@ -141,6 +141,18 @@
         <label class="control"><input type="checkbox" data-layer="recent_russian_portcall_10d"> Dated Russian port reports · last 10 days (not independently verified)</label>
         <label class="control"><input type="checkbox" data-layer="behavioral_voi"> Behavioural VOI</label></details>
       </section>
+      <section class="card"><details id="flagIntegrityPanel"><summary>Flag integrity · vessel evidence &amp; registry review</summary>
+        <p>Optional latest-AIS overlays; registry context is not proof of false flag. Existing VOI colours are unchanged.</p>
+        <label class="control"><input type="checkbox" data-fi="current_confirmed"> Confirmed current false flag</label>
+        <label class="control"><input type="checkbox" data-fi="official"> Official record · current status unresolved</label>
+        <label class="control"><input type="checkbox" data-fi="interest"> Sourced vessel-specific lead</label>
+        <label class="control"><input type="checkbox" data-fi="registry"> Registry anomaly / MID context only</label>
+        <label class="control"><input type="checkbox" data-fi="historical"> Historical / reflagged / inactive records</label>
+        <label>Flag jurisdiction <select id="fiJurisdiction"><option value="">All monitored flags</option></select></label>
+        <p id="fiStatus" role="status">Open to load curated reference.</p>
+        <details><summary>Vessel evidence register</summary><div id="fiVessels"></div></details><details><summary>Flag jurisdiction reference</summary><div id="fiFlags"></div></details>
+        <p><a href="./downloads/false_flag_watchlist.csv">Vessel CSV</a> · <a href="./downloads/flag_risk_reference.csv">Flag CSV</a> · <a href="./downloads/flag_integrity.json">JSON</a></p>
+      </details></section>
       <section class="card"><h2>GFW · optional historical context</h2><p><a href="./sar.html" target="_blank" rel="noopener noreferrer">Open protected SAR workbench ↗</a></p><label class="control"><input type="checkbox" data-layer="gfw_loitering">Add loitering events · purple rings</label><label class="control"><input type="checkbox" data-layer="gfw_presence">Add historical AIS grid · purple boxes</label><p><strong>Research a box:</strong> click it, or focus it and press Enter. Its popup shows the UTC interval, approximate coordinates and displayed cell bounds. Copy these to query another historical AIS source for possible vessels. The grid itself supplies no individual ship identity or radar image.</p><p><strong>To investigate a vessel:</strong> enable loitering rings, open an event and choose “Search SAR acquisitions for this period”. The event shows identity, time and duration where supplied.</p><p id="gfwStatus" role="status"></p><div id="loiteringList" class="analysisList"></div></section>
       <section class="card sarCard"><details><summary>Legacy GFW SAR comparison</summary>
         <div class="sectionHead"><h2>Historical SAR–AIS comparison</h2><button type="button" class="smallButton" id="fitSar">Fit</button></div>
@@ -242,7 +254,7 @@
   <script src="./assets/vendor/leaflet.js"></script>
   <script src="./assets/sar-map-hook.js"></script>
   <script src="./assets/vessel-model.js?v=20261118-length-filter"></script>
-  <script src="./assets/vessel-categories.js?v=20261123-strict-ru-10d"></script>
+  <script src="./assets/vessel-categories.js?v=20261126-flag-integrity"></script>
   <script src="./assets/traffic-context.js?v=20261118-length-filter"></script>
   <script src="./assets/gfw-grid.js?v=20261111-hover-age"></script>
   <script src="./assets/gfw-events.js?v=20261123-sharded"></script>
@@ -250,7 +262,8 @@
   <script src="./assets/local-project-ui.js?v=20261118-length-filter"></script>
   <script src="./assets/special-aircraft.js?v=20261118-runtime-data"></script>
   <script src="./assets/satellite-images.js?v=20261119-simple-sar-load"></script>
-  <script src="./assets/infrastructure-watch.js?v=20261123-strict-ru-10d"></script>
+  <script src="./assets/flag-integrity.js?v=20261126"></script>
+  <script src="./assets/infrastructure-watch.js?v=20261126-flag-integrity"></script>
   <script src="./assets/sar-layer.js?v=20261118-runtime-data"></script>
   <script src="./assets/vesselfinder-links.js"></script>
   <script src="./assets/common-snapshot-status.js?v=20261118-runtime-data"></script>

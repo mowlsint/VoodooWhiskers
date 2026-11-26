@@ -66,7 +66,6 @@ STATS_PATH = DATA_DIR / "voi_stats_by_slot.json"
 # Minimum fallback for AIS MMSI MID -> flag if flag field is absent.
 # Prefer data/flag_risk_reference.csv via mmsi_mid_prefixes; this fallback keeps the script useful if the CSV is old.
 FALLBACK_MID_TO_FLAG = {
-    "306": "Curacao",
     "307": "Aruba",
     "312": "Belize",
     "314": "Barbados",
@@ -77,22 +76,24 @@ FALLBACK_MID_TO_FLAG = {
     "518": "Cook Islands",
     "538": "Marshall Islands",
     "570": "Tonga",
-    "607": "Gambia",
+    "629": "Gambia",
+    "611": "Botswana",
     "613": "Cameroon",
-    "616": "Comoros",
+    "616": "Comoros", "620": "Comoros",
     "621": "Djibouti",
     "626": "Gabon",
     "632": "Guinea",
     "636": "Liberia",
     "647": "Madagascar",
-    "650": "Malawi",
-    "660": "Mali",
+    "650": "Mozambique",
+    "655": "Malawi",
+    "649": "Mali",
     "667": "Sierra Leone",
     "668": "Sao Tome and Principe",
     "669": "Eswatini",
     "671": "Togo",
     "676": "Democratic Republic of the Congo",
-    "677": "Tanzania",
+    "674": "Tanzania", "677": "Tanzania",
     "679": "Zimbabwe",
     "750": "Guyana",
 }
@@ -336,6 +337,8 @@ def load_false_flag_watchlist(path=FALSE_FLAG_WATCHLIST_PATH):
     for row in rows:
         imo = norm_digits(row.get("imo"))
         mmsi = norm_digits(row.get("mmsi"))
+        if row.get("identity_status") == "invalid_checksum_review":
+            continue
         if imo:
             index["imo"][imo] = row
         if mmsi:
@@ -505,7 +508,7 @@ def load_flag_risk(path=FLAG_RISK_PATH):
                 by_iso[iso] = row
             for mid in split_tokens(row.get("mmsi_mid_prefixes")):
                 mid_digits = norm_digits(mid)
-                if mid_digits:
+                if mid_digits and mid_digits[:3] != "306":
                     by_mid[mid_digits[:3]] = row
     for mid, flag in FALLBACK_MID_TO_FLAG.items():
         by_mid.setdefault(mid, by_name.get(norm_key(flag), {"state_name": flag, "iso_code": "", "risk_category": "B", "registry_status": "fallback_mid", "issue_summary": "Fallback-MMSI-MID-Prüfansatz; Flagge aus MMSI-Präfix abgeleitet.", "source_primary": "Fallback", "source_url": "", "last_verified": "", "active": "true"}))
@@ -568,6 +571,7 @@ def assess_flag_risk(contact, flag_ref):
         "flag_risk_source": clean_str(row.get("source_primary")),
         "flag_risk_url": clean_str(row.get("source_url")),
         "flag_risk_last_verified": clean_str(row.get("last_verified")),
+        "flag_registry_review_class": clean_str(row.get("review_class")),
     }
 
 def is_gateway_or_core_area(contact):
@@ -872,8 +876,9 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref, falseflag_in
         merged["false_flag_event_date"] = clean_str(false_flag_record.get("record_or_event_date"))
         merged["false_flag_record_last_checked"] = clean_str(false_flag_record.get("last_checked"))
         merged["false_flag_current_status"] = clean_str(false_flag_record.get("current_status"))
+        merged["false_flag_temporal_status"] = clean_str(false_flag_record.get("false_flag_temporal_status")) or "historical_unresolved"
         watch_tier = clean_str(false_flag_record.get("watch_tier"))
-        merged["false_flag_hard_watch"] = watch_tier in {"confirmed", "official"}
+        merged["false_flag_hard_watch"] = watch_tier in {"confirmed", "official"} and merged["false_flag_temporal_status"] not in {"historical_reflagged", "historical_inactive"}
         merged["false_flag_hard_reasons"] = clean_str(false_flag_record.get("evidence_tier"))
         categories.add("falseflag_interest")
         if merged["false_flag_hard_watch"]:
@@ -943,7 +948,7 @@ def classify_contact(contact, watch_index, russian_ports, flag_ref, falseflag_in
         merged["sanctioned"] = False
         merged["shadow_fleet"] = False
         merged["false_flag"] = bool(false_flag_record)
-        merged["false_flag_hard_watch"] = bool(false_flag_record and clean_str(false_flag_record.get("watch_tier")) in {"confirmed", "official"})
+        merged["false_flag_hard_watch"] = bool(false_flag_record and clean_str(false_flag_record.get("watch_tier")) in {"confirmed", "official"} and merged.get("false_flag_temporal_status") not in {"historical_reflagged", "historical_inactive"})
         merged.setdefault("behavioral_voi", False)
 
     if neutral_tanker_zones and not categories and not to_russia_declared:
