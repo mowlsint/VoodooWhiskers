@@ -3,6 +3,7 @@ import copy
 from datetime import datetime, timezone
 import importlib.util
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -17,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 import collect_special_aircraft as C
 import publish_special_aircraft as P
+import runtime_data_store as R
 
 NOW = int(datetime(2026, 11, 17, 12, tzinfo=timezone.utc).timestamp())
 
@@ -35,7 +37,7 @@ class CollectionTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
-        for name in C.INPUTS + ['scripts/publish_special_aircraft.py', 'config/storage_policy.json']:
+        for name in C.INPUTS + ['scripts/publish_special_aircraft.py', 'scripts/runtime_data_store.py', 'config/storage_policy.json']:
             target = self.root / name
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / name, target)
@@ -279,16 +281,18 @@ class CollectionTests(unittest.TestCase):
         P.git(self.root, 'commit', '-m', 'Local source fixture')
         unrelated = self.root / 'ship.json'
         unrelated.write_text('{}')
-        with self.assertRaisesRegex(ValueError, 'Unrelated changes'):
-            P.publish(self.root, lambda repo: 1, push=False)
-        unrelated.unlink()
-        self.assertEqual(P.publish(self.root, lambda repo: 1, push=False), 'local_commit_only')
+        base=P.git(self.root,'rev-parse','HEAD')
+        with patch.object(R,'ROOT',self.root), patch.dict(os.environ,{R.BASE_ENV:base}):
+            with self.assertRaises(SystemExit):
+                P.publish(self.root, lambda repo: 1, push=False)
+            unrelated.unlink()
+            self.assertEqual(P.publish(self.root, lambda repo: 1, push=False), 'local_commit_only')
         source = self.root / 'config/aircraft_collection.json'
         source.write_bytes(source.read_bytes() + b'\n')
         with self.assertRaisesRegex(ValueError, 'source changed'):
             P.validate_outputs(self.root)
 
-    def test_publisher_rebases_without_replacing_concurrent_ship_products(self):
+    def test_publisher_merges_runtime_snapshot_without_replacing_concurrent_ship_products(self):
         self.run_collection()
         subprocess.run(['git', 'init', '-q', '-b', 'main'], cwd=self.root, check=True)
         for key, value in [('user.name', 'Local test'), ('user.email', 'test@example.invalid')]:
@@ -299,19 +303,22 @@ class CollectionTests(unittest.TestCase):
             remote, writer = Path(other) / 'origin.git', Path(other) / 'writer'
             subprocess.run(['git', 'clone', '-q', '--bare', str(self.root), str(remote)], check=True)
             P.git(self.root, 'remote', 'add', 'origin', str(remote))
-            subprocess.run(['git', 'clone', '-q', str(remote), str(writer)], check=True)
+            base=P.git(self.root,'rev-parse','HEAD')
+            P.git(remote,'update-ref','refs/heads/runtime-data',base)
+            subprocess.run(['git', 'clone', '-q', '-b', 'runtime-data', str(remote), str(writer)], check=True)
             for key, value in [('user.name', 'Local ship fixture'), ('user.email', 'test@example.invalid')]:
                 P.git(writer, 'config', key, value)
             (writer / 'data').mkdir()
             (writer / 'data/ship-fixture.json').write_text('{"retained":true}')
             P.git(writer, 'add', 'data/ship-fixture.json')
             P.git(writer, 'commit', '-m', 'Concurrent local ship fixture')
-            P.git(writer, 'push', 'origin', 'main')
-            self.assertEqual(P.publish(self.root, lambda repo: 1), 'published')
-            self.assertEqual(P.git(self.root, 'show', 'HEAD:data/ship-fixture.json'), '{"retained":true}')
-            last = P.git(self.root, 'diff-tree', '--no-commit-id', '--name-only', '-r', 'HEAD').splitlines()
-            self.assertTrue(all(p.startswith(P.PREFIX) for p in last))
+            P.git(writer, 'push', 'origin', 'runtime-data')
+            with patch.object(R,'ROOT',self.root), patch.dict(os.environ,{R.BASE_ENV:base,'RUNTIME_DATA_BRANCH':'runtime-data'}):
+                self.assertEqual(P.publish(self.root, lambda repo: 1), 'published')
+            self.assertEqual(P.git(remote, 'show', 'runtime-data:data/ship-fixture.json'), '{"retained":true}')
+            self.assertEqual(P.git(remote, 'show', 'runtime-data:public/data/aircraft/aircraft_latest.json'), json.dumps(self.latest(),ensure_ascii=False,separators=(',',':'),allow_nan=False))
             self.assertEqual(P.git(self.root, 'rev-parse', 'HEAD'), P.git(remote, 'rev-parse', 'main'))
+            self.assertEqual(P.git(remote,'rev-list','--count','runtime-data'),'1')
 
     def test_history_size_cap_deletes_oldest_chunk_and_combined_copy_budget_is_enforced(self):
         self.policy['max_history_bytes'] = 1000
