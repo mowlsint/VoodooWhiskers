@@ -10,6 +10,8 @@ on:
       - "config/special_aircraft_registry.json"
       - "scripts/aircraft_directory.py"
       - "scripts/audit_aircraft_directory.py"
+      - "scripts/aircraft_review_state.py"
+      - "tests/test_aircraft_review_state.py"
       - "public/assets/aircraft-directory.js"
       - "public/assets/special-aircraft.js"
       - "tests/test_aircraft_directory.py"
@@ -33,6 +35,7 @@ jobs:
         run: |
           python scripts/special_aircraft_registry.py
           python -m unittest discover -s tests -p test_aircraft_directory.py
+          python -m unittest discover -s tests -p test_aircraft_review_state.py
           python scripts/aircraft_directory.py
           node --check public/assets/aircraft-directory.js
           node --test tests/test_special_aircraft.cjs
@@ -44,9 +47,22 @@ jobs:
           ref: runtime-data
           path: aircraft-runtime
           sparse-checkout: public/data/aircraft/history
+      - name: Restore previous successful source digests
+        if: github.event_name != 'push'
+        uses: actions/cache/restore@v4
+        with:
+          path: .aircraft-review-state
+          key: aircraft-source-digests-v1-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: aircraft-source-digests-v1-
       - name: Review official programme sources and aggregate history
         if: github.event_name != 'push'
         run: python scripts/audit_aircraft_directory.py aircraft-runtime/public/data/aircraft/history
+      - name: Save updated successful source digests
+        if: github.event_name != 'push' && success()
+        uses: actions/cache/save@v4
+        with:
+          path: .aircraft-review-state
+          key: aircraft-source-digests-v1-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Retain review and history summary
         if: always() && github.event_name != 'push'
         uses: actions/upload-artifact@v4

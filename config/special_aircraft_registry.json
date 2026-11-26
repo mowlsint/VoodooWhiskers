@@ -1,6 +1,6 @@
 {
   "schema": "VOODOO_SPECIAL_AIRCRAFT_REGISTRY_V1",
-  "updated_at": "2026-11-17",
+  "updated_at": "2026-11-26",
   "complete": false,
   "collection_enabled": true,
   "selection_policy": {
@@ -1641,7 +1641,7 @@
       "record_id": "air_51c07b45b3ff97d7",
       "enabled": false,
       "selection_status": "excluded",
-      "selection_reason": "No usable evidenced ICAO24 mapping; retained for research, not automatic selection.",
+      "selection_reason": "ICAO24 mapping sourced; current service/assignment and collection suitability pending review.",
       "identity_conflict": false,
       "country": "ES",
       "organisation_scope": null,
@@ -1652,7 +1652,7 @@
       "military_serial": null,
       "manufacturer_serial": null,
       "aircraft_type": "CASA CN235-300MPA Persuader",
-      "icao24": null,
+      "icao24": "342554",
       "roles": [
         "pollution_monitoring",
         "sar_support",
@@ -1664,7 +1664,13 @@
         "sar_support"
       ],
       "service_status": "current_fleet_reported",
-      "icao24_evidence": [],
+      "icao24_evidence": [
+        {
+          "icao24": "342554",
+          "source_id": "src_a0be54cbf6e7",
+          "provider": "Flightradar24"
+        }
+      ],
       "identity_source_ids": [
         "src_a0be54cbf6e7",
         "src_a3fbc635de39",
@@ -1676,21 +1682,21 @@
       "icao24_authoritative_register_verified": false,
       "identity_confidence": "C",
       "role_confidence": "B",
-      "reviewed_at": "2026-11-17",
-      "review_basis": "provided_research_reviewed_under_owner_selection_policy",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "individual public aircraft database identity reviewed; current service and collection eligibility not established",
       "adsb_position_source_verified": false,
       "observed_mission": null,
       "aliases": [],
       "open_questions": [
-        "Keine widerspruchsfrei belegte ICAO24; keine automatische Auswahl.",
-        "Juristischer Eigentümer nicht einzeln belegt."
+        "Juristischer Eigentümer nicht einzeln belegt.",
+        "One aircraft database identity is recorded; current registration and service assignment require independent confirmation before activation."
       ]
     },
     {
       "record_id": "air_e794484fca32fa64",
       "enabled": false,
       "selection_status": "excluded",
-      "selection_reason": "No usable evidenced ICAO24 mapping; retained for research, not automatic selection.",
+      "selection_reason": "ICAO24 mapping sourced; current service/assignment and collection suitability pending review.",
       "identity_conflict": false,
       "country": "ES",
       "organisation_scope": null,
@@ -1701,7 +1707,7 @@
       "military_serial": null,
       "manufacturer_serial": null,
       "aircraft_type": "CASA CN235-300MPA Persuader",
-      "icao24": null,
+      "icao24": "342555",
       "roles": [
         "pollution_monitoring",
         "sar_support",
@@ -1713,7 +1719,13 @@
         "sar_support"
       ],
       "service_status": "current_fleet_reported",
-      "icao24_evidence": [],
+      "icao24_evidence": [
+        {
+          "icao24": "342555",
+          "source_id": "src_a3fbc635de39",
+          "provider": "Flightradar24"
+        }
+      ],
       "identity_source_ids": [
         "src_a0be54cbf6e7",
         "src_a3fbc635de39",
@@ -1725,21 +1737,22 @@
       "icao24_authoritative_register_verified": false,
       "identity_confidence": "C",
       "role_confidence": "B",
-      "reviewed_at": "2026-11-17",
-      "review_basis": "provided_research_reviewed_under_owner_selection_policy",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "individual public aircraft database identity reviewed; current service and collection eligibility not established",
       "adsb_position_source_verified": false,
       "observed_mission": null,
       "aliases": [],
       "open_questions": [
-        "Keine widerspruchsfrei belegte ICAO24; keine automatische Auswahl.",
-        "Juristischer Eigentümer nicht einzeln belegt."
+        "Juristischer Eigentümer nicht einzeln belegt.",
+        "One aircraft database identity is recorded; current registration and service assignment require independent confirmation before activation.",
+        "A secondary aircraft listing associates this former registration with N857PS; verify current aircraft assignment before use."
       ]
     },
     {
       "record_id": "air_cc79db586c6e2b9a",
       "enabled": false,
       "selection_status": "excluded",
-      "selection_reason": "No usable evidenced ICAO24 mapping; retained for research, not automatic selection.",
+      "selection_reason": "ICAO24 mapping sourced; current service/assignment and collection suitability pending review.",
       "identity_conflict": false,
       "country": "ES",
       "organisation_scope": null,
@@ -1750,7 +1763,7 @@
       "military_serial": null,
       "manufacturer_serial": null,
       "aircraft_type": "CASA CN235-300MPA Persuader",
-      "icao24": null,
+      "icao24": "342556",
       "roles": [
         "pollution_monitoring",
         "sar_support",
@@ -1762,7 +1775,13 @@
         "sar_support"
       ],
       "service_status": "current_fleet_reported",
-      "icao24_evidence": [],
+      "icao24_evidence": [
+        {
+          "icao24": "342556",
+          "source_id": "src_a5cd58431a62",
+          "provider": "Flightradar24"
+        }
+      ],
       "identity_source_ids": [
         "src_a0be54cbf6e7",
         "src_a3fbc635de39",
@@ -1774,21 +1793,21 @@
       "icao24_authoritative_register_verified": false,
       "identity_confidence": "C",
       "role_confidence": "B",
-      "reviewed_at": "2026-11-17",
-      "review_basis": "provided_research_reviewed_under_owner_selection_policy",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "individual public aircraft database identity reviewed; current service and collection eligibility not established",
       "adsb_position_source_verified": false,
       "observed_mission": null,
       "aliases": [],
       "open_questions": [
-        "Keine widerspruchsfrei belegte ICAO24; keine automatische Auswahl.",
-        "Juristischer Eigentümer nicht einzeln belegt."
+        "Juristischer Eigentümer nicht einzeln belegt.",
+        "One aircraft database identity is recorded; current registration and service assignment require independent confirmation before activation."
       ]
     },
     {
       "record_id": "air_402642688bd80c83",
       "enabled": false,
       "selection_status": "excluded",
-      "selection_reason": "No usable evidenced ICAO24 mapping; retained for research, not automatic selection.",
+      "selection_reason": "ICAO24 mapping sourced; current service/assignment and collection suitability pending review.",
       "identity_conflict": false,
       "country": "ES",
       "organisation_scope": null,
@@ -1799,7 +1818,7 @@
       "military_serial": null,
       "manufacturer_serial": null,
       "aircraft_type": "Leonardo AW139",
-      "icao24": null,
+      "icao24": "34268b",
       "roles": [
         "search_and_rescue"
       ],
@@ -1807,9 +1826,16 @@
         "maritime_sar"
       ],
       "service_status": "current_assignment_unconfirmed",
-      "icao24_evidence": [],
+      "icao24_evidence": [
+        {
+          "icao24": "34268b",
+          "source_id": "src_identity_review_eckhv",
+          "provider": "Flightradar24"
+        }
+      ],
       "identity_source_ids": [
-        "src_cde005cdb690"
+        "src_cde005cdb690",
+        "src_identity_review_eckhv"
       ],
       "role_source_ids": [
         "src_dc4685d740ab"
@@ -1817,21 +1843,21 @@
       "icao24_authoritative_register_verified": false,
       "identity_confidence": "C",
       "role_confidence": "B",
-      "reviewed_at": "2026-11-17",
-      "review_basis": "provided_research_reviewed_under_owner_selection_policy",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "individual public aircraft database identity reviewed; current service and collection eligibility not established",
       "adsb_position_source_verified": false,
       "observed_mission": null,
       "aliases": [],
       "open_questions": [
-        "Keine widerspruchsfrei belegte ICAO24; keine automatische Auswahl.",
-        "Juristischer Eigentümer nicht einzeln belegt."
+        "Juristischer Eigentümer nicht einzeln belegt.",
+        "One aircraft database identity is recorded; current registration and service assignment require independent confirmation before activation."
       ]
     },
     {
       "record_id": "air_54c2b060f8c0b959",
       "enabled": false,
       "selection_status": "excluded",
-      "selection_reason": "No usable evidenced ICAO24 mapping; retained for research, not automatic selection.",
+      "selection_reason": "ICAO24 mapping sourced; current service/assignment and collection suitability pending review.",
       "identity_conflict": false,
       "country": "ES",
       "organisation_scope": null,
@@ -1842,7 +1868,7 @@
       "military_serial": null,
       "manufacturer_serial": null,
       "aircraft_type": "Airbus EC225LP / H225",
-      "icao24": null,
+      "icao24": "3445d9",
       "roles": [
         "search_and_rescue"
       ],
@@ -1850,9 +1876,16 @@
         "maritime_sar"
       ],
       "service_status": "current_assignment_unconfirmed",
-      "icao24_evidence": [],
+      "icao24_evidence": [
+        {
+          "icao24": "3445d9",
+          "source_id": "src_identity_review_ecmcr",
+          "provider": "Flightradar24"
+        }
+      ],
       "identity_source_ids": [
-        "src_cde005cdb690"
+        "src_cde005cdb690",
+        "src_identity_review_ecmcr"
       ],
       "role_source_ids": [
         "src_dc4685d740ab"
@@ -1860,21 +1893,21 @@
       "icao24_authoritative_register_verified": false,
       "identity_confidence": "C",
       "role_confidence": "B",
-      "reviewed_at": "2026-11-17",
-      "review_basis": "provided_research_reviewed_under_owner_selection_policy",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "individual public aircraft database identity reviewed; current service and collection eligibility not established",
       "adsb_position_source_verified": false,
       "observed_mission": null,
       "aliases": [],
       "open_questions": [
-        "Keine widerspruchsfrei belegte ICAO24; keine automatische Auswahl.",
-        "Juristischer Eigentümer nicht einzeln belegt."
+        "Juristischer Eigentümer nicht einzeln belegt.",
+        "One aircraft database identity is recorded; current registration and service assignment require independent confirmation before activation."
       ]
     },
     {
       "record_id": "air_d5a418b64bebe984",
       "enabled": false,
       "selection_status": "excluded",
-      "selection_reason": "No usable evidenced ICAO24 mapping; retained for research, not automatic selection.",
+      "selection_reason": "ICAO24 mapping sourced; current service/assignment and collection suitability pending review.",
       "identity_conflict": false,
       "country": "ES",
       "organisation_scope": null,
@@ -1885,7 +1918,7 @@
       "military_serial": null,
       "manufacturer_serial": null,
       "aircraft_type": "Leonardo AW139",
-      "icao24": null,
+      "icao24": "34528f",
       "roles": [
         "search_and_rescue"
       ],
@@ -1893,9 +1926,16 @@
         "maritime_sar"
       ],
       "service_status": "current_assignment_unconfirmed",
-      "icao24_evidence": [],
+      "icao24_evidence": [
+        {
+          "icao24": "34528f",
+          "source_id": "src_identity_review_ecmna",
+          "provider": "Flightradar24"
+        }
+      ],
       "identity_source_ids": [
-        "src_cde005cdb690"
+        "src_cde005cdb690",
+        "src_identity_review_ecmna"
       ],
       "role_source_ids": [
         "src_dc4685d740ab"
@@ -1903,21 +1943,21 @@
       "icao24_authoritative_register_verified": false,
       "identity_confidence": "C",
       "role_confidence": "B",
-      "reviewed_at": "2026-11-17",
-      "review_basis": "provided_research_reviewed_under_owner_selection_policy",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "individual public aircraft database identity reviewed; current service and collection eligibility not established",
       "adsb_position_source_verified": false,
       "observed_mission": null,
       "aliases": [],
       "open_questions": [
-        "Keine widerspruchsfrei belegte ICAO24; keine automatische Auswahl.",
-        "Juristischer Eigentümer nicht einzeln belegt."
+        "Juristischer Eigentümer nicht einzeln belegt.",
+        "One aircraft database identity is recorded; current registration and service assignment require independent confirmation before activation."
       ]
     },
     {
       "record_id": "air_9e105e46948dff29",
       "enabled": false,
       "selection_status": "excluded",
-      "selection_reason": "No usable evidenced ICAO24 mapping; retained for research, not automatic selection.",
+      "selection_reason": "ICAO24 mapping sourced; current service/assignment and collection suitability pending review.",
       "identity_conflict": false,
       "country": "ES",
       "organisation_scope": null,
@@ -1928,7 +1968,7 @@
       "military_serial": null,
       "manufacturer_serial": null,
       "aircraft_type": "Leonardo AW139",
-      "icao24": null,
+      "icao24": "345542",
       "roles": [
         "search_and_rescue"
       ],
@@ -1936,9 +1976,16 @@
         "maritime_sar"
       ],
       "service_status": "current_assignment_unconfirmed",
-      "icao24_evidence": [],
+      "icao24_evidence": [
+        {
+          "icao24": "345542",
+          "source_id": "src_identity_review_ecmrj",
+          "provider": "Flightradar24"
+        }
+      ],
       "identity_source_ids": [
-        "src_cde005cdb690"
+        "src_cde005cdb690",
+        "src_identity_review_ecmrj"
       ],
       "role_source_ids": [
         "src_dc4685d740ab"
@@ -1946,21 +1993,21 @@
       "icao24_authoritative_register_verified": false,
       "identity_confidence": "C",
       "role_confidence": "B",
-      "reviewed_at": "2026-11-17",
-      "review_basis": "provided_research_reviewed_under_owner_selection_policy",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "individual public aircraft database identity reviewed; current service and collection eligibility not established",
       "adsb_position_source_verified": false,
       "observed_mission": null,
       "aliases": [],
       "open_questions": [
-        "Keine widerspruchsfrei belegte ICAO24; keine automatische Auswahl.",
-        "Juristischer Eigentümer nicht einzeln belegt."
+        "Juristischer Eigentümer nicht einzeln belegt.",
+        "One aircraft database identity is recorded; current registration and service assignment require independent confirmation before activation."
       ]
     },
     {
       "record_id": "air_c41efa309b82bd01",
       "enabled": false,
       "selection_status": "excluded",
-      "selection_reason": "No usable evidenced ICAO24 mapping; retained for research, not automatic selection.",
+      "selection_reason": "ICAO24 mapping sourced; current service/assignment and collection suitability pending review.",
       "identity_conflict": false,
       "country": "ES",
       "organisation_scope": null,
@@ -1971,7 +2018,7 @@
       "military_serial": null,
       "manufacturer_serial": null,
       "aircraft_type": "Airbus EC225LP / H225",
-      "icao24": null,
+      "icao24": "346105",
       "roles": [
         "search_and_rescue"
       ],
@@ -1979,9 +2026,16 @@
         "maritime_sar"
       ],
       "service_status": "current_assignment_unconfirmed",
-      "icao24_evidence": [],
+      "icao24_evidence": [
+        {
+          "icao24": "346105",
+          "source_id": "src_identity_review_ecnaa",
+          "provider": "Flightradar24"
+        }
+      ],
       "identity_source_ids": [
-        "src_cde005cdb690"
+        "src_cde005cdb690",
+        "src_identity_review_ecnaa"
       ],
       "role_source_ids": [
         "src_dc4685d740ab"
@@ -1989,21 +2043,21 @@
       "icao24_authoritative_register_verified": false,
       "identity_confidence": "C",
       "role_confidence": "B",
-      "reviewed_at": "2026-11-17",
-      "review_basis": "provided_research_reviewed_under_owner_selection_policy",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "individual public aircraft database identity reviewed; current service and collection eligibility not established",
       "adsb_position_source_verified": false,
       "observed_mission": null,
       "aliases": [],
       "open_questions": [
-        "Keine widerspruchsfrei belegte ICAO24; keine automatische Auswahl.",
-        "Juristischer Eigentümer nicht einzeln belegt."
+        "Juristischer Eigentümer nicht einzeln belegt.",
+        "One aircraft database identity is recorded; current registration and service assignment require independent confirmation before activation."
       ]
     },
     {
       "record_id": "air_f41ea4aef851fa23",
       "enabled": false,
       "selection_status": "excluded",
-      "selection_reason": "No usable evidenced ICAO24 mapping; retained for research, not automatic selection.",
+      "selection_reason": "ICAO24 mapping sourced; current service/assignment and collection suitability pending review.",
       "identity_conflict": false,
       "country": "ES",
       "organisation_scope": null,
@@ -2014,7 +2068,7 @@
       "military_serial": null,
       "manufacturer_serial": null,
       "aircraft_type": "Leonardo AW139",
-      "icao24": null,
+      "icao24": "3462cc",
       "roles": [
         "search_and_rescue"
       ],
@@ -2022,9 +2076,16 @@
         "maritime_sar"
       ],
       "service_status": "current_assignment_unconfirmed",
-      "icao24_evidence": [],
+      "icao24_evidence": [
+        {
+          "icao24": "3462cc",
+          "source_id": "src_identity_review_ecneg",
+          "provider": "Flightradar24"
+        }
+      ],
       "identity_source_ids": [
-        "src_cde005cdb690"
+        "src_cde005cdb690",
+        "src_identity_review_ecneg"
       ],
       "role_source_ids": [
         "src_dc4685d740ab"
@@ -2032,21 +2093,21 @@
       "icao24_authoritative_register_verified": false,
       "identity_confidence": "C",
       "role_confidence": "B",
-      "reviewed_at": "2026-11-17",
-      "review_basis": "provided_research_reviewed_under_owner_selection_policy",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "individual public aircraft database identity reviewed; current service and collection eligibility not established",
       "adsb_position_source_verified": false,
       "observed_mission": null,
       "aliases": [],
       "open_questions": [
-        "Keine widerspruchsfrei belegte ICAO24; keine automatische Auswahl.",
-        "Juristischer Eigentümer nicht einzeln belegt."
+        "Juristischer Eigentümer nicht einzeln belegt.",
+        "One aircraft database identity is recorded; current registration and service assignment require independent confirmation before activation."
       ]
     },
     {
       "record_id": "air_68ce12df16a6fffd",
       "enabled": false,
       "selection_status": "excluded",
-      "selection_reason": "No usable evidenced ICAO24 mapping; retained for research, not automatic selection.",
+      "selection_reason": "ICAO24 mapping sourced; current service/assignment and collection suitability pending review.",
       "identity_conflict": false,
       "country": "ES",
       "organisation_scope": null,
@@ -2057,7 +2118,7 @@
       "military_serial": null,
       "manufacturer_serial": null,
       "aircraft_type": "Leonardo AW139",
-      "icao24": null,
+      "icao24": "346401",
       "roles": [
         "search_and_rescue"
       ],
@@ -2065,9 +2126,16 @@
         "maritime_sar"
       ],
       "service_status": "current_assignment_unconfirmed",
-      "icao24_evidence": [],
+      "icao24_evidence": [
+        {
+          "icao24": "346401",
+          "source_id": "src_identity_review_ecngo",
+          "provider": "Flightradar24"
+        }
+      ],
       "identity_source_ids": [
-        "src_cde005cdb690"
+        "src_cde005cdb690",
+        "src_identity_review_ecngo"
       ],
       "role_source_ids": [
         "src_dc4685d740ab"
@@ -2075,21 +2143,21 @@
       "icao24_authoritative_register_verified": false,
       "identity_confidence": "C",
       "role_confidence": "B",
-      "reviewed_at": "2026-11-17",
-      "review_basis": "provided_research_reviewed_under_owner_selection_policy",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "individual public aircraft database identity reviewed; current service and collection eligibility not established",
       "adsb_position_source_verified": false,
       "observed_mission": null,
       "aliases": [],
       "open_questions": [
-        "Keine widerspruchsfrei belegte ICAO24; keine automatische Auswahl.",
-        "Juristischer Eigentümer nicht einzeln belegt."
+        "Juristischer Eigentümer nicht einzeln belegt.",
+        "One aircraft database identity is recorded; current registration and service assignment require independent confirmation before activation."
       ]
     },
     {
       "record_id": "air_90817c983f86434e",
       "enabled": false,
       "selection_status": "excluded",
-      "selection_reason": "No usable evidenced ICAO24 mapping; retained for research, not automatic selection.",
+      "selection_reason": "ICAO24 mapping sourced; current service/assignment and collection suitability pending review.",
       "identity_conflict": false,
       "country": "FI",
       "organisation_scope": null,
@@ -2100,7 +2168,7 @@
       "military_serial": null,
       "manufacturer_serial": null,
       "aircraft_type": "Airbus H215 / modernisierte AS332",
-      "icao24": null,
+      "icao24": "4614a4",
       "roles": [
         "search_and_rescue"
       ],
@@ -2108,9 +2176,16 @@
         "maritime_sar"
       ],
       "service_status": "current_assignment_unconfirmed",
-      "icao24_evidence": [],
+      "icao24_evidence": [
+        {
+          "icao24": "4614a4",
+          "source_id": "src_identity_review_ohhvg",
+          "provider": "Flightradar24"
+        }
+      ],
       "identity_source_ids": [
-        "src_91ed8880938d"
+        "src_91ed8880938d",
+        "src_identity_review_ohhvg"
       ],
       "role_source_ids": [
         "src_5f2283aa9306"
@@ -2118,22 +2193,22 @@
       "icao24_authoritative_register_verified": false,
       "identity_confidence": "C",
       "role_confidence": "B",
-      "reviewed_at": "2026-11-17",
-      "review_basis": "provided_research_reviewed_under_owner_selection_policy",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "individual public aircraft database identity reviewed; current service and collection eligibility not established",
       "adsb_position_source_verified": false,
       "observed_mission": null,
       "aliases": [],
       "open_questions": [
         "Familienrolle belegt; OH-HVP wird in einer anderen Datenbank als H225 geführt, Variante amtlich zu prüfen.",
-        "Keine widerspruchsfrei belegte ICAO24; keine automatische Auswahl.",
-        "Juristischer Eigentümer nicht einzeln belegt."
+        "Juristischer Eigentümer nicht einzeln belegt.",
+        "One aircraft database identity is recorded; current registration and service assignment require independent confirmation before activation."
       ]
     },
     {
       "record_id": "air_64562531906d9908",
       "enabled": false,
       "selection_status": "excluded",
-      "selection_reason": "No usable evidenced ICAO24 mapping; retained for research, not automatic selection.",
+      "selection_reason": "ICAO24 mapping sourced; current service/assignment and collection suitability pending review.",
       "identity_conflict": false,
       "country": "FI",
       "organisation_scope": null,
@@ -2144,7 +2219,7 @@
       "military_serial": null,
       "manufacturer_serial": null,
       "aircraft_type": "Airbus H215 / modernisierte AS332",
-      "icao24": null,
+      "icao24": "4614a6",
       "roles": [
         "search_and_rescue"
       ],
@@ -2152,9 +2227,16 @@
         "maritime_sar"
       ],
       "service_status": "current_assignment_unconfirmed",
-      "icao24_evidence": [],
+      "icao24_evidence": [
+        {
+          "icao24": "4614a6",
+          "source_id": "src_identity_review_ohhvi",
+          "provider": "Flightradar24"
+        }
+      ],
       "identity_source_ids": [
-        "src_91ed8880938d"
+        "src_91ed8880938d",
+        "src_identity_review_ohhvi"
       ],
       "role_source_ids": [
         "src_5f2283aa9306"
@@ -2162,22 +2244,22 @@
       "icao24_authoritative_register_verified": false,
       "identity_confidence": "C",
       "role_confidence": "B",
-      "reviewed_at": "2026-11-17",
-      "review_basis": "provided_research_reviewed_under_owner_selection_policy",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "individual public aircraft database identity reviewed; current service and collection eligibility not established",
       "adsb_position_source_verified": false,
       "observed_mission": null,
       "aliases": [],
       "open_questions": [
         "Familienrolle belegt; OH-HVP wird in einer anderen Datenbank als H225 geführt, Variante amtlich zu prüfen.",
-        "Keine widerspruchsfrei belegte ICAO24; keine automatische Auswahl.",
-        "Juristischer Eigentümer nicht einzeln belegt."
+        "Juristischer Eigentümer nicht einzeln belegt.",
+        "One aircraft database identity is recorded; current registration and service assignment require independent confirmation before activation."
       ]
     },
     {
       "record_id": "air_c6a7c1733e7918db",
       "enabled": false,
       "selection_status": "excluded",
-      "selection_reason": "No usable evidenced ICAO24 mapping; retained for research, not automatic selection.",
+      "selection_reason": "ICAO24 mapping sourced; current service/assignment and collection suitability pending review.",
       "identity_conflict": false,
       "country": "FI",
       "organisation_scope": null,
@@ -2188,7 +2270,7 @@
       "military_serial": null,
       "manufacturer_serial": null,
       "aircraft_type": "Airbus H215 / modernisierte AS332",
-      "icao24": null,
+      "icao24": "4614ad",
       "roles": [
         "search_and_rescue"
       ],
@@ -2196,9 +2278,16 @@
         "maritime_sar"
       ],
       "service_status": "current_assignment_unconfirmed",
-      "icao24_evidence": [],
+      "icao24_evidence": [
+        {
+          "icao24": "4614ad",
+          "source_id": "src_identity_review_ohhvp",
+          "provider": "Flightradar24"
+        }
+      ],
       "identity_source_ids": [
-        "src_91ed8880938d"
+        "src_91ed8880938d",
+        "src_identity_review_ohhvp"
       ],
       "role_source_ids": [
         "src_5f2283aa9306"
@@ -2206,22 +2295,22 @@
       "icao24_authoritative_register_verified": false,
       "identity_confidence": "C",
       "role_confidence": "B",
-      "reviewed_at": "2026-11-17",
-      "review_basis": "provided_research_reviewed_under_owner_selection_policy",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "individual public aircraft database identity reviewed; current service and collection eligibility not established",
       "adsb_position_source_verified": false,
       "observed_mission": null,
       "aliases": [],
       "open_questions": [
         "Familienrolle belegt; OH-HVP wird in einer anderen Datenbank als H225 geführt, Variante amtlich zu prüfen.",
-        "Keine widerspruchsfrei belegte ICAO24; keine automatische Auswahl.",
-        "Juristischer Eigentümer nicht einzeln belegt."
+        "Juristischer Eigentümer nicht einzeln belegt.",
+        "One aircraft database identity is recorded; current registration and service assignment require independent confirmation before activation."
       ]
     },
     {
       "record_id": "air_3d96aa84e54dcdcf",
       "enabled": false,
       "selection_status": "excluded",
-      "selection_reason": "No usable evidenced ICAO24 mapping; retained for research, not automatic selection.",
+      "selection_reason": "ICAO24 mapping sourced; current service/assignment and collection suitability pending review.",
       "identity_conflict": false,
       "country": "FI",
       "organisation_scope": null,
@@ -2232,7 +2321,7 @@
       "military_serial": null,
       "manufacturer_serial": null,
       "aircraft_type": "Airbus H215 / modernisierte AS332",
-      "icao24": null,
+      "icao24": "4614ae",
       "roles": [
         "search_and_rescue"
       ],
@@ -2240,9 +2329,16 @@
         "maritime_sar"
       ],
       "service_status": "current_assignment_unconfirmed",
-      "icao24_evidence": [],
+      "icao24_evidence": [
+        {
+          "icao24": "4614ae",
+          "source_id": "src_identity_review_ohhvq",
+          "provider": "Flightradar24"
+        }
+      ],
       "identity_source_ids": [
-        "src_91ed8880938d"
+        "src_91ed8880938d",
+        "src_identity_review_ohhvq"
       ],
       "role_source_ids": [
         "src_5f2283aa9306"
@@ -2250,15 +2346,15 @@
       "icao24_authoritative_register_verified": false,
       "identity_confidence": "C",
       "role_confidence": "B",
-      "reviewed_at": "2026-11-17",
-      "review_basis": "provided_research_reviewed_under_owner_selection_policy",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "individual public aircraft database identity reviewed; current service and collection eligibility not established",
       "adsb_position_source_verified": false,
       "observed_mission": null,
       "aliases": [],
       "open_questions": [
         "Familienrolle belegt; OH-HVP wird in einer anderen Datenbank als H225 geführt, Variante amtlich zu prüfen.",
-        "Keine widerspruchsfrei belegte ICAO24; keine automatische Auswahl.",
-        "Juristischer Eigentümer nicht einzeln belegt."
+        "Juristischer Eigentümer nicht einzeln belegt.",
+        "One aircraft database identity is recorded; current registration and service assignment require independent confirmation before activation."
       ]
     },
     {
@@ -12641,6 +12737,94 @@
       "source_class": "aircraft_database",
       "source_date": null,
       "retrieved_at": "2026-11-17"
+    },
+    {
+      "id": "src_identity_review_ohhvg",
+      "url": "https://www.flightradar24.com/data/aircraft/oh-hvg",
+      "title": "OH-HVG aircraft identity / Mode S",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_identity_review_ohhvi",
+      "url": "https://www.flightradar24.com/data/aircraft/oh-hvi",
+      "title": "OH-HVI aircraft identity / Mode S",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_identity_review_ohhvp",
+      "url": "https://www.flightradar24.com/data/aircraft/oh-hvp",
+      "title": "OH-HVP aircraft identity / Mode S",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_identity_review_ohhvq",
+      "url": "https://www.flightradar24.com/data/aircraft/oh-hvq",
+      "title": "OH-HVQ aircraft identity / Mode S",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_identity_review_eckhv",
+      "url": "https://www.flightradar24.com/data/aircraft/ec-khv",
+      "title": "EC-KHV aircraft identity / Mode S",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_identity_review_ecmna",
+      "url": "https://www.flightradar24.com/data/aircraft/ec-mna",
+      "title": "EC-MNA aircraft identity / Mode S",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_identity_review_ecmrj",
+      "url": "https://www.flightradar24.com/data/aircraft/ec-mrj",
+      "title": "EC-MRJ aircraft identity / Mode S",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_identity_review_ecneg",
+      "url": "https://www.flightradar24.com/data/aircraft/ec-neg",
+      "title": "EC-NEG aircraft identity / Mode S",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_identity_review_ecmcr",
+      "url": "https://www.flightradar24.com/data/aircraft/ec-mcr",
+      "title": "EC-MCR aircraft identity / Mode S",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_identity_review_ecnaa",
+      "url": "https://www.flightradar24.com/data/aircraft/ec-naa",
+      "title": "EC-NAA aircraft identity / Mode S",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_identity_review_ecngo",
+      "url": "https://www.flightradar24.com/data/aircraft/ec-ngo",
+      "title": "EC-NGO aircraft identity / Mode S",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
     }
   ]
 }
