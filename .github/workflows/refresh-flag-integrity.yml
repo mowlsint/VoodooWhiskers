@@ -1,0 +1,44 @@
+name: Refresh flag integrity review
+on:
+  schedule:
+    - cron: "30 5 * * 1"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "data/false_flag_watchlist.csv"
+      - "data/flag_risk_reference.csv"
+      - "scripts/flag_integrity.py"
+      - "scripts/audit_flag_integrity.py"
+      - "public/assets/flag-integrity.js"
+      - "tests/test_flag_integrity.cjs"
+      - ".github/workflows/refresh-flag-integrity.yml"
+permissions:
+  contents: read
+concurrency:
+  group: flag-integrity-review
+  cancel-in-progress: false
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Validate curated references and build catalog
+        run: python scripts/flag_integrity.py
+      - name: Verify flag integrity logic
+        run: node --test tests/test_flag_integrity.cjs tests/test_vessel_categories.cjs
+      - name: Check official source indexes and explicit OFAC false-flag leads
+        if: github.event_name != 'push'
+        run: python scripts/audit_flag_integrity.py
+      - name: Upload source review, including partial results on failure
+        if: always() && github.event_name != 'push'
+        uses: actions/upload-artifact@v4
+        with:
+          name: flag-integrity-review
+          path: flag-integrity-review.json
+          retention-days: 14
+          if-no-files-found: warn
