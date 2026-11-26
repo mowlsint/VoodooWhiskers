@@ -56,3 +56,6 @@ VOODOO_TEST_DOM_MODULE=/path/to/test-only/node_modules/jsdom node --test tests/t
 ```
 
 DOM integration checks use real Leaflet controls/markers and mocked same-origin products. They cover exposed/default-off controls, absence of startup aircraft requests, missing data, safe role/source pop-ups, strict windows, offshore context, reset, SAR races and project isolation. Test-only sample positions are not shipped as production data. No new production dependency is added.
+
+## Aircraft Intelligence directory (2026-11-26)
+The current role selector filters the existing selected observations only; it does not change collector selection or budgets. The optional directory has organisation, SAR capability and excluded identity views. The six additional programme/authority references are separate from aircraft identities. Daily `refresh-aircraft-registry.yml` checks curated sources and creates a review artifact and delayed daily sample counts from retained runtime history. It neither auto-activates aircraft nor reconstructs tracks. Source hashes are review evidence, not proof of fleet changes. Existing 10-minute collection, 128 active ceiling, 14-day retention and 30 MiB / 4 MiB daily limits are unchanged. Historical summary is an Actions artifact, not a map route.

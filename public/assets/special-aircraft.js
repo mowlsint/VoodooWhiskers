@@ -74,7 +74,7 @@
       if(loading){status.textContent='Loading selected aircraft observations …';return;}
       if(error){status.textContent='Aircraft data unavailable. Collection may not be active; this is not a zero result. Use Refresh to retry.';return;}
       if(!product){status.textContent='No aircraft data loaded. Use Refresh to check availability.';return;}
-      const view=getView(),rows=visible(product,{...view,includeOffshore:offshore.checked}),stale=product.status==='stale'||Date.now()-Date.parse(product.generated_at)>LATEST_AGE;
+      const view=getView(),roleFilter=$('aircraftRoleFilter')?.value||'',roleGroups={sar:['search_and_rescue','sar_support','offshore_sar','hems_maritime_context'],authority:['police','coast_guard','customs_border_guard'],environment:['environmental_monitoring','fisheries_monitoring','pollution_monitoring','emissions_monitoring'],military:['military_maritime_patrol','military_isr','military_other','nato_owned'],rpas:['rpas']},rows=visible(product,{...view,includeOffshore:offshore.checked}).filter(p=>!roleFilter||p.roles.some(r=>roleGroups[roleFilter]?.includes(r))),stale=product.status==='stale'||Date.now()-Date.parse(product.generated_at)>LATEST_AGE;
       if(['unavailable','error'].includes(product.status)){const reasons={daily_version_budget:'Aircraft sampling paused: daily repository growth budget reached',repository_warning_budget:'Aircraft sampling paused: repository size warning reached',repository_size_unavailable:'Aircraft sampling paused: repository size could not be checked',rate_limited:'Aircraft provider rate limit reached; waiting before another query',collection_disabled:'Aircraft collection is switched off',empty_selection:'No aircraft are selected for collection'};status.textContent=(reasons[product.collection_code]||'Aircraft source reports '+product.status)+'; this is not a zero result.';return;}
       if(product.status==='valid_zero'){status.textContent=(stale?'Stale zero-result product':'Valid zero result in the selected feed')+' · product UTC '+product.generated_at+'. This does not establish absence of aircraft.';return;}
       const prefix=stale?(product.status==='partial'?'Stale, partial aircraft data':'Stale aircraft product'):product.status==='partial'?'Partial aircraft data':'Selected aircraft observations';
@@ -92,7 +92,7 @@
       error='';product=null;loading=fetchProduct('./data/aircraft/aircraft_latest.json');refresh.disabled=true;render();
       try{product=await loading;}catch{error='unavailable';}finally{loading=null;refresh.disabled=false;render();}
     }
-    toggle.addEventListener('change',()=>{render();if(toggle.checked&&!product)load();});offshore.addEventListener('change',render);refresh.addEventListener('click',load);render();
+    toggle.addEventListener('change',()=>{render();if(toggle.checked&&!product)load();});offshore.addEventListener('change',render);$('aircraftRoleFilter')?.addEventListener('change',render);refresh.addEventListener('click',load);render();
     return {render};
   }
   return {MAX_BYTES,ROLES,decode,visible,colour,researchLinks,popup,fetchProduct,attach};

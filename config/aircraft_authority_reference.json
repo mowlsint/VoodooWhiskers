@@ -1,0 +1,84 @@
+{
+  "schema": "VOODOO_AIRCRAFT_AUTHORITY_REFERENCE_V1",
+  "updated_at": "2026-11-26",
+  "complete": false,
+  "programmes": [
+    {
+      "country": "EU",
+      "name": "EMSA",
+      "kind": "commissioning_authority",
+      "roles": [
+        "maritime_surveillance",
+        "environmental_monitoring",
+        "sar_support",
+        "rpas"
+      ],
+      "url": "https://emsa.europa.eu/rpas-systems/portfolio.html",
+      "note": "Public service portfolio, not individual aircraft allocation.",
+      "reviewed_at": "2026-11-26"
+    },
+    {
+      "country": "EU",
+      "name": "EFCA",
+      "kind": "commissioning_authority",
+      "roles": [
+        "fisheries_monitoring",
+        "rpas"
+      ],
+      "url": "https://www.efca.europa.eu/fr/what-we-do/operational-coordination/chartered%20means",
+      "note": "Chartered aircraft and RPAS services; individual identity unresolved.",
+      "reviewed_at": "2026-11-26"
+    },
+    {
+      "country": "EU",
+      "name": "Frontex",
+      "kind": "commissioning_authority",
+      "roles": [
+        "customs_border_guard",
+        "maritime_surveillance",
+        "sar_support",
+        "rpas"
+      ],
+      "url": "https://www.frontex.europa.eu/what-we-do/operations/search-and-rescue/?etrans=sv",
+      "note": "Support to national rescue authorities, not a primary SAR operator.",
+      "reviewed_at": "2026-11-26"
+    },
+    {
+      "country": "GB",
+      "name": "HM Coastguard / MCA",
+      "kind": "commissioning_authority",
+      "roles": [
+        "search_and_rescue",
+        "sar_support"
+      ],
+      "url": "https://www.gov.uk/government/collections/uk-second-generation-search-and-rescue-aviation-programme-uksar2g",
+      "note": "UKSAR2G programme; Bristow contracted provider. No individual aircraft assignment inferred.",
+      "reviewed_at": "2026-11-26"
+    },
+    {
+      "country": "PL",
+      "name": "Maritime Search and Rescue Service",
+      "kind": "sar_coordination",
+      "roles": [
+        "sar_support"
+      ],
+      "url": "https://www.sar.gov.pl/en/about-us/tasks-of-the-sar-service",
+      "note": "Maritime rescue authority; no claim of own aircraft fleet.",
+      "reviewed_at": "2026-11-26"
+    },
+    {
+      "country": "DE",
+      "name": "Bundespolizei-Flugdienst",
+      "kind": "authority_programme",
+      "roles": [
+        "police",
+        "coast_guard",
+        "pollution_monitoring",
+        "sar_support"
+      ],
+      "url": "https://bundespolizei.de/die-bundespolizei/einsatzkraefte/bundespolizei-flugdienst",
+      "note": "Official maritime and emergency support remit; not additional aircraft identities.",
+      "reviewed_at": "2026-11-26"
+    }
+  ]
+}

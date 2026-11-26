@@ -1,0 +1,58 @@
+name: Refresh aircraft registry review
+on:
+  schedule:
+    - cron: "15 6 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "config/aircraft_authority_reference.json"
+      - "config/special_aircraft_registry.json"
+      - "scripts/aircraft_directory.py"
+      - "scripts/audit_aircraft_directory.py"
+      - "public/assets/aircraft-directory.js"
+      - "public/assets/special-aircraft.js"
+      - "tests/test_aircraft_directory.py"
+      - ".github/workflows/refresh-aircraft-registry.yml"
+permissions:
+  contents: read
+concurrency:
+  group: aircraft-registry-review
+  cancel-in-progress: false
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Validate registry and directory
+        run: |
+          python scripts/special_aircraft_registry.py
+          python -m unittest discover -s tests -p test_aircraft_directory.py
+          python scripts/aircraft_directory.py
+          node --check public/assets/aircraft-directory.js
+          node --test tests/test_special_aircraft.cjs
+      - name: Read existing bounded history
+        if: github.event_name != 'push'
+        continue-on-error: true
+        uses: actions/checkout@v5
+        with:
+          ref: runtime-data
+          path: aircraft-runtime
+          sparse-checkout: public/data/aircraft/history
+      - name: Review official programme sources and aggregate history
+        if: github.event_name != 'push'
+        run: python scripts/audit_aircraft_directory.py aircraft-runtime/public/data/aircraft/history
+      - name: Retain review and history summary
+        if: always() && github.event_name != 'push'
+        uses: actions/upload-artifact@v4
+        with:
+          name: aircraft-registry-review
+          path: |
+            aircraft-directory-review.json
+            aircraft-history-summary.json
+          retention-days: 14
+          if-no-files-found: warn
