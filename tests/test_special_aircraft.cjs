@@ -46,7 +46,7 @@ test('unsupported, oversized and future-dated products are rejected',()=>{
 });
 test('consumer rejects advertised oversize and invalid HTML without requesting a provider',async()=>{
  const original=global.fetch;let textRead=false;try{
-  global.fetch=async url=>{assert.equal(url,'./data/aircraft/aircraft_latest.json');return {ok:true,headers:{get:()=>String(A.MAX_BYTES+1)},text:async()=>{textRead=true;return '';}};};
+  global.fetch=async url=>{assert.equal(url,'https://raw.githubusercontent.com/mowlsint/VoodooWhiskers/runtime-data/public/data/aircraft/aircraft_latest.json');return {ok:true,headers:{get:()=>String(A.MAX_BYTES+1)},text:async()=>{textRead=true;return '';}};};
   await assert.rejects(()=>A.fetchProduct('./data/aircraft/aircraft_latest.json'),/budget/);assert.equal(textRead,false);
   global.fetch=async()=>({ok:true,text:async()=>'<html>fallback</html>'});await assert.rejects(()=>A.fetchProduct('./data/aircraft/aircraft_latest.json'));
  }finally{global.fetch=original;}
