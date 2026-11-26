@@ -76,3 +76,6 @@ Aircraft organisation, operator, commissioning authority and aircraft-type displ
 
 ## Optional sampled aircraft track overlay
 The same 24-hour product now includes bounded dashed connectors between existing observations, with a maximum 15-minute gap, plausible speed and no dateline jumps. No new provider requests, no automatic vessel-aircraft association. Both map overlays can be enabled simultaneously. Track connectors are capped at 8 KiB per product and omitted before collection would exceed its existing daily budget. The status identifies truncation. No interpolated position or verified encounter is implied.
+
+## Civil offshore aviation coverage
+Commercial offshore operator/programme references cover wind, oil/gas, crew/cargo and maritime pilot transport. Operator references do not imply a particular airframe or current operation. Ten public individual identity records for HeliService and NHV are selected as civil offshore transport under the existing single-provider policy; nine new records and one previously excluded identity. Existing SAR/HEMS roles are unchanged. Civil offshore display remains optional; the offshore role filter also enables civil transport for that view. No new polling cadence, quota or storage limits; total selected remains within 128. No actual flight mission, reception or completeness is inferred.

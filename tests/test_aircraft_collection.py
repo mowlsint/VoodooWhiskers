@@ -63,7 +63,7 @@ class CollectionTests(unittest.TestCase):
     def test_real_selection_is_batched_once_and_only_aircraft_files_are_written(self):
         report = self.run_collection()
         self.assertEqual(report['requests'], 2)
-        self.assertEqual([len(b) for b in self.calls], [64, 41])
+        self.assertEqual([len(b) for b in self.calls], [min(64,len(self.selected)),max(0,len(self.selected)-64)])
         self.assertEqual(set(sum(self.calls, [])), set(self.selected))
         item = self.latest()['items'][0]
         self.assertEqual(item['observed_at'], C.iso(NOW - 1))

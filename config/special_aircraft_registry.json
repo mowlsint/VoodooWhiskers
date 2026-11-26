@@ -1378,9 +1378,9 @@
     },
     {
       "record_id": "air_22e0ebfc5e5a371f",
-      "enabled": false,
-      "selection_status": "excluded",
-      "selection_reason": "No usable evidenced ICAO24 mapping; retained for research, not automatic selection.",
+      "enabled": true,
+      "selection_status": "registry_selected",
+      "selection_reason": "Public commercial operator and individual ICAO24 evidence; offshore service capability only, actual flight purpose unknown.",
       "identity_conflict": false,
       "country": "DK",
       "organisation_scope": null,
@@ -1391,7 +1391,7 @@
       "military_serial": null,
       "manufacturer_serial": null,
       "aircraft_type": "Airbus H175",
-      "icao24": null,
+      "icao24": "45a256",
       "roles": [
         "offshore_transport"
       ],
@@ -1399,26 +1399,32 @@
         "civil_offshore_transport"
       ],
       "service_status": "current_individual_assignment_unconfirmed",
-      "icao24_evidence": [],
+      "icao24_evidence": [
+        {
+          "icao24": "45a256",
+          "source_id": "src_offshore_identity_oyhrv",
+          "provider": "Flightradar24"
+        }
+      ],
       "identity_source_ids": [
-        "src_dc751a6cf52c"
+        "src_dc751a6cf52c",
+        "src_offshore_identity_oyhrv"
       ],
       "role_source_ids": [
         "src_5f228729bf06",
-        "src_710390595a27"
+        "src_710390595a27",
+        "src_offshore_be_nhv_group"
       ],
       "icao24_authoritative_register_verified": false,
       "identity_confidence": "C",
       "role_confidence": "B",
-      "reviewed_at": "2026-11-17",
-      "review_basis": "provided_research_reviewed_under_owner_selection_policy",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "Public individual identity and operator-level commercial service evidence",
       "adsb_position_source_verified": false,
       "observed_mission": null,
       "aliases": [],
       "open_questions": [
-        "Individueller Offshore-Beleg historisch; aktuellen Register-/Vertragsstatus prüfen.",
-        "Keine widerspruchsfrei belegte ICAO24; keine automatische Auswahl.",
-        "Juristischer Eigentümer nicht einzeln belegt."
+        "Individual contract, current tasking and actual ADS-B reception are not established."
       ]
     },
     {
@@ -10652,6 +10658,438 @@
         "Schreibweise mit zusätzlichem Bindestrich MM-AV-SA-00xx beobachtet; keine automatische Verschmelzung mit abweichenden Nummern. Individuelle ICAO24-Prüfung offen.",
         "Keine widerspruchsfrei belegte ICAO24; keine automatische Auswahl."
       ]
+    },
+    {
+      "record_id": "air_offshore_dhhic",
+      "country": "DE",
+      "organisation_scope": null,
+      "organisation": "HeliService International",
+      "operator": "HeliService International",
+      "commissioning_authority": "Civil offshore customer unknown for individual flight or contract",
+      "registration": "D-HHIC",
+      "military_serial": null,
+      "manufacturer_serial": null,
+      "aliases": [],
+      "enabled": true,
+      "selection_status": "registry_selected",
+      "selection_reason": "Public commercial operator and individual ICAO24 evidence; offshore service capability only, actual flight purpose unknown.",
+      "identity_conflict": false,
+      "aircraft_type": "Leonardo AW139",
+      "icao24": "3de5ee",
+      "roles": [
+        "offshore_transport"
+      ],
+      "source_roles": [
+        "civil_offshore_transport"
+      ],
+      "service_status": "current_individual_assignment_unconfirmed",
+      "icao24_evidence": [
+        {
+          "icao24": "3de5ee",
+          "source_id": "src_offshore_identity_dhhic",
+          "provider": "Flightradar24"
+        }
+      ],
+      "identity_source_ids": [
+        "src_offshore_identity_dhhic"
+      ],
+      "role_source_ids": [
+        "src_offshore_de_heliservice_international"
+      ],
+      "icao24_authoritative_register_verified": false,
+      "identity_confidence": "C",
+      "role_confidence": "B",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "Public individual identity and operator-level commercial service evidence",
+      "adsb_position_source_verified": false,
+      "observed_mission": null,
+      "open_questions": [
+        "Individual contract, current tasking and actual ADS-B reception are not established."
+      ]
+    },
+    {
+      "record_id": "air_offshore_dhhmr",
+      "country": "DE",
+      "organisation_scope": null,
+      "organisation": "HeliService International",
+      "operator": "HeliService International",
+      "commissioning_authority": "Civil offshore customer unknown for individual flight or contract",
+      "registration": "D-HHMR",
+      "military_serial": null,
+      "manufacturer_serial": null,
+      "aliases": [],
+      "enabled": true,
+      "selection_status": "registry_selected",
+      "selection_reason": "Public commercial operator and individual ICAO24 evidence; offshore service capability only, actual flight purpose unknown.",
+      "identity_conflict": false,
+      "aircraft_type": "Leonardo AW139",
+      "icao24": "3de665",
+      "roles": [
+        "offshore_transport"
+      ],
+      "source_roles": [
+        "civil_offshore_transport"
+      ],
+      "service_status": "current_individual_assignment_unconfirmed",
+      "icao24_evidence": [
+        {
+          "icao24": "3de665",
+          "source_id": "src_offshore_identity_dhhmr",
+          "provider": "Flightradar24"
+        }
+      ],
+      "identity_source_ids": [
+        "src_offshore_identity_dhhmr"
+      ],
+      "role_source_ids": [
+        "src_offshore_de_heliservice_international"
+      ],
+      "icao24_authoritative_register_verified": false,
+      "identity_confidence": "C",
+      "role_confidence": "B",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "Public individual identity and operator-level commercial service evidence",
+      "adsb_position_source_verified": false,
+      "observed_mission": null,
+      "open_questions": [
+        "Individual contract, current tasking and actual ADS-B reception are not established."
+      ]
+    },
+    {
+      "record_id": "air_offshore_dhhmj",
+      "country": "DE",
+      "organisation_scope": null,
+      "organisation": "HeliService International",
+      "operator": "HeliService International",
+      "commissioning_authority": "Civil offshore customer unknown for individual flight or contract",
+      "registration": "D-HHMJ",
+      "military_serial": null,
+      "manufacturer_serial": null,
+      "aliases": [],
+      "enabled": true,
+      "selection_status": "registry_selected",
+      "selection_reason": "Public commercial operator and individual ICAO24 evidence; offshore service capability only, actual flight purpose unknown.",
+      "identity_conflict": false,
+      "aircraft_type": "Leonardo AW169",
+      "icao24": "3de65d",
+      "roles": [
+        "offshore_transport"
+      ],
+      "source_roles": [
+        "civil_offshore_transport"
+      ],
+      "service_status": "current_individual_assignment_unconfirmed",
+      "icao24_evidence": [
+        {
+          "icao24": "3de65d",
+          "source_id": "src_offshore_identity_dhhmj",
+          "provider": "Flightradar24"
+        }
+      ],
+      "identity_source_ids": [
+        "src_offshore_identity_dhhmj"
+      ],
+      "role_source_ids": [
+        "src_offshore_de_heliservice_international"
+      ],
+      "icao24_authoritative_register_verified": false,
+      "identity_confidence": "C",
+      "role_confidence": "B",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "Public individual identity and operator-level commercial service evidence",
+      "adsb_position_source_verified": false,
+      "observed_mission": null,
+      "open_questions": [
+        "Individual contract, current tasking and actual ADS-B reception are not established."
+      ]
+    },
+    {
+      "record_id": "air_offshore_dhhmh",
+      "country": "DE",
+      "organisation_scope": null,
+      "organisation": "HeliService International",
+      "operator": "HeliService International",
+      "commissioning_authority": "Civil offshore customer unknown for individual flight or contract",
+      "registration": "D-HHMH",
+      "military_serial": null,
+      "manufacturer_serial": null,
+      "aliases": [],
+      "enabled": true,
+      "selection_status": "registry_selected",
+      "selection_reason": "Public commercial operator and individual ICAO24 evidence; offshore service capability only, actual flight purpose unknown.",
+      "identity_conflict": false,
+      "aircraft_type": "Leonardo AW139",
+      "icao24": "3de65b",
+      "roles": [
+        "offshore_transport"
+      ],
+      "source_roles": [
+        "civil_offshore_transport"
+      ],
+      "service_status": "current_individual_assignment_unconfirmed",
+      "icao24_evidence": [
+        {
+          "icao24": "3de65b",
+          "source_id": "src_offshore_identity_dhhmh",
+          "provider": "Flightradar24"
+        }
+      ],
+      "identity_source_ids": [
+        "src_offshore_identity_dhhmh"
+      ],
+      "role_source_ids": [
+        "src_offshore_de_heliservice_international"
+      ],
+      "icao24_authoritative_register_verified": false,
+      "identity_confidence": "C",
+      "role_confidence": "B",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "Public individual identity and operator-level commercial service evidence",
+      "adsb_position_source_verified": false,
+      "observed_mission": null,
+      "open_questions": [
+        "Individual contract, current tasking and actual ADS-B reception are not established."
+      ]
+    },
+    {
+      "record_id": "air_offshore_dhhpk",
+      "country": "DE",
+      "organisation_scope": null,
+      "organisation": "HeliService International",
+      "operator": "HeliService International",
+      "commissioning_authority": "Civil offshore customer unknown for individual flight or contract",
+      "registration": "D-HHPK",
+      "military_serial": null,
+      "manufacturer_serial": null,
+      "aliases": [],
+      "enabled": true,
+      "selection_status": "registry_selected",
+      "selection_reason": "Public commercial operator and individual ICAO24 evidence; offshore service capability only, actual flight purpose unknown.",
+      "identity_conflict": false,
+      "aircraft_type": "Leonardo AW139",
+      "icao24": "3de6ac",
+      "roles": [
+        "offshore_transport"
+      ],
+      "source_roles": [
+        "civil_offshore_transport"
+      ],
+      "service_status": "current_individual_assignment_unconfirmed",
+      "icao24_evidence": [
+        {
+          "icao24": "3de6ac",
+          "source_id": "src_offshore_identity_dhhpk",
+          "provider": "Flightradar24"
+        }
+      ],
+      "identity_source_ids": [
+        "src_offshore_identity_dhhpk"
+      ],
+      "role_source_ids": [
+        "src_offshore_de_heliservice_international"
+      ],
+      "icao24_authoritative_register_verified": false,
+      "identity_confidence": "C",
+      "role_confidence": "B",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "Public individual identity and operator-level commercial service evidence",
+      "adsb_position_source_verified": false,
+      "observed_mission": null,
+      "open_questions": [
+        "Individual contract, current tasking and actual ADS-B reception are not established."
+      ]
+    },
+    {
+      "record_id": "air_offshore_dhhrj",
+      "country": "DE",
+      "organisation_scope": null,
+      "organisation": "HeliService International",
+      "operator": "HeliService International",
+      "commissioning_authority": "Civil offshore customer unknown for individual flight or contract",
+      "registration": "D-HHRJ",
+      "military_serial": null,
+      "manufacturer_serial": null,
+      "aliases": [],
+      "enabled": true,
+      "selection_status": "registry_selected",
+      "selection_reason": "Public commercial operator and individual ICAO24 evidence; offshore service capability only, actual flight purpose unknown.",
+      "identity_conflict": false,
+      "aircraft_type": "Leonardo AW169",
+      "icao24": "3de6df",
+      "roles": [
+        "offshore_transport"
+      ],
+      "source_roles": [
+        "civil_offshore_transport"
+      ],
+      "service_status": "current_individual_assignment_unconfirmed",
+      "icao24_evidence": [
+        {
+          "icao24": "3de6df",
+          "source_id": "src_offshore_identity_dhhrj",
+          "provider": "Flightradar24"
+        }
+      ],
+      "identity_source_ids": [
+        "src_offshore_identity_dhhrj"
+      ],
+      "role_source_ids": [
+        "src_offshore_de_heliservice_international"
+      ],
+      "icao24_authoritative_register_verified": false,
+      "identity_confidence": "C",
+      "role_confidence": "B",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "Public individual identity and operator-level commercial service evidence",
+      "adsb_position_source_verified": false,
+      "observed_mission": null,
+      "open_questions": [
+        "Individual contract, current tasking and actual ADS-B reception are not established."
+      ]
+    },
+    {
+      "record_id": "air_offshore_dhhvj",
+      "country": "DE",
+      "organisation_scope": null,
+      "organisation": "HeliService International",
+      "operator": "HeliService International",
+      "commissioning_authority": "Civil offshore customer unknown for individual flight or contract",
+      "registration": "D-HHVJ",
+      "military_serial": null,
+      "manufacturer_serial": null,
+      "aliases": [],
+      "enabled": true,
+      "selection_status": "registry_selected",
+      "selection_reason": "Public commercial operator and individual ICAO24 evidence; offshore service capability only, actual flight purpose unknown.",
+      "identity_conflict": false,
+      "aircraft_type": "Leonardo AW169",
+      "icao24": "3de747",
+      "roles": [
+        "offshore_transport"
+      ],
+      "source_roles": [
+        "civil_offshore_transport"
+      ],
+      "service_status": "current_individual_assignment_unconfirmed",
+      "icao24_evidence": [
+        {
+          "icao24": "3de747",
+          "source_id": "src_offshore_identity_dhhvj",
+          "provider": "Flightradar24"
+        }
+      ],
+      "identity_source_ids": [
+        "src_offshore_identity_dhhvj"
+      ],
+      "role_source_ids": [
+        "src_offshore_de_heliservice_international"
+      ],
+      "icao24_authoritative_register_verified": false,
+      "identity_confidence": "C",
+      "role_confidence": "B",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "Public individual identity and operator-level commercial service evidence",
+      "adsb_position_source_verified": false,
+      "observed_mission": null,
+      "open_questions": [
+        "Individual contract, current tasking and actual ADS-B reception are not established."
+      ]
+    },
+    {
+      "record_id": "air_offshore_oyhnv",
+      "country": "DK",
+      "organisation_scope": null,
+      "organisation": "NHV",
+      "operator": "NHV",
+      "commissioning_authority": "Civil offshore customer unknown for individual flight or contract",
+      "registration": "OY-HNV",
+      "military_serial": null,
+      "manufacturer_serial": null,
+      "aliases": [],
+      "enabled": true,
+      "selection_status": "registry_selected",
+      "selection_reason": "Public commercial operator and individual ICAO24 evidence; offshore service capability only, actual flight purpose unknown.",
+      "identity_conflict": false,
+      "aircraft_type": "Airbus H175",
+      "icao24": "45a1d6",
+      "roles": [
+        "offshore_transport"
+      ],
+      "source_roles": [
+        "civil_offshore_transport"
+      ],
+      "service_status": "current_individual_assignment_unconfirmed",
+      "icao24_evidence": [
+        {
+          "icao24": "45a1d6",
+          "source_id": "src_offshore_identity_oyhnv",
+          "provider": "Flightradar24"
+        }
+      ],
+      "identity_source_ids": [
+        "src_offshore_identity_oyhnv"
+      ],
+      "role_source_ids": [
+        "src_offshore_be_nhv_group"
+      ],
+      "icao24_authoritative_register_verified": false,
+      "identity_confidence": "C",
+      "role_confidence": "B",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "Public individual identity and operator-level commercial service evidence",
+      "adsb_position_source_verified": false,
+      "observed_mission": null,
+      "open_questions": [
+        "Individual contract, current tasking and actual ADS-B reception are not established."
+      ]
+    },
+    {
+      "record_id": "air_offshore_oyhmv",
+      "country": "DK",
+      "organisation_scope": null,
+      "organisation": "NHV",
+      "operator": "NHV",
+      "commissioning_authority": "Civil offshore customer unknown for individual flight or contract",
+      "registration": "OY-HMV",
+      "military_serial": null,
+      "manufacturer_serial": null,
+      "aliases": [],
+      "enabled": true,
+      "selection_status": "registry_selected",
+      "selection_reason": "Public commercial operator and individual ICAO24 evidence; offshore service capability only, actual flight purpose unknown.",
+      "identity_conflict": false,
+      "aircraft_type": "Airbus H175",
+      "icao24": "45a1b6",
+      "roles": [
+        "offshore_transport"
+      ],
+      "source_roles": [
+        "civil_offshore_transport"
+      ],
+      "service_status": "current_individual_assignment_unconfirmed",
+      "icao24_evidence": [
+        {
+          "icao24": "45a1b6",
+          "source_id": "src_offshore_identity_oyhmv",
+          "provider": "Flightradar24"
+        }
+      ],
+      "identity_source_ids": [
+        "src_offshore_identity_oyhmv"
+      ],
+      "role_source_ids": [
+        "src_offshore_be_nhv_group"
+      ],
+      "icao24_authoritative_register_verified": false,
+      "identity_confidence": "C",
+      "role_confidence": "B",
+      "reviewed_at": "2026-11-26",
+      "review_basis": "Public individual identity and operator-level commercial service evidence",
+      "adsb_position_source_verified": false,
+      "observed_mission": null,
+      "open_questions": [
+        "Individual contract, current tasking and actual ADS-B reception are not established."
+      ]
     }
   ],
   "sources": [
@@ -12822,6 +13260,206 @@
       "id": "src_identity_review_ecngo",
       "url": "https://www.flightradar24.com/data/aircraft/ec-ngo",
       "title": "EC-NGO aircraft identity / Mode S",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_de_heliservice_international",
+      "url": "https://heliservice.com/en/offshore/",
+      "title": "HeliService International commercial offshore service reference",
+      "source_class": "primary_operator_or_manufacturer",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_de_northern_helicopter",
+      "url": "https://windea.com/helicopter-operations/",
+      "title": "Northern Helicopter commercial offshore service reference",
+      "source_class": "primary_operator_or_manufacturer",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_de_htm_helicopter_travel_munich",
+      "url": "https://htm.de/en/offshore",
+      "title": "HTM Helicopter Travel Munich commercial offshore service reference",
+      "source_class": "primary_operator_or_manufacturer",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_be_nhv_group",
+      "url": "https://nhv.be/services/offshore-flying-services",
+      "title": "NHV Group commercial offshore service reference",
+      "source_class": "primary_operator_or_manufacturer",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_nl_nhv_dutch_pilots_organisation",
+      "url": "https://nhv.be/about/news/nhv-secures-contract-extension-to-provide-new-aircraft-type-for-dutch-pilots-organisation",
+      "title": "NHV / Dutch Pilots' Organisation commercial offshore service reference",
+      "source_class": "primary_operator_or_manufacturer",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_nl_heli_holland_offshore",
+      "url": "https://heliholland.nl/en/business/offshore/",
+      "title": "Heli Holland Offshore commercial offshore service reference",
+      "source_class": "primary_operator_or_manufacturer",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_dk_kn_helicopters",
+      "url": "https://www.knhelicopters.dk/kn-operations/transportation",
+      "title": "KN Helicopters commercial offshore service reference",
+      "source_class": "primary_operator_or_manufacturer",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_dk_uni_fly",
+      "url": "https://www.uni-fly.com/crew-change",
+      "title": "UNI-FLY commercial offshore service reference",
+      "source_class": "primary_operator_or_manufacturer",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_dk_avincis_aviation_denmark",
+      "url": "https://www.avincis.com/",
+      "title": "Avincis Aviation Denmark commercial offshore service reference",
+      "source_class": "primary_operator_or_manufacturer",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_no_bristow_norway",
+      "url": "https://www.equinor.com/news/20260318-strengthens-helicopter-capacity-bergen",
+      "title": "Bristow Norway commercial offshore service reference",
+      "source_class": "primary_operator_or_manufacturer",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_no_chc_norway",
+      "url": "https://www.chcheli.com/our-solutions/offshore-transportation",
+      "title": "CHC Norway commercial offshore service reference",
+      "source_class": "primary_operator_or_manufacturer",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_gb_bristow_helicopters_commercial_offshore_services",
+      "url": "https://www.bristowgroup.com/investors/sec-filings/all-sec-filings/content/0001525221-26-000013/vtol-20251231.htm",
+      "title": "Bristow Helicopters / commercial offshore services commercial offshore service reference",
+      "source_class": "primary_operator_or_manufacturer",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_fr_airtelis_connect_oya_vendee_helicopters",
+      "url": "https://www.airtelis.com/en/product-lines/offshore-activity/",
+      "title": "Airtelis Connect / OYA Vendee Helicopters commercial offshore service reference",
+      "source_class": "primary_operator_or_manufacturer",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_pl_nhv_polish_offshore_wind_services",
+      "url": "https://nhv.be/about/news/a-premiere-for-poland-offshore-wind-operations-with-the-h175",
+      "title": "NHV / Polish offshore wind services commercial offshore service reference",
+      "source_class": "primary_operator_or_manufacturer",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_pl_uni_fly_baltica_2_contract",
+      "url": "https://www.offshorewind.biz/2026/11/24/uni-fly-nets-helicopter-crew-change-contract-for-polish-offshore-wind-farm",
+      "title": "UNI-FLY / Baltica 2 contract commercial offshore service reference",
+      "source_class": "other",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_identity_dhhic",
+      "url": "https://www.flightradar24.com/data/aircraft/d-hhic",
+      "title": "D-HHIC public aircraft identity and operator",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_identity_dhhmr",
+      "url": "https://www.flightradar24.com/data/aircraft/d-hhmr",
+      "title": "D-HHMR public aircraft identity and operator",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_identity_dhhmj",
+      "url": "https://www.flightradar24.com/data/aircraft/d-hhmj",
+      "title": "D-HHMJ public aircraft identity and operator",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_identity_dhhmh",
+      "url": "https://www.flightradar24.com/data/aircraft/d-hhmh",
+      "title": "D-HHMH public aircraft identity and operator",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_identity_dhhpk",
+      "url": "https://www.flightradar24.com/data/aircraft/d-hhpk",
+      "title": "D-HHPK public aircraft identity and operator",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_identity_dhhrj",
+      "url": "https://www.flightradar24.com/data/aircraft/d-hhrj",
+      "title": "D-HHRJ public aircraft identity and operator",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_identity_dhhvj",
+      "url": "https://www.flightradar24.com/data/aircraft/d-hhvj",
+      "title": "D-HHVJ public aircraft identity and operator",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_identity_oyhrv",
+      "url": "https://www.flightradar24.com/data/aircraft/oy-hrv",
+      "title": "OY-HRV public aircraft identity and operator",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_identity_oyhnv",
+      "url": "https://www.flightradar24.com/data/aircraft/oy-hnv",
+      "title": "OY-HNV public aircraft identity and operator",
+      "source_class": "aircraft_database",
+      "source_date": null,
+      "retrieved_at": "2026-11-26"
+    },
+    {
+      "id": "src_offshore_identity_oyhmv",
+      "url": "https://www.flightradar24.com/data/aircraft/oy-hmv",
+      "title": "OY-HMV public aircraft identity and operator",
       "source_class": "aircraft_database",
       "source_date": null,
       "retrieved_at": "2026-11-26"
