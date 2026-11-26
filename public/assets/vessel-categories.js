@@ -127,7 +127,7 @@
       if(view.properties.false_flag_evidence_summary){const line=doc.createElement('div');line.textContent='False-flag evidence: '+text(view.properties.false_flag_evidence_summary);box.append(line);}
       if(view.properties.false_flag_status){const line=doc.createElement('div');line.textContent='False-flag status: '+text(view.properties.false_flag_status)+' · recorded '+text(view.properties.false_flag_event_date||'date unavailable')+'. Current flag: '+text(view.properties.false_flag_current_status||'not reverified')+'.';box.append(line);}
     if(view.properties.false_flag_temporal_status){const line=doc.createElement('div');line.textContent='Temporal status: '+text(view.properties.false_flag_temporal_status);box.append(line);}
-    if(view.properties.flag_watch_context){const line=doc.createElement('div');line.textContent='Registry context only: '+text(view.properties.flag_detected)+' · '+text(view.properties.flag_risk_reason);box.append(line);}
+    if(view.properties.flag_watch_context){const line=doc.createElement('div');line.textContent='Registry context only: '+text(view.properties.flag_detected)+' · '+text(globalThis.VoodooEnglish?globalThis.VoodooEnglish(view.properties.flag_risk_reason):view.properties.flag_risk_reason);box.append(line);}
     parent.append(box);return view;
   }
   return {DEFINITIONS,PORTS,META,DAYS,parseVoyage,index,describe,appendPopup,russia};

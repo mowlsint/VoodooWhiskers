@@ -68,3 +68,5 @@ test('rolling last known positions survive zero and failed polls and expire afte
 });
 
 test('aircraft track segments reject long gaps and implausible jumps',()=>{const t=now/1000-1800;const pack={rolling_24h:{as_of:new Date(now).toISOString(),track_segments:[['abc123',t,55,10,t+600,55.1,10],['abc123',t,55,10,t+1000,55.1,10],['abc123',t,55,10,t+600,75,10]]}};assert.equal(A.trackSegments(pack,now).length,1);});
+
+test('legacy German metadata is translated without changing identifiers',()=>{const tr=require('../public/assets/dashboard-english.js');assert.equal(tr('Bundespolizei'),'German Federal Police');assert.equal(tr('D-HVBA'),'D-HVBA');assert.match(tr('Historische Missbrauchs- oder False-Flag-Hinweise; Einzelfallprüfung nötig'),/Historical indications/);});
