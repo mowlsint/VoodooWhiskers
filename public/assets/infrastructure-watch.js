@@ -523,6 +523,7 @@
     state.traffic?.render();
     state.flagIntegrity?.render();
     state.aircraft?.render();
+    state.aircraftDelayed?.render();
     state.localProjects?.refresh();
     // Source/search controls must not re-enable current AIS inside the historical SAR comparison.
     if($('sarDetectionsToggle')?.checked){$('trackStatus').textContent='Historical SAR comparison is active; current AIS layers remain hidden.';return;}
@@ -768,6 +769,7 @@
     state.traffic = globalThis.TrafficContext.attach(state.map,()=>({timeMode:state.timeMode,monitoredRows:scopedRows()}));
     state.flagIntegrity = globalThis.FlagIntegrity?.attach(state.map,()=>({enabled:state.timeMode==="latest"&&!$("sarDetectionsToggle")?.checked,features:[...(state.data.ais_contacts?.features||[]),...(state.data.vessel_positions?.features||[])].filter(f=>f.geometry?.type==="Point"&&visibleSource(f.properties||{})&&(smallVesselsShown()||!VM.isUnderLength(f.properties||{},VM.SMALL_VESSEL_THRESHOLD_M)))}));
     state.aircraft=globalThis.SpecialAircraft.attach(state.map,()=>({mode:state.timeMode,hours:TIME_HOURS[state.timeMode]||336,isSar:Boolean($('sarDetectionsToggle')?.checked)}));
+    state.aircraftDelayed=globalThis.AircraftDelayedHistory?.attach(state.map,()=>({mode:state.timeMode,hours:TIME_HOURS[state.timeMode]||336,isSar:Boolean($('sarDetectionsToggle')?.checked)}));
     try{state.satellite=globalThis.SatelliteImages?.attach(state.map);}catch{const status=$('satelliteStatus');if(status)status.textContent='Satellite controls unavailable. Vessel data remain usable; reload or use the SAR workbench.';}
     fetchJson('./assets/sar-basemap.geojson').then(data=>{L.geoJSON(data,{pane:'tilePane',interactive:false,style:{color:'#536776',weight:1,fillColor:'#263c49',fillOpacity:1}}).addTo(state.map);state.map.attributionControl.addAttribution('Natural Earth · orientation only, not a nautical chart');}).catch(()=>console.warn('Coastline overview unavailable'));
     state.map.fitBounds(MAP_BOUNDS);

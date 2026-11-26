@@ -11,6 +11,10 @@ on:
       - "scripts/aircraft_directory.py"
       - "scripts/audit_aircraft_directory.py"
       - "scripts/aircraft_review_state.py"
+      - "scripts/build_aircraft_delayed_history.py"
+      - "tests/test_aircraft_delayed_history.py"
+      - "tests/test_aircraft_delayed_history.cjs"
+      - "public/assets/aircraft-delayed-history.js"
       - "tests/test_aircraft_review_state.py"
       - "public/assets/aircraft-directory.js"
       - "public/assets/special-aircraft.js"
@@ -36,6 +40,9 @@ jobs:
           python scripts/special_aircraft_registry.py
           python -m unittest discover -s tests -p test_aircraft_directory.py
           python -m unittest discover -s tests -p test_aircraft_review_state.py
+          python -m unittest discover -s tests -p test_aircraft_delayed_history.py
+          node --check public/assets/aircraft-delayed-history.js
+          node --test tests/test_aircraft_delayed_history.cjs
           python scripts/aircraft_directory.py
           node --check public/assets/aircraft-directory.js
           node --test tests/test_special_aircraft.cjs
@@ -56,7 +63,9 @@ jobs:
           restore-keys: aircraft-source-digests-v1-
       - name: Review official programme sources and aggregate history
         if: github.event_name != 'push'
-        run: python scripts/audit_aircraft_directory.py aircraft-runtime/public/data/aircraft/history
+        run: |
+          python scripts/audit_aircraft_directory.py aircraft-runtime/public/data/aircraft/history
+          python scripts/build_aircraft_delayed_history.py aircraft-runtime/public/data/aircraft/history
       - name: Save updated successful source digests
         if: github.event_name != 'push' && success()
         uses: actions/cache/save@v4
@@ -71,5 +80,6 @@ jobs:
           path: |
             aircraft-directory-review.json
             aircraft-history-summary.json
+            aircraft-delayed-history.json
           retention-days: 14
           if-no-files-found: warn
