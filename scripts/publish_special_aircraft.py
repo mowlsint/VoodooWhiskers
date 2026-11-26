@@ -35,6 +35,9 @@ def validate_outputs(root):
             or not isinstance(latest.get('items'), list)
             or latest['status'] == 'valid_zero' and latest['items']):
         raise ValueError('Invalid aircraft output')
+    rolling=latest.get('rolling_24h')
+    if rolling is not None and (rolling.get('schema')!='VOODOO_AIRCRAFT_ROLLING_24H_V1' or rolling.get('coverage_complete') is not False or not isinstance(rolling.get('items'),list) or len(rolling['items'])>128):
+        raise ValueError('Invalid rolling aircraft output')
     if (out / 'aircraft_latest.json').stat().st_size > policy['max_latest_bytes']:
         raise ValueError('Aircraft latest budget exceeded')
     history_bytes, total = 0, 0

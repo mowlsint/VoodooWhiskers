@@ -29,7 +29,7 @@ test('duplicate position times are deduplicated and conflicting coordinates at o
 });
 test('historical windows are strict, future/expired points do not appear and project mode is isolated',()=>{
  const p=A.decode(pack([row(1),row(48,{icao24:'def456'}),row(337,{icao24:'fed321'}),row(-1,{icao24:'ced321'})]),now);
- assert.equal(p.excluded,2);assert.equal(A.visible(p,{now}).length,0);assert.equal(A.visible(p,{mode:'24h',hours:24,now}).length,1);assert.equal(A.visible(p,{mode:'48h',hours:48,now}).length,2);assert.equal(A.visible(p,{mode:'project',now}).length,0);
+ assert.equal(p.excluded,2);assert.equal(A.visible(p,{now}).length,1);assert.equal(A.visible(p,{mode:'24h',hours:24,now}).length,1);assert.equal(A.visible(p,{mode:'48h',hours:48,now}).length,2);assert.equal(A.visible(p,{mode:'project',now}).length,0);
 });
 test('routine offshore transport is optional civil context; offshore rescue remains visible',()=>{
  const p=A.decode(pack([row(0,{roles:['offshore_transport']}),row(0,{icao24:'def456',roles:['offshore_sar']})]),now);
@@ -53,4 +53,16 @@ test('consumer rejects advertised oversize and invalid HTML without requesting a
 });
 test('streaming byte cap cancels an oversized response',async()=>{
  const original=global.fetch;let cancelled=false;try{global.fetch=async()=>({ok:true,body:{getReader:()=>({read:async()=>({done:false,value:new Uint8Array(600000)}),cancel:async()=>{cancelled=true;}})}});await assert.rejects(()=>A.fetchProduct('./data/aircraft/aircraft_latest.json'),/budget/);assert.ok(cancelled);}finally{global.fetch=original;}
+});
+
+test('rolling last known positions survive zero and failed polls and expire after 24 hours',()=>{
+ const fields=['icao24','observed_unix_seconds','latitude','longitude','altitude_ft','ground_speed_kn','track_deg','position_source','registration','callsign','roles','country','operator','aircraft_type','commissioning_authority','identity_verified_at'];
+ const tuple=(h,age)=>[h,now/1000-age*3600,55,10,null,null,null,'adsb','TEST','','police'.split(','),'DE','test','test','','2026-11-17'];
+ const rolling={schema:'VOODOO_AIRCRAFT_ROLLING_24H_V1',as_of:new Date(now).toISOString(),coverage_complete:false,fields,items:[tuple('abc123',2),tuple('def456',23),tuple('aaa111',25)]};
+ for(const status of ['valid_zero','error','partial']){
+  const p=A.decode(pack([],{status,rolling_24h:rolling}),now);
+  assert.equal(A.visible(p,{now}).length,2);
+  assert.equal(A.visible(p,{now:now+2*3600000}).length,1);
+ }
+ assert.equal(A.ageOpacity(row(2),now),.72);assert.equal(A.ageOpacity(row(10),now),.42);
 });

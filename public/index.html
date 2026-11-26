@@ -70,7 +70,7 @@
       </section>
       <section class="card specialAircraftCard" aria-labelledby="specialAircraftHeading">
         <h2 id="specialAircraftHeading">✈ Aircraft Intelligence</h2>
-        <label class="control specialAircraftToggle"><input type="checkbox" id="showSpecialAircraft">Show special aircraft</label>
+        <label class="control specialAircraftToggle"><input type="checkbox" id="showSpecialAircraft">Show special aircraft · last known positions (24 h)</label>
         <p>Selected police, coastguard, military/NATO, pollution-monitoring, RPAS and rescue aircraft. Ten-minute samples show activity and broad routes; small flight patterns may be missed.</p>
         <label class="control"><input type="checkbox" id="showOffshoreAircraft">Include routine offshore transport · civil context</label>
         <p id="specialAircraftStatus" role="status" aria-live="polite">Off · aircraft data are loaded only when enabled.</p>
@@ -262,7 +262,7 @@
   <script src="./assets/gfw-events.js?v=20261123-sharded"></script>
   <script src="./assets/local-project-core.js?v=20261118-length-filter"></script>
   <script src="./assets/local-project-ui.js?v=20261118-length-filter"></script>
-  <script src="./assets/special-aircraft.js?v=20261126-directory"></script>
+  <script src="./assets/special-aircraft.js?v=20261126-rolling24h"></script>
   <script src="./assets/aircraft-directory.js?v=20261126-history"></script>
   <script src="./assets/aircraft-delayed-history.js?v=20261126"></script>
   <script src="./assets/satellite-images.js?v=20261119-simple-sar-load"></script>

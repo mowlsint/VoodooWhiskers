@@ -9,6 +9,9 @@ on:
       - "config/aircraft_authority_reference.json"
       - "config/special_aircraft_registry.json"
       - "scripts/aircraft_directory.py"
+      - "scripts/collect_special_aircraft.py"
+      - "scripts/publish_special_aircraft.py"
+      - "tests/test_aircraft_collection.py"
       - "scripts/audit_aircraft_directory.py"
       - "scripts/aircraft_review_state.py"
       - "scripts/build_aircraft_delayed_history.py"
@@ -46,6 +49,7 @@ jobs:
           python scripts/aircraft_directory.py
           node --check public/assets/aircraft-directory.js
           node --test tests/test_special_aircraft.cjs
+          python -m unittest discover -s tests -p test_aircraft_collection.py
       - name: Read existing bounded history
         if: github.event_name != 'push'
         continue-on-error: true

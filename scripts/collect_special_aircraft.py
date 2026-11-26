@@ -186,6 +186,57 @@ def atomic_write(path, body):
     tmp.replace(path)
 
 
+ROLLING_FIELDS = ['icao24','observed_unix_seconds','latitude','longitude','altitude_ft',
+                  'ground_speed_kn','track_deg','position_source','registration','callsign',
+                  'roles','country','operator','aircraft_type','commissioning_authority','identity_verified_at']
+def rolling_aircraft_24h(files, observations, selected, policy, now):
+    """Last received position per currently selected identity; no additional provider calls."""
+    latest, conflicts = {}, set()
+    def accept(row):
+        if not isinstance(row,list) or len(row)!=10:
+            return
+        hx,t,lat,lon,alt,gs,track,source,registration,call=row
+        air=selected.get(hx) if isinstance(hx,str) else None
+        if not air or not finite(t) or not now-86400<=t<=now:
+            return
+        if not finite(lat) or not finite(lon) or abs(lat)>90 or abs(lon)>180:
+            return
+        if not any(w<=lon<=e and s<=lat<=n for w,s,e,n in [r['bbox'] for r in policy['regions']]):
+            return
+        name=air['registration'] or air['military_serial']
+        if not isinstance(registration,str) or label(registration)!=label(name):
+            return
+        if source not in ('adsb','mlat','tisb'):
+            return
+        old=latest.get(hx)
+        key=(hx,t)
+        if key in conflicts:
+            return
+        if old and old[1]>t:
+            return
+        if old and old[1]==t and old[2:4]!=[lat,lon]:
+            conflicts.add(key);latest.pop(hx,None);return
+        if old and old[1]==t:
+            return
+        vals=[hx,t,lat,lon,alt if finite(alt) else None,gs if finite(gs) else None,
+              track if finite(track) else None,source,name,str(call or '')[:16],
+              air['roles'],air['country'] or air['organisation_scope'],air['operator'],
+              air['aircraft_type'],air.get('commissioning_authority') or '',air['reviewed_at']]
+        latest[hx]=vals
+    # History files are immutable ten-minute chunks, so only inspect recent slots.
+    for path in files:
+        stamp=datetime.strptime(path.stem,'%Y%m%dT%H%M%SZ').replace(tzinfo=timezone.utc).timestamp()
+        if stamp<now-86400-600 or path.stat().st_size>1048576:continue
+        for line in path.read_text(encoding='utf-8').splitlines():
+            try:accept(json.loads(line))
+            except (ValueError,TypeError,KeyError):continue
+    for r in observations:
+        t=int(datetime.fromisoformat(r['observed_at'].replace('Z','+00:00')).timestamp())
+        accept([r['icao24'],t,r['latitude'],r['longitude'],r.get('altitude_ft'),
+                r.get('ground_speed_kn'),r.get('track_deg'),r['position_source'],r['registration'],r['callsign']])
+    return dict(schema='VOODOO_AIRCRAFT_ROLLING_24H_V1',as_of=iso(now),fields=ROLLING_FIELDS,
+                items=sorted(latest.values(),key=lambda r:r[0]),coverage_complete=False)
+
 def collect(root=ROOT, now=None, fetcher=fetch_batch, repository_bytes=None):
     live_clock = now is None
     now = math.floor(time.time() if now is None else now)
@@ -273,6 +324,7 @@ def collect(root=ROOT, now=None, fetcher=fetch_batch, repository_bytes=None):
                 license=LICENSE, collection_code=code,
                 position_data_at=max((r['observed_at'] for r in observations), default=None) if successes else old_latest.get('position_data_at'),
                 last_success_at=iso(now) if not failures and not invalid else previous.get('last_success_at'))
+    pack['rolling_24h'] = rolling_aircraft_24h(files, observations, selected, policy, now)
     # A stale/error result must not relabel cached positions as fresh.
     if state == 'stale':
         pack['generated_at'] = old_latest.get('generated_at', iso(now - 1801))
@@ -321,6 +373,11 @@ def collect(root=ROOT, now=None, fetcher=fetch_batch, repository_bytes=None):
                       last_observed_at_by_hex=previous.get('last_observed_at_by_hex', {}),
                       last_success_at=previous.get('last_success_at'))
         writes.pop(chunk_path, None)
+        # Do not publish positions from the discarded sample; keep the prior bounded view.
+        if 'rolling_24h' in old_latest:
+            pack['rolling_24h'] = old_latest['rolling_24h']
+        else:
+            pack.pop('rolling_24h', None)
         writes[out / 'aircraft_latest.json'] = encoded(pack)
         for _ in range(4):
             writes[status_path] = encoded(status)

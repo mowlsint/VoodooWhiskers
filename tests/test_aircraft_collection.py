@@ -94,6 +94,28 @@ class CollectionTests(unittest.TestCase):
         self.assertEqual(self.latest()['position_data_at'], before[0]['observed_at'])
         self.assertEqual(len(list((self.root / 'public/data/aircraft/history').rglob('*.jsonl'))), 1)
 
+    def test_rolling_last_position_survives_empty_and_failed_polls_then_expires(self):
+        self.run_collection()
+        initial=self.latest()['rolling_24h']['items'][0]
+        self.run_collection(NOW+600,self.fetcher(NOW+600,'zero'))
+        self.assertEqual(self.latest()['status'],'valid_zero')
+        self.assertEqual(self.latest()['items'],[])
+        self.assertEqual(self.latest()['rolling_24h']['items'],[initial])
+        def fail(batch,limit):raise C.FetchFailure('http_503')
+        self.run_collection(NOW+1200,fail)
+        self.assertEqual(self.latest()['rolling_24h']['items'],[initial])
+        self.run_collection(NOW+86400,self.fetcher(NOW+86400,'zero'))
+        self.assertEqual(self.latest()['rolling_24h']['items'],[])
+
+    def test_rolling_backfill_and_new_position_replaces_old(self):
+        self.run_collection()
+        p=self.root/'public/data/aircraft/aircraft_latest.json'
+        old=self.latest();old.pop('rolling_24h');p.write_bytes(C.encoded(old))
+        self.run_collection(NOW+600)
+        rows=self.latest()['rolling_24h']['items']
+        self.assertEqual(len(rows),1)
+        self.assertEqual(rows[0][1],NOW+599)
+
     def test_network_latency_does_not_make_a_real_provider_position_future_dated(self):
         def fetch(batch, limit):
             return payload(NOW + 1, [provider_row(self.hex)] if self.hex in batch else [])
