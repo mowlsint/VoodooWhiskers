@@ -70,3 +70,6 @@ The daily/manual review also exports `aircraft-delayed-history.json` as an Actio
 
 ## Rolling 24-hour overview
 The optional Special Aircraft control now displays the last received position per selected identity within a rolling 24-hour window. The collector builds a compact `rolling_24h` field from existing immutable history and current valid observations; no extra provider requests. Latest-poll status and legacy `items` remain separate, so a valid-zero/partial/failed poll does not erase the historical context. The map uses observation age, not workflow time; symbols fade after 30 minutes and six hours and expire after 24 hours. Refresh failures preserve the last loaded data, subject to expiry. Explicit collection disablement still hides the layer. The regular history import remains separate. Existing byte budgets and retention remain enforced.
+
+## English presentation
+Aircraft organisation, operator, commissioning authority and aircraft-type display values use English terminology. Original source URLs, proper names and research notes remain unchanged where needed for evidence. The flag-risk reference issue summaries are also English. A narrow exact-value translation fallback covers existing cached aircraft and flag metadata.

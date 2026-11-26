@@ -41,7 +41,7 @@
         continue;
       }
       const p={icao24:hex,latitude:lat,longitude:lon,observed_at:new Date(at).toISOString(),roles};
-      for(const key of ['registration','callsign','operator','commissioning_authority','country','aircraft_type','source','position_source','position_timestamp_basis','identity_source_url','role_source_url','identity_verified_at','identity_review_note'])p[key]=clean(row[key]);
+      for(const key of ['registration','callsign','operator','commissioning_authority','country','aircraft_type','source','position_source','position_timestamp_basis','identity_source_url','role_source_url','identity_verified_at','identity_review_note'])p[key]=clean(globalThis.VoodooEnglish?globalThis.VoodooEnglish(row[key]):row[key]);
       for(const key of ['altitude_ft','ground_speed_kn','track_deg'])if(typeof row[key]==='number'&&Number.isFinite(row[key]))p[key]=row[key];
       unique.set(hex+':'+at,p);
     }
