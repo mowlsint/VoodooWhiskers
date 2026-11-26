@@ -6,4 +6,4 @@ Optional latest-only dashboard overlays use existing AIS observations, respect s
 
 Validation: python scripts/flag_integrity.py; node --test tests/test_flag_integrity.cjs tests/test_vessel_categories.cjs. Rebuild maritime products using existing workflow.
 
-Weekly source audit: Monday 05:30 UTC and manual dispatch. The read-only workflow validates the curated catalog, captures the IMO circular index and source checksums, and reports explicit OFAC false-flag leads for manual review in a 14-day Actions artifact. It does not log in to GISIS or automatically update claims. GUR dossiers and individual flag-state circular contents require analyst review. Push runs execute tests without external-source requests.
+Daily source audit: 05:30 UTC and manual dispatch. The read-only workflow validates the curated catalog, captures the IMO circular index and source checksums, and reports explicit OFAC false-flag leads for manual review in a 14-day Actions artifact. It does not log in to GISIS or automatically update claims. GUR dossiers and individual flag-state circular contents require analyst review. Push runs execute tests without external-source requests.
