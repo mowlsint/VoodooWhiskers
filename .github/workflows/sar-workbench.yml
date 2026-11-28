@@ -1,0 +1,74 @@
+name: SAR Workbench · encrypted request
+run-name: SAR request ${{ inputs.request_id || github.run_number }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      encrypted_request:
+        description: Paste the encrypted request from the SAR workbench here
+        type: string
+        required: true
+      request_id:
+        description: Optional request reference for workbench status tracking
+        type: string
+        required: false
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: voodoo-sar-workbench-main
+  cancel-in-progress: false
+
+jobs:
+  sar-workbench:
+    if: ${{ github.ref == 'refs/heads/main' && github.actor == github.repository_owner }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-sar.txt
+      - name: Install bounded processing dependencies
+        run: pip install --disable-pip-version-check -r requirements-sar.txt
+      - name: Restore latest expiring encrypted state
+        env:
+          SAR_ARTIFACT_TOKEN: ${{ github.token }}
+        run: python scripts/sar_artifact_store.py restore
+      - name: Process one encrypted request
+        id: sar
+        continue-on-error: true
+        env:
+          SAR_ENCRYPTED_REQUEST: ${{ inputs.encrypted_request }}
+          SAR_WORKBENCH_PASSWORD: ${{ secrets.SAR_WORKBENCH_PASSWORD }}
+          CDSE_SH_CLIENT_ID: ${{ secrets.CDSE_SH_CLIENT_ID }}
+          CDSE_SH_CLIENT_SECRET: ${{ secrets.CDSE_SH_CLIENT_SECRET }}
+          GFW_TOKEN: ${{ secrets.GFW_TOKEN }}
+        run: python scripts/sar_workbench.py
+      - name: Enforce encrypted artifact budget
+        id: artifact
+        if: ${{ always() && hashFiles('public/data/sar/workbench.enc.json') != '' }}
+        env:
+          SAR_ARTIFACT_TOKEN: ${{ github.token }}
+        run: python scripts/sar_artifact_store.py reserve
+      - name: Save encrypted state for at most fourteen days
+        if: ${{ success() && steps.artifact.outputs.changed == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: sar-workbench-encrypted
+          path: public/data/sar/workbench.enc.json
+          retention-days: 14
+          compression-level: 0
+          if-no-files-found: error
+      - name: Report processing status
+        if: ${{ steps.sar.outcome == 'failure' }}
+        run: |
+          echo "::error::Request not completed. Check the password/secret or open the encrypted error details in the SAR workbench."
+          exit 1

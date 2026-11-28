@@ -1,0 +1,195 @@
+name: Update regional AIS layers
+
+on:
+  # LOW ACTIONS MODE 2026-08-27: automatic triggers are paused.
+  # Restore details: docs/operations/AUTOMATIC_ACTIONS_PAUSE_2026-08-27.md
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  # Shared with the primary maritime-layer workflow: regional work waits instead of writing concurrently.
+  group: voodoo-maritime-layers-main
+  cancel-in-progress: false
+
+jobs:
+  build-regional-layers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install \
+            "requests>=2.32,<3" \
+            "websockets>=15,<16" \
+            "cryptography>=45,<46"
+
+      - name: Ensure data directory exists
+        run: |
+          set -euo pipefail
+          mkdir -p data
+
+      - name: Fetch Fintraffic and BarentsWatch
+        env:
+          BARENTSWATCH_CLIENT_ID: ${{ secrets.BARENTSWATCH_CLIENT_ID }}
+          BARENTSWATCH_CLIENT_SECRET: ${{ secrets.BARENTSWATCH_CLIENT_SECRET }}
+          AIS_APP_NAME: "MOwlSINT Voodoo Whiskers/1.0"
+        run: |
+          set -euo pipefail
+          python scripts/fetch_regional_contacts.py
+
+      - name: Archive regional and Danish AIS snapshots
+        run: |
+          set -euo pipefail
+          python scripts/archive_maritime_snapshots.py
+
+      - name: Merge available AIS providers
+        run: |
+          set -euo pipefail
+          python scripts/merge_ais_contacts.py
+
+      - name: Debug regional AIS inputs
+        run: |
+          set -euo pipefail
+          echo "--- regional fetch status ---"
+          cat data/ais_regional_fetch_status_latest.json || true
+          echo "--- provider snapshots ---"
+          for f in \
+            data/ais_contacts_fintraffic_latest.json \
+            data/ais_contacts_barentswatch_latest.json \
+            data/ais_contacts_aisstream_latest.json \
+            data/ais_contacts_latest.json; do
+            if [ -f "$f" ]; then
+              echo "### $f"
+              python -c 'import json,sys; p=json.load(open(sys.argv[1], encoding="utf-8")); print({k:p.get(k) for k in ("generated_at","source","count","stale","providers_included")})' "$f"
+            else
+              echo "MISSING: $f"
+            fi
+          done
+
+      - name: Build layers
+        env:
+          GFW_TOKEN: ${{ secrets.GFW_TOKEN }}
+          AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
+        run: |
+          set -euo pipefail
+          python scripts/build_layers.py
+
+      - name: Validate bounded 14-day VOI history
+        run: |
+          set -euo pipefail
+          python scripts/test_voi_history_policy_unit.py
+          python scripts/test_voi_history_retention.py --source-only
+
+      - name: Audit sanctions/watchlist inputs
+        run: |
+          set -euo pipefail
+          python scripts/sync_sanctions_watchlists.py
+
+      - name: Build harmonized common maritime snapshot
+        run: |
+          set -euo pipefail
+          python scripts/build_common_maritime_snapshot.py
+          python scripts/build_public_manifest.py
+
+      - name: Commit updated outputs
+        env:
+          NTFY_ENABLED: ${{ secrets.NTFY_ENABLED }}
+          NTFY_URL: ${{ secrets.NTFY_URL }}
+          NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          send_push_failure_ntfy() {
+            if [ "${NTFY_ENABLED:-false}" != "true" ] || [ -z "${NTFY_URL:-}" ]; then
+              return 0
+            fi
+            BODY="$(printf 'VOODOO WHISKERS // regional AIS push failed\n\nWorkflow: %s\nRun: %s\nBranch: %s\n' "${GITHUB_WORKFLOW:-Update regional AIS layers}" "${GITHUB_RUN_ID:-unknown}" "${GITHUB_REF_NAME:-main}")"
+            if [ -n "${NTFY_TOKEN:-}" ]; then
+              curl -fsSL -H "Authorization: Bearer ${NTFY_TOKEN}" -H "Title: VOODOO Regional AIS Push Failed" -H "Priority: high" -H "Tags: warning,ship" --data-binary "$BODY" "$NTFY_URL" || true
+            else
+              curl -fsSL -H "Title: VOODOO Regional AIS Push Failed" -H "Priority: high" -H "Tags: warning,ship" --data-binary "$BODY" "$NTFY_URL" || true
+            fi
+          }
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          files=(
+            data/ais_contacts_fintraffic_latest.json
+            data/ais_contacts_barentswatch_latest.json
+            data/ais_contacts_aisstream_latest.json
+            data/ais_contacts_latest.json
+            data/ais_regional_fetch_status_latest.json
+            data/russian_route_state.json
+            data/russian_portcall_history.jsonl
+            data/history/maritime_source_history_21d.jsonl
+            data/history/maritime_source_coverage_21d.jsonl
+            data/history/maritime_source_history_status_latest.json
+            data/maritime_common_snapshot_latest.json
+            data/maritime_common_snapshot_status_latest.json
+            public/data/vessels/maritime_common_snapshot_latest.json
+            public/data/vessels/maritime_common_snapshot_latest.geojson
+            public/data/vessels/maritime_common_snapshot_status.json
+            public/downloads/maritime_common_snapshot_latest.json
+            public/downloads/maritime_common_snapshot_latest.geojson
+            public/downloads/maritime_common_snapshot_status.json
+            public/data/manifest.json
+            public/downloads/manifest.json
+            data/russian_mmsi.geojson
+            data/watchlist_live.geojson
+            data/sanctions_shadowfleet.geojson
+            data/falseflag_interest.geojson
+            data/false_flag_watch.geojson
+            data/behavioral_voi.geojson
+            data/recent_russian_portcall_10d.geojson
+            data/neutral_tanker_context.geojson
+            data/tanker_cluster_stats.json
+            data/voi_snapshot_latest.json
+            data/voi_history.jsonl
+            data/voi_history_14d
+            data/voi_history_status.json
+            data/voi_stats_by_slot.json
+            data/watchlist_audit.json
+            data/watchlist_changes_latest.md
+          )
+          for f in "${files[@]}"; do
+            [ -e "$f" ] && git add "$f"
+          done
+
+          if git diff --cached --quiet; then
+            echo "No regional AIS/layer changes to commit."
+            exit 0
+          fi
+
+          python scripts/repo_storage_guard.py
+          git commit -m "Update regional AIS layers"
+
+          for i in 1 2 3; do
+            echo "Push attempt ${i}/3..."
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+              echo "Push succeeded."
+              exit 0
+            fi
+            git rebase --abort || true
+            [ "$i" -lt 3 ] && sleep 12
+          done
+
+          echo "ERROR: Push failed after 3 attempts."
+          send_push_failure_ntfy
+          exit 1
+

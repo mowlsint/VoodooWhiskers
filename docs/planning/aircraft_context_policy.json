@@ -1,0 +1,162 @@
+{
+  "schema": "VOODOO_AIRCRAFT_CONTEXT_PLAN_V1",
+  "status": "planning_only_not_loaded_by_runtime",
+  "updated_at": "2026-11-16",
+  "collection_enabled": false,
+  "owner_decisions": {
+    "poll_interval_seconds": 600,
+    "retention_days": 14,
+    "max_total_aircraft_bytes": 31457280,
+    "selection": "curated_registry",
+    "map_default_visible": false
+  },
+  "proposed_budget_split_bytes": {
+    "history": 28311552,
+    "latest": 1048576,
+    "registry_status_and_review_events": 1048576,
+    "reserve": 1048576
+  },
+  "proposed_version_budget": {
+    "max_new_staged_path_bytes_per_utc_day": 4194304,
+    "status": "proposal_requires_measured_validation_before_activation",
+    "include_all_aircraft_copies": true,
+    "pause_aircraft_at_repository_warning": true
+  },
+  "provider": {
+    "preferred_candidate": "adsb.lol",
+    "selected": false,
+    "live_schema_and_batch_test_passed": false,
+    "license_review_complete": false,
+    "requires_new_secret": false,
+    "documented_no_key_requests_per_ip_day": 500,
+    "max_planned_batches_per_poll": 2,
+    "nominal_polls_per_day": 144,
+    "nominal_batch_calls_per_day": 288,
+    "proposed_discovery_requests_per_day_max": 24,
+    "license": "ODbL-1.0",
+    "documentation": "https://www.adsb.lol/docs/open-data/api",
+    "notes": "Verify live batching, identity fields, licensing obligations and actual shared-IP allowance before implementation. Do not evade quotas by rotating IP addresses. adsb.fi remains personal/non-commercial unless separate permission is obtained."
+  },
+  "storage": {
+    "count_source_public_download_and_mirror_copies": true,
+    "raw_provider_payloads_persisted": false,
+    "history_layout": "proposed_immutable_small_time_slot_chunks",
+    "complete_history_guaranteed": false,
+    "global_repository_limits_unchanged": true,
+    "existing_vessel_retention_unchanged": true,
+    "optional_failure_policy": "preserve_ship_ingest_and_report_aircraft_state",
+    "local_projects_uploaded": false
+  },
+  "scope": {
+    "core_country_codes": [
+      "DE",
+      "DK",
+      "NO",
+      "SE",
+      "FI",
+      "PL",
+      "EE",
+      "LV",
+      "LT",
+      "GB",
+      "IE",
+      "NL",
+      "BE",
+      "FR",
+      "IS",
+      "RU"
+    ],
+    "visiting_allied_country_codes": [
+      "US",
+      "CA"
+    ],
+    "black_sea_country_codes": [
+      "RO",
+      "BG",
+      "TR",
+      "UA",
+      "GE",
+      "RU"
+    ],
+    "additional_maritime_context_country_codes": [
+      "IT",
+      "ES",
+      "PT",
+      "GR",
+      "CY"
+    ],
+    "international_organisations": [
+      "NATO",
+      "EMSA",
+      "Frontex"
+    ],
+    "geographic_gate_required": true,
+    "regions": [
+      "North Sea",
+      "Baltic Sea",
+      "English Channel",
+      "adjoining northeastern Atlantic and northern waters",
+      "Black Sea"
+    ],
+    "configurable_chokepoints": [
+      "Strait of Hormuz"
+    ],
+    "notes": "These are coverage requirements, not claims that aircraft identities for every country have been collected or verified. Foreign-state aircraft are included when observed in the selected maritime areas."
+  },
+  "role_ids": [
+    "police",
+    "coast_guard",
+    "customs_border_guard",
+    "military_maritime_patrol",
+    "military_isr",
+    "military_other",
+    "nato_owned",
+    "pollution_monitoring",
+    "emissions_monitoring",
+    "rpas",
+    "search_and_rescue",
+    "hems_maritime_context",
+    "offshore_sar",
+    "offshore_transport"
+  ],
+  "selection_rules": {
+    "require_current_identity_evidence": true,
+    "identity_key": "ICAO24 with dated registration/operator mapping",
+    "callsign_alone_sufficient": false,
+    "type_alone_sufficient": false,
+    "provider_military_flag_is": "provider_database_context_not_current_mission_proof",
+    "offshore_transport_default_selected": false,
+    "offshore_transport_is_authority_activity": false
+  },
+  "observation_rules": {
+    "preserve_provider_position_time": true,
+    "use_request_time_as_position_time": false,
+    "deduplicate_same_identity_and_position_time": true,
+    "preserve_actual_poll_gaps": true,
+    "missing_is_not_grounded": true,
+    "states": [
+      "fresh",
+      "valid_zero",
+      "partial",
+      "stale",
+      "unavailable",
+      "error"
+    ],
+    "classifications": [
+      "operator_role",
+      "observed_activity"
+    ],
+    "precise_orbit_detection_from_10_minute_samples": false,
+    "mission_or_oil_spill_inference_from_track_alone": false,
+    "hybrid_and_government_scores_changed": false
+  },
+  "activation_requirements": [
+    "source_schema_and_batch_retrieval_verified",
+    "identity_mapping_and_role_registry_reviewed",
+    "source_terms_and_publication_obligations_reviewed",
+    "local_collector_and_budget_tests_passed",
+    "vessel_ingest_isolation_and_writer_concurrency_verified",
+    "10_minute_workflow_ready_for_owner_review",
+    "no_manual_action_dispatch"
+  ]
+}

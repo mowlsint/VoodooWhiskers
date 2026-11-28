@@ -1,0 +1,4 @@
+name,imo,mmsi,callsign,flag,ship_type,owner,manager,sanctioned,sanction_regime,sanction_program,listing_date,shadowfleet_flag,shadow_reason,risk_level,notes,source,source_url,last_seen,lon,lat
+EXAMPLE SANCTIONED TANKER 1,9100001,273111111,UBS11,Barbados,Tanker,,,true,EU,Russia,2026-01-15,true,Known sanctions-linked tanker with shadow-fleet indicators,high,Example entry for testing,Manual input,,2026-05-05T00:00:00Z,9.4000,54.6000
+EXAMPLE SANCTIONED TANKER 2,9100002,538222222,V7A22,Marshall Islands,Tanker,,,true,OFAC,Russia,2026-02-10,true,Sanctioned vessel with repeated ownership and flag opacity,high,Example entry for testing,Manual input,,2026-05-05T00:00:00Z,12.3000,55.1000
+EXAMPLE WATCHLIST VESSEL,9100003,351333333,H3A33,Panama,Cargo,,,false,,Russia,false,Shadow-fleet linkage suspected from reporting,medium,Not formally sanctioned but kept on watchlist,Manual input,,2026-05-05T00:00:00Z,7.8000,53.9000
